@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:string"
+        },
+        {
+            "item": "minecraft:leather"
+        },
+        {
+            "item": "minecraft:slime_ball"
+        },
+        {
+            "item": "minecraft:rabbit_hide"
+        }
+    ],
+    "result": {
+        "item": "cataclysm:sticky_gloves",
+        "count": 1
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:deathlaser",
+    "cataclysm:emp",
+    "cataclysm:abyssal_burn"
+  ]
+}

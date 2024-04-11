@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cataclysm:music_disc_ignis"
+        }
+    ],
+    "result": {
+        "item": "cataclysm:old_music_disc_ignis",
+        "count": 1
+    }
+}

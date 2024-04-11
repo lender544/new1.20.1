@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:dying_amber"
+        }
+    },
+    "result": {
+        "item": "cataclysm:burning_ashes",
+        "count": 1
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:obsidian_brick_stairs",
+    "cataclysm:polished_end_stone_stairs",
+    "cataclysm:stone_tile_stairs"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "minecraft:nautilus_shell"
+        },
+        {
+            "item": "cataclysm:athame"
+        },
+        {
+            "item": "cataclysm:crystallized_coral"
+        },
+        {
+            "item": "minecraft:diamond_block"
+        },
+        {
+            "item": "minecraft:heart_of_the_sea"
+        },
+        {
+            "item": "minecraft:emerald_block"
+        },
+        {
+            "item": "minecraft:iron_block"
+        },
+        {
+            "item": "minecraft:amethyst_block"
+        },
+        {
+            "item": "minecraft:gold_block"
+        }
+    ],
+    "result": {
+        "item": "cataclysm:abyssal_sacrifice",
+        "count": 1
+    }
+}

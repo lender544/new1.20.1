@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:slime_ball",
+    "minecraft:slime_block",
+    "minecraft:honey_block",
+    "cataclysm:sticky_gloves"
+  ]
+}

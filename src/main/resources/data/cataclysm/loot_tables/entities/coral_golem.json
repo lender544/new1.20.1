@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "coral_golem",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:crystallized_coral_fragments",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

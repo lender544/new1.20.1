@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cataclysm:music_disc_netherite_monstrosity"
+        }
+    ],
+    "result": {
+        "item": "cataclysm:old_music_disc_netherite_monstrosity",
+        "count": 1
+    }
+}

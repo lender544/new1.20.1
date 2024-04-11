@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "N#N",
+        "#O#",
+        "N#N"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:blaze_powder"
+        },
+        "N": {
+            "item": "minecraft:nether_bricks"
+        },
+        "O": {
+            "item": "minecraft:netherite_upgrade_smithing_template"
+        }
+    },
+    "result": {
+        "item": "cataclysm:ignitium_upgrade_smithing_template",
+        "count": 1
+    }
+}

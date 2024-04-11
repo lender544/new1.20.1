@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "#C#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:end_stone_bricks"
+        },
+        "C": {
+            "item": "cataclysm:void_stone"
+        }
+    },
+    "result": {
+        "item": "cataclysm:end_stone_teleport_trap_bricks",
+        "count": 8
+    }
+}

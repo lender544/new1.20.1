@@ -1,0 +1,23 @@
+{
+  "__comment": "all items pulled or pushed by magnets.",
+  "values": [
+    "cataclysm:ignitium_block",
+    "cataclysm:witherite_block",
+    "cataclysm:ignitium_ingot",
+    "cataclysm:witherite_ingot",
+    "cataclysm:monstrous_helm",
+    "cataclysm:ignitium_helmet",
+    "cataclysm:ignitium_chestplate",
+    "cataclysm:ignitium_elytra_chestplate",
+    "cataclysm:ignitium_leggings",
+    "cataclysm:ignitium_boots",
+    "cataclysm:the_incinerator",
+    "cataclysm:bulwark_of_the_flame",
+    "cataclysm:meat_shredder",
+    "cataclysm:laser_gatling",
+    "cataclysm:wither_assault_shoulder_weapon",
+    "cataclysm:void_assault_shoulder_weapon",
+    "cataclysm:infernal_forge",
+    "cataclysm:void_forge"
+  ]
+}

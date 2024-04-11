@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:witherite_ingot"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_harbinger.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_harbinger.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:find_ancient_factory",
+  "criteria": {
+    "theharbinger": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:the_harbinger"
+        }
+      }
+    }
+  }
+}

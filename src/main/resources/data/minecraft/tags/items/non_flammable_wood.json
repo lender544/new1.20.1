@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:chorus_planks",
+    "cataclysm:chorus_slab",
+    "cataclysm:chorus_stairs",
+    "cataclysm:chorus_fence"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:the_incinerator"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.root.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.root.description"
+    },
+    "background": "cataclysm:textures/block/obsidian_bricks.png",
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "custom_test_name": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:blaze",
+    "minecraft:magma_cube",
+    "cataclysm:ignis",
+    "cataclysm:ignited_revenant",
+    "cataclysm:ignited_berserker"
+  ]
+}

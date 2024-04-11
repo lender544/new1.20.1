@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:remnant_skull"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_remnant.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_remnant.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:find_cursed_pyramid",
+  "criteria": {
+    "ignis": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:ancient_remnant"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench 4.6.5
+// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
+// Paste this class into your mod and generate all required imports
+
+
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
+import com.google.common.collect.ImmutableList;
+import net.minecraft.world.entity.Entity;
+
+public class ModelThe_Leviathan_Tongue extends AdvancedEntityModel<Entity> {
+	private final AdvancedModelPart root;
+	private final AdvancedModelPart tonguePivot;
+	private final AdvancedModelPart tongue;
+	private float stretch;
+	public static boolean HIDE = false;
+
+	public ModelThe_Leviathan_Tongue() {
+		texWidth = 256;
+		texHeight = 256;
+
+		root = new AdvancedModelPart(this);
+		root.setRotationPoint(0.0F, 12.0F, 0.0F);
+
+
+		tonguePivot = new AdvancedModelPart(this);
+		tonguePivot.setRotationPoint(0.0F, 0.0F, 0.0F);
+		root.addChild(tonguePivot);
+
+
+		tongue = new AdvancedModelPart(this);
+		tongue.setRotationPoint(0.0F, 0.0F, 0.0F);
+		tonguePivot.addChild(tongue);
+		tongue.setTextureOffset(190, 17).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 16.0F, 4.0F, 0.0F, false);
+		this.updateDefaultPose();
+	}
+
+	@Override
+	public Iterable<AdvancedModelPart> getAllParts() {
+		return ImmutableList.of(root, tonguePivot, tongue);
+	}
+
+	@Override
+	public Iterable<BasicModelPart> parts() {
+		return ImmutableList.of(root);
+	}
+
+	@Override
+	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	}
+
+	public void setAttributes(float f, float rotX, float rotY, float additionalYaw){
+		this.resetToDefaultPose();
+		this.stretch = f;
+		float f1 =  1.0F;
+		this.tongue.setScale(f1, this.stretch, f1);
+		this.tonguePivot.rotateAngleX = (float)Math.toRadians(rotX);
+		this.tonguePivot.rotateAngleY = (float)Math.toRadians(rotY);
+		this.tongue.rotateAngleY = (float)Math.toRadians(-additionalYaw);
+		this.tonguePivot.showModel = !HIDE;
+		this.root.showModel = !HIDE;
+		this.tongue.showModel = !HIDE;
+	}
+}

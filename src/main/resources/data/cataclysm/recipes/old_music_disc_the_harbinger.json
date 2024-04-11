@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cataclysm:music_disc_the_harbinger"
+        }
+    ],
+    "result": {
+        "item": "cataclysm:old_music_disc_the_harbinger",
+        "count": 1
+    }
+}

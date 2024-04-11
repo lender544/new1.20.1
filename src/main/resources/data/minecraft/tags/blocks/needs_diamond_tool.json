@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:obsidian_explosion_trap_bricks",
+    "cataclysm:obsidian_brick_wall",
+    "cataclysm:obsidian_brick_stairs",
+    "cataclysm:chiseled_obsidian_bricks",
+    "cataclysm:obsidian_bricks",
+    "cataclysm:obsidian_brick_slab",
+    "cataclysm:void_stone",
+    "cataclysm:void_lantern_block",
+    "cataclysm:ignitium_block",
+    "cataclysm:witherite_block",
+    "cataclysm:enderite_block"
+  ]
+}

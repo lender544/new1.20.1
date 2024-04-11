@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "minecraft:obsidian"
+        }
+    ],
+    "result": "cataclysm:obsidian_bricks",
+    "count": 1
+}

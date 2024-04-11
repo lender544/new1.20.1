@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "__comment": "all mobs that are not shaken by a tremorsaurus roar.",
+  "values": [
+    "cataclysm:ignis",
+    "cataclysm:netherite_monstrosity",
+    "cataclysm:ender_guardian",
+    "cataclysm:the_harbinger",
+    "cataclysm:the_leviathan",
+    "cataclysm:ancient_remnant"
+  ]
+}

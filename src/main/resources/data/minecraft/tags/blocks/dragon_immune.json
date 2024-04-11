@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:witherite_block",
+    "cataclysm:enderite_block",
+    "cataclysm:ignitium_block",
+    "cataclysm:obsidian_bricks",
+    "cataclysm:chiseled_obsidian_bricks",
+    "cataclysm:obsidian_brick_slab",
+    "cataclysm:obsidian_brick_stairs",
+    "cataclysm:obsidian_brick_wall",
+    "cataclysm:obsidian_explosion_trap_bricks",
+    "cataclysm:altar_of_fire",
+    "cataclysm:altar_of_void",
+    "cataclysm:altar_of_amethyst",
+    "cataclysm:altar_of_abyss",
+    "cataclysm:dungeon_block",
+    "cataclysm:emp"
+  ]
+}
