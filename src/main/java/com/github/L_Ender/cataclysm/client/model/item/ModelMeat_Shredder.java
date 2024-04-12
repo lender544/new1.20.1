@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.client.model.item;
 
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,20 +13,20 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 
 public class ModelMeat_Shredder extends AdvancedEntityModel<Entity> {
-    private final AdvancedModelPart root;
-    private final AdvancedModelPart gear1;
-    private final AdvancedModelPart core;
-    private final AdvancedModelPart core2;
-    private final AdvancedModelPart saw;
-    private final AdvancedModelPart gear2;
-    private final AdvancedModelPart coreroot;
-    private final AdvancedModelPart longthing;
+    private final AdvancedModelBox root;
+    private final AdvancedModelBox gear1;
+    private final AdvancedModelBox core;
+    private final AdvancedModelBox core2;
+    private final AdvancedModelBox saw;
+    private final AdvancedModelBox gear2;
+    private final AdvancedModelBox coreroot;
+    private final AdvancedModelBox longthing;
 
     public ModelMeat_Shredder() {
         texWidth = 128;
         texHeight = 128;
 
-        root = new AdvancedModelPart(this);
+        root = new AdvancedModelBox(this);
         root.setRotationPoint(0.0F, 24.0F, 0.0F);
         root.setTextureOffset(18, 0).addBox(-3.0F, -46.5646F, -1.0268F, 6.0F, 2.0F, 2.0F, 0.0F, false);
         root.setTextureOffset(0, 55).addBox(1.5F, -43.0F, -2.0F, 1.0F, 8.0F, 4.0F, 0.0F, false);
@@ -53,13 +53,13 @@ public class ModelMeat_Shredder extends AdvancedEntityModel<Entity> {
         root.setTextureOffset(16, 69).addBox(-1.5F, -10.5F, 0.0F, 1.0F, 9.0F, 0.0F, 0.0F, false);
         root.setTextureOffset(48, 28).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 1.0F, 2.0F, 0.1F, false);
 
-        gear1 = new AdvancedModelPart(this);
+        gear1 = new AdvancedModelBox(this);
         gear1.setRotationPoint(2.0F, -45.5F, -6.5F);
         root.addChild(gear1);
         setRotationAngle(gear1, 0.7854F, 0.0F, 0.0F);
         gear1.setTextureOffset(10, 9).addBox(-0.5F, -2.0F, -2.0F, 1.0F, 4.0F, 4.0F, 0.0025F, false);
 
-        core = new AdvancedModelPart(this);
+        core = new AdvancedModelBox(this);
         core.setRotationPoint(0.0F, -27.5F, -3.5F);
         root.addChild(core);
         setRotationAngle(core, 0.0873F, 0.0F, 0.0F);
@@ -67,7 +67,7 @@ public class ModelMeat_Shredder extends AdvancedEntityModel<Entity> {
         core.setTextureOffset(6, 55).addBox(-1.0F, -3.5F, -2.5F, 2.0F, 2.0F, 1.0F, 0.1F, false);
         core.setTextureOffset(4, 0).addBox(0.0F, -3.0F, -3.4F, 0.0F, 1.0F, 1.0F, 0.0F, false);
 
-        core2 = new AdvancedModelPart(this);
+        core2 = new AdvancedModelBox(this);
         core2.setRotationPoint(0.0F, -27.5F, -3.5F);
         root.addChild(core2);
         setRotationAngle(core2, 0.0873F, 0.0F, 0.0F);
@@ -75,26 +75,26 @@ public class ModelMeat_Shredder extends AdvancedEntityModel<Entity> {
         core2.setTextureOffset(55, 0).addBox(-1.0F, -0.3F, -2.1F, 2.0F, 2.0F, 1.0F, 0.1F, false);
         core2.setTextureOffset(4, 1).addBox(0.0F, 0.2F, -3.0F, 0.0F, 1.0F, 1.0F, 0.0F, false);
 
-        saw = new AdvancedModelPart(this);
+        saw = new AdvancedModelBox(this);
         saw.setRotationPoint(0.0F, -45.5F, 0.0F);
         root.addChild(saw);
         saw.setTextureOffset(32, 32).addBox(-1.0F, -8.0F, -8.0F, 2.0F, 16.0F, 16.0F, 0.0F, false);
         saw.setTextureOffset(0, 0).addBox(0.0F, -12.0F, -12.0F, 0.0F, 24.0F, 24.0F, 0.0F, false);
 
-        gear2 = new AdvancedModelPart(this);
+        gear2 = new AdvancedModelBox(this);
         gear2.setRotationPoint(3.0F, -30.5F, 1.5F);
         root.addChild(gear2);
         setRotationAngle(gear2, -0.7854F, 0.0F, 0.0F);
         gear2.setTextureOffset(33, 11).addBox(-0.5F, -2.5F, -2.5F, 2.0F, 5.0F, 5.0F, 0.0F, false);
         gear2.setTextureOffset(56, 13).addBox(0.5F, -2.5F, -2.5F, 1.0F, 5.0F, 5.0F, 0.2F, false);
 
-        coreroot = new AdvancedModelPart(this);
+        coreroot = new AdvancedModelBox(this);
         coreroot.setRotationPoint(0.0F, -27.5F, -3.5F);
         root.addChild(coreroot);
         setRotationAngle(coreroot, 0.0873F, 0.0F, 0.0F);
         coreroot.setTextureOffset(47, 8).addBox(-2.0F, -4.5F, 0.0F, 4.0F, 7.0F, 3.0F, 0.1F, false);
 
-        longthing = new AdvancedModelPart(this);
+        longthing = new AdvancedModelBox(this);
         longthing.setRotationPoint(2.0F, -33.0F, -3.0F);
         root.addChild(longthing);
         setRotationAngle(longthing, 0.3054F, 0.0F, 0.0F);
@@ -113,14 +113,14 @@ public class ModelMeat_Shredder extends AdvancedEntityModel<Entity> {
         root.render(matrixStack, buffer, packedLight, packedOverlay);
     }
 
-    public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-        AdvancedModelPart.rotateAngleX = x;
-        AdvancedModelPart.rotateAngleY = y;
-        AdvancedModelPart.rotateAngleZ = z;
+    public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+        AdvancedModelBox.rotateAngleX = x;
+        AdvancedModelBox.rotateAngleY = y;
+        AdvancedModelBox.rotateAngleZ = z;
     }
 
     @Override
-    public Iterable<AdvancedModelPart> getAllParts() {
+    public Iterable<AdvancedModelBox> getAllParts() {
         return ImmutableList.of(
                 root,
                 gear1,

@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.client.model.item;// Made with Blockbench 3
 
 
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,21 +12,21 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.world.entity.Entity;
 
 public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart shield;
-	private final AdvancedModelPart left_side;
-	private final AdvancedModelPart right_side;
-	private final AdvancedModelPart handle;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox shield;
+	private final AdvancedModelBox left_side;
+	private final AdvancedModelBox right_side;
+	private final AdvancedModelBox handle;
 
 	public ModelBulwark_of_the_flame() {
 		texWidth = 64;
 		texHeight = 64;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, -0.5F);
 
 
-		shield = new AdvancedModelPart(this);
+		shield = new AdvancedModelBox(this);
 		shield.setRotationPoint(0.0F, -14.0F, -2.0F);
 		root.addChild(shield);
 		shield.setTextureOffset(0, 0).addBox(-3.0F, -11.0F, -1.5F, 6.0F, 22.0F, 1.0F, 0.0F, false);
@@ -34,7 +34,7 @@ public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
 		shield.setTextureOffset(15, 19).addBox(-3.5F, -14.0F, -2.0F, 7.0F, 6.0F, 2.0F, 0.0F, false);
 		shield.setTextureOffset(34, 18).addBox(-2.0F, -2.0F, -2.25F, 4.0F, 4.0F, 1.0F, 0.0F, false);
 
-		left_side = new AdvancedModelPart(this);
+		left_side = new AdvancedModelBox(this);
 		left_side.setRotationPoint(5.33F, -12.8316F, -2.1F);
 		root.addChild(left_side);
 		setRotationAngle(left_side, 0.0F, -0.2182F, 0.0436F);
@@ -42,7 +42,7 @@ public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
 		left_side.setTextureOffset(28, 11).addBox(-3.5F, 7.8333F, -1.0F, 6.0F, 4.0F, 2.0F, 0.0F, false);
 		left_side.setTextureOffset(19, 28).addBox(-3.5F, -13.1667F, -1.0F, 6.0F, 4.0F, 2.0F, 0.0F, false);
 
-		right_side = new AdvancedModelPart(this);
+		right_side = new AdvancedModelBox(this);
 		right_side.setRotationPoint(-5.33F, -12.8316F, -2.1F);
 		root.addChild(right_side);
 		setRotationAngle(right_side, 0.0F, 0.2182F, -0.0436F);
@@ -50,7 +50,7 @@ public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
 		right_side.setTextureOffset(28, 11).addBox(-2.5F, 7.8333F, -1.0F, 6.0F, 4.0F, 2.0F, 0.0F, true);
 		right_side.setTextureOffset(19, 28).addBox(-2.5F, -13.1667F, -1.0F, 6.0F, 4.0F, 2.0F, 0.0F, true);
 
-		handle = new AdvancedModelPart(this);
+		handle = new AdvancedModelBox(this);
 		handle.setRotationPoint(6.0F, -8.0F, -8.0F);
 		root.addChild(handle);
 		handle.setTextureOffset(28, 0).addBox(-7.0F, -8.5F, 5.5F, 2.0F, 6.0F, 6.0F, 0.0F, false);
@@ -61,10 +61,10 @@ public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
 		root.render(matrixStack, buffer, packedLight, packedOverlay);
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class ModelBulwark_of_the_flame extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				shield,
 				root,

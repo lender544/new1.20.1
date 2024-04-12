@@ -5,38 +5,38 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 
 public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
-	public final AdvancedModelPart root;
-	private final AdvancedModelPart legs;
-	private final AdvancedModelPart right_leg;
-	private final AdvancedModelPart right_fore_leg;
-	private final AdvancedModelPart right_foot;
-	private final AdvancedModelPart left_leg;
-	private final AdvancedModelPart left_fore_leg;
-	private final AdvancedModelPart left_foot;
-	public final AdvancedModelPart pelvis;
-	private final AdvancedModelPart pelvis_cube;
-	public final AdvancedModelPart lower_body;
-	public final AdvancedModelPart body;
-	public final AdvancedModelPart right_arm;
-	public final AdvancedModelPart right_weapon;
-	public final AdvancedModelPart left_arm;
-	public final AdvancedModelPart left_weapon;
-	private final AdvancedModelPart neck;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart nose;
-	private final AdvancedModelPart right_eyebrow;
-	private final AdvancedModelPart left_eyebrow;
-	private final AdvancedModelPart skull;
-	private final AdvancedModelPart jaw;
-	private final AdvancedModelPart tail1;
-	private final AdvancedModelPart tail2;
+	public final AdvancedModelBox root;
+	private final AdvancedModelBox legs;
+	private final AdvancedModelBox right_leg;
+	private final AdvancedModelBox right_fore_leg;
+	private final AdvancedModelBox right_foot;
+	private final AdvancedModelBox left_leg;
+	private final AdvancedModelBox left_fore_leg;
+	private final AdvancedModelBox left_foot;
+	public final AdvancedModelBox pelvis;
+	private final AdvancedModelBox pelvis_cube;
+	public final AdvancedModelBox lower_body;
+	public final AdvancedModelBox body;
+	public final AdvancedModelBox right_arm;
+	public final AdvancedModelBox right_weapon;
+	public final AdvancedModelBox left_arm;
+	public final AdvancedModelBox left_weapon;
+	private final AdvancedModelBox neck;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox nose;
+	private final AdvancedModelBox right_eyebrow;
+	private final AdvancedModelBox left_eyebrow;
+	private final AdvancedModelBox skull;
+	private final AdvancedModelBox jaw;
+	private final AdvancedModelBox tail1;
+	private final AdvancedModelBox tail2;
 	
 	private ModelAnimator animator;
 
@@ -44,28 +44,28 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		texWidth = 64;
 		texHeight = 64;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
-		legs = new AdvancedModelPart(this);
+		legs = new AdvancedModelBox(this);
 		legs.setRotationPoint(0.0F, -16.1231F, 2.3724F);
 		root.addChild(legs);
 		setRotationAngle(legs, -0.1745F, 0.0F, 0.0F);
 
 
-		right_leg = new AdvancedModelPart(this);
+		right_leg = new AdvancedModelBox(this);
 		right_leg.setRotationPoint(-1.4F, 0.9227F, -1.2917F);
 		legs.addChild(right_leg);
 		setRotationAngle(right_leg, -0.7338F, 0.1309F, 0.0218F);
 		right_leg.setTextureOffset(25, 28).addBox(-4.0F, -0.9024F, -1.4616F, 5.0F, 8.0F, 6.0F, 0.0F, false);
 
-		right_fore_leg = new AdvancedModelPart(this);
+		right_fore_leg = new AdvancedModelBox(this);
 		right_fore_leg.setRotationPoint(-1.5F, 4.0976F, 1.5384F);
 		right_leg.addChild(right_fore_leg);
 		setRotationAngle(right_fore_leg, 0.9425F, -0.0001F, 0.0007F);
 		right_fore_leg.setTextureOffset(19, 52).addBox(-2.0027F, 2.8653F, -0.8643F, 4.0F, 8.0F, 3.0F, 0.0F, false);
 
-		right_foot = new AdvancedModelPart(this);
+		right_foot = new AdvancedModelBox(this);
 		right_foot.setRotationPoint(0.0F, 11.0F, -1.0F);
 		right_fore_leg.addChild(right_foot);
 		setRotationAngle(right_foot, -0.1745F, 0.0F, 0.0F);
@@ -73,19 +73,19 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		right_foot.setTextureOffset(0, 0).addBox(-1.4995F, -2.398F, -3.6296F, 0.0F, 4.0F, 5.0F, 0.0F, false);
 		right_foot.setTextureOffset(0, 0).addBox(0.0005F, -2.398F, -3.6296F, 0.0F, 4.0F, 5.0F, 0.0F, false);
 
-		left_leg = new AdvancedModelPart(this);
+		left_leg = new AdvancedModelBox(this);
 		left_leg.setRotationPoint(1.4F, 0.9227F, -1.2917F);
 		legs.addChild(left_leg);
 		setRotationAngle(left_leg, -0.7338F, -0.1309F, -0.0218F);
 		left_leg.setTextureOffset(25, 28).addBox(-1.0F, -0.9024F, -1.4616F, 5.0F, 8.0F, 6.0F, 0.0F, true);
 
-		left_fore_leg = new AdvancedModelPart(this);
+		left_fore_leg = new AdvancedModelBox(this);
 		left_fore_leg.setRotationPoint(1.5F, 4.0976F, 1.5384F);
 		left_leg.addChild(left_fore_leg);
 		setRotationAngle(left_fore_leg, 0.9425F, 0.0001F, -0.0007F);
 		left_fore_leg.setTextureOffset(19, 52).addBox(-1.9973F, 2.8653F, -0.8643F, 4.0F, 8.0F, 3.0F, 0.0F, true);
 
-		left_foot = new AdvancedModelPart(this);
+		left_foot = new AdvancedModelBox(this);
 		left_foot.setRotationPoint(0.0F, 11.0F, -1.0F);
 		left_fore_leg.addChild(left_foot);
 		setRotationAngle(left_foot, -0.1745F, 0.0F, 0.0F);
@@ -93,31 +93,31 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		left_foot.setTextureOffset(0, 0).addBox(1.4995F, -2.398F, -3.6296F, 0.0F, 4.0F, 5.0F, 0.0F, true);
 		left_foot.setTextureOffset(0, 0).addBox(-0.0005F, -2.398F, -3.6296F, 0.0F, 4.0F, 5.0F, 0.0F, true);
 
-		pelvis = new AdvancedModelPart(this);
+		pelvis = new AdvancedModelBox(this);
 		pelvis.setRotationPoint(0.0F, -18.1231F, -1.6276F);
 		root.addChild(pelvis);
 		setRotationAngle(pelvis, -0.1745F, 0.0F, 0.0F);
 
 
-		pelvis_cube = new AdvancedModelPart(this);
+		pelvis_cube = new AdvancedModelBox(this);
 		pelvis_cube.setRotationPoint(-1.0F, 0.0F, 1.0F);
 		pelvis.addChild(pelvis_cube);
 		setRotationAngle(pelvis_cube, 0.0436F, 0.0F, 0.0F);
 		pelvis_cube.setTextureOffset(21, 43).addBox(-3.0F, 0.6977F, -0.5221F, 8.0F, 4.0F, 4.0F, 0.0F, false);
 
-		lower_body = new AdvancedModelPart(this);
+		lower_body = new AdvancedModelBox(this);
 		lower_body.setRotationPoint(0.0F, 0.9281F, 2.6476F);
 		pelvis.addChild(lower_body);
 		setRotationAngle(lower_body, 1.0036F, 0.0F, 0.0F);
 		lower_body.setTextureOffset(0, 46).addBox(-3.0F, -4.9281F, -1.6476F, 6.0F, 7.0F, 3.0F, 0.0F, false);
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(0.0895F, -3.9281F, 1.7524F);
 		lower_body.addChild(body);
 		setRotationAngle(body, 0.2611F, 0.0F, 0.0F);
 		body.setTextureOffset(0, 34).addBox(-3.5895F, -6.0F, -5.0F, 7.0F, 6.0F, 5.0F, 0.0F, false);
 
-		right_arm = new AdvancedModelPart(this);
+		right_arm = new AdvancedModelBox(this);
 		right_arm.setRotationPoint(-5.2895F, -4.5769F, -0.7724F);
 		body.addChild(right_arm);
 		setRotationAngle(right_arm, 0.2618F, 0.0F, 0.3491F);
@@ -126,12 +126,12 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		right_arm.setTextureOffset(19, 21).addBox(-2.0F, 0.0F, -17.0F, 4.0F, 0.0F, 5.0F, 0.0F, false);
 		right_arm.setTextureOffset(19, 21).addBox(-2.0F, 1.0F, -17.0F, 4.0F, 0.0F, 5.0F, 0.0F, false);
 
-		right_weapon = new AdvancedModelPart(this);
+		right_weapon = new AdvancedModelBox(this);
 		right_weapon.setRotationPoint(0.0F, 0.0F, -14.5F);
 		right_arm.addChild(right_weapon);
 
 
-		left_arm = new AdvancedModelPart(this);
+		left_arm = new AdvancedModelBox(this);
 		left_arm.setRotationPoint(5.1105F, -4.5769F, -0.7724F);
 		body.addChild(left_arm);
 		setRotationAngle(left_arm, 0.2182F, 0.0F, -0.3491F);
@@ -140,58 +140,58 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		left_arm.setTextureOffset(19, 21).addBox(-2.0F, 0.0F, -17.0F, 4.0F, 0.0F, 5.0F, 0.0F, true);
 		left_arm.setTextureOffset(19, 21).addBox(-2.0F, 1.0F, -17.0F, 4.0F, 0.0F, 5.0F, 0.0F, true);
 
-		left_weapon = new AdvancedModelPart(this);
+		left_weapon = new AdvancedModelBox(this);
 		left_weapon.setRotationPoint(0.0F, 0.0F, -14.5F);
 		left_arm.addChild(left_weapon);
 
 
-		neck = new AdvancedModelPart(this);
+		neck = new AdvancedModelBox(this);
 		neck.setRotationPoint(0.0F, -8.0F, -3.5F);
 		body.addChild(neck);
 		setRotationAngle(neck, -1.1345F, 0.0F, 0.0F);
 
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		neck.addChild(head);
 
 
-		nose = new AdvancedModelPart(this);
+		nose = new AdvancedModelBox(this);
 		nose.setRotationPoint(-0.0895F, 7.0F, 0.0F);
 		head.addChild(nose);
 		setRotationAngle(nose, 0.3491F, 0.0F, 0.0F);
 		nose.setTextureOffset(46, 46).addBox(-2.0F, -11.0F, -5.0F, 4.0F, 4.0F, 5.0F, 0.0F, false);
 
-		right_eyebrow = new AdvancedModelPart(this);
+		right_eyebrow = new AdvancedModelBox(this);
 		right_eyebrow.setRotationPoint(-1.5895F, -1.0F, -6.0F);
 		head.addChild(right_eyebrow);
 		setRotationAngle(right_eyebrow, 0.3386F, -0.283F, 0.0405F);
 		right_eyebrow.setTextureOffset(38, 0).addBox(-0.8137F, -1.9404F, 0.0575F, 3.0F, 2.0F, 8.0F, 0.0F, false);
 
-		left_eyebrow = new AdvancedModelPart(this);
+		left_eyebrow = new AdvancedModelBox(this);
 		left_eyebrow.setRotationPoint(1.4105F, -1.0F, -6.0F);
 		head.addChild(left_eyebrow);
 		setRotationAngle(left_eyebrow, 0.3386F, 0.283F, -0.0405F);
 		left_eyebrow.setTextureOffset(38, 0).addBox(-2.1863F, -1.9404F, 0.0575F, 3.0F, 2.0F, 8.0F, 0.0F, true);
 
-		skull = new AdvancedModelPart(this);
+		skull = new AdvancedModelBox(this);
 		skull.setRotationPoint(-0.5895F, 7.0F, 0.0F);
 		head.addChild(skull);
 		setRotationAngle(skull, 0.1745F, 0.0F, 0.0F);
 		skull.setTextureOffset(42, 21).addBox(-2.0F, -10.9F, -3.0F, 5.0F, 4.0F, 6.0F, 0.0F, false);
 
-		jaw = new AdvancedModelPart(this);
+		jaw = new AdvancedModelBox(this);
 		jaw.setRotationPoint(0.0F, 0.0F, -1.0F);
 		head.addChild(jaw);
 		setRotationAngle(jaw, 0.3927F, 0.0F, 0.0F);
 		jaw.setTextureOffset(42, 36).addBox(-1.5895F, -0.7753F, -6.2929F, 3.0F, 2.0F, 7.0F, 0.0F, false);
 
-		tail1 = new AdvancedModelPart(this);
+		tail1 = new AdvancedModelBox(this);
 		tail1.setRotationPoint(1.0F, 1.0F, 4.0F);
 		pelvis.addChild(tail1);
 		tail1.setTextureOffset(0, 17).addBox(-2.5F, -2.0F, 0.0F, 3.0F, 4.0F, 12.0F, 0.0F, false);
 
-		tail2 = new AdvancedModelPart(this);
+		tail2 = new AdvancedModelBox(this);
 		tail2.setRotationPoint(0.0F, -0.5F, 11.0F);
 		tail1.addChild(tail2);
 		setRotationAngle(tail2, 0.1745F, 0.0F, 0.0F);
@@ -441,7 +441,7 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				legs,
@@ -476,9 +476,9 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
     }
 
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

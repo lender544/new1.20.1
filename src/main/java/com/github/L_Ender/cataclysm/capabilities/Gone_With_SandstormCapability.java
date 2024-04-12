@@ -63,8 +63,7 @@ public class Gone_With_SandstormCapability {
             );
         }
 
-        public MessageGoneWithSandstorm makeSyncMessage()
-        {
+        public MessageGoneWithSandstorm makeSyncMessage() {
             return new MessageGoneWithSandstorm(player.getId(), this,Timer);
         }
 

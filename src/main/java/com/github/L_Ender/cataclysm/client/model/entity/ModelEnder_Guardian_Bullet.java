@@ -1,20 +1,20 @@
 package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
 public class ModelEnder_Guardian_Bullet extends AdvancedEntityModel<Entity> {
 
-	public AdvancedModelPart renderer;
+	public AdvancedModelBox renderer;
 
 	public ModelEnder_Guardian_Bullet()
 	{
 		this.texWidth = 64;
 		this.texHeight = 32;
-		this.renderer = new AdvancedModelPart(this);
+		this.renderer = new AdvancedModelBox(this);
 		this.renderer.setTextureOffset(0, 0)
 				.addBox(-4.0F, -4.0F, -1.0F, 8, 8, 2, 0.0F);
 		this.renderer.setTextureOffset(0, 10)
@@ -25,7 +25,7 @@ public class ModelEnder_Guardian_Bullet extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(renderer);
 	}
 

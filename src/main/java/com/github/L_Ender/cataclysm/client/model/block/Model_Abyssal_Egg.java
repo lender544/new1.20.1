@@ -7,7 +7,7 @@ import com.github.L_Ender.cataclysm.blockentities.TileEntityAbyssal_Egg;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
@@ -16,18 +16,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
 public class Model_Abyssal_Egg extends AdvancedEntityModel<Entity> {
-	public final AdvancedModelPart root;
-	public final AdvancedModelPart fetus;
+	public final AdvancedModelBox root;
+	public final AdvancedModelBox fetus;
 	public Model_Abyssal_Egg() {
 		texWidth = 128;
 		texHeight = 128;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 		root.setTextureOffset(0, 0).addBox(-7.0F, -17.25F, -7.0F, 14.0F, 17.0F, 14.0F, 0.0F, false);
 		root.setTextureOffset(0, 32).addBox(-7.0F, -7.25F, -7.0F, 14.0F, 7.0F, 14.0F, 0.3F, false);
 
-		fetus = new AdvancedModelPart(this);
+		fetus = new AdvancedModelBox(this);
 		fetus.setRotationPoint(0.0F, -8.0F, 0.0F);
 		root.addChild(fetus);
 		fetus.setTextureOffset(43, 0).addBox(-6.0F, -6.0F, 0.0F, 12.0F, 12.0F, 0.0F, 0.0F, false);
@@ -39,7 +39,7 @@ public class Model_Abyssal_Egg extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root,fetus);
 	}
 
@@ -57,9 +57,9 @@ public class Model_Abyssal_Egg extends AdvancedEntityModel<Entity> {
 	}
 
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

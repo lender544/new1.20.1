@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.HookCapability;
+import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
 import com.github.L_Ender.cataclysm.entity.util.TidalTentacleUtil;
@@ -96,20 +97,23 @@ public class Tidal_Claws extends Item implements ILeftClick {
 
     public boolean launchTendonsAt(ItemStack stack, LivingEntity playerIn, Entity closestValid) {
         Level worldIn = playerIn.level();
-        if (TidalTentacleUtil.canLaunchTentacles(worldIn, playerIn)) {
-            TidalTentacleUtil.retractFarTentacles(worldIn, playerIn);
-            if (!worldIn.isClientSide) {
-                if (closestValid != null) {
-                    Tidal_Tentacle_Entity segment = ModEntities.TIDAL_TENTACLE.get().create(worldIn);
-                    segment.copyPosition(playerIn);
-                    worldIn.addFreshEntity(segment);
-                    segment.setCreatorEntityUUID(playerIn.getUUID());
-                    segment.setFromEntityID(playerIn.getId());
-                    segment.setToEntityID(closestValid.getId());
-                    segment.copyPosition(playerIn);
-                    segment.setProgress(0.0F);
-                    TidalTentacleUtil.setLastTentacle(playerIn, segment);
-                    return true;
+        TidalTentacleCapability.ITentacleCapability tentacleCapability = ModCapabilities.getCapability(playerIn, ModCapabilities.TENTACLE_CAPABILITY);
+        if (tentacleCapability != null) {
+            if(!tentacleCapability.hasTentacle()) {
+             //   TidalTentacleUtil.retractFarTentacles(worldIn, playerIn);
+                if (!worldIn.isClientSide) {
+                    if (closestValid != null) {
+                        Tidal_Tentacle_Entity segment = ModEntities.TIDAL_TENTACLE.get().create(worldIn);
+                        segment.copyPosition(playerIn);
+                        worldIn.addFreshEntity(segment);
+                        segment.setCreatorEntityUUID(playerIn.getUUID());
+                        segment.setFromEntityID(playerIn.getId());
+                        segment.setToEntityID(closestValid.getId());
+                        segment.copyPosition(playerIn);
+                        segment.setProgress(0.0F);
+                        TidalTentacleUtil.setLastTentacle(playerIn, segment);
+                        return true;
+                    }
                 }
             }
         }
@@ -141,7 +145,6 @@ public class Tidal_Claws extends Item implements ILeftClick {
     }
 
     public ItemStack finishUsingItem(ItemStack p_40712_, Level p_40713_, LivingEntity p_40714_) {
-
         HookCapability.IHookCapability hookCapability = ModCapabilities.getCapability(p_40714_, ModCapabilities.HOOK_CAPABILITY);
         if (hookCapability != null) {
             hookCapability.setHasHook(false);

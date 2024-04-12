@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render;
 
 
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -10,13 +10,13 @@ import org.joml.Quaternionf;
 import org.joml.Vector4f;
 
 public class RenderUtils {
-    public static void matrixStackFromCitadelModel(PoseStack matrixStack, AdvancedModelPart AdvancedModelPart) {
-        AdvancedModelPart parent = AdvancedModelPart.getParent();
+    public static void matrixStackFromCitadelModel(PoseStack matrixStack, AdvancedModelBox AdvancedModelBox) {
+        AdvancedModelBox parent = AdvancedModelBox.getParent();
         if (parent != null) matrixStackFromCitadelModel(matrixStack, parent);
-        AdvancedModelPart.translateRotate(matrixStack);
+        AdvancedModelBox.translateRotate(matrixStack);
     }
 
-    public static Vec3 matrixStackFromCitadelModel(Entity entity, float entityYaw, AdvancedModelPart modelRenderer) {
+    public static Vec3 matrixStackFromCitadelModel(Entity entity, float entityYaw, AdvancedModelBox modelRenderer) {
         PoseStack matrixStack = new PoseStack();
         matrixStack.translate(entity.getX(), entity.getY(), entity.getZ());
         matrixStack.mulPose((new Quaternionf()).rotationY((-entityYaw + 180) * ((float)Math.PI / 180F)));

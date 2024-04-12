@@ -5,28 +5,28 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.Deepling.Deepling_Priest_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 
 public class ModelDeepling_Priest extends AdvancedEntityModel<Deepling_Priest_Entity> {
-	public final AdvancedModelPart root;
-	public final AdvancedModelPart left_leg;
-	public final AdvancedModelPart right_leg;
-	public final AdvancedModelPart body;
-	public final AdvancedModelPart body_coral1;
-	public final AdvancedModelPart body_coral2;
-	public final AdvancedModelPart head;
-	public final AdvancedModelPart head2;
-	public final AdvancedModelPart head_coral;
-	public final AdvancedModelPart fin;
-	public final AdvancedModelPart light;
-	public final AdvancedModelPart r_fin;
-	public final AdvancedModelPart l_fin;
-	public final AdvancedModelPart headwear;
-	public final AdvancedModelPart right_arm;
-	public final AdvancedModelPart left_arm;
+	public final AdvancedModelBox root;
+	public final AdvancedModelBox left_leg;
+	public final AdvancedModelBox right_leg;
+	public final AdvancedModelBox body;
+	public final AdvancedModelBox body_coral1;
+	public final AdvancedModelBox body_coral2;
+	public final AdvancedModelBox head;
+	public final AdvancedModelBox head2;
+	public final AdvancedModelBox head_coral;
+	public final AdvancedModelBox fin;
+	public final AdvancedModelBox light;
+	public final AdvancedModelBox r_fin;
+	public final AdvancedModelBox l_fin;
+	public final AdvancedModelBox headwear;
+	public final AdvancedModelBox right_arm;
+	public final AdvancedModelBox left_arm;
 
 
 	private ModelAnimator animator;
@@ -36,21 +36,21 @@ public class ModelDeepling_Priest extends AdvancedEntityModel<Deepling_Priest_En
 		texHeight = 128;
 
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		left_leg = new AdvancedModelPart(this);
+		left_leg = new AdvancedModelBox(this);
 		left_leg.setRotationPoint(2.0F, -20.0F, 0.0F);
 		root.addChild(left_leg);
 		left_leg.setTextureOffset(40, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 20.0F, 2.0F, 0.0F, false);
 
-		right_leg = new AdvancedModelPart(this);
+		right_leg = new AdvancedModelBox(this);
 		right_leg.setRotationPoint(-2.0F, -20.0F, 0.0F);
 		root.addChild(right_leg);
 		right_leg.setTextureOffset(44, 22).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 20.0F, 2.0F, 0.0F, false);
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(0.0F, -20.0F, 0.0F);
 		root.addChild(body);
 		body.setTextureOffset(0, 32).addBox(-5.0F, -11.0F, -2.0F, 10.0F, 11.0F, 4.0F, 0.0F, false);
@@ -58,69 +58,69 @@ public class ModelDeepling_Priest extends AdvancedEntityModel<Deepling_Priest_En
 		body.setTextureOffset(92, 43).addBox(-6.5F, -11.0F, -2.5F, 13.0F, 17.0F, 5.0F, 0.0F, false);
 		body.setTextureOffset(52, 29).addBox(0.0F, -11.0F, 2.0F, 0.0F, 11.0F, 4.0F, 0.0F, false);
 
-		body_coral1 = new AdvancedModelPart(this);
+		body_coral1 = new AdvancedModelBox(this);
 		body_coral1.setRotationPoint(-6.3F, 3.6F, -2.3F);
 		body.addChild(body_coral1);
 		setRotationAngle(body_coral1, 0.0F, -0.1745F, 0.0F);
 		body_coral1.setTextureOffset(89, 7).addBox(-5.0F, -3.5F, 0.0F, 5.0F, 7.0F, 0.0F, 0.0F, false);
 
-		body_coral2 = new AdvancedModelPart(this);
+		body_coral2 = new AdvancedModelBox(this);
 		body_coral2.setRotationPoint(6.3F, -3.5F, -2.3F);
 		body.addChild(body_coral2);
 		setRotationAngle(body_coral2, 0.0F, 0.48F, 0.0F);
 		body_coral2.setTextureOffset(89, 0).addBox(0.0F, -3.6F, 0.0F, 5.0F, 7.0F, 0.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, -11.0F, 0.0F);
 		body.addChild(head);
 
 
-		head2 = new AdvancedModelPart(this);
+		head2 = new AdvancedModelBox(this);
 		head2.setRotationPoint(0.0F, -3.0F, 0.0F);
 		head.addChild(head2);
 		head2.setTextureOffset(0, 16).addBox(-6.0F, -4.0F, -4.0F, 12.0F, 8.0F, 8.0F, 0.0F, false);
 		head2.setTextureOffset(80, 14).addBox(-6.0F, -9.0F, 0.0F, 7.0F, 5.0F, 0.0F, 0.0F, false);
 		head2.setTextureOffset(34, 87).addBox(-6.0F, -4.0F, -4.0F, 12.0F, 8.0F, 8.0F, -0.1F, false);
 
-		head_coral = new AdvancedModelPart(this);
+		head_coral = new AdvancedModelBox(this);
 		head_coral.setRotationPoint(6.0F, 0.0F, -4.0F);
 		head2.addChild(head_coral);
 		setRotationAngle(head_coral, 0.0F, 0.2618F, 0.0F);
 		head_coral.setTextureOffset(80, 19).addBox(0.0F, -4.0F, 0.0F, 5.0F, 8.0F, 0.0F, 0.0F, false);
 
-		fin = new AdvancedModelPart(this);
+		fin = new AdvancedModelBox(this);
 		fin.setRotationPoint(0.0F, -4.0F, 0.0F);
 		head2.addChild(fin);
 		fin.setTextureOffset(28, 47).addBox(0.0F, -6.0F, -10.0F, 0.0F, 6.0F, 11.0F, 0.0F, false);
 
-		light = new AdvancedModelPart(this);
+		light = new AdvancedModelBox(this);
 		light.setRotationPoint(0.0F, 1.0F, -8.5F);
 		fin.addChild(light);
 		light.setTextureOffset(44, 54).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
 
-		r_fin = new AdvancedModelPart(this);
+		r_fin = new AdvancedModelBox(this);
 		r_fin.setRotationPoint(-6.0F, 0.0F, 0.0F);
 		head2.addChild(r_fin);
 		r_fin.setTextureOffset(44, 44).addBox(-6.0F, -4.0F, 0.0F, 6.0F, 8.0F, 0.0F, 0.0F, false);
 
-		l_fin = new AdvancedModelPart(this);
+		l_fin = new AdvancedModelBox(this);
 		l_fin.setRotationPoint(6.0F, 0.0F, 0.0F);
 		head2.addChild(l_fin);
 		l_fin.setTextureOffset(0, 47).addBox(0.0F, -4.0F, 0.0F, 6.0F, 8.0F, 0.0F, 0.0F, false);
 
-		headwear = new AdvancedModelPart(this);
+		headwear = new AdvancedModelBox(this);
 		headwear.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.addChild(headwear);
 		headwear.setTextureOffset(0, 0).addBox(-6.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, -0.5F, false);
 		headwear.setTextureOffset(26, 71).addBox(-6.0F, -7.0F, -4.0F, 12.0F, 8.0F, 8.0F, -0.6F, false);
 
-		right_arm = new AdvancedModelPart(this);
+		right_arm = new AdvancedModelBox(this);
 		right_arm.setRotationPoint(-6.0F, -10.0F, 0.0F);
 		body.addChild(right_arm);
 		right_arm.setTextureOffset(36, 32).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
 		right_arm.setTextureOffset(52, 58).addBox(-6.0F, 2.0F, 0.0F, 5.0F, 12.0F, 0.0F, 0.0F, false);
 
-		left_arm = new AdvancedModelPart(this);
+		left_arm = new AdvancedModelBox(this);
 		left_arm.setRotationPoint(6.0F, -10.0F, 0.0F);
 		body.addChild(left_arm);
 		left_arm.setTextureOffset(28, 32).addBox(-1.0F, -1.0F, -1.0F, 2.0F, 24.0F, 2.0F, 0.0F, false);
@@ -135,7 +135,7 @@ public class ModelDeepling_Priest extends AdvancedEntityModel<Deepling_Priest_En
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root, left_leg,right_leg,body,headwear,head,head2,r_fin,l_fin,right_arm,left_arm,fin,light);
 	}
 
@@ -252,9 +252,9 @@ public class ModelDeepling_Priest extends AdvancedEntityModel<Deepling_Priest_En
 		}
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

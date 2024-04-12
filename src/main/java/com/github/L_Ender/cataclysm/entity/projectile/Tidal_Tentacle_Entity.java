@@ -1,6 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.capabilities.HookCapability;
+import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
 import com.github.L_Ender.cataclysm.entity.util.TidalTentacleUtil;
+import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -100,7 +104,7 @@ public class Tidal_Tentacle_Entity extends Entity {
                 updateLastTendon(null);
             }
 
-            this.remove(RemovalReason.DISCARDED);
+            kill();
         }
         if (creator instanceof LivingEntity) {
             if (current != null) {
@@ -163,6 +167,19 @@ public class Tidal_Tentacle_Entity extends Entity {
         double d2 = this.getZ() + vector3d.z;
         this.setDeltaMovement(vector3d.scale(0.99F));
         this.setPos(d0, d1, d2);
+    }
+
+    @Override
+    public void kill() {
+        TidalTentacleCapability.ITentacleCapability hookCapability = ModCapabilities.getCapability(getCreatorEntity(), ModCapabilities.TENTACLE_CAPABILITY);
+        if(!level().isClientSide && getCreatorEntity() instanceof Player owner) {
+            if (hookCapability != null) {
+                hookCapability.setHasTentacle(false);
+                owner.setNoGravity(false);
+            }
+        }
+
+        super.kill();
     }
 
     private boolean isValidTarget(LivingEntity creator, Entity entity) {

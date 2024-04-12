@@ -4,7 +4,7 @@ import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Harbinger;
 import com.github.L_Ender.cataclysm.client.render.RenderUtils;
 import com.github.L_Ender.cataclysm.client.render.entity.RendererThe_Harbinger;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,14 +16,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class The_Harbinger_Item_Layer extends RenderLayer<The_Harbinger_Entity, ModelThe_Harbinger> {
-    private AdvancedModelPart AdvancedModelPart;
+    private AdvancedModelBox AdvancedModelBox;
     private ItemStack itemstack;
     private ItemDisplayContext transformType;
 
-    public The_Harbinger_Item_Layer(RendererThe_Harbinger renderIn, AdvancedModelPart AdvancedModelPart, ItemStack itemstack, ItemDisplayContext transformType) {
+    public The_Harbinger_Item_Layer(RendererThe_Harbinger renderIn, AdvancedModelBox AdvancedModelBox, ItemStack itemstack, ItemDisplayContext transformType) {
         super(renderIn);
         this.itemstack = itemstack;
-        this.AdvancedModelPart = AdvancedModelPart;
+        this.AdvancedModelBox = AdvancedModelBox;
         this.transformType = transformType;
     }
 
@@ -31,7 +31,7 @@ public class The_Harbinger_Item_Layer extends RenderLayer<The_Harbinger_Entity, 
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, The_Harbinger_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.getIsAct()) {
             matrixStackIn.pushPose();
-            RenderUtils.matrixStackFromCitadelModel(matrixStackIn, getAdvancedModelPart());
+            RenderUtils.matrixStackFromCitadelModel(matrixStackIn, getAdvancedModelBox());
             matrixStackIn.translate(-0.0125F, 0.0F, 0.0F);
             Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(entity, getItemstack(), transformType, false, matrixStackIn, bufferIn, packedLightIn);
             matrixStackIn.popPose();
@@ -46,11 +46,11 @@ public class The_Harbinger_Item_Layer extends RenderLayer<The_Harbinger_Entity, 
         this.itemstack = itemstack;
     }
 
-    public AdvancedModelPart getAdvancedModelPart() {
-        return AdvancedModelPart;
+    public AdvancedModelBox getAdvancedModelBox() {
+        return AdvancedModelBox;
     }
 
-    public void setAdvancedModelPart(AdvancedModelPart AdvancedModelPart) {
-        this.AdvancedModelPart = AdvancedModelPart;
+    public void setAdvancedModelBox(AdvancedModelBox AdvancedModelBox) {
+        this.AdvancedModelBox = AdvancedModelBox;
     }
 }

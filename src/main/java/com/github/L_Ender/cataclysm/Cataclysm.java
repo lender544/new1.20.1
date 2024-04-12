@@ -137,6 +137,7 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageUpdateblockentity.class, MessageUpdateblockentity::write, MessageUpdateblockentity::read, MessageUpdateblockentity.Handler::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageSwingArm.class, MessageSwingArm::write, MessageSwingArm::read, MessageSwingArm.Handler::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageHookFalling.class, MessageHookFalling::encode, MessageHookFalling::new, MessageHookFalling.Handler::onMessage);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageTidalTentacle.class, MessageTidalTentacle::encode, MessageTidalTentacle::new, MessageTidalTentacle.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageGoneWithSandstorm.class, MessageGoneWithSandstorm::encode, MessageGoneWithSandstorm::new, MessageGoneWithSandstorm.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageCharge.class, MessageCharge::encode, MessageCharge::new, MessageCharge.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageToggleSandstorm.class, MessageToggleSandstorm::encode, MessageToggleSandstorm::new, MessageToggleSandstorm.Handler::handle);

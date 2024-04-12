@@ -5,173 +5,173 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Amethyst_Crab_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelAmethyst_Crab extends AdvancedEntityModel<Amethyst_Crab_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart body;
-	private final AdvancedModelPart big_amethyst;
-	private final AdvancedModelPart small_amethyst;
-	private final AdvancedModelPart small_amethyst2;
-	private final AdvancedModelPart amethyst_1;
-	private final AdvancedModelPart small_amethyst3;
-	private final AdvancedModelPart small_amethyst4;
-	private final AdvancedModelPart left_body;
-	private final AdvancedModelPart big_amethyst2;
-	private final AdvancedModelPart right_body;
-	private final AdvancedModelPart stomach;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart left_eye;
-	private final AdvancedModelPart right_eye;
-	private final AdvancedModelPart small_amethyst5;
-	private final AdvancedModelPart small_amethyst6;
-	private final AdvancedModelPart left_leg;
-	private final AdvancedModelPart left_joint;
-	private final AdvancedModelPart right_leg;
-	private final AdvancedModelPart right_joint;
-	private final AdvancedModelPart left_leg2;
-	private final AdvancedModelPart left_joint2;
-	private final AdvancedModelPart right_leg2;
-	private final AdvancedModelPart right_joint2;
-	private final AdvancedModelPart left_leg3;
-	private final AdvancedModelPart left_joint3;
-	private final AdvancedModelPart right_leg3;
-	private final AdvancedModelPart right_joint3;
-	private final AdvancedModelPart right_leg4;
-	private final AdvancedModelPart left_leg4;
-	private final AdvancedModelPart right_tong_leg;
-	private final AdvancedModelPart right_Tong;
-	private final AdvancedModelPart upper_claw2;
-	private final AdvancedModelPart under_claw2;
-	private final AdvancedModelPart left_tong_leg;
-	private final AdvancedModelPart left_Tong;
-	private final AdvancedModelPart upper_claw;
-	private final AdvancedModelPart under_claw;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox body;
+	private final AdvancedModelBox big_amethyst;
+	private final AdvancedModelBox small_amethyst;
+	private final AdvancedModelBox small_amethyst2;
+	private final AdvancedModelBox amethyst_1;
+	private final AdvancedModelBox small_amethyst3;
+	private final AdvancedModelBox small_amethyst4;
+	private final AdvancedModelBox left_body;
+	private final AdvancedModelBox big_amethyst2;
+	private final AdvancedModelBox right_body;
+	private final AdvancedModelBox stomach;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox left_eye;
+	private final AdvancedModelBox right_eye;
+	private final AdvancedModelBox small_amethyst5;
+	private final AdvancedModelBox small_amethyst6;
+	private final AdvancedModelBox left_leg;
+	private final AdvancedModelBox left_joint;
+	private final AdvancedModelBox right_leg;
+	private final AdvancedModelBox right_joint;
+	private final AdvancedModelBox left_leg2;
+	private final AdvancedModelBox left_joint2;
+	private final AdvancedModelBox right_leg2;
+	private final AdvancedModelBox right_joint2;
+	private final AdvancedModelBox left_leg3;
+	private final AdvancedModelBox left_joint3;
+	private final AdvancedModelBox right_leg3;
+	private final AdvancedModelBox right_joint3;
+	private final AdvancedModelBox right_leg4;
+	private final AdvancedModelBox left_leg4;
+	private final AdvancedModelBox right_tong_leg;
+	private final AdvancedModelBox right_Tong;
+	private final AdvancedModelBox upper_claw2;
+	private final AdvancedModelBox under_claw2;
+	private final AdvancedModelBox left_tong_leg;
+	private final AdvancedModelBox left_Tong;
+	private final AdvancedModelBox upper_claw;
+	private final AdvancedModelBox under_claw;
 	private ModelAnimator animator;
 
 	public ModelAmethyst_Crab() {
 		texWidth = 256;
 		texHeight = 256;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(-0.4889F, -19.1765F, 3.4113F);
 		root.addChild(body);
 		setRotationAngle(body, -0.48F, 0.0F, 0.0F);
 		body.setTextureOffset(0, 0).addBox(-7.5111F, -8.8235F, -18.4113F, 16.0F, 10.0F, 32.0F, 0.0F, false);
 		body.setTextureOffset(0, 139).addBox(-6.5111F, -22.8235F, 0.5887F, 14.0F, 14.0F, 13.0F, 0.0F, false);
 
-		big_amethyst = new AdvancedModelPart(this);
+		big_amethyst = new AdvancedModelBox(this);
 		big_amethyst.setRotationPoint(-8.0111F, -19.3235F, 5.0887F);
 		body.addChild(big_amethyst);
 		setRotationAngle(big_amethyst, 0.0F, 0.2182F, 0.0F);
 		big_amethyst.setTextureOffset(0, 138).addBox(-6.5F, -11.5F, -6.5F, 13.0F, 24.0F, 14.0F, 0.0F, false);
 
-		small_amethyst = new AdvancedModelPart(this);
+		small_amethyst = new AdvancedModelBox(this);
 		small_amethyst.setRotationPoint(0.0F, -11.5F, 0.5F);
 		big_amethyst.addChild(small_amethyst);
 		setRotationAngle(small_amethyst, 0.0F, 0.7854F, 0.0F);
 		small_amethyst.setTextureOffset(71, 90).addBox(-5.5F, -10.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		small_amethyst2 = new AdvancedModelPart(this);
+		small_amethyst2 = new AdvancedModelBox(this);
 		small_amethyst2.setRotationPoint(0.0F, -11.5F, 0.5F);
 		big_amethyst.addChild(small_amethyst2);
 		setRotationAngle(small_amethyst2, 0.0F, -0.7854F, 0.0F);
 		small_amethyst2.setTextureOffset(132, 60).addBox(-5.5F, -10.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		amethyst_1 = new AdvancedModelPart(this);
+		amethyst_1 = new AdvancedModelBox(this);
 		amethyst_1.setRotationPoint(-8.0111F, -10.3235F, 0.5887F);
 		body.addChild(amethyst_1);
 		setRotationAngle(amethyst_1, 0.0F, 0.2182F, 0.0F);
 		amethyst_1.setTextureOffset(102, 126).addBox(-7.5F, -5.5F, -11.0F, 9.0F, 9.0F, 9.0F, 0.0F, false);
 
-		small_amethyst3 = new AdvancedModelPart(this);
+		small_amethyst3 = new AdvancedModelBox(this);
 		small_amethyst3.setRotationPoint(-3.0F, -5.5F, -7.0F);
 		amethyst_1.addChild(small_amethyst3);
 		setRotationAngle(small_amethyst3, 0.0F, -0.7854F, 0.0F);
 		small_amethyst3.setTextureOffset(144, 29).addBox(-5.5F, -10.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		small_amethyst4 = new AdvancedModelPart(this);
+		small_amethyst4 = new AdvancedModelBox(this);
 		small_amethyst4.setRotationPoint(-3.0F, -5.5F, -7.0F);
 		amethyst_1.addChild(small_amethyst4);
 		setRotationAngle(small_amethyst4, 0.0F, 0.7854F, 0.0F);
 		small_amethyst4.setTextureOffset(144, 29).addBox(-5.5F, -10.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		left_body = new AdvancedModelPart(this);
+		left_body = new AdvancedModelBox(this);
 		left_body.setRotationPoint(8.9889F, -0.3235F, 0.0887F);
 		body.addChild(left_body);
 		setRotationAngle(left_body, -0.0289F, -0.2163F, 0.134F);
 		left_body.setTextureOffset(0, 73).addBox(-5.5F, -3.5F, -16.5F, 21.0F, 0.0F, 28.0F, 0.0F, false);
 		left_body.setTextureOffset(0, 102).addBox(-4.5F, -7.5F, -15.5F, 13.0F, 8.0F, 27.0F, 0.0F, false);
 
-		big_amethyst2 = new AdvancedModelPart(this);
+		big_amethyst2 = new AdvancedModelBox(this);
 		big_amethyst2.setRotationPoint(6.5F, -7.5F, 4.0F);
 		left_body.addChild(big_amethyst2);
 		setRotationAngle(big_amethyst2, 0.0F, 0.0F, -0.1309F);
 		big_amethyst2.setTextureOffset(101, 60).addBox(-8.0F, -4.0F, -10.5F, 7.0F, 4.0F, 8.0F, 0.0F, false);
 		big_amethyst2.setTextureOffset(92, 159).addBox(-8.0F, -8.0F, -2.5F, 8.0F, 8.0F, 9.0F, 0.0F, false);
 
-		right_body = new AdvancedModelPart(this);
+		right_body = new AdvancedModelBox(this);
 		right_body.setRotationPoint(-8.0111F, -0.3235F, 0.0887F);
 		body.addChild(right_body);
 		setRotationAngle(right_body, -0.0289F, 0.2163F, -0.134F);
 		right_body.setTextureOffset(65, 0).addBox(-16.5F, -3.5F, -16.5F, 21.0F, 0.0F, 28.0F, 0.0F, false);
 		right_body.setTextureOffset(72, 90).addBox(-8.5F, -7.5F, -15.5F, 13.0F, 8.0F, 27.0F, 0.0F, false);
 
-		stomach = new AdvancedModelPart(this);
+		stomach = new AdvancedModelBox(this);
 		stomach.setRotationPoint(0.4889F, 2.6765F, 0.0887F);
 		body.addChild(stomach);
 		setRotationAngle(stomach, 0.0873F, 0.0F, 0.0F);
 		stomach.setTextureOffset(0, 43).addBox(-14.0F, -4.5F, -13.5F, 28.0F, 7.0F, 22.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.4889F, 7.1765F, -19.4113F);
 		body.addChild(head);
 
 
-		left_eye = new AdvancedModelPart(this);
+		left_eye = new AdvancedModelBox(this);
 		left_eye.setRotationPoint(4.5F, -11.5F, 1.0F);
 		head.addChild(left_eye);
 		setRotationAngle(left_eye, 0.5672F, -0.2618F, 0.3491F);
 		left_eye.setTextureOffset(71, 73).addBox(-0.5F, -9.5F, -2.0F, 3.0F, 9.0F, 2.0F, 0.0F, false);
 
-		right_eye = new AdvancedModelPart(this);
+		right_eye = new AdvancedModelBox(this);
 		right_eye.setRotationPoint(-4.5F, -13.5F, 1.0F);
 		head.addChild(right_eye);
 		setRotationAngle(right_eye, 0.5672F, 0.2618F, -0.3491F);
 		right_eye.setTextureOffset(14, 73).addBox(-2.5F, -7.5F, -2.0F, 3.0F, 9.0F, 2.0F, 0.0F, false);
 
-		small_amethyst5 = new AdvancedModelPart(this);
+		small_amethyst5 = new AdvancedModelBox(this);
 		small_amethyst5.setRotationPoint(2.9889F, -26.8235F, 5.5887F);
 		body.addChild(small_amethyst5);
 		setRotationAngle(small_amethyst5, 0.0F, 0.7854F, 0.0F);
 		small_amethyst5.setTextureOffset(0, 118).addBox(-5.5F, -6.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		small_amethyst6 = new AdvancedModelPart(this);
+		small_amethyst6 = new AdvancedModelBox(this);
 		small_amethyst6.setRotationPoint(2.9889F, -21.8235F, 5.5887F);
 		body.addChild(small_amethyst6);
 		setRotationAngle(small_amethyst6, 0.0F, -0.7854F, 0.0F);
 		small_amethyst6.setTextureOffset(71, 90).addBox(-5.5F, -10.0F, 0.0F, 11.0F, 10.0F, 0.0F, 0.0F, false);
 
-		left_tong_leg = new AdvancedModelPart(this);
+		left_tong_leg = new AdvancedModelBox(this);
 		left_tong_leg.setRotationPoint(14.4889F, 4.1765F, -13.4113F);
 		body.addChild(left_tong_leg);
 		setRotationAngle(left_tong_leg, 0.6545F, -0.7418F, 0.0F);
 		left_tong_leg.setTextureOffset(136, 0).addBox(-4.0F, -3.0F, -16.0F, 8.0F, 7.0F, 20.0F, 0.0F, false);
 		left_tong_leg.setTextureOffset(153, 90).addBox(0.0F, -9.0F, -16.0F, 0.0F, 13.0F, 20.0F, 0.0F, false);
 
-		left_Tong = new AdvancedModelPart(this);
+		left_Tong = new AdvancedModelBox(this);
 		left_Tong.setRotationPoint(0.0F, 0.5F, -14.5F);
 		left_tong_leg.addChild(left_Tong);
 		setRotationAngle(left_Tong, 0.0F, 1.1781F, 0.0F);
 		left_Tong.setTextureOffset(55, 159).addBox(-3.0F, -6.5F, -11.0F, 6.0F, 13.0F, 12.0F, 0.0F, false);
 
-		upper_claw = new AdvancedModelPart(this);
+		upper_claw = new AdvancedModelBox(this);
 		upper_claw.setRotationPoint(0.0F, 1.0F, -11.0F);
 		left_Tong.addChild(upper_claw);
 		setRotationAngle(upper_claw, -0.4363F, 0.0F, 0.0F);
@@ -182,122 +182,122 @@ public class ModelAmethyst_Crab extends AdvancedEntityModel<Amethyst_Crab_Entity
 		upper_claw.setTextureOffset(122, 126).addBox(-5.0F, -11.5F, -20.0F, 10.0F, 12.0F, 20.0F, 0.3F, false);
 		upper_claw.setTextureOffset(61, 126).addBox(-5.0F, -11.5F, -20.0F, 10.0F, 12.0F, 20.0F, 0.0F, false);
 
-		under_claw = new AdvancedModelPart(this);
+		under_claw = new AdvancedModelBox(this);
 		under_claw.setRotationPoint(0.0F, 1.5F, -11.0F);
 		left_Tong.addChild(under_claw);
 		setRotationAngle(under_claw, 0.5236F, 0.0F, 0.0F);
 		under_claw.setTextureOffset(158, 60).addBox(-4.0F, 0.0F, -17.0F, 8.0F, 5.0F, 17.0F, 0.0F, false);
 
-		right_tong_leg = new AdvancedModelPart(this);
+		right_tong_leg = new AdvancedModelBox(this);
 		right_tong_leg.setRotationPoint(-10.5111F, 6.1765F, -11.4113F);
 		body.addChild(right_tong_leg);
 		setRotationAngle(right_tong_leg, 0.3927F, 0.5236F, -0.0873F);
 		right_tong_leg.setTextureOffset(126, 90).addBox(-3.8F, -2.5F, -13.0F, 6.0F, 4.0F, 13.0F, 0.0F, false);
 		right_tong_leg.setTextureOffset(0, 73).addBox(-0.8F, -6.5F, -13.0F, 0.0F, 8.0F, 13.0F, 0.0F, false);
 
-		right_Tong = new AdvancedModelPart(this);
+		right_Tong = new AdvancedModelBox(this);
 		right_Tong.setRotationPoint(-1.0F, 0.0F, -13.0F);
 		right_tong_leg.addChild(right_Tong);
 		setRotationAngle(right_Tong, 0.0F, -1.1781F, 0.0F);
 		right_Tong.setTextureOffset(0, 102).addBox(-1.8F, -3.5F, -4.0F, 4.0F, 6.0F, 9.0F, 0.0F, false);
 
-		upper_claw2 = new AdvancedModelPart(this);
+		upper_claw2 = new AdvancedModelBox(this);
 		upper_claw2.setRotationPoint(0.1F, 1.0F, -4.0F);
 		right_Tong.addChild(upper_claw2);
 		setRotationAngle(upper_claw2, -0.4363F, 0.0F, 0.0F);
 		upper_claw2.setTextureOffset(127, 159).addBox(-2.9F, -6.5F, -10.0F, 6.0F, 7.0F, 10.0F, 0.0F, false);
 
-		under_claw2 = new AdvancedModelPart(this);
+		under_claw2 = new AdvancedModelBox(this);
 		under_claw2.setRotationPoint(0.2F, 1.5F, -4.0F);
 		right_Tong.addChild(under_claw2);
 		setRotationAngle(under_claw2, 0.5672F, 0.0F, 0.0F);
 		under_claw2.setTextureOffset(54, 102).addBox(-2.0F, 0.0F, -8.0F, 4.0F, 3.0F, 8.0F, 0.0F, false);
 
-		left_leg = new AdvancedModelPart(this);
+		left_leg = new AdvancedModelBox(this);
 		left_leg.setRotationPoint(12.0F, -17.0F, -2.5F);
 		root.addChild(left_leg);
 		setRotationAngle(left_leg, -0.1309F, 0.6109F, -0.0873F);
 		left_leg.setTextureOffset(97, 29).addBox(0.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, false);
 
-		left_joint = new AdvancedModelPart(this);
+		left_joint = new AdvancedModelBox(this);
 		left_joint.setRotationPoint(18.3F, -0.1F, 0.0F);
 		left_leg.addChild(left_joint);
 		setRotationAngle(left_joint, -0.1309F, 0.0F, 0.0F);
 		left_joint.setTextureOffset(187, 28).addBox(-0.3F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, false);
 		left_joint.setTextureOffset(65, 0).addBox(-0.3F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, false);
 
-		right_leg = new AdvancedModelPart(this);
+		right_leg = new AdvancedModelBox(this);
 		right_leg.setRotationPoint(-12.0F, -17.0F, -2.5F);
 		root.addChild(right_leg);
 		setRotationAngle(right_leg, -0.1309F, -0.6109F, 0.0873F);
 		right_leg.setTextureOffset(97, 29).addBox(-19.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, true);
 
-		right_joint = new AdvancedModelPart(this);
+		right_joint = new AdvancedModelBox(this);
 		right_joint.setRotationPoint(-18.3F, -0.1F, 0.0F);
 		right_leg.addChild(right_joint);
 		setRotationAngle(right_joint, -0.1309F, 0.0F, 0.0F);
 		right_joint.setTextureOffset(0, 0).addBox(-11.7F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, true);
 		right_joint.setTextureOffset(65, 0).addBox(-5.7F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, true);
 
-		left_leg2 = new AdvancedModelPart(this);
+		left_leg2 = new AdvancedModelBox(this);
 		left_leg2.setRotationPoint(12.0F, -16.0F, 2.5F);
 		root.addChild(left_leg2);
 		setRotationAngle(left_leg2, 0.0F, 0.0F, -0.0873F);
 		left_leg2.setTextureOffset(97, 29).addBox(0.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, false);
 
-		left_joint2 = new AdvancedModelPart(this);
+		left_joint2 = new AdvancedModelBox(this);
 		left_joint2.setRotationPoint(14.3F, 0.9F, 0.0F);
 		left_leg2.addChild(left_joint2);
 		setRotationAngle(left_joint2, -0.1309F, -0.0873F, -0.4363F);
 		left_joint2.setTextureOffset(0, 0).addBox(-0.3F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, false);
 		left_joint2.setTextureOffset(66, 0).addBox(-0.3F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, false);
 
-		right_leg2 = new AdvancedModelPart(this);
+		right_leg2 = new AdvancedModelBox(this);
 		right_leg2.setRotationPoint(-12.0F, -16.0F, 2.5F);
 		root.addChild(right_leg2);
 		setRotationAngle(right_leg2, 0.0F, 0.0F, 0.0873F);
 		right_leg2.setTextureOffset(97, 29).addBox(-19.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, true);
 
-		right_joint2 = new AdvancedModelPart(this);
+		right_joint2 = new AdvancedModelBox(this);
 		right_joint2.setRotationPoint(-14.3F, 0.9F, 0.0F);
 		right_leg2.addChild(right_joint2);
 		setRotationAngle(right_joint2, -0.1309F, 0.0873F, 0.4363F);
 		right_joint2.setTextureOffset(187, 28).addBox(-11.7F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, true);
 		right_joint2.setTextureOffset(65, 0).addBox(-5.7F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, true);
 
-		left_leg3 = new AdvancedModelPart(this);
+		left_leg3 = new AdvancedModelBox(this);
 		left_leg3.setRotationPoint(12.0F, -13.0F, 9.5F);
 		root.addChild(left_leg3);
 		setRotationAngle(left_leg3, 0.2618F, -0.3927F, -0.2182F);
 		left_leg3.setTextureOffset(97, 29).addBox(0.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, false);
 
-		left_joint3 = new AdvancedModelPart(this);
+		left_joint3 = new AdvancedModelBox(this);
 		left_joint3.setRotationPoint(14.3F, 0.9F, 0.0F);
 		left_leg3.addChild(left_joint3);
 		setRotationAngle(left_joint3, -0.1309F, -0.0873F, -0.3927F);
 		left_joint3.setTextureOffset(187, 28).addBox(-0.3F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, false);
 		left_joint3.setTextureOffset(65, 0).addBox(-0.3F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, false);
 
-		right_leg3 = new AdvancedModelPart(this);
+		right_leg3 = new AdvancedModelBox(this);
 		right_leg3.setRotationPoint(-12.0F, -13.0F, 9.5F);
 		root.addChild(right_leg3);
 		setRotationAngle(right_leg3, 0.2618F, 0.3927F, 0.2182F);
 		right_leg3.setTextureOffset(97, 29).addBox(-19.0F, -2.0F, -2.0F, 19.0F, 4.0F, 4.0F, 0.0F, true);
 
-		right_joint3 = new AdvancedModelPart(this);
+		right_joint3 = new AdvancedModelBox(this);
 		right_joint3.setRotationPoint(-14.3F, 0.9F, 0.0F);
 		right_leg3.addChild(right_joint3);
 		setRotationAngle(right_joint3, -0.1309F, 0.0873F, 0.3927F);
 		right_joint3.setTextureOffset(0, 0).addBox(-11.7F, -8.4F, 0.0F, 12.0F, 27.0F, 0.0F, 0.0F, true);
 		right_joint3.setTextureOffset(65, 0).addBox(-5.7F, -2.4F, -3.0F, 6.0F, 21.0F, 6.0F, 0.0F, true);
 
-		right_leg4 = new AdvancedModelPart(this);
+		right_leg4 = new AdvancedModelBox(this);
 		right_leg4.setRotationPoint(-10.5F, -15.0F, 14.5F);
 		root.addChild(right_leg4);
 		setRotationAngle(right_leg4, -0.576F, 0.6981F, -0.6109F);
 		right_leg4.setTextureOffset(79, 43).addBox(-31.5F, 1.0F, -7.5F, 35.0F, 0.0F, 16.0F, 0.0F, false);
 
-		left_leg4 = new AdvancedModelPart(this);
+		left_leg4 = new AdvancedModelBox(this);
 		left_leg4.setRotationPoint(10.5F, -15.0F, 14.5F);
 		root.addChild(left_leg4);
 		setRotationAngle(left_leg4, -0.6109F, -0.7418F, 0.6109F);
@@ -308,7 +308,7 @@ public class ModelAmethyst_Crab extends AdvancedEntityModel<Amethyst_Crab_Entity
 
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				body,
@@ -1376,9 +1376,9 @@ public class ModelAmethyst_Crab extends AdvancedEntityModel<Amethyst_Crab_Entity
 
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

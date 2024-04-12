@@ -5,44 +5,44 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelCoral_Spear extends AdvancedEntityModel<ThrownCoral_Spear_Entity> {
-	private final AdvancedModelPart coral_spear;
-	private final AdvancedModelPart coral;
-	private final AdvancedModelPart coral2;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart head2;
+	private final AdvancedModelBox coral_spear;
+	private final AdvancedModelBox coral;
+	private final AdvancedModelBox coral2;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox head2;
 
 	public ModelCoral_Spear() {
 		texWidth = 32;
 		texHeight = 32;
 
-		coral_spear = new AdvancedModelPart(this);
+		coral_spear = new AdvancedModelBox(this);
 		coral_spear.setRotationPoint(0.0F, 24.0F, 0.0F);
 		coral_spear.setTextureOffset(0, 0).addBox(-0.5F, -23.0F, -0.5F, 1.0F, 23.0F, 1.0F, 0.0F, false);
 
-		coral = new AdvancedModelPart(this);
+		coral = new AdvancedModelBox(this);
 		coral.setRotationPoint(0.0F, 0.0F, 0.0F);
 		coral_spear.addChild(coral);
 		setRotationAngle(coral, 0.0F, 0.7854F, 0.0F);
 		coral.setTextureOffset(4, 13).addBox(0.0F, -13.0F, -6.0F, 0.0F, 5.0F, 6.0F, 0.0F, false);
 
-		coral2 = new AdvancedModelPart(this);
+		coral2 = new AdvancedModelBox(this);
 		coral2.setRotationPoint(4.0F, -5.0F, 4.0F);
 		coral_spear.addChild(coral2);
 		setRotationAngle(coral2, 0.0F, 0.7854F, 0.0F);
 		coral2.setTextureOffset(4, 8).addBox(0.0F, -13.0F, -6.0F, 0.0F, 5.0F, 6.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, -29.0F, 0.0F);
 		coral_spear.addChild(head);
 		setRotationAngle(head, 0.0F, 0.7854F, 0.0F);
 		head.setTextureOffset(16, 10).addBox(-3.0F, -2.0F, 0.0F, 6.0F, 10.0F, 0.0F, 0.0F, false);
 
-		head2 = new AdvancedModelPart(this);
+		head2 = new AdvancedModelBox(this);
 		head2.setRotationPoint(0.0F, -29.0F, 0.0F);
 		coral_spear.addChild(head2);
 		setRotationAngle(head2, 0.0F, -0.7854F, 0.0F);
@@ -55,7 +55,7 @@ public class ModelCoral_Spear extends AdvancedEntityModel<ThrownCoral_Spear_Enti
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(coral_spear, head,head2,coral,coral2);
 	}
 
@@ -65,7 +65,7 @@ public class ModelCoral_Spear extends AdvancedEntityModel<ThrownCoral_Spear_Enti
 	}
 
 
-	public void setRotationAngle(AdvancedModelPart modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(AdvancedModelBox modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

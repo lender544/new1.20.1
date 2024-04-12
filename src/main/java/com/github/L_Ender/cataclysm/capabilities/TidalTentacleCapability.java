@@ -24,19 +24,18 @@ public class TidalTentacleCapability {
 
         boolean hasTentacle();
 
-        void setLastTentacleID(int id);
+       // void setLastTentacleID(int id);
 
-        int getLastTentacleID();
+       // int getLastTentacleID();
 
-        @Nullable
-        void setLastTentacleUUID(UUID p_32509_);
+        //void setLastTentacleUUID(UUID p_32509_);
 
-        @Nullable
-        UUID getLastTentacleUUID();
+        //@Nullable
+       // UUID getLastTentacleUUID();
     }
 
     public static class TentacleCapabilityImp implements ITentacleCapability {
-        UUID lastTentacle;
+        private UUID lastTentacle;
         private boolean tentacle;
         public int id;
 
@@ -50,44 +49,44 @@ public class TidalTentacleCapability {
             return this.tentacle;
         }
 
-        @Override
-        public void setLastTentacleID(int id) {
-            this.id = id;
-        }
+       // @Override
+       // public void setLastTentacleID(int id) {
+       //     this.id = id;
+       // }
 
-        @Override
-        public int getLastTentacleID() {
-            return id;
-        }
+       // @Override
+       // public int getLastTentacleID() {
+        //    return id;
+       // }
 
-        @Override
-        public void setLastTentacleUUID(@Nullable UUID lastRiddenMoa) {
-            this.lastTentacle = lastRiddenMoa;
-        }
+       // @Override
+       // public void setLastTentacleUUID(@Nullable UUID lastTentacle) {
+         //   this.lastTentacle = lastTentacle;
+        //}
 
-        @Nullable
-        @Override
-        public UUID getLastTentacleUUID() {
-            return this.lastTentacle;
-        }
+       // @Nullable
+       // @Override
+      //  public UUID getLastTentacleUUID() {
+       //     return this.lastTentacle;
+       // }
 
 
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("hasTentacle", this.hasTentacle());
-            tag.putInt("getLastTentacleID", this.getLastTentacleID());
-            if (this.getLastTentacleUUID() != null) {
-                tag.putUUID("getLastTentacleUUID", this.getLastTentacleUUID());
-            }
+           // tag.putInt("getLastTentacleID", this.getLastTentacleID());
+            //if (this.getLastTentacleUUID() != null) {
+           //     tag.putUUID("getLastTentacleUUID", this.getLastTentacleUUID());
+           // }
             return tag;
         }
 
         @Override
         public void deserializeNBT(CompoundTag nbt) {
             this.setHasTentacle(nbt.getBoolean("hasTentacle"));
-            this.setLastTentacleUUID(nbt.getUUID("getLastTentacleUUID"));
-            this.setLastTentacleID(nbt.getInt("getLastTentacleID"));
+           // this.setLastTentacleUUID(nbt.getUUID("getLastTentacleUUID"));
+           // this.setLastTentacleID(nbt.getInt("getLastTentacleID"));
 
         }
 

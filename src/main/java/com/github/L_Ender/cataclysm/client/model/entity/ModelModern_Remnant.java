@@ -5,56 +5,56 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 
 public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart body;
-	private final AdvancedModelPart upper_body;
-	private final AdvancedModelPart right_arm;
-	private final AdvancedModelPart right_hand;
-	private final AdvancedModelPart left_arm;
-	private final AdvancedModelPart left_hand;
-	private final AdvancedModelPart neck;
-	private final AdvancedModelPart bandage;
-	private final AdvancedModelPart headjoint;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart helmet;
-	private final AdvancedModelPart helmet2;
-	private final AdvancedModelPart jaw;
-	private final AdvancedModelPart tail;
-	private final AdvancedModelPart tail2;
-	private final AdvancedModelPart tail3;
-	private final AdvancedModelPart right_leg;
-	private final AdvancedModelPart right_leg_armor;
-	private final AdvancedModelPart right_leg2;
-	private final AdvancedModelPart right_leg_armor2;
-	private final AdvancedModelPart right_leg_armor3;
-	private final AdvancedModelPart left_leg;
-	private final AdvancedModelPart left_leg_armor;
-	private final AdvancedModelPart left_leg2;
-	private final AdvancedModelPart left_leg_armor2;
-	private final AdvancedModelPart left_leg_armor3;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox body;
+	private final AdvancedModelBox upper_body;
+	private final AdvancedModelBox right_arm;
+	private final AdvancedModelBox right_hand;
+	private final AdvancedModelBox left_arm;
+	private final AdvancedModelBox left_hand;
+	private final AdvancedModelBox neck;
+	private final AdvancedModelBox bandage;
+	private final AdvancedModelBox headjoint;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox helmet;
+	private final AdvancedModelBox helmet2;
+	private final AdvancedModelBox jaw;
+	private final AdvancedModelBox tail;
+	private final AdvancedModelBox tail2;
+	private final AdvancedModelBox tail3;
+	private final AdvancedModelBox right_leg;
+	private final AdvancedModelBox right_leg_armor;
+	private final AdvancedModelBox right_leg2;
+	private final AdvancedModelBox right_leg_armor2;
+	private final AdvancedModelBox right_leg_armor3;
+	private final AdvancedModelBox left_leg;
+	private final AdvancedModelBox left_leg_armor;
+	private final AdvancedModelBox left_leg2;
+	private final AdvancedModelBox left_leg_armor2;
+	private final AdvancedModelBox left_leg_armor3;
 	private ModelAnimator animator;
 
 	public ModelModern_Remnant() {
 		texWidth = 64;
 		texHeight = 64;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(0.0F, -8.0F, -1.0F);
 		root.addChild(body);
 		body.setTextureOffset(0, 0).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 5.0F, 7.0F, 0.0F, false);
 		body.setTextureOffset(14, 14).addBox(0.0F, -6.0F, -3.0F, 0.0F, 4.0F, 7.0F, 0.0F, false);
 
-		upper_body = new AdvancedModelPart(this);
+		upper_body = new AdvancedModelBox(this);
 		upper_body.setRotationPoint(0.0F, -1.9F, -2.4F);
 		body.addChild(upper_body);
 		setRotationAngle(upper_body, -0.1745F, 0.0F, 0.0F);
@@ -62,47 +62,47 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
 		upper_body.setTextureOffset(25, 0).addBox(-2.5F, 0.0F, -3.3F, 5.0F, 4.0F, 3.0F, 0.3F, false);
 		upper_body.setTextureOffset(0, 0).addBox(0.0F, -3.0F, -3.3F, 0.0F, 3.0F, 3.0F, 0.0F, false);
 
-		right_arm = new AdvancedModelPart(this);
+		right_arm = new AdvancedModelBox(this);
 		right_arm.setRotationPoint(-3.0F, 2.5F, -2.8F);
 		upper_body.addChild(right_arm);
 		setRotationAngle(right_arm, 0.1745F, 0.0F, 0.0F);
 		right_arm.setTextureOffset(16, 13).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 3.0F, 1.0F, 0.0F, false);
 
-		right_hand = new AdvancedModelPart(this);
+		right_hand = new AdvancedModelBox(this);
 		right_hand.setRotationPoint(0.0F, 2.0F, -0.5F);
 		right_arm.addChild(right_hand);
 		right_hand.setTextureOffset(18, 0).addBox(0.0F, -0.5F, -3.0F, 0.0F, 3.0F, 3.0F, 0.0F, false);
 
-		left_arm = new AdvancedModelPart(this);
+		left_arm = new AdvancedModelBox(this);
 		left_arm.setRotationPoint(3.0F, 2.5F, -2.8F);
 		upper_body.addChild(left_arm);
 		setRotationAngle(left_arm, 0.1745F, 0.0F, 0.0F);
 		left_arm.setTextureOffset(16, 13).addBox(-0.5F, -0.5F, -0.5F, 1.0F, 3.0F, 1.0F, 0.0F, true);
 
-		left_hand = new AdvancedModelPart(this);
+		left_hand = new AdvancedModelBox(this);
 		left_hand.setRotationPoint(0.0F, 2.0F, -0.5F);
 		left_arm.addChild(left_hand);
 		left_hand.setTextureOffset(18, 0).addBox(0.0F, -0.5F, -3.0F, 0.0F, 3.0F, 3.0F, 0.0F, true);
 
-		neck = new AdvancedModelPart(this);
+		neck = new AdvancedModelBox(this);
 		neck.setRotationPoint(0.0F, 0.0F, -3.3F);
 		upper_body.addChild(neck);
 		neck.setTextureOffset(22, 8).addBox(-1.5F, 0.0F, -5.0F, 3.0F, 3.0F, 5.0F, 0.0F, false);
 		neck.setTextureOffset(48, 7).addBox(0.0F, -1.0F, -4.0F, 0.0F, 1.0F, 4.0F, 0.0F, false);
 
-		bandage = new AdvancedModelPart(this);
+		bandage = new AdvancedModelBox(this);
 		bandage.setRotationPoint(0.0F, 0.0F, -2.5F);
 		neck.addChild(bandage);
 		setRotationAngle(bandage, 0.1745F, 0.0F, 0.0F);
 		bandage.setTextureOffset(30, 30).addBox(-1.5F, -1.1F, -1.0F, 3.0F, 8.0F, 2.0F, 0.2F, false);
 
-		headjoint = new AdvancedModelPart(this);
+		headjoint = new AdvancedModelBox(this);
 		headjoint.setRotationPoint(0.0F, 0.0F, -4.6F);
 		neck.addChild(headjoint);
 		setRotationAngle(headjoint, 0.1745F, 0.0F, 0.0F);
 
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, 0.0F, 0.0F);
 		headjoint.addChild(head);
 		head.setTextureOffset(37, 37).addBox(-1.0F, -1.0F, -8.0F, 2.0F, 3.0F, 4.0F, 0.1F, false);
@@ -111,7 +111,7 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
 		head.setTextureOffset(24, 41).addBox(-1.0F, -1.0F, -8.0F, 2.0F, 2.0F, 4.0F, 0.1F, false);
 		head.setTextureOffset(25, 22).addBox(-2.0F, -2.0F, -4.0F, 4.0F, 3.0F, 4.0F, 0.0F, false);
 
-		helmet = new AdvancedModelPart(this);
+		helmet = new AdvancedModelBox(this);
 		helmet.setRotationPoint(0.0F, -2.0F, -2.0F);
 		head.addChild(helmet);
 		setRotationAngle(helmet, -0.1745F, 0.0F, 0.0F);
@@ -119,93 +119,93 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
 		helmet.setTextureOffset(0, 50).addBox(-4.0F, -1.4F, 0.5F, 2.0F, 7.0F, 0.0F, 0.0F, false);
 		helmet.setTextureOffset(0, 50).addBox(2.0F, -1.4F, 0.5F, 2.0F, 7.0F, 0.0F, 0.0F, true);
 
-		helmet2 = new AdvancedModelPart(this);
+		helmet2 = new AdvancedModelBox(this);
 		helmet2.setRotationPoint(0.0F, -1.3F, -2.7F);
 		helmet.addChild(helmet2);
 		setRotationAngle(helmet2, -0.2618F, 0.0F, 0.0F);
 		helmet2.setTextureOffset(0, 13).addBox(-1.0F, 0.0F, 0.0F, 2.0F, 4.0F, 0.0F, 0.0F, false);
 
-		jaw = new AdvancedModelPart(this);
+		jaw = new AdvancedModelBox(this);
 		jaw.setRotationPoint(0.0F, 1.0F, -1.5F);
 		head.addChild(jaw);
 		jaw.setTextureOffset(0, 38).addBox(-2.0F, 0.0F, -2.5F, 4.0F, 1.0F, 3.0F, 0.0F, false);
 		jaw.setTextureOffset(41, 26).addBox(-1.0F, 0.0F, -6.5F, 2.0F, 2.0F, 4.0F, 0.0F, false);
 		jaw.setTextureOffset(38, 20).addBox(-1.0F, -1.0F, -6.5F, 2.0F, 1.0F, 4.0F, 0.0F, false);
 
-		tail = new AdvancedModelPart(this);
+		tail = new AdvancedModelBox(this);
 		tail.setRotationPoint(0.0F, 0.0F, 4.0F);
 		body.addChild(tail);
 		tail.setTextureOffset(0, 21).addBox(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 6.0F, 0.0F, false);
 		tail.setTextureOffset(32, 45).addBox(0.0F, -2.0F, 1.0F, 0.0F, 1.0F, 5.0F, 0.0F, false);
 		tail.setTextureOffset(45, 0).addBox(0.0F, 1.0F, 1.0F, 0.0F, 1.0F, 5.0F, 0.0F, false);
 
-		tail2 = new AdvancedModelPart(this);
+		tail2 = new AdvancedModelBox(this);
 		tail2.setRotationPoint(0.0F, 0.5F, 6.0F);
 		tail.addChild(tail2);
 		tail2.setTextureOffset(34, 12).addBox(-0.5F, -1.0F, 0.0F, 1.0F, 2.0F, 5.0F, 0.0F, false);
 		tail2.setTextureOffset(0, 43).addBox(0.0F, -2.0F, 0.0F, 0.0F, 1.0F, 5.0F, 0.0F, false);
 		tail2.setTextureOffset(42, 10).addBox(0.0F, 1.0F, 0.0F, 0.0F, 1.0F, 5.0F, 0.0F, false);
 
-		tail3 = new AdvancedModelPart(this);
+		tail3 = new AdvancedModelBox(this);
 		tail3.setRotationPoint(0.0F, 0.0F, 5.0F);
 		tail2.addChild(tail3);
 		tail3.setTextureOffset(37, 3).addBox(-0.5F, -0.5F, 0.0F, 1.0F, 1.0F, 5.0F, 0.0F, false);
 		tail3.setTextureOffset(47, 17).addBox(0.0F, -1.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, false);
 		tail3.setTextureOffset(7, 47).addBox(0.0F, 0.5F, 0.0F, 0.0F, 1.0F, 4.0F, 0.0F, false);
 
-		right_leg = new AdvancedModelPart(this);
+		right_leg = new AdvancedModelBox(this);
 		right_leg.setRotationPoint(-3.5F, -8.0F, -1.0F);
 		root.addChild(right_leg);
 		right_leg.setTextureOffset(17, 30).addBox(-1.0F, -1.0F, -2.0F, 2.0F, 5.0F, 4.0F, 0.0F, false);
 
-		right_leg_armor = new AdvancedModelPart(this);
+		right_leg_armor = new AdvancedModelBox(this);
 		right_leg_armor.setRotationPoint(0.0F, 2.5F, -1.0F);
 		right_leg.addChild(right_leg_armor);
 		setRotationAngle(right_leg_armor, 0.3054F, 0.0F, 0.0F);
 		right_leg_armor.setTextureOffset(43, 45).addBox(-1.0F, -3.5F, -1.3F, 2.0F, 4.0F, 2.0F, 0.2F, true);
 
-		right_leg2 = new AdvancedModelPart(this);
+		right_leg2 = new AdvancedModelBox(this);
 		right_leg2.setRotationPoint(0.0F, 4.0F, 1.55F);
 		right_leg.addChild(right_leg2);
 		right_leg2.setTextureOffset(46, 33).addBox(-1.0F, 0.0F, -1.05F, 2.0F, 4.0F, 2.0F, 0.0F, false);
 		right_leg2.setTextureOffset(22, 17).addBox(-1.0F, 3.0F, -2.05F, 2.0F, 1.0F, 1.0F, 0.0F, false);
 
-		right_leg_armor2 = new AdvancedModelPart(this);
+		right_leg_armor2 = new AdvancedModelBox(this);
 		right_leg_armor2.setRotationPoint(0.0F, 1.5F, 0.95F);
 		right_leg2.addChild(right_leg_armor2);
 		setRotationAngle(right_leg_armor2, -0.48F, 0.0F, 0.0F);
 		right_leg_armor2.setTextureOffset(24, 48).addBox(-0.5F, -2.5F, -1.0F, 1.0F, 3.0F, 2.0F, 0.0F, false);
 
-		right_leg_armor3 = new AdvancedModelPart(this);
+		right_leg_armor3 = new AdvancedModelBox(this);
 		right_leg_armor3.setRotationPoint(0.0F, 2.0F, -1.15F);
 		right_leg2.addChild(right_leg_armor3);
 		setRotationAngle(right_leg_armor3, 0.4363F, 0.0F, 0.0F);
 		right_leg_armor3.setTextureOffset(0, 21).addBox(-0.5F, -1.0F, -0.5F, 1.0F, 2.0F, 1.0F, 0.0F, false);
 
-		left_leg = new AdvancedModelPart(this);
+		left_leg = new AdvancedModelBox(this);
 		left_leg.setRotationPoint(3.5F, -8.0F, -1.0F);
 		root.addChild(left_leg);
 		left_leg.setTextureOffset(17, 30).addBox(-1.0F, -1.0F, -2.0F, 2.0F, 5.0F, 4.0F, 0.0F, true);
 
-		left_leg_armor = new AdvancedModelPart(this);
+		left_leg_armor = new AdvancedModelBox(this);
 		left_leg_armor.setRotationPoint(0.0F, 2.5F, -1.0F);
 		left_leg.addChild(left_leg_armor);
 		setRotationAngle(left_leg_armor, 0.3054F, 0.0F, 0.0F);
 		left_leg_armor.setTextureOffset(43, 45).addBox(-1.0F, -3.5F, -1.3F, 2.0F, 4.0F, 2.0F, 0.2F, false);
 
-		left_leg2 = new AdvancedModelPart(this);
+		left_leg2 = new AdvancedModelBox(this);
 		left_leg2.setRotationPoint(0.0F, 4.0F, 1.55F);
 		left_leg.addChild(left_leg2);
 		left_leg2.setTextureOffset(46, 33).addBox(-1.0F, 0.0F, -1.05F, 2.0F, 4.0F, 2.0F, 0.0F, true);
 		left_leg2.setTextureOffset(22, 17).addBox(-1.0F, 3.0F, -2.05F, 2.0F, 1.0F, 1.0F, 0.0F, true);
 
-		left_leg_armor2 = new AdvancedModelPart(this);
+		left_leg_armor2 = new AdvancedModelBox(this);
 		left_leg_armor2.setRotationPoint(0.0F, 1.5F, 0.95F);
 		left_leg2.addChild(left_leg_armor2);
 		setRotationAngle(left_leg_armor2, -0.48F, 0.0F, 0.0F);
 		left_leg_armor2.setTextureOffset(24, 48).addBox(-0.5F, -2.5F, -1.0F, 1.0F, 3.0F, 2.0F, 0.0F, true);
 
-		left_leg_armor3 = new AdvancedModelPart(this);
+		left_leg_armor3 = new AdvancedModelBox(this);
 		left_leg_armor3.setRotationPoint(0.0F, 2.0F, -1.15F);
 		left_leg2.addChild(left_leg_armor3);
 		setRotationAngle(left_leg_armor3, 0.4363F, 0.0F, 0.0F);
@@ -268,7 +268,7 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
 		float idleDegree = 0.4F;
 		float partialTick = Minecraft.getInstance().getFrameTime();
 
-		AdvancedModelPart[] tailBoxes = new AdvancedModelPart[]{tail, tail2,tail3};
+		AdvancedModelBox[] tailBoxes = new AdvancedModelBox[]{tail, tail2,tail3};
 
 		this.walk(root, walkSpeed * 2F, walkDegree * 0.05F, false, -2, 0.0F, limbSwing, limbSwingAmount);
 		this.bob(root, -walkSpeed, walkDegree * -4, true, limbSwing, limbSwingAmount);
@@ -311,7 +311,7 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,body,upper_body,right_arm,right_hand,left_arm,left_hand,neck,bandage,headjoint,head,helmet,helmet2,jaw,tail,tail2,tail3,right_leg,right_leg2,left_leg,left_leg2
 				);
@@ -322,9 +322,9 @@ public class ModelModern_Remnant extends AdvancedEntityModel<Modern_Remnant_Enti
         return ImmutableList.of(root);
     }
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

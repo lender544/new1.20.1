@@ -6,57 +6,57 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 
 public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Monstrosity_Entity> {
 
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart lowerbody;
-	private final AdvancedModelPart upperbody;
-	public final AdvancedModelPart head;
-	private final AdvancedModelPart horns;
-	private final AdvancedModelPart jaw;
-	private final AdvancedModelPart leftarmjoint;
-	private final AdvancedModelPart leftarm;
-	private final AdvancedModelPart leftarm2;
-	private final AdvancedModelPart lefthand;
-	private final AdvancedModelPart leftfinger1;
-	private final AdvancedModelPart leftfinger2;
-	private final AdvancedModelPart leftfinger3;
-	private final AdvancedModelPart rightarmjoint;
-	private final AdvancedModelPart rightarm;
-	private final AdvancedModelPart rightarm2;
-	private final AdvancedModelPart righthand;
-	private final AdvancedModelPart rightfinger1;
-	private final AdvancedModelPart rightfinger2;
-	private final AdvancedModelPart rightfinger3;
-	private final AdvancedModelPart rightleg;
-	private final AdvancedModelPart leftleg;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox lowerbody;
+	private final AdvancedModelBox upperbody;
+	public final AdvancedModelBox head;
+	private final AdvancedModelBox horns;
+	private final AdvancedModelBox jaw;
+	private final AdvancedModelBox leftarmjoint;
+	private final AdvancedModelBox leftarm;
+	private final AdvancedModelBox leftarm2;
+	private final AdvancedModelBox lefthand;
+	private final AdvancedModelBox leftfinger1;
+	private final AdvancedModelBox leftfinger2;
+	private final AdvancedModelBox leftfinger3;
+	private final AdvancedModelBox rightarmjoint;
+	private final AdvancedModelBox rightarm;
+	private final AdvancedModelBox rightarm2;
+	private final AdvancedModelBox righthand;
+	private final AdvancedModelBox rightfinger1;
+	private final AdvancedModelBox rightfinger2;
+	private final AdvancedModelBox rightfinger3;
+	private final AdvancedModelBox rightleg;
+	private final AdvancedModelBox leftleg;
 	private ModelAnimator animator;
 
 	public ModelNetherite_Monstrosity() {
 		texWidth = 512;
 		texHeight = 512;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		lowerbody = new AdvancedModelPart(this);
+		lowerbody = new AdvancedModelBox(this);
 		lowerbody.setRotationPoint(0.0F, -24.0F, 2.0F);
 		root.addChild(lowerbody);
 		lowerbody.setTextureOffset(175, 193).addBox(-14.0F, -11.0F, -10.5F, 28.0F, 11.0F, 21.0F, 0.0F, false);
 
-		upperbody = new AdvancedModelPart(this);
+		upperbody = new AdvancedModelBox(this);
 		upperbody.setRotationPoint(0.0F, -11.0F, 0.0F);
 		lowerbody.addChild(upperbody);
 		upperbody.setTextureOffset(0, 0).addBox(-37.0F, -57.0F, -15.0F, 74.0F, 57.0F, 30.0F, 0.0F, false);
 		upperbody.setTextureOffset(209, 226).addBox(-14.0F, -51.0F, 15.0F, 28.0F, 16.0F, 11.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, -33.0F, -15.5F);
 		upperbody.addChild(head);
 		head.setTextureOffset(0, 139).addBox(-14.0F, -18.0F, -20.5F, 28.0F, 31.0F, 22.0F, 0.0F, false);
@@ -68,37 +68,37 @@ public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Mo
 		head.setTextureOffset(17, 5).addBox(-14.25F, 1.5F, -20.7F, 4.0F, 4.0F, 1.0F, 0.0F, false);
 		head.setTextureOffset(17, 5).addBox(10.25F, 1.5F, -20.7F, 4.0F, 4.0F, 1.0F, 0.0F, false);
 
-		horns = new AdvancedModelPart(this);
+		horns = new AdvancedModelBox(this);
 		horns.setRotationPoint(-4.5F, 47.0F, -3.5F);
 		head.addChild(horns);
 		setRotationAngle(horns, 1.0472F, 0.0F, 0.0F);
 
 
-		jaw = new AdvancedModelPart(this);
+		jaw = new AdvancedModelBox(this);
 		jaw.setRotationPoint(0.0F, 12.0F, 0.5F);
 		head.addChild(jaw);
 		setRotationAngle(jaw, 0.0f, 0.0F, 0.0F);
 		jaw.setTextureOffset(209, 0).addBox(-13.5F, -5.0F, -20.9F, 27.0F, 10.0F, 21.0F, 0.0F, false);
 		jaw.setTextureOffset(209, 32).addBox(-13.5F, 2.0F, -20.9F, 27.0F, 0.0F, 21.0F, 0.0F, false);
 
-		leftarmjoint = new AdvancedModelPart(this);
+		leftarmjoint = new AdvancedModelBox(this);
 		leftarmjoint.setRotationPoint(37.0F, -38.5F, -2.5F);
 		upperbody.addChild(leftarmjoint);
 
 
-		leftarm = new AdvancedModelPart(this);
+		leftarm = new AdvancedModelBox(this);
 		leftarm.setRotationPoint(0.0F, 0.0F, 0.0F);
 		leftarmjoint.addChild(leftarm);
 		leftarm.setTextureOffset(101, 163).addBox(0.0F, -33.5F, -13.5F, 20.0F, 23.0F, 27.0F, 0.0F, false);
 		leftarm.setTextureOffset(0, 88).addBox(0.0F, -10.5F, -13.5F, 37.0F, 23.0F, 27.0F, 0.0F, false);
 
-		leftarm2 = new AdvancedModelPart(this);
+		leftarm2 = new AdvancedModelBox(this);
 		leftarm2.setRotationPoint(18.0F, 12.0F, 0.0F);
 		leftarm.addChild(leftarm2);
 		setRotationAngle(leftarm2, -0.1309F, 0.0F, 0.0F);
 		leftarm2.setTextureOffset(132, 226).addBox(-11.0F, -4.5F, -8.0F, 22.0F, 22.0F, 16.0F, 0.0F, false);
 
-		lefthand = new AdvancedModelPart(this);
+		lefthand = new AdvancedModelBox(this);
 		lefthand.setRotationPoint(0.0F, 17.0F, 0.0F);
 		leftarm2.addChild(lefthand);
 		setRotationAngle(lefthand, -0.0873F, 0.0F, 0.0F);
@@ -109,39 +109,39 @@ public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Mo
 		lefthand.setTextureOffset(102, 88).addBox(-8.0F, 17.0F, -8.0F, 16.0F, 2.0F, 16.0F, 0.0F, false);
 		lefthand.setTextureOffset(246, 139).addBox(-8.0F, 0.0F, -8.0F, 16.0F, 0.0F, 16.0F, 0.0F, false);
 
-		leftfinger1 = new AdvancedModelPart(this);
+		leftfinger1 = new AdvancedModelBox(this);
 		leftfinger1.setRotationPoint(10.0F, 20.0F, 6.0F);
 		lefthand.addChild(leftfinger1);
 		leftfinger1.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		leftfinger2 = new AdvancedModelPart(this);
+		leftfinger2 = new AdvancedModelBox(this);
 		leftfinger2.setRotationPoint(10.0F, 20.0F, -8.0F);
 		lefthand.addChild(leftfinger2);
 		leftfinger2.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		leftfinger3 = new AdvancedModelPart(this);
+		leftfinger3 = new AdvancedModelBox(this);
 		leftfinger3.setRotationPoint(-10.0F, 20.0F, -1.5F);
 		lefthand.addChild(leftfinger3);
 		leftfinger3.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		rightarmjoint = new AdvancedModelPart(this);
+		rightarmjoint = new AdvancedModelBox(this);
 		rightarmjoint.setRotationPoint(-37.0F, -38.5F, -2.5F);
 		upperbody.addChild(rightarmjoint);
 
 
-		rightarm = new AdvancedModelPart(this);
+		rightarm = new AdvancedModelBox(this);
 		rightarm.setRotationPoint(0.0F, 0.0F, 0.0F);
 		rightarmjoint.addChild(rightarm);
 		rightarm.setTextureOffset(182, 61).addBox(-20.0F, -33.5F, -13.5F, 20.0F, 23.0F, 27.0F, 0.0F, false);
 		rightarm.setTextureOffset(102, 112).addBox(-37.0F, -10.5F, -13.5F, 37.0F, 23.0F, 27.0F, 0.0F, false);
 
-		rightarm2 = new AdvancedModelPart(this);
+		rightarm2 = new AdvancedModelBox(this);
 		rightarm2.setRotationPoint(-19.0F, 12.0F, 0.0F);
 		rightarm.addChild(rightarm2);
 		setRotationAngle(rightarm2, -0.1309F, 0.0F, 0.0F);
 		rightarm2.setTextureOffset(132, 226).addBox(-11.0F, -4.5F, -8.0F, 22.0F, 22.0F, 16.0F, 0.0F, false);
 
-		righthand = new AdvancedModelPart(this);
+		righthand = new AdvancedModelBox(this);
 		righthand.setRotationPoint(0.0F, 17.0F, 0.0F);
 		rightarm2.addChild(righthand);
 		setRotationAngle(righthand, -0.0873F, 0.0F, 0.0F);
@@ -152,27 +152,27 @@ public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Mo
 		righthand.setTextureOffset(102, 88).addBox(-8.0F, 17.0F, -8.0F, 16.0F, 2.0F, 16.0F, 0.0F, false);
 		righthand.setTextureOffset(246, 139).addBox(-8.0F, 0.0F, -8.0F, 16.0F, 0.0F, 16.0F, 0.0F, false);
 
-		rightfinger1 = new AdvancedModelPart(this);
+		rightfinger1 = new AdvancedModelBox(this);
 		rightfinger1.setRotationPoint(-10.0F, 20.0F, 6.0F);
 		righthand.addChild(rightfinger1);
 		rightfinger1.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		rightfinger2 = new AdvancedModelPart(this);
+		rightfinger2 = new AdvancedModelBox(this);
 		rightfinger2.setRotationPoint(-10.0F, 20.0F, -8.0F);
 		righthand.addChild(rightfinger2);
 		rightfinger2.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		rightfinger3 = new AdvancedModelPart(this);
+		rightfinger3 = new AdvancedModelBox(this);
 		rightfinger3.setRotationPoint(10.0F, 20.0F, -1.5F);
 		righthand.addChild(rightfinger3);
 		rightfinger3.setTextureOffset(0, 0).addBox(-1.5F, -2.5F, -1.5F, 3.0F, 15.0F, 5.0F, 0.0F, false);
 
-		rightleg = new AdvancedModelPart(this);
+		rightleg = new AdvancedModelBox(this);
 		rightleg.setRotationPoint(-14.0F, -27.0F, 0.0F);
 		root.addChild(rightleg);
 		rightleg.setTextureOffset(0, 193).addBox(-19.0F, -2.0F, -9.5F, 24.0F, 29.0F, 19.0F, 0.0F, false);
 
-		leftleg = new AdvancedModelPart(this);
+		leftleg = new AdvancedModelBox(this);
 		leftleg.setRotationPoint(14.0F, -27.0F, 0.0F);
 		root.addChild(leftleg);
 		leftleg.setTextureOffset(0, 193).addBox(-5.0F, -2.0F, -9.5F, 24.0F, 29.0F, 19.0F, 0.0F, true);
@@ -654,7 +654,7 @@ public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Mo
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				leftarmjoint,
@@ -684,9 +684,9 @@ public class ModelNetherite_Monstrosity extends AdvancedEntityModel<Netherite_Mo
 		return ImmutableList.of(root);
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

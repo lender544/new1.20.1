@@ -4,29 +4,29 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
 public class ModelAbyss_Mine extends AdvancedEntityModel<Entity> {
-	public final AdvancedModelPart root;
-	public final AdvancedModelPart glass;
-	public final AdvancedModelPart glass2;
+	public final AdvancedModelBox root;
+	public final AdvancedModelBox glass;
+	public final AdvancedModelBox glass2;
 
 	public ModelAbyss_Mine() {
 		texWidth = 32;
 		texHeight = 32;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 0.0F, 0.0F);
 		root.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
 
-		glass = new AdvancedModelPart(this);
+		glass = new AdvancedModelBox(this);
 		glass.setRotationPoint(0.0F, 0.0F, 0.0F);
 		glass.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
 
-		glass2 = new AdvancedModelPart(this);
+		glass2 = new AdvancedModelBox(this);
 		glass2.setRotationPoint(0.0F, 0.0F, 0.0F);
 		glass2.setTextureOffset(0, 0).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
 
@@ -34,7 +34,7 @@ public class ModelAbyss_Mine extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root,glass,glass2);
 	}
 

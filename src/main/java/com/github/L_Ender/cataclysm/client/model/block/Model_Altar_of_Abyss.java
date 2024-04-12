@@ -6,22 +6,22 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityEMP;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
 public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart tentacle;
-	private final AdvancedModelPart skul;
-	private final AdvancedModelPart maw;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox tentacle;
+	private final AdvancedModelBox skul;
+	private final AdvancedModelBox maw;
 
 	public Model_Altar_of_Abyss() {
 		texWidth = 128;
 		texHeight = 128;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 		root.setTextureOffset(0, 20).addBox(-8.0F, -3.0F, -8.0F, 16.0F, 3.0F, 16.0F, 0.0F, false);
 		root.setTextureOffset(0, 0).addBox(-8.0F, -11.0F, -8.0F, 16.0F, 3.0F, 16.0F, 0.0F, false);
@@ -31,7 +31,7 @@ public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
 		root.setTextureOffset(42, 69).addBox(5.0F, -2.0F, -9.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 		root.setTextureOffset(13, 58).addBox(5.0F, -2.0F, 5.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 
-		tentacle = new AdvancedModelPart(this);
+		tentacle = new AdvancedModelBox(this);
 		tentacle.setRotationPoint(0.0F, 0.0F, 0.0F);
 		root.addChild(tentacle);
 		tentacle.setTextureOffset(0, 75).addBox(0.0F, -4.0F, -10.0F, 4.0F, 4.0F, 2.0F, 0.0F, false);
@@ -43,7 +43,7 @@ public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
 		tentacle.setTextureOffset(65, 32).addBox(-4.0F, -12.0F, -10.0F, 8.0F, 8.0F, 2.0F, 0.0F, false);
 		tentacle.setTextureOffset(62, 59).addBox(-4.0F, -12.0F, 8.0F, 8.0F, 8.0F, 2.0F, 0.0F, false);
 
-		skul = new AdvancedModelPart(this);
+		skul = new AdvancedModelBox(this);
 		skul.setRotationPoint(0.0F, -11.0F, 2.0F);
 		root.addChild(skul);
 		setRotationAngle(skul, -0.5236F, 0.0F, 0.0F);
@@ -53,7 +53,7 @@ public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
 		skul.setTextureOffset(37, 40).addBox(-4.0F, -13.0F, -1.0F, 8.0F, 4.0F, 7.0F, 0.0F, false);
 		skul.setTextureOffset(54, 52).addBox(-4.0F, -13.0F, -5.0F, 8.0F, 2.0F, 4.0F, 0.0F, false);
 
-		maw = new AdvancedModelPart(this);
+		maw = new AdvancedModelBox(this);
 		maw.setRotationPoint(0.0F, -11.0F, -2.0F);
 		root.addChild(maw);
 		setRotationAngle(maw, 0.5236F, 0.0F, 0.0F);
@@ -70,7 +70,7 @@ public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root, tentacle, skul,maw);
 	}
 
@@ -85,9 +85,9 @@ public class Model_Altar_of_Abyss extends AdvancedEntityModel<Entity> {
 		progressRotationPrev(maw, amount,(float)Math.toRadians(-30F), 0f, 0, 30F);
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

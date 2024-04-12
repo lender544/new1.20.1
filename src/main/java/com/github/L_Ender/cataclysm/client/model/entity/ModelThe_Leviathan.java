@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,419 +13,419 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
 public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart body;
-	private final AdvancedModelPart R_Spike;
-	private final AdvancedModelPart L_Spike;
-	private final AdvancedModelPart Main_belly;
-	private final AdvancedModelPart R_Spike2;
-	private final AdvancedModelPart L_Spike2;
-	private final AdvancedModelPart R_mini_fin;
-	private final AdvancedModelPart L_mini_fin;
-	private final AdvancedModelPart Belly;
-	private final AdvancedModelPart R_down_fin;
-	private final AdvancedModelPart R_down_fin2;
-	private final AdvancedModelPart L_down_fin;
-	private final AdvancedModelPart L_down_fin2;
-	private final AdvancedModelPart Tail;
-	private final AdvancedModelPart R_Spike3;
-	private final AdvancedModelPart L_Spike3;
-	private final AdvancedModelPart Tail2;
-	private final AdvancedModelPart R_Spike4;
-	private final AdvancedModelPart L_Spike4;
-	private final AdvancedModelPart Tail3;
-	public final AdvancedModelPart Tail_Particle;
-	private final AdvancedModelPart UpperR_Tentacle;
-	private final AdvancedModelPart UpperR_Tentacle2;
-	private final AdvancedModelPart UpperR_Tentacle3;
-	private final AdvancedModelPart UpperR_Tentacle4;
-	private final AdvancedModelPart UpperR_Hook;
-	private final AdvancedModelPart UpperR_Hook2;
-	private final AdvancedModelPart UpperR_Hook3;
-	private final AdvancedModelPart UpperR_Hook4;
-	private final AdvancedModelPart UpperL_Tentacle;
-	private final AdvancedModelPart UpperL_Tentacle2;
-	private final AdvancedModelPart UpperL_Tentacle3;
-	private final AdvancedModelPart UpperL_Tentacle4;
-	private final AdvancedModelPart UpperL_Hook;
-	private final AdvancedModelPart UpperL_Hook2;
-	private final AdvancedModelPart UpperL_Hook3;
-	private final AdvancedModelPart UpperL_Hook4;
-	private final AdvancedModelPart LowerR_Tentacle;
-	private final AdvancedModelPart LowerR_Tentacle2;
-	private final AdvancedModelPart LowerR_Tentacle3;
-	private final AdvancedModelPart LowerR_Tentacle4;
-	private final AdvancedModelPart LowerR_Hook;
-	private final AdvancedModelPart LowerR_Hook2;
-	private final AdvancedModelPart LowerR_Hook3;
-	private final AdvancedModelPart LowerR_Hook4;
-	private final AdvancedModelPart LowerL_Tentacle;
-	private final AdvancedModelPart LowerL_Tentacle2;
-	private final AdvancedModelPart LowerL_Tentacle3;
-	private final AdvancedModelPart LowerL_Tentacle4;
-	private final AdvancedModelPart LowerL_Hook;
-	private final AdvancedModelPart LowerL_Hook2;
-	private final AdvancedModelPart LowerL_Hook3;
-	private final AdvancedModelPart LowerL_Hook4;
-	private final AdvancedModelPart Head;
-	private final AdvancedModelPart Muscle;
-	private final AdvancedModelPart Maw;
-	private final AdvancedModelPart Skul;
-	public final AdvancedModelPart tongue;
-	private final AdvancedModelPart R_fin;
-	private final AdvancedModelPart R_fin2;
-	private final AdvancedModelPart R_fin3;
-	private final AdvancedModelPart L_fin;
-	private final AdvancedModelPart L_fin2;
-	private final AdvancedModelPart L_fin3;
-	private final AdvancedModelPart four_mouths;
-	private final AdvancedModelPart Mouth4;
-	private final AdvancedModelPart Mouth4_e;
-	private final AdvancedModelPart Mouth3;
-	private final AdvancedModelPart Mouth3_e;
-	private final AdvancedModelPart Mouth2;
-	private final AdvancedModelPart Mouth2_e;
-	private final AdvancedModelPart Mouth;
-	private final AdvancedModelPart Mouth1_e;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox body;
+	private final AdvancedModelBox R_Spike;
+	private final AdvancedModelBox L_Spike;
+	private final AdvancedModelBox Main_belly;
+	private final AdvancedModelBox R_Spike2;
+	private final AdvancedModelBox L_Spike2;
+	private final AdvancedModelBox R_mini_fin;
+	private final AdvancedModelBox L_mini_fin;
+	private final AdvancedModelBox Belly;
+	private final AdvancedModelBox R_down_fin;
+	private final AdvancedModelBox R_down_fin2;
+	private final AdvancedModelBox L_down_fin;
+	private final AdvancedModelBox L_down_fin2;
+	private final AdvancedModelBox Tail;
+	private final AdvancedModelBox R_Spike3;
+	private final AdvancedModelBox L_Spike3;
+	private final AdvancedModelBox Tail2;
+	private final AdvancedModelBox R_Spike4;
+	private final AdvancedModelBox L_Spike4;
+	private final AdvancedModelBox Tail3;
+	public final AdvancedModelBox Tail_Particle;
+	private final AdvancedModelBox UpperR_Tentacle;
+	private final AdvancedModelBox UpperR_Tentacle2;
+	private final AdvancedModelBox UpperR_Tentacle3;
+	private final AdvancedModelBox UpperR_Tentacle4;
+	private final AdvancedModelBox UpperR_Hook;
+	private final AdvancedModelBox UpperR_Hook2;
+	private final AdvancedModelBox UpperR_Hook3;
+	private final AdvancedModelBox UpperR_Hook4;
+	private final AdvancedModelBox UpperL_Tentacle;
+	private final AdvancedModelBox UpperL_Tentacle2;
+	private final AdvancedModelBox UpperL_Tentacle3;
+	private final AdvancedModelBox UpperL_Tentacle4;
+	private final AdvancedModelBox UpperL_Hook;
+	private final AdvancedModelBox UpperL_Hook2;
+	private final AdvancedModelBox UpperL_Hook3;
+	private final AdvancedModelBox UpperL_Hook4;
+	private final AdvancedModelBox LowerR_Tentacle;
+	private final AdvancedModelBox LowerR_Tentacle2;
+	private final AdvancedModelBox LowerR_Tentacle3;
+	private final AdvancedModelBox LowerR_Tentacle4;
+	private final AdvancedModelBox LowerR_Hook;
+	private final AdvancedModelBox LowerR_Hook2;
+	private final AdvancedModelBox LowerR_Hook3;
+	private final AdvancedModelBox LowerR_Hook4;
+	private final AdvancedModelBox LowerL_Tentacle;
+	private final AdvancedModelBox LowerL_Tentacle2;
+	private final AdvancedModelBox LowerL_Tentacle3;
+	private final AdvancedModelBox LowerL_Tentacle4;
+	private final AdvancedModelBox LowerL_Hook;
+	private final AdvancedModelBox LowerL_Hook2;
+	private final AdvancedModelBox LowerL_Hook3;
+	private final AdvancedModelBox LowerL_Hook4;
+	private final AdvancedModelBox Head;
+	private final AdvancedModelBox Muscle;
+	private final AdvancedModelBox Maw;
+	private final AdvancedModelBox Skul;
+	public final AdvancedModelBox tongue;
+	private final AdvancedModelBox R_fin;
+	private final AdvancedModelBox R_fin2;
+	private final AdvancedModelBox R_fin3;
+	private final AdvancedModelBox L_fin;
+	private final AdvancedModelBox L_fin2;
+	private final AdvancedModelBox L_fin3;
+	private final AdvancedModelBox four_mouths;
+	private final AdvancedModelBox Mouth4;
+	private final AdvancedModelBox Mouth4_e;
+	private final AdvancedModelBox Mouth3;
+	private final AdvancedModelBox Mouth3_e;
+	private final AdvancedModelBox Mouth2;
+	private final AdvancedModelBox Mouth2_e;
+	private final AdvancedModelBox Mouth;
+	private final AdvancedModelBox Mouth1_e;
 	private ModelAnimator animator;
 
 	public ModelThe_Leviathan() {
 		texWidth = 256;
 		texHeight = 256;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(0.0F, -13.0F, 0.0F);
 		root.addChild(body);
 		body.setTextureOffset(67, 50).addBox(-9.0F, -11.0F, -34.0F, 18.0F, 24.0F, 18.0F, 0.0F, false);
 		body.setTextureOffset(44, 168).addBox(0.0F, -20.0F, -33.0F, 0.0F, 9.0F, 14.0F, 0.0F, false);
 
-		R_Spike = new AdvancedModelPart(this);
+		R_Spike = new AdvancedModelBox(this);
 		R_Spike.setRotationPoint(-9.0F, -11.0F, -25.0F);
 		body.addChild(R_Spike);
 		setRotationAngle(R_Spike, 0.0F, 0.0F, 0.7854F);
 		R_Spike.setTextureOffset(0, 135).addBox(-4.0F, 0.0F, -9.0F, 4.0F, 0.0F, 18.0F, 0.0F, true);
 
-		L_Spike = new AdvancedModelPart(this);
+		L_Spike = new AdvancedModelBox(this);
 		L_Spike.setRotationPoint(9.0F, -11.0F, -25.0F);
 		body.addChild(L_Spike);
 		setRotationAngle(L_Spike, 0.0F, 0.0F, -0.7854F);
 		L_Spike.setTextureOffset(0, 135).addBox(0.0F, 0.0F, -9.0F, 4.0F, 0.0F, 18.0F, 0.0F, false);
 
-		Main_belly = new AdvancedModelPart(this);
+		Main_belly = new AdvancedModelBox(this);
 		Main_belly.setRotationPoint(0.0F, -1.0F, -16.0F);
 		body.addChild(Main_belly);
 		Main_belly.setTextureOffset(43, 0).addBox(-8.0F, -9.0F, 0.0F, 16.0F, 19.0F, 16.0F, 0.0F, false);
 		Main_belly.setTextureOffset(15, 168).addBox(0.0F, -18.0F, 3.0F, 0.0F, 9.0F, 14.0F, 0.0F, false);
 
-		R_Spike2 = new AdvancedModelPart(this);
+		R_Spike2 = new AdvancedModelBox(this);
 		R_Spike2.setRotationPoint(-8.0F, -9.0F, 8.0F);
 		Main_belly.addChild(R_Spike2);
 		setRotationAngle(R_Spike2, 0.0F, 0.0F, -0.7418F);
 		R_Spike2.setTextureOffset(164, 91).addBox(0.0F, -4.0F, -8.0F, 0.0F, 4.0F, 16.0F, 0.0F, true);
 
-		L_Spike2 = new AdvancedModelPart(this);
+		L_Spike2 = new AdvancedModelBox(this);
 		L_Spike2.setRotationPoint(8.0F, -9.0F, 8.0F);
 		Main_belly.addChild(L_Spike2);
 		setRotationAngle(L_Spike2, 0.0F, 0.0F, 0.7418F);
 		L_Spike2.setTextureOffset(164, 91).addBox(0.0F, -4.0F, -8.0F, 0.0F, 4.0F, 16.0F, 0.0F, false);
 
-		R_mini_fin = new AdvancedModelPart(this);
+		R_mini_fin = new AdvancedModelBox(this);
 		R_mini_fin.setRotationPoint(-8.0F, 10.0F, 13.0F);
 		Main_belly.addChild(R_mini_fin);
 		R_mini_fin.setTextureOffset(64, 137).addBox(-8.0F, 0.0F, -8.0F, 8.0F, 0.0F, 16.0F, 0.0F, true);
 
-		L_mini_fin = new AdvancedModelPart(this);
+		L_mini_fin = new AdvancedModelBox(this);
 		L_mini_fin.setRotationPoint(8.0F, 10.0F, 13.0F);
 		Main_belly.addChild(L_mini_fin);
 		L_mini_fin.setTextureOffset(64, 137).addBox(0.0F, 0.0F, -8.0F, 8.0F, 0.0F, 16.0F, 0.0F, false);
 
-		Belly = new AdvancedModelPart(this);
+		Belly = new AdvancedModelBox(this);
 		Belly.setRotationPoint(0.0F, 1.0F, 16.0F);
 		Main_belly.addChild(Belly);
 		Belly.setTextureOffset(0, 68).addBox(-7.0F, -9.0F, 0.0F, 14.0F, 17.0F, 14.0F, 0.0F, false);
 		Belly.setTextureOffset(175, 118).addBox(0.0F, -21.0F, 2.0F, 0.0F, 12.0F, 12.0F, 0.0F, false);
 
-		R_down_fin = new AdvancedModelPart(this);
+		R_down_fin = new AdvancedModelBox(this);
 		R_down_fin.setRotationPoint(-7.0F, 8.0F, 8.0F);
 		Belly.addChild(R_down_fin);
 		R_down_fin.setTextureOffset(31, 126).addBox(-6.0F, -1.0F, -6.0F, 6.0F, 1.0F, 18.0F, 0.0F, false);
 		R_down_fin.setTextureOffset(133, 29).addBox(-6.0F, -1.0F, 12.0F, 6.0F, 0.0F, 4.0F, 0.0F, false);
 
-		R_down_fin2 = new AdvancedModelPart(this);
+		R_down_fin2 = new AdvancedModelBox(this);
 		R_down_fin2.setRotationPoint(-6.0F, -1.0F, 6.0F);
 		R_down_fin.addChild(R_down_fin2);
 		R_down_fin2.setTextureOffset(155, 169).addBox(-6.0F, 0.0F, -6.0F, 6.0F, 1.0F, 12.0F, 0.0F, false);
 		R_down_fin2.setTextureOffset(54, 154).addBox(-6.0F, 0.0F, 6.0F, 6.0F, 0.0F, 7.0F, 0.0F, false);
 
-		L_down_fin = new AdvancedModelPart(this);
+		L_down_fin = new AdvancedModelBox(this);
 		L_down_fin.setRotationPoint(7.0F, 8.0F, 8.0F);
 		Belly.addChild(L_down_fin);
 		L_down_fin.setTextureOffset(108, 0).addBox(0.0F, -1.0F, -6.0F, 6.0F, 1.0F, 18.0F, 0.0F, false);
 		L_down_fin.setTextureOffset(73, 36).addBox(0.0F, -1.0F, 12.0F, 6.0F, 0.0F, 4.0F, 0.0F, false);
 
-		L_down_fin2 = new AdvancedModelPart(this);
+		L_down_fin2 = new AdvancedModelBox(this);
 		L_down_fin2.setRotationPoint(6.0F, -1.0F, 6.0F);
 		L_down_fin.addChild(L_down_fin2);
 		L_down_fin2.setTextureOffset(0, 27).addBox(0.0F, 0.0F, -6.0F, 6.0F, 1.0F, 12.0F, 0.0F, false);
 		L_down_fin2.setTextureOffset(15, 154).addBox(0.0F, 0.0F, 6.0F, 6.0F, 0.0F, 7.0F, 0.0F, false);
 
-		Tail = new AdvancedModelPart(this);
+		Tail = new AdvancedModelBox(this);
 		Tail.setRotationPoint(0.0F, -0.9F, 14.0F);
 		Belly.addChild(Tail);
 		Tail.setTextureOffset(41, 93).addBox(-4.0F, -8.0F, -2.0F, 8.0F, 16.0F, 16.0F, 0.0F, false);
 		Tail.setTextureOffset(126, 167).addBox(0.0F, -17.0F, 0.0F, 0.0F, 9.0F, 14.0F, 0.0F, false);
 		Tail.setTextureOffset(97, 167).addBox(0.0F, 8.0F, 0.0F, 0.0F, 9.0F, 14.0F, 0.0F, false);
 
-		R_Spike3 = new AdvancedModelPart(this);
+		R_Spike3 = new AdvancedModelBox(this);
 		R_Spike3.setRotationPoint(-4.0F, -3.0F, 6.5F);
 		Tail.addChild(R_Spike3);
 		setRotationAngle(R_Spike3, 0.0F, 0.0F, 0.4363F);
 		R_Spike3.setTextureOffset(176, 143).addBox(-4.0F, 0.0F, -6.5F, 4.0F, 0.0F, 13.0F, 0.0F, true);
 
-		L_Spike3 = new AdvancedModelPart(this);
+		L_Spike3 = new AdvancedModelBox(this);
 		L_Spike3.setRotationPoint(4.0F, -3.0F, 6.5F);
 		Tail.addChild(L_Spike3);
 		setRotationAngle(L_Spike3, 0.0F, 0.0F, -0.4363F);
 		L_Spike3.setTextureOffset(176, 143).addBox(0.0F, 0.0F, -6.5F, 4.0F, 0.0F, 13.0F, 0.0F, false);
 
-		Tail2 = new AdvancedModelPart(this);
+		Tail2 = new AdvancedModelBox(this);
 		Tail2.setRotationPoint(0.0F, -2.9F, 14.0F);
 		Tail.addChild(Tail2);
 		Tail2.setTextureOffset(0, 154).addBox(0.0F, 4.9F, 0.0F, 0.0F, 13.0F, 14.0F, 0.0F, false);
 		Tail2.setTextureOffset(0, 0).addBox(-2.0F, -5.0F, -2.0F, 4.0F, 10.0F, 16.0F, 0.0F, false);
 		Tail2.setTextureOffset(25, 0).addBox(0.0F, -9.0F, 0.0F, 0.0F, 4.0F, 8.0F, 0.0F, false);
 
-		R_Spike4 = new AdvancedModelPart(this);
+		R_Spike4 = new AdvancedModelBox(this);
 		R_Spike4.setRotationPoint(-2.0F, 0.0F, 5.0F);
 		Tail2.addChild(R_Spike4);
 		setRotationAngle(R_Spike4, 0.0F, 0.0F, -0.4363F);
 		R_Spike4.setTextureOffset(30, 168).addBox(-3.0F, 0.0F, -5.0F, 3.0F, 0.0F, 10.0F, 0.0F, false);
 
-		L_Spike4 = new AdvancedModelPart(this);
+		L_Spike4 = new AdvancedModelBox(this);
 		L_Spike4.setRotationPoint(2.0F, 0.0F, 5.0F);
 		Tail2.addChild(L_Spike4);
 		setRotationAngle(L_Spike4, 0.0F, 0.0F, 0.4363F);
 		L_Spike4.setTextureOffset(112, 167).addBox(0.0F, 0.0F, -5.0F, 3.0F, 0.0F, 10.0F, 0.0F, false);
 
-		Tail3 = new AdvancedModelPart(this);
+		Tail3 = new AdvancedModelBox(this);
 		Tail3.setRotationPoint(0.0F, -2.5F, 14.0F);
 		Tail2.addChild(Tail3);
 		Tail3.setTextureOffset(29, 146).addBox(-2.0F, -2.5F, -2.0F, 4.0F, 5.0F, 16.0F, -0.01F, false);
 		Tail3.setTextureOffset(0, 0).addBox(0.0F, -7.6F, 0.0F, 0.0F, 25.0F, 42.0F, 0.0F, false);
 
-		Tail_Particle = new AdvancedModelPart(this);
+		Tail_Particle = new AdvancedModelBox(this);
 		Tail_Particle.setRotationPoint(0.0F, -14.475F, 77.0F);
 		Tail3.addChild(Tail_Particle);
 
 
-		UpperR_Tentacle = new AdvancedModelPart(this);
+		UpperR_Tentacle = new AdvancedModelBox(this);
 		UpperR_Tentacle.setRotationPoint(-8.0F, -2.0F, 6.0F);
 		Main_belly.addChild(UpperR_Tentacle);
 		setRotationAngle(UpperR_Tentacle, 0.0F, -0.1745F, 0.6109F);
 		UpperR_Tentacle.setTextureOffset(139, 0).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		UpperR_Tentacle2 = new AdvancedModelPart(this);
+		UpperR_Tentacle2 = new AdvancedModelBox(this);
 		UpperR_Tentacle2.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		UpperR_Tentacle.addChild(UpperR_Tentacle2);
 		setRotationAngle(UpperR_Tentacle2, 0.0F, -0.4363F, 0.0F);
 		UpperR_Tentacle2.setTextureOffset(133, 20).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		UpperR_Tentacle3 = new AdvancedModelPart(this);
+		UpperR_Tentacle3 = new AdvancedModelBox(this);
 		UpperR_Tentacle3.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		UpperR_Tentacle2.addChild(UpperR_Tentacle3);
 		setRotationAngle(UpperR_Tentacle3, 0.0F, -0.4363F, 0.0F);
 		UpperR_Tentacle3.setTextureOffset(133, 20).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		UpperR_Tentacle4 = new AdvancedModelPart(this);
+		UpperR_Tentacle4 = new AdvancedModelBox(this);
 		UpperR_Tentacle4.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		UpperR_Tentacle3.addChild(UpperR_Tentacle4);
 		setRotationAngle(UpperR_Tentacle4, 0.0F, -0.6109F, 0.0F);
 		UpperR_Tentacle4.setTextureOffset(0, 100).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		UpperR_Hook = new AdvancedModelPart(this);
+		UpperR_Hook = new AdvancedModelBox(this);
 		UpperR_Hook.setRotationPoint(-24.0F, 2.0F, 0.0F);
 		UpperR_Tentacle4.addChild(UpperR_Hook);
 		setRotationAngle(UpperR_Hook, 0.0F, 0.0F, 0.7854F);
 		UpperR_Hook.setTextureOffset(111, 0).addBox(-2.0F, 0.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, false);
 
-		UpperR_Hook2 = new AdvancedModelPart(this);
+		UpperR_Hook2 = new AdvancedModelBox(this);
 		UpperR_Hook2.setRotationPoint(-24.0F, 0.0F, -2.0F);
 		UpperR_Tentacle4.addChild(UpperR_Hook2);
 		setRotationAngle(UpperR_Hook2, 0.0F, 0.7854F, 0.0F);
 		UpperR_Hook2.setTextureOffset(184, 157).addBox(-2.0F, -1.5F, -8.0F, 2.0F, 3.0F, 8.0F, 0.0F, false);
 
-		UpperR_Hook3 = new AdvancedModelPart(this);
+		UpperR_Hook3 = new AdvancedModelBox(this);
 		UpperR_Hook3.setRotationPoint(-24.0F, 0.0F, 2.0F);
 		UpperR_Tentacle4.addChild(UpperR_Hook3);
 		setRotationAngle(UpperR_Hook3, 0.0F, -0.7854F, 0.0F);
 		UpperR_Hook3.setTextureOffset(156, 183).addBox(-2.0F, -1.5F, 0.0F, 2.0F, 3.0F, 8.0F, 0.0F, false);
 
-		UpperR_Hook4 = new AdvancedModelPart(this);
+		UpperR_Hook4 = new AdvancedModelBox(this);
 		UpperR_Hook4.setRotationPoint(-24.0F, -2.0F, 0.0F);
 		UpperR_Tentacle4.addChild(UpperR_Hook4);
 		setRotationAngle(UpperR_Hook4, 0.0F, 0.0F, -0.7854F);
 		UpperR_Hook4.setTextureOffset(92, 0).addBox(-2.0F, -8.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, false);
 
-		UpperL_Tentacle = new AdvancedModelPart(this);
+		UpperL_Tentacle = new AdvancedModelBox(this);
 		UpperL_Tentacle.setRotationPoint(8.0F, -2.0F, 6.0F);
 		Main_belly.addChild(UpperL_Tentacle);
 		setRotationAngle(UpperL_Tentacle, 0.0F, 0.1745F, -0.6109F);
 		UpperL_Tentacle.setTextureOffset(139, 0).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		UpperL_Tentacle2 = new AdvancedModelPart(this);
+		UpperL_Tentacle2 = new AdvancedModelBox(this);
 		UpperL_Tentacle2.setRotationPoint(24.0F, 0.0F, 0.0F);
 		UpperL_Tentacle.addChild(UpperL_Tentacle2);
 		setRotationAngle(UpperL_Tentacle2, 0.0F, 0.4363F, 0.0F);
 		UpperL_Tentacle2.setTextureOffset(133, 20).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		UpperL_Tentacle3 = new AdvancedModelPart(this);
+		UpperL_Tentacle3 = new AdvancedModelBox(this);
 		UpperL_Tentacle3.setRotationPoint(24.0F, 0.0F, 0.0F);
 		UpperL_Tentacle2.addChild(UpperL_Tentacle3);
 		setRotationAngle(UpperL_Tentacle3, 0.0F, 0.4363F, 0.0F);
 		UpperL_Tentacle3.setTextureOffset(133, 20).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		UpperL_Tentacle4 = new AdvancedModelPart(this);
+		UpperL_Tentacle4 = new AdvancedModelBox(this);
 		UpperL_Tentacle4.setRotationPoint(24.0F, 0.0F, 0.0F);
 		UpperL_Tentacle3.addChild(UpperL_Tentacle4);
 		setRotationAngle(UpperL_Tentacle4, 0.0F, 0.6109F, 0.0F);
 		UpperL_Tentacle4.setTextureOffset(0, 100).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		UpperL_Hook = new AdvancedModelPart(this);
+		UpperL_Hook = new AdvancedModelBox(this);
 		UpperL_Hook.setRotationPoint(24.0F, 2.0F, 0.0F);
 		UpperL_Tentacle4.addChild(UpperL_Hook);
 		setRotationAngle(UpperL_Hook, 0.0F, 0.0F, -0.7854F);
 		UpperL_Hook.setTextureOffset(111, 0).addBox(0.0F, 0.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, true);
 
-		UpperL_Hook2 = new AdvancedModelPart(this);
+		UpperL_Hook2 = new AdvancedModelBox(this);
 		UpperL_Hook2.setRotationPoint(24.0F, 0.0F, -2.0F);
 		UpperL_Tentacle4.addChild(UpperL_Hook2);
 		setRotationAngle(UpperL_Hook2, 0.0F, -0.7854F, 0.0F);
 		UpperL_Hook2.setTextureOffset(184, 157).addBox(0.0F, -1.5F, -8.0F, 2.0F, 3.0F, 8.0F, 0.0F, true);
 
-		UpperL_Hook3 = new AdvancedModelPart(this);
+		UpperL_Hook3 = new AdvancedModelBox(this);
 		UpperL_Hook3.setRotationPoint(24.0F, 0.0F, 2.0F);
 		UpperL_Tentacle4.addChild(UpperL_Hook3);
 		setRotationAngle(UpperL_Hook3, 0.0F, 0.7854F, 0.0F);
 		UpperL_Hook3.setTextureOffset(156, 183).addBox(0.0F, -1.5F, 0.0F, 2.0F, 3.0F, 8.0F, 0.0F, true);
 
-		UpperL_Hook4 = new AdvancedModelPart(this);
+		UpperL_Hook4 = new AdvancedModelBox(this);
 		UpperL_Hook4.setRotationPoint(24.0F, -2.0F, 0.0F);
 		UpperL_Tentacle4.addChild(UpperL_Hook4);
 		setRotationAngle(UpperL_Hook4, 0.0F, 0.0F, 0.7854F);
 		UpperL_Hook4.setTextureOffset(92, 0).addBox(0.0F, -8.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, true);
 
-		LowerR_Tentacle = new AdvancedModelPart(this);
+		LowerR_Tentacle = new AdvancedModelBox(this);
 		LowerR_Tentacle.setRotationPoint(-8.0F, 6.0F, 6.0F);
 		Main_belly.addChild(LowerR_Tentacle);
 		setRotationAngle(LowerR_Tentacle, 0.0F, -0.1745F, -0.6109F);
 		LowerR_Tentacle.setTextureOffset(139, 0).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		LowerR_Tentacle2 = new AdvancedModelPart(this);
+		LowerR_Tentacle2 = new AdvancedModelBox(this);
 		LowerR_Tentacle2.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		LowerR_Tentacle.addChild(LowerR_Tentacle2);
 		setRotationAngle(LowerR_Tentacle2, 0.0F, -0.4363F, 0.0F);
 		LowerR_Tentacle2.setTextureOffset(133, 20).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		LowerR_Tentacle3 = new AdvancedModelPart(this);
+		LowerR_Tentacle3 = new AdvancedModelBox(this);
 		LowerR_Tentacle3.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		LowerR_Tentacle2.addChild(LowerR_Tentacle3);
 		setRotationAngle(LowerR_Tentacle3, 0.0F, -0.48F, 0.0F);
 		LowerR_Tentacle3.setTextureOffset(133, 20).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		LowerR_Tentacle4 = new AdvancedModelPart(this);
+		LowerR_Tentacle4 = new AdvancedModelBox(this);
 		LowerR_Tentacle4.setRotationPoint(-24.0F, 0.0F, 0.0F);
 		LowerR_Tentacle3.addChild(LowerR_Tentacle4);
 		setRotationAngle(LowerR_Tentacle4, 0.0F, -0.4363F, 0.0F);
 		LowerR_Tentacle4.setTextureOffset(0, 100).addBox(-24.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, false);
 
-		LowerR_Hook = new AdvancedModelPart(this);
+		LowerR_Hook = new AdvancedModelBox(this);
 		LowerR_Hook.setRotationPoint(-24.0F, 2.0F, 0.0F);
 		LowerR_Tentacle4.addChild(LowerR_Hook);
 		setRotationAngle(LowerR_Hook, 0.0F, 0.0F, 0.7854F);
 		LowerR_Hook.setTextureOffset(0, 68).addBox(-2.0F, 0.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, false);
 
-		LowerR_Hook2 = new AdvancedModelPart(this);
+		LowerR_Hook2 = new AdvancedModelBox(this);
 		LowerR_Hook2.setRotationPoint(-24.0F, 0.0F, -2.0F);
 		LowerR_Tentacle4.addChild(LowerR_Hook2);
 		setRotationAngle(LowerR_Hook2, 0.0F, 0.7854F, 0.0F);
 		LowerR_Hook2.setTextureOffset(183, 62).addBox(-2.0F, -1.5F, -8.0F, 2.0F, 3.0F, 8.0F, 0.0F, false);
 
-		LowerR_Hook3 = new AdvancedModelPart(this);
+		LowerR_Hook3 = new AdvancedModelBox(this);
 		LowerR_Hook3.setRotationPoint(-24.0F, 0.0F, 2.0F);
 		LowerR_Tentacle4.addChild(LowerR_Hook3);
 		setRotationAngle(LowerR_Hook3, 0.0F, -0.7854F, 0.0F);
 		LowerR_Hook3.setTextureOffset(43, 68).addBox(-2.0F, -1.5F, 0.0F, 2.0F, 3.0F, 8.0F, 0.0F, false);
 
-		LowerR_Hook4 = new AdvancedModelPart(this);
+		LowerR_Hook4 = new AdvancedModelBox(this);
 		LowerR_Hook4.setRotationPoint(-24.0F, -2.0F, 0.0F);
 		LowerR_Tentacle4.addChild(LowerR_Hook4);
 		setRotationAngle(LowerR_Hook4, 0.0F, 0.0F, -0.7854F);
 		LowerR_Hook4.setTextureOffset(0, 27).addBox(-2.0F, -8.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, false);
 
-		LowerL_Tentacle = new AdvancedModelPart(this);
+		LowerL_Tentacle = new AdvancedModelBox(this);
 		LowerL_Tentacle.setRotationPoint(8.0F, 6.0F, 6.0F);
 		Main_belly.addChild(LowerL_Tentacle);
 		setRotationAngle(LowerL_Tentacle, 0.0F, 0.1745F, 0.6109F);
 		LowerL_Tentacle.setTextureOffset(139, 0).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		LowerL_Tentacle2 = new AdvancedModelPart(this);
+		LowerL_Tentacle2 = new AdvancedModelBox(this);
 		LowerL_Tentacle2.setRotationPoint(24.0F, 0.0F, 0.0F);
 		LowerL_Tentacle.addChild(LowerL_Tentacle2);
 		setRotationAngle(LowerL_Tentacle2, 0.0F, 0.4363F, 0.0F);
 		LowerL_Tentacle2.setTextureOffset(133, 20).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		LowerL_Tentacle3 = new AdvancedModelPart(this);
+		LowerL_Tentacle3 = new AdvancedModelBox(this);
 		LowerL_Tentacle3.setRotationPoint(24.0F, 0.0F, 0.0F);
 		LowerL_Tentacle2.addChild(LowerL_Tentacle3);
 		setRotationAngle(LowerL_Tentacle3, 0.0F, 0.48F, 0.0F);
 		LowerL_Tentacle3.setTextureOffset(133, 20).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		LowerL_Tentacle4 = new AdvancedModelPart(this);
+		LowerL_Tentacle4 = new AdvancedModelBox(this);
 		LowerL_Tentacle4.setRotationPoint(24.0F, 0.0F, 0.0F);
 		LowerL_Tentacle3.addChild(LowerL_Tentacle4);
 		setRotationAngle(LowerL_Tentacle4, 0.0F, 0.4363F, 0.0F);
 		LowerL_Tentacle4.setTextureOffset(0, 100).addBox(0.0F, -2.0F, -2.0F, 24.0F, 4.0F, 4.0F, 0.0F, true);
 
-		LowerL_Hook = new AdvancedModelPart(this);
+		LowerL_Hook = new AdvancedModelBox(this);
 		LowerL_Hook.setRotationPoint(24.0F, 2.0F, 0.0F);
 		LowerL_Tentacle4.addChild(LowerL_Hook);
 		setRotationAngle(LowerL_Hook, 0.0F, 0.0F, -0.7854F);
 		LowerL_Hook.setTextureOffset(0, 68).addBox(0.0F, 0.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, true);
 
-		LowerL_Hook2 = new AdvancedModelPart(this);
+		LowerL_Hook2 = new AdvancedModelBox(this);
 		LowerL_Hook2.setRotationPoint(24.0F, 0.0F, -2.0F);
 		LowerL_Tentacle4.addChild(LowerL_Hook2);
 		setRotationAngle(LowerL_Hook2, 0.0F, -0.7854F, 0.0F);
 		LowerL_Hook2.setTextureOffset(183, 62).addBox(0.0F, -1.5F, -8.0F, 2.0F, 3.0F, 8.0F, 0.0F, true);
 
-		LowerL_Hook3 = new AdvancedModelPart(this);
+		LowerL_Hook3 = new AdvancedModelBox(this);
 		LowerL_Hook3.setRotationPoint(24.0F, 0.0F, 2.0F);
 		LowerL_Tentacle4.addChild(LowerL_Hook3);
 		setRotationAngle(LowerL_Hook3, 0.0F, 0.7854F, 0.0F);
 		LowerL_Hook3.setTextureOffset(43, 68).addBox(0.0F, -1.5F, 0.0F, 2.0F, 3.0F, 8.0F, 0.0F, true);
 
-		LowerL_Hook4 = new AdvancedModelPart(this);
+		LowerL_Hook4 = new AdvancedModelBox(this);
 		LowerL_Hook4.setRotationPoint(24.0F, -2.0F, 0.0F);
 		LowerL_Tentacle4.addChild(LowerL_Hook4);
 		setRotationAngle(LowerL_Hook4, 0.0F, 0.0F, 0.7854F);
 		LowerL_Hook4.setTextureOffset(0, 27).addBox(0.0F, -8.0F, -1.5F, 2.0F, 8.0F, 3.0F, 0.0F, true);
 
-		Head = new AdvancedModelPart(this);
+		Head = new AdvancedModelBox(this);
 		Head.setRotationPoint(0.0F, 2.0F, -34.0F);
 		body.addChild(Head);
 
 
-		Muscle = new AdvancedModelPart(this);
+		Muscle = new AdvancedModelBox(this);
 		Muscle.setRotationPoint(0.0F, 0.0F, -2.0F);
 		Head.addChild(Muscle);
 		Muscle.setTextureOffset(43, 0).addBox(-4.5F, -6.0F, -2.0F, 0.0F, 11.0F, 4.0F, 0.0F, false);
 		Muscle.setTextureOffset(43, 0).addBox(4.5F, -6.0F, -2.0F, 0.0F, 11.0F, 4.0F, 0.0F, true);
 
-		Maw = new AdvancedModelPart(this);
+		Maw = new AdvancedModelBox(this);
 		Maw.setRotationPoint(0.0F, 2.0F, 0.25F);
 		Head.addChild(Maw);
 		Maw.setTextureOffset(171, 50).addBox(-5.0F, 0.0F, -8.25F, 10.0F, 3.0F, 8.0F, 0.0F, false);
@@ -438,7 +438,7 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Maw.setTextureOffset(62, 131).addBox(-5.0F, -3.0F, -8.25F, 0.0F, 3.0F, 6.0F, 0.0F, false);
 		Maw.setTextureOffset(27, 135).addBox(-3.0F, 0.0F, -12.25F, 6.0F, 4.0F, 4.0F, 0.0F, false);
 
-		Skul = new AdvancedModelPart(this);
+		Skul = new AdvancedModelBox(this);
 		Skul.setRotationPoint(0.0F, -1.0F, 0.0F);
 		Head.addChild(Skul);
 		Skul.setTextureOffset(141, 169).addBox(-4.0F, -6.0F, -13.0F, 8.0F, 7.0F, 4.0F, 0.0F, false);
@@ -451,50 +451,50 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Skul.setTextureOffset(8, 0).addBox(4.0F, 1.0F, -13.0F, 0.0F, 4.0F, 2.0F, 0.0F, false);
 		Skul.setTextureOffset(0, 0).addBox(-4.0F, 1.0F, -13.0F, 0.0F, 4.0F, 2.0F, 0.0F, false);
 
-		tongue = new AdvancedModelPart(this);
+		tongue = new AdvancedModelBox(this);
 		tongue.setRotationPoint(0.0F, -1.0F, 0.0F);
 		Head.addChild(tongue);
 
-		R_fin = new AdvancedModelPart(this);
+		R_fin = new AdvancedModelBox(this);
 		R_fin.setRotationPoint(-9.0F, 9.0F, -24.0F);
 		body.addChild(R_fin);
 		R_fin.setTextureOffset(90, 93).addBox(-12.0F, -1.0F, -8.0F, 12.0F, 2.0F, 16.0F, 0.0F, false);
 		R_fin.setTextureOffset(107, 114).addBox(-12.0F, -1.0F, 8.0F, 12.0F, 0.0F, 5.0F, 0.0F, false);
 
-		R_fin2 = new AdvancedModelPart(this);
+		R_fin2 = new AdvancedModelBox(this);
 		R_fin2.setRotationPoint(-12.0F, 0.0F, 1.0F);
 		R_fin.addChild(R_fin2);
 		R_fin2.setTextureOffset(131, 96).addBox(-8.0F, 0.0F, -9.0F, 8.0F, 1.0F, 16.0F, 0.0F, false);
 
-		R_fin3 = new AdvancedModelPart(this);
+		R_fin3 = new AdvancedModelBox(this);
 		R_fin3.setRotationPoint(-8.0F, 0.0F, 2.0F);
 		R_fin2.addChild(R_fin3);
 		R_fin3.setTextureOffset(142, 132).addBox(-9.0F, 0.0F, -9.0F, 9.0F, 1.0F, 14.0F, 0.0F, false);
 		R_fin3.setTextureOffset(140, 64).addBox(-11.0F, 0.0F, 5.0F, 16.0F, 0.0F, 10.0F, 0.0F, false);
 
-		L_fin = new AdvancedModelPart(this);
+		L_fin = new AdvancedModelBox(this);
 		L_fin.setRotationPoint(9.0F, 9.0F, -24.0F);
 		body.addChild(L_fin);
 		L_fin.setTextureOffset(92, 20).addBox(0.0F, -1.0F, -8.0F, 12.0F, 2.0F, 16.0F, 0.0F, false);
 		L_fin.setTextureOffset(43, 36).addBox(0.0F, -1.0F, 8.0F, 12.0F, 0.0F, 5.0F, 0.0F, false);
 
-		L_fin2 = new AdvancedModelPart(this);
+		L_fin2 = new AdvancedModelBox(this);
 		L_fin2.setRotationPoint(12.0F, 0.0F, 1.0F);
 		L_fin.addChild(L_fin2);
 		L_fin2.setTextureOffset(131, 77).addBox(0.0F, 0.0F, -9.0F, 8.0F, 1.0F, 16.0F, 0.0F, false);
 
-		L_fin3 = new AdvancedModelPart(this);
+		L_fin3 = new AdvancedModelBox(this);
 		L_fin3.setRotationPoint(8.0F, 0.0F, 2.0F);
 		L_fin2.addChild(L_fin3);
 		L_fin3.setTextureOffset(140, 114).addBox(0.0F, 0.0F, -9.0F, 9.0F, 1.0F, 14.0F, 0.0F, false);
 		L_fin3.setTextureOffset(85, 39).addBox(-5.0F, 0.0F, 5.0F, 16.0F, 0.0F, 10.0F, 0.0F, false);
 
-		four_mouths = new AdvancedModelPart(this);
+		four_mouths = new AdvancedModelBox(this);
 		four_mouths.setRotationPoint(0.0F, 1.0F, -35.0F);
 		body.addChild(four_mouths);
 
 
-		Mouth4 = new AdvancedModelPart(this);
+		Mouth4 = new AdvancedModelBox(this);
 		Mouth4.setRotationPoint(6.0F, 6.0F, 2.0F);
 		four_mouths.addChild(Mouth4);
 		setRotationAngle(Mouth4, 0.0436F, 0.0F, 0.0F);
@@ -502,13 +502,13 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Mouth4.setTextureOffset(181, 91).addBox(-6.0F, 4.0F, -16.0F, 2.0F, 0.0F, 14.0F, 0.0F, false);
 		Mouth4.setTextureOffset(141, 183).addBox(4.0F, -6.0F, -16.0F, 0.0F, 2.0F, 14.0F, 0.0F, false);
 
-		Mouth4_e = new AdvancedModelPart(this);
+		Mouth4_e = new AdvancedModelBox(this);
 		Mouth4_e.setRotationPoint(-1.0F, -1.0F, -15.5F);
 		Mouth4.addChild(Mouth4_e);
 		setRotationAngle(Mouth4_e, -0.0873F, 0.0F, 0.0F);
 		Mouth4_e.setTextureOffset(70, 156).addBox(-5.0F, -5.0F, -11.0F, 9.0F, 9.0F, 11.0F, 0.0F, false);
 
-		Mouth3 = new AdvancedModelPart(this);
+		Mouth3 = new AdvancedModelBox(this);
 		Mouth3.setRotationPoint(-6.0F, 6.0F, 2.0F);
 		four_mouths.addChild(Mouth3);
 		setRotationAngle(Mouth3, 0.0436F, 0.0F, 0.0F);
@@ -516,13 +516,13 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Mouth3.setTextureOffset(141, 183).addBox(-4.0F, -6.0F, -16.0F, 0.0F, 2.0F, 14.0F, 0.0F, false);
 		Mouth3.setTextureOffset(178, 169).addBox(4.0F, 4.0F, -16.0F, 2.0F, 0.0F, 14.0F, 0.0F, false);
 
-		Mouth3_e = new AdvancedModelPart(this);
+		Mouth3_e = new AdvancedModelBox(this);
 		Mouth3_e.setRotationPoint(1.0F, -1.0F, -15.5F);
 		Mouth3.addChild(Mouth3_e);
 		setRotationAngle(Mouth3_e, -0.0873F, 0.0F, 0.0F);
 		Mouth3_e.setTextureOffset(155, 29).addBox(-4.0F, -5.0F, -11.0F, 9.0F, 9.0F, 11.0F, 0.0F, false);
 
-		Mouth2 = new AdvancedModelPart(this);
+		Mouth2 = new AdvancedModelBox(this);
 		Mouth2.setRotationPoint(6.0F, -6.0F, 2.0F);
 		four_mouths.addChild(Mouth2);
 		setRotationAngle(Mouth2, -0.0436F, 0.0F, 0.0F);
@@ -530,13 +530,13 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Mouth2.setTextureOffset(73, 177).addBox(-6.0F, -4.0F, -16.0F, 2.0F, 0.0F, 14.0F, 0.0F, false);
 		Mouth2.setTextureOffset(0, 182).addBox(4.0F, 4.0F, -16.0F, 0.0F, 2.0F, 14.0F, 0.0F, false);
 
-		Mouth2_e = new AdvancedModelPart(this);
+		Mouth2_e = new AdvancedModelBox(this);
 		Mouth2_e.setRotationPoint(-1.0F, 1.0F, -15.5F);
 		Mouth2.addChild(Mouth2_e);
 		setRotationAngle(Mouth2_e, 0.0873F, 0.0F, 0.0F);
 		Mouth2_e.setTextureOffset(143, 148).addBox(-5.0F, -4.0F, -11.0F, 9.0F, 9.0F, 11.0F, 0.0F, false);
 
-		Mouth = new AdvancedModelPart(this);
+		Mouth = new AdvancedModelBox(this);
 		Mouth.setRotationPoint(-6.0F, -6.0F, 2.0F);
 		four_mouths.addChild(Mouth);
 		setRotationAngle(Mouth, -0.0436F, 0.0F, 0.0F);
@@ -544,7 +544,7 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		Mouth.setTextureOffset(92, 0).addBox(4.0F, -4.0F, -16.0F, 2.0F, 0.0F, 14.0F, 0.0F, false);
 		Mouth.setTextureOffset(0, 182).addBox(-4.0F, 4.0F, -16.0F, 0.0F, 2.0F, 14.0F, 0.0F, false);
 
-		Mouth1_e = new AdvancedModelPart(this);
+		Mouth1_e = new AdvancedModelBox(this);
 		Mouth1_e.setRotationPoint(1.0F, 1.0F, -15.5F);
 		Mouth.addChild(Mouth1_e);
 		setRotationAngle(Mouth1_e, 0.0873F, 0.0F, 0.0F);
@@ -2894,7 +2894,7 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 	public void setupAnim(The_Leviathan_Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		animate(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-		AdvancedModelPart[] tailBoxes = new AdvancedModelPart[]{Tail, Tail2, Tail3};
+		AdvancedModelBox[] tailBoxes = new AdvancedModelBox[]{Tail, Tail2, Tail3};
 
 		float swimSpeed = 0.1F;
 		float swimDegree = 0.4F;
@@ -3010,13 +3010,13 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 
 
 
-		AdvancedModelPart[] URT = new AdvancedModelPart[]{UpperR_Tentacle, UpperR_Tentacle2, UpperR_Tentacle3};
+		AdvancedModelBox[] URT = new AdvancedModelBox[]{UpperR_Tentacle, UpperR_Tentacle2, UpperR_Tentacle3};
 
-		AdvancedModelPart[] ULT = new AdvancedModelPart[]{UpperL_Tentacle, UpperL_Tentacle2, UpperL_Tentacle3};
+		AdvancedModelBox[] ULT = new AdvancedModelBox[]{UpperL_Tentacle, UpperL_Tentacle2, UpperL_Tentacle3};
 
-		AdvancedModelPart[] LRT = new AdvancedModelPart[]{LowerR_Tentacle, LowerR_Tentacle2, LowerR_Tentacle3};
+		AdvancedModelBox[] LRT = new AdvancedModelBox[]{LowerR_Tentacle, LowerR_Tentacle2, LowerR_Tentacle3};
 
-		AdvancedModelPart[] LLT = new AdvancedModelPart[]{LowerL_Tentacle, LowerL_Tentacle2, LowerL_Tentacle3};
+		AdvancedModelBox[] LLT = new AdvancedModelBox[]{LowerL_Tentacle, LowerL_Tentacle2, LowerL_Tentacle3};
 
 
 
@@ -3059,7 +3059,7 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 
 	
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				body,
@@ -3168,9 +3168,9 @@ public class ModelThe_Leviathan extends AdvancedEntityModel<The_Leviathan_Entity
 		return ImmutableList.of(root);
 	}
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

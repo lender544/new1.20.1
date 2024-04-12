@@ -5,52 +5,52 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.Deepling.Coral_Golem_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart lower_body;
-	private final AdvancedModelPart upper_body;
-	private final AdvancedModelPart helmet;
-	private final AdvancedModelPart chest;
-	private final AdvancedModelPart table_coral;
-	private final AdvancedModelPart blue_table_coral;
-	private final AdvancedModelPart red_table_coral;
-	private final AdvancedModelPart right_arm;
-	private final AdvancedModelPart right_fist;
-	private final AdvancedModelPart right_coral;
-	private final AdvancedModelPart left_arm;
-	private final AdvancedModelPart left_fist;
-	private final AdvancedModelPart left_coral;
-	private final AdvancedModelPart coral_shoulder;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart right_leg;
-	private final AdvancedModelPart left_leg;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox lower_body;
+	private final AdvancedModelBox upper_body;
+	private final AdvancedModelBox helmet;
+	private final AdvancedModelBox chest;
+	private final AdvancedModelBox table_coral;
+	private final AdvancedModelBox blue_table_coral;
+	private final AdvancedModelBox red_table_coral;
+	private final AdvancedModelBox right_arm;
+	private final AdvancedModelBox right_fist;
+	private final AdvancedModelBox right_coral;
+	private final AdvancedModelBox left_arm;
+	private final AdvancedModelBox left_fist;
+	private final AdvancedModelBox left_coral;
+	private final AdvancedModelBox coral_shoulder;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox right_leg;
+	private final AdvancedModelBox left_leg;
 	private ModelAnimator animator;
 
 	public ModelCoral_Golem() {
 		texWidth = 128;
 		texHeight = 128;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		lower_body = new AdvancedModelPart(this);
+		lower_body = new AdvancedModelBox(this);
 		lower_body.setRotationPoint(0.0F, -6.3F, -1.8F);
 		root.addChild(lower_body);
 		setRotationAngle(lower_body, 0.1745F, 0.0F, 0.0F);
 		lower_body.setTextureOffset(0, 21).addBox(-6.0F, -8.0F, -4.0F, 12.0F, 8.0F, 8.0F, 0.0F, false);
 
-		upper_body = new AdvancedModelPart(this);
+		upper_body = new AdvancedModelBox(this);
 		upper_body.setRotationPoint(0.0F, -6.2F, 2.8F);
 		lower_body.addChild(upper_body);
 		setRotationAngle(upper_body, 0.6981F, 0.0F, 0.0F);
 
 
-		helmet = new AdvancedModelPart(this);
+		helmet = new AdvancedModelBox(this);
 		helmet.setRotationPoint(-0.5F, -11.0F, -6.5F);
 		upper_body.addChild(helmet);
 		setRotationAngle(helmet, -0.6109F, 0.0F, 0.0F);
@@ -63,28 +63,28 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 		helmet.setTextureOffset(47, 0).addBox(-1.5F, -8.5F, -1.5F, 4.0F, 1.0F, 4.0F, 0.0F, false);
 		helmet.setTextureOffset(86, 0).addBox(0.5F, -14.25F, 0.5F, 9.0F, 9.0F, 0.0F, 0.0F, false);
 
-		chest = new AdvancedModelPart(this);
+		chest = new AdvancedModelBox(this);
 		chest.setRotationPoint(0.0F, -3.5F, -3.0F);
 		upper_body.addChild(chest);
 		chest.setTextureOffset(0, 0).addBox(-9.0F, -6.5F, -4.75F, 18.0F, 10.0F, 10.0F, 0.0F, false);
 
-		table_coral = new AdvancedModelPart(this);
+		table_coral = new AdvancedModelBox(this);
 		table_coral.setRotationPoint(8.0F, -2.0F, 5.0F);
 		chest.addChild(table_coral);
 		table_coral.setTextureOffset(46, 24).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 		table_coral.setTextureOffset(59, 23).addBox(-1.0F, 1.0F, -2.0F, 3.0F, 1.0F, 3.0F, 0.0F, false);
 
-		blue_table_coral = new AdvancedModelPart(this);
+		blue_table_coral = new AdvancedModelBox(this);
 		blue_table_coral.setRotationPoint(-5.0F, -3.0F, 0.0F);
 		table_coral.addChild(blue_table_coral);
 		blue_table_coral.setTextureOffset(44, 76).addBox(0.0F, -5.5F, -1.75F, 0.0F, 10.0F, 10.0F, 0.0F, false);
 
-		red_table_coral = new AdvancedModelPart(this);
+		red_table_coral = new AdvancedModelBox(this);
 		red_table_coral.setRotationPoint(-3.0F, -3.0F, 0.0F);
 		table_coral.addChild(red_table_coral);
 		red_table_coral.setTextureOffset(78, 82).addBox(0.0F, -4.5F, 0.25F, 0.0F, 8.0F, 8.0F, 0.0F, false);
 
-		right_arm = new AdvancedModelPart(this);
+		right_arm = new AdvancedModelBox(this);
 		right_arm.setRotationPoint(-9.0F, -6.7F, -1.7F);
 		chest.addChild(right_arm);
 		setRotationAngle(right_arm, -0.6109F, 0.0F, 0.0F);
@@ -92,18 +92,18 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 		right_arm.setTextureOffset(29, 46).addBox(-7.1F, 2.0F, -5.0F, 9.0F, 2.0F, 10.0F, 0.0F, false);
 		right_arm.setTextureOffset(76, 13).addBox(-0.1F, -5.0F, -5.0F, 2.0F, 7.0F, 10.0F, 0.0F, false);
 
-		right_fist = new AdvancedModelPart(this);
+		right_fist = new AdvancedModelBox(this);
 		right_fist.setRotationPoint(-3.0F, 6.6F, -2.0F);
 		right_arm.addChild(right_fist);
 		setRotationAngle(right_fist, -0.2618F, 0.0F, 0.0F);
 		right_fist.setTextureOffset(21, 59).addBox(-4.0F, 0.0F, -4.0F, 8.0F, 9.0F, 8.0F, 0.0F, false);
 
-		right_coral = new AdvancedModelPart(this);
+		right_coral = new AdvancedModelBox(this);
 		right_coral.setRotationPoint(-4.0F, 6.0F, 0.0F);
 		right_fist.addChild(right_coral);
 		right_coral.setTextureOffset(0, 86).addBox(-8.0F, -8.0F, 0.0F, 8.0F, 11.0F, 0.0F, 0.0F, false);
 
-		left_arm = new AdvancedModelPart(this);
+		left_arm = new AdvancedModelBox(this);
 		left_arm.setRotationPoint(9.0F, -6.7F, -1.7F);
 		chest.addChild(left_arm);
 		setRotationAngle(left_arm, -0.6109F, 0.0F, 0.0F);
@@ -112,33 +112,33 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 		left_arm.setTextureOffset(33, 21).addBox(3.0F, -1.0F, -5.0F, 4.0F, 2.0F, 4.0F, 0.0F, false);
 		left_arm.setTextureOffset(21, 38).addBox(5.0F, 2.0F, -5.0F, 3.0F, 1.0F, 3.0F, 0.0F, false);
 
-		left_fist = new AdvancedModelPart(this);
+		left_fist = new AdvancedModelBox(this);
 		left_fist.setRotationPoint(3.0F, 6.6F, -2.0F);
 		left_arm.addChild(left_fist);
 		setRotationAngle(left_fist, -0.2618F, 0.0F, 0.0F);
 		left_fist.setTextureOffset(21, 59).addBox(-4.0F, 0.0F, -4.0F, 8.0F, 9.0F, 8.0F, 0.0F, true);
 
-		left_coral = new AdvancedModelPart(this);
+		left_coral = new AdvancedModelBox(this);
 		left_coral.setRotationPoint(4.0F, 6.0F, 0.0F);
 		left_fist.addChild(left_coral);
 		left_coral.setTextureOffset(0, 86).addBox(0.0F, -8.0F, 0.0F, 8.0F, 11.0F, 0.0F, 0.0F, true);
 
-		coral_shoulder = new AdvancedModelPart(this);
+		coral_shoulder = new AdvancedModelBox(this);
 		coral_shoulder.setRotationPoint(-1.0F, -1.0F, 0.0F);
 		left_arm.addChild(coral_shoulder);
 		coral_shoulder.setTextureOffset(79, 55).addBox(4.0F, -10.0F, -1.0F, 9.0F, 10.0F, 0.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, 2.5F, 1.0F);
 		upper_body.addChild(head);
 
 
-		right_leg = new AdvancedModelPart(this);
+		right_leg = new AdvancedModelBox(this);
 		right_leg.setRotationPoint(-6.0F, -8.0F, 0.0F);
 		root.addChild(right_leg);
 		right_leg.setTextureOffset(0, 69).addBox(-3.0F, 0.0F, -4.0F, 6.0F, 8.0F, 8.0F, 0.0F, false);
 
-		left_leg = new AdvancedModelPart(this);
+		left_leg = new AdvancedModelBox(this);
 		left_leg.setRotationPoint(6.0F, -8.0F, 0.0F);
 		root.addChild(left_leg);
 		left_leg.setTextureOffset(68, 38).addBox(-3.0F, 0.0F, -4.0F, 6.0F, 8.0F, 8.0F, 0.0F, false);
@@ -293,7 +293,7 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				lower_body,
@@ -320,9 +320,9 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
         return ImmutableList.of(root);
     }
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

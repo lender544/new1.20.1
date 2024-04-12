@@ -4,45 +4,45 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
 public class ModelTidal_Tentacle_Claws extends AdvancedEntityModel<Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart claw1;
-	private final AdvancedModelPart claw2;
-	private final AdvancedModelPart claw3;
-	private final AdvancedModelPart claw4;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox claw1;
+	private final AdvancedModelBox claw2;
+	private final AdvancedModelBox claw3;
+	private final AdvancedModelBox claw4;
 
 	public ModelTidal_Tentacle_Claws() {
 		texWidth = 32;
 		texHeight = 32;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 11.0F, 0.0F);
 
 
-		claw1 = new AdvancedModelPart(this);
+		claw1 = new AdvancedModelBox(this);
 		claw1.setRotationPoint(0.0F, 0.0F, 0.7F);
 		root.addChild(claw1);
 		setRotationAngle(claw1, 0.48F, 0.0F, 0.0F);
 		claw1.setTextureOffset(9, 10).addBox(-1.0F, -6.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
 
-		claw2 = new AdvancedModelPart(this);
+		claw2 = new AdvancedModelBox(this);
 		claw2.setRotationPoint(0.0F, 2.0F, 0.7F);
 		root.addChild(claw2);
 		setRotationAngle(claw2, -0.48F, 0.0F, 0.0F);
 		claw2.setTextureOffset(0, 10).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
 
-		claw3 = new AdvancedModelPart(this);
+		claw3 = new AdvancedModelBox(this);
 		claw3.setRotationPoint(1.0F, 1.0F, 0.7F);
 		root.addChild(claw3);
 		setRotationAngle(claw3, 0.0F, 0.48F, 0.0F);
 		claw3.setTextureOffset(0, 5).addBox(0.0F, -1.0F, -1.0F, 6.0F, 2.0F, 2.0F, 0.0F, false);
 
-		claw4 = new AdvancedModelPart(this);
+		claw4 = new AdvancedModelBox(this);
 		claw4.setRotationPoint(-1.0F, 1.0F, 0.7F);
 		root.addChild(claw4);
 		setRotationAngle(claw4, 0.0F, -0.48F, 0.0F);
@@ -51,7 +51,7 @@ public class ModelTidal_Tentacle_Claws extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root, claw1, claw2, claw3,claw4);
 	}
 
@@ -73,10 +73,10 @@ public class ModelTidal_Tentacle_Claws extends AdvancedEntityModel<Entity> {
 	}
 
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 
 }

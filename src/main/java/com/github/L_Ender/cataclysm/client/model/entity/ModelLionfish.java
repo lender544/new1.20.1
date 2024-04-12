@@ -5,81 +5,81 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.Deepling.Lionfish_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelLionfish extends AdvancedEntityModel<Lionfish_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart body;
-	private final AdvancedModelPart r_fin;
-	private final AdvancedModelPart right_long_fin;
-	private final AdvancedModelPart left_long_fin;
-	private final AdvancedModelPart l_fin;
-	private final AdvancedModelPart tail;
-	private final AdvancedModelPart tail2;
-	private final AdvancedModelPart head;
-	private final AdvancedModelPart upper_jaw;
-	private final AdvancedModelPart jaw;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox body;
+	private final AdvancedModelBox r_fin;
+	private final AdvancedModelBox right_long_fin;
+	private final AdvancedModelBox left_long_fin;
+	private final AdvancedModelBox l_fin;
+	private final AdvancedModelBox tail;
+	private final AdvancedModelBox tail2;
+	private final AdvancedModelBox head;
+	private final AdvancedModelBox upper_jaw;
+	private final AdvancedModelBox jaw;
 	private ModelAnimator animator;
 
 	public ModelLionfish() {
 		texWidth = 64;
 		texHeight = 64;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 
 
-		body = new AdvancedModelPart(this);
+		body = new AdvancedModelBox(this);
 		body.setRotationPoint(0.0F, -2.0F, 0.0F);
 		root.addChild(body);
 		body.setTextureOffset(0, 0).addBox(-2.0F, -6.0F, -6.0F, 4.0F, 8.0F, 11.0F, 0.0F, false);
 		body.setTextureOffset(0, 20).addBox(0.0F, 2.0F, -5.0F, 0.0F, 6.0F, 11.0F, 0.0F, false);
 		body.setTextureOffset(12, 31).addBox(0.0F, -12.0F, -5.0F, 0.0F, 6.0F, 11.0F, 0.0F, false);
 
-		r_fin = new AdvancedModelPart(this);
+		r_fin = new AdvancedModelBox(this);
 		r_fin.setRotationPoint(-2.0F, -1.0F, -4.0F);
 		body.addChild(r_fin);
 		setRotationAngle(r_fin, 0.0F, 0.4363F, 0.0F);
 		r_fin.setTextureOffset(24, 31).addBox(-10.0F, -5.0F, 0.0F, 10.0F, 8.0F, 0.0F, 0.0F, true);
 
-		right_long_fin = new AdvancedModelPart(this);
+		right_long_fin = new AdvancedModelBox(this);
 		right_long_fin.setRotationPoint(-2.0F, 2.0F, -5.0F);
 		body.addChild(right_long_fin);
 		setRotationAngle(right_long_fin, 0.0F, 0.0F, 0.0873F);
 		right_long_fin.setTextureOffset(19, 8).addBox(0.0F, 0.0F, -1.0F, 0.0F, 10.0F, 12.0F, 0.0F, true);
 
-		left_long_fin = new AdvancedModelPart(this);
+		left_long_fin = new AdvancedModelBox(this);
 		left_long_fin.setRotationPoint(2.0F, 2.0F, -5.0F);
 		body.addChild(left_long_fin);
 		setRotationAngle(left_long_fin, 0.0F, 0.0F, -0.0873F);
 		left_long_fin.setTextureOffset(19, 8).addBox(0.0F, 0.0F, -1.0F, 0.0F, 10.0F, 12.0F, 0.0F, false);
 
-		l_fin = new AdvancedModelPart(this);
+		l_fin = new AdvancedModelBox(this);
 		l_fin.setRotationPoint(2.0F, -1.0F, -4.0F);
 		body.addChild(l_fin);
 		setRotationAngle(l_fin, 0.0F, -0.4363F, 0.0F);
 		l_fin.setTextureOffset(24, 31).addBox(0.0F, -5.0F, 0.0F, 10.0F, 8.0F, 0.0F, 0.0F, false);
 
-		tail = new AdvancedModelPart(this);
+		tail = new AdvancedModelBox(this);
 		tail.setRotationPoint(0.0F, -3.0F, 5.0F);
 		body.addChild(tail);
 		tail.setTextureOffset(0, 20).addBox(0.0F, 2.0F, 0.0F, 0.0F, 2.0F, 4.0F, 0.0F, false);
 		tail.setTextureOffset(35, 40).addBox(-1.5F, -2.0F, 0.0F, 3.0F, 4.0F, 5.0F, 0.0F, false);
 		tail.setTextureOffset(0, 0).addBox(0.0F, -5.0F, 0.0F, 0.0F, 3.0F, 4.0F, 0.0F, false);
 
-		tail2 = new AdvancedModelPart(this);
+		tail2 = new AdvancedModelBox(this);
 		tail2.setRotationPoint(0.0F, 0.0F, 5.0F);
 		tail.addChild(tail2);
 		tail2.setTextureOffset(32, 0).addBox(0.0F, -5.0F, 0.0F, 0.0F, 9.0F, 7.0F, 0.0F, false);
 
-		head = new AdvancedModelPart(this);
+		head = new AdvancedModelBox(this);
 		head.setRotationPoint(0.0F, -1.0F, -6.0F);
 		body.addChild(head);
 
 
-		upper_jaw = new AdvancedModelPart(this);
+		upper_jaw = new AdvancedModelBox(this);
 		upper_jaw.setRotationPoint(0.0F, 0.0F, 0.0F);
 		head.addChild(upper_jaw);
 		upper_jaw.setTextureOffset(44, 13).addBox(-1.5F, -2.0F, -4.0F, 3.0F, 4.0F, 4.0F, 0.0F, false);
@@ -87,7 +87,7 @@ public class ModelLionfish extends AdvancedEntityModel<Lionfish_Entity> {
 		upper_jaw.setTextureOffset(0, 38).addBox(0.0F, -4.0F, -4.0F, 0.0F, 2.0F, 4.0F, 0.0F, false);
 		upper_jaw.setTextureOffset(12, 20).addBox(0.0F, -4.0F, -6.0F, 0.0F, 5.0F, 2.0F, 0.0F, false);
 
-		jaw = new AdvancedModelPart(this);
+		jaw = new AdvancedModelBox(this);
 		jaw.setRotationPoint(0.0F, 0.7F, -1.0F);
 		head.addChild(jaw);
 		jaw.setTextureOffset(44, 22).addBox(-1.5F, -0.5F, -3.5F, 3.0F, 3.0F, 4.0F, 0.025F, false);
@@ -135,7 +135,7 @@ public class ModelLionfish extends AdvancedEntityModel<Lionfish_Entity> {
 		float idleDegree = 0.3F;
 		float swimSpeed = 0.55F;
 		float swimDegree = 0.7F;
-		AdvancedModelPart[] tailBoxes = new AdvancedModelPart[]{tail, tail2};
+		AdvancedModelBox[] tailBoxes = new AdvancedModelBox[]{tail, tail2};
 		float partialTick = ageInTicks - entityIn.tickCount;
 		float landProgress = entityIn.prevOnLandProgress + (entityIn.onLandProgress - entityIn.prevOnLandProgress) * partialTick;
 
@@ -158,7 +158,7 @@ public class ModelLionfish extends AdvancedEntityModel<Lionfish_Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
 				body,
@@ -178,9 +178,9 @@ public class ModelLionfish extends AdvancedEntityModel<Lionfish_Entity> {
         return ImmutableList.of(root);
     }
 
-	public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-		AdvancedModelPart.rotateAngleX = x;
-		AdvancedModelPart.rotateAngleY = y;
-		AdvancedModelPart.rotateAngleZ = z;
+	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+		AdvancedModelBox.rotateAngleX = x;
+		AdvancedModelBox.rotateAngleY = y;
+		AdvancedModelBox.rotateAngleZ = z;
 	}
 }

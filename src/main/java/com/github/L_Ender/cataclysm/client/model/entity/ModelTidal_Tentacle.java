@@ -4,15 +4,15 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
 public class ModelTidal_Tentacle extends AdvancedEntityModel<Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart tonguePivot;
-	private final AdvancedModelPart tongue;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox tonguePivot;
+	private final AdvancedModelBox tongue;
 	private float stretch;
 	public static boolean HIDE = false;
 
@@ -20,16 +20,16 @@ public class ModelTidal_Tentacle extends AdvancedEntityModel<Entity> {
 		texWidth = 32;
 		texHeight = 32;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 12.0F, 0.0F);
 
 
-		tonguePivot = new AdvancedModelPart(this);
+		tonguePivot = new AdvancedModelBox(this);
 		tonguePivot.setRotationPoint(0.0F, 0.0F, 0.0F);
 		root.addChild(tonguePivot);
 
 
-		tongue = new AdvancedModelPart(this);
+		tongue = new AdvancedModelBox(this);
 		tongue.setRotationPoint(0.0F, 0.0F, 0.0F);
 		tonguePivot.addChild(tongue);
 		tongue.setTextureOffset(0, 0).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 16.0F, 2.0F, 0.0F, false);
@@ -37,7 +37,7 @@ public class ModelTidal_Tentacle extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root, tonguePivot, tongue);
 	}
 

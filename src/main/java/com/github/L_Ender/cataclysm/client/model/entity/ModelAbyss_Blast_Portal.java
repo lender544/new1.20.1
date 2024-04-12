@@ -5,19 +5,19 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelAbyss_Blast_Portal extends AdvancedEntityModel<Abyss_Blast_Portal_Entity> {
-	private final AdvancedModelPart root;
-	private final AdvancedModelPart portal;
+	private final AdvancedModelBox root;
+	private final AdvancedModelBox portal;
 
 	public ModelAbyss_Blast_Portal() {
 		texWidth = 128;
 		texHeight = 128;
 
-		root = new AdvancedModelPart(this);
+		root = new AdvancedModelBox(this);
 		root.setRotationPoint(0.0F, 22.0F, 0.0F);
 		root.setTextureOffset(0, 49).addBox(-6.0F, -2.0F, 18.0F, 9.0F, 4.0F, 7.0F, 0.0F, false);
 		root.setTextureOffset(1, 72).addBox(-3.0F, -1.0F, 16.0F, 7.0F, 2.0F, 6.0F, 0.0F, false);
@@ -35,7 +35,7 @@ public class ModelAbyss_Blast_Portal extends AdvancedEntityModel<Abyss_Blast_Por
 		root.setTextureOffset(46, 49).addBox(-16.0F, -1.0F, -15.0F, 4.0F, 2.0F, 3.0F, 0.0F, false);
 		root.setTextureOffset(46, 49).addBox(20.0F, -1.0F, -1.0F, 4.0F, 2.0F, 3.0F, 0.0F, false);
 
-		portal = new AdvancedModelPart(this);
+		portal = new AdvancedModelBox(this);
 		portal.setRotationPoint(0.0F, 0.0F, 0.0F);
 		root.addChild(portal);
 		portal.setTextureOffset(-48, 0).addBox(-24.0F, 0.0F, -24.0F, 48.0F, 0.0F, 48.0F, 0.0F, false);
@@ -48,7 +48,7 @@ public class ModelAbyss_Blast_Portal extends AdvancedEntityModel<Abyss_Blast_Por
 	}
 
 	@Override
-	public Iterable<AdvancedModelPart> getAllParts() {
+	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root, portal);
 	}
 
@@ -59,7 +59,7 @@ public class ModelAbyss_Blast_Portal extends AdvancedEntityModel<Abyss_Blast_Por
 	}
 
 
-	public void setRotationAngle(AdvancedModelPart modelRenderer, float x, float y, float z) {
+	public void setRotationAngle(AdvancedModelBox modelRenderer, float x, float y, float z) {
 		modelRenderer.rotateAngleX = x;
 		modelRenderer.rotateAngleY = y;
 		modelRenderer.rotateAngleZ = z;

@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelPart;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
+import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
@@ -11,70 +11,70 @@ import static com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.
 
 
 public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
-    private final AdvancedModelPart root;
-    private final AdvancedModelPart upperbody;
-    private final AdvancedModelPart right_chestplate;
-    private final AdvancedModelPart left_chestplate;
-    private final AdvancedModelPart right_plate;
-    private final AdvancedModelPart left_plate;
-    private final AdvancedModelPart head;
-    private final AdvancedModelPart right_helmet;
-    private final AdvancedModelPart left_helmet;
-    private final AdvancedModelPart head_plate;
-    private final AdvancedModelPart right_horn;
-    private final AdvancedModelPart right_horn2;
-    private final AdvancedModelPart right_horn3;
-    private final AdvancedModelPart left_horn;
-    private final AdvancedModelPart left_horn2;
-    private final AdvancedModelPart left_horn3;
-    private final AdvancedModelPart left_arm_joint;
-    private final AdvancedModelPart left_arm;
-    private final AdvancedModelPart left_fasteners3;
-    private final AdvancedModelPart left_spike;
-    private final AdvancedModelPart left_big_spike;
-    private final AdvancedModelPart left_hand;
-    private final AdvancedModelPart left_fasteners;
-    private final AdvancedModelPart left_big_guantlet;
-    private final AdvancedModelPart shield_root;
-    private final AdvancedModelPart shield;
-    private final AdvancedModelPart right;
-    private final AdvancedModelPart left;
-    private final AdvancedModelPart left_guantlet;
-    private final AdvancedModelPart left_fist;
-    private final AdvancedModelPart right_arm_joint;
-    private final AdvancedModelPart right_arm;
-    private final AdvancedModelPart right_fasteners;
-    private final AdvancedModelPart right_spike;
-    private final AdvancedModelPart right_big_spike;
-    private final AdvancedModelPart right_hand;
-    private final AdvancedModelPart right_fasteners2;
-    private final AdvancedModelPart right_big_guantlet;
-    private final AdvancedModelPart right_guantlet;
-    private final AdvancedModelPart right_fist;
-    private final AdvancedModelPart sword;
-    private final AdvancedModelPart blade;
-    public final AdvancedModelPart blade2;
-    private final AdvancedModelPart blade_mid;
-    private final AdvancedModelPart handle_core;
-    private final AdvancedModelPart core;
-    private final AdvancedModelPart upper_guard;
-    private final AdvancedModelPart lower_guard;
-    private final AdvancedModelPart bodycore;
-    private final AdvancedModelPart lowerbody;
-    private final AdvancedModelPart right_thighplate;
-    private final AdvancedModelPart left_thighplate;
-    private final AdvancedModelPart lowerbody2;
+    private final AdvancedModelBox root;
+    private final AdvancedModelBox upperbody;
+    private final AdvancedModelBox right_chestplate;
+    private final AdvancedModelBox left_chestplate;
+    private final AdvancedModelBox right_plate;
+    private final AdvancedModelBox left_plate;
+    private final AdvancedModelBox head;
+    private final AdvancedModelBox right_helmet;
+    private final AdvancedModelBox left_helmet;
+    private final AdvancedModelBox head_plate;
+    private final AdvancedModelBox right_horn;
+    private final AdvancedModelBox right_horn2;
+    private final AdvancedModelBox right_horn3;
+    private final AdvancedModelBox left_horn;
+    private final AdvancedModelBox left_horn2;
+    private final AdvancedModelBox left_horn3;
+    private final AdvancedModelBox left_arm_joint;
+    private final AdvancedModelBox left_arm;
+    private final AdvancedModelBox left_fasteners3;
+    private final AdvancedModelBox left_spike;
+    private final AdvancedModelBox left_big_spike;
+    private final AdvancedModelBox left_hand;
+    private final AdvancedModelBox left_fasteners;
+    private final AdvancedModelBox left_big_guantlet;
+    private final AdvancedModelBox shield_root;
+    private final AdvancedModelBox shield;
+    private final AdvancedModelBox right;
+    private final AdvancedModelBox left;
+    private final AdvancedModelBox left_guantlet;
+    private final AdvancedModelBox left_fist;
+    private final AdvancedModelBox right_arm_joint;
+    private final AdvancedModelBox right_arm;
+    private final AdvancedModelBox right_fasteners;
+    private final AdvancedModelBox right_spike;
+    private final AdvancedModelBox right_big_spike;
+    private final AdvancedModelBox right_hand;
+    private final AdvancedModelBox right_fasteners2;
+    private final AdvancedModelBox right_big_guantlet;
+    private final AdvancedModelBox right_guantlet;
+    private final AdvancedModelBox right_fist;
+    private final AdvancedModelBox sword;
+    private final AdvancedModelBox blade;
+    public final AdvancedModelBox blade2;
+    private final AdvancedModelBox blade_mid;
+    private final AdvancedModelBox handle_core;
+    private final AdvancedModelBox core;
+    private final AdvancedModelBox upper_guard;
+    private final AdvancedModelBox lower_guard;
+    private final AdvancedModelBox bodycore;
+    private final AdvancedModelBox lowerbody;
+    private final AdvancedModelBox right_thighplate;
+    private final AdvancedModelBox left_thighplate;
+    private final AdvancedModelBox lowerbody2;
     private ModelAnimator animator;
 
     public ModelIgnis() {
         texWidth = 256;
         texHeight = 256;
 
-        root = new AdvancedModelPart(this);
+        root = new AdvancedModelBox(this);
         root.setRotationPoint(0.0F, 19.0F, 0.0F);
 
 
-        upperbody = new AdvancedModelPart(this);
+        upperbody = new AdvancedModelBox(this);
         upperbody.setRotationPoint(0.0F, -24.5F, 1.0F);
         root.addChild(upperbody);
         setRotationAngle(upperbody, 0.3491F, 0.0F, 0.0F);
@@ -82,98 +82,98 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         upperbody.setTextureOffset(47, 72).addBox(-13.0F, -17.0F, -3.5F, 3.0F, 13.0F, 11.0F, 0.0F, false);
         upperbody.setTextureOffset(47, 72).addBox(10.0F, -17.0F, -3.5F, 3.0F, 13.0F, 11.0F, 0.0F, true);
 
-        right_chestplate = new AdvancedModelPart(this);
+        right_chestplate = new AdvancedModelBox(this);
         right_chestplate.setRotationPoint(-6.8F, -6.5F, -4.5F);
         upperbody.addChild(right_chestplate);
         setRotationAngle(right_chestplate, 0.0F, 0.3054F, 0.0F);
         right_chestplate.setTextureOffset(133, 84).addBox(-4.5F, -6.5F, -5.0F, 11.0F, 13.0F, 10.0F, 0.5F, false);
 
-        left_chestplate = new AdvancedModelPart(this);
+        left_chestplate = new AdvancedModelBox(this);
         left_chestplate.setRotationPoint(6.8F, -6.5F, -4.5F);
         upperbody.addChild(left_chestplate);
         setRotationAngle(left_chestplate, 0.0F, -0.3054F, 0.0F);
         left_chestplate.setTextureOffset(133, 84).addBox(-6.5F, -6.5F, -5.0F, 11.0F, 13.0F, 10.0F, 0.5F, true);
 
-        right_plate = new AdvancedModelPart(this);
+        right_plate = new AdvancedModelBox(this);
         right_plate.setRotationPoint(-5.3F, -12.9F, 8.0F);
         upperbody.addChild(right_plate);
         setRotationAngle(right_plate, 0.0F, -0.3054F, 0.0F);
         right_plate.setTextureOffset(47, 0).addBox(-5.0F, -2.0F, -15.0F, 5.0F, 4.0F, 15.0F, 0.0F, false);
 
-        left_plate = new AdvancedModelPart(this);
+        left_plate = new AdvancedModelBox(this);
         left_plate.setRotationPoint(5.3F, -12.9F, 8.0F);
         upperbody.addChild(left_plate);
         setRotationAngle(left_plate, 0.0F, 0.3054F, 0.0F);
         left_plate.setTextureOffset(47, 0).addBox(0.0F, -2.0F, -15.0F, 5.0F, 4.0F, 15.0F, 0.0F, true);
 
-        head = new AdvancedModelPart(this);
+        head = new AdvancedModelBox(this);
         head.setRotationPoint(0.0F, -14.0F, 2.0F);
         upperbody.addChild(head);
         setRotationAngle(head, -0.3491F, 0.0F, 0.0F);
         head.setTextureOffset(133, 108).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 9.0F, 8.0F, 0.5F, false);
         head.setTextureOffset(135, 136).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-        right_helmet = new AdvancedModelPart(this);
+        right_helmet = new AdvancedModelBox(this);
         right_helmet.setRotationPoint(-4.5F, -3.0F, -4.5F);
         head.addChild(right_helmet);
         setRotationAngle(right_helmet, 0.0F, -0.829F, 0.0F);
         right_helmet.setTextureOffset(47, 0).addBox(0.0F, -0.5F, -4.0F, 0.0F, 5.0F, 7.0F, 0.0F, false);
 
-        left_helmet = new AdvancedModelPart(this);
+        left_helmet = new AdvancedModelBox(this);
         left_helmet.setRotationPoint(4.5F, -3.0F, -4.5F);
         head.addChild(left_helmet);
         setRotationAngle(left_helmet, 0.0F, 0.829F, 0.0F);
         left_helmet.setTextureOffset(47, 0).addBox(0.0F, -0.5F, -4.0F, 0.0F, 5.0F, 7.0F, 0.0F, true);
 
-        head_plate = new AdvancedModelPart(this);
+        head_plate = new AdvancedModelBox(this);
         head_plate.setRotationPoint(0.0F, -7.0F, -4.0F);
         head.addChild(head_plate);
         setRotationAngle(head_plate, -0.2618F, 0.0F, 0.0F);
         head_plate.setTextureOffset(90, 77).addBox(-1.5F, -1.0F, -1.0F, 3.0F, 3.0F, 1.0F, 0.0F, false);
 
-        right_horn = new AdvancedModelPart(this);
+        right_horn = new AdvancedModelBox(this);
         right_horn.setRotationPoint(-3.5F, -7.5F, -3.5F);
         head.addChild(right_horn);
         setRotationAngle(right_horn, 0.3927F, 0.2182F, -0.1309F);
         right_horn.setTextureOffset(47, 20).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, false);
 
-        right_horn2 = new AdvancedModelPart(this);
+        right_horn2 = new AdvancedModelBox(this);
         right_horn2.setRotationPoint(0.0F, -5.0F, -1.0F);
         right_horn.addChild(right_horn2);
         setRotationAngle(right_horn2, -1.3526F, 0.0F, 0.0F);
         right_horn2.setTextureOffset(32, 68).addBox(-0.5F, -7.0F, 0.0F, 1.0F, 7.0F, 2.0F, 0.0F, false);
 
-        right_horn3 = new AdvancedModelPart(this);
+        right_horn3 = new AdvancedModelBox(this);
         right_horn3.setRotationPoint(0.0F, -6.99F, 1.99F);
         right_horn2.addChild(right_horn3);
         setRotationAngle(right_horn3, -0.5236F, 0.0F, 0.0F);
         right_horn3.setTextureOffset(31, 35).addBox(-0.5F, -0.01F, -3.99F, 1.0F, 1.0F, 4.0F, -0.01F, false);
 
-        left_horn = new AdvancedModelPart(this);
+        left_horn = new AdvancedModelBox(this);
         left_horn.setRotationPoint(3.5F, -7.5F, -3.5F);
         head.addChild(left_horn);
         setRotationAngle(left_horn, 0.3927F, -0.2182F, 0.1309F);
         left_horn.setTextureOffset(47, 20).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 6.0F, 2.0F, 0.0F, true);
 
-        left_horn2 = new AdvancedModelPart(this);
+        left_horn2 = new AdvancedModelBox(this);
         left_horn2.setRotationPoint(0.0F, -5.0F, -1.0F);
         left_horn.addChild(left_horn2);
         setRotationAngle(left_horn2, -1.3526F, 0.0F, 0.0F);
         left_horn2.setTextureOffset(32, 68).addBox(-0.5F, -7.0F, 0.0F, 1.0F, 7.0F, 2.0F, 0.0F, true);
 
-        left_horn3 = new AdvancedModelPart(this);
+        left_horn3 = new AdvancedModelBox(this);
         left_horn3.setRotationPoint(0.0F, -6.99F, 1.99F);
         left_horn2.addChild(left_horn3);
         setRotationAngle(left_horn3, -0.5236F, 0.0F, 0.0F);
         left_horn3.setTextureOffset(31, 35).addBox(-0.5F, -0.01F, -3.99F, 1.0F, 1.0F, 4.0F, -0.01F, true);
 
-        left_arm_joint = new AdvancedModelPart(this);
+        left_arm_joint = new AdvancedModelBox(this);
         left_arm_joint.setRotationPoint(15.8F, -14.0F, 3.0F);
         upperbody.addChild(left_arm_joint);
         setRotationAngle(left_arm_joint, -0.3491F, 0.0F, 0.0F);
 
 
-        left_arm = new AdvancedModelPart(this);
+        left_arm = new AdvancedModelBox(this);
         left_arm.setRotationPoint(0.0F, 0.0F, 0.0F);
         left_arm_joint.addChild(left_arm);
         setRotationAngle(left_arm, 0.0F, 0.0F, -0.2618F);
@@ -182,57 +182,57 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         left_arm.setTextureOffset(53, 128).addBox(0.0F, -5.5F, -6.0F, 12.0F, 11.0F, 12.0F, 0.5F, true);
         left_arm.setTextureOffset(124, 60).addBox(0.0F, -5.5F, -6.0F, 12.0F, 11.0F, 12.0F, 0.0F, true);
 
-        left_fasteners3 = new AdvancedModelPart(this);
+        left_fasteners3 = new AdvancedModelBox(this);
         left_fasteners3.setRotationPoint(4.5F, 6.0F, -7.0F);
         left_arm.addChild(left_fasteners3);
         setRotationAngle(left_fasteners3, 0.0F, 0.0F, -0.7854F);
         left_fasteners3.setTextureOffset(0, 85).addBox(-2.5F, -2.5F, -0.75F, 5.0F, 5.0F, 2.0F, 0.0F, true);
         left_fasteners3.setTextureOffset(74, 20).addBox(-2.5F, -2.5F, 12.75F, 5.0F, 5.0F, 2.0F, 0.0F, true);
 
-        left_spike = new AdvancedModelPart(this);
+        left_spike = new AdvancedModelBox(this);
         left_spike.setRotationPoint(11.9F, 2.4F, 0.0F);
         left_arm.addChild(left_spike);
         setRotationAngle(left_spike, 0.0F, 0.0F, 1.3526F);
         left_spike.setTextureOffset(0, 57).addBox(-2.0F, -7.0F, 0.0F, 4.0F, 7.0F, 0.0F, 0.0F, true);
 
-        left_big_spike = new AdvancedModelPart(this);
+        left_big_spike = new AdvancedModelBox(this);
         left_big_spike.setRotationPoint(9.5F, -2.8F, 0.0F);
         left_arm.addChild(left_big_spike);
         setRotationAngle(left_big_spike, 0.0F, 0.0F, 0.6109F);
         left_big_spike.setTextureOffset(76, 83).addBox(-3.0F, -13.0F, 0.0F, 6.0F, 13.0F, 0.0F, 0.0F, true);
 
-        left_hand = new AdvancedModelPart(this);
+        left_hand = new AdvancedModelBox(this);
         left_hand.setRotationPoint(8.2F, 18.4F, 0.0F);
         left_arm.addChild(left_hand);
         setRotationAngle(left_hand, 0.0F, 0.0F, 0.2618F);
         left_hand.setTextureOffset(83, 153).addBox(-3.5F, 0.0F, -3.5F, 7.0F, 8.0F, 7.0F, 0.0F, true);
 
-        left_fasteners = new AdvancedModelPart(this);
+        left_fasteners = new AdvancedModelBox(this);
         left_fasteners.setRotationPoint(1.1966F, 11.2224F, -6.0F);
         left_hand.addChild(left_fasteners);
         setRotationAngle(left_fasteners, 0.0F, 0.0F, 0.7854F);
         left_fasteners.setTextureOffset(94, 48).addBox(-7.5F, -4.5F, 9.0F, 4.0F, 4.0F, 2.0F, 0.0F, true);
         left_fasteners.setTextureOffset(94, 8).addBox(-7.5F, -4.5F, 1.0F, 4.0F, 4.0F, 2.0F, 0.0F, true);
 
-        left_big_guantlet = new AdvancedModelPart(this);
+        left_big_guantlet = new AdvancedModelBox(this);
         left_big_guantlet.setRotationPoint(2.0F, 12.0F, 0.0F);
         left_hand.addChild(left_big_guantlet);
         setRotationAngle(left_big_guantlet, 0.0F, 0.0F, 0.3054F);
         left_big_guantlet.setTextureOffset(0, 151).addBox(-3.5F, -13.0F, -4.0F, 5.0F, 13.0F, 8.0F, 0.5F, true);
 
-        shield_root = new AdvancedModelPart(this);
+        shield_root = new AdvancedModelBox(this);
         shield_root.setRotationPoint(2.0F, -6.0F, 0.0F);
         left_big_guantlet.addChild(shield_root);
         shield_root.setTextureOffset(112, 153).addBox(0.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, 0.0F, false);
 
-        shield = new AdvancedModelPart(this);
+        shield = new AdvancedModelBox(this);
         shield.setRotationPoint(0.0F, 0.0F, -3.0F);
         shield_root.addChild(shield);
         shield.setTextureOffset(0, 57).addBox(1.0F, -7.0F, -18.0F, 2.0F, 14.0F, 42.0F, 0.0F, false);
         shield.setTextureOffset(90, 72).addBox(0.0F, -8.0F, -29.0F, 4.0F, 16.0F, 11.0F, 0.0F, false);
         shield.setTextureOffset(0, 57).addBox(0.0F, -8.0F, 22.0F, 4.0F, 16.0F, 11.0F, 0.0F, false);
 
-        right = new AdvancedModelPart(this);
+        right = new AdvancedModelBox(this);
         right.setRotationPoint(0.0F, -11.0F, 3.5F);
         shield.addChild(right);
         setRotationAngle(right, -0.0865F, -0.0114F, -0.1304F);
@@ -240,7 +240,7 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         right.setTextureOffset(27, 151).addBox(-2.0F, -8.0F, 20.5F, 4.0F, 14.0F, 8.0F, 0.0F, false);
         right.setTextureOffset(0, 0).addBox(-1.0F, -7.0F, -21.5F, 2.0F, 14.0F, 42.0F, 0.0F, false);
 
-        left = new AdvancedModelPart(this);
+        left = new AdvancedModelBox(this);
         left.setRotationPoint(0.0F, 11.0F, 3.5F);
         shield.addChild(left);
         setRotationAngle(left, 0.0865F, -0.0114F, 0.1304F);
@@ -248,24 +248,24 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         left.setTextureOffset(27, 151).addBox(-2.0F, -6.0F, 20.5F, 4.0F, 14.0F, 8.0F, 0.0F, false);
         left.setTextureOffset(47, 15).addBox(-1.0F, -7.0F, -21.5F, 2.0F, 14.0F, 42.0F, 0.0F, false);
 
-        left_guantlet = new AdvancedModelPart(this);
+        left_guantlet = new AdvancedModelBox(this);
         left_guantlet.setRotationPoint(-1.0F, 3.0F, 0.0F);
         left_hand.addChild(left_guantlet);
         setRotationAngle(left_guantlet, 0.0F, 0.0F, 0.2182F);
         left_guantlet.setTextureOffset(151, 29).addBox(0.5F, -12.0F, -3.5F, 4.0F, 16.0F, 7.0F, 0.5F, true);
 
-        left_fist = new AdvancedModelPart(this);
+        left_fist = new AdvancedModelBox(this);
         left_fist.setRotationPoint(-1.5F, 8.0F, 0.0F);
         left_hand.addChild(left_fist);
         left_fist.setTextureOffset(102, 136).addBox(-4.0F, 0.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, true);
 
-        right_arm_joint = new AdvancedModelPart(this);
+        right_arm_joint = new AdvancedModelBox(this);
         right_arm_joint.setRotationPoint(-15.8F, -14.0F, 3.0F);
         upperbody.addChild(right_arm_joint);
         setRotationAngle(right_arm_joint, -0.3491F, 0.0F, 0.0F);
 
 
-        right_arm = new AdvancedModelPart(this);
+        right_arm = new AdvancedModelBox(this);
         right_arm.setRotationPoint(0.0F, 0.0F, 0.0F);
         right_arm_joint.addChild(right_arm);
         setRotationAngle(right_arm, 0.0F, 0.0F, 0.2618F);
@@ -274,56 +274,56 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         right_arm.setTextureOffset(53, 128).addBox(-12.0F, -5.5F, -6.0F, 12.0F, 11.0F, 12.0F, 0.5F, false);
         right_arm.setTextureOffset(124, 60).addBox(-12.0F, -5.5F, -6.0F, 12.0F, 11.0F, 12.0F, 0.0F, false);
 
-        right_fasteners = new AdvancedModelPart(this);
+        right_fasteners = new AdvancedModelBox(this);
         right_fasteners.setRotationPoint(-4.5F, 6.0F, -7.0F);
         right_arm.addChild(right_fasteners);
         setRotationAngle(right_fasteners, 0.0F, 0.0F, 0.7854F);
         right_fasteners.setTextureOffset(0, 85).addBox(-2.5F, -2.5F, -0.75F, 5.0F, 5.0F, 2.0F, 0.0F, false);
         right_fasteners.setTextureOffset(74, 20).addBox(-2.5F, -2.5F, 12.75F, 5.0F, 5.0F, 2.0F, 0.0F, false);
 
-        right_spike = new AdvancedModelPart(this);
+        right_spike = new AdvancedModelBox(this);
         right_spike.setRotationPoint(-11.9F, 2.4F, 0.0F);
         right_arm.addChild(right_spike);
         setRotationAngle(right_spike, 0.0F, 0.0F, -1.3526F);
         right_spike.setTextureOffset(0, 57).addBox(-2.0F, -7.0F, 0.0F, 4.0F, 7.0F, 0.0F, 0.0F, false);
 
-        right_big_spike = new AdvancedModelPart(this);
+        right_big_spike = new AdvancedModelBox(this);
         right_big_spike.setRotationPoint(-9.5F, -2.8F, 0.0F);
         right_arm.addChild(right_big_spike);
         setRotationAngle(right_big_spike, 0.0F, 0.0F, -0.6109F);
         right_big_spike.setTextureOffset(76, 83).addBox(-3.0F, -13.0F, 0.0F, 6.0F, 13.0F, 0.0F, 0.0F, false);
 
-        right_hand = new AdvancedModelPart(this);
+        right_hand = new AdvancedModelBox(this);
         right_hand.setRotationPoint(-8.2F, 18.4F, 0.0F);
         right_arm.addChild(right_hand);
         setRotationAngle(right_hand, 0.0F, 0.0F, -0.2618F);
         right_hand.setTextureOffset(83, 153).addBox(-3.5F, 0.0F, -3.5F, 7.0F, 8.0F, 7.0F, 0.0F, false);
 
-        right_fasteners2 = new AdvancedModelPart(this);
+        right_fasteners2 = new AdvancedModelBox(this);
         right_fasteners2.setRotationPoint(-1.1966F, 11.2224F, -6.0F);
         right_hand.addChild(right_fasteners2);
         setRotationAngle(right_fasteners2, 0.0F, 0.0F, -0.7854F);
         right_fasteners2.setTextureOffset(94, 48).addBox(3.5F, -4.5F, 9.0F, 4.0F, 4.0F, 2.0F, 0.0F, false);
         right_fasteners2.setTextureOffset(94, 8).addBox(3.5F, -4.5F, 1.0F, 4.0F, 4.0F, 2.0F, 0.0F, false);
 
-        right_big_guantlet = new AdvancedModelPart(this);
+        right_big_guantlet = new AdvancedModelBox(this);
         right_big_guantlet.setRotationPoint(-2.0F, 12.0F, 0.0F);
         right_hand.addChild(right_big_guantlet);
         setRotationAngle(right_big_guantlet, 0.0F, 0.0F, -0.3054F);
         right_big_guantlet.setTextureOffset(0, 151).addBox(-1.5F, -13.0F, -4.0F, 5.0F, 13.0F, 8.0F, 0.5F, false);
 
-        right_guantlet = new AdvancedModelPart(this);
+        right_guantlet = new AdvancedModelBox(this);
         right_guantlet.setRotationPoint(1.0F, 3.0F, 0.0F);
         right_hand.addChild(right_guantlet);
         setRotationAngle(right_guantlet, 0.0F, 0.0F, -0.2182F);
         right_guantlet.setTextureOffset(151, 29).addBox(-4.5F, -12.0F, -3.5F, 4.0F, 16.0F, 7.0F, 0.5F, false);
 
-        right_fist = new AdvancedModelPart(this);
+        right_fist = new AdvancedModelBox(this);
         right_fist.setRotationPoint(1.5F, 8.0F, 0.0F);
         right_hand.addChild(right_fist);
         right_fist.setTextureOffset(102, 136).addBox(-4.0F, 0.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-        sword = new AdvancedModelPart(this);
+        sword = new AdvancedModelBox(this);
         sword.setRotationPoint(1.5F, 4.5F, 0.0F);
         right_fist.addChild(sword);
         sword.setTextureOffset(52, 152).addBox(-1.5F, -1.5F, -6.0F, 3.0F, 3.0F, 12.0F, 0.0F, false);
@@ -331,19 +331,19 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         sword.setTextureOffset(49, 74).addBox(0.0F, -6.5F, -49.0F, 0.0F, 13.0F, 40.0F, 0.0F, false);
         sword.setTextureOffset(90, 88).addBox(-0.5F, -3.5F, -49.0F, 1.0F, 7.0F, 40.0F, 0.0F, false);
 
-        blade = new AdvancedModelPart(this);
+        blade = new AdvancedModelBox(this);
         blade.setRotationPoint(0.0F, 0.0F, -49.0F);
         sword.addChild(blade);
         setRotationAngle(blade, 0.7854F, 0.0F, 0.0F);
         blade.setTextureOffset(27, 0).addBox(-0.5F, -2.5F, -2.5F, 1.0F, 5.0F, 5.0F, -0.01F, false);
 
-        blade2 = new AdvancedModelPart(this);
+        blade2 = new AdvancedModelBox(this);
         blade2.setRotationPoint(0.0F, 0.0F, -49.0F);
         sword.addChild(blade2);
         setRotationAngle(blade2, 0.7854F, 0.0F, 0.0F);
         blade2.setTextureOffset(22, 76).addBox(0.0F, -4.5F, -4.5F, 0.0F, 9.0F, 9.0F, 0.0F, false);
 
-        blade_mid = new AdvancedModelPart(this);
+        blade_mid = new AdvancedModelBox(this);
         blade_mid.setRotationPoint(0.0F, 0.0F, -8.8F);
         sword.addChild(blade_mid);
         setRotationAngle(blade_mid, 0.7854F, 0.0F, 0.0F);
@@ -351,19 +351,19 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         blade_mid.setTextureOffset(35, 0).addBox(-1.0F, 2.5F, -0.5F, 2.0F, 3.0F, 1.0F, 0.0F, false);
         blade_mid.setTextureOffset(90, 72).addBox(-1.0F, -0.5F, 2.5F, 2.0F, 1.0F, 3.0F, 0.0F, false);
 
-        handle_core = new AdvancedModelPart(this);
+        handle_core = new AdvancedModelBox(this);
         handle_core.setRotationPoint(0.0F, 0.0F, 12.5F);
         sword.addChild(handle_core);
         setRotationAngle(handle_core, 0.6284F, -0.4422F, -1.2329F);
         handle_core.setTextureOffset(73, 0).addBox(-2.5F, -2.5F, -2.5F, 5.0F, 5.0F, 5.0F, 0.7F, false);
 
-        core = new AdvancedModelPart(this);
+        core = new AdvancedModelBox(this);
         core.setRotationPoint(0.0F, 0.0F, 12.5F);
         sword.addChild(core);
         setRotationAngle(core, 0.37F, -0.4404F, -0.7382F);
         core.setTextureOffset(65, 72).addBox(-2.5F, -2.5F, -2.5F, 5.0F, 5.0F, 5.0F, 0.0F, false);
 
-        upper_guard = new AdvancedModelPart(this);
+        upper_guard = new AdvancedModelBox(this);
         upper_guard.setRotationPoint(0.0F, -1.9F, -8.5F);
         sword.addChild(upper_guard);
         setRotationAngle(upper_guard, -0.1745F, 0.0F, 0.0F);
@@ -376,7 +376,7 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         upper_guard.setTextureOffset(27, 0).addBox(-0.5F, -11.0F, -7.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
         upper_guard.setTextureOffset(0, 23).addBox(-0.5F, -11.0F, -5.0F, 1.0F, 9.0F, 2.0F, 0.0F, false);
 
-        lower_guard = new AdvancedModelPart(this);
+        lower_guard = new AdvancedModelBox(this);
         lower_guard.setRotationPoint(0.0F, 1.9F, -8.5F);
         sword.addChild(lower_guard);
         setRotationAngle(lower_guard, 0.1745F, 0.0F, 0.0F);
@@ -389,30 +389,30 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
         lower_guard.setTextureOffset(23, 23).addBox(-0.5F, 9.0F, -7.0F, 1.0F, 2.0F, 1.0F, 0.0F, false);
         lower_guard.setTextureOffset(0, 0).addBox(-0.5F, 2.0F, -5.0F, 1.0F, 9.0F, 2.0F, 0.0F, false);
 
-        bodycore = new AdvancedModelPart(this);
+        bodycore = new AdvancedModelBox(this);
         bodycore.setRotationPoint(0.0F, 0.0F, 0.0F);
         upperbody.addChild(bodycore);
         setRotationAngle(bodycore, -0.3491F, 0.0F, 0.0F);
         bodycore.setTextureOffset(20, 57).addBox(-4.0F, -11.5F, -12.0F, 8.0F, 8.0F, 2.0F, 0.0F, false);
 
-        lowerbody = new AdvancedModelPart(this);
+        lowerbody = new AdvancedModelBox(this);
         lowerbody.setRotationPoint(0.0F, -27.0F, 1.0F);
         root.addChild(lowerbody);
         lowerbody.setTextureOffset(94, 29).addBox(-8.0F, 0.0F, -6.0F, 16.0F, 6.0F, 12.0F, 0.0F, false);
 
-        right_thighplate = new AdvancedModelPart(this);
+        right_thighplate = new AdvancedModelBox(this);
         right_thighplate.setRotationPoint(-5.7F, 10.3F, -1.0F);
         lowerbody.addChild(right_thighplate);
         setRotationAngle(right_thighplate, 0.0F, 0.0F, 0.3054F);
         right_thighplate.setTextureOffset(0, 0).addBox(-4.0F, -5.0F, -5.0F, 7.0F, 10.0F, 12.0F, 0.5F, false);
 
-        left_thighplate = new AdvancedModelPart(this);
+        left_thighplate = new AdvancedModelBox(this);
         left_thighplate.setRotationPoint(5.7F, 10.3F, -1.0F);
         lowerbody.addChild(left_thighplate);
         setRotationAngle(left_thighplate, 0.0F, 0.0F, -0.3054F);
         left_thighplate.setTextureOffset(0, 0).addBox(-3.0F, -5.0F, -5.0F, 7.0F, 10.0F, 12.0F, 0.5F, true);
 
-        lowerbody2 = new AdvancedModelPart(this);
+        lowerbody2 = new AdvancedModelBox(this);
         lowerbody2.setRotationPoint(0.0F, 5.0F, -5.0F);
         lowerbody.addChild(lowerbody2);
         lowerbody2.setTextureOffset(0, 118).addBox(-8.0F, 0.0F, 0.0F, 16.0F, 22.0F, 10.0F, 0.0F, false);
@@ -3508,7 +3508,7 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
     }
 
     @Override
-    public Iterable<AdvancedModelPart> getAllParts() {
+    public Iterable<AdvancedModelBox> getAllParts() {
         return ImmutableList.of(
                 root,
                 upperbody,
@@ -3542,9 +3542,9 @@ public class ModelIgnis extends AdvancedEntityModel<Ignis_Entity> {
     }
 
 
-    public void setRotationAngle(AdvancedModelPart AdvancedModelPart, float x, float y, float z) {
-        AdvancedModelPart.rotateAngleX = x;
-        AdvancedModelPart.rotateAngleY = y;
-        AdvancedModelPart.rotateAngleZ = z;
+    public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
+        AdvancedModelBox.rotateAngleX = x;
+        AdvancedModelBox.rotateAngleY = y;
+        AdvancedModelBox.rotateAngleZ = z;
     }
 }
