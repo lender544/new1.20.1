@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.capabilities.*;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
+import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -12,9 +13,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -33,32 +36,6 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public void onLivingUpdateEvent(LivingEvent.LivingTickEvent event) {
-        int p_45022_ = 2;
-        final BlockPos p_45021_ = event.getEntity().blockPosition();
-        if (!event.getEntity().getItemBySlot(EquipmentSlot.FEET).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.FEET).getItem() == ModItems.IGNITIUM_BOOTS.get()) {
-            if(!event.getEntity().isShiftKeyDown()){
-            if (event.getEntity().onGround()) {
-                BlockState blockstate = ModBlocks.MELTING_NETHERRACK.get().defaultBlockState();
-                int f = Math.min(16, 2 + p_45022_);
-                BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-                for(BlockPos blockpos : BlockPos.betweenClosed(p_45021_.offset(-f, -1, -f), p_45021_.offset(f, -1, f))) {
-                    if (blockpos.closerToCenterThan(event.getEntity().position(), (double) f)) {
-                        blockpos$mutableblockpos.set(blockpos.getX(), blockpos.getY() + 1, blockpos.getZ());
-                        BlockState blockstate1 = event.getEntity().level().getBlockState(blockpos$mutableblockpos);
-                        if (blockstate1.isAir()) {
-                            BlockState blockstate2 = event.getEntity().level().getBlockState(blockpos);
-                            boolean isFull = blockstate2.getBlock() == Blocks.LAVA && blockstate2.getValue(LiquidBlock.LEVEL) == 0; //TODO: Forge, modded waters?
-                            if (blockstate2 == Blocks.LAVA.defaultBlockState() && isFull && blockstate.canSurvive(event.getEntity().level(), blockpos) && event.getEntity().level().isUnobstructed(blockstate, blockpos, CollisionContext.empty()) && !net.minecraftforge.event.ForgeEventFactory.onBlockPlace(event.getEntity(), net.minecraftforge.common.util.BlockSnapshot.create(event.getEntity().level().dimension(), event.getEntity().level(), blockpos), net.minecraft.core.Direction.UP)) {
-                                event.getEntity().level().setBlockAndUpdate(blockpos, blockstate);
-                                event.getEntity().level().scheduleTick(blockpos, ModBlocks.MELTING_NETHERRACK.get(), Mth.nextInt(event.getEntity().getRandom(), 60, 120));
-                            }
-
-                        }
-                    }
-                }
-            }
-            }
-        }
         HookCapability.IHookCapability hookCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.HOOK_CAPABILITY);
         if (hookCapability != null) {
             hookCapability.tick(event.getEntity());
@@ -67,6 +44,15 @@ public class ServerEventHandler {
         ChargeCapability.IChargeCapability chargeCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.CHARGE_CAPABILITY);
         if (chargeCapability != null) {
             chargeCapability.tick(event.getEntity());
+        }
+    }
+
+    @SubscribeEvent
+    public void StandOnFluidEventEvent(StandOnFluidEvent event) {
+        if (!event.getEntity().getItemBySlot(EquipmentSlot.FEET).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.FEET).getItem() == ModItems.IGNITIUM_BOOTS.get()) {
+            if (!event.getEntity().isShiftKeyDown() && (event.getFluidState().is(Fluids.LAVA) || event.getFluidState().is(Fluids.FLOWING_LAVA))) {
+                event.setCanceled(true);
+            }
         }
     }
 
@@ -281,11 +267,6 @@ public class ServerEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public void onAddReloadListener(AddReloadListenerEvent event){
-        Cataclysm.LOGGER.info("Adding datapack listener altar_of_amethyst_recipes");
-       // event.addListener(Cataclysm.PROXY.getAltarOfAmethystRecipeManager());
-    }
 }
 
 

@@ -1234,7 +1234,7 @@ public class Ender_Guardian_Entity extends Boss_monster {
             if (Ender_Guardian_Entity.this.getAnimationTick() < 29 && target != null
                     || Ender_Guardian_Entity.this.getAnimationTick() > 54 && target !=null) {
                 Ender_Guardian_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.lookAt(target, 30.0F, 30.0F);
+                setYRot(yBodyRot);
             } else {
                 Ender_Guardian_Entity.this.setYRot(Ender_Guardian_Entity.this.yRotO);
               //  Ender_Guardian_Entity.this.yBodyRot = Ender_Guardian_Entity.this.yBodyRotO;
@@ -1272,7 +1272,7 @@ public class Ender_Guardian_Entity extends Boss_monster {
                     || Ender_Guardian_Entity.this.getAnimationTick() > 54 && Ender_Guardian_Entity.this.getAnimationTick() < 84 && target != null
                     ||Ender_Guardian_Entity.this.getAnimationTick() > 104 && target !=null) {
                 Ender_Guardian_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                Ender_Guardian_Entity.this.lookAt(target, 30.0F, 30.0F);
+                setYRot(yBodyRot);
             } else {
                 Ender_Guardian_Entity.this.setYRot(Ender_Guardian_Entity.this.yRotO);
                 //  Ender_Guardian_Entity.this.yBodyRot = Ender_Guardian_Entity.this.yBodyRotO;

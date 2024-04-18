@@ -48,7 +48,6 @@ public class Koboleton_Entity extends Animation_Monster {
 
     public static final Animation COBOLETON_ATTACK = Animation.create(19);
 
-    private static final EntityDataAccessor<Boolean> IS_ANGRY = SynchedEntityData.defineId(Koboleton_Entity.class, EntityDataSerializers.BOOLEAN);
     public float angryProgress;
     public float prevangryProgress;
 
@@ -122,7 +121,6 @@ public class Koboleton_Entity extends Animation_Monster {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(IS_ANGRY, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -146,22 +144,15 @@ public class Koboleton_Entity extends Animation_Monster {
         return spawngroupdata;
     }
 
-    public void setIsAngry(boolean isAngry) {
-        this.entityData.set(IS_ANGRY, isAngry);
-    }
-
-    public boolean getIsAngry() {
-        return this.entityData.get(IS_ANGRY);
-    }
 
     public void tick() {
         super.tick();
         AnimationHandler.INSTANCE.updateAnimations(this);
         prevangryProgress = angryProgress;
-        if (this.getIsAngry() && angryProgress < 10F) {
+        if (this.isAggressive() && angryProgress < 10F) {
             angryProgress++;
         }
-        if (!this.getIsAngry() && angryProgress > 0F) {
+        if (!this.isAggressive() && angryProgress > 0F) {
             angryProgress--;
         }
         LivingEntity target = this.getTarget();
@@ -228,11 +219,6 @@ public class Koboleton_Entity extends Animation_Monster {
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
         return ModEntities.rollSpawn(CMConfig.KoboletonSpawnRolls, this.getRandom(), spawnReasonIn);
-    }
-
-    public void setTarget(@Nullable LivingEntity p_32537_) {
-        this.setIsAngry(p_32537_ != null);
-        super.setTarget(p_32537_); //Forge: Moved down to allow event handlers to write data manager values.
     }
 
     public boolean isAlliedTo(Entity entityIn) {

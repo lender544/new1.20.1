@@ -5,7 +5,10 @@ import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.CMMathUtil;
+import com.github.L_Ender.lionfishapi.client.model.tools.DynamicChain;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -14,16 +17,16 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
@@ -36,11 +39,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.NodeEvaluator;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 
 public class Wadjet_Entity extends Internal_Animation_Monster {
-    public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Wadjet_Entity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(Wadjet_Entity.class, EntityDataSerializers.BOOLEAN);
+    @OnlyIn(Dist.CLIENT)
+    public DynamicChain dc;
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState angryAnimationState = new AnimationState();
     public AnimationState nantaAnimationState = new AnimationState();
@@ -52,13 +61,15 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     public AnimationState deathAnimationState = new AnimationState();
     private int nanta_cooldown = 0;
     public static final int NANTA_COOLDOWN = 160;
-
     private int jump_cooldown = 0;
     public static final int JUMP_COOLDOWN = 160;
 
     public Wadjet_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 35;
+        if (world.isClientSide) {
+            dc = new DynamicChain(this);
+        }
         this.setMaxUpStep(1.25F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
@@ -125,7 +136,6 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     protected void defineSynchedData() {
         super.defineSynchedData();
     }
-
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
@@ -203,13 +213,13 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
         }
+
         if (nanta_cooldown > 0) nanta_cooldown--;
         if (jump_cooldown > 0) jump_cooldown--;
     }
 
     public void aiStep() {
         super.aiStep();
-
 
     }
 
@@ -291,6 +301,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     protected boolean canRide(Entity p_31508_) {
         return false;
     }
+
 }
 
 

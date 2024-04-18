@@ -4,8 +4,6 @@ import com.github.L_Ender.cataclysm.client.model.armor.*;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoralssus;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Berserker;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelKobolediator;
-import com.github.L_Ender.cataclysm.client.model.entity.Model_Wadjet;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -26,8 +24,6 @@ public class CMModelLayers {
     public static final ModelLayerLocation BONE_REPTILE_ARMOR_MODEL = createLocation("bone_reptile_armor_model", "main");
     public static final ModelLayerLocation SANDSTORM_IN_A_BOTTLE_MODEL = createLocation("sandstorm_in_a_bottle_model", "main");
     public static final ModelLayerLocation STICKY_GLOVES_MODEL = createLocation("sticky_gloves_model", "main");
-    public static final ModelLayerLocation KOBOLEDIATOR_MODEL = createLocation("kobolediator_model", "main");
-    public static final ModelLayerLocation WADJET_MODEL = createLocation("wadjet_model", "main");
     public static final ModelLayerLocation KOBOLEDIATOR_HEAD_MODEL = createLocation("kobolediator_head_model", "main");
     public static final ModelLayerLocation IGNITED_BERSERKER_MODEL = createLocation("ignited_berserker_model", "main");
     public static final ModelLayerLocation CORALSSUS_MODEL = createLocation("coralssus_model", "main");
@@ -41,8 +37,6 @@ public class CMModelLayers {
         event.registerLayerDefinition(SANDSTORM_IN_A_BOTTLE_MODEL, () -> Sandstorm_In_A_BottleModel.createLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(BONE_REPTILE_ARMOR_MODEL, () -> ModelBone_Reptile_Armor.createArmorLayer(new CubeDeformation(1.0F)));
         event.registerLayerDefinition(STICKY_GLOVES_MODEL, () -> Sticky_Gloves_Model.createLayer(new CubeDeformation(0.2F)));
-        event.registerLayerDefinition(KOBOLEDIATOR_MODEL, ModelKobolediator::createBodyLayer);
-        event.registerLayerDefinition(WADJET_MODEL, Model_Wadjet::createBodyLayer);
         event.registerLayerDefinition(KOBOLEDIATOR_HEAD_MODEL, KobolediatorHeadModel::createHeadLayer);
         event.registerLayerDefinition(IGNITED_BERSERKER_MODEL, ModelIgnited_Berserker::createBodyLayer);
         event.registerLayerDefinition(CORALSSUS_MODEL, ModelCoralssus::createBodyLayer);

@@ -204,7 +204,7 @@ public class ModelKoboleton extends AdvancedEntityModel<Koboleton_Entity> {
 		this.resetToDefaultPose();
 		animator.update(entity);
 		animator.setAnimation(Koboleton_Entity.COBOLETON_ATTACK);
-		if(!entity.getIsAngry()) {
+		if(!entity.isAggressive()) {
 			if (entity.isLeftHanded()) {
 				animator.startKeyframe(8);
 				animator.rotate(root, 0, (float) Math.toRadians(-20F), 0);
