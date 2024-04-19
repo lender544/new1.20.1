@@ -38,16 +38,16 @@ public class LayerKoboletonItem extends RenderLayer<Koboleton_Entity, ModelKobol
     }
 
     protected void translateToHand(PoseStack matrixStack, boolean left) {
-        this.getParentModel().root.translateRotate(matrixStack);
-        this.getParentModel().pelvis.translateRotate(matrixStack);
-        this.getParentModel().lower_body.translateRotate(matrixStack);
-        this.getParentModel().body.translateRotate(matrixStack);
+        this.getParentModel().root.translateAndRotate(matrixStack);
+        this.getParentModel().pelvis.translateAndRotate(matrixStack);
+        this.getParentModel().lower_body.translateAndRotate(matrixStack);
+        this.getParentModel().body.translateAndRotate(matrixStack);
         if(left){
-            this.getParentModel().left_arm.translateRotate(matrixStack);
-            this.getParentModel().left_weapon.translateRotate(matrixStack);
+            this.getParentModel().left_arm.translateAndRotate(matrixStack);
+            this.getParentModel().left_weapon.translateAndRotate(matrixStack);
         }else{
-            this.getParentModel().right_arm.translateRotate(matrixStack);
-            this.getParentModel().right_weapon.translateRotate(matrixStack);
+            this.getParentModel().right_arm.translateAndRotate(matrixStack);
+            this.getParentModel().right_weapon.translateAndRotate(matrixStack);
         }
     }
 

@@ -13,7 +13,7 @@ public class RenderUtils {
     public static void matrixStackFromCitadelModel(PoseStack matrixStack, AdvancedModelBox AdvancedModelBox) {
         AdvancedModelBox parent = AdvancedModelBox.getParent();
         if (parent != null) matrixStackFromCitadelModel(matrixStack, parent);
-        AdvancedModelBox.translateRotate(matrixStack);
+        AdvancedModelBox.translateAndRotate(matrixStack);
     }
 
     public static Vec3 matrixStackFromCitadelModel(Entity entity, float entityYaw, AdvancedModelBox modelRenderer) {

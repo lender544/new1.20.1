@@ -203,7 +203,7 @@ public class Ancient_Remnant_Entity extends Boss_monster {
         if (this.getAnimation() == REMNANT_PHASE_ROAR && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
-        if (range > CMConfig.AncientRemnantLongRangelimit * CMConfig.AncientRemnantLongRangelimit) {
+        if (range > CMConfig.AncientRemnantLongRangelimit * CMConfig.AncientRemnantLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         Entity entity = source.getDirectEntity();

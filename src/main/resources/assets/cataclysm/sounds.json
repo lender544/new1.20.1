@@ -15,16 +15,16 @@
       }
     ]
   },
-  "coralssus_hurt": {
-    "subtitle": "coralssus_hurt.sub",
+  "coral_golem_hurt": {
+    "subtitle": "coral_golem_hurt.sub",
     "sounds": [
       {
         "name": "cataclysm:entity/golemhurt"
       }
     ]
   },
-  "coralssus_death": {
-    "subtitle": "coralssus_death.sub",
+  "coral_golem_death": {
+    "subtitle": "coral_golem_death.sub",
     "sounds": [
       {
         "name": "cataclysm:entity/golemdeath"
@@ -1012,6 +1012,122 @@
     "sounds": [
       {
         "name": "cataclysm:entity/koboleton_death"
+      }
+    ]
+  },
+  "kobolediator_ambient": {
+    "subtitle": "kobolediator_ambient.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/kobolediator_idle1"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_idle2"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_idle3"
+      }
+    ]
+  },
+  "kobolediator_hurt": {
+    "subtitle": "kobolediator_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/kobolediator_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_hurt3"
+      }
+    ]
+  },
+  "kobolediator_death": {
+    "subtitle": "kobolediator_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/kobolediator_death"
+      }
+    ]
+  },
+  "wadjet_ambient": {
+    "subtitle": "wadjet_ambient.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/wadjet_idle1"
+      },
+      {
+        "name": "cataclysm:entity/wadjet_idle2"
+      },
+      {
+        "name": "cataclysm:entity/wadjet_idle3"
+      }
+    ]
+  },
+  "wadjet_hurt": {
+    "subtitle": "wadjet_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/wadjet_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/wadjet_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/wadjet_hurt3"
+      }
+    ]
+  },
+  "wadjet_death": {
+    "subtitle": "wadjet_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/wadjet_death"
+      }
+    ]
+  },
+  "coralssus_ambient": {
+    "subtitle": "coralssus_ambient.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/coralssus_idle1"
+      },
+      {
+        "name": "cataclysm:entity/coralssus_idle2"
+      },
+      {
+        "name": "cataclysm:entity/coralssus_idle3"
+      }
+    ]
+  },
+  "coralssus_hurt": {
+    "subtitle": "coralssus_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/coralssus_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/coralssus_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/coralssus_hurt3"
+      }
+    ]
+  },
+  "coralssus_death": {
+    "subtitle": "coralssus_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/coralssus_death"
+      }
+    ]
+  },
+  "coralssus_roar": {
+    "subtitle": "coralssus_roar.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/coralssus_roar"
       }
     ]
   }

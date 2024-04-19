@@ -236,11 +236,11 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> TIDAL_HOOK_LOOP = SOUNDS.register("tidal_hook_loop",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"tidal_hook_loop")));
 
-    public static final RegistryObject<SoundEvent> CORALSSUS_HURT = SOUNDS.register("coralssus_hurt",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_hurt")));
+    public static final RegistryObject<SoundEvent> CORAL_GOLEM_HURT = SOUNDS.register("coral_golem_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coral_golem_hurt")));
 
-    public static final RegistryObject<SoundEvent> CORALSSUS_DEATH = SOUNDS.register("coralssus_death",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_death")));
+    public static final RegistryObject<SoundEvent> CORAL_GOLEM_DEATH = SOUNDS.register("coral_golem_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coral_golem_death")));
 
     public static final RegistryObject<SoundEvent> CRAB_DEATH = SOUNDS.register("crab_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"crab_death")));
@@ -349,4 +349,39 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> PROWLER_SAW_SPIN_ATTACK = SOUNDS.register("prowler_saw_spin_attack",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"prowler_saw_spin_attack")));
+
+    public static final RegistryObject<SoundEvent> CORALSSUS_AMBIENT = SOUNDS.register("coralssus_ambient",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_ambient")));
+
+    public static final RegistryObject<SoundEvent> CORALSSUS_HURT = SOUNDS.register("coralssus_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_hurt")));
+
+    public static final RegistryObject<SoundEvent> CORALSSUS_DEATH = SOUNDS.register("coralssus_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_death")));
+
+    public static final RegistryObject<SoundEvent> CORALSSUS_ROAR = SOUNDS.register("coralssus_roar",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_roar")));
+
+
+    public static final RegistryObject<SoundEvent> WADJET_AMBIENT = SOUNDS.register("wadjet_ambient",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_ambient")));
+
+    public static final RegistryObject<SoundEvent> WADJET_HURT = SOUNDS.register("wadjet_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_hurt")));
+
+    public static final RegistryObject<SoundEvent> WADJET_DEATH = SOUNDS.register("wadjet_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_death")));
+
+
+    public static final RegistryObject<SoundEvent> KOBOLEDIATOR_AMBIENT = SOUNDS.register("kobolediator_ambient",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"kobolediator_ambient")));
+
+    public static final RegistryObject<SoundEvent> KOBOLEDIATOR_HURT = SOUNDS.register("kobolediator_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"kobolediator_hurt")));
+
+    public static final RegistryObject<SoundEvent> KOBOLEDIATOR_DEATH = SOUNDS.register("kobolediator_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"kobolediator_death")));
+
+
+
 }

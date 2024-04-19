@@ -214,7 +214,7 @@ public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy 
         }
         double range = calculateRange(source);
 
-        if (range > CMConfig.MonstrosityLongRangelimit * CMConfig.MonstrosityLongRangelimit) {
+        if (range > CMConfig.MonstrosityLongRangelimit * CMConfig.MonstrosityLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         Entity entity = source.getDirectEntity();

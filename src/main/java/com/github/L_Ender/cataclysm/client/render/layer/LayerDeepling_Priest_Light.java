@@ -75,12 +75,12 @@ public class LayerDeepling_Priest_Light extends RenderLayer<Deepling_Priest_Enti
     }
 
     private void translateToLight(PoseStack matrixStack) {
-        this.getParentModel().root.translateRotate(matrixStack);
-        this.getParentModel().body.translateRotate(matrixStack);
-        this.getParentModel().head.translateRotate(matrixStack);
-        this.getParentModel().head2.translateRotate(matrixStack);
-        this.getParentModel().fin.translateRotate(matrixStack);
-        this.getParentModel().light.translateRotate(matrixStack);
+        this.getParentModel().root.translateAndRotate(matrixStack);
+        this.getParentModel().body.translateAndRotate(matrixStack);
+        this.getParentModel().head.translateAndRotate(matrixStack);
+        this.getParentModel().head2.translateAndRotate(matrixStack);
+        this.getParentModel().fin.translateAndRotate(matrixStack);
+        this.getParentModel().light.translateAndRotate(matrixStack);
     }
 
 }

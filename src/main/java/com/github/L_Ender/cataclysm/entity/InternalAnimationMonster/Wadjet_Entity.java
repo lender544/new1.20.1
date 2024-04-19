@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalM
 import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import com.github.L_Ender.lionfishapi.client.model.tools.DynamicChain;
@@ -83,7 +84,6 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(2, new InternalMoveGoal(this, false, 1.0D));
 
-        //angry
     }
 
     public static AttributeSupplier.Builder wadjet() {
@@ -265,15 +265,15 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return super.getHurtSound(damageSourceIn);
+        return ModSounds.WADJET_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return super.getDeathSound();
+        return ModSounds.WADJET_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return super.getAmbientSound();
+        return  ModSounds.WADJET_AMBIENT.get();
     }
 
     @Override

@@ -24,6 +24,9 @@ public class CommonProxy {
     public void clientInit() {
     }
 
+    public void addServerToList(String address, String name) {
+    }
+
     public Object getISTERProperties() {
         return null;
     }

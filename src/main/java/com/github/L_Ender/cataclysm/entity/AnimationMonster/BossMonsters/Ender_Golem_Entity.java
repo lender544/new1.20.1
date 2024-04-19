@@ -132,7 +132,7 @@ public class Ender_Golem_Entity extends Boss_monster {
         }
         double range = calculateRange(source);
 
-        if (range > CMConfig.EndergolemLongRangelimit * CMConfig.EndergolemLongRangelimit) {
+        if (range > CMConfig.EndergolemLongRangelimit * CMConfig.EndergolemLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
 

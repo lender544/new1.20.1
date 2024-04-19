@@ -254,6 +254,9 @@ public class ModItems {
     public static final RegistryObject<Item> CRYSTALLIZED_CORAL = ITEMS.register("crystallized_coral",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> CORAL_CHUNK = ITEMS.register("coral_chunk",
+            () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> ABYSSAL_SACRIFICE = ITEMS.register("abyssal_sacrifice",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 

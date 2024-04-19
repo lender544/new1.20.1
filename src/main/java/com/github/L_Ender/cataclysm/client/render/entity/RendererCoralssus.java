@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererCoralssus extends MobRenderer<Coralssus_Entity, ModelCoralssus<Coralssus_Entity>> {
+public class RendererCoralssus extends MobRenderer<Coralssus_Entity, ModelCoralssus> {
 
     private static final ResourceLocation FIRE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_fire.png");
     private static final ResourceLocation HORN_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_horn.png");
@@ -21,7 +21,7 @@ public class RendererCoralssus extends MobRenderer<Coralssus_Entity, ModelCorals
 
 
     public RendererCoralssus(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new ModelCoralssus<>(renderManagerIn.bakeLayer(CMModelLayers.CORALSSUS_MODEL)), 1.7F);
+        super(renderManagerIn, new ModelCoralssus(), 1.7F);
 
     }
     @Override

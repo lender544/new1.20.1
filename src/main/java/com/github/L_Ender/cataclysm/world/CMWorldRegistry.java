@@ -54,6 +54,9 @@ public class CMWorldRegistry {
             builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ModEntities.DEEPLING_WARLOCK.get(), CMConfig.DeeplingWarlockSpawnWeight, 1, 1));
         }
 
+        if (testBiome(BiomeConfig.coral_golem, biome) && CMConfig.CoralgolemSpawnWeight > 0) {
+            builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ModEntities.CORAL_GOLEM.get(), CMConfig.CoralgolemSpawnWeight, 1, 1));
+        }
 
         if (testBiome(BiomeConfig.amethyst_crab, biome) && CMConfig.AmethystCrabSpawnWeight > 0) {
             builder.getMobSpawnSettings().getSpawner(MobCategory.MONSTER).add(new MobSpawnSettings.SpawnerData(ModEntities.AMETHYST_CRAB.get(), CMConfig.AmethystCrabSpawnWeight, 1, 1));

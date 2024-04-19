@@ -170,6 +170,9 @@ public class CMConfig {
     public static int KoboletonSpawnWeight = 2;
     public static int KoboletonSpawnRolls = 30;
 
+    public static int CoralgolemSpawnWeight = 1;
+    public static int CoralgolemSpawnRolls = 70;
+
     public static int IgnitedBerserkerSpawnWeight = 1;
     public static int IgnitedBerserkerSpawnRolls = 30;
 
@@ -335,6 +338,9 @@ public class CMConfig {
 
             KoboletonSpawnWeight = ConfigHolder.COMMON.KoboletonSpawnWeight.get();
             KoboletonSpawnRolls  = ConfigHolder.COMMON.KoboletonSpawnRolls.get();
+
+            CoralgolemSpawnWeight = ConfigHolder.COMMON.CoralgolemSpawnWeight.get();
+            CoralgolemSpawnRolls  = ConfigHolder.COMMON.CoralgolemSpawnRolls.get();
 
             IgnitedBerserkerSpawnWeight = ConfigHolder.COMMON.IgnitedBerserkerSpawnWeight.get();
             IgnitedBerserkerSpawnRolls = ConfigHolder.COMMON.IgnitedBerserkerSpawnRolls.get();

@@ -204,7 +204,7 @@ public class The_Harbinger_Entity extends Boss_monster implements RangedAttackMo
                 this.idleHeadUpdates[i] += 3;
             }
             double range = calculateRange(source);
-            if (range > CMConfig.HarbingerLongRangelimit * CMConfig.HarbingerLongRangelimit) {
+            if (range > CMConfig.HarbingerLongRangelimit * CMConfig.HarbingerLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                 return false;
             }
 

@@ -8,6 +8,7 @@ import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.Minecraft;
 
 public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 	private final AdvancedModelBox root;
@@ -282,6 +283,12 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 		animate(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		float walkSpeed = 0.5F;
 		float walkDegree = 0.5F;
+		float partialTick = Minecraft.getInstance().getFrameTime();
+		float swim = entityIn.getSwimAmount(partialTick);
+		float swimSpeed = 0.25F;
+		float swimDegree = 0.5F;
+		float swimAmount = limbSwingAmount * swim;
+
 
 		this.faceTarget(netHeadYaw, headPitch, 1, head);
 		this.walk(left_leg, walkSpeed, walkDegree * 1.2F, true, 0F, 0F, limbSwing, limbSwingAmount);
@@ -289,6 +296,24 @@ public class ModelCoral_Golem extends AdvancedEntityModel<Coral_Golem_Entity> {
 		this.walk(right_leg, walkSpeed, walkDegree * 1.2F, false, 0F, 0F, limbSwing, limbSwingAmount);
 		this.walk(left_arm, walkSpeed, walkDegree * 1.2F, false, 0F, 0F, limbSwing, limbSwingAmount);
 		this.walk(right_arm, walkSpeed, walkDegree * 1.2F, true, 0F, 0F, limbSwing, limbSwingAmount);
+
+
+		progressRotationPrev(root, swim, 0, 0, (float) Math.toRadians(-10), 1F);
+		progressRotationPrev(lower_body, swim, (float) Math.toRadians(17.5F), 0, 0, 1F);
+		progressRotationPrev(head,swim,(float)Math.toRadians(-22.5F), 0, 0, 1f);
+		progressRotationPrev(right_arm,swim,(float)Math.toRadians(35F), 0, (float)Math.toRadians(50F), 1f);
+		progressRotationPrev(left_arm,swim,(float)Math.toRadians(35F), 0, (float)Math.toRadians(-50F), 1f);
+		progressRotationPrev(right_leg,swim,(float)Math.toRadians(90F), 0, 0, 1f);
+		progressRotationPrev(left_leg,swim,(float)Math.toRadians(117.5F), 0, 0, 1f);
+
+
+		this.flap(root, swimSpeed, swimDegree * 1F, true, 0F, 0F, limbSwing, swimAmount);
+
+		this.flap(left_arm, swimSpeed, swimDegree * 2.75F, true, -0.5F, 1.5F, limbSwing, swimAmount);
+		this.flap(right_arm, swimSpeed, swimDegree * 2.75F, false, -0.5F, 1.5F, limbSwing, swimAmount);
+
+		this.walk(right_leg, swimSpeed * 1.5F, swimDegree * 1F, true, 2F, 0.0F, limbSwing, swimAmount);
+		this.walk(left_leg, swimSpeed * 1.5F, swimDegree * 1F, false, 2F, 0.0F, limbSwing, swimAmount);
 
 	}
 

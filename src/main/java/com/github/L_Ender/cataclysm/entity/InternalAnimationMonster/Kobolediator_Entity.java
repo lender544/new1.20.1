@@ -559,15 +559,15 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return ModSounds.KOBOLETON_HURT.get();
+        return ModSounds.KOBOLEDIATOR_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return ModSounds.KOBOLETON_DEATH.get();
+        return ModSounds.KOBOLEDIATOR_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return this.isSleep() ? super.getAmbientSound() : ModSounds.KOBOLETON_AMBIENT.get();
+        return this.isSleep() ? super.getAmbientSound() : ModSounds.KOBOLEDIATOR_AMBIENT.get();
     }
 
     @Override

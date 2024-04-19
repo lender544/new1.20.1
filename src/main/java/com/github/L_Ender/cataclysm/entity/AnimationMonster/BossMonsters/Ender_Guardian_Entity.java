@@ -280,7 +280,7 @@ public class Ender_Guardian_Entity extends Boss_monster {
         }
         double range = calculateRange(source);
 
-        if (range > CMConfig.EnderguardianLongRangelimit * CMConfig.EnderguardianLongRangelimit) {
+        if (range > CMConfig.EnderguardianLongRangelimit * CMConfig.EnderguardianLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         Entity entity = source.getDirectEntity();

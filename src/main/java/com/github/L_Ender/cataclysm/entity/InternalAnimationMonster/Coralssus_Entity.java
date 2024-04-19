@@ -1,13 +1,20 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
+import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
+import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.Deepling.AbstractDeepling;
+import com.github.L_Ender.cataclysm.entity.Deepling.Coral_Golem_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
-import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
-import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
+import com.github.L_Ender.cataclysm.entity.etc.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.lionfishapi.server.animation.Animation;
+import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -30,20 +37,24 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -51,9 +62,11 @@ import java.util.List;
 import java.util.function.IntFunction;
 
 
-public class Coralssus_Entity extends Internal_Animation_Monster implements VariantHolder<Coralssus_Entity.Variant> {
+public class Coralssus_Entity extends Internal_Animation_Monster implements VariantHolder<Coralssus_Entity.Variant>, ISemiAquatic {
+    private static final EntityDataAccessor<Integer> MOISTNESS = SynchedEntityData.defineId(Coralssus_Entity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Coralssus_Entity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Boolean> RIGHT = SynchedEntityData.defineId(Coralssus_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CORALSSUS_SWIM = SynchedEntityData.defineId(Coralssus_Entity.class, EntityDataSerializers.BOOLEAN);
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState angryAnimationState = new AnimationState();
     public AnimationState nantaAnimationState = new AnimationState();
@@ -63,22 +76,30 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     public AnimationState jumpingAnimationState = new AnimationState();
     public AnimationState jumpingendAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
+    public AnimationState swimAnimationState = new AnimationState();
     private int nanta_cooldown = 0;
     public static final int NANTA_COOLDOWN = 160;
-
+    private int moistureAttackTime = 0;
     private int jump_cooldown = 0;
     public static final int JUMP_COOLDOWN = 160;
+    private boolean isLandNavigator;
+    boolean searchingForLand;
 
 
     public Coralssus_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 35;
         this.setMaxUpStep(1.25F);
+        this.moveControl = new CoralssusMoveControl(this,2.5f);
+        switchNavigator(false);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
     }
 
     protected void registerGoals() {
+        this.goalSelector.addGoal(6, new CoralssusswimUpGoal(this, 1.0D, this.level().getSeaLevel()));
+        this.goalSelector.addGoal(4, new MobAIFindWater(this,1.0D));
+        this.goalSelector.addGoal(4, new MobAILeaveWater(this));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -90,7 +111,12 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,1,2,40,17,6){
             @Override
             public boolean canUse() {
-                return super.canUse() && Coralssus_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Coralssus_Entity.this.nanta_cooldown <= 0;
+                return super.canUse() && Coralssus_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Coralssus_Entity.this.nanta_cooldown <= 0 && !Coralssus_Entity.this.getSwim();
+            }
+            @Override
+            public void start() {
+                super.start();
+                Coralssus_Entity.this.playSound(ModSounds.CORALSSUS_ROAR.get(), 1.0f, 1F + Coralssus_Entity.this.getRandom().nextFloat() * 0.1F);
             }
         });
 
@@ -131,7 +157,13 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
             }
         });
         //jump
-        this.goalSelector.addGoal(1, new Coralssus_JumpPrepareAttackGoal(this, 0, 5, 6, 20, 10, 6.5F, 10f, 16F));
+        this.goalSelector.addGoal(1, new Coralssus_JumpPrepareAttackGoal(this, 0, 5, 6, 20, 10, 6.5F, 10f, 16F){
+
+            @Override
+            public boolean canUse() {
+                return super.canUse() && !Coralssus_Entity.this.getSwim();
+            }
+        });
 
         //jump idle
         this.goalSelector.addGoal(1, new InternalStateGoal(this, 6, 6, 7, 100, 100));
@@ -195,8 +227,10 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(MOISTNESS, 40000);
         this.entityData.define(VARIANT, Coralssus_Entity.Variant.FIRE.id);
         this.entityData.define(RIGHT, false);
+        this.entityData.define(CORALSSUS_SWIM, false);
     }
 
     public boolean isSponge() {
@@ -276,11 +310,21 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getVariant().id);
+        compound.putInt("Moisture", this.getMoistness());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setVariant(Coralssus_Entity.Variant.byId(compound.getInt("Variant")));
+        this.setMoistness(compound.getInt("Moisture"));
+    }
+
+    public int getMoistness() {
+        return this.entityData.get(MOISTNESS);
+    }
+
+    public void setMoistness(int p_211137_1_) {
+        this.entityData.set(MOISTNESS, p_211137_1_);
     }
 
     public Coralssus_Entity.Variant getVariant() {
@@ -300,8 +344,67 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         return this.entityData.get(RIGHT);
     }
 
+
+    boolean wantsToSwim() {
+        if (this.searchingForLand) {
+            return true;
+        } else {
+            LivingEntity livingentity = this.getTarget();
+            return livingentity != null && livingentity.isInWater();
+        }
+    }
+
+    public void travel(Vec3 p_32394_) {
+        if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            this.moveRelative(0.01F, p_32394_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+        } else {
+            super.travel(p_32394_);
+        }
+
+    }
+
     public void tick() {
         super.tick();
+        if (isInWater() && this.isLandNavigator) {
+            switchNavigator(false);
+        }
+        if (!isInWater() && !this.isLandNavigator) {
+            switchNavigator(true);
+        }
+
+        if (this.isNoAi()) {
+            this.setAirSupply(this.getMaxAirSupply());
+        } else {
+            if (this.isInWaterRainOrBubble()) {
+                this.setMoistness(6000);
+            } else {
+                int dry = this.level().isDay() ? 2 : 1;
+                this.setMoistness(this.getMoistness() - dry);
+                if (this.getMoistness() <= 0 && moistureAttackTime-- <= 0) {
+                    this.hurt(damageSources().dryOut(), random.nextInt(2) == 0 ? 1.0F : 0F);
+                    moistureAttackTime = 20;
+                }
+            }
+        }
+
+        boolean flag1 = this.canInFluidType(this.getEyeInFluidType());
+
+        if(flag1){
+            if(this.level().noCollision(this, this.getBoundingBox())) {
+                if (!this.getSwim()) {
+                    setSwim(true);
+                }
+            }
+        }else{
+            if(this.level().noCollision(this, this.getBoundingBox())) {
+                if (this.getSwim()) {
+                    setSwim(false);
+                }
+            }
+        }
+
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
         }
@@ -438,7 +541,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         super.positionRider(p_289537_, p_289541_);
         float f = 0.5F;
         Vec3 vec3 = (new Vec3(0.0D, 0.0D, (double)f)).yRot(-this.yBodyRot * ((float)Math.PI / 180F));
-        p_289541_.accept(p_289537_, this.getX() + vec3.x, this.getY(0.65D) + p_289537_.getMyRidingOffset() + 0.0D, this.getZ() + vec3.z);
+        p_289541_.accept(p_289537_, this.getX() + vec3.x, this.getY(0.75D) + p_289537_.getMyRidingOffset() + 0.0D, this.getZ() + vec3.z);
     }
 
     @Nullable
@@ -459,24 +562,78 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return super.getHurtSound(damageSourceIn);
+        return ModSounds.CORALSSUS_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return super.getDeathSound();
+        return ModSounds.CORALSSUS_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return super.getAmbientSound();
+        return  ModSounds.CORALSSUS_AMBIENT.get();
+    }
+
+
+    private boolean canInFluidType(FluidType type) {
+        ForgeMod.WATER_TYPE.get();
+        return type.canSwim(self());
+    }
+
+    public boolean isVisuallySwimming() {
+        return this.getSwim();
+    }
+
+    public void switchNavigator(boolean onLand) {
+        if (onLand) {
+            this.navigation = new GroundPathNavigatorWide(this, level());
+            this.isLandNavigator = true;
+        } else {
+            this.navigation = new SemiAquaticPathNavigator(this, level());
+            this.isLandNavigator = false;
+        }
+    }
+
+    public boolean getSwim() {
+        return this.entityData.get(CORALSSUS_SWIM);
+    }
+
+    public void setSwim(boolean swim) {
+        this.entityData.set(CORALSSUS_SWIM, swim);
+    }
+
+
+    public boolean isPushedByFluid() {
+        return !this.isSwimming();
+    }
+
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
+
+    @Override
+    public boolean shouldEnterWater() {
+        return getMoistness() < 300;
+    }
+
+    @Override
+    public boolean shouldLeaveWater() {
+        return this.getTarget() != null && !this.getTarget().isInWater();
+    }
+
+    @Override
+    public boolean shouldStopMoving() {
+        return false;
+    }
+
+    @Override
+    public int getWaterSearchRange() {
+        return 32;
+
     }
 
     @Override
     protected BodyRotationControl createBodyControl() {
         return new SmartBodyHelper2(this);
-    }
-
-    protected PathNavigation createNavigation(Level worldIn) {
-        return new CMPathNavigateGround(this, worldIn);
     }
 
     public boolean canBeAffected(MobEffectInstance p_34192_) {
@@ -494,6 +651,25 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
 
     protected boolean canRide(Entity p_31508_) {
         return false;
+    }
+
+    protected boolean closeToNextPos() {
+        Path path = this.getNavigation().getPath();
+        if (path != null) {
+            BlockPos blockpos = path.getTarget();
+            if (blockpos != null) {
+                double d0 = this.distanceToSqr((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+                if (d0 < 4.0D) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public void setSearchingForLand(boolean p_32399_) {
+        this.searchingForLand = p_32399_;
     }
 
     public static enum Variant implements StringRepresentable {
@@ -558,6 +734,95 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         @Override
         public boolean requiresUpdateEveryTick() {
             return true;
+        }
+    }
+
+    static class CoralssusswimUpGoal extends Goal {
+        private final Coralssus_Entity drowned;
+        private final double speedModifier;
+        private final int seaLevel;
+        private boolean stuck;
+
+        public CoralssusswimUpGoal(Coralssus_Entity p_32440_, double p_32441_, int p_32442_) {
+            this.drowned = p_32440_;
+            this.speedModifier = p_32441_;
+            this.seaLevel = p_32442_;
+        }
+
+        public boolean canUse() {
+            return (this.drowned.level().isRaining() || this.drowned.isInWater())&& this.drowned.getY() < (double)(this.seaLevel - 2);
+        }
+
+        public boolean canContinueToUse() {
+            return this.canUse() && !this.stuck;
+        }
+
+        public void tick() {
+            if (this.drowned.getY() < (double)(this.seaLevel - 1) && (this.drowned.getNavigation().isDone() || this.drowned.closeToNextPos())) {
+                Vec3 vec3 = DefaultRandomPos.getPosTowards(this.drowned, 4, 8, new Vec3(this.drowned.getX(), (double)(this.seaLevel - 1), this.drowned.getZ()), (double)((float)Math.PI / 2F));
+                if (vec3 == null) {
+                    this.stuck = true;
+                    return;
+                }
+
+                this.drowned.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, this.speedModifier);
+            }
+
+        }
+
+        public void start() {
+            this.drowned.setSearchingForLand(true);
+            this.stuck = false;
+        }
+
+        public void stop() {
+            this.drowned.setSearchingForLand(false);
+        }
+    }
+
+
+    static class CoralssusMoveControl extends MoveControl {
+        private final Coralssus_Entity drowned;
+        private final float speedMulti;
+
+        public CoralssusMoveControl(Coralssus_Entity p_32433_, float speedMulti) {
+            super(p_32433_);
+            this.drowned = p_32433_;
+            this.speedMulti = speedMulti;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.drowned.getTarget();
+            if (this.drowned.wantsToSwim() && this.drowned.isInWater()) {
+                if (livingentity != null && livingentity.getY() > this.drowned.getY() || this.drowned.searchingForLand) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
+                }
+
+                if (this.operation != Operation.MOVE_TO || this.drowned.getNavigation().isDone()) {
+                    this.drowned.setSpeed(0.0F);
+                    return;
+                }
+
+                double d0 = this.wantedX - this.drowned.getX();
+                double d1 = this.wantedY - this.drowned.getY();
+                double d2 = this.wantedZ - this.drowned.getZ();
+                double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 /= d3;
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                this.drowned.setYRot(this.rotlerp(this.drowned.getYRot(), f, 90.0F));
+                this.drowned.yBodyRot = this.drowned.getYRot();
+                float f1 = (float)(this.speedModifier * speedMulti * this.drowned.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                float f2 = Mth.lerp(0.125F, this.drowned.getSpeed(), f1);
+                this.drowned.setSpeed(f2);
+                this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add((double)f2 * d0 * 0.005D, (double)f2 * d1 * 0.1D, (double)f2 * d2 * 0.005D));
+            } else {
+                if (!this.drowned.onGround()) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
+                }
+
+                super.tick();
+            }
+
         }
     }
 }

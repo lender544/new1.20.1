@@ -43,6 +43,7 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -297,7 +298,7 @@ public class The_Leviathan_Entity extends Boss_monster implements ISemiAquatic, 
         }
         double range = calculateRange(source);
 
-        if (range > CMConfig.LeviathanLongRangelimit * CMConfig.LeviathanLongRangelimit) {
+        if (range > CMConfig.LeviathanLongRangelimit * CMConfig.LeviathanLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
 
@@ -638,7 +639,7 @@ public class The_Leviathan_Entity extends Boss_monster implements ISemiAquatic, 
             if (this.getAnimationTick() == 54) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 60, 10);
-                roarDarkness(48,48,48,48,40);
+                roarDarkness(48,48,48,48,20);
             }
         }
         if(this.getAnimation() == LEVIATHAN_GRAB_BITE){
@@ -689,7 +690,7 @@ public class The_Leviathan_Entity extends Boss_monster implements ISemiAquatic, 
             if (this.getAnimationTick() == 56) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 60, 10);
-                roarDarkness(48,48,48,48,160);
+                roarDarkness(48,48,48,48,80);
             }
             for (int i = 16, j = 0; i <= 56; i++, j++) {
                 float l = j * 0.025f;
@@ -838,7 +839,7 @@ public class The_Leviathan_Entity extends Boss_monster implements ISemiAquatic, 
         for (LivingEntity inRange : entities) {
             if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
             if (isAlliedTo(inRange)) continue;
-           // inRange.addEffect(new MobEffectInstance(MobEffects.DARKNESS, time));
+            inRange.addEffect(new MobEffectInstance(MobEffects.DARKNESS, time));
         }
     }
 

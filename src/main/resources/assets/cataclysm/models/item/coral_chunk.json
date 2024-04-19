@@ -1,0 +1,27 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cataclysm:item/coral_chunk_1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "chunk": 0.0
+      },
+      "model": "cataclysm:item/coral_chunk_1"
+    },
+    {
+      "predicate": {
+        "chunk": 0.5
+      },
+      "model": "cataclysm:item/coral_chunk_2"
+    },
+    {
+      "predicate": {
+        "chunk": 1.0
+      },
+      "model": "cataclysm:item/coral_chunk_3"
+    }
+
+  ]
+}

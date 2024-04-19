@@ -17,6 +17,7 @@ public class BiomeConfig {
 
 	public static final Pair<String, SpawnBiomeData> deepling = Pair.of("cataclysm:deepling_spawns", DefaultBiomes.DEEPLING);
 	public static final Pair<String, SpawnBiomeData> deepling_angler = Pair.of("cataclysm:deepling_angler_spawns", DefaultBiomes.DEEPLING);
+	public static final Pair<String, SpawnBiomeData> coral_golem = Pair.of("cataclysm:coral_golem_spawns", DefaultBiomes.DEEPLING);
 	public static final Pair<String, SpawnBiomeData> deepling_brute = Pair.of("cataclysm:deepling_brute_spawns", DefaultBiomes.DEEPLING);
 	public static final Pair<String, SpawnBiomeData> deepling_priest = Pair.of("cataclysm:deepling_priest_spawns", DefaultBiomes.DEEPLING);
 	public static final Pair<String, SpawnBiomeData> deepling_warlock = Pair.of("cataclysm:deepling_warlock_spawns", DefaultBiomes.DEEPLING);

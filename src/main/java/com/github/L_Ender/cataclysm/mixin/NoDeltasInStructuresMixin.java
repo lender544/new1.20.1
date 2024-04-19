@@ -33,17 +33,12 @@ public class NoDeltasInStructuresMixin {
             return;
         }
 
-        SectionPos sectionPos = SectionPos.of(context.origin());
-        if (context.level().getChunk(sectionPos.x(), sectionPos.z(), ChunkStatus.STRUCTURE_REFERENCES, false) == null) {
-            Cataclysm.LOGGER.warn("Detected a mod with a broken delta configuredfeature that is trying to place blocks outside the 3x3 safe chunk area for features. Find the broken mod and report to them to fix the placement of their magma feature.");
-            return;
-        }
-
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)context.level()).getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry.getOrCreateTag(ModTag.BLOCKED_BASALT)) {
             if (MixinUtil.getStructureAt(structureManager, context.origin(),  configuredStructureFeature.value()).isValid()) {
                 cir.setReturnValue(false);
+                return;
             }
         }
     }

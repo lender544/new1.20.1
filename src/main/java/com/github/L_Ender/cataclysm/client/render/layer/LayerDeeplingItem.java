@@ -39,12 +39,12 @@ public class LayerDeeplingItem extends RenderLayer<Deepling_Entity, ModelDeeplin
     }
 
     protected void translateToHand(PoseStack matrixStack, boolean left) {
-        this.getParentModel().root.translateRotate(matrixStack);
-        this.getParentModel().body.translateRotate(matrixStack);
+        this.getParentModel().root.translateAndRotate(matrixStack);
+        this.getParentModel().body.translateAndRotate(matrixStack);
         if(left){
-            this.getParentModel().left_arm.translateRotate(matrixStack);
+            this.getParentModel().left_arm.translateAndRotate(matrixStack);
         }else{
-            this.getParentModel().right_arm.translateRotate(matrixStack);
+            this.getParentModel().right_arm.translateAndRotate(matrixStack);
         }
     }
 }

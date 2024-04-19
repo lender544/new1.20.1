@@ -156,8 +156,12 @@ public class CommonConfig {
 
     public final ForgeConfigSpec.IntValue AmethystCrabSpawnWeight;
     public final ForgeConfigSpec.IntValue AmethystCrabSpawnRolls;
+
     public final ForgeConfigSpec.IntValue KoboletonSpawnWeight;
     public final ForgeConfigSpec.IntValue KoboletonSpawnRolls;
+
+    public final ForgeConfigSpec.IntValue CoralgolemSpawnWeight;
+    public final ForgeConfigSpec.IntValue CoralgolemSpawnRolls;
 
     public final ForgeConfigSpec.IntValue IgnitedBerserkerSpawnWeight;
     public final ForgeConfigSpec.IntValue IgnitedBerserkerSpawnRolls;
@@ -347,6 +351,10 @@ public class CommonConfig {
 
         DeeplingWarlockSpawnWeight = buildInt(builder, "DeeplingWarlockSpawnWeight", "spawns", CMConfig.DeeplingWarlockSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");
         DeeplingWarlockSpawnRolls = buildInt(builder, "DeeplingWarlockSpawnRolls", "spawns", CMConfig.DeeplingWarlockSpawnRolls, 0, Integer.MAX_VALUE, "Random roll chance to enable mob spawning. Higher number = lower chance of spawning");
+
+        CoralgolemSpawnWeight = buildInt(builder, "CoralgolemSpawnWeight", "spawns", CMConfig.CoralgolemSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");
+        CoralgolemSpawnRolls = buildInt(builder, "CoralgolemSpawnRolls", "spawns", CMConfig.CoralgolemSpawnRolls, 0, Integer.MAX_VALUE, "Random roll chance to enable mob spawning. Higher number = lower chance of spawning");
+
 
         AmethystCrabSpawnWeight = buildInt(builder, "AmethystCrabSpawnWeight", "spawns", CMConfig.AmethystCrabSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");
         AmethystCrabSpawnRolls = buildInt(builder, "AmethystCrabSpawnRolls", "spawns", CMConfig.AmethystCrabSpawnRolls, 0, Integer.MAX_VALUE, "Random roll chance to enable mob spawning. Higher number = lower chance of spawning");

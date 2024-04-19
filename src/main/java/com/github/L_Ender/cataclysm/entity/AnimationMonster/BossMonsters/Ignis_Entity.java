@@ -297,14 +297,18 @@ public class Ignis_Entity extends Boss_monster implements IHoldEntity {
                 if (this.getAnimationTick() > 16 && this.getAnimationTick() <= 46) {
                     AnimationHandler.INSTANCE.sendAnimationMessage(this, STRIKE);
                     this.playSound(SoundEvents.BLAZE_HURT, 0.5f, 0.4F + this.getRandom().nextFloat() * 0.1F);
-                    return false;
+                    if( !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                        return false;
+                    }
                 }
             }
             if (this.getAnimation() == SHIELD_BREAK_COUNTER) {
                 if (this.getAnimationTick() > 8 && this.getAnimationTick() <= 38) {
                     AnimationHandler.INSTANCE.sendAnimationMessage(this, SHIELD_BREAK_STRIKE);
                     this.playSound(SoundEvents.BLAZE_HURT, 0.5f, 0.4F + this.getRandom().nextFloat() * 0.1F);
-                    return false;
+                    if(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                        return false;
+                    }
                 }
             }
         }
@@ -324,7 +328,7 @@ public class Ignis_Entity extends Boss_monster implements IHoldEntity {
             }
         }
 
-        if (range > CMConfig.IgnisLongRangelimit * CMConfig.IgnisLongRangelimit) {
+        if (range > CMConfig.IgnisLongRangelimit * CMConfig.IgnisLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
 

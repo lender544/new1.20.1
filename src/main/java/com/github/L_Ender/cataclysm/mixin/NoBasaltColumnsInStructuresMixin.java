@@ -33,17 +33,12 @@ public class NoBasaltColumnsInStructuresMixin {
             return;
         }
 
-        SectionPos sectionPos = SectionPos.of(mutableBlockPos);
-        if (!levelAccessor.getChunk(sectionPos.x(), sectionPos.z()).getStatus().isOrAfter(ChunkStatus.STRUCTURE_REFERENCES)) {
-            Cataclysm.LOGGER.warn("Cataclysm: Detected a mod with a broken basalt columns configuredfeature that is trying to place blocks outside the 3x3 safe chunk area for features. Find the broken mod and report to them to fix the placement of their basalt columns feature.");
-            return;
-        }
-
         Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)levelAccessor).getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry.getOrCreateTag(ModTag.BLOCKED_BASALT)) {
             if (MixinUtil.getStructureAt(structureManager, mutableBlockPos,  configuredStructureFeature.value()).isValid()) {
                 cir.setReturnValue(false);
+                return;
             }
         }
     }
