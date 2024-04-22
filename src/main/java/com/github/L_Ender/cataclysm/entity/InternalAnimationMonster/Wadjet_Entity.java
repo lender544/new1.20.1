@@ -52,14 +52,15 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     @OnlyIn(Dist.CLIENT)
     public DynamicChain dc;
     public AnimationState idleAnimationState = new AnimationState();
-    public AnimationState angryAnimationState = new AnimationState();
-    public AnimationState nantaAnimationState = new AnimationState();
-    public AnimationState rightfistAnimationState = new AnimationState();
-    public AnimationState leftfistAnimationState = new AnimationState();
-    public AnimationState jumpingprepareAnimationState = new AnimationState();
-    public AnimationState jumpingAnimationState = new AnimationState();
-    public AnimationState jumpingendAnimationState = new AnimationState();
+    public AnimationState stabnswingAnimationState = new AnimationState();
+    public AnimationState doublswingAnimationState = new AnimationState();
+    public AnimationState spearchargeAnimationState = new AnimationState();
+    public AnimationState magicAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
+
+    private float prevAttackProgress;
+    private float AttackProgress;
+
     private int nanta_cooldown = 0;
     public static final int NANTA_COOLDOWN = 160;
     private int jump_cooldown = 0;
@@ -109,22 +110,16 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     public AnimationState getAnimationState(String input) {
-        if (input == "nanta") {
-            return this.nantaAnimationState;
-        } else if (input == "angry") {
-            return this.angryAnimationState;
-        } else if (input == "right_fist") {
-            return this.rightfistAnimationState;
-        } else if (input == "left_fist") {
-            return this.leftfistAnimationState;
+        if (input == "charge") {
+            return this.spearchargeAnimationState;
+        } else if (input == "magic") {
+            return this.magicAnimationState;
+        } else if (input == "stabnswing") {
+            return this.stabnswingAnimationState;
+        } else if (input == "doubleswing") {
+            return this.doublswingAnimationState;
         } else if (input == "idle") {
             return this.idleAnimationState;
-        } else if (input == "jumping_prepare") {
-            return this.jumpingprepareAnimationState;
-        } else if (input == "jumping") {
-            return this.jumpingAnimationState;
-        } else if (input == "jumping_end") {
-            return this.jumpingendAnimationState;
         } else if (input == "death") {
             return this.deathAnimationState;
         } else {
@@ -144,33 +139,21 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         this.stopAllAnimationStates();
-                        this.angryAnimationState.startIfStopped(this.tickCount);
+                        this.spearchargeAnimationState.startIfStopped(this.tickCount);
                     }
                     case 2 -> {
                         this.stopAllAnimationStates();
-                        this.nantaAnimationState.startIfStopped(this.tickCount);
+                        this.magicAnimationState.startIfStopped(this.tickCount);
                     }
                     case 3 -> {
                         this.stopAllAnimationStates();
-                        this.rightfistAnimationState.startIfStopped(this.tickCount);
+                        this.stabnswingAnimationState.startIfStopped(this.tickCount);
                     }
                     case 4 -> {
                         this.stopAllAnimationStates();
-                        this.leftfistAnimationState.startIfStopped(this.tickCount);
+                        this.doublswingAnimationState.startIfStopped(this.tickCount);
                     }
                     case 5 -> {
-                        this.stopAllAnimationStates();
-                        this.jumpingprepareAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 6 -> {
-                        this.stopAllAnimationStates();
-                        this.jumpingAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 7 -> {
-                        this.stopAllAnimationStates();
-                        this.jumpingendAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 8 -> {
                         this.stopAllAnimationStates();
                         this.deathAnimationState.startIfStopped(this.tickCount);
                     }
@@ -180,20 +163,18 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     public void stopAllAnimationStates() {
-        this.angryAnimationState.stop();
-        this.nantaAnimationState.stop();
-        this.rightfistAnimationState.stop();
-        this.leftfistAnimationState.stop();
-        this.jumpingprepareAnimationState.stop();
-        this.jumpingAnimationState.stop();
-        this.jumpingendAnimationState.stop();
+        this.spearchargeAnimationState.stop();
+        this.magicAnimationState.stop();
+        this.stabnswingAnimationState.stop();
+        this.doublswingAnimationState.stop();
+        this.deathAnimationState.stop();
         this.deathAnimationState.stop();
     }
 
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
-        this.setAttackState(8);
+        this.setAttackState(5);
     }
 
     public int deathtimer() {
@@ -213,7 +194,13 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
         }
-
+        prevAttackProgress = AttackProgress;
+        if (isAggressive() && AttackProgress < 10F) {
+            AttackProgress++;
+        }
+        if (!isAggressive() && AttackProgress > 0F) {
+            AttackProgress--;
+        }
         if (nanta_cooldown > 0) nanta_cooldown--;
         if (jump_cooldown > 0) jump_cooldown--;
     }
@@ -223,6 +210,10 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     }
 
+
+    public float getAttackProgress(float partialTicks) {
+        return (prevAttackProgress + (AttackProgress - prevAttackProgress) * partialTicks);
+    }
 
     private void Makeparticle(float size, float vec, float math) {
         if (!this.level().isClientSide) {

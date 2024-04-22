@@ -299,7 +299,7 @@ public class ModItems {
     public static final RegistryObject<Item> BURNING_ASHES = ITEMS.register("burning_ashes",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
 
-    public static final RegistryObject<Item> DYING_AMBER = ITEMS.register("dying_amber",
+    public static final RegistryObject<Item> DYING_EMBER = ITEMS.register("dying_ember",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> MUSIC_DISC_NETHERITE_MONSTROSITY = ITEMS.register("music_disc_netherite_monstrosity",

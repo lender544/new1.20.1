@@ -6,12 +6,13 @@ import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 
-public class Animation_Monster extends Monster implements IAnimatedEntity {
+public class Animation_Monster extends Monster implements IAnimatedEntity, Enemy{
     public int animationTick;
     public Animation currentAnimation;
 

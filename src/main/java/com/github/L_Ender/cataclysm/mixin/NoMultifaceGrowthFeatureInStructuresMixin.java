@@ -33,6 +33,10 @@ public class NoMultifaceGrowthFeatureInStructuresMixin {
             return;
         }
 
+        SectionPos sectionPos = SectionPos.of(context.origin());
+        if (context.level().getChunk(sectionPos.x(), sectionPos.z(), ChunkStatus.STRUCTURE_REFERENCES, false) == null) {
+            return;
+        }
 
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)context.level()).getStructureManager();

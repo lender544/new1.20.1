@@ -67,7 +67,7 @@
   "item.cataclysm.void_jaw": "공허의 턱",
   "item.cataclysm.void_core": "공허 코어",
   "item.cataclysm.burning_ashes": "타오르는 잿더미",
-  "item.cataclysm.dying_amber": "죽어가는 불씨",
+  "item.cataclysm.dying_ember": "죽어가는 불씨",
   "item.cataclysm.music_disc_netherite_monstrosity": "음반",
   "item.cataclysm.music_disc_ender_guardian": "음반",
   "item.cataclysm.music_disc_ignis": "음반",
@@ -191,6 +191,7 @@
   "block.cataclysm.mechanical_fusion_anvil": "기계식 융합 모루",
   "block.cataclysm.abyssal_egg": "심연의 알",
   "block.cataclysm.blackstone_pillar": "흑암 기둥",
+  "block.cataclysm.kobolediator_skull": "코볼레디에이터 해골",
 
   "entity.cataclysm.ender_golem": "엔더 골렘",
   "entity.cataclysm.ender_guardian": "엔더 수호자",

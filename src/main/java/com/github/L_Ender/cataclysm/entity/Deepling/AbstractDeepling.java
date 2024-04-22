@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -27,7 +28,7 @@ import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
 
-public class AbstractDeepling extends Animation_Monster implements ISemiAquatic {
+public class AbstractDeepling extends Animation_Monster implements ISemiAquatic,Enemy {
     private int moistureAttackTime = 0;
     public float LayerBrightness, oLayerBrightness;
     public int LayerTicks;

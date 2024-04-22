@@ -172,10 +172,9 @@ public class Tidal_Tentacle_Entity extends Entity {
     @Override
     public void kill() {
         TidalTentacleCapability.ITentacleCapability hookCapability = ModCapabilities.getCapability(getCreatorEntity(), ModCapabilities.TENTACLE_CAPABILITY);
-        if(!level().isClientSide && getCreatorEntity() instanceof Player owner) {
+        if(!level().isClientSide && getCreatorEntity() instanceof Player) {
             if (hookCapability != null) {
                 hookCapability.setHasTentacle(false);
-                owner.setNoGravity(false);
             }
         }
 

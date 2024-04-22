@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,7 +23,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import java.util.List;
 import java.util.UUID;
 
-public class Internal_Animation_Monster extends Monster {
+public class Internal_Animation_Monster extends Monster implements Enemy {
     public static final EntityDataAccessor<Integer> ATTACK_STATE = SynchedEntityData.defineId(Internal_Animation_Monster.class, EntityDataSerializers.INT);
     protected boolean dropAfterDeathAnim = false;
     private int killDataRecentlyHit;

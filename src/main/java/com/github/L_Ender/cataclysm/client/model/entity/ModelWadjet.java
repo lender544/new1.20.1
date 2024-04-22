@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Coralssus_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Wadjet_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
@@ -13,6 +14,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.WalkAnimationState;
 
 public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 	private final AdvancedModelBox everything;
@@ -274,12 +276,21 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		this.resetToDefaultPose();
 		float swimSpeed = 0.1F;
 		float swimDegree = 0.5F;
+		float partialTick = Minecraft.getInstance().getFrameTime();
+		float attackProgress = entity.getAttackProgress(partialTick);
+		float attackAmount = attackProgress * limbSwingAmount * 1.5F;
 
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
+		WalkAnimationState walkanimationstate = entity.walkAnimation;
 		if(entity.getAttackState() != 6) {
-			this.animateWalk(Wadjet_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 5.0F);
+			this.animateWalk(Wadjet_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 		}
+		progressRotationPrev(upper_body1,attackAmount,(float)Math.toRadians(23.1591F), 0, 0, 10F);
 		this.animate(entity.getAnimationState("idle"), Wadjet_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("charge"), Wadjet_Animation.SPEAR_CHARGE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("magic"), Wadjet_Animation.MAGIC, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("doubleswing"), Wadjet_Animation.DOUBLE_SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("stabnswing"), Wadjet_Animation.STAB_N_SWING, ageInTicks, 1.0F);
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);
 		this.chainSwing(tailOriginal, swimSpeed * 0.6F, swimDegree * 0.15F, -3, ageInTicks,1.0F);
 
@@ -288,8 +299,6 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		float yawAmount = yRot / 57.295776F;
 		float pitchAmount = xRot / 57.295776F;
-		this.neck1.rotateAngleX += pitchAmount * 0.5F;
-		this.neck1.rotateAngleY += yawAmount * 0.5F;
 		this.neck2.rotateAngleX += pitchAmount * 0.5F;
 		this.neck2.rotateAngleY += yawAmount * 0.5F;
 		this.face.rotateAngleX += pitchAmount * 0.5F;

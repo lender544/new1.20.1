@@ -561,6 +561,10 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         }
     }
 
+    protected float getSoundVolume() {
+        return 1.0F;
+    }
+
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return ModSounds.CORALSSUS_HURT.get();
     }

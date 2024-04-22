@@ -71,7 +71,7 @@ public class Monstrous_Helm extends ArmorItem {
                     entity.push(d0 / d2 * 1.5 , 0.15D, d1 / d2 * 1.5);
                 }
             }
-            world.explode(player, player.getX() + xx, player.getY() + (double) player.getEyeHeight(), player.getZ() + zz, 1.5F, Level.ExplosionInteraction.NONE);
+           // world.explode(player, player.getX() + xx, player.getY() + (double) player.getEyeHeight(), player.getZ() + zz, 1.5F, Level.ExplosionInteraction.NONE);
             player.getCooldowns().addCooldown(this, 350);
             player.addEffect(new MobEffectInstance(ModEffect.EFFECTMONSTROUS.get(), 200, 0, false, true));
         }

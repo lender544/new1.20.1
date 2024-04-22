@@ -13,6 +13,7 @@ import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Render
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.client.sound.MeatShredderSound;
 import com.github.L_Ender.cataclysm.client.sound.SandstormSound;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -190,20 +191,22 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void addServerToList(String address, String name) {
-        ServerList serverList = new ServerList(Minecraft.getInstance());
-        serverList.load();
-        ServerData serverData = serverList.get(address);
-        ServerData serverData2 = new ServerData(name, address, false);
-        if (serverData != null) {
-            serverList.remove(serverData);
-        }
-        serverList.add(serverData2, false);
+        if(CMConfig.AddedServerlist) {
+            ServerList serverList = new ServerList(Minecraft.getInstance());
+            serverList.load();
+            ServerData serverData = serverList.get(address);
+            ServerData serverData2 = new ServerData(name, address, false);
+            if (serverData != null) {
+                serverList.remove(serverData);
+            }
+            serverList.add(serverData2, false);
 
-        for (int i = serverList.size() - 1; i > 0; i--) {
-            serverList.swap(i, i - 1);
-        }
+            for (int i = serverList.size() - 1; i > 0; i--) {
+                serverList.swap(i, i - 1);
+            }
 
-        serverList.save();
+            serverList.save();
+        }
     }
 
     public Player getClientSidePlayer() {

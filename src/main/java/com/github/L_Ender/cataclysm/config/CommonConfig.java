@@ -8,6 +8,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue LavaVisionOpacity;
     public final ForgeConfigSpec.BooleanValue shadersCompat;
     public final ForgeConfigSpec.BooleanValue custombossbar;
+    public final ForgeConfigSpec.BooleanValue AddedServerlist;
 
     public final ForgeConfigSpec.BooleanValue Armor_Infinity_Durability;
     public final ForgeConfigSpec.IntValue BulwarkOfTheFlameCooldown;
@@ -172,6 +173,7 @@ public class CommonConfig {
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
         custombossbar = buildBoolean(builder, "custombossbar(on/off)", "all", true, "custombossbar(on/off)");
+        AddedServerlist = buildBoolean(builder, "AddedServerlist(on/off)", "all", true, "AddedServerlist(on/off)");
         BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
         BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
         builder.pop();

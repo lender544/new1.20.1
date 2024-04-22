@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class Boss_monster extends Animation_Monster implements IAnimatedEntity {
+public class Boss_monster extends Animation_Monster implements IAnimatedEntity, Enemy {
     protected boolean dropAfterDeathAnim = false;
     private int killDataRecentlyHit;
     private DamageSource killDataCause;

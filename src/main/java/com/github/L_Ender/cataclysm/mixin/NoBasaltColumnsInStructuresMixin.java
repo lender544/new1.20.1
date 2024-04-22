@@ -33,6 +33,11 @@ public class NoBasaltColumnsInStructuresMixin {
             return;
         }
 
+        SectionPos sectionPos = SectionPos.of(mutableBlockPos);
+        if (!levelAccessor.getChunk(sectionPos.x(), sectionPos.z()).getStatus().isOrAfter(ChunkStatus.STRUCTURE_REFERENCES)) {
+            return;
+        }
+
         Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)levelAccessor).getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry.getOrCreateTag(ModTag.BLOCKED_BASALT)) {
