@@ -67,6 +67,8 @@ public class ModTag {
 
     public static final TagKey<Block> REMNANT_IMMUNE = registerBlockTag("remnant_immune");
 
+    public static final TagKey<Block> CORALSSUS_BREAK = registerBlockTag("coralssus_break");
+
     public static final TagKey<Block> ENDERMAPTERA_CAN_NOT_SPAWN = registerBlockTag("endermaptera_can_not_spawn");
 
     public static final TagKey<Block> NETHERITE_MONSTROSITY_BREAK = registerBlockTag("netherite_monstrosity_break");

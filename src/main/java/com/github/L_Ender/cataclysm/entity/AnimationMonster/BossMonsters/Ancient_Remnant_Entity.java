@@ -1073,7 +1073,6 @@ public class Ancient_Remnant_Entity extends Boss_monster {
             entity.getNavigation().stop();
             LivingEntity target = entity.getTarget();
             if (target != null) {
-                this.entity.lookAt(target, 30.0F, 30.0F);
                 entity.getLookControl().setLookAt(target, 30, 30);
             }
             super.start();
@@ -1082,7 +1081,6 @@ public class Ancient_Remnant_Entity extends Boss_monster {
         public void tick() {
             LivingEntity target = entity.getTarget();
             if(this.entity.getAnimationTick() < look && target !=null){
-                this.entity.lookAt(target, 30.0F, 30.0F);
                 this.entity.getLookControl().setLookAt(target, 30f, 30f);
             }else{
                 entity.setYRot(entity.yRotO);

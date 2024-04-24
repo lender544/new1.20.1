@@ -41,6 +41,9 @@ public class ModItems {
     public static final RegistryObject<BlockItem> IGNITIUM_BLOCK = ITEMS.register("ignitium_block",
             () -> new BlockItem(ModBlocks.IGNITIUM_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+    public static final RegistryObject<BlockItem> ANCIENT_METAL_BLOCK = ITEMS.register("ancient_metal_block",
+            () -> new BlockItem(ModBlocks.ANCIENT_METAL_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.RARE)));
+
     public static final RegistryObject<BlockItem> DUNGEON_BLOCK = ITEMS.register("dungeon_block",
             () -> new BlockItem(ModBlocks.DUNGEON_BLOCK.get(), new Item.Properties()));
 
@@ -435,7 +438,10 @@ public class ModItems {
             () -> new ForgeSpawnEggItem(ModEntities.KOBOLETON, 0xb7b196, 0xe18103, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> KOBOLEDIATOR_SPAWN_EGG = ITEMS.register("kobolediator_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.KOBOLEDIATOR, 0xb7b196, 0xe18103, new Item.Properties()));
+            () -> new ForgeSpawnEggItem(ModEntities.KOBOLEDIATOR, 0xb7b196, 0x945b31, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> WADJET_SPAWN_EGG = ITEMS.register("wadjet_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.WADJET, 0xb7b196, 0xdbb86a, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> ANCIENT_REMNANT_SPAWN_EGG = ITEMS.register("ancient_remnant_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ANCIENT_REMNANT, 0xb7b196, 0x682e22, new Item.Properties()));

@@ -44,6 +44,13 @@ public class ModBlocks {
                         return 15;
                     })));
 
+    public static final RegistryObject<Block> ANCIENT_METAL_BLOCK = BLOCKS.register("ancient_metal_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
+                    .strength(25f, 600f)
+                    .sound(SoundType.METAL).lightLevel((state) -> {
+                        return 15;
+                    })));
+
     public static final RegistryObject<Block> POLISHED_END_STONE = BLOCKS.register("polished_end_stone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE)));
 

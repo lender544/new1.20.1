@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
+import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
@@ -159,6 +160,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
+        Entity entity = source.getDirectEntity();
+        if (entity instanceof Poison_Dart_Entity) {
+            return false;
+        }
         if (this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }

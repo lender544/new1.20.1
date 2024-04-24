@@ -120,6 +120,9 @@ public class CMConfig {
     public static double KobolediatorHealthMultiplier = 1D;
     public static double KobolediatorDamageMultiplier = 1D;
 
+    public static double WadjetHealthMultiplier = 1D;
+    public static double WadjetDamageMultiplier = 1D;
+
     public static double MonstrosityLongRangelimit = 18D;
     public static double EnderguardianLongRangelimit = 12D;
     public static double EndergolemLongRangelimit = 6D;
@@ -317,6 +320,9 @@ public class CMConfig {
 
             KobolediatorHealthMultiplier = ConfigHolder.COMMON.KobolediatorHealthMultiplier.get();
             KobolediatorDamageMultiplier = ConfigHolder.COMMON.KobolediatorDamageMultiplier.get();
+
+            WadjetHealthMultiplier = ConfigHolder.COMMON.WadjetHealthMultiplier.get();
+            WadjetDamageMultiplier = ConfigHolder.COMMON.WadjetDamageMultiplier.get();
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

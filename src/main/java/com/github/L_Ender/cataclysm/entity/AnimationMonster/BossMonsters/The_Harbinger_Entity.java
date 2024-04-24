@@ -714,10 +714,10 @@ public class The_Harbinger_Entity extends Boss_monster implements RangedAttackMo
     }
 
     private void performRangedAttack(int head, LivingEntity target) {
-        this.performRangedAttack(head, target.getX(), target.getY() + (double)target.getEyeHeight() * 0.5D, target.getZ(),target);
+        this.performRangedAttack(head, target.getX(), target.getY() + (double)target.getEyeHeight() * 0.5D, target.getZ());
     }
 
-    private void performRangedAttack(int head, double targetX, double targetY, double targetZ, LivingEntity target) {
+    private void performRangedAttack(int head, double targetX, double targetY, double targetZ) {
         double d0 = this.getHeadX(head);
         double d1 = this.getHeadY(head);
         double d2 = this.getHeadZ(head);

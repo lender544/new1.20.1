@@ -171,6 +171,15 @@ public class Abyss_Orb_Entity extends Projectile {
                     setTracking(true);
                 }
             }
+            if (this.lifetick >= 400) {
+                if (getTracking()) {
+                    setTracking(false);
+                }
+            }
+            if (this.lifetick >= 500) {
+                this.level().explode(entity, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
+                this.discard();
+            }
             if (this.finalTarget == null && this.targetId != null) {
                 this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
                 if (this.finalTarget == null) {
@@ -233,6 +242,13 @@ public class Abyss_Orb_Entity extends Projectile {
         Entity entity1 = this.getOwner();
         if (this.getTracking()) {
             if (this.lifetick >= 200) {
+                if (!this.level().isClientSide) {
+                    this.level().explode(entity1, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
+                    this.discard();
+                }
+            }
+        }else{
+            if (this.lifetick >= 400) {
                 if (!this.level().isClientSide) {
                     this.level().explode(entity1, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
                     this.discard();

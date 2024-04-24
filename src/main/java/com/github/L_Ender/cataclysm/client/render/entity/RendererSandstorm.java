@@ -13,11 +13,11 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class RenderSandstorm extends EntityRenderer<Sandstorm_Entity> {
+public class RendererSandstorm extends EntityRenderer<Sandstorm_Entity> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/entity/ancient_remnant/sandstorm.png");
     private final Model_Sandstorm model = new Model_Sandstorm();
 
-    public RenderSandstorm(EntityRendererProvider.Context renderManagerIn) {
+    public RendererSandstorm(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn);
     }
 

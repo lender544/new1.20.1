@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.blocks.Sandstone_Ignite_Trap;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -36,27 +38,23 @@ public class TileEntitySandstoneIgniteTrap extends BlockEntity {
         }
         if(LIT){
             tickCount++;
-            double spread = Math.PI * 2 ;
-            int arcLen = Mth.ceil(2 * spread);
+            double x = pos.getX();
+            double y = pos.above().getY();
+            double z = pos.getZ();
             if (level.isClientSide()) {
-                for (int j = 0; j < arcLen; ++j) {
-                        float f2 = this.random.nextFloat() * ((float) Math.PI * 2F);
-                        double d0 = pos.getX() + 0.5f + (double) (Mth.cos(f2) * 0.35) * 0.9;
-                        double d2 = pos.above().getY();
-                        double d4 = pos.getZ() + 0.5f + (double) (Mth.sin(f2) * 0.35) * 0.9;
-                        level.addParticle(ParticleTypes.FLAME, d0, d2, d4, 0, 0.5D, 0);
+                level.addParticle(ModParticle.TRAP_FLAME.get(), x + 0.5F, y , z + 0.5F, 0.0D, 0.5D, 0.0D);
 
-                }
             }else {
                 if (tickCount % 5 == 0) {
 
-                    List<LivingEntity> entitiesInRange = level.getEntitiesOfClass(LivingEntity.class,
-                            new AABB(pos.offset(-1, 0, -1), pos.offset(1, 6, 1)));
+                    List<LivingEntity> entitiesInRange = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos.offset(-1, 0, -1), pos.offset(1, 6, 1)));
 
                     for (LivingEntity entity : entitiesInRange) {
-                        if (!entity.fireImmune()) {
-                            entity.hurt(entity.level().damageSources().inFire(), 5);
-                            entity.setSecondsOnFire(5);
+                        if (!entity.getType().is(ModTag.TEAM_ANCIENT_REMNANT)) {
+                            if (!entity.fireImmune()) {
+                                entity.hurt(entity.level().damageSources().inFire(), 5);
+                                entity.setSecondsOnFire(5);
+                            }
                         }
                     }
                 }

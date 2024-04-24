@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
@@ -57,16 +58,6 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
             }
         }
 
-        if(getFired() && timer < -80){
-            float sqrt = (float)this.getDeltaMovement().length();
-            if (sqrt < 0.05F) {
-             //   if (!this.level.isClientSide) {
-                 //   this.level.explode(this, this.getX(), this.getY(), this.getZ(), 2.0F, true, Explosion.BlockInteraction.NONE);
-                this.discard();
-             //   }
-            }
-        }
-
         if (timer == 0 || timer == -40) {
             Entity entity = this.getOwner();
             if (entity instanceof Mob && ((Mob) entity).getTarget() != null) {
@@ -75,13 +66,20 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
                     this.discard();
                 }
 
-                double d0 = target.getX() - this.getX();
-                double d1 = target.getY() + target.getBbHeight() * 0.5F - this.getY();
-                double d2 = target.getZ() - this.getZ();
-                float speed = this.isSoul() ? 2.5F : 2.0F;
-                shoot(d0, d1, d2, speed, 0);
-                this.setYRot( -((float) Mth.atan2(d0, d2)) * (180F / (float) Math.PI));
+                float speed = this.isSoul() ? 0.25F : 0.2F;
 
+                double dx = target.getX() - this.getX();
+                double dy = target.getY() + target.getBbHeight() * 0.5F - this.getY();
+                double dz = target.getZ() - this.getZ();
+
+                double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                dx /= d;
+                dy /= d;
+                dz /= d;
+                this.xPower = dx * speed;
+                this.yPower = dy * speed;
+                this.zPower = dz * speed;
             }
         }
     }

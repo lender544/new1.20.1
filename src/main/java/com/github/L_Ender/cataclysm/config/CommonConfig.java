@@ -144,6 +144,9 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue KobolediatorHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue KobolediatorDamageMultiplier;
 
+    public final ForgeConfigSpec.DoubleValue WadjetHealthMultiplier;
+    public final ForgeConfigSpec.DoubleValue WadjetDamageMultiplier;
+
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
     public final ForgeConfigSpec.IntValue DeeplingBruteSpawnWeight;
@@ -337,6 +340,12 @@ public class CommonConfig {
         KobolediatorHealthMultiplier = buildDouble(builder, "KobolediatorHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Kobolediator's Health Multiplier");
         KobolediatorDamageMultiplier = buildDouble(builder, "KobolediatorDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Kobolediator's Damage Multiplier");
         builder.pop();
+
+        builder.push("wadjet");
+        WadjetHealthMultiplier = buildDouble(builder, "WadjetHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Health Multiplier");
+        WadjetDamageMultiplier = buildDouble(builder, "WadjetDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Damage Multiplier");
+        builder.pop();
+
 
         builder.push("spawning");
         DeeplingSpawnWeight = buildInt(builder, "DeeplingSpawnWeight", "spawns", CMConfig.DeeplingSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");

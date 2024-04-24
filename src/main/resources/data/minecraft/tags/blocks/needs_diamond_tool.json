@@ -11,6 +11,7 @@
     "cataclysm:void_lantern_block",
     "cataclysm:ignitium_block",
     "cataclysm:witherite_block",
-    "cataclysm:enderite_block"
+    "cataclysm:enderite_block",
+    "cataclysm:ancient_metal_block"
   ]
 }

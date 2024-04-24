@@ -60,26 +60,27 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
                 }
             }
         }
-        if(timer < -80){
-            float sqrt = (float)this.getDeltaMovement().length();
-            if (sqrt < 0.1F) {
-                this.discard();
-            }
-        }
         if (timer == 0 || timer == -40) {
             if(this.getTotalBounces() == 0) {
                 Entity entity = this.getOwner();
                 if (entity instanceof Mob && ((Mob) entity).getTarget() != null) {
                     LivingEntity target = ((Mob) entity).getTarget();
-                    if (target == null) {
+                    if(target == null){
                         this.discard();
                     }
-                    double d0 = target.getX() - this.getX();
-                    double d1 = target.getY() + target.getBbHeight() * 0.5F - this.getY();
-                    double d2 = target.getZ() - this.getZ();
-                    float speed = 2.0f;
-                    shoot(d0, d1, d2, speed, 0);
-                    this.setYRot(-((float) Mth.atan2(d0, d2)) * (180F / (float) Math.PI));
+
+                    float speed =  0.2F;
+
+                    double dx = target.getX() - this.getX();
+                    double dy = target.getY() + target.getBbHeight() * 0.5F - this.getY();
+                    double dz = target.getZ() - this.getZ();
+                    double d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                    dx /= d;
+                    dy /= d;
+                    dz /= d;
+                    this.xPower = dx * speed;
+                    this.yPower = dy * speed;
+                    this.zPower = dz * speed;
                 }
             }
         }

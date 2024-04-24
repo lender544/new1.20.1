@@ -450,6 +450,13 @@ public class ModEntities {
             .updateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":sandstorm"));
 
+    public static final RegistryObject<EntityType<Sandstorm_Projectile>> SANDSTORM_PROJECTILE = ENTITY_TYPE.register("sandstorm_projectile", () -> EntityType.Builder.<Sandstorm_Projectile>of(Sandstorm_Projectile::new, MobCategory.MISC)
+            .sized(0.5F, 1.0F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .setShouldReceiveVelocityUpdates(true)
+            .build(Cataclysm.MODID + ":sandstorm_projectile"));
+
     public static final RegistryObject<EntityType<Ancient_Desert_Stele_Entity>> ANCIENT_DESERT_STELE = ENTITY_TYPE.register("ancient_desert_stele", () -> EntityType.Builder.<Ancient_Desert_Stele_Entity>of(Ancient_Desert_Stele_Entity::new, MobCategory.MISC)
             .sized(0.8F, 1.375F)
             .clientTrackingRange(6)

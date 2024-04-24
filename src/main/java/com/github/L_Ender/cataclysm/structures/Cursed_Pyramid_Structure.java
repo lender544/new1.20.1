@@ -3,6 +3,8 @@ package com.github.L_Ender.cataclysm.structures;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModStructures;
 import com.github.L_Ender.cataclysm.world.structures.Processor.WaterLoggingFixProcessor;
@@ -198,6 +200,27 @@ public class Cursed_Pyramid_Structure extends Structure {
                         koboleton.moveTo(pos, 0.0F, 0.0F);
                         koboleton.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(koboleton.blockPosition()), MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
                         worldIn.addFreshEntityWithPassengers(koboleton);
+                        worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                    }
+                }
+                case "wadjet" -> {
+                    Wadjet_Entity wadjet = ModEntities.WADJET.get().create(worldIn.getLevel());
+                    if (wadjet != null) {
+                        wadjet.setPersistenceRequired();
+                        wadjet.moveTo(pos, 0.0F, 0.0F);
+                        wadjet.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(wadjet.blockPosition()), MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
+                        worldIn.addFreshEntityWithPassengers(wadjet);
+                        worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                    }
+                }
+                case "kobolediator" -> {
+                    Kobolediator_Entity kobolediator = ModEntities.KOBOLEDIATOR.get().create(worldIn.getLevel());
+                    if (kobolediator != null) {
+                        kobolediator.setPersistenceRequired();
+                        kobolediator.moveTo(pos, 0.0F, 0.0F);
+                        kobolediator.setSleep(true);
+                        kobolediator.finalizeSpawn(worldIn, worldIn.getCurrentDifficultyAt(kobolediator.blockPosition()), MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
+                        worldIn.addFreshEntityWithPassengers(kobolediator);
                         worldIn.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                     }
                 }

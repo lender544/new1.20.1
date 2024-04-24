@@ -49,6 +49,7 @@ public class PredictiveChargeAttackAnimationGoal<T extends Animation_Monster & I
     public void tick() {
         if (entity.getAnimationTick() < look1 && target != null || entity.getAnimationTick() > look2 && target != null) {
             entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            entity.setYRot(entity.yBodyRot);
         } else {
             entity.setYRot(entity.yRotO);
         }

@@ -282,13 +282,12 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
 		WalkAnimationState walkanimationstate = entity.walkAnimation;
-		if(entity.getAttackState() != 6) {
-			this.animateWalk(Wadjet_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 1.0F);
-		}
+		this.animateWalk(Wadjet_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 		progressRotationPrev(upper_body1,attackAmount,(float)Math.toRadians(23.1591F), 0, 0, 10F);
 		this.animate(entity.getAnimationState("idle"), Wadjet_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("charge"), Wadjet_Animation.SPEAR_CHARGE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("magic"), Wadjet_Animation.MAGIC, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("death"), Wadjet_Animation.DEATH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("doubleswing"), Wadjet_Animation.DOUBLE_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("stabnswing"), Wadjet_Animation.STAB_N_SWING, ageInTicks, 1.0F);
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);

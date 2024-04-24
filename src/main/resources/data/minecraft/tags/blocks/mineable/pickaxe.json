@@ -35,6 +35,7 @@
     "cataclysm:sandstone_poison_dart_trap",
     "cataclysm:sandstone_ignite_trap",
     "cataclysm:sandstone_falling_trap",
-    "cataclysm:blackstone_pillar"
+    "cataclysm:blackstone_pillar",
+    "cataclysm:ancient_metal_block"
   ]
 }

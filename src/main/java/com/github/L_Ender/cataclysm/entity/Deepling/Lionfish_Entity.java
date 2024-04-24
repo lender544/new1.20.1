@@ -161,7 +161,7 @@ public class Lionfish_Entity extends Monster implements IAnimatedEntity {
             this.setAirSupply(p_30344_ - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
-                this.hurt(damageSources().drown(), 2.0F);
+                this.hurt(damageSources().drown(), 0.01F);
             }
         } else {
             this.setAirSupply(1000);

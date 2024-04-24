@@ -364,7 +364,7 @@ public class ModSounds {
 
 
     public static final RegistryObject<SoundEvent> WADJET_AMBIENT = SOUNDS.register("wadjet_ambient",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"coralssus_ambient")));
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_ambient")));
 
     public static final RegistryObject<SoundEvent> WADJET_HURT = SOUNDS.register("wadjet_hurt",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_hurt")));

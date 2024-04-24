@@ -92,19 +92,17 @@ public class Laser_Gatling extends Item {
 
     public void onUseTick(Level worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
         if(isUsable(stack)) {
-
-                setCharged(stack, true);
-
+            setCharged(stack, true);
             if (count % 2 == 0) {
-                Laser_Beam_Entity blood = new Laser_Beam_Entity(worldIn, livingEntityIn);
-                blood.setDamage((float) CMConfig.Laserdamage);
+                Laser_Beam_Entity laser = new Laser_Beam_Entity(worldIn, livingEntityIn);
+                laser.setDamage((float) CMConfig.Laserdamage);
                 Vec3 vector3d = livingEntityIn.getViewVector(1.0F);
                 RandomSource rand = worldIn.getRandom();
                 livingEntityIn.gameEvent(GameEvent.ITEM_INTERACT_START);
                 livingEntityIn.playSound(ModSounds.HARBINGER_LASER.get(),0.2F, 1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.2F);
-                blood.shoot((double) vector3d.x(), (double) vector3d.y(), (double) vector3d.z(), 1F, 3);
+                laser.shoot((double) vector3d.x(), (double) vector3d.y(), (double) vector3d.z(), 1F, 3);
                 if (!worldIn.isClientSide) {
-                    worldIn.addFreshEntity(blood);
+                    worldIn.addFreshEntity(laser);
                 }
                 stack.hurtAndBreak(1, livingEntityIn, (player) -> {
                     player.broadcastBreakEvent(livingEntityIn.getUsedItemHand());

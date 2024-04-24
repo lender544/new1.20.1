@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -30,6 +31,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -86,6 +88,10 @@ public class Koboleton_Entity extends Animation_Monster {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
+        Entity entity = source.getDirectEntity();
+        if (entity instanceof Poison_Dart_Entity) {
+            return false;
+        }
         return super.hurt(source, damage);
     }
 

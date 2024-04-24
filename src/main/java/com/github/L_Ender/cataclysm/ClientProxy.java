@@ -19,20 +19,15 @@ import com.github.L_Ender.cataclysm.init.*;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -77,6 +72,7 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.OrbFactory());
         registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.OrbFactory());
         registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
+        registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
     }
 
     public void clientInit() {
@@ -137,7 +133,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.AMETHYST_CRAB.get(), RendererAmethyst_Crab::new);
         EntityRenderers.register(ModEntities.ANCIENT_REMNANT.get(), RendererAncient_Remnant::new);
         EntityRenderers.register(ModEntities.MODERN_REMNANT.get(), RendererModern_Remnant::new);
-        EntityRenderers.register(ModEntities.SANDSTORM.get(), RenderSandstorm::new);
+        EntityRenderers.register(ModEntities.SANDSTORM.get(), RendererSandstorm::new);
+        EntityRenderers.register(ModEntities.SANDSTORM_PROJECTILE.get(), RendererSandstorm_Projectile::new);
         EntityRenderers.register(ModEntities.THE_WATCHER.get(), RendererThe_Watcher::new);
         EntityRenderers.register(ModEntities.THE_PROWLER.get(), RendererThe_Prowler::new);
         EntityRenderers.register(ModEntities.KOBOLETON.get(), RendererKoboleton::new);
@@ -231,6 +228,9 @@ public class ClientProxy extends CommonProxy {
         BLOCK_ENTITY_SOUND_INSTANCE_MAP.remove(entity);
     }
 
+    public float getPartialTicks() {
+        return Minecraft.getInstance().getPartialTick();
+    }
 
     public boolean isKeyDown(int keyType) {
         if (keyType == -1) {
@@ -253,6 +253,7 @@ public class ClientProxy extends CommonProxy {
         }
         return false;
     }
+
 
     @Override
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {

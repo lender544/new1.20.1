@@ -43,6 +43,10 @@ public class CommonProxy {
 
     }
 
+    public float getPartialTicks() {
+        return 1.0F;
+    }
+
 
     public boolean isKeyDown(int keyType) {
         return false;
