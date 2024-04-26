@@ -88,7 +88,7 @@ public class The_Prowler_Entity extends Boss_monster {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
-                .add(Attributes.ATTACK_DAMAGE, 11)
+                .add(Attributes.ATTACK_DAMAGE, 14)
                 .add(Attributes.MAX_HEALTH, 150)
                 .add(Attributes.ARMOR, 10)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.9);

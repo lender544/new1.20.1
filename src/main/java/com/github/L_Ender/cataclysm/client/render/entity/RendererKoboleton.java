@@ -2,6 +2,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.client.model.entity.ModelKoboleton;
+import com.github.L_Ender.cataclysm.client.render.layer.LayerBasicGlow;
+import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerKoboletonItem;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,11 +17,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class RendererKoboleton extends MobRenderer<Koboleton_Entity, ModelKoboleton> {
 
     private static final ResourceLocation KOBOLETON_TEXTURES = new ResourceLocation("cataclysm:textures/entity/koboleton/koboleton.png");
-    ;
+    private static final ResourceLocation KOBOLETON_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/koboleton/koboleton_layer.png");
 
     public RendererKoboleton(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelKoboleton(), 0.5F);
         this.addLayer(new LayerKoboletonItem(this, renderManagerIn.getItemInHandRenderer()));
+        this.addLayer(new LayerGenericGlowing(this, KOBOLETON_LAYER_TEXTURES));
 
     }
     @Override

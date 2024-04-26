@@ -2,6 +2,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.client.model.entity.ModelKobolediator;
+import com.github.L_Ender.cataclysm.client.render.layer.Ancient_Remnant_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.Kobolediator_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,6 +20,7 @@ public class RendererKobolediator extends MobRenderer<Kobolediator_Entity, Model
 
     public RendererKobolediator(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelKobolediator(), 1.25F);
+        this.addLayer(new Kobolediator_Layer(this));
 
     }
     @Override

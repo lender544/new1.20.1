@@ -240,6 +240,7 @@ public class ModelKobolediator extends AdvancedEntityModel<Kobolediator_Entity> 
         this.animate(entity.getAnimationState("charge_prepare"), Kobolediator_Animation.CHARGE_PREPARE, ageInTicks, 1.0F);
         this.animate(entity.getAnimationState("charge_end"), Kobolediator_Animation.CHARGE_END, ageInTicks, 1.0F);
         this.animate(entity.getAnimationState("death"), Kobolediator_Animation.DEATH, ageInTicks, 1.0F);
+        this.animate(entity.getAnimationState("block"), Kobolediator_Animation.BLOCK, ageInTicks, 1.0F);
     }
 
     public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {

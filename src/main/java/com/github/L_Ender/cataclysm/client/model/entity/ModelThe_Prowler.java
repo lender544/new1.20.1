@@ -481,10 +481,6 @@ public class ModelThe_Prowler extends AdvancedEntityModel<The_Prowler_Entity> {
 
 		saw.rotateAngleX -= ageInTicks * sawspeed;
 
-		this.catapiller.rotationPointZ += Mth.cos(limbSwing * globalSpeed ) * limbSwingAmount * 5;
-
-		this.catapiller2.rotationPointZ += Mth.cos(limbSwing * globalSpeed ) * limbSwingAmount * 5;
-
 		float partialTick = Minecraft.getInstance().getFrameTime();
 		float deactivateProgress = entityIn.prevdeactivateProgress + (entityIn.deactivateProgress - entityIn.prevdeactivateProgress) * partialTick;
 

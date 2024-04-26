@@ -2,6 +2,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWadjet;
+import com.github.L_Ender.cataclysm.client.render.layer.Kobolediator_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.Wadjet_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,7 +20,7 @@ public class RendererWadjet extends MobRenderer<Wadjet_Entity, ModelWadjet> {
 
     public RendererWadjet(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelWadjet(), 0.75F);
-
+        this.addLayer(new Wadjet_Layer(this));
     }
     @Override
     public ResourceLocation getTextureLocation(Wadjet_Entity entity) {

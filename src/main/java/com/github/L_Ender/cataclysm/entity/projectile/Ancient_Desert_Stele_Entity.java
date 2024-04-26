@@ -166,15 +166,16 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
 
     protected void onHitEntity(EntityHitResult p_213868_1_) {
         LivingEntity shooter = this.getCaster();
-
         Entity entity = p_213868_1_.getEntity();
         boolean flag = false;
         if (shooter != null) {
             LivingEntity owner = shooter;
             if (owner != entity) {
-                flag = entity.hurt(damageSources().mobProjectile(this, owner), (float) CMConfig.AncientDesertSteledamage);
-                if (flag) {
-                    this.doEnchantDamageEffects(owner, entity);
+                if (!owner.isAlliedTo(entity)) {
+                    flag = entity.hurt(damageSources().mobProjectile(this, owner), (float) CMConfig.AncientDesertSteledamage);
+                    if (flag) {
+                        this.doEnchantDamageEffects(owner, entity);
+                    }
                 }
             }
         } else {

@@ -4,9 +4,11 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Nameless_Sorcerer_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
@@ -31,6 +33,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -48,9 +51,12 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -61,6 +67,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
@@ -69,11 +76,14 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     @OnlyIn(Dist.CLIENT)
     public DynamicChain dc;
     public AnimationState idleAnimationState = new AnimationState();
+    public AnimationState sleepAnimationState = new AnimationState();
+    public AnimationState awakeAnimationState = new AnimationState();
     public AnimationState stabnswingAnimationState = new AnimationState();
     public AnimationState doublswingAnimationState = new AnimationState();
     public AnimationState spearchargeAnimationState = new AnimationState();
     public AnimationState magicAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
+    public AnimationState blockAnimationState = new AnimationState();
     public static final EntityDataAccessor<Boolean> STAB = SynchedEntityData.defineId(Wadjet_Entity.class, EntityDataSerializers.BOOLEAN);
     private float prevAttackProgress;
     private float AttackProgress;
@@ -102,8 +112,9 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(2, new InternalMoveGoal(this, false, 1.0D));
-        this.goalSelector.addGoal(1, new ChargeAttackGoal(this,0,1,0,45,15,20,5.5F,16));
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,3,0,60,60,5){
+        this.goalSelector.addGoal(1, new ChargeAttackGoal(this,0,3,0,45,15,20,5.5F,16));
+        this.goalSelector.addGoal(1, new MagicAttackGoal(this,0,4,0,35,15,3.5F,12));
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,0,60,60,5){
             @Override
             public boolean canUse() {
                 return super.canUse() && Wadjet_Entity.this.getStab();
@@ -116,7 +127,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
             }
         });
 
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,55,55,5){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,6,0,55,55,5){
             @Override
             public boolean canUse() {
                 return super.canUse() && !Wadjet_Entity.this.getStab();
@@ -128,16 +139,22 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                 Wadjet_Entity.this.setStab(Wadjet_Entity.this.random.nextBoolean());
             }
         });
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,1,1,0,0,0){
+            @Override
+            public void tick() {
+                entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
+            }
+        });
 
-        this.goalSelector.addGoal(1, new MagicAttackGoal(this,0,2,0,35,15,3.5F,12));
-
+        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,8));
+        this.goalSelector.addGoal(0, new InternalStateGoal(this,8,8,0,20,0,false));
     }
 
     public static AttributeSupplier.Builder wadjet() {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
-                .add(Attributes.ATTACK_DAMAGE, 9)
+                .add(Attributes.ATTACK_DAMAGE, 11)
                 .add(Attributes.MAX_HEALTH, 150)
                 .add(Attributes.ARMOR, 5)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7);
@@ -153,7 +170,38 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         if (entity instanceof Poison_Dart_Entity) {
             return false;
         }
+        if (this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return false;
+        }
+        if (this.canBlockDamageSource(source)) {
+            if(entity instanceof AbstractArrow) {
+                float f = 170.0F + this.random.nextFloat() * 80.0F;
+                entity.setDeltaMovement(entity.getDeltaMovement().scale(1.0));
+                entity.setYRot(entity.getYRot() + f);
+                entity.hurtMarked = true;
+            }
+            if(this.getAttackState() == 0) {
+                this.playSound(SoundEvents.ANVIL_LAND, 1.0F, 2);
+                this.setAttackState(8);
+            }
+            return false;
+        }
         return super.hurt(source, damage);
+    }
+
+
+    private boolean canBlockDamageSource(DamageSource damageSourceIn) {
+        boolean flag = false;
+        if (!this.isNoAi() && damageSourceIn.is(DamageTypeTags.IS_PROJECTILE) && !flag && (this.getAttackState() == 0 || this.getAttackState() == 9)) {
+            Vec3 vector3d2 = damageSourceIn.getSourcePosition();
+            if (vector3d2 != null) {
+                Vec3 vector3d = this.getViewVector(1.0F);
+                Vec3 vector3d1 = vector3d2.vectorTo(this.position()).normalize();
+                vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
+                return vector3d1.dot(vector3d) < 0.0D;
+            }
+        }
+        return false;
     }
 
     protected int decreaseAirSupply(int air) {
@@ -165,7 +213,11 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     public AnimationState getAnimationState(String input) {
-        if (input == "charge") {
+        if (input == "sleep") {
+            return this.sleepAnimationState;
+        } else if (input == "awake") {
+            return this.awakeAnimationState;
+        } else if (input == "charge") {
             return this.spearchargeAnimationState;
         } else if (input == "magic") {
             return this.magicAnimationState;
@@ -177,6 +229,8 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
             return this.idleAnimationState;
         } else if (input == "death") {
             return this.deathAnimationState;
+        } else if (input == "block") {
+            return this.blockAnimationState;
         } else {
             return new AnimationState();
         }
@@ -188,12 +242,29 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         this.entityData.define(STAB, false);
     }
 
+    public boolean isSleep() {
+        return this.getAttackState() == 1 || this.getAttackState() == 2;
+    }
+
+    public void setSleep(boolean sleep) {
+        this.setAttackState(sleep ? 1 : 0);
+    }
+
     public void setStab(boolean stab) {
         this.entityData.set(STAB, stab);
     }
 
     public boolean getStab() {
         return this.entityData.get(STAB);
+    }
+
+    public boolean canBeSeenAsEnemy() {
+        return !this.isSleep() && super.canBeSeenAsEnemy();
+    }
+
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
+        this.setSleep(true);
+        return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_, p_29682_);
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
@@ -203,23 +274,35 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         this.stopAllAnimationStates();
-                        this.spearchargeAnimationState.startIfStopped(this.tickCount);
+                        this.sleepAnimationState.startIfStopped(this.tickCount);
                     }
                     case 2 -> {
                         this.stopAllAnimationStates();
-                        this.magicAnimationState.startIfStopped(this.tickCount);
+                        this.awakeAnimationState.startIfStopped(this.tickCount);
                     }
                     case 3 -> {
                         this.stopAllAnimationStates();
-                        this.stabnswingAnimationState.startIfStopped(this.tickCount);
+                        this.spearchargeAnimationState.startIfStopped(this.tickCount);
                     }
                     case 4 -> {
                         this.stopAllAnimationStates();
-                        this.doublswingAnimationState.startIfStopped(this.tickCount);
+                        this.magicAnimationState.startIfStopped(this.tickCount);
                     }
                     case 5 -> {
                         this.stopAllAnimationStates();
+                        this.stabnswingAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 6 -> {
+                        this.stopAllAnimationStates();
+                        this.doublswingAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 7 -> {
+                        this.stopAllAnimationStates();
                         this.deathAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 8 -> {
+                        this.stopAllAnimationStates();
+                        this.blockAnimationState.startIfStopped(this.tickCount);
                     }
                 }
         }
@@ -227,6 +310,9 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     public void stopAllAnimationStates() {
+        this.sleepAnimationState.stop();
+        this.awakeAnimationState.stop();
+        this.blockAnimationState.stop();
         this.spearchargeAnimationState.stop();
         this.magicAnimationState.stop();
         this.stabnswingAnimationState.stop();
@@ -237,7 +323,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
-        this.setAttackState(5);
+        this.setAttackState(7);
     }
 
     public int deathtimer() {
@@ -246,10 +332,12 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putBoolean("is_Sleep", isSleep());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        setSleep(compound.getBoolean("is_Sleep"));
     }
 
     public void tick() {
@@ -270,38 +358,38 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public void aiStep() {
         super.aiStep();
-        if(this.getAttackState() == 1) {
+        if(this.getAttackState() == 3) {
             if (this.attackTicks == 18) {
                 this.playSound(ModSounds.IGNIS_POKE.get(), 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
             }
             if (this.attackTicks == 20) {
-                AreaAttack(9.0f,6.0F,45,1,120);
+                AreaAttack(9.0f,6.0F,45,1,90,false);
             }
         }
-        if(this.getAttackState() == 2) {
+        if(this.getAttackState() == 4) {
             if (this.attackTicks == 15) {
                 this.playSound(SoundEvents.EVOKER_PREPARE_ATTACK, 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
             }
         }
-        if(this.getAttackState() == 3) {
+        if(this.getAttackState() == 5) {
             if (this.attackTicks == 14) {
                 this.playSound(ModSounds.IGNIS_POKE.get(), 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(8.0f,6.0F,45,1,120);
+                AreaAttack(8.0f,6.0F,45,1,90,false);
             }
             if (this.attackTicks == 37) {
                 this.playSound(ModSounds.SWING.get(), 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(6.0f,4.0F,220,1,70);
+                AreaAttack(6.0f,4.0F,220,1,70,true);
             }
         }
 
-        if(this.getAttackState() == 4) {
+        if(this.getAttackState() == 6) {
             if (this.attackTicks == 14) {
                 this.playSound(ModSounds.SWING.get(), 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(6.0f,4.0F,220,1,70);
+                AreaAttack(6.0f,4.0F,220,1,60,true);
             }
             if (this.attackTicks == 28) {
                 this.playSound(ModSounds.SWING.get(), 1.0f, 1.25F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(6.0f,4.0F,220,1,70);
+                AreaAttack(6.0f,4.0F,220,1,60,true);
             }
         }
 
@@ -309,7 +397,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     }
 
-    private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
+    private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -324,9 +412,15 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Kobolediator_Entity) && entityHit != this) {
-                    entityHit.hurt(this.damageSources().mobAttack(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    boolean hurt = entityHit.hurt(this.damageSources().mobAttack(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                     if (entityHit instanceof Player && entityHit.isBlocking() && shieldbreakticks > 0) {
                         disableShield(entityHit, shieldbreakticks);
+                    }
+                    double d0 = entityHit.getX() - this.getX();
+                    double d1 = entityHit.getZ() - this.getZ();
+                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                    if (hurt && knockback) {
+                        entityHit.push(d0 / d2 * 2.25D, 0.15D, d1 / d2 * 2.25D);
                     }
                 }
             }
@@ -358,7 +452,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     protected SoundEvent getAmbientSound() {
-        return  ModSounds.WADJET_AMBIENT.get();
+        return this.isSleep() ? super.getAmbientSound() : ModSounds.WADJET_AMBIENT.get();
     }
 
     @Override

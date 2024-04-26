@@ -18,6 +18,7 @@ import net.minecraft.world.entity.WalkAnimationState;
 
 public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 	private final AdvancedModelBox everything;
+	private final AdvancedModelBox mid_root;
 	private final AdvancedModelBox upper_body1;
 	private final AdvancedModelBox pelvis;
 	private final AdvancedModelBox upper_body2;
@@ -64,16 +65,21 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 
 		everything = new AdvancedModelBox(this,"everything");
 		everything.setRotationPoint(0.0F, 18.1769F, -2.6276F);
-		
+
+
+		mid_root = new AdvancedModelBox(this,"mid_root");
+		mid_root.setRotationPoint(0.0F, 5.8231F, 2.6276F);
+		everything.addChild(mid_root);
+
 
 		upper_body1 = new AdvancedModelBox(this,"upper_body1");
-		upper_body1.setRotationPoint(0.0F, 1.0F, 2.0F);
-		everything.addChild(upper_body1);
+		upper_body1.setRotationPoint(0.0F, -4.8231F, -0.6276F);
+		mid_root.addChild(upper_body1);
 		setRotationAngle(upper_body1, -0.2618F, 0.0F, 0.0F);
 		upper_body1.setTextureOffset(0, 63).addBox(-5.5F, -17.8375F, -3.68F, 11.0F, 20.0F, 6.0F, 0.0F, false);
 
 		pelvis = new AdvancedModelBox(this,"pelvis");
-		pelvis.setRotationPoint(0.0F, -17.8375F, 2.02F);
+		pelvis.setRotationPoint(-0.0798F, -17.8375F, 2.02F);
 		upper_body1.addChild(pelvis);
 		setRotationAngle(pelvis, 0.5716F, 0.0F, 0.0F);
 		pelvis.setTextureOffset(0, 47).addBox(-4.5076F, -3.0225F, -5.0839F, 9.0F, 4.0F, 6.0F, 0.0F, false);
@@ -225,7 +231,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		left_finger4.setTextureOffset(0, 13).addBox(-0.9789F, 0.164F, -0.7233F, 6.0F, 0.0F, 2.0F, 0.0F, false);
 
 		tail1 = new AdvancedModelBox(this,"tail1");
-		tail1.setRotationPoint(0.0F, 2.8231F, 0.6276F);
+		tail1.setRotationPoint(0.0F, -3.0F, -2.0F);
 		everything.addChild(tail1);
 		tail1.setTextureOffset(38, 63).addBox(-5.0F, -3.0F, 0.0F, 10.0F, 6.0F, 20.0F, 0.0F, false);
 
@@ -271,7 +277,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 	@Override
 	public void setupAnim(Wadjet_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		tail = entity.dc;
-		entity.dc.updateChain(Minecraft.getInstance().getFrameTime(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.97f, 30, true);
+		entity.dc.updateChain(Minecraft.getInstance().getFrameTime(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
 
 		this.resetToDefaultPose();
 		float swimSpeed = 0.1F;
@@ -281,15 +287,17 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		float attackAmount = attackProgress * limbSwingAmount * 1.5F;
 
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
-		WalkAnimationState walkanimationstate = entity.walkAnimation;
 		this.animateWalk(Wadjet_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 1.0F);
 		progressRotationPrev(upper_body1,attackAmount,(float)Math.toRadians(23.1591F), 0, 0, 10F);
 		this.animate(entity.getAnimationState("idle"), Wadjet_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("sleep"), Wadjet_Animation.SLEEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("awake"), Wadjet_Animation.AWAKE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("charge"), Wadjet_Animation.SPEAR_CHARGE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("magic"), Wadjet_Animation.MAGIC, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Wadjet_Animation.DEATH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("doubleswing"), Wadjet_Animation.DOUBLE_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("stabnswing"), Wadjet_Animation.STAB_N_SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("block"), Wadjet_Animation.BLOCK, ageInTicks, 1.0F);
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);
 		this.chainSwing(tailOriginal, swimSpeed * 0.6F, swimDegree * 0.15F, -3, ageInTicks,1.0F);
 
@@ -321,6 +329,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		return ImmutableList.of(
 				everything,
 				upper_body1,
+				mid_root,
 				pelvis,
 				upper_body2,
 				body,

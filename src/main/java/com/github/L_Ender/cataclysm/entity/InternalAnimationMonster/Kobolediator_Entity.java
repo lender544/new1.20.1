@@ -21,6 +21,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -62,6 +64,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     public AnimationState chargeprepareAnimationState = new AnimationState();
     public AnimationState chargeAnimationState = new AnimationState();
     public AnimationState chargeendAnimationState = new AnimationState();
+    public AnimationState blockAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
     private int earthquake_cooldown = 0;
     public static final int EARTHQUAKE_COOLDOWN = 80;
@@ -142,6 +145,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         });
 
         this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,8));
+        this.goalSelector.addGoal(0, new InternalStateGoal(this,9,9,0,18,0,false));
     }
 
     public static AttributeSupplier.Builder kobolediator() {
@@ -164,10 +168,37 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         if (entity instanceof Poison_Dart_Entity) {
             return false;
         }
+        if (this.canBlockDamageSource(source)) {
+            if(entity instanceof AbstractArrow) {
+                float f = 170.0F + this.random.nextFloat() * 80.0F;
+                entity.setDeltaMovement(entity.getDeltaMovement().scale(1.5));
+                entity.setYRot(entity.getYRot() + f);
+                entity.hurtMarked = true;
+            }
+            if(this.getAttackState() == 0) {
+                this.setAttackState(9);
+                this.playSound(SoundEvents.ANVIL_LAND, 1.0F, 2);
+            }
+            return false;
+        }
         if (this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         return super.hurt(source, damage);
+    }
+
+    private boolean canBlockDamageSource(DamageSource damageSourceIn) {
+        boolean flag = false;
+        if (!this.isNoAi() && damageSourceIn.is(DamageTypeTags.IS_PROJECTILE) && !flag && (this.getAttackState() == 0 || this.getAttackState() == 9)) {
+            Vec3 vector3d2 = damageSourceIn.getSourcePosition();
+            if (vector3d2 != null) {
+                Vec3 vector3d = this.getViewVector(1.0F);
+                Vec3 vector3d1 = vector3d2.vectorTo(this.position()).normalize();
+                vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
+                return vector3d1.dot(vector3d) < 0.0D;
+            }
+        }
+        return false;
     }
 
     protected int decreaseAirSupply(int air) {
@@ -198,6 +229,8 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
             return this.chargeendAnimationState;
         } else if (input == "death") {
             return this.deathAnimationState;
+        } else if (input == "block") {
+            return this.blockAnimationState;
         }else {
             return new AnimationState();
         }
@@ -262,6 +295,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                         this.stopAllAnimationStates();
                         this.deathAnimationState.startIfStopped(this.tickCount);
                     }
+                    case 9 -> {
+                        this.stopAllAnimationStates();
+                        this.blockAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
 
@@ -275,6 +312,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         this.sword2AnimationState.stop();
         this.chargeprepareAnimationState.stop();
         this.chargeAnimationState.stop();
+        this.blockAnimationState.stop();
         this.chargeendAnimationState.stop();
         this.deathAnimationState.stop();
     }

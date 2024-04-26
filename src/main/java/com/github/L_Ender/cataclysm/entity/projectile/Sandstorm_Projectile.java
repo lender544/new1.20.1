@@ -39,7 +39,7 @@ public class Sandstorm_Projectile extends Projectile {
     public double yPower;
     public double zPower;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Sandstorm_Projectile.class, EntityDataSerializers.FLOAT);
-
+    private int lifetick;
 
     public Sandstorm_Projectile(EntityType<? extends Sandstorm_Projectile> type, Level level) {
         super(type, level);
@@ -80,7 +80,6 @@ public class Sandstorm_Projectile extends Projectile {
 
     }
 
-
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE,0f);
     }
@@ -107,11 +106,17 @@ public class Sandstorm_Projectile extends Projectile {
 
     public void tick() {
         Entity entity = this.getOwner();
+
         if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
             super.tick();
+            lifetick++;
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
             if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
+            }
+
+            if(lifetick > 300){
+                this.discard();
             }
 
             this.checkInsideBlocks();
