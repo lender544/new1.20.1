@@ -144,7 +144,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
             }
         });
 
-        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,8));
+        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,18));
         this.goalSelector.addGoal(0, new InternalStateGoal(this,9,9,0,18,0,false));
     }
 

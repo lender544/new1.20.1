@@ -146,7 +146,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
             }
         });
 
-        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,8));
+        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,18));
         this.goalSelector.addGoal(0, new InternalStateGoal(this,8,8,0,20,0,false));
     }
 
@@ -192,7 +192,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {
         boolean flag = false;
-        if (!this.isNoAi() && damageSourceIn.is(DamageTypeTags.IS_PROJECTILE) && !flag && (this.getAttackState() == 0 || this.getAttackState() == 9)) {
+        if (!this.isNoAi() && damageSourceIn.is(DamageTypeTags.IS_PROJECTILE) && !flag && (this.getAttackState() == 0 || this.getAttackState() == 8)) {
             Vec3 vector3d2 = damageSourceIn.getSourcePosition();
             if (vector3d2 != null) {
                 Vec3 vector3d = this.getViewVector(1.0F);

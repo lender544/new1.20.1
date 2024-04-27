@@ -5,6 +5,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Coralssus_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Wadjet_Animation;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
@@ -66,7 +67,6 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		everything = new AdvancedModelBox(this,"everything");
 		everything.setRotationPoint(0.0F, 18.1769F, -2.6276F);
 
-
 		mid_root = new AdvancedModelBox(this,"mid_root");
 		mid_root.setRotationPoint(0.0F, 5.8231F, 2.6276F);
 		everything.addChild(mid_root);
@@ -95,7 +95,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		body.setRotationPoint(0.0492F, -6.6808F, 0.7605F);
 		upper_body2.addChild(body);
 		setRotationAngle(body, 0.0429F, 0.0F, 0.0F);
-		
+
 
 		neck1 = new AdvancedModelBox(this,"neck1");
 		neck1.setRotationPoint(0.0F, -8.5F, 0.0F);
@@ -153,13 +153,13 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		jaw.setTextureOffset(103, 10).addBox(-2.1895F, -1.0797F, -6.0886F, 3.0F, 2.0F, 7.0F, 0.0F, false);
 
 		right_arm = new AdvancedModelBox(this,"right_arm");
-		right_arm.setRotationPoint(-4.3F, -5.8F, -2.4F);
+		right_arm.setRotationPoint(-5.3F, -5.8F, -2.4F);
 		body.addChild(right_arm);
 		setRotationAngle(right_arm, 0.0F, 0.5672F, -1.2654F);
-		right_arm.setTextureOffset(65, 25).addBox(-10.2F, -1.9395F, -1.9186F, 11.0F, 4.0F, 4.0F, 0.0F, false);
+		right_arm.setTextureOffset(65, 25).addBox(-9.9464F, -0.9857F, -1.7571F, 11.0F, 4.0F, 4.0F, 0.0F, false);
 
 		right_fore_arm = new AdvancedModelBox(this,"right_fore_arm");
-		right_fore_arm.setRotationPoint(-10.2F, -1.475F, 0.0F);
+		right_fore_arm.setRotationPoint(-9.9464F, -0.5213F, 0.1616F);
 		right_arm.addChild(right_fore_arm);
 		setRotationAngle(right_fore_arm, 0.0F, -0.6545F, 0.0F);
 		right_fore_arm.setTextureOffset(0, 90).addBox(-11.0F, -0.4395F, -1.9186F, 11.0F, 3.0F, 4.0F, 0.0F, false);
@@ -198,13 +198,13 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		cube_r5.setTextureOffset(0, 63).addBox(-2.0F, -20.0F, -45.0F, 0.0F, 16.0F, 37.0F, 0.0F, false);
 
 		left_arm = new AdvancedModelBox(this,"left_arm");
-		left_arm.setRotationPoint(4.121F, -5.8F, -2.4F);
+		left_arm.setRotationPoint(5.121F, -5.8F, -2.4F);
 		body.addChild(left_arm);
 		setRotationAngle(left_arm, 0.0F, -0.2618F, 1.2654F);
-		left_arm.setTextureOffset(65, 16).addBox(-0.8F, -1.9395F, -1.9186F, 11.0F, 4.0F, 4.0F, 0.0F, false);
+		left_arm.setTextureOffset(65, 16).addBox(-1.0905F, -0.9857F, -1.8408F, 11.0F, 4.0F, 4.0F, 0.0F, false);
 
 		left_fore_arm = new AdvancedModelBox(this,"left_fore_arm");
-		left_fore_arm.setRotationPoint(10.2F, -1.475F, 0.0F);
+		left_fore_arm.setRotationPoint(9.9095F, -0.5213F, 0.0778F);
 		left_arm.addChild(left_fore_arm);
 		setRotationAngle(left_fore_arm, 0.0F, 0.6545F, 0.0F);
 		left_fore_arm.setTextureOffset(38, 90).addBox(0.0F, -0.4395F, -1.9186F, 11.0F, 3.0F, 4.0F, 0.0F, false);
@@ -232,7 +232,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 
 		tail1 = new AdvancedModelBox(this,"tail1");
 		tail1.setRotationPoint(0.0F, -3.0F, -2.0F);
-		everything.addChild(tail1);
+		mid_root.addChild(tail1);
 		tail1.setTextureOffset(38, 63).addBox(-5.0F, -3.0F, 0.0F, 10.0F, 6.0F, 20.0F, 0.0F, false);
 
 		tail2 = new AdvancedModelBox(this,"tail2");
@@ -274,12 +274,15 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		}
 	}
 
+	public void animate(Wadjet_Entity entity, float f, float f1, float f2, float f3, float f4) {
+		tail = entity.dc;
+		this.resetToDefaultPose();
+
+	}
+
 	@Override
 	public void setupAnim(Wadjet_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		tail = entity.dc;
-		entity.dc.updateChain(Minecraft.getInstance().getFrameTime(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
-
-		this.resetToDefaultPose();
+		animate(entity,limbSwing,limbSwingAmount,ageInTicks,netHeadYaw,headPitch);
 		float swimSpeed = 0.1F;
 		float swimDegree = 0.5F;
 		float partialTick = Minecraft.getInstance().getFrameTime();
@@ -300,7 +303,7 @@ public class ModelWadjet extends AdvancedEntityModel<Wadjet_Entity> {
 		this.animate(entity.getAnimationState("block"), Wadjet_Animation.BLOCK, ageInTicks, 1.0F);
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);
 		this.chainSwing(tailOriginal, swimSpeed * 0.6F, swimDegree * 0.15F, -3, ageInTicks,1.0F);
-
+		entity.dc.updateChain(Minecraft.getInstance().getFrameTime(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
