@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.StormParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTag;
@@ -21,6 +22,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,7 +41,11 @@ public class Sandstorm_Projectile extends Projectile {
     public double yPower;
     public double zPower;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Sandstorm_Projectile.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Sandstorm_Projectile.class, EntityDataSerializers.INT);
+    public AnimationState SpawnAnimationState = new AnimationState();
+    public AnimationState DespawnAnimationState = new AnimationState();
     private int lifetick;
+    private int discardtick;
 
     public Sandstorm_Projectile(EntityType<? extends Sandstorm_Projectile> type, Level level) {
         super(type, level);
@@ -82,8 +88,50 @@ public class Sandstorm_Projectile extends Projectile {
 
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE,0f);
+        this.entityData.define(STATE,0);
     }
 
+    public AnimationState getAnimationState(String input) {
+        if (input == "spawn") {
+            return this.SpawnAnimationState;
+        } else if (input == "despawn") {
+            return this.DespawnAnimationState;
+        }else {
+            return new AnimationState();
+        }
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
+        if (STATE.equals(p_21104_)) {
+            if (this.level().isClientSide)
+                switch (this.getState()) {
+                case 0 -> this.stopAllAnimationStates();
+                case 1 -> {
+                    stopAllAnimationStates();
+                    this.SpawnAnimationState.startIfStopped(this.tickCount);
+                }
+                case 2 -> {
+                    stopAllAnimationStates();
+                    this.DespawnAnimationState.startIfStopped(this.tickCount);
+                }
+            }
+        }
+
+        super.onSyncedDataUpdated(p_21104_);
+    }
+
+    public void stopAllAnimationStates() {
+        this.DespawnAnimationState.stop();
+        this.SpawnAnimationState.stop();
+    }
+
+    public int getState() {
+        return entityData.get(STATE);
+    }
+
+    public void setState(int state) {
+        entityData.set(STATE, state);
+    }
 
     public float getDamage() {
         return entityData.get(DAMAGE);
@@ -114,9 +162,22 @@ public class Sandstorm_Projectile extends Projectile {
             if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
+            if(this.getState() == 1) {
+                if (this.lifetick > 5) {
+                    this.setState(0);
+                }
+            }
+            if(lifetick > 295){
+                if(this.getState() == 0) {
+                    this.setState(2);
+                }
+            }
 
-            if(lifetick > 300){
-                this.discard();
+            if(this.getState() == 2){
+                discardtick++;
+                if(discardtick > 10){
+                    this.discard();
+                }
             }
 
             this.checkInsideBlocks();
@@ -168,7 +229,7 @@ public class Sandstorm_Projectile extends Projectile {
                 if (flag && entity instanceof LivingEntity) {
                     ((LivingEntity) entity).addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 100, 1), this.getEffectSource());
                 }
-                this.discard();
+                this.setState(2);
             }
         }
     }
@@ -198,6 +259,7 @@ public class Sandstorm_Projectile extends Projectile {
     public void addAdditionalSaveData(CompoundTag p_36848_) {
         super.addAdditionalSaveData(p_36848_);
         p_36848_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
+        p_36848_.putInt("state", this.getState());
     }
 
     public void readAdditionalSaveData(CompoundTag p_36844_) {
@@ -210,7 +272,7 @@ public class Sandstorm_Projectile extends Projectile {
                 this.zPower = listtag.getDouble(2);
             }
         }
-
+        this.setState(p_36844_.getInt("state"));
     }
 
     public boolean isPickable() {

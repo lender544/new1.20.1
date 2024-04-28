@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
+import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -71,8 +72,7 @@ public abstract class AbstractTrailParticle extends Particle {
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(RenderType.itemEntityTranslucentCull(getTrailTexture()));
-
+            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(CMRenderTypes.getTrailEffect(getTrailTexture()));
             Vec3 cameraPos = camera.getPosition();
             double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
             double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));

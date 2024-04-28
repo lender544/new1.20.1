@@ -214,6 +214,11 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
 
+    public static final RegistryObject<Block> FROSTED_STONE_BRICKS = BLOCKS.register("frosted_stone_bricks",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
+                    .requiresCorrectToolForDrops()
+                    .strength(1.5F, 6.0F)));
+
     public static final RegistryObject<Block> STONE_TILE_SLAB = BLOCKS.register("stone_tile_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(STONE_TILES.get())));
 
@@ -231,6 +236,17 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
+
+    public static final RegistryObject<Block> POINTED_ICICLE = BLOCKS.register("pointed_icicle",
+            () -> new PointedIcicleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE)
+                    .forceSolidOn().instrument(NoteBlockInstrument.CHIME)
+                    .noOcclusion()
+                    .randomTicks()
+                    .sound(SoundType.GLASS)
+                    .strength(0.5F)
+                    .dynamicShape()
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .pushReaction(PushReaction.DESTROY)));
 
     private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {
         return (state) -> {

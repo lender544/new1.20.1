@@ -560,6 +560,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                     double d3 = target.getY(0.5D) - entity.getY(0.15D);
                     double d4 = target.getZ() - (entity.getZ() + vec3.z * d1);
                     Sandstorm_Projectile largefireball = new Sandstorm_Projectile(entity, d2, d3, d4, entity.level(),6);
+                    largefireball.setState(1);
                     largefireball.setPos(entity.getX() + vec3.x * d1, entity.getY(0.15D), largefireball.getZ() + vec3.z * d1);
                     entity.level().addFreshEntity(largefireball);
                 }

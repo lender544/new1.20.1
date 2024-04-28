@@ -36,6 +36,8 @@
     "cataclysm:sandstone_ignite_trap",
     "cataclysm:sandstone_falling_trap",
     "cataclysm:blackstone_pillar",
-    "cataclysm:ancient_metal_block"
+    "cataclysm:ancient_metal_block",
+    "cataclysm:pointed_icicle",
+    "cataclysm:frosted_stone_bricks"
   ]
 }

@@ -3,11 +3,14 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Kobolediator_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Projectile_Animation;
 import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.model.WardenModel;
 
 public class Model_Sandstorm_Projectile extends AdvancedEntityModel<Sandstorm_Projectile> {
 	private final AdvancedModelBox root;
@@ -20,26 +23,26 @@ public class Model_Sandstorm_Projectile extends AdvancedEntityModel<Sandstorm_Pr
 		texWidth = 128;
 		texHeight = 128;
 
-		root = new AdvancedModelBox(this);
+		root = new AdvancedModelBox(this,"root");
 		root.setRotationPoint(0.0F, 24.0F, 0.0F);
 		
 
-		storm = new AdvancedModelBox(this);
+		storm = new AdvancedModelBox(this,"storm");
 		storm.setRotationPoint(0.0F, -4.0F, 0.0F);
 		root.addChild(storm);
 		storm.setTextureOffset(65, 72).addBox(-4.0F, -4.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-		storm2 = new AdvancedModelBox(this);
+		storm2 = new AdvancedModelBox(this,"storm2");
 		storm2.setRotationPoint(0.0F, -9.0F, 0.0F);
 		storm.addChild(storm2);
 		storm2.setTextureOffset(0, 72).addBox(-8.0F, -4.0F, -8.0F, 16.0F, 8.0F, 16.0F, 0.0F, false);
 
-		storm3 = new AdvancedModelBox(this);
+		storm3 = new AdvancedModelBox(this,"storm3");
 		storm3.setRotationPoint(0.0F, -9.0F, 0.0F);
 		storm2.addChild(storm3);
 		storm3.setTextureOffset(0, 39).addBox(-12.0F, -4.0F, -12.0F, 24.0F, 8.0F, 24.0F, 0.0F, false);
 
-		storm4 = new AdvancedModelBox(this);
+		storm4 = new AdvancedModelBox(this,"storm4");
 		storm4.setRotationPoint(0.0F, -9.0F, 0.0F);
 		storm3.addChild(storm4);
 		storm4.setTextureOffset(0, 0).addBox(-15.0F, -4.0F, -15.0F, 30.0F, 8.0F, 30.0F, 0.0F, false);
@@ -67,6 +70,8 @@ public class Model_Sandstorm_Projectile extends AdvancedEntityModel<Sandstorm_Pr
 		storm2.rotateAngleY += -storm.rotateAngleY + ageInTicks * 0.5F;
 		storm3.rotateAngleY += -storm.rotateAngleY -storm2.rotateAngleY + ageInTicks * 0.3F;
 		storm4.rotateAngleY += -storm.rotateAngleY -storm2.rotateAngleY - storm3.rotateAngleY + ageInTicks * 0.6F;
+		this.animate(entity.getAnimationState("spawn"), Sandstorm_Projectile_Animation.SPAWN, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("despawn"), Sandstorm_Projectile_Animation.DESPAWN, ageInTicks, 1.0F);
 	}
 
 

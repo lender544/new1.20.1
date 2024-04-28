@@ -152,6 +152,12 @@ public class ModItems {
     public static final RegistryObject<BlockItem> BLACKSTONE_PILLAR = ITEMS.register("blackstone_pillar",
             () -> new BlockItem(ModBlocks.BLACKSTONE_PILLAR.get(), new Item.Properties()));
 
+    public static final RegistryObject<BlockItem> FROSTED_STONE_BRICKS = ITEMS.register("frosted_stone_bricks",
+            () -> new BlockItemInventoryOnly(ModBlocks.FROSTED_STONE_BRICKS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POINTED_ICICLE = ITEMS.register("pointed_icicle",
+            () -> new BlockItemInventoryOnly(ModBlocks.POINTED_ICICLE.get(), new Item.Properties()));
+
     public static final RegistryObject<Item> WITHERITE_INGOT = ITEMS.register("witherite_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
