@@ -808,6 +808,21 @@ public class Ender_Guardian_Entity extends Boss_monster {
             double d1 = Math.max(target.getY(), this.getY()) + 1.0D;
             float f = (float) Mth.atan2(target.getZ() - this.getZ(), target.getX() - this.getX());
 
+            float angle2 = (0.01745329251F * this.yBodyRot);
+
+            for (int k = 0; k < 6; ++k) {
+                float f2 = angle2 + (float) k * (float) Math.PI * 2.0F / 6.0F + ((float) Math.PI * 2F / 5F);
+                this.spawnFangs(this.getX() + (double) Mth.cos(f2) * 2.5D, this.getZ() + (double) Mth.sin(f2) * 2.5D, d0, d1, f2, 3);
+            }
+            for (int k = 0; k < 11; ++k) {
+                float f3 = angle2 + (float) k * (float) Math.PI * 2.0F / 11.0F + ((float) Math.PI * 2F / 10F);
+                this.spawnFangs(this.getX() + (double) Mth.cos(f3) * 3.5D, this.getZ() + (double) Mth.sin(f3) * 3.5D, d0, d1, f3, 10);
+            }
+            for (int k = 0; k < 14; ++k) {
+                float f4 = angle2 + (float) k * (float) Math.PI * 2.0F / 14.0F + ((float) Math.PI * 2F / 20F);
+                this.spawnFangs(this.getX() + (double) Mth.cos(f4) * 4.5D, this.getZ() + (double) Mth.sin(f4) * 4.5D, d0, d1, f4, 15);
+            }
+
             float[] all = { f - 0.4f, f, f + 0.4f };
 
 
