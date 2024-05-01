@@ -776,6 +776,23 @@
       }
     ]
   },
+  "modern_remnant_fill_bucket": {
+    "subtitle": "modern_remnant_fill_bucket.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/remnant_idle1",
+        "volume": 1.0, "pitch": 2.0
+      },
+      {
+        "name": "cataclysm:entity/remnant_idle2",
+        "volume": 1.0, "pitch": 2.0
+      },
+      {
+        "name": "cataclysm:entity/remnant_idle3",
+        "volume": 1.0, "pitch": 2.0
+      }
+    ]
+  },
   "flame_trap": {
     "subtitle": "flame_trap.sub",
     "sounds": [

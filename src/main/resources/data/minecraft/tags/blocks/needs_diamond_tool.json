@@ -12,6 +12,9 @@
     "cataclysm:ignitium_block",
     "cataclysm:witherite_block",
     "cataclysm:enderite_block",
-    "cataclysm:ancient_metal_block"
+    "cataclysm:ancient_metal_block",
+    "cataclysm:black_steel_block",
+    "cataclysm:black_steel_wall",
+    "cataclysm:black_steel_fence"
   ]
 }

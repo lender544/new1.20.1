@@ -21,6 +21,16 @@
       ]
     },
     {
+      "name": "metal",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:ancient_metal_block"
+        }
+      ]
+    },
+    {
       "name": "disc",
       "conditions": [
         {

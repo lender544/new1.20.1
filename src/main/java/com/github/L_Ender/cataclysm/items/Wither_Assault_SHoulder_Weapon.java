@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Howitzer_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -44,7 +45,7 @@ public class Wither_Assault_SHoulder_Weapon extends Item {
             int i = this.getUseDuration(p_43394_) - p_43397_;
             float f = getPowerForTime(i);
             if (!((double) f < 0.5D)) {
-                p_43395_.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.WITHER_SHOOT, SoundSource.PLAYERS,1.0F, 0.7F);
+                p_43395_.playSound((Player)null, player.getX(), player.getY(), player.getZ(), ModSounds.ROCKET_LAUNCH.get(), SoundSource.PLAYERS,1.0F, 0.7F);
                 if(p_43396_.isShiftKeyDown()) {
                     player.getCooldowns().addCooldown(this, CMConfig.WASWHowitzerCooldown);
                     if (!p_43395_.isClientSide) {

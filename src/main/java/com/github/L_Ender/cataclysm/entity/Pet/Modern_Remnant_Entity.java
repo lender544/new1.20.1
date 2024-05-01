@@ -2,16 +2,24 @@ package com.github.L_Ender.cataclysm.entity.Pet;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwner;
+import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,20 +33,24 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
+import java.util.Optional;
 
-public class Modern_Remnant_Entity extends AnimationPet {
-
+public class Modern_Remnant_Entity extends AnimationPet implements Bucketable {
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Modern_Remnant_Entity.class, EntityDataSerializers.BOOLEAN);
     public float sitProgress;
     public float prevSitProgress;
     private AttackMode mode = AttackMode.CIRCLE;
@@ -127,14 +139,60 @@ public class Modern_Remnant_Entity extends AnimationPet {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putBoolean("FromBucket", this.fromBucket());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        this.setFromBucket(compound.getBoolean("FromBucket"));
+    }
+
+    @Override
+    public boolean fromBucket() {
+        return this.entityData.get(FROM_BUCKET);
+    }
+
+    @Override
+    public void setFromBucket(boolean sit) {
+        this.entityData.set(FROM_BUCKET, sit);
+    }
+
+    @Override
+    public void saveToBucketTag(@Nonnull ItemStack bucket) {
+        if (this.hasCustomName()) {
+            bucket.setHoverName(this.getCustomName());
+        }
+        CompoundTag platTag = new CompoundTag();
+        this.addAdditionalSaveData(platTag);
+        CompoundTag compound = bucket.getOrCreateTag();
+        compound.put("ModernRemnantData", platTag);
+    }
+
+    @Override
+    public void loadFromBucketTag(CompoundTag p_148832_) {
+        if (p_148832_.contains("ModernRemnantData")) {
+            this.readAdditionalSaveData(p_148832_.getCompound("ModernRemnantData"));
+        }
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getBucketItemStack() {
+        ItemStack stack = new ItemStack(ModItems.MODERN_REMNANT_BUCKET.get());
+        if (this.hasCustomName()) {
+            stack.setHoverName(this.getCustomName());
+        }
+        return stack;
+    }
+
+    @Override
+    public SoundEvent getPickupSound() {
+        return ModSounds.MODERN_REMNANT_FILL_BUCKET.get();
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -162,6 +220,12 @@ public class Modern_Remnant_Entity extends AnimationPet {
             return InteractionResult.PASS;
 
         }
+        if (isTame()) {
+            Optional<InteractionResult> result = emptybucketMobPickup(player, hand, this);
+            if (result.isPresent()) {
+                return result.get();
+            }
+        }
         InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
         if (interactionresult != InteractionResult.SUCCESS && type != InteractionResult.SUCCESS && isTame() && isOwnedBy(player)) {
             if (!player.isShiftKeyDown()) {
@@ -181,6 +245,26 @@ public class Modern_Remnant_Entity extends AnimationPet {
             }
         }
         return type;
+    }
+
+    private static <T extends LivingEntity & Bucketable> Optional<InteractionResult> emptybucketMobPickup(Player p_148829_, InteractionHand p_148830_, T p_148831_) {
+        ItemStack itemstack = p_148829_.getItemInHand(p_148830_);
+        if (itemstack.getItem() == Items.BUCKET && p_148831_.isAlive()) {
+            p_148831_.playSound(p_148831_.getPickupSound(), 1.0F, 1.0F);
+            ItemStack itemstack1 = p_148831_.getBucketItemStack();
+            p_148831_.saveToBucketTag(itemstack1);
+            ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, p_148829_, itemstack1, false);
+            p_148829_.setItemInHand(p_148830_, itemstack2);
+            Level level = p_148831_.level();
+            if (!level.isClientSide) {
+                CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)p_148829_, itemstack1);
+            }
+
+            p_148831_.discard();
+            return Optional.of(InteractionResult.sidedSuccess(level.isClientSide));
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void aiStep() {
@@ -312,6 +396,9 @@ public class Modern_Remnant_Entity extends AnimationPet {
                     circlingTime++;
                     circleEntity(target, circleDistance, 1.0f, clockwise, circlingTime, 0, 1);
                     if (circlingTime >= maxcirclingTime) {
+                        this.mob.mode = AttackMode.MELEE;
+                    }
+                    if (target.distanceTo(this.mob) < 5) {
                         this.mob.mode = AttackMode.MELEE;
                     }
                 } else if (this.mob.mode == AttackMode.MELEE) {

@@ -1,6 +1,6 @@
 {
   "parent": "cataclysm:block/pointed_icicle",
   "textures": {
-    "cross": "cataclysm:block/pointed_dripstone_down_tip_merge"
+    "cross": "cataclysm:block/pointed_icicle_down_tip_merge"
   }
 }

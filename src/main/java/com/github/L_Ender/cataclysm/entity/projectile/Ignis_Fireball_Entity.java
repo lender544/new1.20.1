@@ -57,7 +57,9 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
                 }
             }
         }
-
+        if(timer < -160){
+            this.discard();
+        }
         if (timer == 0 || timer == -40) {
             Entity entity = this.getOwner();
             if (entity instanceof Mob && ((Mob) entity).getTarget() != null) {

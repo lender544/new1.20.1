@@ -15,7 +15,7 @@ import java.util.function.Supplier;
  public enum Armortier implements ArmorMaterial {
      IGNITIUM(new int[] {5, 10, 8, 5}, 4.0f, 45, 15, 0.15f, SoundEvents.ARMOR_EQUIP_NETHERITE , ModItems.IGNITIUM_INGOT),
      CRAB(new int[] {3, 8, 6, 3}, 2.0f, 30, 25, 0.1f, SoundEvents.ARMOR_EQUIP_NETHERITE , ModItems.AMETHYST_CRAB_SHELL),
-     BONE_REPTILE(new int[] {5, 8, 6, 3}, 2.5f, 35, 15, 0.1f, SoundEvents.ARMOR_EQUIP_NETHERITE , ModItems.ANCIENT_METAL_INGOT);
+     BONE_REPTILE(new int[] {6, 11, 7, 4}, 2.5f, 35, 15, 0.1f, SoundEvents.ARMOR_EQUIP_NETHERITE , ModItems.ANCIENT_METAL_INGOT);
 
 
 

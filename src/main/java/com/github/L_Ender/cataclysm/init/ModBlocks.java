@@ -217,6 +217,26 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
 
+    public static final RegistryObject<Block> FROSTED_STONE_BRICK_SLAB = BLOCKS.register("frosted_stone_brick_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(FROSTED_STONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> FROSTED_STONE_BRICK_STAIRS = BLOCKS.register("frosted_stone_brick_stairs",
+            () -> new StairBlock(FROSTED_STONE_BRICKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(FROSTED_STONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> FROSTED_STONE_BRICK_WALL = BLOCKS.register("frosted_stone_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(FROSTED_STONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> BLACK_STEEL_BLOCK = BLOCKS.register("black_steel_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(25f, 600f)
+                    .sound(SoundType.METAL)));
+
+    public static final RegistryObject<Block> BLACK_STEEL_FENCE = BLOCKS.register("black_steel_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(BLACK_STEEL_BLOCK.get())));
+
+    public static final RegistryObject<Block> BLACK_STEEL_WALL = BLOCKS.register("black_steel_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(BLACK_STEEL_BLOCK.get())));
+
     public static final RegistryObject<Block> STONE_TILE_SLAB = BLOCKS.register("stone_tile_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.copy(STONE_TILES.get())));
 

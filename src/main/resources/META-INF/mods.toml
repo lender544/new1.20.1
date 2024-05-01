@@ -3,7 +3,7 @@ loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft versio
 license="All rights reserved"
 [[mods]] #mandatory
 modId= "cataclysm" #mandatory
-version="1.0" #mandatory
+version="1.99.2" #mandatory
 # A display name for the mod
 displayName="Cataclysm Mod" #mandatory
 credits="0dyss2y,HedwigOwls,gytator,danimodder,Gibb50" #optional

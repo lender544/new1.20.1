@@ -60,6 +60,9 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
                 }
             }
         }
+        if(timer < -160){
+            this.discard();
+        }
         if (timer == 0 || timer == -40) {
             if(this.getTotalBounces() == 0) {
                 Entity entity = this.getOwner();

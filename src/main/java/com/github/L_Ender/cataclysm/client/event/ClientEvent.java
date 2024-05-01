@@ -2,7 +2,6 @@ package com.github.L_Ender.cataclysm.client.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.ClientProxy;
-import com.github.L_Ender.cataclysm.capabilities.Bloom_Stone_PauldronsCapability;
 import com.github.L_Ender.cataclysm.capabilities.Gone_With_SandstormCapability;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_PlayerSandstorm;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
@@ -217,32 +216,13 @@ public class ClientEvent {
     @OnlyIn(Dist.CLIENT)
     public void onPreRenderPlayer(RenderPlayerEvent.Pre event) {
         Player player = event.getEntity();
-        Bloom_Stone_PauldronsCapability.IBloom_Stone_PauldronsCapability chargeCapability = ModCapabilities.getCapability(player, ModCapabilities.BLOOM_STONE_PAULDRONS_CAPABILITY_CAPABILITY);
         Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
         if (SandstormCapability != null) {
             if (SandstormCapability.isSandstorm()) {
                 return;
             }
         }
-        if (chargeCapability != null) {
-            if(chargeCapability.isBurrow()) {
-                event.getPoseStack().pushPose();
-                event.getPoseStack().translate(0.0D, -event.getEntity().getBbHeight(), 0.0D);
-            }
-        }
 
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onPostRenderPlayer(RenderPlayerEvent.Post event) {
-        Player player = event.getEntity();
-        Bloom_Stone_PauldronsCapability.IBloom_Stone_PauldronsCapability chargeCapability = ModCapabilities.getCapability(player, ModCapabilities.BLOOM_STONE_PAULDRONS_CAPABILITY_CAPABILITY);
-        if (chargeCapability != null) {
-            if(chargeCapability.isBurrow()) {
-                event.getPoseStack().popPose();
-            }
-        }
     }
 
     public void drawVertex(Matrix4f p_229039_1_, Matrix3f p_229039_2_, VertexConsumer p_229039_3_, int p_229039_4_, int p_229039_5_, int p_229039_6_, float p_229039_7_, float p_229039_8_, int p_229039_9_, int p_229039_10_, int p_229039_11_, int p_229039_12_) {

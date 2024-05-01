@@ -20,7 +20,6 @@ public final class ModCapabilities {
     public static final Capability<HookCapability.IHookCapability> HOOK_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<TidalTentacleCapability.ITentacleCapability> TENTACLE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<ChargeCapability.IChargeCapability> CHARGE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
-    public static final Capability<Bloom_Stone_PauldronsCapability.IBloom_Stone_PauldronsCapability> BLOOM_STONE_PAULDRONS_CAPABILITY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<Gone_With_SandstormCapability.IGone_With_SandstormCapability> GONE_WITH_SANDSTORM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
 
@@ -28,7 +27,6 @@ public final class ModCapabilities {
         event.register(HookCapability.HookCapabilityImp.class);
         event.register(ChargeCapability.ChargeCapabilityImp.class);
         event.register(TidalTentacleCapability.TentacleCapabilityImp.class);
-        event.register(Bloom_Stone_PauldronsCapability.Bloom_Stone_PauldronsCapabilityImp.class);
         event.register(Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp.class);
     }
 
@@ -38,7 +36,6 @@ public final class ModCapabilities {
             e.addCapability(ChargeCapability.ID, new ChargeCapability.ChargeCapabilityImp.ChargeProvider());
             e.addCapability(TidalTentacleCapability.ID, new TidalTentacleCapability.TentacleCapabilityImp.TentacleProvider());
             if (e.getObject() instanceof Player player) {
-                e.addCapability(Bloom_Stone_PauldronsCapability.ID, new Bloom_Stone_PauldronsCapability.Bloom_Stone_PauldronsCapabilityImp.Bloom_Stone_PauldronsProvider());
                 Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp spellHolder = new Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp(player);
                 attachCapability(e, spellHolder, GONE_WITH_SANDSTORM_CAPABILITY, "sandstorm_cap");
             }

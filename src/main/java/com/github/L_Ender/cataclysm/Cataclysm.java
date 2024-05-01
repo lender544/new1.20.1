@@ -142,6 +142,7 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageCharge.class, MessageCharge::encode, MessageCharge::new, MessageCharge.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageToggleSandstorm.class, MessageToggleSandstorm::encode, MessageToggleSandstorm::new, MessageToggleSandstorm.Handler::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageUpdateBossBar.class, MessageUpdateBossBar::write, MessageUpdateBossBar::read, MessageUpdateBossBar::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageArmorKey.class, MessageArmorKey::write, MessageArmorKey::read, MessageArmorKey::handle);
 
         event.enqueueWork(ModItems::initDispenser);
     }

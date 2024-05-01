@@ -152,11 +152,31 @@ public class ModItems {
     public static final RegistryObject<BlockItem> BLACKSTONE_PILLAR = ITEMS.register("blackstone_pillar",
             () -> new BlockItem(ModBlocks.BLACKSTONE_PILLAR.get(), new Item.Properties()));
 
+
     public static final RegistryObject<BlockItem> FROSTED_STONE_BRICKS = ITEMS.register("frosted_stone_bricks",
-            () -> new BlockItemInventoryOnly(ModBlocks.FROSTED_STONE_BRICKS.get(), new Item.Properties()));
+            () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICKS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> FROSTED_STONE_BRICK_SLAB = ITEMS.register("frosted_stone_brick_slab",
+            () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICK_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> FROSTED_STONE_BRICK_STAIRS = ITEMS.register("frosted_stone_brick_stairs",
+            () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICK_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> FROSTED_STONE_BRICK_WALL = ITEMS.register("frosted_stone_brick_wall",
+            () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICK_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> BLACK_STEEL_BLOCK = ITEMS.register("black_steel_block",
+            () -> new BlockItem(ModBlocks.BLACK_STEEL_BLOCK.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> BLACK_STEEL_FENCE = ITEMS.register("black_steel_fence",
+            () -> new BlockItem(ModBlocks.BLACK_STEEL_FENCE.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> BLACK_STEEL_WALL = ITEMS.register("black_steel_wall",
+            () -> new BlockItem(ModBlocks.BLACK_STEEL_WALL.get(), new Item.Properties()));
+
 
     public static final RegistryObject<BlockItem> POINTED_ICICLE = ITEMS.register("pointed_icicle",
-            () -> new BlockItemInventoryOnly(ModBlocks.POINTED_ICICLE.get(), new Item.Properties()));
+            () -> new BlockItem(ModBlocks.POINTED_ICICLE.get(), new Item.Properties()));
 
     public static final RegistryObject<Item> WITHERITE_INGOT = ITEMS.register("witherite_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -373,6 +393,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> THE_BABY_LEVIATHAN_BUCKET = ITEMS.register("the_baby_leviathan_bucket",
             () -> new ModFishBucket(ModEntities.THE_BABY_LEVIATHAN, Fluids.WATER, new Item.Properties().fireResistant()));
+
+    public static final RegistryObject<Item> MODERN_REMNANT_BUCKET = ITEMS.register("modern_remnant_bucket",
+            () -> new ModernRemantBucket(new Item.Properties().fireResistant()));
 
     public static final RegistryObject<SpawnEggItem> ENDER_GOLEM_SPAWN_EGG = ITEMS.register("ender_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDER_GOLEM, 0x2a1a42, 0xa153fe, new Item.Properties()));

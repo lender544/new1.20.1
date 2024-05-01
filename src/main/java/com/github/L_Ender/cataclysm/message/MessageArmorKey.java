@@ -14,10 +14,12 @@ public class MessageArmorKey {
 
     public int equipmentSlot;
     public int playerId;
+    public int type;
 
-    public MessageArmorKey(int equipmentSlot, int playerId) {
+    public MessageArmorKey(int equipmentSlot, int playerId,int type) {
         this.equipmentSlot = equipmentSlot;
         this.playerId = playerId;
+        this.type = type;
     }
 
 
@@ -25,12 +27,13 @@ public class MessageArmorKey {
     }
 
     public static MessageArmorKey read(FriendlyByteBuf buf) {
-        return new MessageArmorKey(buf.readInt(), buf.readInt());
+        return new MessageArmorKey(buf.readInt(), buf.readInt(), buf.readInt());
     }
 
     public static void write(MessageArmorKey message, FriendlyByteBuf buf) {
         buf.writeInt(message.equipmentSlot);
         buf.writeInt(message.playerId);
+        buf.writeInt(message.type);
     }
 
     public static void handle(MessageArmorKey message, Supplier<NetworkEvent.Context> context) {
@@ -41,7 +44,7 @@ public class MessageArmorKey {
 
                 ItemStack stack = player.getItemBySlot(equipmentSlot1);
                 if(stack.getItem() instanceof KeybindUsingArmor armor){
-                    armor.onKeyPacket(player, stack);
+                    armor.onKeyPacket(player, stack, message.type);
                 }
 
 

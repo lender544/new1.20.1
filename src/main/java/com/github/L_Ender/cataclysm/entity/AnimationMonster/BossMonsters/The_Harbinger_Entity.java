@@ -1103,7 +1103,7 @@ public class The_Harbinger_Entity extends Boss_monster implements RangedAttackMo
 
         private void mlaunch(int head, LivingEntity target) {
             if (!entity.isSilent()) {
-                entity.level().levelEvent((Player) null, 1024, entity.blockPosition(), 0);
+                entity.playSound(ModSounds.ROCKET_LAUNCH.get(),1,1.0F);
             }
             double d0 = this.getLauncherX(head);
             double d1 = this.getLauncherY(head);
