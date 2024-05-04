@@ -144,6 +144,7 @@
   "item.cataclysm.modern_remnant_spawn_egg": "Modern Remnant Spawn Egg",
   "item.cataclysm.the_watcher_spawn_egg": "The Watcher Spawn Egg",
   "item.cataclysm.the_prowler_spawn_egg": "The Prowler Spawn Egg",
+  "item.cataclysm.maledictus_spawn_egg": "Maledictus Spawn Egg",
 
   "itemGroup.cataclysm": "Cataclysm",
   "block.cataclysm.witherite_block": "Witherite Block",
@@ -270,6 +271,7 @@
   "entity.cataclysm.koboleton": "Koboleton",
   "entity.cataclysm.kobolediator": "Kobolediator",
   "entity.cataclysm.wadjet": "Wadjet",
+  "entity.cataclysm.maledictus": "Maledictus",
   "entity.cataclysm.all.command_0": "%s is wandering",
   "entity.cataclysm.all.command_1": "%s is following",
   "entity.cataclysm.all.command_2": "%s is staying",

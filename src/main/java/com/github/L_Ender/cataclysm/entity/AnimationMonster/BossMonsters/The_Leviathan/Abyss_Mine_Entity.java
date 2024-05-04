@@ -127,7 +127,7 @@ public class Abyss_Mine_Entity extends Entity {
             }
             if (this.warmupDelayTicks < -20) {
                 for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
-                    if(!livingentity.isAlliedTo(livingentity) && livingentity != caster && livingentity.isAlive() && !livingentity.isInvulnerable()) {
+                    if(!caster.isAlliedTo(livingentity) && livingentity != caster && livingentity.isAlive() && !livingentity.isInvulnerable()) {
                         this.explode(livingentity);
                     }
                 }

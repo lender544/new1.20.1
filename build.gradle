@@ -128,7 +128,6 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
-
     runtimeOnly fg.deobf("curse.maven:worldedit-225608:4586218")
     runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
     runtimeOnly fg.deobf("curse.maven:neat-238372:4580940")

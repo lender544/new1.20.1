@@ -76,17 +76,23 @@ public class Sandstorm_Entity extends Entity {
         for(LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
             if (entity instanceof Player && ((Player) entity).getAbilities().invulnerable) continue;
             if(entity != owner) {
-                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
-                entity.addEffect(effectinstance);
                 if (entity.isAlive() && !entity.isInvulnerable() ) {
                     if (this.tickCount % 3 == 0) {
                         if (owner == null) {
-                            entity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                           boolean flag =  entity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                           if(flag) {
+                               MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
+                               entity.addEffect(effectinstance);
+                           }
                         } else {
-                            if (entity.isAlliedTo(entity)) {
+                            if (owner.isAlliedTo(entity)) {
                                 return;
                             }
-                            entity.hurt(this.damageSources().indirectMagic(this, owner), (float) CMConfig.Sandstormdamage);
+                            boolean flag = entity.hurt(this.damageSources().indirectMagic(this, owner), (float) CMConfig.Sandstormdamage);
+                            if(flag) {
+                                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
+                                entity.addEffect(effectinstance);
+                            }
                         }
                     }
                 }
