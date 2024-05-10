@@ -180,6 +180,10 @@ public class CMConfig {
     public static int IgnitedBerserkerSpawnWeight = 1;
     public static int IgnitedBerserkerSpawnRolls = 30;
 
+    public static int cursedPyramidCheckRange = 2;
+    public static int cursedPyramidHeightVariance = 7;
+
+
     public static void bake(ModConfig config) {
         try {
             LavaVisionOpacity = ConfigHolder.COMMON.LavaVisionOpacity.get();
@@ -349,6 +353,9 @@ public class CMConfig {
 
             CoralgolemSpawnWeight = ConfigHolder.COMMON.CoralgolemSpawnWeight.get();
             CoralgolemSpawnRolls  = ConfigHolder.COMMON.CoralgolemSpawnRolls.get();
+
+            cursedPyramidCheckRange = ConfigHolder.COMMON.cursedPyramidCheckRange.get();
+            cursedPyramidHeightVariance = ConfigHolder.COMMON.cursedPyramidHeightVariance.get();
 
             IgnitedBerserkerSpawnWeight = ConfigHolder.COMMON.IgnitedBerserkerSpawnWeight.get();
             IgnitedBerserkerSpawnRolls = ConfigHolder.COMMON.IgnitedBerserkerSpawnRolls.get();

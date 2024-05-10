@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "cataclysm:laser"
+    "cataclysm:laser",
+    "cataclysm:maledictio_sagitta"
   ]
 }

@@ -478,6 +478,9 @@ public class ModItems {
     public static final RegistryObject<SpawnEggItem> MODERN_REMNANT_SPAWN_EGG = ITEMS.register("modern_remnant_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.MODERN_REMNANT, 0xb7b196, 0xdbcca7, new Item.Properties()));
 
+    public static final RegistryObject<SpawnEggItem> MALEDICTUS_SPAWN_EGG = ITEMS.register("maledictus_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.MALEDICTUS,0x39d2b2, 0x945b31, new Item.Properties()));
+
     public static void initDispenser(){
         DispenserBlock.registerBehavior(VOID_SCATTER_ARROW.get(), new AbstractProjectileDispenseBehavior() {
             /**

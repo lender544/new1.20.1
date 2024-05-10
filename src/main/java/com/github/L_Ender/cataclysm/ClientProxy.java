@@ -67,10 +67,15 @@ public class ClientProxy extends CommonProxy {
     public void setupParticles(RegisterParticleProvidersEvent registry) {
         Cataclysm.LOGGER.debug("Registered particle factories");
         registry.registerSpriteSet(ModParticle.SOUL_LAVA.get(), SoulLavaParticle.Factory::new);
+        registry.registerSpriteSet(ModParticle.CURSED_FLAME.get(), CursedFlameParticle.Provider::new);
+        registry.registerSpriteSet(ModParticle.SMALL_CURSED_FLAME.get(), CursedFlameParticle.SmallFlameProvider::new);
+        registry.registerSpriteSet(ModParticle.PHANTOM_WING_FLAME.get(), Phantom_Wing_FlameParticle.EmissiveProvider::new);
         registry.registerSpecial(ModParticle.EM_PULSE.get(), new EM_PulseParticle.Factory());
         registry.registerSpecial(ModParticle.SHOCK_WAVE.get(), new Shock_WaveParticle.Factory());
         registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.OrbFactory());
+        registry.registerSpecial(ModParticle.TRACK_LIGHTNING.get(), new TrackLightningParticle.OrbFactory());
         registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.OrbFactory());
+        registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
         registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
     }
@@ -92,6 +97,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.VOID_SCATTER_ARROW.get(), RendererVoid_Scatter_Arrow::new);
 
         EntityRenderers.register(ModEntities.POISON_DART.get(), RendererPoison_Dart::new);
+
+        EntityRenderers.register(ModEntities.PHANTOM_ARROW.get(), RendererPhantom_Arrow::new);
         EntityRenderers.register(ModEntities.SCREEN_SHAKE.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.HOLD_ATTACK.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.WITHER_SMOKE_EFFECT.get(), RendererNull::new);
@@ -140,6 +147,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.KOBOLETON.get(), RendererKoboleton::new);
         EntityRenderers.register(ModEntities.KOBOLEDIATOR.get(), RendererKobolediator::new);
         EntityRenderers.register(ModEntities.WADJET.get(), RendererWadjet::new);
+        EntityRenderers.register(ModEntities.MALEDICTUS.get(), RendererMaledictus::new);
         EntityRenderers.register(ModEntities.EARTHQUAKE.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.ANCIENT_DESERT_STELE.get(), RendererAncient_Desert_Stele::new);
         EntityRenderers.register(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), RendererAmethyst_Cluster_Projectile::new);

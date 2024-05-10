@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.structures;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
@@ -14,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -32,6 +34,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnorePr
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProtectedBlockProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -74,20 +77,22 @@ public class Cursed_Pyramid_Structure extends Structure {
 
         // Make sure the entrance is on a reasonable height (this should reduce the chance of floating entrances)
         int height = context.chunkGenerator().getFirstOccupiedHeight(entranceStart.getX(), entranceStart.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
-        int difference = height - entranceStart.getY();
+        // There could be a small chance of there being a 1-block wide deep hole or hill (alternative: get average of 3x3 block area)
+        int difference = Mth.clamp(height - position.getY(), -10, 10);
+        BlockPos spawnPosition = new BlockPos(position.getX(), position.getY() + difference, position.getZ());
 
-        BlockPos obelisk1Offset = position.offset(new BlockPos(20, -4, 94).rotate(rotation)).offset(0, difference, 0);
-        BlockPos obelisk2Offset = position.offset(new BlockPos(45, -4, 94).rotate(rotation)).offset(0, difference, 0);
+        BlockPos obelisk1Offset = spawnPosition.offset(new BlockPos(20, -4, 94).rotate(rotation));
+        BlockPos obelisk2Offset = spawnPosition.offset(new BlockPos(45, -4, 94).rotate(rotation));
 
-        BlockPos lower1Offset = position.offset(0, -39, 0).offset(0, difference, 0);
-        BlockPos lower2Offset = position.offset(new BlockPos(0, -39, 47).rotate(rotation)).offset(0, difference, 0);
-        BlockPos lower3Offset = position.offset(new BlockPos(47, -39, 0).rotate(rotation)).offset(0, difference, 0);
-        BlockPos lower4Offset = position.offset(new BlockPos(47, -39, 47).rotate(rotation)).offset(0, difference, 0);
+        BlockPos lower1Offset = spawnPosition.offset(0, -39, 0);
+        BlockPos lower2Offset = spawnPosition.offset(new BlockPos(0, -39, 47).rotate(rotation));
+        BlockPos lower3Offset = spawnPosition.offset(new BlockPos(47, -39, 0).rotate(rotation));
+        BlockPos lower4Offset = spawnPosition.offset(new BlockPos(47, -39, 47).rotate(rotation));
 
-        BlockPos upper1Offset = position.offset(0, 9, 0).offset(0, difference, 0);
-        BlockPos upper2Offset = position.offset(new BlockPos(0, 9, 47).rotate(rotation)).offset(0, difference, 0);
-        BlockPos upper3Offset = position.offset(new BlockPos(47, 9, 0).rotate(rotation)).offset(0, difference, 0);
-        BlockPos upper4Offset = position.offset(new BlockPos(47, 9, 47).rotate(rotation)).offset(0, difference, 0);
+        BlockPos upper1Offset = spawnPosition.offset(0, 9, 0);
+        BlockPos upper2Offset = spawnPosition.offset(new BlockPos(0, 9, 47).rotate(rotation));
+        BlockPos upper3Offset = spawnPosition.offset(new BlockPos(47, 9, 0).rotate(rotation));
+        BlockPos upper4Offset = spawnPosition.offset(new BlockPos(47, 9, 47).rotate(rotation));
 
         pieceList.addPiece(new Piece(templateManager, LOWER1, lower1Offset, rotation));
         pieceList.addPiece(new Piece(templateManager, LOWER2, lower2Offset, rotation));
@@ -108,7 +113,7 @@ public class Cursed_Pyramid_Structure extends Structure {
     }
 
     @Override
-    public Optional<GenerationStub> findGenerationPoint(final GenerationContext context) {
+    public @NotNull Optional<GenerationStub> findGenerationPoint(final GenerationContext context) {
         ChunkPos chunkPos = context.chunkPos();
         int x = chunkPos.getMiddleBlockX();
         int z = chunkPos.getMiddleBlockZ();
@@ -119,7 +124,38 @@ public class Cursed_Pyramid_Structure extends Structure {
             return Optional.empty();
         }
 
+        if (!isValidHeightRange(context)) {
+            return Optional.empty();
+        }
+
         return Optional.of(new GenerationStub(position, builder -> generatePieces(builder, context, position, Rotation.getRandom(context.random()))));
+    }
+
+    /**
+     * Referenced from <a href="https://github.com/TelepathicGrunt/RepurposedStructures/blob/1.20-Arch/common/src/main/java/com/telepathicgrunt/repurposedstructures/world/structures/GenericJigsawStructure.java">TelepathicGrunt</a><br>
+     * Checks the chunks around the structure spawn point to see if the height variance is too big<br>
+     * Setting the check range too high and / or setting the allowed variance too low can cause the structure a lot less (while also degrading performance due to the amount of checks)
+     * */
+    private boolean isValidHeightRange(final GenerationContext context) {
+        int terrainCheckRange = CMConfig.cursedPyramidCheckRange;
+
+        if (terrainCheckRange == 0) {
+            return true;
+        }
+
+        int maxTerrainHeight = Integer.MIN_VALUE;
+        int minTerrainHeight = Integer.MAX_VALUE;
+        ChunkPos chunkPos = context.chunkPos();
+
+        for (int curChunkX = chunkPos.x - terrainCheckRange; curChunkX <= chunkPos.x + terrainCheckRange; curChunkX++) {
+            for (int curChunkZ = chunkPos.z - terrainCheckRange; curChunkZ <= chunkPos.z + terrainCheckRange; curChunkZ++) {
+                int height = context.chunkGenerator().getBaseHeight((curChunkX << 4) + 7, (curChunkZ << 4) + 7, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
+                maxTerrainHeight = Math.max(maxTerrainHeight, height);
+                minTerrainHeight = Math.min(minTerrainHeight, height);
+            }
+        }
+
+        return maxTerrainHeight - minTerrainHeight <= CMConfig.cursedPyramidHeightVariance;
     }
 
     private void generatePieces(final StructurePiecesBuilder builder, final GenerationContext context, final BlockPos position, final Rotation rotation) {

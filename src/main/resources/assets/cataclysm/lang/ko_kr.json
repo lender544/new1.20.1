@@ -198,9 +198,9 @@
   "block.cataclysm.frosted_stone_brick_slab": "서리 낀 석재 벽돌 반 블록",
   "block.cataclysm.frosted_stone_brick_stairs": "서리 낀 석재 벽돌 계단",
   "block.cataclysm.frosted_stone_brick_wall": "서리 낀 석재 벽돌 담장",
-  "block.cataclysm.black_steel_block": "블랙 스틸 블록",
-  "block.cataclysm.black_steel_fence": "블랙 스틸 울타리",
-  "block.cataclysm.black_steel_wall": "블랙 스틸 담장",
+  "block.cataclysm.black_steel_block": "흑강 블록",
+  "block.cataclysm.black_steel_fence": "흑강 울타리",
+  "block.cataclysm.black_steel_wall": "흑강 담장",
   "block.cataclysm.pointed_icicle": "뾰족한 고드름",
 
   "entity.cataclysm.ender_golem": "엔더 골렘",

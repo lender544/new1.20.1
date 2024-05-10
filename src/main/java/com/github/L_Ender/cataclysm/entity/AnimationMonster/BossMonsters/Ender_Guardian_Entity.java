@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -775,20 +776,20 @@ public class Ender_Guardian_Entity extends Boss_monster {
 
     private void Attackparticle(float vec, float math) {
         if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
             for (int i1 = 0; i1 < 80 + random.nextInt(12); i1++) {
                 double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
-                float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-                float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
                 double extraX = 1.2 * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = 1.2 * Mth.cos(angle);
-                double theta = (yBodyRot) * (Math.PI / 180);
-                theta += Math.PI / 2;
-                double vecX = Math.cos(theta);
-                double vecZ = Math.sin(theta);
                 int hitX = Mth.floor(getX() + vec * vecX+ extraX);
                 int hitY = Mth.floor(getY());
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
@@ -797,6 +798,7 @@ public class Ender_Guardian_Entity extends Boss_monster {
                 this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 
             }
+            this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 25, 1f, 1f, 1f, 1f, 25f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.3f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
     }
 

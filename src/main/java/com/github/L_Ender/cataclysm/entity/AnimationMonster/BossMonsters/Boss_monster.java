@@ -118,11 +118,9 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
     public void handleEntityEvent(byte id) {
         if (id == MUSIC_PLAY_ID) {
             BossMusicPlayer.playBossMusic(this);
-        }
-        else if (id == MUSIC_STOP_ID) {
+        } else if (id == MUSIC_STOP_ID) {
             BossMusicPlayer.stopBossMusic(this);
-        }
-        else super.handleEntityEvent(id);
+        } else super.handleEntityEvent(id);
     }
 
 

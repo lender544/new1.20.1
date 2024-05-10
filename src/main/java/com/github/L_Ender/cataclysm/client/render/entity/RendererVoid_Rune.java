@@ -29,15 +29,17 @@ public class RendererVoid_Rune extends EntityRenderer<Void_Rune_Entity> {
     }
 
     public void render(Void_Rune_Entity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
-        matrixStackIn.scale(-2, -2, -2);
-        matrixStackIn.translate(0.0D, -1.5F, 0.0D);
-        matrixStackIn.scale(1.0F, 1.0F, 1.0F);
+
         matrixStackIn.pushPose();
         matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F - entityIn.getYRot()));
-        VertexConsumer VertexConsumer = bufferIn.getBuffer(CMRenderTypes.getfullBright(this.getTextureLocation(entityIn)));
+        matrixStackIn.translate(0.0D, 3F, 0.0D);
+        matrixStackIn.scale(-2.0F, -2.0F, 2.0F);
+        VertexConsumer vertexConsumer = bufferIn.getBuffer(CMRenderTypes.getBright(this.getTextureLocation(entityIn)));
         model.setupAnim(entityIn, 0, 0, entityIn.tickCount + partialTicks, 0, 0);
-        model.renderToBuffer(matrixStackIn, VertexConsumer, 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        this.model.renderToBuffer(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         matrixStackIn.popPose();
+        super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+
     }
 
     public Vec3 getRenderOffset(Void_Rune_Entity entityIn, float partialTicks) {

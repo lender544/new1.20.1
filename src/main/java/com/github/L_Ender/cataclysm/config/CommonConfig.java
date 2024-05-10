@@ -170,6 +170,9 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue IgnitedBerserkerSpawnWeight;
     public final ForgeConfigSpec.IntValue IgnitedBerserkerSpawnRolls;
 
+    public final ForgeConfigSpec.IntValue cursedPyramidCheckRange;
+    public final ForgeConfigSpec.IntValue cursedPyramidHeightVariance;
+
     public CommonConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("Etc");
         LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
@@ -376,8 +379,13 @@ public class CommonConfig {
         IgnitedBerserkerSpawnWeight = buildInt(builder, "IgnitedBerserkerSpawnWeight", "spawns", CMConfig.IgnitedBerserkerSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");
         IgnitedBerserkerSpawnRolls = buildInt(builder, "IgnitedBerserkerSpawnRolls", "spawns", CMConfig.IgnitedBerserkerSpawnRolls, 0, Integer.MAX_VALUE, "Random roll chance to enable mob spawning. Higher number = lower chance of spawning");
 
-
         builder.pop();
+
+        builder.push("World Generation");
+        cursedPyramidCheckRange = buildInt(builder, "cursedPyramidCheckRange", "all", CMConfig.cursedPyramidCheckRange, 0, 5, "Defines the area in which the structure check for height variances (1 means 9 chunks will be checked (center + area around it)) - 0 disables this check");
+        cursedPyramidHeightVariance = buildInt(builder, "cursedPyramidHeightVariance", "all", CMConfig.cursedPyramidCheckRange, 0, 32, "Allowed height variance for the check - if the variance is lower than this value the structure will not spawn (has no effect if the are check is disabled)");
+        builder.pop();
+
     }
 
     private static ForgeConfigSpec.BooleanValue buildBoolean(ForgeConfigSpec.Builder builder, String name, String catagory, boolean defaultValue, String comment) {

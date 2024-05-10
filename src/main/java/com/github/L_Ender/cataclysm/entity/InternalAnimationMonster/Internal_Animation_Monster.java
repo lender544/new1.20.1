@@ -26,9 +26,9 @@ import java.util.UUID;
 public class Internal_Animation_Monster extends Monster implements Enemy {
     public static final EntityDataAccessor<Integer> ATTACK_STATE = SynchedEntityData.defineId(Internal_Animation_Monster.class, EntityDataSerializers.INT);
     protected boolean dropAfterDeathAnim = false;
-    private int killDataRecentlyHit;
-    private DamageSource killDataCause;
-    private Player killDataAttackingPlayer;
+    public int killDataRecentlyHit;
+    public DamageSource killDataCause;
+    public Player killDataAttackingPlayer;
     public int attackTicks;
     public int attackCooldown;
     public int customDeathTime;
@@ -49,6 +49,16 @@ public class Internal_Animation_Monster extends Monster implements Enemy {
     public void setAttackState(int input) {
         this.attackTicks = 0;
         this.entityData.set(ATTACK_STATE, input);
+        this.level().broadcastEntityEvent(this, (byte) -input);
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id <= 0) {
+            this.attackTicks = 0;
+        }else {
+            super.handleEntityEvent(id);
+        }
     }
 
     public void tick() {

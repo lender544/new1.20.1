@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackMoveGoal;
@@ -25,6 +26,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -466,20 +468,20 @@ public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy 
 
     private void Makeparticle(float vec, float math) {
         if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
             for (int i1 = 0; i1 < 80 + random.nextInt(12); i1++) {
                 double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
-                float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-                float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
                 double extraX = 2F * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = 2F * Mth.cos(angle);
-                double theta = (yBodyRot) * (Math.PI / 180);
-                theta += Math.PI / 2;
-                double vecX = Math.cos(theta);
-                double vecZ = Math.sin(theta);
                 int hitX = Mth.floor(getX() + vec * vecX+ extraX);
                 int hitY = Mth.floor(getY());
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
@@ -490,6 +492,11 @@ public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy 
                 } else {
                     this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
+            }
+            if (getIsBerserk()) {
+                this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 35, 0.8f, 0.305f, 0.02f, 1f, 30f, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+            }else{
+                this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 35, 1f, 1f, 1f, 1f, 30f, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
             }
         }
     }

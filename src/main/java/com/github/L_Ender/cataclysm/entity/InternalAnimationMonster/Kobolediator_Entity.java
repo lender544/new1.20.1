@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
+import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
@@ -384,7 +385,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 AreaAttack(10.0f,6.0F,45,1.25F,120);
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
-                Makeparticle(0.5f, 9.0f, 1.2f);
+                Makeparticle(0.5f, 9.0f, 1.8f);
             }
         }
         if(this.getAttackState() == 6) {
@@ -425,30 +426,32 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     }
 
     private void Makeparticle(float size,float vec, float math) {
-        if (!this.level().isClientSide) {
+        if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
+            float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
             for (int i1 = 0; i1 < 80 + random.nextInt(12); i1++) {
                 double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
-                float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
-                float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
                 double extraX = size * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = size * Mth.cos(angle);
-                double theta = (yBodyRot) * (Math.PI / 180);
-                theta += Math.PI / 2;
-                double vecX = Math.cos(theta);
-                double vecZ = Math.sin(theta);
                 int hitX = Mth.floor(getX() + vec * vecX + extraX);
                 int hitY = Mth.floor(getY());
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = this.level().getBlockState(hit.below());
                 if (block.getRenderShape() != RenderShape.INVISIBLE) {
-                    ((ServerLevel) this.level()).sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math,1, DeltaMovementX, DeltaMovementY, DeltaMovementZ,0);
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
             }
+            this.level().addParticle(new RingParticle.RingData(0f, (float)Math.PI/2f, 30, 1.0f, 1.0F,  1.0F, 1.0f, 20f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+
         }
     }
 

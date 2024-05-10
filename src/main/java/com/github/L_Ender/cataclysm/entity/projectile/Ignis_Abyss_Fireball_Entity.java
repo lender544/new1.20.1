@@ -226,7 +226,7 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
 
     public void setTotalBounces(int bounces)
     {
-        this.entityData.set(BOUNCES, Integer.valueOf(bounces));
+        this.entityData.set(BOUNCES, bounces);
     }
 
     public void setFired(boolean fired) {
