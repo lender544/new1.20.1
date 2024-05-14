@@ -1,4 +1,4 @@
-package com.github.L_Ender.cataclysm.entity.etc;
+package com.github.L_Ender.cataclysm.entity.etc.path;
 
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.Mob;

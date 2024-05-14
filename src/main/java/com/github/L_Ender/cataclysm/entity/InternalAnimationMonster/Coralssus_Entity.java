@@ -3,20 +3,17 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
-import com.github.L_Ender.cataclysm.entity.Deepling.AbstractDeepling;
-import com.github.L_Ender.cataclysm.entity.Deepling.Coral_Golem_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.*;
+import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.lionfishapi.server.animation.Animation;
-import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -26,7 +23,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ByIdMap;
@@ -43,12 +39,10 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -62,7 +56,6 @@ import net.minecraftforge.fluids.FluidType;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
-import java.util.List;
 import java.util.function.IntFunction;
 
 
@@ -160,7 +153,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
             }
         });
         //jump
-        this.goalSelector.addGoal(1, new Coralssus_JumpPrepareAttackGoal(this, 0, 5, 6, 20, 10, 6.5F, 10f, 16F){
+        this.goalSelector.addGoal(1, new Coralssus_JumpPrepareAttackGoal(this, 0,5, 6, 20, 10, 6.5F, 10f, 16F){
 
             @Override
             public boolean canUse() {
@@ -169,7 +162,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         });
 
         //jump idle
-        this.goalSelector.addGoal(1, new InternalStateGoal(this, 6, 6, 7, 100, 100));
+        this.goalSelector.addGoal(1, new InternalStateGoal(this, 6,6,7, 100, 100));
 
         //jump End
         this.goalSelector.addGoal(0, new InternalStateGoal(this, 7, 7, 0, 20, 0){
@@ -718,8 +711,8 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         private final float attackminrange;
         private final float random;
 
-        public Coralssus_JumpPrepareAttackGoal(Coralssus_Entity entity, int getattackstate, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,float attackminrange,float attackrange,float random) {
-            super(entity,getattackstate,attackstate,attackendstate,attackMaxtick,attackseetick,attackrange);
+        public Coralssus_JumpPrepareAttackGoal(Coralssus_Entity entity, int attackstate, int attackendstate,int animationendstate,int attackMaxtick,int attackseetick,float attackminrange,float attackrange,float random) {
+            super(entity,attackstate,attackendstate,animationendstate,attackMaxtick,attackseetick,attackrange);
             this.attackminrange = attackminrange;
             this.random = random;
             this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));

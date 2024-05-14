@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
-import com.github.L_Ender.cataclysm.entity.etc.DirectPathNavigator;
+import com.github.L_Ender.cataclysm.entity.etc.path.DirectPathNavigator;
 import com.github.L_Ender.cataclysm.entity.etc.FlightMoveController;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Shard_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;

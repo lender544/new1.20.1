@@ -9,9 +9,9 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Lev
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Portal_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.PetSimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwnerWater;
-import com.github.L_Ender.cataclysm.entity.etc.GroundPathNavigatorWide;
+import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
 import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
-import com.github.L_Ender.cataclysm.entity.etc.SemiAquaticPathNavigator;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Mini_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;

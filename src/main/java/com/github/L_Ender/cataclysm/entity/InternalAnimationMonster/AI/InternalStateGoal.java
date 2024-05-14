@@ -34,6 +34,16 @@ public class InternalStateGoal extends Goal {
         this.attackseetick = attackseetick;
     }
 
+    public InternalStateGoal(Internal_Animation_Monster entity, int getattackstate, int attackstate, int attackendstate, int attackfinaltick, int attackseetick, EnumSet<Flag> interruptFlagTypes) {
+        this.entity = entity;
+        setFlags(interruptFlagTypes);
+        this.getattackstate = getattackstate;
+        this.attackstate = attackstate;
+        this.attackendstate = attackendstate;
+        this.attackfinaltick = attackfinaltick;
+        this.attackseetick = attackseetick;
+    }
+
     @Override
     public boolean canUse() {
         return this.entity.getAttackState() == getattackstate;
@@ -49,7 +59,6 @@ public class InternalStateGoal extends Goal {
     @Override
     public void stop() {
         this.entity.setAttackState(attackendstate);
-        this.entity.attackTicks = 0;
         this.entity.attackCooldown = 0;
     }
 

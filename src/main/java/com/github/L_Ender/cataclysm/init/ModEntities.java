@@ -9,7 +9,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.The_Watcher_Entity;
 import com.github.L_Ender.cataclysm.entity.Deepling.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.*;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.*;

@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class Internal_Animation_Monster extends Monster implements Enemy {
+
     public static final EntityDataAccessor<Integer> ATTACK_STATE = SynchedEntityData.defineId(Internal_Animation_Monster.class, EntityDataSerializers.INT);
+
     protected boolean dropAfterDeathAnim = false;
     public int killDataRecentlyHit;
     public DamageSource killDataCause;
@@ -41,6 +43,7 @@ public class Internal_Animation_Monster extends Monster implements Enemy {
         super.defineSynchedData();
         this.entityData.define(ATTACK_STATE, 0);
     }
+
 
     public int getAttackState() {
         return this.entityData.get(ATTACK_STATE);

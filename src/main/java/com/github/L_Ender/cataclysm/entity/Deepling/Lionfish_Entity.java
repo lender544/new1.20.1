@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.entity.Deepling;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.etc.AquaticMoveController;
-import com.github.L_Ender.cataclysm.entity.etc.SemiAquaticPathNavigator;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.projectile.Lionfish_Spike_Entity;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;

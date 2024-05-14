@@ -1,36 +1,24 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Nameless_Sorcerer_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
-import com.github.L_Ender.cataclysm.entity.etc.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import com.github.L_Ender.lionfishapi.client.model.tools.DynamicChain;
-import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
@@ -40,8 +28,6 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.control.LookControl;
-import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -49,19 +35,13 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.NodeEvaluator;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
@@ -483,7 +463,9 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     static class ChargeAttackGoal extends Goal {
         protected final Wadjet_Entity entity;
-        private final int getattackstate;
+
+        private final int getAttackState;
+
         private final int attackstate;
         private final int attackendstate;
         private final int attackMaxtick;
@@ -492,10 +474,10 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         private final float attackminrange;
         private final float attackrange;
 
-        public ChargeAttackGoal(Wadjet_Entity entity, int getattackstate, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,int attackshottick,float attackminrange,float attackrange) {
+        public ChargeAttackGoal(Wadjet_Entity entity,int getAttackState, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,int attackshottick,float attackminrange,float attackrange) {
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
-            this.getattackstate = getattackstate;
+            this.getAttackState = getAttackState;
             this.attackstate = attackstate;
             this.attackendstate = attackendstate;
             this.attackMaxtick = attackMaxtick;
@@ -508,7 +490,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < 16f && this.entity.charge_cooldown <= 0;
+            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.getRandom().nextFloat() * 100.0F < 16f && this.entity.charge_cooldown <= 0;
         }
 
         @Override
@@ -519,7 +501,6 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         @Override
         public void stop() {
             this.entity.setAttackState(attackendstate);
-            this.entity.attackCooldown = 0;
             this.entity.charge_cooldown = CHARGE_COOLDOWN;
         }
 
@@ -570,7 +551,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     static class MagicAttackGoal extends Goal {
         protected final Wadjet_Entity entity;
-        private final int getattackstate;
+        private final int getAttackState;
         private final int attackstate;
         private final int attackendstate;
         private final int attackMaxtick;
@@ -578,10 +559,10 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         private final float attackminrange;
         private final float attackrange;
 
-        public MagicAttackGoal(Wadjet_Entity entity, int getattackstate, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,float attackminrange,float attackrange) {
+        public MagicAttackGoal(Wadjet_Entity entity,int getAttackState, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,float attackminrange,float attackrange) {
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
-            this.getattackstate = getattackstate;
+            this.getAttackState = getAttackState;
             this.attackstate = attackstate;
             this.attackendstate = attackendstate;
             this.attackMaxtick = attackMaxtick;
@@ -593,7 +574,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < 24f && this.entity.magic_cooldown <= 0;
+            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.getRandom().nextFloat() * 100.0F < 24f && this.entity.magic_cooldown <= 0;
         }
 
         @Override
