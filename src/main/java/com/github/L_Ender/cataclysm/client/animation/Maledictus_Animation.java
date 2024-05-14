@@ -1831,6 +1831,14 @@ public class Maledictus_Animation {
 					new AdvancedKeyframe(0.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
 					new AdvancedKeyframe(1.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 12.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
 			))
+
+			.addAnimation("right_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
+					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.LINEAR)
+			))
+			.addAnimation("left_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
+					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.LINEAR)
+			))
+
 			.build();
 
 	public static final AdvancedAnimationDefinition FALL_END = AdvancedAnimationDefinition.Builder.withLength(1.3333F)

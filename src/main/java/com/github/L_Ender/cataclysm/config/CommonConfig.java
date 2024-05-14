@@ -147,6 +147,10 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue WadjetHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue WadjetDamageMultiplier;
 
+    public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
+    public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
+    public final ForgeConfigSpec.DoubleValue MaledictusDamageCap;
+
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
     public final ForgeConfigSpec.IntValue DeeplingBruteSpawnWeight;
@@ -324,7 +328,7 @@ public class CommonConfig {
         builder.push("Ancient Remnant");
         AncientRemnantHealthMultiplier = buildDouble(builder, "AncientRemnantHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Health Multiplier");
         AncientRemnantDamageMultiplier  = buildDouble(builder, "AncientRemnantDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Damage Multiplier");
-        AncientRemnantNatureHealing = buildDouble(builder, "LeviathanNatureHealing", "all", 10D, 0D, 1000000D, "Leviathan's Healing with out target");
+        AncientRemnantNatureHealing = buildDouble(builder, "AncientRemnantNatureHealing", "all", 10D, 0D, 1000000D, "AncientRemnant's Healing with out target");
         AncientRemnantLongRangelimit = buildDouble(builder, "Ancient Remnant's prevent attacks from far away Range", "all", 15.0D, 1D, 1000000D, "Ancient Remnant's Immune to Long distance attack range.");
         AncientRemnantDamageCap = buildDouble(builder, "AncientRemnantCap", "all", 21.0D, 0D, 1000000D, "Ancient Remnant's DamageCap");
         AncientRemnantBlockBreaking = buildBoolean(builder, "AncientRemnantBlockBreaking", "all", true, "Ancient Remnant's block breaking ignore the MobGriefing");
@@ -349,6 +353,11 @@ public class CommonConfig {
         WadjetDamageMultiplier = buildDouble(builder, "WadjetDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Damage Multiplier");
         builder.pop();
 
+        builder.push("maledictus");
+        MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
+        MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
+        MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
+        builder.pop();
 
         builder.push("spawning");
         DeeplingSpawnWeight = buildInt(builder, "DeeplingSpawnWeight", "spawns", CMConfig.DeeplingSpawnWeight, 0, 1000, "Spawn Weight, added to a pool of other mobs for each biome. Higher number = higher chance of spawning. 0 = disable spawn");

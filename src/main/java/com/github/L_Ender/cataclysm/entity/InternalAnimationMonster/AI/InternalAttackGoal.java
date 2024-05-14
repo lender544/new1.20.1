@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 import java.util.EnumSet;
 
@@ -41,8 +42,9 @@ public class InternalAttackGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate;
+        return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getSensing().hasLineOfSight(target) ;
     }
+
 
     @Override
     public void start() {

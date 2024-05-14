@@ -49,6 +49,7 @@ public class CMConfig {
     public static double HarbingerDamageCap = 22;
     public static double LeviathanDamageCap = 20;
     public static double AncientRemnantDamageCap = 21;
+    public static double MaledictusDamageCap = 20;
 
     public static int Lavabombmagazine = 3;
     public static int Lavabombamount = 3;
@@ -122,6 +123,9 @@ public class CMConfig {
 
     public static double WadjetHealthMultiplier = 1D;
     public static double WadjetDamageMultiplier = 1D;
+
+    public static double MaledictusHealthMultiplier = 1D;
+    public static double MaledictusDamageMultiplier = 1D;
 
     public static double MonstrosityLongRangelimit = 18D;
     public static double EnderguardianLongRangelimit = 12D;
@@ -230,6 +234,7 @@ public class CMConfig {
             HarbingerDamageCap = ConfigHolder.COMMON.HarbingerDamageCap.get();
             LeviathanDamageCap = ConfigHolder.COMMON.LeviathanDamageCap.get();
             AncientRemnantDamageCap = ConfigHolder.COMMON.AncientRemnantDamageCap.get();
+            MaledictusDamageCap = ConfigHolder.COMMON.MaledictusDamageCap.get();
 
             Lavabombmagazine = ConfigHolder.COMMON.Lavabombmagazine.get();
             Lavabombamount = ConfigHolder.COMMON.Lavabombamount.get();
@@ -327,6 +332,9 @@ public class CMConfig {
 
             WadjetHealthMultiplier = ConfigHolder.COMMON.WadjetHealthMultiplier.get();
             WadjetDamageMultiplier = ConfigHolder.COMMON.WadjetDamageMultiplier.get();
+
+            MaledictusHealthMultiplier = ConfigHolder.COMMON.MaledictusHealthMultiplier.get();
+            MaledictusDamageMultiplier = ConfigHolder.COMMON.MaledictusDamageMultiplier.get();
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

@@ -60,6 +60,7 @@
   "item.cataclysm.the_incinerator": "The Incinerator",
   "item.cataclysm.void_scatter_arrow": "Void Scatter Arrow",
   "item.cataclysm.void_shard": "Void Shard",
+  "item.cataclysm.phantom_arrow": "Phantom Arrow",
   "item.cataclysm.koboleton_bone": "Koboleton Bone",
   "item.cataclysm.monstrous_helm": "Monstrous Helm",
   "item.cataclysm.monstrous_horn": "Monstrous Horn",
@@ -437,6 +438,7 @@
 
   "death.attack.cataclysm.laser": "%s was exterminated by %s 's laser",
   "death.attack.cataclysm.deathlaser": "%s was exterminated by %s 's laser",
+  "death.attack.cataclysm.maledictio_sagitta": "%s was cursed by %s 's Arrow",
   "death.attack.cataclysm.emp": "%s has become Electric Grilled Chicken",
   "death.attack.cataclysm.emp.player": "%s has become Electric Grilled Chicken",
   "death.attack.cataclysm.abyssal_burn": "%s has left this dimension",

@@ -59,7 +59,6 @@ public class Maledictus_Entity extends IABoss_monster {
     public AnimationState deathAnimationState = new AnimationState();
 
     private boolean isflyingNavigator;
-    private boolean flyattacking;
 
     private Vec3 prevRightHandPos = new Vec3(0, 0, 0);
     private Vec3 prevLeftHandPos = new Vec3(0, 0, 0);
@@ -71,7 +70,6 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final EntityDataAccessor<Boolean> BOW = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
     private int charge_cooldown = 0;
-    private int landingTicks = 0;
     public static final int CHARGE_COOLDOWN = 160;
 
     public Maledictus_Entity(EntityType entity, Level world) {
@@ -83,7 +81,7 @@ public class Maledictus_Entity extends IABoss_monster {
             socketPosArray = new Vec3[] {new Vec3(0, 0, 0), new Vec3(0, 0, 0)};
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.KobolediatorHealthMultiplier, CMConfig.KobolediatorDamageMultiplier);
+        setConfigattribute(this, CMConfig.MaledictusHealthMultiplier, CMConfig.MaledictusDamageMultiplier);
     }
 
     protected void registerGoals() {
@@ -105,13 +103,13 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(1, new Maledictus_Flying_Bow(this, 0, 3, 4, 68, 50, 1F, 40f, 50,34F));
 
         //fall_loop
-        this.goalSelector.addGoal(1, new MaledictusfallingGoal(this, 4, 4,0,100, 100,false, false));
+        this.goalSelector.addGoal(1, new MaledictusfallingState(this, 4, 4,5,100, 100,true,false));
 
 
         //fall_end
-       // this.goalSelector.addGoal(0, new InternalStateGoal(this, 5, 5, 0, 27,0));
+        this.goalSelector.addGoal(0, new MaledictusfallingState(this, 5, 5, 0, 27,0,false,false));
 
-        this.goalSelector.addGoal(0, new LandingGoal(this, 4, 5, 0, 27));
+       // this.goalSelector.addGoal(0, new LandingGoal(this, 4, 5, 0, 100,27));
     }
 
     private void switchNavigator(boolean onLand) {
@@ -147,6 +145,9 @@ public class Maledictus_Entity extends IABoss_monster {
         return super.hurt(source, damage);
     }
 
+    public float DamageCap() {
+        return (float) CMConfig.MaledictusDamageCap;
+    }
 
     protected int decreaseAirSupply(int air) {
         return air;
@@ -328,7 +329,6 @@ public class Maledictus_Entity extends IABoss_monster {
         }
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
-        if (landingTicks > 0) landingTicks--;
         if (!this.level().isClientSide) {
             if (this.isFlying() && !this.isflyingNavigator) {
                 switchNavigator(false);
@@ -351,8 +351,13 @@ public class Maledictus_Entity extends IABoss_monster {
             if (this.attackTicks == 25) {
                 AreaAttack(7.0f,7.0F,270,1,200);
                 this.playSound(ModSounds.STRONGSWING.get(), 1F, 1.0f);
-                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 10);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
                 MakeRingparticle(2.5f, 0.2f);
+            }
+        }
+        if(this.getAttackState()== 4){
+            if (this.onGround() || !this.getFeetBlockState().getFluidState().isEmpty()) {
+                this.setAttackState(5);
             }
         }
         if(this.getAttackState() == 6) {
@@ -581,7 +586,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         double distance = Math.sqrt(x * x + d2 * d2 + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity,target);
-                        throwntrident.setBaseDamage(6);
+                        throwntrident.setBaseDamage(4);
                         throwntrident.shoot(x, d2 + distance * (double)0.2F, z, 2.0F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
@@ -645,7 +650,6 @@ public class Maledictus_Entity extends IABoss_monster {
             }
             if (this.entity.attackTicks == 20) {
                 this.entity.setDeltaMovement(0, 0, 0);
-                Maledictus_Entity.this.flyattacking = true;
             }
             if (this.entity.attackTicks == 60) {
                 Maledictus_Entity.this.setFlying(false);
@@ -667,7 +671,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         double distance = Math.sqrt(x * x + d2 * d2 + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity, target);
-                        throwntrident.setBaseDamage(6);
+                        throwntrident.setBaseDamage(4);
                         throwntrident.shoot(x, d2 + distance * (double) 0.2F, z, 1.7F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
@@ -683,13 +687,13 @@ public class Maledictus_Entity extends IABoss_monster {
         }
     }
 
-    static class MaledictusfallingGoal extends InternalStateGoal {
+    static class MaledictusfallingState extends InternalStateGoal {
         private final Maledictus_Entity entity;
         private final boolean startbow;
         private final boolean stopbow;
         private final int attackseetick;
 
-        public MaledictusfallingGoal(Maledictus_Entity entity,int getAttackState, int attackstate, int attackendstate, int attackMaxtick,int attackseetick, boolean startbow, boolean stopbow) {
+        public MaledictusfallingState(Maledictus_Entity entity,int getAttackState, int attackstate, int attackendstate, int attackMaxtick,int attackseetick, boolean startbow, boolean stopbow) {
             super(entity,getAttackState,attackstate,attackendstate,attackMaxtick,attackseetick);
             this.entity = entity;
             this.attackseetick = attackseetick;
@@ -702,18 +706,25 @@ public class Maledictus_Entity extends IABoss_monster {
         public void start() {
             super.start();
             entity.setBow(startbow);
-            entity.setLanding(true);
-            entity.setFlying(false);
+            if(entity.isFlying()) {
+                entity.setFlying(false);
+            }
         }
 
         @Override
         public void tick() {
-            super.tick();
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks < attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
         }
 
         @Override
         public void stop() {
-            //  super.stop();
+            super.stop();
             entity.setBow(stopbow);
         }
 
@@ -723,66 +734,6 @@ public class Maledictus_Entity extends IABoss_monster {
             return true;
         }
     }
-
-    static class LandingGoal extends Goal {
-        protected final Maledictus_Entity entity;
-        private final int getattackstate;
-        private final int attackstate;
-        protected final int attackendstate;
-        private final int attackfinaltick;
-
-        public LandingGoal(Maledictus_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackfinaltick) {
-            this.entity = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-            this.getattackstate = getattackstate;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackfinaltick = attackfinaltick;
-
-        }
-
-        @Override
-        public boolean canUse() {
-            return this.entity.isLanding();
-        }
-
-        @Override
-        public void start() {
-
-        }
-
-
-        @Override
-        public void tick() {
-            if(this.entity.onGround()) {
-                if (this.entity.isLanding()) {
-                    this.entity.landingTicks = attackfinaltick;
-                    if (getattackstate != attackstate) {
-                        this.entity.setAttackState(attackstate);
-                    }
-                    this.entity.setLanding(false);
-                }
-            }
-        }
-
-        @Override
-        public void stop() {
-            this.entity.setAttackState(attackendstate);
-            this.entity.setLanding(false);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.getAttackState() == attackstate ? this.entity.attackTicks <= attackfinaltick  : canUse();
-        }
-
-
-        @Override
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
-    }
-
 }
 
 
