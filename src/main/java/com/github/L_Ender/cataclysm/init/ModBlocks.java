@@ -177,12 +177,14 @@ public class ModBlocks {
     public static final RegistryObject<Block> CHORUS_STEM = BLOCKS.register("chorus_stem",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).
                     strength(2.0F, 3.0F)
+                    .instrument(NoteBlockInstrument.BASS)
                     .sound(SoundType.WOOD)));
 
 
     public static final RegistryObject<Block> CHORUS_PLANKS = BLOCKS.register("chorus_planks",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).
                     strength(2.0F, 3.0F)
+                    .instrument(NoteBlockInstrument.BASS)
                     .sound(SoundType.WOOD)));
 
     public static final RegistryObject<Block> CHORUS_SLAB = BLOCKS.register("chorus_slab",

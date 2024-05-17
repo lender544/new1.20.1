@@ -120,7 +120,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
         boolean flag2 = minecraft.shouldEntityAppearGlowing(entityIn);
         RenderType rendertype = this.getRenderType(entityIn, flag, flag1, flag2);
         if (rendertype != null) {
-            float hide = (entityIn.getHealth() / entityIn.getMaxHealth()) - 0.25F;
+            float hide = (entityIn.getHealth() / entityIn.getMaxHealth()) - 0.4F;
             float alpha = (1F - hide) * 0.6F;
             int i = getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
             this.renderMaledictusModel(matrixStackIn, bufferIn, rendertype, partialTicks, packedLightIn, i, flag1 ? 0.15F : Mth.clamp(alpha, 0, 1), entityIn);

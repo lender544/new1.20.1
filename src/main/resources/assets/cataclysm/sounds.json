@@ -1147,5 +1147,13 @@
         "name": "cataclysm:entity/coralssus_roar"
       }
     ]
+  },
+  "maledictus_battle_cry": {
+    "subtitle": "maledictus_battle_cry.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_battle_cry"
+      }
+    ]
   }
 }

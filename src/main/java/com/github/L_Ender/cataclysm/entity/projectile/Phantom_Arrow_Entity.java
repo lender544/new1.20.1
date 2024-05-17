@@ -128,7 +128,7 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
                         if (finalTarget != null) {
                             Vec3 arcVec = finalTarget.position().add(0, 0.65F * finalTarget.getBbHeight(), 0).subtract(this.position());
                             if (arcVec.length() > finalTarget.getBbWidth()) {
-                                this.setDeltaMovement(this.getDeltaMovement().scale(0.625F).add(arcVec.normalize().scale(0.5F)));
+                                this.setDeltaMovement(this.getDeltaMovement().scale(0.625F).add(arcVec.normalize().scale(0.4775F)));
 
                             }
 

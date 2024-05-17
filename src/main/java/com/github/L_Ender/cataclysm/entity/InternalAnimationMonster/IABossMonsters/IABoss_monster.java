@@ -98,8 +98,7 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
         if (!level().isClientSide && getBossMusic() != null) {
             if (canPlayMusic()) {
                 this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
-            }
-            else {
+            } else {
                 this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
             }
         }
@@ -109,11 +108,11 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
     public void handleEntityEvent(byte id) {
         if (id == MUSIC_PLAY_ID) {
             IABossMusicPlayer.playBossMusic(this);
-        }
-        else if (id == MUSIC_STOP_ID) {
+        } else if (id == MUSIC_STOP_ID) {
             IABossMusicPlayer.stopBossMusic(this);
+        } else {
+            super.handleEntityEvent(id);
         }
-        else super.handleEntityEvent(id);
     }
 
 

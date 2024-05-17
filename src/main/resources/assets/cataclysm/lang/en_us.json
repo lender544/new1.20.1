@@ -445,6 +445,7 @@
   "death.attack.cataclysm.abyssal_burn.player": "%s has left this dimension",
   "death.attack.cataclysm.shredder": "%s was shattered by %s",
   "death.attack.cataclysm.sword_dance": "%s was cut by %s",
+  "death.attack.cataclysm.maledictio": "%s was cursed by %s",
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",
