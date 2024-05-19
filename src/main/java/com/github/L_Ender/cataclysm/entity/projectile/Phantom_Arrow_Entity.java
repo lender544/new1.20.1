@@ -125,14 +125,17 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
                 if (this.finalTarget != null && this.finalTarget.isAlive() || (this.finalTarget instanceof Player && !this.finalTarget.isSpectator())) {
                     float sqrt = (float) this.getDeltaMovement().length();
                     if (sqrt > 1.25F) {
-                        if (finalTarget != null) {
-                            Vec3 arcVec = finalTarget.position().add(0, 0.65F * finalTarget.getBbHeight(), 0).subtract(this.position());
-                            if (arcVec.length() > finalTarget.getBbWidth()) {
-                                this.setDeltaMovement(this.getDeltaMovement().scale(0.625F).add(arcVec.normalize().scale(0.4775F)));
+                        if(this.tickCount > 2){
+                            if (finalTarget != null) {
+                                Vec3 arcVec = finalTarget.position().add(0, 0.65F * finalTarget.getBbHeight(), 0).subtract(this.position());
+                                if (arcVec.length() > finalTarget.getBbWidth()) {
+                                    this.setDeltaMovement(this.getDeltaMovement().scale(0.625F).add(arcVec.normalize().scale(0.4775F)));
 
+                                }
                             }
 
                         }
+
                     }
                 }
             }
