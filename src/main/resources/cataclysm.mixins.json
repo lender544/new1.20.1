@@ -20,7 +20,6 @@
     "WorldGenRegionAccessor"
   ],
   "client": [
-    "Client.JoinMultiplayerScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

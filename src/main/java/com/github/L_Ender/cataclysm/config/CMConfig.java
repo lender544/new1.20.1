@@ -39,6 +39,7 @@ public class CMConfig {
     public static int Lavabombradius = 2;
     public static double Sandstormdamage = 5;
     public static double AncientDesertSteledamage = 18;
+    public static double PhantomArrowbasedamage = 4;
 
     public static boolean ScreenShake = true;
     public static boolean BossMusic = true;
@@ -153,7 +154,11 @@ public class CMConfig {
     public static double RemnantChargeHpDamage = 0.06D;
     public static double RemnantStompHpDamage = 0.03D;
     public static double RemnantHpDamage = 0.05D;
-
+    public static double MaledictusHpDamage = 0.03D;
+    public static double MaledictusShockWaveHpDamage = 0.02D;
+    public static double MaledictusAOEHpDamage = 0.15D;
+    public static double MaledictusFlyingSmashHpDamage = 0.1D;
+    public static double MaledictusSmashHpDamage = 0.06D;
 
     public static boolean Armor_Infinity_Durability = true;
 
@@ -302,6 +307,13 @@ public class CMConfig {
             RemnantChargeHpDamage = ConfigHolder.COMMON.RemnantChargeHpDamage.get();
             RemnantHpDamage = ConfigHolder.COMMON.RemnantHpDamage.get();
             RemnantStompHpDamage = ConfigHolder.COMMON.RemnantStompHpDamage.get();
+
+            MaledictusHpDamage = ConfigHolder.COMMON.MaledictusHpDamage.get();
+            MaledictusShockWaveHpDamage = ConfigHolder.COMMON.MaledictusShockWaveHpDamage.get();
+            MaledictusAOEHpDamage = ConfigHolder.COMMON.MaledictusAOEHpDamage.get();
+            MaledictusFlyingSmashHpDamage = ConfigHolder.COMMON.MaledictusFlyingSmashHpDamage.get();
+            MaledictusSmashHpDamage = ConfigHolder.COMMON.MaledictusSmashHpDamage.get();
+
 
             LeviathanHealthMultiplier = ConfigHolder.COMMON.LeviathanHealthMultiplier.get();
             LeviathanDamageMultiplier = ConfigHolder.COMMON.LeviathanDamageMultiplier.get();

@@ -3,15 +3,10 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Netherite_Monstrosity_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.FlightMoveController;
@@ -24,8 +19,6 @@ import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -43,9 +36,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.animal.Fox;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
-import net.minecraft.world.entity.monster.Blaze;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -55,7 +46,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ToolActions;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -423,7 +413,7 @@ public class Maledictus_Entity extends IABoss_monster {
         SwingParticles();
         if(this.getAttackState() == 1) {
             if (this.attackTicks == 25) {
-                AreaAttack(5.5f,5.5f,270,1,200);
+                AreaAttack(5.5f,5.5f,270,1,(float) CMConfig.MaledictusSmashHpDamage,200);
                 this.playSound(ModSounds.STRONGSWING.get(), 1F, 1.0f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
                 MakeRingparticle(2.5f, 0.2f, 40, 0.337f, 0.925f,  0.8f, 1.0f, 30f);
@@ -479,7 +469,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(8.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }
@@ -502,19 +492,19 @@ public class Maledictus_Entity extends IABoss_monster {
                 MakeRingparticle(2.5f, 0.2f, 40, 0.337f, 0.925f,  0.8f, 1.0f, 50f);
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3.5D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MaledictusFlyingSmashHpDamage)));
                     }
                 }
             }
             for (int i = 8, j = 2; i <= 16; i = i + 2, j++) {
                 if (this.attackTicks == i) {
-                    ShieldSmashDamage(2, j, 4f, 2.5f, 0, 1, 0.02f,0.05F);
+                    ShieldSmashDamage(2, j, 4f, 2.5f, 1, (float) CMConfig.MaledictusShockWaveHpDamage,0.05F);
                 }
             }
         }
     }
 
-    private void ShieldSmashDamage(float spreadarc, int distance, float mxy, float vec, int shieldbreakticks, float damage, float hpdamage, float airborne) {
+    private void ShieldSmashDamage(float spreadarc, int distance, float mxy, float vec, float damage, float hpdamage, float airborne) {
         double perpFacing = this.yBodyRot * (Math.PI / 180);
         double facingAngle = perpFacing + Math.PI / 2;
         int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
@@ -544,12 +534,7 @@ public class Maledictus_Entity extends IABoss_monster {
             List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
             for (LivingEntity entity : hit) {
                 if (!isAlliedTo(entity)  && entity != this) {
-                    if (entity instanceof Player) {
-                        if (entity.getUseItem().canPerformAction(ToolActions.SHIELD_BLOCK) && shieldbreakticks > 0) {
-                            disableShield(entity, shieldbreakticks);
-                        }
-                    }
-                    boolean flag = entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
+                    boolean flag = entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * hpdamage)));
                     if (flag) {
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, airborne * distance + level().random.nextDouble() * 0.15, 0.0D));
 
@@ -632,7 +617,7 @@ public class Maledictus_Entity extends IABoss_monster {
         }
     }
 
-    private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
+    private void AreaAttack(float range, float height, float arc, float damage,float hpdamage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -647,7 +632,7 @@ public class Maledictus_Entity extends IABoss_monster {
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Maledictus_Entity) && entityHit != this) {
-                    entityHit.hurt(this.damageSources().mobAttack(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    entityHit.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entityHit.getMaxHealth() * hpdamage) * damage));
                     if (entityHit instanceof Player && entityHit.isBlocking() && shieldbreakticks > 0) {
                         disableShield(entityHit, shieldbreakticks);
                     }
@@ -783,7 +768,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         double distance = Math.sqrt(x * x + d2 * d2 + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity,target);
-                        throwntrident.setBaseDamage(4);
+                        throwntrident.setBaseDamage(CMConfig.PhantomArrowbasedamage);
                         throwntrident.shoot(x, d2 + distance * (double)0.2F, z, 1.8F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
@@ -870,7 +855,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         double distance = Math.sqrt(x * x + d2 * d2 + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity, target);
-                        throwntrident.setBaseDamage(4);
+                        throwntrident.setBaseDamage(CMConfig.PhantomArrowbasedamage);
                         throwntrident.shoot(x, d2 + distance * (double) 0.2F, z, 1.5F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);

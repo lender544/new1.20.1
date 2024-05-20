@@ -395,7 +395,7 @@ public class ModItems {
             () -> new ModFishBucket(ModEntities.THE_BABY_LEVIATHAN, Fluids.WATER, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> MODERN_REMNANT_BUCKET = ITEMS.register("modern_remnant_bucket",
-            () -> new ModernRemantBucket(new Item.Properties().fireResistant()));
+            () -> new ModernRemantBucket(ModEntities.MODERN_REMNANT, Fluids.EMPTY, new Item.Properties().fireResistant()));
 
     public static final RegistryObject<SpawnEggItem> ENDER_GOLEM_SPAWN_EGG = ITEMS.register("ender_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDER_GOLEM, 0x2a1a42, 0xa153fe, new Item.Properties()));
@@ -491,22 +491,23 @@ public class ModItems {
                 return entityarrow;
             }
         });
-        DispenseItemBehavior bucketDispenseBehavior = new DefaultDispenseItemBehavior() {
+        DispenseItemBehavior dispenseItemBehavior = new DefaultDispenseItemBehavior() {
             private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
 
-            public ItemStack execute(BlockSource blockSource, ItemStack stack) {
-                DispensibleContainerItem dispensiblecontaineritem = (DispensibleContainerItem)stack.getItem();
-                BlockPos blockpos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));
+            public ItemStack execute(BlockSource blockSource, ItemStack itemStack) {
+                DispensibleContainerItem dispensibleContainerItem = (DispensibleContainerItem) itemStack.getItem();
+                BlockPos blockPos = blockSource.getPos().relative(blockSource.getBlockState().getValue(DispenserBlock.FACING));
                 Level level = blockSource.getLevel();
-                if (dispensiblecontaineritem.emptyContents((Player)null, level, blockpos, (BlockHitResult)null)) {
-                    dispensiblecontaineritem.checkExtraContent((Player)null, level, stack, blockpos);
+                if (dispensibleContainerItem.emptyContents(null, level, blockPos, null)) {
+                    dispensibleContainerItem.checkExtraContent(null, level, itemStack, blockPos);
                     return new ItemStack(Items.BUCKET);
                 } else {
-                    return this.defaultDispenseItemBehavior.dispense(blockSource, stack);
+                    return this.defaultDispenseItemBehavior.dispense(blockSource, itemStack);
                 }
             }
         };
-        DispenserBlock.registerBehavior(THE_BABY_LEVIATHAN_BUCKET.get(), bucketDispenseBehavior);
+        DispenserBlock.registerBehavior(THE_BABY_LEVIATHAN_BUCKET.get(), dispenseItemBehavior);
+        DispenserBlock.registerBehavior(MODERN_REMNANT_BUCKET.get(), dispenseItemBehavior);
     }
 }
 

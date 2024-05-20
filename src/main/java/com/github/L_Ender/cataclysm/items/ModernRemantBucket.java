@@ -1,50 +1,72 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.client.event.sound.SoundEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
-public class ModernRemantBucket extends ModFishBucket {
+public class ModernRemantBucket extends MobBucketItem {
 
-    public ModernRemantBucket(Item.Properties builder) {
-        super(ModEntities.MODERN_REMNANT, Fluids.EMPTY, builder.stacksTo(1));
+
+    public ModernRemantBucket(Supplier<? extends EntityType<?>> fishTypeIn, Fluid fluid, Properties builder) {
+        super(fishTypeIn, () -> fluid, () -> SoundEvents.BUCKET_EMPTY_FISH, builder.stacksTo(1));
     }
 
     @Override
-    @Nonnull
-    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        BlockHitResult blockhitresult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onBucketUse(player, level, itemstack, blockhitresult);
-        if (ret != null) return ret;
-        if (blockhitresult.getType() == HitResult.Type.MISS) {
-            return InteractionResultHolder.pass(itemstack);
-        } else if (blockhitresult.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(itemstack);
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        ItemStack itemStack = player.getItemInHand(interactionHand);
+        BlockHitResult blockHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
+        if (blockHitResult.getType() == HitResult.Type.MISS) {
+            return InteractionResultHolder.pass(itemStack);
+        } else if (blockHitResult.getType() != HitResult.Type.BLOCK) {
+            return InteractionResultHolder.pass(itemStack);
         } else {
-            BlockPos blockpos = blockhitresult.getBlockPos();
-            Direction direction = blockhitresult.getDirection();
-            BlockPos blockpos1 = blockpos.relative(direction);
-            if (level.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos1, direction, itemstack)) {
-                this.checkExtraContent(player, level, itemstack, blockpos1);
+            BlockPos blockPos = blockHitResult.getBlockPos();
+            if (level.mayInteract(player, blockPos)) {
+                checkExtraContent(player, level, itemStack, blockPos);
+                if (player instanceof ServerPlayer) {
+                    CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayer) player, blockPos, itemStack);
+                }
+                // TODO: Try make bucket with no nbt make villager type the same as biome spawned in
                 player.awardStat(Stats.ITEM_USED.get(this));
-                return InteractionResultHolder.sidedSuccess(getEmptySuccessItem(itemstack, player), level.isClientSide());
+                return InteractionResultHolder.sidedSuccess(getEmptySuccessItem(itemStack, player), level.isClientSide());
+            } else {
+                return InteractionResultHolder.fail(itemStack);
             }
         }
-        return super.use(level, player, hand);
+    }
+
+    @Override
+    public boolean emptyContents(@Nullable Player player, Level level, BlockPos blockPos, @Nullable BlockHitResult blockHitResult) {
+        BlockState blockstate = level.getBlockState(blockPos);
+        if (blockstate.isAir() || blockstate.canBeReplaced(Fluids.EMPTY)) {
+            this.playEmptySound(player, level, blockPos);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -64,11 +64,18 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue MonstrosityDamageCap;
     public final ForgeConfigSpec.DoubleValue MonstrosityLongRangelimit;
     public final ForgeConfigSpec.BooleanValue NetheritemonstrosityBodyBloking;
+    public final ForgeConfigSpec.DoubleValue MonstrositysHpdamage;
 
     public final ForgeConfigSpec.BooleanValue EndergolemBlockBreaking;
     public final ForgeConfigSpec.DoubleValue EndergolemLongRangelimit;
     public final ForgeConfigSpec.DoubleValue EndergolemHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue EndergolemDamageMultiplier;
+    public final ForgeConfigSpec.DoubleValue EnderguardianGravityPunchHpdamage;
+    public final ForgeConfigSpec.DoubleValue EnderguardianKnockbackHpdamage;
+    public final ForgeConfigSpec.DoubleValue EnderguardianUppercutHpdamage;
+    public final ForgeConfigSpec.DoubleValue EnderguardianTeleportAttackHpdamage;
+    public final ForgeConfigSpec.DoubleValue EnderguardianAreaAttackHpdamage;
+    public final ForgeConfigSpec.DoubleValue EnderguardianRocketPunchHpdamage;
 
     public final ForgeConfigSpec.DoubleValue IgnisHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue IgnisDamageMultiplier;
@@ -93,7 +100,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue HarbingerLongRangelimit;
     public final ForgeConfigSpec.DoubleValue HarbingerDamageCap;
     public final ForgeConfigSpec.BooleanValue HarbingerLightFire;
-
+    public final ForgeConfigSpec.DoubleValue HarbingerChargeHpDamage;
 
     public final ForgeConfigSpec.DoubleValue LeviathanHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue LeviathanDamageMultiplier;
@@ -102,6 +109,12 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue LeviathanDamageCap;
     public final ForgeConfigSpec.BooleanValue LeviathanBlockBreaking;
     public final ForgeConfigSpec.BooleanValue LeviathanImmuneOutofWater;
+    public final ForgeConfigSpec.DoubleValue LeviathanbiteHpdamage;
+    public final ForgeConfigSpec.DoubleValue LeviathanTailSwingHpdamage;
+    public final ForgeConfigSpec.DoubleValue LeviathanRushHpdamage;
+    public final ForgeConfigSpec.DoubleValue LeviathanTentacleHpdamage;
+
+
 
     public final ForgeConfigSpec.DoubleValue BabyLeviathanHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue BabyLeviathanDamageMultiplier;
@@ -125,19 +138,6 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue ModernRemnantHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue ModernRemnantDamageMultiplier;
 
-    public final ForgeConfigSpec.DoubleValue MonstrositysHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianGravityPunchHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianKnockbackHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianUppercutHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianTeleportAttackHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianAreaAttackHpdamage;
-    public final ForgeConfigSpec.DoubleValue EnderguardianRocketPunchHpdamage;
-    public final ForgeConfigSpec.DoubleValue HarbingerChargeHpDamage;
-    public final ForgeConfigSpec.DoubleValue LeviathanbiteHpdamage;
-    public final ForgeConfigSpec.DoubleValue LeviathanTailSwingHpdamage;
-    public final ForgeConfigSpec.DoubleValue LeviathanRushHpdamage;
-    public final ForgeConfigSpec.DoubleValue LeviathanTentacleHpdamage;
-
     public final ForgeConfigSpec.DoubleValue CauseKoboletontoDropItemInHandPercent;
 
     public final ForgeConfigSpec.BooleanValue KobolediatorBlockBreaking;
@@ -150,6 +150,12 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageCap;
+
+    public final ForgeConfigSpec.DoubleValue MaledictusHpDamage;
+    public final ForgeConfigSpec.DoubleValue MaledictusShockWaveHpDamage;
+    public final ForgeConfigSpec.DoubleValue MaledictusAOEHpDamage;
+    public final ForgeConfigSpec.DoubleValue MaledictusFlyingSmashHpDamage;
+    public final ForgeConfigSpec.DoubleValue MaledictusSmashHpDamage;
 
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
@@ -353,10 +359,15 @@ public class CommonConfig {
         WadjetDamageMultiplier = buildDouble(builder, "WadjetDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Damage Multiplier");
         builder.pop();
 
-        builder.push("maledictus");
+        builder.push("Maledictus");
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
+        MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");
+        MaledictusShockWaveHpDamage = buildDouble(builder, "Maledictus's Shock Wave Hp Damage", "all", 0.02D, 0.0D, 1.0D, "Maledictus's Shock wave Hp Damage");
+        MaledictusAOEHpDamage = buildDouble(builder, "Maledictus's AOE Hp Damage", "all", 0.15D, 0.0D, 1.0D, "Maledictus's AOE Hp Damage");
+        MaledictusFlyingSmashHpDamage = buildDouble(builder, "Maledictus's Flying Smash Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Maledictus's flying Smash Hp Damage");
+        MaledictusSmashHpDamage = buildDouble(builder, "Maledictus's Jump Smash Hp Damage", "all", 0.06D, 0.0D, 1.0D, "Maledictus's Jump Smash Hp Damage");
         builder.pop();
 
         builder.push("spawning");
