@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
             cancellable = true)
 
     public void CMcanAttack(LivingEntity p_21171_,CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(p_21171_ instanceof Player && this.level().getDifficulty() == Difficulty.PEACEFUL ? false : p_21171_.canBeSeenAsEnemy() && !this.hasEffect(ModEffect.EFFECTSTUN.get()));
+        cir.setReturnValue(!this.hasEffect(ModEffect.EFFECTSTUN.get()));
     }
 
 }

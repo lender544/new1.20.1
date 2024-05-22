@@ -97,7 +97,6 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, true));
-        this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, EnderDragon.class, true));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this,false,1.0D));
 
         //swing
@@ -469,7 +468,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(8.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.6F + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage) * 1.6F));
                     }
                 }
             }
@@ -492,7 +491,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 MakeRingparticle(2.5f, 0.2f, 40, 0.337f, 0.925f,  0.8f, 1.0f, 50f);
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3.5D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MaledictusFlyingSmashHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.25F + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MaledictusFlyingSmashHpDamage) * 1.25F));
                     }
                 }
             }
