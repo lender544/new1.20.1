@@ -470,9 +470,10 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         this.playSound(SoundEvents.GENERIC_EXPLODE, 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
             if (!isAlliedTo(entity) && !(entity instanceof Coralssus_Entity) && entity != this) {
-                entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
                 launch(entity, true);
-                if (entity instanceof Player && entity.isBlocking() && shieldbreakticks > 0) {
+                DamageSource damagesource = this.damageSources().mobAttack(this);
+                entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
+                if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
                     disableShield(entity, shieldbreakticks);
                 }
             }

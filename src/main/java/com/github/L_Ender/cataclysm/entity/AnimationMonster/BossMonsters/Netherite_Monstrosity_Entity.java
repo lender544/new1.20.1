@@ -451,10 +451,12 @@ public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy 
         this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
             if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
-                boolean flag = entity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
-                if (entity instanceof Player && entity.isBlocking()) {
+                DamageSource damagesource = this.damageSources().mobAttack(this);
+                boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
+                if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource)) {
                     disableShield(entity, 120);
                 }
+
                 if (flag) {
                     launch(entity, true);
                     if (getIsBerserk()) {

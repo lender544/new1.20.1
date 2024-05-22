@@ -17,6 +17,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.items.Coral_Spear;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -631,8 +632,9 @@ public class Maledictus_Entity extends IABoss_monster {
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Maledictus_Entity) && entityHit != this) {
-                    entityHit.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entityHit.getMaxHealth() * hpdamage) * damage));
-                    if (entityHit instanceof Player && entityHit.isBlocking() && shieldbreakticks > 0) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    entityHit.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entityHit.getMaxHealth() * hpdamage) * damage));
+                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
                         disableShield(entityHit, shieldbreakticks);
                     }
                 }
@@ -764,11 +766,11 @@ public class Maledictus_Entity extends IABoss_monster {
                         double angle = (i - ((arrowcount - 1) / 2)) * offsetangle;
                         double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
                         double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
-                        double distance = Math.sqrt(x * x + d2 * d2 + z * z);
+                        double distance = Math.sqrt(x * x + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity,target);
                         throwntrident.setBaseDamage(CMConfig.PhantomArrowbasedamage);
-                        throwntrident.shoot(x, d2 + distance * (double)0.2F, z, 1.8F, 1);
+                        throwntrident.shoot(x, d2 + distance * (double)0.15F, z, 1.8F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
 
@@ -851,11 +853,11 @@ public class Maledictus_Entity extends IABoss_monster {
                         double angle = (i - ((arrowcount - 1) / 2)) * offsetangle;
                         double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
                         double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
-                        double distance = Math.sqrt(x * x + d2 * d2 + z * z);
+                        double distance = Math.sqrt(x * x + z * z);
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity, target);
                         throwntrident.setBaseDamage(CMConfig.PhantomArrowbasedamage);
-                        throwntrident.shoot(x, d2 + distance * (double) 0.2F, z, 1.5F, 1);
+                        throwntrident.shoot(x, d2 + distance * (double) 0.15F, z, 1.5F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
 
