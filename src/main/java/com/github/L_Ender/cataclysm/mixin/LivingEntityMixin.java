@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.mixin;
 
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.util.MixinUtil;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
@@ -29,12 +30,15 @@ public abstract class LivingEntityMixin extends Entity {
             method = {"Lnet/minecraft/world/entity/LivingEntity;canAttack*"},
             remap = true,
             at = @At(
-                    value = "RETURN"
+                    value = "HEAD"
             ),
             cancellable = true)
 
     public void CMcanAttack(LivingEntity p_21171_,CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(p_21171_ instanceof Player && this.level().getDifficulty() == Difficulty.PEACEFUL ? false : p_21171_.canBeSeenAsEnemy() && !this.hasEffect(ModEffect.EFFECTSTUN.get()));
+        if (this.hasEffect(ModEffect.EFFECTSTUN.get())) {
+            cir.setReturnValue(false);
+        }
+
     }
 
 }
