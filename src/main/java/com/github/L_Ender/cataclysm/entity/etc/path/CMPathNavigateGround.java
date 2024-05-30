@@ -21,28 +21,28 @@ public class CMPathNavigateGround extends GroundPathNavigation {
     protected PathFinder createPathFinder(int maxVisitedNodes) {
         this.nodeEvaluator = new WalkNodeEvaluator();
         this.nodeEvaluator.setCanPassDoors(true);
-        return new PathFinder(this.nodeEvaluator, maxVisitedNodes);
+        return new CMPathFinder(this.nodeEvaluator, maxVisitedNodes);
     }
 
     @Override
     protected void followThePath() {
         Path path = Objects.requireNonNull(this.path);
-        Vec3 mobPos = this.getTempMobPos();
+        Vec3 entityPos = this.getTempMobPos();
         int pathLength = path.getNodeCount();
         for (int i = path.getNextNodeIndex(); i < path.getNodeCount(); i++) {
-            if (path.getNode(i).y != Math.floor(mobPos.y)) {
+            if (path.getNode(i).y != Math.floor(entityPos.y)) {
                 pathLength = i;
                 break;
             }
         }
-        final Vec3 base = mobPos.add(-this.mob.getBbWidth() * 0.5F, 0.0F, -this.mob.getBbWidth() * 0.5F);
+        final Vec3 base = entityPos.add(-this.mob.getBbWidth() * 0.5F, 0.0F, -this.mob.getBbWidth() * 0.5F);
         final Vec3 max = base.add(this.mob.getBbWidth(), this.mob.getBbHeight(), this.mob.getBbWidth());
         if (this.tryShortcut(path, new Vec3(this.mob.getX(), this.mob.getY(), this.mob.getZ()), pathLength, base, max)) {
             if (this.isAt(path, 0.5F) || this.atElevationChange(path) && this.isAt(path, this.mob.getBbWidth() * 0.5F)) {
                 path.setNextNodeIndex(path.getNextNodeIndex() + 1);
             }
         }
-        this.doStuckDetection(mobPos);
+        this.doStuckDetection(entityPos);
     }
 
     private boolean isAt(Path path, float threshold) {
@@ -63,9 +63,10 @@ public class CMPathNavigateGround extends GroundPathNavigation {
         }
         return false;
     }
-    private boolean tryShortcut(Path path, Vec3 mobPos, int pathLength, Vec3 base, Vec3 max) {
+
+    private boolean tryShortcut(Path path, Vec3 entityPos, int pathLength, Vec3 base, Vec3 max) {
         for (int i = pathLength; --i > path.getNextNodeIndex(); ) {
-            final Vec3 vec = path.getEntityPosAtNode(this.mob, i).subtract(mobPos);
+            final Vec3 vec = path.getEntityPosAtNode(this.mob, i).subtract(entityPos);
             if (this.sweep(vec, base, max)) {
                 path.setNextNodeIndex(i);
                 return false;
@@ -73,11 +74,6 @@ public class CMPathNavigateGround extends GroundPathNavigation {
         }
         return true;
     }
-    @Override
-    protected boolean canMoveDirectly(Vec3 p_186138_, Vec3 p_186139_) {
-       return true;
-    }
-
 
     static final float EPSILON = 1.0E-8F;
 

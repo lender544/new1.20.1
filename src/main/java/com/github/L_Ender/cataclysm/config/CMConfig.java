@@ -154,11 +154,11 @@ public class CMConfig {
     public static double RemnantChargeHpDamage = 0.06D;
     public static double RemnantStompHpDamage = 0.03D;
     public static double RemnantHpDamage = 0.05D;
-    public static double MaledictusHpDamage = 0.03D;
-    public static double MaledictusShockWaveHpDamage = 0.02D;
+    public static double MaledictusHpDamage = 0.05D;
+    public static double MaledictusShockWaveHpDamage = 0.03D;
     public static double MaledictusAOEHpDamage = 0.15D;
     public static double MaledictusFlyingSmashHpDamage = 0.1D;
-    public static double MaledictusSmashHpDamage = 0.06D;
+    public static double MaledictusSmashHpDamage = 0.08D;
 
     public static boolean Armor_Infinity_Durability = true;
 

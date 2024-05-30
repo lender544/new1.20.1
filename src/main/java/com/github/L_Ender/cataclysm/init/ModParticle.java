@@ -1,10 +1,7 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.client.particle.TrackLightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.*;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -45,6 +42,14 @@ public class ModParticle {
             return RingParticle.RingData.CODEC(RING.get());
         }
     });
+
+    public static final RegistryObject<ParticleType<MaledictusRingParticle.MaledictusRingData>> MALEDICTUSRING = PARTICLE.register("maledictus_ring", () -> new ParticleType<MaledictusRingParticle.MaledictusRingData>(false, MaledictusRingParticle.MaledictusRingData.DESERIALIZER) {
+        @Override
+        public Codec<MaledictusRingParticle.MaledictusRingData> codec() {
+            return MaledictusRingParticle.MaledictusRingData.CODEC(MALEDICTUSRING.get());
+        }
+    });
+
 
     public static final RegistryObject<SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
 

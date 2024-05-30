@@ -363,11 +363,11 @@ public class CommonConfig {
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
-        MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");
-        MaledictusShockWaveHpDamage = buildDouble(builder, "Maledictus's Shock Wave Hp Damage", "all", 0.02D, 0.0D, 1.0D, "Maledictus's Shock wave Hp Damage");
+        MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");
+        MaledictusShockWaveHpDamage = buildDouble(builder, "Maledictus's Shock Wave Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Maledictus's Shock wave Hp Damage");
         MaledictusAOEHpDamage = buildDouble(builder, "Maledictus's AOE Hp Damage", "all", 0.15D, 0.0D, 1.0D, "Maledictus's AOE Hp Damage");
         MaledictusFlyingSmashHpDamage = buildDouble(builder, "Maledictus's Flying Smash Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Maledictus's flying Smash Hp Damage");
-        MaledictusSmashHpDamage = buildDouble(builder, "Maledictus's Jump Smash Hp Damage", "all", 0.06D, 0.0D, 1.0D, "Maledictus's Jump Smash Hp Damage");
+        MaledictusSmashHpDamage = buildDouble(builder, "Maledictus's Jump Smash Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Maledictus's Jump Smash Hp Damage");
         builder.pop();
 
         builder.push("spawning");

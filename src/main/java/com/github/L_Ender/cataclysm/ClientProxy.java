@@ -76,6 +76,7 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ModParticle.TRACK_LIGHTNING.get(), new TrackLightningParticle.OrbFactory());
         registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.OrbFactory());
         registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
+        registry.registerSpriteSet(ModParticle.MALEDICTUSRING.get(), MaledictusRingParticle.RingFactory::new);
         registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
     }

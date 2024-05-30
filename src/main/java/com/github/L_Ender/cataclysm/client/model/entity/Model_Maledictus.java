@@ -9,6 +9,9 @@ import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 	private final AdvancedModelBox root;
@@ -455,6 +458,32 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		AdvancedModelBox.rotateAngleY = y;
 		AdvancedModelBox.rotateAngleZ = z;
 	}
+
+	public Vec3 getParticlePosition(Vec3 offsetIn,boolean right) {
+		PoseStack translationStack = new PoseStack();
+		translationStack.pushPose();
+		root.translateAndRotate(translationStack);
+		berserker.translateAndRotate(translationStack);
+		pelvis.translateAndRotate(translationStack);
+		body.translateAndRotate(translationStack);
+		if(right) {
+			right_shoulder.translateAndRotate(translationStack);
+			right_arm.translateAndRotate(translationStack);
+			right_front_arm.translateAndRotate(translationStack);
+			right_particle.translateAndRotate(translationStack);
+		}else{
+			left_shoulder.translateAndRotate(translationStack);
+			left_arm.translateAndRotate(translationStack);
+			left_front_arm.translateAndRotate(translationStack);
+			left_particle.translateAndRotate(translationStack);
+		}
+		Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+		armOffsetVec.mul(translationStack.last().pose());
+		Vec3 vec3 = new Vec3(-armOffsetVec.x(), -armOffsetVec.y(), armOffsetVec.z());
+		translationStack.popPose();
+		return vec3.add(0, 1.5F, 0);
+	}
+
 
 	@Override
 	public Iterable<BasicModelPart> parts() {
