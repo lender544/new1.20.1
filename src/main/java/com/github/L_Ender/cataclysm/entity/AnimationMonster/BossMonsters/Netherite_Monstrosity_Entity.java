@@ -265,8 +265,6 @@ public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy 
         this.floatStrider();
         if (tickCount % 4 == 0) bossInfo.update();
 
-        //prevgetYRot() = getYRot();
-        if (tickCount % 4 == 0) bossInfo.update();
         frame++;
         float moveX = (float) (getX() - xo);
         float moveZ = (float) (getZ() - zo);

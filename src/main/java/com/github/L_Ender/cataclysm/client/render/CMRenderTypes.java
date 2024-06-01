@@ -13,10 +13,12 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.function.Function;
 
-
+@OnlyIn(Dist.CLIENT)
 public class CMRenderTypes extends RenderType {
     public CMRenderTypes(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
         super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
@@ -120,19 +122,6 @@ public class CMRenderTypes extends RenderType {
                 .createCompositeState(false);
         return create("em_pulse", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
-
-    private static final Function<ResourceLocation, RenderType> ITEM_ENTITY_TRANSLUCENT_CULL = Util.memoize((p_286155_) -> {
-        CompositeState renderState = CompositeState.builder()
-                .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
-                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                        .setOutputState(ITEM_ENTITY_TARGET)
-                        .setLightmapState(LIGHTMAP)
-                        .setOverlayState(OVERLAY)
-                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
-                        .createCompositeState(true);
-        return create("item_entity_translucent_cull", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
-    });
 
 
     public static RenderType getTrailEffect(ResourceLocation locationIn) {

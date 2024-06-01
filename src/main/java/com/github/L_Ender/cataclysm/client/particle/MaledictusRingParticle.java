@@ -172,7 +172,7 @@ public class MaledictusRingParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CMRenderTypes.PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH;
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @OnlyIn(Dist.CLIENT)
