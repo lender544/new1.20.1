@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.cataclysm.client.animation.Maledictus_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Maledictus_Dashes_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
@@ -439,12 +440,19 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		this.animate(entity.getAnimationState("flying_smash_2"), Maledictus_Animation.FLYING_SMASH_2, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Maledictus_Animation.DEATH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("back_step"), Maledictus_Animation.CHARGE_BACKSTEP, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("back_step_charge"), Maledictus_Animation.CHARGE, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("charge"), Maledictus_Animation.CHARGE, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("dash2"), Maledictus_Animation.DASH_ATTACK2, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("back_step_dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NOBACKSTEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NOBACKSTEP, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("dash2"), Maledictus_Dashes_Animation.DASH2, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("dash2_no_back_step"), Maledictus_Dashes_Animation.DASH2_NO_BACK_STEP, ageInTicks, 1.0F);
 
 
-		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13  && entity.getAttackState() != 14) {
+		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14) {
 			this.animateWalk(Maledictus_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);
 		}
 
