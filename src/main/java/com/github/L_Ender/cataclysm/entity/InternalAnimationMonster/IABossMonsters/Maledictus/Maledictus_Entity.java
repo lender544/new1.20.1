@@ -24,6 +24,7 @@ import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -686,8 +687,9 @@ public class Maledictus_Entity extends IABoss_monster {
 
         if(this.getAttackState() == 11 || this.getAttackState() == 12 || this.getAttackState() == 13 || this.getAttackState() == 14) {
             if (this.attackTicks >= 16 && this.attackTicks <= 25) {
-                AreaAttack(5.75f, 5.75f, 50, 1.1F, (float) CMConfig.MaledictusHpDamage, 0,true);
+                //AreaAttack(5.75f, 5.75f, 50, 1.1F, (float) CMConfig.MaledictusHpDamage, 0,true);
                // RushDamage(5.25f, 0, 1.35F, (float) CMConfig.MaledictusHpDamage,true);
+                Rushattack(0.1D,3.75,1.1F, (float) CMConfig.MaledictusHpDamage, 0,true);
                 if (this.level().isClientSide) {
                     double x = this.getX();
                     double y = this.getY() + this.getBbHeight() / 2;
@@ -704,7 +706,9 @@ public class Maledictus_Entity extends IABoss_monster {
         
         if(this.getAttackState() == 15 || this.getAttackState() == 16) {
             if (this.attackTicks >= 24 && this.attackTicks <= 33) {
-                AreaAttack(5.75f, 5.75f, 52.5F, 1.2F, (float) CMConfig.MaledictusHpDamage, 0,true);
+               // AreaAttack(5.75f, 5.75f, 52.5F, 1.2F, (float) CMConfig.MaledictusHpDamage, 0,true);
+
+                Rushattack(0.15D,3.75,1.2F, (float) CMConfig.MaledictusHpDamage, 0,true);
                 // RushDamage(5.25f, 0, 1.35F, (float) CMConfig.MaledictusHpDamage,true);
                 if (this.level().isClientSide) {
                     double x = this.getX();
@@ -724,8 +728,8 @@ public class Maledictus_Entity extends IABoss_monster {
         }
         if(this.getAttackState() == 17) {
             if (this.attackTicks >= 16 && this.attackTicks <= 24) {
-                AreaAttack(5.75f, 5.75f, 55, 1.3F, (float) CMConfig.MaledictusHpDamage, 0,true);
-                // RushDamage(5.25f, 0, 1.35F, (float) CMConfig.MaledictusHpDamage,true);
+               // AreaAttack(5.75f, 5.75f, 55, 1.3F, (float) CMConfig.MaledictusHpDamage, 0,true);
+                Rushattack(0.2D,3.75,1.3F, (float) CMConfig.MaledictusHpDamage, 0,true);
                 if (this.level().isClientSide) {
                     double x = this.getX();
                     double y = this.getY() + this.getBbHeight() / 2;
@@ -843,6 +847,32 @@ public class Maledictus_Entity extends IABoss_monster {
         }
     }
 
+    private void Rushattack(double inflate,double range, float damage,float hpdamage, int shieldbreakticks,boolean maledictio) {
+
+        double yaw = Math.toRadians(this.getYRot());
+        double xExpand = range * Math.cos(yaw);
+        double zExpand = range * Math.sin(yaw);
+
+        AABB attackRange = this.getBoundingBox().inflate(inflate).expandTowards(xExpand, 0, zExpand);
+
+        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
+            if (!isAlliedTo(entity) && entity != this) {
+                DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
+                if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    disableShield(entity, shieldbreakticks);
+                }
+                boolean flag = entity.hurt(damagesource, DMG() * damage + Math.min(DMG() * damage, entity.getMaxHealth() * hpdamage));
+                if(flag){
+                    rageTicks = 150;
+                    if(this.getRageMeter() <= 5) {
+                        setRageMeter(this.getRageMeter() + 1);
+                    }
+                }
+
+            }
+        }
+    }
+
     private void AreaAttack(float range, float height, float arc, float damage,float hpdamage, int shieldbreakticks,boolean maledictio) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
@@ -859,15 +889,15 @@ public class Maledictus_Entity extends IABoss_monster {
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Maledictus_Entity) && entityHit != this) {
                     DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
+                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(entityHit, shieldbreakticks);
+                    }
                     boolean flag = entityHit.hurt(damagesource, DMG() * damage + Math.min(DMG() * damage, entityHit.getMaxHealth() * hpdamage));
                     if(flag){
                         rageTicks = 150;
                         if(this.getRageMeter() <= 5) {
                             setRageMeter(this.getRageMeter() + 1);
                         }
-                    }
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
                     }
                 }
             }
