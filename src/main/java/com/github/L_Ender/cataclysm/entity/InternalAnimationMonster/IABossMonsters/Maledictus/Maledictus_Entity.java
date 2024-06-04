@@ -1512,8 +1512,8 @@ public class Maledictus_Entity extends IABoss_monster {
         public void tick() {
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null || entity.attackTicks > attackseetick2 && target !=null && entity.attackTicks < attackseetick3 || entity.attackTicks > (backsteptick - 3) && target !=null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30F);
-                entity.lookAt(target, 30.0F, 30F);
+                entity.getLookControl().setLookAt(target, 60.0F, 30F);
+                entity.lookAt(target, 60.0F, 30F);
             } else {
                 entity.setYRot(entity.yRotO);
             }
