@@ -451,6 +451,8 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 
 		this.animate(entity.getAnimationState("dash2_no_back_step"), Maledictus_Dashes_Animation.DASH2_NO_BACK_STEP, ageInTicks, 1.0F);
 
+		this.animate(entity.getAnimationState("dash3"), Maledictus_Dashes_Animation.DASH3, ageInTicks, 1.0F);
+
 
 		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14) {
 			this.animateWalk(Maledictus_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);

@@ -388,4 +388,13 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MALEDICTUS_BATTLE_CRY = SOUNDS.register("maledictus_battle_cry",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_battle_cry")));
 
+    public static final RegistryObject<SoundEvent> MALEDICTUS_HURT = SOUNDS.register("maledictus_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_hurt")));
+
+    public static final RegistryObject<SoundEvent> MALEDICTUS_LEAP = SOUNDS.register("maledictus_leap",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_leap")));
+
+    public static final RegistryObject<SoundEvent> MALEDICTUS_MACE_SWING = SOUNDS.register("maledictus_mace_swing",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_mace_swing")));
+
 }
