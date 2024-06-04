@@ -127,9 +127,7 @@ public class Abyss_Mine_Entity extends Entity {
             }
             if (this.warmupDelayTicks < -20) {
                 for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
-                    if(!caster.isAlliedTo(livingentity) && livingentity != caster && livingentity.isAlive() && !livingentity.isInvulnerable()) {
-                        this.explode(livingentity);
-                    }
+                    this.explode(livingentity);
                 }
             }
 
@@ -157,14 +155,18 @@ public class Abyss_Mine_Entity extends Entity {
 
     private void explode(LivingEntity livingentity) {
         LivingEntity Caster = this.getCaster();
-        if (Caster != null) {
-            this.level().explode(Caster, this.getX(), this.getY(0.0625D), this.getZ(), 1.0f, Level.ExplosionInteraction.NONE);
-            livingentity.addEffect(new MobEffectInstance(ModEffect.EFFECTABYSSAL_FEAR.get(), 200, 0));
-            this.remove(RemovalReason.DISCARDED);
-        } else {
-            this.level().explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 1.0f, Level.ExplosionInteraction.NONE);
-            livingentity.addEffect(new MobEffectInstance(ModEffect.EFFECTABYSSAL_FEAR.get(), 200, 0));
-            this.remove(RemovalReason.DISCARDED);
+        if(livingentity.isAlive()) {
+            if (Caster != null) {
+                if (!Caster.isAlliedTo(livingentity) && livingentity != Caster && livingentity.isAlive()) {
+                    this.level().explode(Caster, this.getX(), this.getY(0.0625D), this.getZ(), 1.0f, Level.ExplosionInteraction.NONE);
+                    livingentity.addEffect(new MobEffectInstance(ModEffect.EFFECTABYSSAL_FEAR.get(), 200, 0));
+                    this.remove(RemovalReason.DISCARDED);
+                }
+            } else {
+                this.level().explode(this, this.getX(), this.getY(0.0625D), this.getZ(), 1.0f, Level.ExplosionInteraction.NONE);
+                livingentity.addEffect(new MobEffectInstance(ModEffect.EFFECTABYSSAL_FEAR.get(), 200, 0));
+                this.remove(RemovalReason.DISCARDED);
+            }
         }
 
 
