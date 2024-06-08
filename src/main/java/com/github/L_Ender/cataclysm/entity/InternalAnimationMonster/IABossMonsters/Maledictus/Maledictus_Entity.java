@@ -770,10 +770,16 @@ public class Maledictus_Entity extends IABoss_monster {
             int hitZ = Mth.floor(pz);
             BlockPos pos = new BlockPos(hitX, hitY, hitZ);
             BlockState block = level().getBlockState(pos);
-
-            while(block.getRenderShape() != RenderShape.MODEL) {
+            int maxDepth = 30;
+            for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
+                if (block.getRenderShape() == RenderShape.MODEL) {
+                    break;
+                }
                 pos = pos.below();
                 block = level().getBlockState(pos);
+            }
+            if (block.getRenderShape() != RenderShape.MODEL) {
+                block = Blocks.AIR.defaultBlockState();
             }
             Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
             fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
@@ -848,13 +854,10 @@ public class Maledictus_Entity extends IABoss_monster {
     }
 
     private void Rushattack(double inflate,double range, float damage,float hpdamage, int shieldbreakticks,boolean maledictio) {
-
         double yaw = Math.toRadians(this.getYRot());
         double xExpand = range * Math.cos(yaw);
         double zExpand = range * Math.sin(yaw);
-
         AABB attackRange = this.getBoundingBox().inflate(inflate).expandTowards(xExpand, 0, zExpand);
-
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
             if (!isAlliedTo(entity) && entity != this) {
                 DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);

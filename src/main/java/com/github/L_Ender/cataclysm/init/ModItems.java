@@ -316,6 +316,19 @@ public class ModItems {
     public static final RegistryObject<Item> IGNITIUM_BOOTS = ITEMS.register("ignitium_boots",
             () -> new Ignitium_Armor(Armortier.IGNITIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+    public static final RegistryObject<Item> CURSIUM_HELMET = ITEMS.register("cursium_helmet",
+            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> CURSIUM_CHESTPLATE = ITEMS.register("cursium_chestplate",
+            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> CURSIUM_LEGGINGS = ITEMS.register("cursium_leggings",
+            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> CURSIUM_BOOTS = ITEMS.register("cursium_boots",
+            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+
     public static final RegistryObject<Item> MONSTROUS_HORN = ITEMS.register("monstrous_horn",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 

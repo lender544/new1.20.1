@@ -21,6 +21,9 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
     public static ModelBloom_Stone_Pauldrons BLOOM_STONE_PAULDRONS_MODEL;
     public static ModelBone_Reptile_Armor BONE_REPTILE_ARMOR_MODEL;
 
+    public static ModelCursium_Armor CURSIUM_ARMOR_MODEL;
+    public static ModelCursium_Armor CURSIUM_ARMOR_MODEL_LEGS;
+
     public static void initializeModels() {
         init = true;
         MONSTROUS_HELM_MODEL = new ModelMonstrousHelm(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.MONSTROUS_HELM));
@@ -29,6 +32,9 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         IGNITIUM_ARMOR_MODEL_LEGS = new ModelIgnitium_Armor(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.IGNITIUM_ARMOR_MODEL_LEGS));
         BLOOM_STONE_PAULDRONS_MODEL = new ModelBloom_Stone_Pauldrons(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.BLOOM_STONE_PAULDRONS_MODEL));
         BONE_REPTILE_ARMOR_MODEL = new ModelBone_Reptile_Armor(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.BONE_REPTILE_ARMOR_MODEL));
+        CURSIUM_ARMOR_MODEL = new ModelCursium_Armor(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.CURSIUM_ARMOR_MODEL));
+        CURSIUM_ARMOR_MODEL_LEGS = new ModelCursium_Armor(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.CURSIUM_ARMOR_MODEL_LEGS));
+
     }
 
     public HumanoidModel<?> getHumanoidArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, HumanoidModel<?> _default) {
@@ -55,6 +61,23 @@ public class CustomArmorRenderProperties implements IClientItemExtensions {
         if(itemStack.getItem() == ModItems.IGNITIUM_BOOTS.get()){
             return IGNITIUM_ARMOR_MODEL;
         }
+
+        if(itemStack.getItem() == ModItems.CURSIUM_HELMET.get()){
+            return CURSIUM_ARMOR_MODEL;
+        }
+
+        if(itemStack.getItem() == ModItems.CURSIUM_CHESTPLATE.get()){
+            return CURSIUM_ARMOR_MODEL;
+        }
+
+        if(itemStack.getItem() == ModItems.CURSIUM_LEGGINGS.get()){
+            return CURSIUM_ARMOR_MODEL_LEGS;
+        }
+
+        if(itemStack.getItem() == ModItems.CURSIUM_BOOTS.get()){
+            return CURSIUM_ARMOR_MODEL;
+        }
+
 
         if(itemStack.getItem() == ModItems.BLOOM_STONE_PAULDRONS.get()){
             return BLOOM_STONE_PAULDRONS_MODEL;

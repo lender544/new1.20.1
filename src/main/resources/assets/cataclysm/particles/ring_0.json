@@ -1,10 +1,10 @@
 {
   "textures": [
+    "cataclysm:ring_0",
+    "cataclysm:ring_1",
     "cataclysm:ring_2",
     "cataclysm:ring_3",
     "cataclysm:ring_4",
-    "cataclysm:ring_5",
-    "cataclysm:ring_6",
-    "cataclysm:ring_7"
+    "cataclysm:ring_5"
   ]
 }

@@ -36,7 +36,7 @@ public class ModParticle {
             return TrackLightningParticle.OrbData.CODEC(TRACK_LIGHTNING.get());
         }
     });
-    public static final RegistryObject<ParticleType<RingParticle.RingData>> RING = PARTICLE.register("ring", () -> new ParticleType<RingParticle.RingData>(false, RingParticle.RingData.DESERIALIZER) {
+    public static final RegistryObject<ParticleType<RingParticle.RingData>> RING = PARTICLE.register("ring_0", () -> new ParticleType<RingParticle.RingData>(false, RingParticle.RingData.DESERIALIZER) {
         @Override
         public Codec<RingParticle.RingData> codec() {
             return RingParticle.RingData.CODEC(RING.get());

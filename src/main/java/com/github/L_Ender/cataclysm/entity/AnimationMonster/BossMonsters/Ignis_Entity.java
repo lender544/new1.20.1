@@ -1819,9 +1819,17 @@ public class Ignis_Entity extends Boss_monster implements IHoldEntity {
             BlockPos pos = new BlockPos(hitX, hitY, hitZ);
             BlockState block = level().getBlockState(pos);
 
-            while(block.getRenderShape() != RenderShape.MODEL) {
+            int maxDepth = 256;
+            for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
+                if (block.getRenderShape() == RenderShape.MODEL) {
+                    break;
+                }
                 pos = pos.below();
                 block = level().getBlockState(pos);
+            }
+
+            if (block.getRenderShape() != RenderShape.MODEL) {
+                block = Blocks.AIR.defaultBlockState();
             }
             Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
             fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
@@ -1880,9 +1888,17 @@ public class Ignis_Entity extends Boss_monster implements IHoldEntity {
         BlockPos pos = new BlockPos(hitX, hitY, hitZ);
         BlockState block = level().getBlockState(pos);
 
-        while(block.getRenderShape() != RenderShape.MODEL) {
+        int maxDepth = 30;
+        for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
+            if (block.getRenderShape() == RenderShape.MODEL) {
+                break;
+            }
             pos = pos.below();
             block = level().getBlockState(pos);
+        }
+
+        if (block.getRenderShape() != RenderShape.MODEL) {
+            block = Blocks.AIR.defaultBlockState();
         }
         Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
         fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);

@@ -749,9 +749,17 @@ public class Ancient_Remnant_Entity extends Boss_monster {
             BlockPos pos = new BlockPos(hitX, hitY + height, hitZ);
             BlockState block = level().getBlockState(pos);
 
-            while(block.getRenderShape() != RenderShape.MODEL) {
+            int maxDepth = 30;
+            for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
+                if (block.getRenderShape() == RenderShape.MODEL) {
+                    break;
+                }
                 pos = pos.below();
                 block = level().getBlockState(pos);
+            }
+
+            if (block.getRenderShape() != RenderShape.MODEL) {
+                block = Blocks.AIR.defaultBlockState();
             }
             spawnBlocks(hitX,hitY + height ,hitZ, (int) (this.getY() - height),block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage, hpdamage);
 
