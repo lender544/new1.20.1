@@ -3,15 +3,15 @@ loaderVersion="[36,)" #mandatory This is typically bumped every Minecraft versio
 license="All rights reserved"
 [[mods]] #mandatory
 modId= "cataclysm" #mandatory
-version="1.99.4" #mandatory
+version="1.99.5" #mandatory
 # A display name for the mod
 displayName="Cataclysm Mod" #mandatory
 credits="0dyss2y,HedwigOwls,gytator,danimodder,Gibb50" #optional
 authors="L_Ender" #optional
 description='''
 Hello
-EnderGuardian Theme made by Ean Grimm
-https://www.tubersongs.com/
+Also Listen Cataclysmic Tunes
+https://www.curseforge.com/minecraft/texture-packs/cataclysmic-tunes
 Artist=dogulkkun,mango03034
 Patron
 [Adam,

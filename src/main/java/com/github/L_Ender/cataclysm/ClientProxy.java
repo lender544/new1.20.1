@@ -242,7 +242,13 @@ public class ClientProxy extends CommonProxy {
             return Minecraft.getInstance().options.keyShift.isDown();
         }
         if (keyType == 5) {
-            return ModKeybind.ARMOR_KEY_ABILITY.isDown();
+            return ModKeybind.HELMET_KEY_ABILITY.isDown();
+        }
+        if (keyType == 6) {
+            return ModKeybind.CHESTPLATE_KEY_ABILITY.isDown();
+        }
+        if (keyType == 7) {
+            return ModKeybind.BOOTS_KEY_ABILITY.isDown();
         }
         return false;
     }
@@ -289,7 +295,9 @@ public class ClientProxy extends CommonProxy {
 
     private void registerKeybinds(RegisterKeyMappingsEvent e) {
         e.register(ModKeybind.KEY_ABILITY);
-        e.register(ModKeybind.ARMOR_KEY_ABILITY);
+        e.register(ModKeybind.HELMET_KEY_ABILITY);
+        e.register(ModKeybind.CHESTPLATE_KEY_ABILITY);
+        e.register(ModKeybind.BOOTS_KEY_ABILITY);
     }
 
     public void removeBossBarRender(UUID bossBar) {

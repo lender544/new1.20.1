@@ -9,21 +9,26 @@ import com.github.L_Ender.cataclysm.message.MessageSwingArm;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -265,6 +270,59 @@ public class ServerEventHandler {
         DamageSource source = event.getDamageSource();
         if (source.is(CMDamageTypes.MALEDICTIO_SAGITTA)) {
             event.setShieldTakesDamage(false);
+        }
+    }
+    @SubscribeEvent
+    public void DeathEvent(LivingDeathEvent event) {
+        DamageSource source = event.getSource();
+        if(event.getEntity() instanceof Player player){
+            if (!player.level().isClientSide) {
+                if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                    if(tryCursiumPlateRebirth(player)){
+                        event.setCanceled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean tryCursiumPlateRebirth(Player player) {
+        ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
+        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !player.getCooldowns().isOnCooldown(chestplate.getItem())) {
+            player.setHealth(5.0F);
+            player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 300, 0));
+            player.addEffect(new MobEffectInstance(ModEffect.EFFECTPHANTOM_FORM.get(), 300, 0));
+            player.getCooldowns().addCooldown(chestplate.getItem(), 7200);
+            return true;
+        }
+        return false;
+    }
+
+
+    @SubscribeEvent
+    public void onLivingAttack(LivingAttackEvent event) {
+        if (event.getEntity().hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+            if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                event.setCanceled(true);
+            }
+        }
+        if (!event.getEntity().getItemBySlot(EquipmentSlot.LEGS).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.LEGS).getItem() == ModItems.CURSIUM_LEGGINGS.get()) {
+            if (event.getSource().is(DamageTypeTags.IS_PROJECTILE)) {
+                if (event.getEntity().getRandom().nextFloat() < 0.1F) {
+                    event.setCanceled(true);
+                }
+            } else if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                if (event.getEntity().getRandom().nextFloat() < 0.05F) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingFall(LivingFallEvent event) {
+        if (!event.getEntity().getItemBySlot(EquipmentSlot.FEET).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.FEET).getItem() == ModItems.CURSIUM_BOOTS.get()) {
+            event.setDistance(event.getDistance() * 0.3F);
         }
     }
 

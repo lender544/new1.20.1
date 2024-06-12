@@ -43,7 +43,7 @@ public class Bloom_Stone_Pauldrons extends ArmorItem implements KeybindUsingArmo
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cataclysm.bloom_stone_pauldrons.desc",ModKeybind.ARMOR_KEY_ABILITY.getTranslatedKeyMessage()).withStyle(ChatFormatting.DARK_GREEN));
+        tooltip.add(Component.translatable("item.cataclysm.bloom_stone_pauldrons.desc",ModKeybind.CHESTPLATE_KEY_ABILITY.getTranslatedKeyMessage()).withStyle(ChatFormatting.DARK_GREEN));
     }
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
@@ -51,9 +51,9 @@ public class Bloom_Stone_Pauldrons extends ArmorItem implements KeybindUsingArmo
         if (entity instanceof Player living) {
             if (living.getItemBySlot(EquipmentSlot.CHEST).getItem() == ModItems.BLOOM_STONE_PAULDRONS.get()) {
                 if (level.isClientSide) {
-                    if (Cataclysm.PROXY.getClientSidePlayer() == entity && Cataclysm.PROXY.isKeyDown(5)) {
-                        Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.CHEST.ordinal(), living.getId(), 5));
-                        onKeyPacket(living, stack,5);
+                    if (Cataclysm.PROXY.getClientSidePlayer() == entity && Cataclysm.PROXY.isKeyDown(6)) {
+                        Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.CHEST.ordinal(), living.getId(), 6));
+                        onKeyPacket(living, stack,6);
                     }
                 }
 
