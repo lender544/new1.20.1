@@ -7,9 +7,9 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class EffectResurrection_Sickness extends MobEffect {
+public class EffectGhost_Sickness extends MobEffect {
 
-    public EffectResurrection_Sickness() {
+    public EffectGhost_Sickness() {
         super(MobEffectCategory.HARMFUL, 0x945b31);
     }
 

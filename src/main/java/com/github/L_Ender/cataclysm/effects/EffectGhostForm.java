@@ -8,18 +8,18 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-public class EffectPhantomForm extends MobEffect {
+public class EffectGhostForm extends MobEffect {
 
     private int lastDuration = -1;
 
-    public EffectPhantomForm() {
+    public EffectGhostForm() {
         super(MobEffectCategory.BENEFICIAL, 0x39d2b2);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "FBF4116E-056E-4420-865B-C098705DDAB2", 0.4D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     public void applyEffectTick(LivingEntity LivingEntityIn, int amplifier) {
         if (lastDuration == 1) {
-            LivingEntityIn.addEffect(new MobEffectInstance(ModEffect.EFFECTRESURRECTION_SICKNESS.get(), 7200, 0,false,false,true));
+            LivingEntityIn.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_SICKNESS.get(), 7200, 0,false,false,true));
         }
     }
 

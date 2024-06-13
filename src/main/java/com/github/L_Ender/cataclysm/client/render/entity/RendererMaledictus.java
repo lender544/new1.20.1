@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.RenderUtils;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.util.AssetsProtector.AESUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,7 +31,7 @@ import java.util.HashMap;
 @OnlyIn(Dist.CLIENT)
 public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Maledictus> {
 
-    private static final ResourceLocation MALEDICTUS_TEXTURES = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_ghost.pngencrypted");
+    private static final ResourceLocation MALEDICTUS_TEXTURES = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_ghost.png");
     private static final HashMap<Integer, Vec3> righthandParticlePositions = new HashMap<>();
     private static final HashMap<Integer, Vec3> lefthandParticlePositions = new HashMap<>();
 
@@ -40,7 +41,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
     }
     @Override
     public ResourceLocation getTextureLocation(Maledictus_Entity entity) {
-        return MALEDICTUS_TEXTURES;
+        return AESUtil.getTexture(MALEDICTUS_TEXTURES);
     }
 
     @Override

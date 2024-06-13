@@ -31,7 +31,7 @@ public class ModEffect {
 
     public static final RegistryObject<MobEffect> EFFECTCURSE_OF_DESERT = EFFECTS.register("curse_of_desert", EffectCurse_Of_Desert::new);
 
-    public static final RegistryObject<MobEffect> EFFECTPHANTOM_FORM = EFFECTS.register("phantom_from", EffectPhantomForm::new);
+    public static final RegistryObject<MobEffect> EFFECTGHOST_FORM = EFFECTS.register("ghost_form", EffectGhostForm::new);
 
-    public static final RegistryObject<MobEffect> EFFECTRESURRECTION_SICKNESS = EFFECTS.register("resurrection_sickness", EffectResurrection_Sickness::new);
+    public static final RegistryObject<MobEffect> EFFECTGHOST_SICKNESS = EFFECTS.register("ghost_sickness", EffectGhost_Sickness::new);
 }

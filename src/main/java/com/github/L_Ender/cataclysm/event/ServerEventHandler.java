@@ -115,7 +115,7 @@ public class ServerEventHandler {
         if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
             event.setCanceled(true);
         }
-        if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+        if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             event.setCanceled(true);
         }
     }
@@ -149,7 +149,7 @@ public class ServerEventHandler {
         if (event.isCancelable() && living.hasEffect(ModEffect.EFFECTSTUN.get())) {
             event.setCanceled(true);
         }
-        if (event.isCancelable() && living.hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+        if (event.isCancelable() && living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             event.setCanceled(true);
         }
     }
@@ -299,10 +299,10 @@ public class ServerEventHandler {
 
     private boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
-        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTRESURRECTION_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             living.setHealth(5.0F);
             living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
-            living.addEffect(new MobEffectInstance(ModEffect.EFFECTPHANTOM_FORM.get(), 100, 0));
+            living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM.get(), 100, 0));
             double d0 = living.getX();
             double d1 = living.getY() + 0.3F;
             double d2 = living.getZ();
@@ -335,7 +335,7 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
-        if (event.getEntity().hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+        if (event.getEntity().hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                 event.setCanceled(true);
             }
