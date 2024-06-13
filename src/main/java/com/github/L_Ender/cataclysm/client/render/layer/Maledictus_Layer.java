@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class Maledictus_Layer extends RenderLayer<Maledictus_Entity, Model_Maledictus> {
-    private static final ResourceLocation LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_armor.png");
+    private static final ResourceLocation LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_armor.pngencrypted");
 
     public Maledictus_Layer(RendererMaledictus renderIn) {
         super(renderIn);

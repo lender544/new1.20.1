@@ -16,6 +16,7 @@ import com.github.L_Ender.cataclysm.client.sound.SandstormSound;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.util.AssetsProtector.AESUtil;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -46,6 +47,14 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 import javax.annotation.Nullable;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -173,7 +182,17 @@ public class ClientProxy extends CommonProxy {
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("Could not load item models for weapons");
-
+        }
+        try {
+            AESUtil.encryptFiles(".png");
+        }
+        catch (InvalidKeyException | NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException |
+               InvalidAlgorithmParameterException |
+               NoSuchPaddingException |
+               InvalidKeySpecException |
+               IOException e)
+        {
+            e.printStackTrace();
         }
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_FIRE.get(), RendererAltar_of_Fire::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_VOID.get(), RendererAltar_of_Void::new);

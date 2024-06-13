@@ -30,7 +30,7 @@ import java.util.HashMap;
 @OnlyIn(Dist.CLIENT)
 public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Maledictus> {
 
-    private static final ResourceLocation MALEDICTUS_TEXTURES = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_ghost.png");
+    private static final ResourceLocation MALEDICTUS_TEXTURES = new ResourceLocation("cataclysm:textures/entity/maledictus/maledictus_ghost.pngencrypted");
     private static final HashMap<Integer, Vec3> righthandParticlePositions = new HashMap<>();
     private static final HashMap<Integer, Vec3> lefthandParticlePositions = new HashMap<>();
 
