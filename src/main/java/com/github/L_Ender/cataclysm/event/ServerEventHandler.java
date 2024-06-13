@@ -2,13 +2,19 @@ package com.github.L_Ender.cataclysm.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.*;
+import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
+import com.github.L_Ender.cataclysm.message.MessageParticle;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -38,6 +44,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 @Mod.EventBusSubscriber(modid = Cataclysm.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ServerEventHandler {
@@ -108,6 +115,9 @@ public class ServerEventHandler {
         if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
             event.setCanceled(true);
         }
+        if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
@@ -137,6 +147,9 @@ public class ServerEventHandler {
     public void onUseItem(LivingEntityUseItemEvent event) {
         LivingEntity living = event.getEntity();
         if (event.isCancelable() && living.hasEffect(ModEffect.EFFECTSTUN.get())) {
+            event.setCanceled(true);
+        }
+        if (event.isCancelable() && living.hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
             event.setCanceled(true);
         }
     }
@@ -275,24 +288,45 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void DeathEvent(LivingDeathEvent event) {
         DamageSource source = event.getSource();
-        if(event.getEntity() instanceof Player player){
-            if (!player.level().isClientSide) {
-                if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                    if(tryCursiumPlateRebirth(player)){
-                        event.setCanceled(true);
-                    }
+        if (!event.getEntity().level().isClientSide) {
+            if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                if(tryCursiumPlateRebirth(event.getEntity())){
+                    event.setCanceled(true);
                 }
             }
         }
     }
 
-    private boolean tryCursiumPlateRebirth(Player player) {
-        ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
-        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !player.getCooldowns().isOnCooldown(chestplate.getItem())) {
-            player.setHealth(5.0F);
-            player.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 300, 0));
-            player.addEffect(new MobEffectInstance(ModEffect.EFFECTPHANTOM_FORM.get(), 300, 0));
-            player.getCooldowns().addCooldown(chestplate.getItem(), 7200);
+    private boolean tryCursiumPlateRebirth(LivingEntity living) {
+        ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
+        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTRESURRECTION_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTPHANTOM_FORM.get())) {
+            living.setHealth(5.0F);
+            living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
+            living.addEffect(new MobEffectInstance(ModEffect.EFFECTPHANTOM_FORM.get(), 100, 0));
+            double d0 = living.getX();
+            double d1 = living.getY() + 0.3F;
+            double d2 = living.getZ();
+            float size = 3.0F;
+            for (ServerPlayer serverplayer : ((ServerLevel) living.level()).players()) {
+                if (serverplayer.distanceToSqr(Vec3.atCenterOf(living.blockPosition())) < 1024.0D) {
+                    MessageParticle particlePacket = new MessageParticle();
+                    for (float i = -size; i <= size; ++i) {
+                        for (float j = -size; j <= size; ++j) {
+                            for (float k = -size; k <= size; ++k) {
+                                double d3 = (double) j + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
+                                double d4 = (double) i + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
+                                double d5 = (double) k + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
+                                double d6 = (double) Mth.sqrt((float) (d3 * d3 + d4 * d4 + d5 * d5)) / 0.5 + living.getRandom().nextGaussian() * 0.05D;
+                                particlePacket.queueParticle(ModParticle.CURSED_FLAME.get(),false, d0 , d1, d2, d3 / d6, d4 / d6, d5 / d6);
+                                if (i != -size && i != size && j != -size && j != size) {
+                                    k += size * 2 - 1;
+                                }
+                            }
+                        }
+                    }
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
+                }
+            }
             return true;
         }
         return false;
