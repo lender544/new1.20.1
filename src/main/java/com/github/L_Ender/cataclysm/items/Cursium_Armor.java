@@ -116,9 +116,8 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
                 for (Entity entity : list) {
                     if (entity instanceof LivingEntity living) {
                         flag = true;
-                        if (!player.hasLineOfSight(living)) {
-                            living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 160));
-                        }
+                        living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 160));
+
                     }
 
                     if (flag) {
