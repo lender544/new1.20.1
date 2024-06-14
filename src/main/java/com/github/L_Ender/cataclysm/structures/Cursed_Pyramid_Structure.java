@@ -20,13 +20,17 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.*;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
@@ -39,7 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Optional;
 
-public class Cursed_Pyramid_Structure extends Structure {
+public class Cursed_Pyramid_Structure extends CataclysmStructure {
 
     public static final Codec<Cursed_Pyramid_Structure> CODEC = simpleCodec(Cursed_Pyramid_Structure::new);
 
@@ -71,95 +75,60 @@ public class Cursed_Pyramid_Structure extends Structure {
     /*
      * Begins assembling your structure and where the pieces needs to go.
      */
-    public static void start(final GenerationContext context, final BlockPos position, final Rotation rotation, final StructurePieceAccessor pieceList) {
-        StructureTemplateManager templateManager = context.structureTemplateManager();
-        BlockPos entranceStart = position.offset(new BlockPos(20 + 2, 0, 94 + 7).rotate(rotation));
-
-        // Make sure the entrance is on a reasonable height (this should reduce the chance of floating entrances)
-        int height = context.chunkGenerator().getFirstOccupiedHeight(entranceStart.getX(), entranceStart.getZ(), Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
-        // There could be a small chance of there being a 1-block wide deep hole or hill (alternative: get average of 3x3 block area)
-        int difference = Mth.clamp(height - position.getY(), -10, 10);
-        BlockPos spawnPosition = new BlockPos(position.getX(), position.getY() + difference, position.getZ());
-
-        BlockPos obelisk1Offset = spawnPosition.offset(new BlockPos(20, -4, 94).rotate(rotation));
-        BlockPos obelisk2Offset = spawnPosition.offset(new BlockPos(45, -4, 94).rotate(rotation));
-
-        BlockPos lower1Offset = spawnPosition.offset(0, -39, 0);
-        BlockPos lower2Offset = spawnPosition.offset(new BlockPos(0, -39, 47).rotate(rotation));
-        BlockPos lower3Offset = spawnPosition.offset(new BlockPos(47, -39, 0).rotate(rotation));
-        BlockPos lower4Offset = spawnPosition.offset(new BlockPos(47, -39, 47).rotate(rotation));
-
-        BlockPos upper1Offset = spawnPosition.offset(0, 9, 0);
-        BlockPos upper2Offset = spawnPosition.offset(new BlockPos(0, 9, 47).rotate(rotation));
-        BlockPos upper3Offset = spawnPosition.offset(new BlockPos(47, 9, 0).rotate(rotation));
-        BlockPos upper4Offset = spawnPosition.offset(new BlockPos(47, 9, 47).rotate(rotation));
-
-        pieceList.addPiece(new Piece(templateManager, LOWER1, lower1Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, LOWER2, lower2Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, LOWER3, lower3Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, LOWER4, lower4Offset, rotation));
-
-        pieceList.addPiece(new Piece(templateManager, UPPER1, upper1Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, UPPER2, upper2Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, UPPER3, upper3Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, UPPER4, upper4Offset, rotation));
-
-        pieceList.addPiece(new Piece(templateManager, OBELISK1, obelisk1Offset, rotation));
-        pieceList.addPiece(new Piece(templateManager, OBELISK2, obelisk2Offset, rotation));
-    }
 
     public Cursed_Pyramid_Structure(StructureSettings p_227593_) {
         super(p_227593_);
     }
 
+
+    private static BlockPos posToSurface(ChunkGenerator generator, BlockPos pos, LevelHeightAccessor heightAccessor, RandomState state) {
+        int surfaceY = generator.getBaseHeight(pos.getX(), pos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightAccessor, state);
+        return new BlockPos(pos.getX(), surfaceY - 1, pos.getZ());
+    }
+
     @Override
-    public @NotNull Optional<GenerationStub> findGenerationPoint(final GenerationContext context) {
-        ChunkPos chunkPos = context.chunkPos();
-        int x = chunkPos.getMiddleBlockX();
-        int z = chunkPos.getMiddleBlockZ();
-        int y = context.chunkGenerator().getFirstFreeHeight(x, z, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
-        BlockPos position = new BlockPos(x, y, z);
+    public void generatePieces(StructurePiecesBuilder builder, GenerationContext context) {
+        StructureTemplateManager templateManager = context.structureTemplateManager();
+        Rotation rotation = Rotation.values()[context.random().nextInt(Rotation.values().length)];
+        int x = (context.chunkPos().x << 4) + 7;
+        int z = (context.chunkPos().z << 4) + 7;
+        BlockPos centerPos = new BlockPos(x, 1, z);
 
-        if (y < context.chunkGenerator().getSeaLevel()) {
-            return Optional.empty();
-        }
+        ChunkGenerator generator = context.chunkGenerator();
+        LevelHeightAccessor heightLimitView = context.heightAccessor();
 
-        if (!isValidHeightRange(context)) {
-            return Optional.empty();
-        }
+        BlockPos surfacePos = posToSurface(generator, centerPos, heightLimitView, context.randomState());
+        int surfaceY = surfacePos.getY();
+        int oceanFloorY = generator.getBaseHeight(centerPos.getX(), centerPos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, heightLimitView, context.randomState());
+        if (oceanFloorY < surfaceY) return;
 
-        return Optional.of(new GenerationStub(position, builder -> generatePieces(builder, context, position, Rotation.getRandom(context.random()))));
-    }
+        BlockPos spawncenterPos = new BlockPos(centerPos.getX(), surfaceY, centerPos.getZ());
 
-    /**
-     * Referenced from <a href="https://github.com/TelepathicGrunt/RepurposedStructures/blob/1.20-Arch/common/src/main/java/com/telepathicgrunt/repurposedstructures/world/structures/GenericJigsawStructure.java">TelepathicGrunt</a><br>
-     * Checks the chunks around the structure spawn point to see if the height variance is too big<br>
-     * Setting the check range too high and / or setting the allowed variance too low can cause the structure a lot less (while also degrading performance due to the amount of checks)
-     * */
-    private boolean isValidHeightRange(final GenerationContext context) {
-        int terrainCheckRange = CMConfig.cursedPyramidCheckRange;
+        BlockPos obelisk1Offset = spawncenterPos.offset(new BlockPos(20, -4, 94).rotate(rotation));
+        BlockPos obelisk2Offset = spawncenterPos.offset(new BlockPos(45, -4, 94).rotate(rotation));
 
-        if (terrainCheckRange == 0) {
-            return true;
-        }
+        BlockPos lower1Offset = spawncenterPos.offset(0, -39, 0);
+        BlockPos lower2Offset = spawncenterPos.offset(new BlockPos(0, -39, 47).rotate(rotation));
+        BlockPos lower3Offset = spawncenterPos.offset(new BlockPos(47, -39, 0).rotate(rotation));
+        BlockPos lower4Offset = spawncenterPos.offset(new BlockPos(47, -39, 47).rotate(rotation));
 
-        int maxTerrainHeight = Integer.MIN_VALUE;
-        int minTerrainHeight = Integer.MAX_VALUE;
-        ChunkPos chunkPos = context.chunkPos();
+        BlockPos upper1Offset = spawncenterPos.offset(0, 9, 0);
+        BlockPos upper2Offset = spawncenterPos.offset(new BlockPos(0, 9, 47).rotate(rotation));
+        BlockPos upper3Offset = spawncenterPos.offset(new BlockPos(47, 9, 0).rotate(rotation));
+        BlockPos upper4Offset = spawncenterPos.offset(new BlockPos(47, 9, 47).rotate(rotation));
 
-        for (int curChunkX = chunkPos.x - terrainCheckRange; curChunkX <= chunkPos.x + terrainCheckRange; curChunkX++) {
-            for (int curChunkZ = chunkPos.z - terrainCheckRange; curChunkZ <= chunkPos.z + terrainCheckRange; curChunkZ++) {
-                int height = context.chunkGenerator().getBaseHeight((curChunkX << 4) + 7, (curChunkZ << 4) + 7, Heightmap.Types.WORLD_SURFACE_WG, context.heightAccessor(), context.randomState());
-                maxTerrainHeight = Math.max(maxTerrainHeight, height);
-                minTerrainHeight = Math.min(minTerrainHeight, height);
-            }
-        }
+        builder.addPiece(new Piece(templateManager, LOWER1, lower1Offset, rotation));
+        builder.addPiece(new Piece(templateManager, LOWER2, lower2Offset, rotation));
+        builder.addPiece(new Piece(templateManager, LOWER3, lower3Offset, rotation));
+        builder.addPiece(new Piece(templateManager, LOWER4, lower4Offset, rotation));
 
-        return maxTerrainHeight - minTerrainHeight <= CMConfig.cursedPyramidHeightVariance;
-    }
+        builder.addPiece(new Piece(templateManager, UPPER1, upper1Offset, rotation));
+        builder.addPiece(new Piece(templateManager, UPPER2, upper2Offset, rotation));
+        builder.addPiece(new Piece(templateManager, UPPER3, upper3Offset, rotation));
+        builder.addPiece(new Piece(templateManager, UPPER4, upper4Offset, rotation));
 
-    private void generatePieces(final StructurePiecesBuilder builder, final GenerationContext context, final BlockPos position, final Rotation rotation) {
-        Cursed_Pyramid_Structure.start(context, position, rotation, builder);
+        builder.addPiece(new Piece(templateManager, OBELISK1, obelisk1Offset, rotation));
+        builder.addPiece(new Piece(templateManager, OBELISK2, obelisk2Offset, rotation));
     }
 
 
@@ -176,7 +145,7 @@ public class Cursed_Pyramid_Structure extends Structure {
     public static class Piece extends TemplateStructurePiece {
 
         public Piece(StructureTemplateManager templateManagerIn, ResourceLocation resourceLocationIn, BlockPos pos, Rotation rotation) {
-            super(ModStructures.CPD.get(), 0, templateManagerIn, resourceLocationIn, resourceLocationIn.toString(), makeSettings(rotation), makePosition(resourceLocationIn, pos));
+            super(ModStructures.CPD.get(), 0, templateManagerIn, resourceLocationIn, resourceLocationIn.toString(), makeSettings(rotation), makecenterPos(resourceLocationIn, pos));
         }
 
         public Piece(StructureTemplateManager templateManagerIn, CompoundTag tagCompound) {
@@ -202,7 +171,7 @@ public class Cursed_Pyramid_Structure extends Structure {
             return structureplacesettings;
         }
 
-        private static BlockPos makePosition(ResourceLocation p_162453_, BlockPos p_162454_) {
+        private static BlockPos makecenterPos(ResourceLocation p_162453_, BlockPos p_162454_) {
             return p_162454_.offset(OFFSET.get(p_162453_));
         }
 
