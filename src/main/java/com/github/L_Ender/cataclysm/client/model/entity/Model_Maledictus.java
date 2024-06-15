@@ -444,8 +444,8 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		this.animate(entity.getAnimationState("back_step_dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NOBACKSTEP, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NOBACKSTEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("dash2"), Maledictus_Dashes_Animation.DASH2, ageInTicks, 1.0F);
 
