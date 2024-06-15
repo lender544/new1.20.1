@@ -115,8 +115,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, true));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this,false,1.0D));
-
-        /*
+        
         //swing
         this.goalSelector.addGoal(1, new Maledictus_Swing(this, 0, 1, 0, 44, 25, 0.5F, 35f, 20F));
 
@@ -155,8 +154,6 @@ public class Maledictus_Entity extends IABoss_monster {
 
         this.goalSelector.addGoal(0, new MaledictusfallingState(this, 9, 9, 0, 27,0,0,0));
 
-
-         */
         //backstep
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,10,0,15,15,4.5F){
             @Override
