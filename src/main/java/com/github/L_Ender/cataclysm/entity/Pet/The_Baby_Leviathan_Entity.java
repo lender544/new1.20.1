@@ -36,6 +36,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -44,6 +45,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -220,17 +222,17 @@ public class The_Baby_Leviathan_Entity extends AnimationPet implements ISemiAqua
 
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
-        if (this.hasCustomName()) {
-            bucket.setHoverName(this.getCustomName());
-        }
         CompoundTag platTag = new CompoundTag();
         this.addAdditionalSaveData(platTag);
         CompoundTag compound = bucket.getOrCreateTag();
+        Bucketable.saveDefaultDataToBucketTag(this, bucket);
         compound.put("BabyLeviathanData", platTag);
+
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag p_148832_) {
+        Bucketable.loadDefaultDataFromBucketTag(this, p_148832_);
         if (p_148832_.contains("BabyLeviathanData")) {
             this.readAdditionalSaveData(p_148832_.getCompound("BabyLeviathanData"));
         }
@@ -240,9 +242,6 @@ public class The_Baby_Leviathan_Entity extends AnimationPet implements ISemiAqua
     @Nonnull
     public ItemStack getBucketItemStack() {
         ItemStack stack = new ItemStack(ModItems.THE_BABY_LEVIATHAN_BUCKET.get());
-        if (this.hasCustomName()) {
-            stack.setHoverName(this.getCustomName());
-        }
         return stack;
     }
 

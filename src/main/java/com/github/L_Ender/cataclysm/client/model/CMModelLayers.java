@@ -31,7 +31,7 @@ public class CMModelLayers {
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> ModelMonstrousHelm.createArmorLayer(new CubeDeformation(0.3F)));
-        event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL, () -> ModelIgnitium_Armor.createArmorLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL, () -> ModelIgnitium_Armor.createArmorLayer(new CubeDeformation(0.6F)));
         event.registerLayerDefinition(BLOOM_STONE_PAULDRONS_MODEL, () -> ModelBloom_Stone_Pauldrons.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(ELYTRA_ARMOR, () -> Modelignitium_Elytra_chestplate.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL_LEGS, () -> ModelIgnitium_Armor.createArmorLayer(new CubeDeformation(0.2F)));

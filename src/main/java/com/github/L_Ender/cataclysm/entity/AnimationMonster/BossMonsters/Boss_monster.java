@@ -152,12 +152,7 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
 
         ++this.deathTime;
         if (this.deathTime >= deathDuration && !this.level().isClientSide() && !this.isRemoved()) {
-            lastHurtByPlayer = killDataAttackingPlayer;
-            lastHurtByPlayerTime = killDataRecentlyHit;
-            if (!this.level().isClientSide && dropAfterDeathAnim && killDataCause != null) {
-                dropAllDeathLoot(killDataCause);
-            }
-            this.level().broadcastEntityEvent(this, (byte) 60);
+            this.level().broadcastEntityEvent(this, (byte)60);
             this.remove(Entity.RemovalReason.KILLED);
         }
     }
