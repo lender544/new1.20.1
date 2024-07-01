@@ -15,8 +15,8 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
 public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
-	private final AdvancedModelBox root;
-	private final AdvancedModelBox berserker;
+	public final AdvancedModelBox root;
+	public final AdvancedModelBox berserker;
 	private final AdvancedModelBox legs;
 	private final AdvancedModelBox right_leg;
 	private final AdvancedModelBox cube_r1;
@@ -26,15 +26,15 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 	private final AdvancedModelBox cube_r3;
 	private final AdvancedModelBox left_front_leg;
 	private final AdvancedModelBox cube_r4;
-	private final AdvancedModelBox pelvis;
+	public final AdvancedModelBox pelvis;
 	private final AdvancedModelBox front_cloth1;
 	private final AdvancedModelBox front_cloth2;
-	private final AdvancedModelBox body;
-	private final AdvancedModelBox right_shoulder;
+	public final AdvancedModelBox body;
+	public final AdvancedModelBox right_shoulder;
 	private final AdvancedModelBox cube_r5;
 	private final AdvancedModelBox cube_r6;
-	private final AdvancedModelBox right_arm;
-	private final AdvancedModelBox right_front_arm;
+	public final AdvancedModelBox right_arm;
+	public final AdvancedModelBox right_front_arm;
 	private final AdvancedModelBox bow;
 	private final AdvancedModelBox cube_r7;
 	private final AdvancedModelBox cube_r8;
@@ -52,11 +52,11 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 	private final AdvancedModelBox cube_r14;
 	private final AdvancedModelBox cube_r15;
 	public final AdvancedModelBox right_particle;
-	private final AdvancedModelBox left_shoulder;
+	public final AdvancedModelBox left_shoulder;
 	private final AdvancedModelBox cube_r16;
 	private final AdvancedModelBox cube_r17;
-	private final AdvancedModelBox left_arm;
-	private final AdvancedModelBox left_front_arm;
+	public final AdvancedModelBox left_arm;
+	public final AdvancedModelBox left_front_arm;
 	private final AdvancedModelBox left_mace;
 	private final AdvancedModelBox cube_r18;
 	private final AdvancedModelBox cube_r19;

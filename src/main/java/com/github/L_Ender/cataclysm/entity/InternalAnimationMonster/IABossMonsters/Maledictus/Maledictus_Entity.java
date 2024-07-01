@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus;
 
-import com.github.L_Ender.cataclysm.client.particle.MaledictusRingParticle;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
@@ -438,6 +437,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
     private void SwingParticles() {
         if (level().isClientSide) {
+            /*
             if(this.getAttackState() == 1) {
                 if (this.attackTicks == 1) {
                     Warningparticle(0.95f,0.5215f,0.1333F);
@@ -474,14 +474,10 @@ public class Maledictus_Entity extends IABoss_monster {
                     Warningparticle(0.423f,0.062f,0.019F);
                 }
             }
+
+             */
         }
     }
-
-    private void Warningparticle(float r,float g,float b) {
-        this.level().addParticle(new MaledictusRingParticle.MaledictusRingData(0f, 0f, 50, r, g,  b, 1.0f, 4f, true,false, this.getId(),MaledictusRingParticle.EnumRingBehavior.CONSTANT), this.getX(), this.getY() , this.getZ() , 0, 0, 0);
-        this.level().addParticle(new MaledictusRingParticle.MaledictusRingData(0f, 0f, 50, r, g,  b, 1.0f, 4f, true,true, this.getId(),MaledictusRingParticle.EnumRingBehavior.CONSTANT), this.getX(), this.getY() , this.getZ() , 0, 0, 0);
-    }
-
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);

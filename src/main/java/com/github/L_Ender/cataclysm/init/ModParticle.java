@@ -43,14 +43,6 @@ public class ModParticle {
         }
     });
 
-    public static final RegistryObject<ParticleType<MaledictusRingParticle.MaledictusRingData>> MALEDICTUSRING = PARTICLE.register("maledictus_ring", () -> new ParticleType<MaledictusRingParticle.MaledictusRingData>(false, MaledictusRingParticle.MaledictusRingData.DESERIALIZER) {
-        @Override
-        public Codec<MaledictusRingParticle.MaledictusRingData> codec() {
-            return MaledictusRingParticle.MaledictusRingData.CODEC(MALEDICTUSRING.get());
-        }
-    });
-
-
     public static final RegistryObject<SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
 
     public static final RegistryObject<SimpleParticleType> SMALL_CURSED_FLAME = PARTICLE.register("small_cursed_flame", () -> new SimpleParticleType(false));
