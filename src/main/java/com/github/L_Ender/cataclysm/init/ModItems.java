@@ -253,6 +253,9 @@ public class ModItems {
     public static final RegistryObject<Item> SANDSTORM_IN_A_BOTTLE = ITEMS.register("sandstorm_in_a_bottle",
             () -> new Sandstorm_In_A_Bottle(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> ANCIENT_SPEAR = ITEMS.register("ancient_spear",
+            () -> new Ancient_Spear(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().durability(1800)));
+
     public static final RegistryObject<Item> STICKY_GLOVES = ITEMS.register("sticky_gloves",
             () -> new Sticky_Gloves(new Item.Properties().stacksTo(1)));
 

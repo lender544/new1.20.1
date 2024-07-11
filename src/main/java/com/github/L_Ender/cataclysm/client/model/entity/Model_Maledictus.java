@@ -5,6 +5,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Maledictus_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Maledictus_Dashes_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Maledictus_Normal_Attack_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
@@ -453,8 +454,15 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 
 		this.animate(entity.getAnimationState("dash3"), Maledictus_Dashes_Animation.DASH3, ageInTicks, 1.0F);
 
+		this.animate(entity.getAnimationState("spin_slashes"), Maledictus_Normal_Attack_Animation.SPIN_SLASHES, ageInTicks, 1.0F);
 
-		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14) {
+		this.animate(entity.getAnimationState("combo_first"), Maledictus_Normal_Attack_Animation.COMBO_FIRST, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("combo_first_end"), Maledictus_Normal_Attack_Animation.COMBO_FIRST_END, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("combo_second"), Maledictus_Normal_Attack_Animation.COMBO_SECOND, ageInTicks, 1.0F);
+
+		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14 && entity.getAttackState() != 18) {
 			this.animateWalk(Maledictus_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);
 		}
 
@@ -470,32 +478,6 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		AdvancedModelBox.rotateAngleY = y;
 		AdvancedModelBox.rotateAngleZ = z;
 	}
-
-	public Vec3 getParticlePosition(Vec3 offsetIn,boolean right) {
-		PoseStack translationStack = new PoseStack();
-		translationStack.pushPose();
-		root.translateAndRotate(translationStack);
-		berserker.translateAndRotate(translationStack);
-		pelvis.translateAndRotate(translationStack);
-		body.translateAndRotate(translationStack);
-		if(right) {
-			right_shoulder.translateAndRotate(translationStack);
-			right_arm.translateAndRotate(translationStack);
-			right_front_arm.translateAndRotate(translationStack);
-			right_particle.translateAndRotate(translationStack);
-		}else{
-			left_shoulder.translateAndRotate(translationStack);
-			left_arm.translateAndRotate(translationStack);
-			left_front_arm.translateAndRotate(translationStack);
-			left_particle.translateAndRotate(translationStack);
-		}
-		Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
-		armOffsetVec.mul(translationStack.last().pose());
-		Vec3 vec3 = new Vec3(-armOffsetVec.x(), -armOffsetVec.y(), armOffsetVec.z());
-		translationStack.popPose();
-		return vec3.add(0, 1.5F, 0);
-	}
-
 
 	@Override
 	public Iterable<BasicModelPart> parts() {

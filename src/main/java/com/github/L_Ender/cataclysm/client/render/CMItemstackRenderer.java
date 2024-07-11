@@ -57,6 +57,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ModelTidal_Claws TIDAL_CLAWS_MODEL = new ModelTidal_Claws();
     private static final ModelMeat_Shredder MEAT_SHREDDER_MODEL = new ModelMeat_Shredder();
     private static final ModelLaser_Gatling LASER_GATLING_MODEL = new ModelLaser_Gatling();
+    private static final ModelAncient_Spear ANCIENT_SPEAR_MODEL = new ModelAncient_Spear();
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation("cataclysm:textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation("cataclysm:textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation("cataclysm:textures/item/gauntlet_of_bulwark.png");
@@ -81,6 +82,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation TEXTURE_4 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire4.png");
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_spear.png");
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_bardiche.png");
+    private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/item/ancient_spear.png");
 
     private Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
 
@@ -228,6 +230,14 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             LASER_GATLING_MODEL.setupAnim(null, openAmount, 0, ageInTicks, 0, 0);
             LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
 
+            matrixStackIn.popPose();
+        }
+        if (itemStackIn.getItem() == ModItems.ANCIENT_SPEAR.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(ANCIENT_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+            ANCIENT_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_FIRE.get().asItem()){

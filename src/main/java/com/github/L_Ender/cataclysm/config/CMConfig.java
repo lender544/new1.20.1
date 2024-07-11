@@ -186,8 +186,8 @@ public class CMConfig {
     public static int CoralgolemSpawnWeight = 1;
     public static int CoralgolemSpawnRolls = 70;
 
-    public static int IgnitedBerserkerSpawnWeight = 1;
-    public static int IgnitedBerserkerSpawnRolls = 30;
+    public static int IgnitedBerserkerSpawnWeight = 2;
+    public static int IgnitedBerserkerSpawnRolls = 15;
 
     public static int cursedPyramidCheckRange = 2;
     public static int cursedPyramidHeightVariance = 7;

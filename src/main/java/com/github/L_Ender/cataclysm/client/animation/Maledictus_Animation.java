@@ -2455,5 +2455,4 @@ public class Maledictus_Animation {
 			))
 			.build();
 
-
 }
