@@ -38,7 +38,7 @@ public class Ancient_Spear extends Item implements ILeftClick, Vanishable {
     public Ancient_Spear(Properties group) {
         super(group);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 9.0D, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.5D, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.6F, AttributeModifier.Operation.ADDITION));
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("ED58696E-EBFF-4848-A9D8-FCAA39072ABE"), "Tool modifier", 1.5F, AttributeModifier.Operation.ADDITION));
 
@@ -162,6 +162,6 @@ public class Ancient_Spear extends Item implements ILeftClick, Vanishable {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cataclysm.anicent_spear.desc").withStyle(ChatFormatting.DARK_GREEN));
+        tooltip.add(Component.translatable("item.cataclysm.ancient_spear.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

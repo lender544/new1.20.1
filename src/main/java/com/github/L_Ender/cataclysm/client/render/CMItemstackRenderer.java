@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Bardiche;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Spear;
 import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -76,10 +78,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation WASW_TEXTURE = new ResourceLocation("cataclysm:textures/item/wither_assualt_shoulder_weapon.png");
     private static final ResourceLocation VASW_TEXTURE = new ResourceLocation("cataclysm:textures/item/void_assualt_shoulder_weapon.png");
     private static final ResourceLocation EMP_TEXTURE = new ResourceLocation("cataclysm:textures/block/emp.png");
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire2.png");
-    private static final ResourceLocation TEXTURE_3 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire3.png");
-    private static final ResourceLocation TEXTURE_4 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire4.png");
+    private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_spear.png");
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_bardiche.png");
     private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/item/ancient_spear.png");
@@ -92,6 +91,12 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     public CMItemstackRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+
+
+        for(int i = 0; i < 8; i++){
+            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire_" + i + ".png");
+        }
+
     }
 
     @Override
@@ -246,7 +251,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ALTAR_OF_FIRE_MODEL.resetToDefaultPose();
             ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_FIRE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture(tick % 12))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((tick * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_VOID.get().asItem()){
@@ -300,17 +305,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
     }
 
+
     private ResourceLocation getIdleTexture(int age) {
-        if (age < 3) {
-            return TEXTURE_1;
-        } else if (age < 6) {
-            return TEXTURE_2;
-        } else if (age < 9) {
-            return TEXTURE_3;
-        } else if (age < 12) {
-            return TEXTURE_4;
-        } else {
-            return TEXTURE_1;
-        }
+        return TEXTURE_FIRE_PROGRESS[Mth.clamp(age, 0, 7)];
     }
+
 }

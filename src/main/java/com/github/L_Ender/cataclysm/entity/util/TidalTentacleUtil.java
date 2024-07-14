@@ -22,7 +22,7 @@ public class TidalTentacleUtil {
             TentacleCapability.setHasTentacle(tendon != null);
         }
     }
-    /**
+
     public static void retractFarTentacles(Level level, LivingEntity livingEntity) {
         Tidal_Tentacle_Entity last = getLastTendon(livingEntity);
         if (last != null) {
@@ -60,5 +60,4 @@ public class TidalTentacleUtil {
         }
         return null;
     }
-     */
 }

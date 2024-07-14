@@ -24,41 +24,32 @@ import org.joml.Matrix4f;
 public class RendererAltar_of_Fire<T extends TileEntityAltarOfFire> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altar_of_fire.png");
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire2.png");
-    private static final ResourceLocation TEXTURE_3 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire3.png");
-    private static final ResourceLocation TEXTURE_4 = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire4.png");
+    private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
     public static final ResourceLocation FLAME_STRIKE = new ResourceLocation("cataclysm:textures/entity/flame_strike_sigil.png");
     private static final Model_Altar_of_Fire MODEL = new Model_Altar_of_Fire();
 
     public RendererAltar_of_Fire(Context rendererDispatcherIn) {
+        for(int i = 0; i < 8; i++){
+            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire_" + i + ".png");
+        }
     }
 
     @Override
     public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+        float f2 = (float) tileEntityIn.tickCount + partialTicks;
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 1.5F, 0.5F);
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
         MODEL.animate(tileEntityIn, partialTicks);;
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture(tileEntityIn.tickCount % 12))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);
         renderSigil(tileEntityIn,partialTicks,matrixStackIn,bufferIn);
     }
 
     private ResourceLocation getIdleTexture(int age) {
-        if (age < 3) {
-            return TEXTURE_1;
-        } else if (age < 6) {
-            return TEXTURE_2;
-        } else if (age < 9) {
-            return TEXTURE_3;
-        } else if (age < 12) {
-            return TEXTURE_4;
-        } else {
-            return TEXTURE_1;
-        }
+        return TEXTURE_FIRE_PROGRESS[Mth.clamp(age, 0, 7)];
     }
 
     public void renderItem(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {

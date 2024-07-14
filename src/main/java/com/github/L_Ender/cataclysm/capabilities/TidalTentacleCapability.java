@@ -24,14 +24,14 @@ public class TidalTentacleCapability {
 
         boolean hasTentacle();
 
-       // void setLastTentacleID(int id);
+        void setLastTentacleID(int id);
 
-       // int getLastTentacleID();
+        int getLastTentacleID();
 
-        //void setLastTentacleUUID(UUID p_32509_);
+        UUID getLastTentacleUUID();
 
-        //@Nullable
-       // UUID getLastTentacleUUID();
+        void setLastTentacleUUID(UUID livingEntity);
+
     }
 
     public static class TentacleCapabilityImp implements ITentacleCapability {
@@ -49,45 +49,47 @@ public class TidalTentacleCapability {
             return this.tentacle;
         }
 
-       // @Override
-       // public void setLastTentacleID(int id) {
-       //     this.id = id;
-       // }
+        @Override
+        public void setLastTentacleID(int frozenPitch) {
+            this.id = frozenPitch;
+        }
 
-       // @Override
-       // public int getLastTentacleID() {
-        //    return id;
-       // }
+        @Override
+        public int getLastTentacleID() {
+            return id;
+        }
 
-       // @Override
-       // public void setLastTentacleUUID(@Nullable UUID lastTentacle) {
-         //   this.lastTentacle = lastTentacle;
-        //}
+        @Override
+        public void setLastTentacleUUID(UUID livingEntity) {
+            lastTentacle = livingEntity;
+        }
 
-       // @Nullable
-       // @Override
-      //  public UUID getLastTentacleUUID() {
-       //     return this.lastTentacle;
-       // }
+        @Override
+        public UUID getLastTentacleUUID() {
+            return lastTentacle;
+        }
+
 
 
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("hasTentacle", this.hasTentacle());
-           // tag.putInt("getLastTentacleID", this.getLastTentacleID());
-            //if (this.getLastTentacleUUID() != null) {
-           //     tag.putUUID("getLastTentacleUUID", this.getLastTentacleUUID());
-           // }
+            tag.putInt("getLastTentacleID", this.getLastTentacleID());
+            if (getLastTentacleUUID() != null) {
+                tag.putUUID("getLastTentacleUUID", getLastTentacleUUID());
+            }
             return tag;
         }
 
         @Override
         public void deserializeNBT(CompoundTag nbt) {
             this.setHasTentacle(nbt.getBoolean("hasTentacle"));
-           // this.setLastTentacleUUID(nbt.getUUID("getLastTentacleUUID"));
-           // this.setLastTentacleID(nbt.getInt("getLastTentacleID"));
-
+            this.setLastTentacleID(nbt.getInt("getLastTentacleID"));
+            try {
+                setLastTentacleUUID(nbt.getUUID("getLastTentacleUUID"));
+            }
+            catch (NullPointerException ignored) {}
         }
 
         public static class TentacleProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {

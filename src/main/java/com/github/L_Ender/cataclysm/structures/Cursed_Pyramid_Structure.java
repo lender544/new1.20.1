@@ -97,12 +97,11 @@ public class Cursed_Pyramid_Structure extends CataclysmStructure {
         ChunkGenerator generator = context.chunkGenerator();
         LevelHeightAccessor heightLimitView = context.heightAccessor();
 
-        BlockPos surfacePos = posToSurface(generator, centerPos, heightLimitView, context.randomState());
-        int surfaceY = surfacePos.getY();
+        int surfaceY = generator.getBaseHeight(centerPos.getX(), centerPos.getZ(), Heightmap.Types.WORLD_SURFACE_WG, heightLimitView, context.randomState());
         int oceanFloorY = generator.getBaseHeight(centerPos.getX(), centerPos.getZ(), Heightmap.Types.OCEAN_FLOOR_WG, heightLimitView, context.randomState());
         if (oceanFloorY < surfaceY) return;
 
-        BlockPos spawncenterPos = new BlockPos(centerPos.getX(), surfaceY, centerPos.getZ());
+        BlockPos spawncenterPos = posToSurface(generator, centerPos, heightLimitView, context.randomState());
 
         BlockPos obelisk1Offset = spawncenterPos.offset(new BlockPos(20, -4, 94).rotate(rotation));
         BlockPos obelisk2Offset = spawncenterPos.offset(new BlockPos(45, -4, 94).rotate(rotation));

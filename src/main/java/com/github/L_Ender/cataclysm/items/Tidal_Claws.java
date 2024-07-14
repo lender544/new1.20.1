@@ -99,8 +99,8 @@ public class Tidal_Claws extends Item implements ILeftClick {
         Level worldIn = playerIn.level();
         TidalTentacleCapability.ITentacleCapability tentacleCapability = ModCapabilities.getCapability(playerIn, ModCapabilities.TENTACLE_CAPABILITY);
         if (tentacleCapability != null) {
-            if(!tentacleCapability.hasTentacle()) {
-             //   TidalTentacleUtil.retractFarTentacles(worldIn, playerIn);
+            if (TidalTentacleUtil.canLaunchTentacles(worldIn, playerIn)) {
+                TidalTentacleUtil.retractFarTentacles(worldIn, playerIn);
                 if (!worldIn.isClientSide) {
                     if (closestValid != null) {
                         Tidal_Tentacle_Entity segment = ModEntities.TIDAL_TENTACLE.get().create(worldIn);
@@ -116,6 +116,7 @@ public class Tidal_Claws extends Item implements ILeftClick {
                     }
                 }
             }
+
         }
         return false;
     }
