@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -131,7 +132,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 if (entity.attackTicks == 8) {
                     float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
-                    entity.push(f1 * 1.6, 0, f2 * 1.6);
+                    entity.push(f1 * 1.35, 0, f2 * 1.35);
                 }
             }
             @Override
@@ -156,7 +157,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 if (entity.attackTicks == 8) {
                     float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
-                    entity.push(f1 * 1.6, 0, f2 * 1.6);
+                    entity.push(f1 * 1.35, 0, f2 * 1.35);
                 }
             }
         });
@@ -168,7 +169,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(1, new Maledictus_Bow(this, 0, 2, 0, 45, 29, 8F, 35f, 29, 16F));
 
         //flying bow
-        this.goalSelector.addGoal(1, new Maledictus_Flying_Bow(this, 0, 3, 4, 68, 50, 3.5F, 40f, 50,20F));
+        this.goalSelector.addGoal(1, new Maledictus_Flying_Bow(this, 0, 3, 4, 68, 50, 40f, 50,35F));
 
         //fall_loop
         this.goalSelector.addGoal(1, new MaledictusfallingState(this, 4, 4,5,100, 100,1,0));
@@ -1126,14 +1127,12 @@ public class Maledictus_Entity extends IABoss_monster {
 
     static class Maledictus_Flying_Bow extends InternalAttackGoal {
         private final Maledictus_Entity entity;
-        private final float attackminrange;
         private final int attackshot;
         private final float random;
 
-        public Maledictus_Flying_Bow(Maledictus_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackminrange, float attackrange, int attackshot, float random) {
+        public Maledictus_Flying_Bow(Maledictus_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, int attackshot, float random) {
             super(entity,getAttackState,attackstate,attackendstate,attackMaxtick,attackseetick,attackrange);
             this.entity = entity;
-            this.attackminrange = attackminrange;
             this.attackshot = attackshot;
             this.random = random;
             this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
@@ -1142,7 +1141,7 @@ public class Maledictus_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.distanceTo(target) > attackminrange && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.flyattack_cooldown <=0;
+            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.flyattack_cooldown <=0;
         }
 
         @Override
@@ -1168,7 +1167,23 @@ public class Maledictus_Entity extends IABoss_monster {
             }
 
             if (this.entity.attackTicks == 8) {
-                this.entity.setDeltaMovement(0, 0.9, 0);
+                if (target != null) {
+                    double x = 0;
+                    double z = 0;
+                    double r = 0;
+                    double maxR = 3.0;
+                    if (entity.distanceToSqr(target) < 36D) {
+                        float dodgeYaw = (float) Math.toRadians(entity.getYRot() + 90);
+                        double dis = entity.distanceToSqr(target);
+                        r = Mth.clamp(8 / (dis + 0.1), 0, maxR);
+                        x = Math.cos(dodgeYaw);
+                        z = Math.sin(dodgeYaw);
+                    }
+
+                    this.entity.setDeltaMovement(x * -r, 0.9, z * -r);
+                }else{
+                    this.entity.setDeltaMovement(0, 0.9, 0);
+                }
                 entity.setFlying(true);
             }
             if (this.entity.attackTicks == 20) {

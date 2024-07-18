@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.event;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.capabilities.Gone_With_SandstormCapability;
+import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_PlayerSandstorm;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
@@ -422,6 +423,14 @@ public class ClientEvent {
                 int i = (int) (event.getBossEvent().getProgress() * 182.0F);
                 int l = Minecraft.getInstance().font.width(component);
                 //N.M
+                CustomBossBar customBossBar = CustomBossBar.customBossBars.getOrDefault(renderTypeFor, null);
+                if (customBossBar == null) return;
+
+                event.setCanceled(true);
+                customBossBar.renderBossBar(event);
+
+
+                /*
                 if (renderTypeFor == 0) {
                     event.setCanceled(true);
                     event.getGuiGraphics().blit(GUI_BARS_LOCATION, pX + 3, pY + 2, 0, 0, 182, 5, 256, 256);
@@ -567,6 +576,8 @@ public class ClientEvent {
                     poseStack.popPose();
                     event.setIncrement(event.getIncrement() + 12);
                 }
+
+                 */
             }
         }
     }

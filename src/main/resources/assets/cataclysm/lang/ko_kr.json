@@ -117,6 +117,22 @@
   "item.cataclysm.sticky_gloves.desc": "코볼레톤의 약탈을 막는다",
   "item.cataclysm.remnant_skull": "잔재의 두개골",
   "item.cataclysm.remnant_skull.desc": "현세의 잔재를 소환한다. 스니퍼 알로 길들일 수 있다.",
+  "item.cataclysm.cursium_helmet.desc": "유령 시야",
+  "item.cataclysm.cursium_helmet.desc2": "%s 키를 눌러 벽뒤에 있는 살아있는 엔티티에게 발광을 건다.",
+  "item.cataclysm.cursium_chestplate.desc": "언데드 부활",
+  "item.cataclysm.cursium_chestplate.desc2": "죽을시 7의 체력으로 부활하고 5초간 무적이 된다",
+  "item.cataclysm.cursium_chestplate.desc3": "무적이 끝난뒤 6분간 부활을 못하는 디버프에 걸린다",
+  "item.cataclysm.cursium_leggings.desc": "유령 회피",
+  "item.cataclysm.cursium_leggings.desc2": "낮은 확률로 공격을 안맞는다, 투사체일시 확률이 늘어난다",
+  "item.cataclysm.cursium_boots.desc": "유령의 가벼움",
+  "item.cataclysm.cursium_boots.desc2": "추락데미지를 줄인다, %s 키를 눌러 백스텝한다",
+  "item.cataclysm.cursium_helmet": "커스뮴 투구",
+  "item.cataclysm.cursium_chestplate": "커스뮴 흉갑",
+  "item.cataclysm.cursium_leggings": "커스뮴 레깅스",
+  "item.cataclysm.cursium_boots": "커스뮴 부츠",
+  "item.cataclysm.ancient_spear": "고대의 창",
+  "item.cataclysm.ancient_spear.desc": "공격시 모래폭풍을 발사한다",
+
 
   "item.cataclysm.endermaptera_spawn_egg": "엔더마프테라 생성 알",
   "item.cataclysm.ender_golem_spawn_egg": "엔더 골렘 생성 알",
@@ -145,6 +161,7 @@
   "item.cataclysm.modern_remnant_spawn_egg": "현세의 잔재 생성 알",
   "item.cataclysm.the_watcher_spawn_egg": "감시자 생성 알",
   "item.cataclysm.the_prowler_spawn_egg": "배회자 생성 알",
+  "item.cataclysm.maledictus_spawn_egg": "말레딕투스 생성 알",
 
   "itemGroup.cataclysm": "대격변",
   "block.cataclysm.witherite_block": "위더라이트 블록",
@@ -270,6 +287,7 @@
   "entity.cataclysm.koboleton": "코볼레톤",
   "entity.cataclysm.kobolediator": "코볼레디에이터",
   "entity.cataclysm.wadjet": "바제트",
+  "entity.cataclysm.maledictus": "말레딕투스",
   "entity.cataclysm.all.command_0": "%s 이(가) 돌아다니는 중",
   "entity.cataclysm.all.command_1": "%s 이(가) 따라오는 중",
   "entity.cataclysm.all.command_2": "%s 이(가) 대기중",
@@ -283,6 +301,8 @@
   "effect.cataclysm.abyssal_curse": "심연의 저주",
   "effect.cataclysm.blessing_of_amethyst": "자수정의 축복",
   "effect.cataclysm.curse_of_desert": "사막의 저주",
+  "effect.cataclysm.ghost_form": "유령화",
+  "effect.cataclysm.ghost_sickness": "유령휴유증",
 
   "golemhurt.sub": "엔더 골렘이 상처를 입음",
   "golemdeath.sub": "엔더 골렘이 죽음",
@@ -396,6 +416,8 @@
   "remnant_tail_slam.sub": "Ancient Remnant performs Tail Strikes",
   "remnant_tail_swing.sub": "Ancient Remnant whipes",
   "flame_trap.sub": "Fire sprays",
+  "swingattack.sub": "Weapon Swings",
+  "remnant_death.sub": "Ancient Remnant dies",
 
   "advancements.cataclysm.root.title": "대격변",
   "advancements.cataclysm.root.description": "대격변!",
@@ -444,8 +466,11 @@
 
   "cataclysm.gui.altar_of_amethyst_blessing": "축복",
   "key.categories.cataclysm": "대격변 키",
-  "key.cataclysm.armor_ability": "대격변 갑옷 능력",
   "key.cataclysm.ability": "대격변 능력",
+  "key.cataclysm.helmet_ability": "대격변 투구 기술",
+  "key.cataclysm.chestplate_ability": "대격변 흉갑 기술",
+  "key.cataclysm.boots_ability": "대격변 부츠 기술",
+
   "curios.identifier.feet": "발",
   "curios.modifiers.feet": "발에 착용 시:"
 }

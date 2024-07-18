@@ -67,6 +67,7 @@ public class ClientProxy extends CommonProxy {
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
 
+
     public void init() {
        // FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientLayerEvent::onAddLayers);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupParticles);
