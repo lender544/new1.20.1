@@ -63,8 +63,6 @@ public class ClientEvent {
     private static final ResourceLocation SANDSTORM_ICON = new ResourceLocation("cataclysm:textures/gui/sandstorm_icons.png");
     private static final ResourceLocation EFFECT_HEART = new ResourceLocation("cataclysm:textures/gui/effect_heart.png");
     private static final ResourceLocation SANDSTORM_TEXTURE = new ResourceLocation("cataclysm:textures/entity/ancient_remnant/sandstorm.png");
-    protected static final ResourceLocation BOSS_BAR_HUD_OVERLAYSTEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar_frames.png");
-    private static final ResourceLocation GUI_BARS_LOCATION = new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar.png");
     private static final Model_PlayerSandstorm SANDSTORM_MODEL = new Model_PlayerSandstorm();
     private final Random random = new Random();
     private int lastHealth;

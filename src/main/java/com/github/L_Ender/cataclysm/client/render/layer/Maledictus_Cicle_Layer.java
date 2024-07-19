@@ -60,63 +60,71 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
         Matrix4f matrix4f = posestack$pose.pose();
         Matrix3f matrix3f = posestack$pose.normal();
         VertexConsumer portalStatic = bufferIn.getBuffer(RenderType.entityTranslucent(new ResourceLocation(Cataclysm.MODID, "textures/particle/ring_1.png"),true));
-        if(entity.getAttackState() == 1) {
-            if (entity.attackTicks <= 50 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
+        matrixStackIn.translate(0.0F, 0.1F, 0.0F);
+        if (entity.attackTicks > 1 ) {
+            if (entity.getAttackState() == 1) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
+                }
             }
-        }
-        if(entity.getAttackState() == 2) {
-            if (entity.attackTicks <= 50) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f,0.42f,0.35F);
+            if (entity.getAttackState() == 2) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f, 0.42f, 0.35F);
+                }
             }
-        }
-        if(entity.getAttackState() == 3) {
-            if (entity.attackTicks >= 15 && entity.attackTicks <= 65) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f,0.42f,0.35F);
+            if (entity.getAttackState() == 3) {
+                if (entity.attackTicks >= 15 && entity.attackTicks <= 65) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f, 0.42f, 0.35F);
+                }
             }
-        }
-        if(entity.getAttackState() == 7) {
-            if (entity.attackTicks <= 50 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
+            if (entity.getAttackState() == 7) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
             }
-        }
-        if(entity.getAttackState() == 8) {
-            if (entity.attackTicks <= 50 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
+            if (entity.getAttackState() == 8) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
             }
-        }
-        if(entity.getAttackState() == 12 || entity.getAttackState() == 13 || entity.getAttackState() == 14 || entity.getAttackState() == 11) {
-            if (entity.attackTicks <= 50 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
+            if (entity.getAttackState() == 12 || entity.getAttackState() == 13 || entity.getAttackState() == 14 || entity.getAttackState() == 11) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
             }
-        }
-        if(entity.getAttackState() == 15 || entity.getAttackState() == 16) {
-            if (entity.attackTicks <= 50 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
+            if (entity.getAttackState() == 15 || entity.getAttackState() == 16) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
             }
-        }
-        if(entity.getAttackState() == 18) {
-            if (entity.attackTicks <= 21 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f,0.42f,0.35F);
+            if (entity.getAttackState() == 18) {
+                if (entity.attackTicks <= 21) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f, 0.42f, 0.35F);
+                }
+                if (entity.attackTicks >= 25 && entity.attackTicks <= 34) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
+                }
             }
-            if (entity.attackTicks >= 25 && entity.attackTicks <= 34 ) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f,0.5215f,0.1333F);
+            if (entity.getAttackState() == 19) {
+                if (entity.attackTicks <= 10) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f, 0.42f, 0.35F);
+                }
+                if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
+                }
             }
-        }
-        if(entity.getAttackState() == 19) {
-            if (entity.attackTicks <= 10) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.09f,0.42f,0.35F);
+            if (entity.getAttackState() == 21) {
+                if (entity.attackTicks <= 10) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
+                if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
             }
-            if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f,0.5215f,0.1333F);
-            }
-        }
-        if(entity.getAttackState() == 21) {
-            if (entity.attackTicks <= 10) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
-            }
-            if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
-                drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f,0.062f,0.019F);
+            if (entity.getAttackState() == 22 || entity.getAttackState() == 23) {
+                if (entity.attackTicks <= 21) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
+                }
             }
         }
 
@@ -129,64 +137,74 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
         matrixStackIn.pushPose();
         translateToHand(matrixStackIn, right);
         matrixStackIn.translate(0.0F, 0.1F, 0.0F);
-        if(entity.getAttackState() == 1) {
-            if (entity.attackTicks <= 50 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.95f,0.5215f,0.1333F,partialtick);
+        if (entity.attackTicks > 1 ) {
+            if (entity.getAttackState() == 1) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 2) {
-            if (entity.attackTicks <= 50) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.09f,0.42f,0.35F,partialtick);
+            if (entity.getAttackState() == 2) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.09f, 0.42f, 0.35F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 3) {
-            if (entity.attackTicks >= 15 && entity.attackTicks <= 65) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.09f,0.42f,0.35F,partialtick);
+            if (entity.getAttackState() == 3) {
+                if (entity.attackTicks >= 15 && entity.attackTicks <= 65) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.09f, 0.42f, 0.35F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 7) {
-            if (entity.attackTicks <= 50 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+            if (entity.getAttackState() == 7) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 8) {
-            if (entity.attackTicks <= 50 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+            if (entity.getAttackState() == 8) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 12 || entity.getAttackState() == 13 || entity.getAttackState() == 14 || entity.getAttackState() == 11) {
-            if (entity.attackTicks <= 50 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+            if (entity.getAttackState() == 12 || entity.getAttackState() == 13 || entity.getAttackState() == 14 || entity.getAttackState() == 11) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 15 || entity.getAttackState() == 16) {
-            if (entity.attackTicks <= 50 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+            if (entity.getAttackState() == 15 || entity.getAttackState() == 16) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
             }
-        }
-        if(entity.getAttackState() == 18) {
-            if (entity.attackTicks <= 21 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.09f,0.42f,0.35F,partialtick);
-            }
-            if (entity.attackTicks >= 25 && entity.attackTicks <= 34 ) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.95f,0.5215f,0.1333F,partialtick);
-            }
-        }
-        if(entity.getAttackState() == 19) {
-            if (entity.attackTicks <= 10) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.95f,0.5215f,0.1333F,partialtick);
-            }
-            if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.95f,0.5215f,0.1333F,partialtick);
-            }
-        }
+            if (entity.getAttackState() == 18) {
 
-        if(entity.getAttackState() == 21) {
-            if (entity.attackTicks <= 10) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+                if (entity.attackTicks <= 21) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.09f, 0.42f, 0.35F, partialtick);
+                }
+                if (entity.attackTicks >= 25 && entity.attackTicks <= 34) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
+
             }
-            if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
-                drawLightning(matrixStackIn, bufferIn, entity, 0.423f,0.062f,0.019F,partialtick);
+            if (entity.getAttackState() == 19) {
+                if (entity.attackTicks <= 10) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
+                if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
+            }
+
+            if (entity.getAttackState() == 21) {
+                if (entity.attackTicks <= 10) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
+                if (entity.attackTicks >= 13 && entity.attackTicks <= 20) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
+            }
+
+            if (entity.getAttackState() == 22 || entity.getAttackState() == 23) {
+                if (entity.attackTicks <= 21) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
             }
         }
 

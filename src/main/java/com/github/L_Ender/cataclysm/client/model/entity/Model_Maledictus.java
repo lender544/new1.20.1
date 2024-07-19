@@ -429,7 +429,6 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 	@Override
 	public void setupAnim(Maledictus_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.resetToDefaultPose();
-		float swimSpeed = 0.1F;
 		this.animate(entity.getAnimationState("idle"), Maledictus_Animation.IDLE, ageInTicks, 0.75F);
 		this.animate(entity.getAnimationState("swing"), Maledictus_Animation.SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("shoot"), Maledictus_Animation.SHOOT, ageInTicks, 1.0F);
@@ -461,6 +460,10 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		this.animate(entity.getAnimationState("combo_first_end"), Maledictus_Normal_Attack_Animation.COMBO_FIRST_END, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("combo_second"), Maledictus_Normal_Attack_Animation.COMBO_SECOND, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("uppercut_right"), Maledictus_Normal_Attack_Animation.UPPERCUT_RIGHT, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("uppercut_left"), Maledictus_Normal_Attack_Animation.UPPERCUT_LEFT, ageInTicks, 1.0F);
 
 		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14 && entity.getAttackState() != 18) {
 			this.animateWalk(Maledictus_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);
