@@ -1,11 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.AI;
 
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ChargeAttackAnimationGoal<T extends Animation_Monster & IAnimatedEntity> extends SimpleAnimationGoal<T> {
+public class ChargeAttackAnimationGoal<T extends LLibrary_Monster & IAnimatedEntity> extends SimpleAnimationGoal<T> {
     private final int look1;
     private final int look2;
     private final int charge;

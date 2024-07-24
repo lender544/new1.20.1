@@ -6,7 +6,8 @@ import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Boss_monster;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -73,7 +74,7 @@ import net.minecraftforge.fluids.FluidType;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class The_Leviathan_Entity extends Boss_monster implements ISemiAquatic, IHoldEntity {
+public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemiAquatic, IHoldEntity {
 
     public static final Animation LEVIATHAN_GRAB = Animation.create(160);
     public static final Animation LEVIATHAN_GRAB_BITE = Animation.create(13);

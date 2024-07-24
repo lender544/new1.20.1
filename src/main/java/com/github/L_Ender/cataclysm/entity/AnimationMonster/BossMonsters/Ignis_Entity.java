@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
@@ -67,13 +68,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Ignis_Entity extends Boss_monster implements IHoldEntity {
+public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
     private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), this, BossEvent.BossBarColor.YELLOW, false,2);
     public static final Animation SWING_ATTACK = Animation.create(55);
     public static final Animation SWING_ATTACK_SOUL = Animation.create(46);

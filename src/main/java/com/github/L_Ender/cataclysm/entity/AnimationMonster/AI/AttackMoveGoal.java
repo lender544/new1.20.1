@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.AI;
 
 
 
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,14 +14,14 @@ import net.minecraft.world.level.pathfinder.Path;
 import java.util.EnumSet;
 
 public class AttackMoveGoal extends Goal {
-    private final Animation_Monster Boss_monster;
+    private final LLibrary_Monster Boss_monster;
     private final boolean followingTargetEvenIfNotSeen;
     private Path path;
     private int delayCounter;
     protected final double moveSpeed;
 
 
-    public AttackMoveGoal(Animation_Monster boss, boolean followingTargetEvenIfNotSeen, double moveSpeed) {
+    public AttackMoveGoal(LLibrary_Monster boss, boolean followingTargetEvenIfNotSeen, double moveSpeed) {
         this.Boss_monster = boss;
         this.followingTargetEvenIfNotSeen = followingTargetEvenIfNotSeen;
         this.moveSpeed = moveSpeed;

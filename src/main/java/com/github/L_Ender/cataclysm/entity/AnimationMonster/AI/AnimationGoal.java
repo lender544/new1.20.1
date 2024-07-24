@@ -1,13 +1,13 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.AI;
 
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
-public abstract class AnimationGoal<T extends Animation_Monster & IAnimatedEntity> extends Goal {
+public abstract class AnimationGoal<T extends LLibrary_Monster & IAnimatedEntity> extends Goal {
     protected final T entity;
 
     protected AnimationGoal(T entity) {

@@ -409,7 +409,7 @@ public class ClientEvent {
     }
 
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event){
         if(CMConfig.custombossbar) {
             if (ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {

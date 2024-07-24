@@ -2,21 +2,21 @@ package com.github.L_Ender.cataclysm.client.sound;
 
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Boss_monster;
+import com.github.L_Ender.cataclysm.entity.etc.Animation_Monsters;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 
 public class BossMusicSound extends AbstractTickableSoundInstance {
-    private Boss_monster boss;
+    private Animation_Monsters boss;
     private int ticksExisted = 0;
     private int timeUntilFade;
 
     private final SoundEvent soundEvent;
     ControlledAnimation volumeControl;
 
-    public BossMusicSound(SoundEvent sound, Boss_monster boss) {
+    public BossMusicSound(SoundEvent sound, Animation_Monsters boss) {
         super(sound, SoundSource.RECORDS,boss.getRandom());
         this.boss = boss;
         this.soundEvent = sound;
@@ -65,11 +65,11 @@ public class BossMusicSound extends AbstractTickableSoundInstance {
         ticksExisted++;
     }
 
-    public void setBoss(Boss_monster boss) {
+    public void setBoss(Animation_Monsters boss) {
         this.boss = boss;
     }
 
-    public Boss_monster getBoss() {
+    public Animation_Monsters getBoss() {
         return boss;
     }
 

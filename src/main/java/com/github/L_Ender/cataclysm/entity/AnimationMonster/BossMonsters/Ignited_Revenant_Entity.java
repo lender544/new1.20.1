@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackMoveGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ashen_Breath_Entity;
@@ -45,7 +46,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.EnumSet;
 
 
-public class Ignited_Revenant_Entity extends Boss_monster {
+public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
 
     public static final Animation ASH_BREATH_ATTACK = Animation.create(53);
     public static final Animation BONE_STORM_ATTACK = Animation.create(49);

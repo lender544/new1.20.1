@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackAniamtionGoal3;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -61,7 +62,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 
-public class The_Harbinger_Entity extends Boss_monster implements RangedAttackMob, PowerableMob {
+public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements RangedAttackMob, PowerableMob {
     public static final Animation DEATHLASER_ANIMATION = Animation.create(124);
     public static final Animation CHARGE_ANIMATION = Animation.create(45);
     public static final Animation DEATH_ANIMATION = Animation.create(144);

@@ -1,19 +1,14 @@
-package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
+package com.github.L_Ender.cataclysm.entity.etc;
 
 
 import com.github.L_Ender.cataclysm.client.sound.BossMusicPlayer;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.Animation_Monster;
-import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.lionfishapi.server.animation.Animation;
-import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
-import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,6 +17,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -33,38 +29,60 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class Boss_monster extends Animation_Monster implements IAnimatedEntity, Enemy {
+public class Animation_Monsters extends Monster implements Enemy {
+
     protected boolean dropAfterDeathAnim = false;
-    private int killDataRecentlyHit;
-    private DamageSource killDataCause;
-    private Player killDataAttackingPlayer;
+    public int killDataRecentlyHit;
+    public DamageSource killDataCause;
+    public Player killDataAttackingPlayer;
+    public int attackTicks;
     private static final byte MUSIC_PLAY_ID = 67;
     private static final byte MUSIC_STOP_ID = 68;
 
     @OnlyIn(Dist.CLIENT)
     public Vec3[] socketPosArray;
 
-    public Boss_monster(EntityType entity, Level world) {
+
+    public Animation_Monsters(EntityType entity, Level world) {
         super(entity, world);
         if (world.isClientSide) {
             socketPosArray = new Vec3[]{};
         }
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float damage) {
-        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return super.hurt(source, damage);
-        } else {
-            damage = Math.min(DamageCap(), damage);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+    }
+
+
+    public void tick() {
+        super.tick();
+        if (!level().isClientSide && getBossMusic() != null) {
+            if (canPlayMusic()) {
+                this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
+            }
+            else {
+                this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
+            }
         }
-        return super.hurt(source, damage);
     }
 
-    public float DamageCap() {
-        return Float.MAX_VALUE;
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == MUSIC_PLAY_ID) {
+            BossMusicPlayer.playBossMusic(this);
+        } else if (id == MUSIC_STOP_ID) {
+            BossMusicPlayer.stopBossMusic(this);
+        } else{
+            super.handleEntityEvent(id);
+        }
     }
 
+    public boolean canPlayerHearMusic(Player player) {
+        return player != null
+                && canAttack(player)
+                && distanceTo(player) < 2500;
+    }
 
     public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
         AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
@@ -89,7 +107,6 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
         return Math.atan2(second.getZ() - first.getZ(), second.getX() - first.getX()) * (180 / Math.PI) + 90;
     }
 
-
     public static void disableShield(LivingEntity livingEntity, int ticks) {
         ((Player)livingEntity).getCooldowns().addCooldown(livingEntity.getUseItem().getItem(), ticks);
         livingEntity.stopUsingItem();
@@ -101,59 +118,34 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
     }
 
     @Override
-    public void tick() {
-        super.tick();
-        if (!level().isClientSide && getBossMusic() != null) {
-            if (canPlayMusic()) {
-                this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
-            }
-            else {
-                this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
-            }
-        }
-        AnimationHandler.INSTANCE.updateAnimations(this);
+    protected void tickDeath() {
+        onDeathUpdate(this.deathtimer());
     }
 
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == MUSIC_PLAY_ID) {
-            BossMusicPlayer.playBossMusic(this);
-        } else if (id == MUSIC_STOP_ID) {
-            BossMusicPlayer.stopBossMusic(this);
-        } else{
-            super.handleEntityEvent(id);
-        }
+    public SoundEvent getBossMusic() {
+        return null;
     }
 
 
-    public boolean canPlayerHearMusic(Player player) {
-        return player != null
-                && canAttack(player)
-                && distanceTo(player) < 2500;
+    public int deathtimer(){
+        return 20;
     }
+
 
     protected void onDeathAIUpdate() {}
 
-    @Override
-    protected final void tickDeath() {
-        if (this.getAnimation() != getDeathAnimation()) {
-            AnimationHandler.INSTANCE.sendAnimationMessage(this, getDeathAnimation());
-        }
-        Animation death;
-        if ((death = getDeathAnimation()) != null) {
-            onDeathUpdate(death.getDuration() - 20);
-        } else {
-            onDeathUpdate(20);
-        }
-    }
-
-    private void onDeathUpdate(int deathDuration) { // TODO copy from entityLiving
+    public void onDeathUpdate(int deathDuration) { // TODO copy from entityLiving
         onDeathAIUpdate();
 
         ++this.deathTime;
         if (this.deathTime >= deathDuration && !this.level().isClientSide() && !this.isRemoved()) {
-            this.level().broadcastEntityEvent(this, (byte)60);
-            this.remove(Entity.RemovalReason.KILLED);
+            lastHurtByPlayer = killDataAttackingPlayer;
+            lastHurtByPlayerTime = killDataRecentlyHit;
+            if (!this.level().isClientSide && dropAfterDeathAnim && killDataCause != null) {
+                dropAllDeathLoot(killDataCause);
+            }
+            this.level().broadcastEntityEvent(this, (byte) 60);
+            this.remove(RemovalReason.KILLED);
         }
     }
 
@@ -178,7 +170,6 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
                 if (entity == null || entity.killedEntity((ServerLevel)this.level(), this)) {
                     this.gameEvent(GameEvent.ENTITY_DIE);
                     this.createWitherRose(livingentity);
-                    this.AfterDefeatBoss(livingentity);
                     if (!dropAfterDeathAnim){
                         this.dropAllDeathLoot(cause);
                     }
@@ -192,7 +183,6 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
             this.setPose(Pose.DYING);
         }
     }
-
 
     protected void AfterDefeatBoss(@Nullable LivingEntity p_21269_) {
     }
@@ -266,33 +256,12 @@ public class Boss_monster extends Animation_Monster implements IAnimatedEntity, 
         }
     }
 
-    public BossEvent.BossBarColor bossBarColor() {
-        return BossEvent.BossBarColor.PURPLE;
+
+    public  List<LivingEntity> getEntityLivingBaseNearby(double distanceX, double distanceY, double distanceZ, double radius) {
+        return getEntitiesNearby(LivingEntity.class, distanceX, distanceY, distanceZ, radius);
     }
 
-    public SoundEvent getBossMusic() {
-        return null;
-    }
-
-    public boolean canBeAffected(MobEffectInstance p_34192_) {
-        return ModTag.EFFECTIVE_FOR_BOSSES_LOOKUP.contains(p_34192_.getEffect()) && super.canBeAffected(p_34192_);
-    }
-
-    @Nullable
-    public Animation getDeathAnimation()
-    {
-        return null;
-    }
-
-    public boolean removeWhenFarAway(double p_21542_) {
-        return false;
-    }
-
-    protected boolean shouldDespawnInPeaceful() {
-        return false;
-    }
-
-    protected boolean canRide(Entity p_31508_) {
-        return false;
+    public <T extends Entity> List<T> getEntitiesNearby(Class<T> entityClass, double dX, double dY, double dZ, double r) {
+        return level().getEntitiesOfClass(entityClass, getBoundingBox().inflate(dX, dY, dZ), e -> e != this && distanceTo(e) <= r + e.getBbWidth() / 2f && e.getY() <= getY() + dY);
     }
 }

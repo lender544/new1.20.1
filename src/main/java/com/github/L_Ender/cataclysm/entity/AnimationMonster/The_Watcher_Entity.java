@@ -32,7 +32,7 @@ import net.minecraft.world.level.pathfinder.Path;
 import java.util.EnumSet;
 
 
-public class The_Watcher_Entity extends Animation_Monster {
+public class The_Watcher_Entity extends LLibrary_Monster {
 
     public static final Animation WATCHER_BITE = Animation.create(22);
     public static final Animation WATCHER_SHOT = Animation.create(55);

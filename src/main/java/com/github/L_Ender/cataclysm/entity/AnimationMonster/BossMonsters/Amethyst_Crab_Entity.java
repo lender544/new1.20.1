@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMEntityMoveHelper;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
@@ -52,7 +53,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class Amethyst_Crab_Entity extends Boss_monster implements NeutralMob {
+public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements NeutralMob {
     public static final Animation CRAB_SMASH = Animation.create(53);
     public static final Animation CRAB_SMASH_THREE = Animation.create(77);
     public static final Animation CRAB_DEATH = Animation.create(114);

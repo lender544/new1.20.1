@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackAniamtionGoal3;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackAnimationGoal1;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Homing_Missile_Entity;
@@ -44,7 +45,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 
-public class The_Prowler_Entity extends Boss_monster {
+public class The_Prowler_Entity extends LLibrary_Boss_Monster {
 
     public static final Animation PROWLER_MISSILE = Animation.create(55);
     public static final Animation PROWLER_ATTACK = Animation.create(84);

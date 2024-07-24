@@ -54,7 +54,6 @@ public class InternalAttackGoal extends Goal {
     @Override
     public void stop() {
         this.entity.setAttackState(attackendstate);
-        this.entity.attackCooldown = 0;
     }
 
     @Override

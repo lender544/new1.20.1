@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.The_Watcher_Entity;
 import com.github.L_Ender.cataclysm.entity.Deepling.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Rework;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -430,6 +431,13 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":ancient_remnant"));
 
+    public static final RegistryObject<EntityType<Ancient_Remnant_Rework>> ANCIENT_REMNANT_REWORK = ENTITY_TYPE.register("ancient_remnant_rework", () -> EntityType.Builder.of(Ancient_Remnant_Rework::new, MobCategory.MONSTER)
+            .sized(3.8F, 5F)
+            .fireImmune()
+            .clientTrackingRange(8)
+            .setShouldReceiveVelocityUpdates(true)
+            .build(Cataclysm.MODID + ":ancient_remnant_rework"));
+
     public static final RegistryObject<EntityType<Modern_Remnant_Entity>> MODERN_REMNANT = ENTITY_TYPE.register("modern_remnant", () -> EntityType.Builder.of(Modern_Remnant_Entity::new, MobCategory.CREATURE)
             .sized(0.75F, 0.42F)
             .clientTrackingRange(10)
@@ -536,6 +544,7 @@ public class ModEntities {
         event.put(KOBOLEDIATOR.get(), Kobolediator_Entity.kobolediator().build());
         event.put(WADJET.get(), Wadjet_Entity.wadjet().build());
         event.put(MALEDICTUS.get(), Maledictus_Entity.maledictus().build());
+        event.put(ANCIENT_REMNANT_REWORK.get(), Ancient_Remnant_Rework.maledictus().build());
     }
 }
 

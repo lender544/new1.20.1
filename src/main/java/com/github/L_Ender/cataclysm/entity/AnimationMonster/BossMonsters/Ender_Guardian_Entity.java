@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
@@ -72,7 +73,7 @@ import java.util.Optional;
 
 import static java.lang.Math.*;
 
-public class Ender_Guardian_Entity extends Boss_monster {
+public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(),this,BossEvent.BossBarColor.PURPLE,false,1);
     private static final EntityDataAccessor<Boolean> IS_HELMETLESS = SynchedEntityData.defineId(Ender_Guardian_Entity.class, EntityDataSerializers.BOOLEAN);

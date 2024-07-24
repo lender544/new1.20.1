@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackMoveGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
@@ -70,7 +71,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class Netherite_Monstrosity_Entity extends Boss_monster implements Enemy {
+public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implements Enemy {
 
    // private final ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(false);
     private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), this, BossEvent.BossBarColor.RED, false,0);

@@ -84,9 +84,13 @@ public class Maledictus_Entity extends IABoss_monster {
     private int masseffect_cooldown = 0;
     private int flyattack_cooldown = 0;
     private int charge_cooldown = 0;
+    private int uppercut_cooldown = 0;
+    private int spin_cooldown = 0;
     public static final int MASSEFFECT_COOLDOWN = 150;
     public static final int FLYATTACK_COOLDOWN = 100;
     public static final int CHARGE_COOLDOWN = 80;
+    public static final int UPPERCUT_COOLDOWN = 80;
+    public static final int SPIN_COOLDOWN = 80;
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -151,9 +155,9 @@ public class Maledictus_Entity extends IABoss_monster {
 
 
         //uppercut
-        this.goalSelector.addGoal(1, new Uppercut(this, 0, 22, 0, 60, 16, 2.5F,18));
+        this.goalSelector.addGoal(1, new Uppercut(this, 0, 22, 0, 60, 16, 2.75F,32f));
 
-        this.goalSelector.addGoal(1, new Uppercut(this, 0, 23, 0, 60, 16, 2.5F,18F));
+        this.goalSelector.addGoal(1, new Uppercut(this, 0, 23, 0, 60, 16, 2.75F,32F));
 
 
         //combo first end
@@ -560,6 +564,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if (masseffect_cooldown > 0) masseffect_cooldown--;
         if (flyattack_cooldown > 0) flyattack_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
+        if (uppercut_cooldown > 0) uppercut_cooldown--;
         if (!this.level().isClientSide) {
             if (this.isFlying()) {
                 this.setNoGravity(!this.onGround());
@@ -1380,6 +1385,7 @@ public class Maledictus_Entity extends IABoss_monster {
         public void stop() {
             super.stop();
             entity.setFlying(false);
+            entity.flyattack_cooldown = FLYATTACK_COOLDOWN;
         }
 
         @Override
@@ -1445,7 +1451,7 @@ public class Maledictus_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random;
+            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && entity.spin_cooldown  <= 0;
         }
 
         @Override
@@ -1485,6 +1491,7 @@ public class Maledictus_Entity extends IABoss_monster {
         public void stop() {
             super.stop();
             entity.setWeapon(stopweapon);
+            entity.spin_cooldown = SPIN_COOLDOWN;
         }
 
         @Override
@@ -1703,7 +1710,7 @@ public class Maledictus_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getSensing().hasLineOfSight(target) && this.entity.getRandom().nextFloat() * 100.0F < random;
+            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getSensing().hasLineOfSight(target) && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.uppercut_cooldown <= 0;
         }
 
 
@@ -1714,6 +1721,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
         @Override
         public void stop() {
+            entity.uppercut_cooldown = UPPERCUT_COOLDOWN;
             this.entity.setAttackState(attackendstate);
         }
 
