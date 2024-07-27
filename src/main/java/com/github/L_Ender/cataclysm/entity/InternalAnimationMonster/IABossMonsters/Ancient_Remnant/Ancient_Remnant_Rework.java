@@ -133,12 +133,12 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 120, true, true, ModEntities.buildPredicateFromTag(ModTag.ANCIENT_REMNANT_TARGET)));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(3, new RemnantAttackModeGoal(this));
+        this.goalSelector.addGoal(4, new RemnantAttackModeGoal(this));
         //right bite
-        this.goalSelector.addGoal(2, new RemnantAttackGoal(this, 0, 4, 0, 70, 29, 6, 10));
+        this.goalSelector.addGoal(3, new RemnantAttackGoal(this, 0, 4, 0, 70, 29, 6, 10));
 
         //sleep
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,1,1,0,0,0){
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,1,1,0,0,0){
             @Override
             public void tick() {
                 entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
@@ -146,11 +146,11 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         });
 
         //awaken
-        this.goalSelector.addGoal(1, new RemnantAwakenGoal(this,1,2,0,80));
+        this.goalSelector.addGoal(0, new RemnantAwakenGoal(this,1,2,0,80));
         //roar
-        this.goalSelector.addGoal(1, new RemnantPhaseChangeGoal(this,0,8,0,60));
+        this.goalSelector.addGoal(0, new RemnantPhaseChangeGoal(this,0,8,0,60));
         //right_stomp
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 9, 0, 47, 26, 20, 10){
+        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 8, 0, 47, 26, 20, 10){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -158,7 +158,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         });
         //left_stomp
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 10, 0, 47, 26, 20, 10){
+        this.goalSelector.addGoal(2, new RemnantAttackGoal(this,0, 9, 0, 47, 26, 20, 10){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -166,9 +166,10 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         });
         //charge_prepare
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 11, 7, 70, 66, 32D, 72));
+        this.goalSelector.addGoal(2, new RemnantAttackGoal(this,0, 10, 11, 70, 66, 32D, 72));
 
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,7,7,0,60,0){
+        //charge
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,11,11,0,60,0){
             @Override
             public void tick() {
                 if(this.entity.onGround()){
@@ -181,7 +182,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         });
 
         //phase_roar
-        this.goalSelector.addGoal(1, new RemnantPhaseChangeGoal(this,0,8,0,60));
+        this.goalSelector.addGoal(1, new RemnantPhaseChangeGoal(this,0,7,0,60));
 
     }
 
@@ -407,23 +408,24 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                     }
                     case 7 -> {
                         this.stopAllAnimationStates();
-                        this.chargeAnimationState.startIfStopped(this.tickCount);
+                        this.phaseroarAnimationState.startIfStopped(this.tickCount);
                     }
                     case 8 -> {
                         this.stopAllAnimationStates();
-                        this.phaseroarAnimationState.startIfStopped(this.tickCount);
+                        this.rightstompAnimationState.startIfStopped(this.tickCount);
                     }
                     case 9 -> {
                         this.stopAllAnimationStates();
-                        this.rightstompAnimationState.startIfStopped(this.tickCount);
+                        this.leftstompAnimationState.startIfStopped(this.tickCount);
                     }
+
                     case 10 -> {
                         this.stopAllAnimationStates();
-                        this.leftstompAnimationState.startIfStopped(this.tickCount);
+                        this.chargeprepareAnimationState.startIfStopped(this.tickCount);
                     }
                     case 11 -> {
                         this.stopAllAnimationStates();
-                        this.chargeprepareAnimationState.startIfStopped(this.tickCount);
+                        this.chargeAnimationState.startIfStopped(this.tickCount);
                     }
                 }
         }
@@ -465,6 +467,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         if (hunting_cooldown > 0) {
             hunting_cooldown--;
         }
+
         if (!this.isSleep()) {
             if (tickCount % 4 == 0) bossEvent.update();
         }
@@ -582,7 +585,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         }
 
-        if(this.getAttackState() == 8) {
+        if(this.getAttackState() == 7) {
             if (this.attackTicks == 14) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 80);
                 this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
@@ -590,7 +593,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         }
 
-        if(this.getAttackState() == 9){
+        if(this.getAttackState() == 8){
             if(this.attackTicks == 28) {
                 StompParticle(0.9f,1.3f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
@@ -608,7 +611,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                 }
             }
         }
-        if(this.getAttackState() == 10){
+        if(this.getAttackState() == 9){
             if(this.attackTicks == 28) {
                 StompParticle(0.9f,-1.3f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
@@ -623,6 +626,26 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                     StompDamage(0.4f, d2, 6,0.9F, 0, -1.3f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
                     Stompsound(ds,-1.3f);
                 }
+            }
+        }
+
+        if(this.getAttackState() == 10){
+            if(this.attackTicks == 1){
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_CHARGE_PREPARE.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
+            }
+
+            if(this.attackTicks == 14){
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                StompParticle(-0.1f,-0.75f);
+            }
+
+            if(this.attackTicks == 43){
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                StompParticle(-0.1f,0.75f);
+            }
+
+            if(this.attackTicks == 66){
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_CHARGE_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
             }
         }
 
@@ -838,7 +861,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
                 double extraX = 0.5 * Mth.sin((float) (Math.PI + angle));
-                double extraY = 0.3F;
+                double extraY = 0.1F;
                 double extraZ = 0.5 * Mth.cos(angle);
                 int hitX = Mth.floor(getX() + vec * vecX+ extraX);
                 int hitY = Mth.floor(getY());

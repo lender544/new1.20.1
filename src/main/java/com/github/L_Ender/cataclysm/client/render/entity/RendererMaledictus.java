@@ -3,11 +3,9 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.client.model.entity.Model_Maledictus;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.client.render.RenderUtils;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Cicle_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
-import com.github.L_Ender.cataclysm.util.AssetsProtector.AESUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -41,7 +39,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
     }
     @Override
     public ResourceLocation getTextureLocation(Maledictus_Entity entity) {
-        return AESUtil.getTexture(MALEDICTUS_TEXTURES);
+        return MALEDICTUS_TEXTURES;
     }
 
     @Override

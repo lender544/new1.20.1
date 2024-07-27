@@ -10,6 +10,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
@@ -19,12 +20,15 @@ import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -91,13 +95,15 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final int CHARGE_COOLDOWN = 80;
     public static final int UPPERCUT_COOLDOWN = 80;
     public static final int SPIN_COOLDOWN = 80;
-
+    public static final int NATURE_HEAL_COOLDOWN = 200;
+    private int timeWithoutTarget;
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
     public static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
 
     public static final EntityDataAccessor<Integer> WEAPON = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
-
+    private final CMBossInfoServer bossEvent1 = new CMBossInfoServer(this.getDisplayName(),this, BossEvent.BossBarColor.GREEN,true,8);
+    private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"),this, BossEvent.BossBarColor.GREEN,false,9);
 
     public Maledictus_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -561,16 +567,36 @@ public class Maledictus_Entity extends IABoss_monster {
                 }
             }
         }
+        this.bossEvent1.setProgress(this.getHealth() / this.getMaxHealth());
+        this.bossEvent2.setProgress((float) this.getRageMeter() / 5);
+        if (tickCount % 4 == 0) {
+            bossEvent1.update();
+        }
         if (masseffect_cooldown > 0) masseffect_cooldown--;
         if (flyattack_cooldown > 0) flyattack_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
         if (uppercut_cooldown > 0) uppercut_cooldown--;
+        LivingEntity target = this.getTarget();
         if (!this.level().isClientSide) {
             if (this.isFlying()) {
                 this.setNoGravity(!this.onGround());
             } else {
                 this.setNoGravity(false);
             }
+
+            if (timeWithoutTarget > 0) timeWithoutTarget--;
+            if (target != null) {
+                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
+            }
+
+            if (this.getAttackState() == 0 && timeWithoutTarget <= 0) {
+                if (!isNoAi() && CMConfig.AncientRemnantNatureHealing > 0) {
+                    if (this.tickCount % 20 == 0) {
+                        this.heal((float) CMConfig.AncientRemnantNatureHealing);
+                    }
+                }
+            }
+
         }
     }
 
@@ -662,7 +688,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         boolean flag = entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 1.6F + Math.min(DMG() * 1.6F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                         if (flag) {
                             rageTicks = 150;
-                            if (this.getRageMeter() <= 5) {
+                            if (this.getRageMeter() < 5) {
                                 setRageMeter(this.getRageMeter() + 1);
                             }
                         }
@@ -697,7 +723,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         boolean flag = entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 1.25F + Math.min(DMG() * 1.25F, entity.getMaxHealth() * CMConfig.MaledictusFlyingSmashHpDamage)));
                         if (flag) {
                             rageTicks = 120;
-                            if (this.getRageMeter() <= 5) {
+                            if (this.getRageMeter() < 5) {
                                 setRageMeter(this.getRageMeter() + 1);
                             }
                         }
@@ -876,7 +902,7 @@ public class Maledictus_Entity extends IABoss_monster {
                     if (flag) {
                         combo = true;
                         rageTicks = 120;
-                        if (this.getRageMeter() <= 5) {
+                        if (this.getRageMeter() < 5) {
                             setRageMeter(this.getRageMeter() + 1);
                         }
                     }
@@ -1000,7 +1026,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 }
                 if (flag) {
                     rageTicks = 120;
-                    if (this.getRageMeter() <= 5) {
+                    if (this.getRageMeter() < 5) {
                         setRageMeter(this.getRageMeter() + 1);
                     }
                 }
@@ -1023,7 +1049,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 }
                 if (flag) {
                     rageTicks = 120;
-                    if (this.getRageMeter() <= 5) {
+                    if (this.getRageMeter() < 5) {
                         setRageMeter(this.getRageMeter() + 1);
                     }
                     if (airborne) {
@@ -1060,7 +1086,7 @@ public class Maledictus_Entity extends IABoss_monster {
                     }
                     if (flag) {
                         rageTicks = 120;
-                        if (this.getRageMeter() <= 5) {
+                        if (this.getRageMeter() < 5) {
                             setRageMeter(this.getRageMeter() + 1);
                         }
                     }
@@ -1091,6 +1117,18 @@ public class Maledictus_Entity extends IABoss_monster {
 
     protected SoundEvent getAmbientSound() {
         return ModSounds.KOBOLEDIATOR_AMBIENT.get();
+    }
+
+    public void startSeenByPlayer(ServerPlayer player) {
+        super.startSeenByPlayer(player);
+        this.bossEvent1.addPlayer(player);
+        this.bossEvent2.addPlayer(player);
+    }
+
+    public void stopSeenByPlayer(ServerPlayer player) {
+        super.stopSeenByPlayer(player);
+        this.bossEvent1.removePlayer(player);
+        this.bossEvent2.removePlayer(player);
     }
 
     @Override

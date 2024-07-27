@@ -1323,5 +1323,219 @@ public class Maledictus_Normal_Attack_Animation {
                         new AdvancedKeyframe(3.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
                 ))
                 .build();
+
+        public static final AdvancedAnimationDefinition HALBERD_SLASH = AdvancedAnimationDefinition.Builder.withLength(2.5F)
+                .addAnimation("berserker", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, -17.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-2.5F, 2.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-0.2031F, -22.4751F, 1.1431F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(-0.1942F, -14.9751F, 1.1157F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(-0.1892F, -7.4752F, 1.0901F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(-0.1878F, -2.4752F, 1.0736F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("berserker", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.POSITION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.posVec(-0.9021F, -0.61F, 2.8312F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.posVec(-0.0015F, -0.7992F, -0.0349F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.posVec(-0.1935F, -5.4184F, -4.4609F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.posVec(-0.1935F, -5.4184F, -4.4609F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_leg", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(18.0087F, -0.7854F, 2.4273F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-121.9913F, -0.7854F, 2.4273F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-69.4913F, -0.7854F, 2.4273F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(-69.4913F, -0.7854F, 2.4273F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(-70.8867F, 4.1698F, -3.9259F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(-70.8867F, 4.1698F, -3.9259F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_front_leg", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(110.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(57.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(62.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(57.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(57.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_leg", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-17.5F, 0.0F, -7.5F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(1.3998F, 4.7632F, 1.1226F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(19.4681F, 6.4528F, -3.6176F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(27.3456F, 8.779F, -8.0599F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(22.3456F, 8.779F, -8.0599F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(22.3456F, 8.779F, -8.0599F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_front_leg", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(20.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(10.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(12.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(12.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("pelvis", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-5.0F, -12.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-6.0719F, 11.9253F, -7.2525F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(-8.8853F, 28.639F, -14.9571F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(-8.8853F, 28.639F, -14.9571F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("body", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-2.5F, -17.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-5.1307F, -24.9925F, 0.3599F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-7.3716F, 17.3602F, -3.2693F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(1.1472F, 35.381F, 9.3934F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(1.1472F, 35.381F, 9.3934F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("body", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.POSITION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_shoulder", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-55.6013F, -60.9823F, 46.1946F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-71.3341F, -15.8054F, 23.2107F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(24.1296F, -33.553F, 52.0026F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0833F, AdvancedKeyframeAnimations.degreeVec(45.7246F, -14.2956F, 76.141F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(87.363F, -4.9813F, 97.0754F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(85.8666F, -3.1301F, 72.0988F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(85.8666F, -3.1301F, 72.0988F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_arm", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-20.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_front_arm", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-32.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-17.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-22.73F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(17.27F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("bow", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("bow", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("halberd", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(5.0F, -17.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-13.1017F, -19.9991F, -1.7761F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(17.5351F, 9.2901F, -8.3709F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("halberd", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.POSITION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.posVec(6.2624F, -1.9924F, -19.8618F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.posVec(4.0684F, 3.3694F, -13.3011F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.posVec(-0.6666F, -3.1098F, -10.5474F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_shoulder", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-7.2849F, -30.3706F, -22.3529F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-145.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0F, AdvancedKeyframeAnimations.degreeVec(-74.6133F, 39.775F, 6.5053F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(-53.489F, 56.8548F, 9.8263F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(-71.9623F, 75.1981F, 26.5312F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(-69.0163F, 77.425F, 29.6888F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(-69.0163F, 77.425F, 29.6888F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_shoulder", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.POSITION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.posVec(-2.9593F, -0.8626F, -2.5492F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.posVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_arm", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_front_arm", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(-107.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(-42.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0F, AdvancedKeyframeAnimations.degreeVec(-36.4651F, -0.2253F, -2.77F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0417F, AdvancedKeyframeAnimations.degreeVec(12.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(13.5295F, 3.0414F, 37.3946F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(13.96F, 3.5333F, 44.8908F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(13.96F, 3.5333F, 44.8908F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("head", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(-2.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.2901F, 24.3187F, 7.7901F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.9167F, AdvancedKeyframeAnimations.degreeVec(5.2901F, 24.3187F, 7.7901F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.125F, AdvancedKeyframeAnimations.degreeVec(4.2501F, -2.0753F, -0.5331F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(-2.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_wing", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, 5.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0833F, AdvancedKeyframeAnimations.degreeVec(0.0F, 79.6F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 90.06F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 55.68F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("left_wing2", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, -45.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0833F, AdvancedKeyframeAnimations.degreeVec(0.0F, -46.38F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, -19.82F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, -18.25F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_wing", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, -27.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0833F, AdvancedKeyframeAnimations.degreeVec(0.0F, 22.21F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, -2.23F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 15.48F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .addAnimation("right_wing2", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
+                        new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(0.0F, 35.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.0833F, AdvancedKeyframeAnimations.degreeVec(0.0F, 47.19F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(1.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 31.22F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 79.3F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
+                        new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
+                ))
+                .build();
         
 }

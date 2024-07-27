@@ -8,7 +8,6 @@ import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.event.ServerEventHandler;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.*;
-import com.github.L_Ender.cataclysm.util.AssetsProtector.AESUtil;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnBiomeModifier;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnStructureModifier;
 import com.mojang.serialization.Codec;

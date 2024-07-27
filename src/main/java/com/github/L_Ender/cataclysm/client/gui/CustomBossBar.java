@@ -20,45 +20,55 @@ public class CustomBossBar {
         customBossBars.put(0, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/monstrosity_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/monstrosity_bar_overlay.png"),
-                5, 16, 0, -2, -2, 256, 16, 25, ChatFormatting.RED));
+                5, 16, 1,0, -2, -2, 256, 16, 25, 182,ChatFormatting.RED));
         //E.G
         customBossBars.put(1, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ender_guardian_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ender_guardian_bar_overlay.png"),
-                10, 16, 0, -2, -2, 256, 16, 25, ChatFormatting.LIGHT_PURPLE));
+                5, 16, 1,0, -2, -2, 256, 16, 25, 182,ChatFormatting.LIGHT_PURPLE));
         //Ignis 1 Phase
         customBossBars.put(2, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_bar_overlay.png"),
-                10, 16, 0, -2, -2, 256, 16, 25, ChatFormatting.YELLOW));
+                5, 16, 1,0, -2, -2, 256, 16, 25,182, ChatFormatting.YELLOW));
         //Ignis 2,3 Phase
         customBossBars.put(3, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_soul_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_soul_bar_overlay.png"),
-                10, 16, 0, -2, -2, 256, 16, 25, ChatFormatting.BLUE));
+                5, 16, 1,0, -2, -2, 256, 16, 25, 182,ChatFormatting.BLUE));
         //harbinger
         customBossBars.put(4, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/harbinger_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/harbinger_bar_overlay.png"),
-                5, 16, 7, -2, -8, 256, 32, 25, ChatFormatting.DARK_RED));
+                5, 16, 1,7, -2, -8, 256, 32, 25,182, ChatFormatting.DARK_RED));
 
         //Levi 1
         customBossBars.put(5, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/leviathan_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/leviathan_bar_overlay.png"),
-                5, 16, 2, -4, -4, 256, 16, 25, ChatFormatting.DARK_PURPLE));
+                5, 16, 1,2, -4, -4, 256, 16, 25, 182,ChatFormatting.DARK_PURPLE));
         //Levi 2
         customBossBars.put(6, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/leviathan_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/leviathan_meltdown_bar_overlay.png"),
-                5, 16, 4, -4, -6, 256, 16, 25, ChatFormatting.DARK_PURPLE));
+                5, 16, 1,4, -4, -6, 256, 16, 25, 182,ChatFormatting.DARK_PURPLE));
 
         //remnant
         customBossBars.put(7, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/remnant_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/remnant_bar_overlay.png"),
-                5, 16, 7, -4, -10, 256, 32, 25, ChatFormatting.WHITE));
+                5, 16, 1,7, -4, -10, 256, 32, 30, 182,ChatFormatting.WHITE));
+        //maledictus health
+        customBossBars.put(8, new CustomBossBar(
+                new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_bar_base.png"),
+                new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_bar_overlay.png"),
+                5, 16, 1,7, -6, -9, 256, 32, 25,182, ChatFormatting.DARK_GREEN));
 
+        //maledictus rage
+        customBossBars.put(9, new CustomBossBar(
+                new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_rage_bar_base.png"),
+                new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_rage_bar_overlay.png"),
+                5, 16, 69,-3, -6,  -8, 256, 16, 15, 48,ChatFormatting.DARK_PURPLE));
 
     }
 
@@ -68,6 +78,7 @@ public class CustomBossBar {
 
     private final int baseHeight;
     private final int baseTextureHeight;
+    private final int baseOffsetX;
     private final int baseOffsetY;
     private final int overlayOffsetX;
     private final int overlayOffsetY;
@@ -76,20 +87,24 @@ public class CustomBossBar {
 
     private final int verticalIncrement;
 
+    private final int getProgress;
+
     private final ChatFormatting textColor;
 
-    public CustomBossBar(ResourceLocation baseTexture, ResourceLocation overlayTexture, int baseHeight, int baseTextureHeight, int baseOffsetY, int overlayOffsetX, int overlayOffsetY, int overlayWidth, int overlayHeight, int verticalIncrement, ChatFormatting textColor) {
+    public CustomBossBar(ResourceLocation baseTexture, ResourceLocation overlayTexture, int baseHeight, int baseTextureHeight,int baseOffsetX, int baseOffsetY, int overlayOffsetX, int overlayOffsetY, int overlayWidth, int overlayHeight, int verticalIncrement,int getProgress, ChatFormatting textColor) {
         this.baseTexture = baseTexture;
         this.overlayTexture = overlayTexture;
         this.hasOverlay = overlayTexture != null;
         this.baseHeight = baseHeight;
         this.baseTextureHeight = baseTextureHeight;
+        this.baseOffsetX = baseOffsetX;
         this.baseOffsetY = baseOffsetY;
         this.overlayOffsetX = overlayOffsetX;
         this.overlayOffsetY = overlayOffsetY;
         this.overlayWidth = overlayWidth;
         this.overlayHeight = overlayHeight;
         this.verticalIncrement = verticalIncrement;
+        this.getProgress = getProgress;
         this.textColor = textColor;
     }
 
@@ -113,6 +128,10 @@ public class CustomBossBar {
         return baseTextureHeight;
     }
 
+    public int getBaseOffsetX() {
+        return baseOffsetX;
+    }
+
     public int getBaseOffsetY() {
         return baseOffsetY;
     }
@@ -133,6 +152,10 @@ public class CustomBossBar {
         return overlayHeight;
     }
 
+    public int getProgress() {
+        return getProgress;
+    }
+
     public int getVerticalIncrement() {
         return verticalIncrement;
     }
@@ -150,7 +173,7 @@ public class CustomBossBar {
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, getBaseTexture());
-        drawBar(guiGraphics, event.getX() + 1, y + getBaseOffsetY(), event.getBossEvent());
+        drawBar(guiGraphics, event.getX() + getBaseOffsetX(), y + getBaseOffsetY(), event.getBossEvent());
         Component component = event.getBossEvent().getName().copy().withStyle(getTextColor());
         Minecraft.getInstance().getProfiler().pop();
 
@@ -163,7 +186,7 @@ public class CustomBossBar {
         if (hasOverlay()) {
             Minecraft.getInstance().getProfiler().push("CataclysmCustomBossBarOverlay");
             RenderSystem.setShaderTexture(0, getOverlayTexture());
-            event.getGuiGraphics().blit(getOverlayTexture(), event.getX() + 1 + getOverlayOffsetX(), y + getOverlayOffsetY() + getBaseOffsetY(), 0, 0, getOverlayWidth(), getOverlayHeight(), getOverlayWidth(), getOverlayHeight());
+            event.getGuiGraphics().blit(getOverlayTexture(), event.getX() + getBaseOffsetX() + getOverlayOffsetX(), y + getOverlayOffsetY() + getBaseOffsetY(), 0, 0, getOverlayWidth(), getOverlayHeight(), getOverlayWidth(), getOverlayHeight());
             Minecraft.getInstance().getProfiler().pop();
         }
 
@@ -171,8 +194,8 @@ public class CustomBossBar {
     }
 
     private void drawBar(GuiGraphics guiGraphics, int x, int y, BossEvent event) {
-        guiGraphics.blit(getBaseTexture(), x, y, 0, 0, 182, getBaseHeight(), 256, getBaseTextureHeight());
-        int i = (int)(event.getProgress() * 183.0F);
+        guiGraphics.blit(getBaseTexture(), x, y, 0, 0, getProgress(), getBaseHeight(), 256, getBaseTextureHeight());
+        int i = (int)(event.getProgress() * (getProgress() + 1));
         if (i > 0) {
             guiGraphics.blit(getBaseTexture(), x, y, 0, getBaseHeight(), i, getBaseHeight(), 256, getBaseTextureHeight());
         }
