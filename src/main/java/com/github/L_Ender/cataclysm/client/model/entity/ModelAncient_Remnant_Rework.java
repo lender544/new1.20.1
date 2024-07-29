@@ -608,7 +608,7 @@ public class ModelAncient_Remnant_Rework extends AdvancedEntityModel<Ancient_Rem
 		//groinJoint.rotationPointY -= 1 * limbSwingAmount;
 
 
-		if(entityIn.getAttackState() != 10 && entityIn.getAttackState() != 11 && !entityIn.isSleep()) {
+		if(entityIn.getAttackState() != 10 && entityIn.getAttackState() != 11 && entityIn.getAttackState() != 12 && !entityIn.isSleep()) {
 			this.animateWalk(Ancient_Remnant_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);
 		}
 
@@ -623,6 +623,7 @@ public class ModelAncient_Remnant_Rework extends AdvancedEntityModel<Ancient_Rem
 		this.animate(entityIn.getAnimationState("right_stomp"), Ancient_Remnant_Animation.STOMP1, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("left_stomp"), Ancient_Remnant_Animation.STOMP2, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("charge_prepare"), Ancient_Remnant_Animation.CHARGE_PREPARE, ageInTicks, 1.0F);
+		this.animate(entityIn.getAnimationState("charge_stun"), Ancient_Remnant_Animation.CHARGE_STUN, ageInTicks, 1.0F);
 		float partialTick = Minecraft.getInstance().getFrameTime();
 
 		if (entityIn.isSleep()) {

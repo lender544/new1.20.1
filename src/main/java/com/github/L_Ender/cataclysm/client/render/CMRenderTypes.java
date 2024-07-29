@@ -154,6 +154,14 @@ public class CMRenderTypes extends RenderType {
         return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
 
+    public static RenderType DragonDeath(ResourceLocation texture) {
+        RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_ALPHA_SHADER)
+                .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                .setCullState(NO_CULL)
+                .createCompositeState(true);
+        return create("entity_alpha", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+    }
+
     public static RenderType getShockWave() {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
@@ -168,6 +176,9 @@ public class CMRenderTypes extends RenderType {
                 .createCompositeState(false);
         return create("shock_wave", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
+
+
+
 
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType() {
         public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {

@@ -209,6 +209,13 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":phantom_arrow"));
 
+    public static final RegistryObject<EntityType<Phantom_Halberd_Entity>> PHANTOM_HALBERD = ENTITY_TYPE.register("phantom_halberd", () -> EntityType.Builder.<Phantom_Halberd_Entity>of(Phantom_Halberd_Entity::new, MobCategory.MISC)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(6)
+            .updateInterval(2)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":phantom_halberd"));
+
     public static final RegistryObject<EntityType<Void_Shard_Entity>> VOID_SHARD = ENTITY_TYPE.register("void_shard", () -> EntityType.Builder.<Void_Shard_Entity>of(Void_Shard_Entity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f)
             .setCustomClientFactory(Void_Shard_Entity::new)
@@ -432,7 +439,7 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":ancient_remnant"));
 
     public static final RegistryObject<EntityType<Ancient_Remnant_Rework>> ANCIENT_REMNANT_REWORK = ENTITY_TYPE.register("ancient_remnant_rework", () -> EntityType.Builder.of(Ancient_Remnant_Rework::new, MobCategory.MONSTER)
-            .sized(3.8F, 5F)
+            .sized(4.35F, 5F)
             .fireImmune()
             .clientTrackingRange(8)
             .setShouldReceiveVelocityUpdates(true)

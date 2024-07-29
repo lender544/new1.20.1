@@ -35,7 +35,7 @@ public class CustomBossBar {
         customBossBars.put(3, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_soul_bar_base.png"),
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/ignis_soul_bar_overlay.png"),
-                5, 16, 1,0, -2, -2, 256, 16, 25, 182,ChatFormatting.BLUE));
+                5, 16, 1,0, -2, -2, 256, 16, 25, 182,ChatFormatting.DARK_AQUA));
         //harbinger
         customBossBars.put(4, new CustomBossBar(
                 new ResourceLocation(Cataclysm.MODID, "textures/gui/boss_bar/harbinger_bar_base.png"),

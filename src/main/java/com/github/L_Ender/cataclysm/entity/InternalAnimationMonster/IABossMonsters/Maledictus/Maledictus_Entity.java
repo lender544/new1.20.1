@@ -122,16 +122,15 @@ public class Maledictus_Entity extends IABoss_monster {
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, true));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
 
-
-
         //spin slashes
-        this.goalSelector.addGoal(1, new MaledictusSpinSlashes(this, 0, 18, 0, 68, 15, 23, 29,15,29,6.5F,0,0,20));
+        this.goalSelector.addGoal(1, new MaledictusSpinSlashes(this, 0, 18, 0, 68, 15, 23, 29,15,29,6.5F,0,0,24));
 
         //combo first
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,19,20,27,10,6F){
             @Override
             public boolean canUse() {
-                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 20;
+                LivingEntity target = entity.getTarget();
+                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 20 && target !=null && this.entity.distanceTo(target) >= 2.75D ;
             }
 
             @Override
@@ -576,6 +575,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if (flyattack_cooldown > 0) flyattack_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
         if (uppercut_cooldown > 0) uppercut_cooldown--;
+        if (spin_cooldown > 0) spin_cooldown--;
         LivingEntity target = this.getTarget();
         if (!this.level().isClientSide) {
             if (this.isFlying()) {
@@ -759,7 +759,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
         if (this.getAttackState() == 15 || this.getAttackState() == 16) {
             if (this.attackTicks >= 16 && this.attackTicks <= 25) {
-                Rushattack(0.15D, 3.75, 1.2F, (float) CMConfig.MaledictusHpDamage, 0, true);
+                Rushattack(0.125D, 3.75, 1.2F, (float) CMConfig.MaledictusHpDamage, 0, true);
                 if (this.level().isClientSide) {
                     double x = this.getX();
                     double y = this.getY() + this.getBbHeight() / 2;
@@ -775,7 +775,7 @@ public class Maledictus_Entity extends IABoss_monster {
         }
         if (this.getAttackState() == 17) {
             if (this.attackTicks >= 16 && this.attackTicks <= 24) {
-                Rushattack(0.2D, 3.75, 1.3F, (float) CMConfig.MaledictusHpDamage, 0, true);
+                Rushattack(0.15D, 3.75, 1.3F, (float) CMConfig.MaledictusHpDamage, 0, true);
                 if (this.level().isClientSide) {
                     double x = this.getX();
                     double y = this.getY() + this.getBbHeight() / 2;

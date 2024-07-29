@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.StormParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Rework;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -143,7 +144,7 @@ public class Sandstorm_Entity extends Entity {
     private void updateMotion() {
         Entity owner = getCreatorEntity();
         if(owner !=null) {
-            if (owner instanceof Ancient_Remnant_Entity) {
+            if (owner instanceof Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Rework) {
                 Vec3 center = owner.position().add(0.0, 0, 0.0);
                 float radius = 8;
                 float speed = this.tickCount * 0.04f;

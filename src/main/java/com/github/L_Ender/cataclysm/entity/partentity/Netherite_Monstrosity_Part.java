@@ -22,8 +22,8 @@ public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstro
         this.refreshDimensions();
     }
 
-    public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity entityCachalotWhale, float sizeX, float sizeY, EntityDimensions size) {
-        super(entityCachalotWhale);
+    public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity nm, float sizeX, float sizeY, EntityDimensions size) {
+        super(nm);
         this.size = size;
     }
 
@@ -89,8 +89,6 @@ public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstro
     public boolean canChangeDimensions() {
         return false;
     }
-
-
 
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         throw new UnsupportedOperationException();
