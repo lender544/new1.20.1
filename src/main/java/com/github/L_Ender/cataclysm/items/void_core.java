@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -56,7 +57,7 @@ public class void_core extends Item {
         }
         ItemStack stack = player.getItemInHand(hand);
         if (hasSucceeded) {
-            player.getCooldowns().addCooldown(this, CMConfig.VoidCoreCooldown);
+            player.getCooldowns().addCooldown(this, 2);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
@@ -87,7 +88,7 @@ public class void_core extends Item {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player));
+            world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player));
             return true;
         }
         return false;

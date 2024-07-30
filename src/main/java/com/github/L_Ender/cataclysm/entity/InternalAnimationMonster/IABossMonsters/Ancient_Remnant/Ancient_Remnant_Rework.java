@@ -2,14 +2,9 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -17,11 +12,7 @@ import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.EarthQuake_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.*;
-import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import com.github.L_Ender.lionfishapi.server.animation.Animation;
-import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolver;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,7 +25,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
@@ -53,8 +43,6 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.boss.wither.WitherBoss;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -93,7 +81,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     public AnimationState chargeprepareAnimationState = new AnimationState();
     public AnimationState chargeAnimationState = new AnimationState();
     public AnimationState chargestunAnimationState = new AnimationState();
-    private static final EntityDataAccessor<Boolean> CHARGE = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> NECKLACE = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> POWER = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.BOOLEAN);
 
@@ -285,7 +273,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(CHARGE, false);
+        this.entityData.define(RAGE, 0);
         this.entityData.define(NECKLACE, true);
         this.entityData.define(POWER, false);
     }
@@ -324,12 +312,12 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
     }
 
-    public void setIsCharge(boolean isAnger) {
-        this.entityData.set(CHARGE, isAnger);
+    public void setRage(int isAnger) {
+        this.entityData.set(RAGE, isAnger);
     }
 
-    public boolean getIsCharge() {
-        return this.entityData.get(CHARGE);
+    public int getRage() {
+        return this.entityData.get(RAGE);
     }
 
     public void setIsPower(boolean isPower) {

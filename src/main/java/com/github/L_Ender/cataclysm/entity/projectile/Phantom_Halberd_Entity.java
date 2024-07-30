@@ -163,15 +163,15 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.level().isClientSide) {
             if (this.clientSideAttackStarted) {
                 ++this.lifeTicks;
-                if (this.lifeTicks == 62) {
-                    for(int i = 0; i < 12; ++i) {
-                        double d0 = this.getX() + (this.random.nextDouble() * 2.0D - 1.0D) * (double)this.getBbWidth() * 0.5D;
-                        double d1 = this.getY() + 0.05D + this.random.nextDouble();
-                        double d2 = this.getZ() + (this.random.nextDouble() * 2.0D - 1.0D) * (double)this.getBbWidth() * 0.5D;
-                        double d3 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.3D;
-                        double d4 = 0.3D + this.random.nextDouble() * 0.3D;
-                        double d5 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.3D;
-                        this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), d0, d1 + 1.0D, d2, d3, d4, d5);
+                if (this.lifeTicks < 70 && this.lifeTicks > 22) {
+                    for(int i = 0; i < 2; ++i) {
+                        double d0 = this.getX();
+                        double d1 = this.getY() + 0.5D + this.random.nextDouble();
+                        double d2 = this.getZ();
+                        double d3 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.15D;
+                        double d4 = 0.15D + this.random.nextDouble() * 0.15D;
+                        double d5 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.15D;
+                        this.level().addParticle(ModParticle.CURSED_FLAME.get(), d0, d1 + 0.35D, d2, d3, d4, d5);
                     }
                 }
 
