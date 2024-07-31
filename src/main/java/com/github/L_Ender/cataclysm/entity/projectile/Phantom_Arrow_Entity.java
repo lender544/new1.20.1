@@ -196,9 +196,8 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
                 if (this.pickup == AbstractArrow.Pickup.ALLOWED) {
                     this.spawnAtLocation(this.getPickupItem(), 0.1F);
                 }
-
-                this.discard();
             }
+            this.discard();
         }
 
         this.playSound(SoundEvents.ARROW_HIT, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));

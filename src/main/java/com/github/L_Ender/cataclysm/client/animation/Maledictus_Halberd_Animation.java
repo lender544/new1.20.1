@@ -1279,22 +1279,6 @@ public class Maledictus_Halberd_Animation {
 					new AdvancedKeyframe(1.75F, AdvancedKeyframeAnimations.degreeVec(19.82F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
 					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
 			))
-			.addAnimation("bow", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("bow", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("right_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("right_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
 			.addAnimation("halberd", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
 					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
 					new AdvancedKeyframe(0.75F, AdvancedKeyframeAnimations.degreeVec(5.0F, -17.5F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
@@ -1342,14 +1326,6 @@ public class Maledictus_Halberd_Animation {
 					new AdvancedKeyframe(1.3333F, AdvancedKeyframeAnimations.degreeVec(13.96F, 3.5333F, 44.8908F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
 					new AdvancedKeyframe(2.0833F, AdvancedKeyframeAnimations.degreeVec(13.96F, 3.5333F, 44.8908F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
 					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("left_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
-			))
-			.addAnimation("left_mace", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.SCALE,
-					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),
-					new AdvancedKeyframe(2.5F, AdvancedKeyframeAnimations.scaleVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM)
 			))
 			.addAnimation("head", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
 					new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(-2.5F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),

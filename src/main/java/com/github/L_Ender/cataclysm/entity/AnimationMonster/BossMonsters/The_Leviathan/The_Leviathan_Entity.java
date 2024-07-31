@@ -204,8 +204,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new LeviathanAIFindWaterAndPortal(this));
-        this.goalSelector.addGoal(2, new MobAIFindWater(this,1.0D));
+        this.goalSelector.addGoal(2, new MobAIFindWater(this,2.0D));
         this.goalSelector.addGoal(3, new LeviathanAttackGoal(this));
         this.goalSelector.addGoal(4, new AnimalAIRandomSwimming(this, 1F, 3, 15));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
@@ -2300,64 +2299,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     entity.getLookControl().setLookAt(target, 30, 90);
                 }
             }
-        }
-    }
-
-    static class LeviathanAIFindWaterAndPortal extends Goal {
-        private final The_Leviathan_Entity creature;
-        private BlockPos targetPos;
-
-        public LeviathanAIFindWaterAndPortal(The_Leviathan_Entity creature) {
-            this.creature = creature;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
-        }
-
-        public boolean canUse() {
-            if (this.creature.onGround() && !this.creature.level().getFluidState(this.creature.blockPosition()).is(FluidTags.WATER) && this.creature.makePortalCooldown <= 0) {
-                if (this.creature.shouldEnterWater()) {
-                    targetPos = generateTarget();
-                    return targetPos != null;
-                }
-            }
-            return false;
-        }
-
-        public void start() {
-            if (targetPos != null) {
-                Vec3 to = new Vec3(targetPos.getX(), targetPos.getY(), targetPos.getZ());
-                this.creature.createPortal2(this.creature.getX() , this.creature.getY() + 0.1,this.creature.getZ(), to);
-            }
-        }
-
-        public void tick() {
-            if (targetPos != null) {
-                if (this.creature.portalTarget != null) {
-                    double centerX = this.creature.portalTarget.getX();
-                    double centerY = this.creature.portalTarget.getY();
-                    double centerZ = this.creature.portalTarget.getZ();
-                    this.creature.getNavigation().moveTo(centerX, centerY, centerZ, 1D);
-                    // this.creature.getMoveControl().setWantedPosition(centerX, centerY, centerZ, 1.0D);
-                    this.creature.lookAt(this.creature.portalTarget, 30.0F, 30.0F);
-                }
-            }
-        }
-
-
-        public BlockPos generateTarget() {
-            BlockPos blockpos = null;
-            final RandomSource random = this.creature.getRandom();
-            final int range = this.creature.getWaterSearchRange();
-            for(int i = 0; i < 15; i++) {
-                BlockPos blockPos = this.creature.blockPosition().offset(random.nextInt(range) - range/2, 3, random.nextInt(range) - range/2);
-                while (this.creature.level().isEmptyBlock(blockPos) && blockPos.getY() > 1) {
-                    blockPos = blockPos.below();
-                }
-
-                if (this.creature.level().getFluidState(blockPos).is(FluidTags.WATER)) {
-                    blockpos = blockPos;
-                }
-            }
-            return blockpos;
         }
     }
 

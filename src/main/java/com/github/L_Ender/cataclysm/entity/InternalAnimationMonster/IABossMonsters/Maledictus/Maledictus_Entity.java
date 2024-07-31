@@ -91,6 +91,7 @@ public class Maledictus_Entity extends IABoss_monster {
     public AnimationState flyinghalberdsmash1AnimationState = new AnimationState();
     public AnimationState flyinghalberdsmash2AnimationState = new AnimationState();
     public AnimationState radagonAnimationState = new AnimationState();
+    public AnimationState halberdswingAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
 
 
@@ -139,6 +140,24 @@ public class Maledictus_Entity extends IABoss_monster {
         //spin slashes
         this.goalSelector.addGoal(1, new MaledictusSpinSlashes(this, 0, 18, 0, 68, 15, 23, 29,15,29,6.5F,0,0,24));
 
+        //halberd_swing
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,27,0,50,22,3.5F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 34f;
+
+            }
+            @Override
+            public void start() {
+                super.start();
+                Maledictus_Entity.this.setWeapon(2);
+            }
+            @Override
+            public void stop() {
+                super.stop();
+                Maledictus_Entity.this.setWeapon(0);
+            }
+        });
         //combo first
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,19,20,27,10,6F){
             @Override
@@ -198,6 +217,7 @@ public class Maledictus_Entity extends IABoss_monster {
         //swing
         this.goalSelector.addGoal(1, new Maledictus_Swing(this, 0, 1, 0, 44, 25, 6.5F, 35f, 20F));
 
+
         //bow
         this.goalSelector.addGoal(1, new Maledictus_Bow(this, 0, 2, 0, 45, 29, 8F, 35f, 29, 16F));
 
@@ -243,7 +263,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
 
         //radagon
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,26,0,73,16,14F){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,26,0,73,43,13F){
             @Override
             public boolean canUse() {
                 if(Maledictus_Entity.this.isQuarterHealth()){
@@ -265,6 +285,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 Maledictus_Entity.this.setWeapon(0);
             }
         });
+
 
         //backstep
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,10,0,15,15,4.5F){
@@ -293,22 +314,22 @@ public class Maledictus_Entity extends IABoss_monster {
 
 
         //backstep-charge-backstep
-        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 11, 11, 0, 65, 19, 31, 24,33,2,0,0));
+        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 11, 11, 0, 65, 18, 31, 24,33,2,0,0));
 
         //backstep-charge-nobackstep
-        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 12, 12, 0, 55, 19, 31, 24,0,2,0,1));
+        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 12, 12, 0, 55, 18, 31, 24,0,2,0,1));
 
         //only charge
-        this.goalSelector.addGoal(1, new MaledictusChargeGoal(this, 0, 19, 31, 24, 4.5F, 13F, 2,0,16f));
+        this.goalSelector.addGoal(1, new MaledictusChargeGoal(this, 0, 19, 30, 24, 4.5F, 13F, 2,0,16f));
 
         //dash 2-backstep
-        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 15, 15, 0, 55, 13, 25, 16,27,2,0,2));
+        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 15, 15, 0, 55, 10, 25, 16,27,2,0,2));
 
         //dash 2-nobackstep
-        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 16, 16, 0, 40, 13, 25, 16,0,2,0,2));
+        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 16, 16, 0, 40, 10, 25, 16,0,2,0,2));
 
         //dash 3
-        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 17, 17, 0, 58, 11, 28, 16,30,2,0,3));
+        this.goalSelector.addGoal(0, new MaledictusChargeState(this, 17, 17, 0, 58, 10, 28, 16,30,2,0,3));
 
 
 
@@ -415,6 +436,8 @@ public class Maledictus_Entity extends IABoss_monster {
             return this.flyinghalberdsmash2AnimationState;
         } else if (input == "radagon") {
             return this.radagonAnimationState;
+        } else if (input == "halberd_swing") {
+            return this.halberdswingAnimationState;
         } else {
             return new AnimationState();
         }
@@ -567,6 +590,10 @@ public class Maledictus_Entity extends IABoss_monster {
                         this.stopAllAnimationStates();
                         this.radagonAnimationState.startIfStopped(this.tickCount);
                     }
+                    case 27 -> {
+                        this.stopAllAnimationStates();
+                        this.halberdswingAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
 
@@ -600,6 +627,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.flyinghalberdsmash1AnimationState.stop();
         this.flyinghalberdsmash2AnimationState.stop();
         this.radagonAnimationState.stop();
+        this.halberdswingAnimationState.stop();
     }
 
     public void die(DamageSource p_21014_) {
@@ -647,6 +675,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if (charge_cooldown > 0) charge_cooldown--;
         if (uppercut_cooldown > 0) uppercut_cooldown--;
         if (spin_cooldown > 0) spin_cooldown--;
+        if (radagon_cooldown > 0) radagon_cooldown--;
         LivingEntity target = this.getTarget();
         if (!this.level().isClientSide) {
             if (this.isFlying()) {
@@ -692,7 +721,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 25) {
-                AreaAttack(5.5f, 5.5f, 270, 1, (float) CMConfig.MaledictusSmashHpDamage, 200, false);
+                AreaAttack(5.5f, 5.5f, 270, 1, (float) CMConfig.MaledictusSmashHpDamage, 200, false,false);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
                 MakeRingparticle(2.5f, 0.2f, 40, 0.337f, 0.925f, 0.8f, 1.0f, 30f);
             }
@@ -860,13 +889,13 @@ public class Maledictus_Entity extends IABoss_monster {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 20) {
-                AreaAttack(3.25f, 3.25f, 220, 1, (float) CMConfig.MaledictusHpDamage, 0, false);
+                AreaAttack(3.25f, 3.25f, 220, 1, (float) CMConfig.MaledictusHpDamage, 0, false,false);
             }
             if (this.attackTicks == 32) {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 34) {
-                AreaAttack(3.25f, 3.25f, 220, 1, (float) CMConfig.MaledictusHpDamage, 200, false);
+                AreaAttack(3.25f, 3.25f, 220, 1, (float) CMConfig.MaledictusHpDamage, 200, false,false);
             }
         }
         if (this.getAttackState() == 19) {
@@ -874,7 +903,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 12) {
-                AreaAttack(4.0f, 4.0f, 180, 1, (float) CMConfig.MaledictusHpDamage, 0, false);
+                AreaAttack(4.0f, 4.0f, 180, 1, (float) CMConfig.MaledictusHpDamage, 0, false,false);
             }
 
             if (this.attackTicks == 22) {
@@ -891,14 +920,14 @@ public class Maledictus_Entity extends IABoss_monster {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 12) {
-                AreaAttack(4.25f, 4.25f, 180, 1, (float) CMConfig.MaledictusHpDamage, 0, true);
+                AreaAttack(4.25f, 4.25f, 180, 1, (float) CMConfig.MaledictusHpDamage, 0, true,false);
             }
 
             if (this.attackTicks == 22) {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
             if (this.attackTicks == 24) {
-                AreaAttack(5f, 5f, 70, 1.2F, (float) CMConfig.MaledictusHpDamage, 0, true);
+                AreaAttack(5f, 5f, 70, 1.2F, (float) CMConfig.MaledictusHpDamage, 0, true,false);
                 MakeRingparticle(2.5f, 0.2f, 40, 0.337f, 0.925f, 0.8f, 1.0f, 30f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
             }
@@ -966,6 +995,9 @@ public class Maledictus_Entity extends IABoss_monster {
                         }
                     }
                 }
+                StrikeWindmillHalberd(6, 10, 1.0, 0.75, 0.2, 1);
+
+                StrikeWindmillHalberd(4, 10, 1.0, 1.2, 0.15, 1);
             }
             if (this.attackTicks == 37) {
                 MakeRingparticle(2.25f, 0.3f, 40, 0.337f, 0.925f, 0.8f, 1.0f, 30f);
@@ -980,7 +1012,7 @@ public class Maledictus_Entity extends IABoss_monster {
                         }
                     }
                 }
-                StrikeHalberd(12,12F,5 + random.nextInt(1),2.5D,1);
+               // StrikeHalberd(12,12F,5 + random.nextInt(1),2.5D,1);
             }
             if (this.attackTicks == 39) {
                 StrikeHalberd(14,14F,7 + random.nextInt(3),4D,1);
@@ -999,19 +1031,25 @@ public class Maledictus_Entity extends IABoss_monster {
 
         if(this.getAttackState() == 26){
             if(this.attackTicks == 15) {
-                AreaAttack(4.5f, 4.5f, 80, 1.2F, (float) CMConfig.MaledictusSmashHpDamage, 0, true);
+                AreaAttack(4.5f, 4.5f, 80, 1.2F, (float) CMConfig.MaledictusSmashHpDamage, 0, true,false);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
             }
             if(this.attackTicks == 44) {
-                AreaAttack(5.5f, 5.5f, 110, 1.0F, (float) CMConfig.MaledictusSmashHpDamage, 0, true);
+                AreaAttack(5.5f, 5.5f, 110, 1.0F, (float) CMConfig.MaledictusSmashHpDamage, 0, true,false);
               //  ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
             }
 
-            for (int l = 44; l <= 60; l = l + 2) {
+            for (int l = 44; l <= 58; l = l + 2) {
                 if (this.attackTicks == l) {
                     int d = l - 42;
-                    radagonskill(0.3f, d, 1,2);
+                    radagonskill(0.45f, d, 1,2);
                 }
+            }
+        }
+        if(this.getAttackState() == 27){
+            if(this.attackTicks == 20) {
+                AreaAttack(5.25f, 5.25f, 110, 1.0F, (float) CMConfig.MaledictusHpDamage, 120, false,true);
+                //  ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
             }
         }
 
@@ -1023,6 +1061,8 @@ public class Maledictus_Entity extends IABoss_monster {
             float f2 = angle2 + (float) k * (float) Math.PI * 2.0F / close + ((float) Math.PI * 2F / radius);
             this.spawnHalberd(this.getX() + (double) Mth.cos(f2) * range, this.getZ() + (double) Mth.sin(f2) * range, this.getY() -5, this.getY() + 3, f2, delay);
         }
+
+
         if (this.level().isClientSide) {
             for (int k = 0; k < rune; ++k) {
                 float f2 = angle2 + (float) k * (float) Math.PI * 2.0F / close + ((float) Math.PI * 2F / radius);
@@ -1040,6 +1080,40 @@ public class Maledictus_Entity extends IABoss_monster {
             }
         }
     }
+
+
+    private void StrikeWindmillHalberd(int numberOfBranches, int particlesPerBranch, double initialRadius, double radiusIncrement, double curveFactor, int delay) {
+        float angleIncrement = (float) (2 * Math.PI / numberOfBranches);
+        for (int branch = 0; branch < numberOfBranches; ++branch) {
+            float baseAngle = angleIncrement * branch;
+
+            for (int i = 0; i < particlesPerBranch; ++i) {
+                double currentRadius = initialRadius + i * radiusIncrement;
+                float currentAngle = (float) (baseAngle + i * angleIncrement / initialRadius + (float) (i * curveFactor));
+
+                double xOffset = currentRadius * Math.cos(currentAngle);
+                double zOffset = currentRadius * Math.sin(currentAngle);
+
+                double spawnX = this.getX() + xOffset;
+                double spawnY = this.getY() + 0.3D;
+                double spawnZ = this.getZ() + zOffset;
+                int d3 = delay * (i + 1);
+                this.spawnHalberd(spawnX, spawnZ, this.getY() -5, this.getY() + 3, currentAngle, d3);
+
+                double deltaX = getRandom().nextGaussian() * 0.007D;
+                double deltaY = getRandom().nextGaussian() * 0.007D;
+                double deltaZ = getRandom().nextGaussian() * 0.007D;
+                if (this.level().isClientSide) {
+                    this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), spawnX, spawnY, spawnZ, deltaX, deltaY, deltaZ);
+                }
+            }
+        }
+    }
+
+    public static Vec3 rotateVectorAroundY(Vec3 vector, double degrees) {
+        return vector.yRot((float) Math.toRadians(degrees));
+    }
+
 
     private void radagonskill(float spreadarc, int distance, float vec, int delay) {
         double perpFacing = this.yBodyRot * (Math.PI / 180);
@@ -1317,7 +1391,7 @@ public class Maledictus_Entity extends IABoss_monster {
     }
 
 
-    private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, boolean maledictio) {
+    private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, boolean maledictio,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -1341,6 +1415,12 @@ public class Maledictus_Entity extends IABoss_monster {
                         rageTicks = 140;
                         if (this.getRageMeter() < 5) {
                             setRageMeter(this.getRageMeter() + 1);
+                        }
+                        double d0 = entityHit.getX() - this.getX();
+                        double d1 = entityHit.getZ() - this.getZ();
+                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                        if (knockback) {
+                            entityHit.push(d0 / d2 * 2.5D, 0.18D, d1 / d2 * 2.2D);
                         }
                     }
                 }
