@@ -193,6 +193,9 @@ public class ModItems {
     public static final RegistryObject<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+    public static final RegistryObject<Item> CURSIUM_INGOT = ITEMS.register("cursium_ingot",
+            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
     public static final RegistryObject<Item> IGNITIUM_UPGARDE_SMITHING_TEMPLATE = ITEMS.register("ignitium_upgrade_smithing_template",
             () -> ModTemplate.createignitiumUpgradeTemplate());
 

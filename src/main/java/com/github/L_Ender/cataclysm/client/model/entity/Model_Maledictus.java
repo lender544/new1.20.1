@@ -4,16 +4,13 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.cataclysm.client.animation.Maledictus_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Maledictus_Dashes_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Maledictus_Normal_Attack_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Maledictus_Halberd_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Maledictus_Attack_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Vector4f;
 
 public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 	public final AdvancedModelBox root;
@@ -443,32 +440,34 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		this.animate(entity.getAnimationState("mass_effect"), Maledictus_Animation.MASS_EFFECT, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("flying_smash_1"), Maledictus_Animation.FLYING_SMASH_1, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("flying_smash_2"), Maledictus_Animation.FLYING_SMASH_2, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("flying_halberd_smash_1"), Maledictus_Halberd_Animation.FLYING_HALBERD_SMASH_1, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("flying_halberd_smash_2"), Maledictus_Halberd_Animation.FLYING_HALBERD_SMASH_2, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Maledictus_Animation.DEATH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("back_step"), Maledictus_Animation.CHARGE_BACKSTEP, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("back_step_dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("dash"), Maledictus_Dashes_Animation.DASH1, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step_dash"), Maledictus_Halberd_Animation.DASH1, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash"), Maledictus_Halberd_Animation.DASH1, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("dash_no_back_step"), Maledictus_Dashes_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Halberd_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash_no_back_step"), Maledictus_Halberd_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("dash2"), Maledictus_Dashes_Animation.DASH2, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash2"), Maledictus_Halberd_Animation.DASH2, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("dash2_no_back_step"), Maledictus_Dashes_Animation.DASH2_NO_BACK_STEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash2_no_back_step"), Maledictus_Halberd_Animation.DASH2_NO_BACK_STEP, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("dash3"), Maledictus_Dashes_Animation.DASH3, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("dash3"), Maledictus_Halberd_Animation.DASH3, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("spin_slashes"), Maledictus_Normal_Attack_Animation.SPIN_SLASHES, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("spin_slashes"), Maledictus_Attack_Animation.SPIN_SLASHES, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("combo_first"), Maledictus_Normal_Attack_Animation.COMBO_FIRST, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("combo_first"), Maledictus_Attack_Animation.COMBO_FIRST, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("combo_first_end"), Maledictus_Normal_Attack_Animation.COMBO_FIRST_END, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("combo_first_end"), Maledictus_Attack_Animation.COMBO_FIRST_END, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("combo_second"), Maledictus_Normal_Attack_Animation.COMBO_SECOND, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("combo_second"), Maledictus_Attack_Animation.COMBO_SECOND, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("uppercut_right"), Maledictus_Normal_Attack_Animation.UPPERCUT_RIGHT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("uppercut_right"), Maledictus_Attack_Animation.UPPERCUT_RIGHT, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("uppercut_left"), Maledictus_Normal_Attack_Animation.UPPERCUT_LEFT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("uppercut_left"), Maledictus_Attack_Animation.UPPERCUT_LEFT, ageInTicks, 1.0F);
 
 		if(entity.getAttackState() != 10 && entity.getAttackState() != 11 && entity.getAttackState() != 12 && entity.getAttackState() != 13 && entity.getAttackState() != 14 && entity.getAttackState() != 18) {
 			this.animateWalk(Maledictus_Animation.WALK, limbSwing, limbSwingAmount, 1.0F, 4.0F);

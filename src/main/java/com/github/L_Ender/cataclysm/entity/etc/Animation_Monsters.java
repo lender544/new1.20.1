@@ -36,8 +36,8 @@ public class Animation_Monsters extends Monster implements Enemy {
     public DamageSource killDataCause;
     public Player killDataAttackingPlayer;
     public int attackTicks;
-    private static final byte MUSIC_PLAY_ID = 67;
-    private static final byte MUSIC_STOP_ID = 68;
+    public static final byte MUSIC_PLAY_ID = 67;
+    public static final byte MUSIC_STOP_ID = 68;
 
     @OnlyIn(Dist.CLIENT)
     public Vec3[] socketPosArray;
@@ -60,8 +60,7 @@ public class Animation_Monsters extends Monster implements Enemy {
         if (!level().isClientSide && getBossMusic() != null) {
             if (canPlayMusic()) {
                 this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
-            }
-            else {
+            } else {
                 this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
             }
         }

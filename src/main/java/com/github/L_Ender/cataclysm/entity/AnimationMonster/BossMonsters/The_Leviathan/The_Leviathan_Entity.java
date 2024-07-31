@@ -768,9 +768,19 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
 
         if(this.getAnimation() == LEVIATHAN_PHASE2){
+            if (this.getAnimationTick() == 1) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
+                }
+            }
+
+
             if (this.getAnimationTick() == 90) {
                 if(!this.getMeltDown()) {
                     setMeltDown(true);
+                }
+                if (!level().isClientSide && getBossMusic() != null) {
+                    this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
                 }
                 for(int i = 0; i < 3; ++i) {
                     motion = new Vec3(0.5, -1.25, 0.5).yRot(-(float)(120 * i) * 0.01745329251F);
@@ -1417,12 +1427,16 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     @Override
     public SoundEvent getBossMusic() {
-        return ModSounds.LEVIATHAN_MUSIC.get();
+        return this.getMeltDown() ? ModSounds.LEVIATHAN_MUSIC_2.get() : ModSounds.LEVIATHAN_MUSIC_1.get();
     }
 
     @Override
     protected boolean canPlayMusic() {
-        return super.canPlayMusic();
+        if (this.getAnimation() == LEVIATHAN_PHASE2 ){
+            return getAnimationTick() > 90 &&  super.canPlayMusic();
+        }else{
+            return super.canPlayMusic();
+        }
     }
 
     @Nullable

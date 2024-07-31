@@ -227,6 +227,12 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> LEVIATHAN_MUSIC = SOUNDS.register("leviathan_music",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"leviathan_music")));
 
+    public static final RegistryObject<SoundEvent> LEVIATHAN_MUSIC_1 = SOUNDS.register("leviathan_music_1",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"leviathan_music_1")));
+
+    public static final RegistryObject<SoundEvent> LEVIATHAN_MUSIC_2 = SOUNDS.register("leviathan_music_2",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"leviathan_music_2")));
+
     public static final RegistryObject<SoundEvent> TIDAL_TENTACLE = SOUNDS.register("tidal_tentacle",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"tidal_tentacle")));
 

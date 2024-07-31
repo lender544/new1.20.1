@@ -10,8 +10,9 @@
         ],
         "palette_key": "trims/color_palettes/trim_palette",
         "permutations": {
-            "witherite": "cataclysm:trims/color_palettes/witherite",
-            "ignitium": "cataclysm:trims/color_palettes/ignitium"
+          "witherite": "cataclysm:trims/color_palettes/witherite",
+          "ignitium": "cataclysm:trims/color_palettes/ignitium",
+          "ancient_metal": "cataclysm:trims/color_palettes/ancient_metal"
         }
       }
     ]

@@ -356,6 +356,22 @@
       }
     ]
   },
+  "leviathan_music_1": {
+    "subtitle": "leviathan_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/leviathan_theme_1"
+      }
+    ]
+  }, "leviathan_music_2": {
+  "subtitle": "leviathan_music.sub",
+  "sounds": [
+    {
+      "name": "cataclysm:music_disc/leviathan_theme_2"
+    }
+  ]
+},
+
   "remnant_music": {
     "subtitle": "remnant_music.sub",
     "sounds": [

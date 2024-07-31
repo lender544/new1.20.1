@@ -126,6 +126,11 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
                     drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
                 }
             }
+            if (entity.getAttackState() == 24) {
+                if (entity.attackTicks <= 50) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
+            }
         }
 
         matrixStackIn.popPose();
@@ -204,6 +209,11 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
             if (entity.getAttackState() == 22 || entity.getAttackState() == 23) {
                 if (entity.attackTicks <= 21) {
                     drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
+                }
+            }
+            if (entity.getAttackState() == 24) {
+                if (entity.attackTicks <= 50) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
                 }
             }
         }

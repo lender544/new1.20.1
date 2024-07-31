@@ -1,6 +1,8 @@
 {
   "values": [
     "cataclysm:ignitium_ingot",
-    "cataclysm:witherite_ingot"
+    "cataclysm:witherite_ingot",
+    "cataclysm:ancient_metal_ingot",
+    "cataclysm:cursium_ingot"
   ]
 }
