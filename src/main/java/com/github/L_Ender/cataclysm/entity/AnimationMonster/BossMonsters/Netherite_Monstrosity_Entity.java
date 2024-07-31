@@ -264,7 +264,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     public void tick() {
         super.tick();
         this.floatStrider();
-        if (tickCount % 4 == 0) bossInfo.update();
+        if (tickCount % 4 == 0) bossInfo.update(this.getHealth() , this.getMaxHealth());
 
         frame++;
         float moveX = (float) (getX() - xo);

@@ -320,10 +320,6 @@ public class Ancient_Remnant_Entity extends LLibrary_Boss_Monster {
         if (hunting_cooldown > 0) {
             hunting_cooldown--;
         }
-        if (this.getIsAct()) {
-            if (tickCount % 4 == 0) bossEvent.update();
-        }
-
 
         if (charge_cooldown > 0) charge_cooldown--;
         if (roar_cooldown > 0) roar_cooldown--;

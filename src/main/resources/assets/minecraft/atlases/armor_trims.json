@@ -40,7 +40,8 @@
       "permutations": {
         "ignitium": "cataclysm:trims/color_palettes/ignitium",
         "witherite": "cataclysm:trims/color_palettes/witherite",
-        "ancient_metal": "cataclysm:trims/color_palettes/ancient_metal"
+        "ancient_metal": "cataclysm:trims/color_palettes/ancient_metal",
+        "cursium": "cataclysm:trims/color_palettes/cursium"
       }
     }
   ]

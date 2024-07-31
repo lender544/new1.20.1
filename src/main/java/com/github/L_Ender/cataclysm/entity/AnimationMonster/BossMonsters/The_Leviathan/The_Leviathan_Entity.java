@@ -368,7 +368,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public void tick() {
         super.tick();
         this.setYRot(this.yHeadRot);
-        if (tickCount % 4 == 0) bossInfo.update();
+        if (tickCount % 4 == 0) bossInfo.update(this.getHealth(), this.getMaxHealth());
         if (isInWater() && this.isLandNavigator) {
             switchNavigator(false);
         }

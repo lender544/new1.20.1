@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "cataclysm:maledictio"
+    "cataclysm:maledictio",
+    "cataclysm:maledictio_magicae"
   ]
 }

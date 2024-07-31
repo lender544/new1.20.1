@@ -285,7 +285,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
         }
         if (this.getIsAct()) {
             if (skill_cooldown > 0) skill_cooldown--;
-            if (tickCount % 4 == 0) bossEvent.update();
+            if (tickCount % 4 == 0) bossEvent.update(this.getHealth(), this.getMaxHealth());
         }
 
 

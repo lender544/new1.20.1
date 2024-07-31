@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -164,7 +165,7 @@ public class Phantom_Halberd_Entity extends Entity {
             if (this.clientSideAttackStarted) {
                 ++this.lifeTicks;
                 if (this.lifeTicks < 70 && this.lifeTicks > 22) {
-
+                    if(this.tickCount % 6 == 0) {
                         double d0 = this.getX();
                         double d1 = this.getY() + 0.5D + this.random.nextDouble();
                         double d2 = this.getZ();
@@ -173,6 +174,7 @@ public class Phantom_Halberd_Entity extends Entity {
                         double d5 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.15D;
                         this.level().addParticle(ModParticle.CURSED_FLAME.get(), d0, d1 + 0.35D, d2, d3, d4, d5);
 
+                    }
                 }
 
             }
@@ -207,12 +209,12 @@ public class Phantom_Halberd_Entity extends Entity {
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 5 == 0) {
                 if (livingentity == null) {
-                    Hitentity.hurt(this.damageSources().magic(), (float) CMConfig.Voidrunedamage);
+                    Hitentity.hurt(this.damageSources().magic(), 12);
                 } else {
                     if (livingentity.isAlliedTo(Hitentity)) {
                         return;
                     }
-                    Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), (float) CMConfig.Voidrunedamage);
+                    Hitentity.hurt(CMDamageTypes.causeMaledictioMagicaeDamage(this,livingentity), 12);
                 }
             }
         }
@@ -228,7 +230,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (id == 4) {
             this.clientSideAttackStarted = true;
             if (!this.isSilent()) {
-                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.VOID_RUNE_RISING.get(), this.getSoundSource(), 0.5F, this.random.nextFloat() * 0.2F + 0.85F, false);
+               // this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.VOID_RUNE_RISING.get(), this.getSoundSource(), 0.5F, this.random.nextFloat() * 0.2F + 0.85F, false);
             }
         }
 

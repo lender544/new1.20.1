@@ -462,6 +462,7 @@
   "death.attack.cataclysm.laser": "%s was exterminated by %s 's laser",
   "death.attack.cataclysm.deathlaser": "%s was exterminated by %s 's laser",
   "death.attack.cataclysm.maledictio_sagitta": "%s was cursed by %s 's Arrow",
+  "death.attack.cataclysm.maledictio_magicae": "%s was cursed by %s 's Magic",
   "death.attack.cataclysm.emp": "%s has become Electric Grilled Chicken",
   "death.attack.cataclysm.emp.player": "%s has become Electric Grilled Chicken",
   "death.attack.cataclysm.abyssal_burn": "%s has left this dimension",
@@ -469,6 +470,7 @@
   "death.attack.cataclysm.shredder": "%s was shattered by %s",
   "death.attack.cataclysm.sword_dance": "%s was cut by %s",
   "death.attack.cataclysm.maledictio": "%s was cursed by %s",
+
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",

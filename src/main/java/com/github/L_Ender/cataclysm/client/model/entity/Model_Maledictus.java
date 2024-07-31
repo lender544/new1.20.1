@@ -110,7 +110,7 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		cube_r2.setRotationPoint(0.0F, -1.0171F, -2.2611F);
 		right_front_leg.addChild(cube_r2);
 		setRotationAngle(cube_r2, 0.5672F, 0.0F, 0.0F);
-		cube_r2.setTextureOffset(101, 155).addBox(-4.5F, 1.0F, -3.0F, 6.0F, 9.0F, 5.0F, 0.0F, false);
+		cube_r2.setTextureOffset(101, 155).addBox(-5.0F, 1.0F, -3.0F, 6.0F, 9.0F, 5.0F, 0.0F, false);
 
 		left_leg = new AdvancedModelBox(this,"left_leg");
 		left_leg.setRotationPoint(2.0F, 0.0F, 0.0F);
@@ -147,10 +147,10 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		front_cloth1.setTextureOffset(119, 68).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 9.0F, 0.0F, 0.0F, false);
 
 		front_cloth2 = new AdvancedModelBox(this,"front_cloth2");
-		front_cloth2.setRotationPoint(0.0F, 9.0F, 0.0F);
-		front_cloth1.addChild(front_cloth2);
-		setRotationAngle(front_cloth2, 0.2618F, 0.0F, 0.0F);
-		front_cloth2.setTextureOffset(22, 127).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 8.0F, 0.0F, 0.0F, false);
+		front_cloth1.setRotationPoint(0.0F, -2.0F, -1.6F);
+		pelvis.addChild(front_cloth1);
+		setRotationAngle(front_cloth1, -0.1309F, 0.0F, 0.0F);
+		front_cloth1.setTextureOffset(119, 68).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 9.0F, 0.0F, 0.0F, false);
 
 		body = new AdvancedModelBox(this,"body");
 		body.setRotationPoint(0.0F, 1.6F, 3.6F);
@@ -446,6 +446,7 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		this.animate(entity.getAnimationState("back_step"), Maledictus_Animation.CHARGE_BACKSTEP, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("back_step_dash"), Maledictus_Halberd_Animation.DASH1, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("radagon"), Maledictus_Halberd_Animation.RADAGON, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("dash"), Maledictus_Halberd_Animation.DASH1, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("back_step_dash_no_back_step"), Maledictus_Halberd_Animation.DASH1_NO_BACK_STEP, ageInTicks, 1.0F);

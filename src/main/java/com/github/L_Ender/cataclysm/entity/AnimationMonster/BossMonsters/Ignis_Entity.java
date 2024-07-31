@@ -615,7 +615,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             swordProgress--;
         }
 
-        if (tickCount % 4 == 0) bossInfo.update();
+        if (tickCount % 4 == 0) bossInfo.update(this.getHealth(), this.getMaxHealth());
         LivingEntity target = this.getTarget();
         SwingParticles();
         if (this.level().isClientSide) {

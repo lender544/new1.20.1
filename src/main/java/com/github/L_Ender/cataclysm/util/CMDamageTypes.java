@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +21,8 @@ public class CMDamageTypes {
     public static final ResourceKey<DamageType> SWORD_DANCE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:sword_dance"));
     public static final ResourceKey<DamageType> MALEDICTIO = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio"));
     public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio_sagitta"));
+    public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio_magicae"));
+
     public static DamageSource causeLaserDamage(Entity attacker, LivingEntity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LASER), attacker, caster);
     }
@@ -54,6 +57,10 @@ public class CMDamageTypes {
 
     public static DamageSource causeMaledictioSagittaDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_SAGITTA), attacker,caster);
+    }
+
+    public static DamageSource causeMaledictioMagicaeDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_MAGICAE), attacker,caster);
     }
 
 

@@ -462,6 +462,7 @@
   "death.attack.cataclysm.laser": "%s는 %s의 레이저에 의해 말살되었습니다.",
   "death.attack.cataclysm.deathlaser": "%s는 %s의 레이저에 의해 말살되었습니다.",
   "death.attack.cataclysm.maledictio_sagitta": "%s는 %s의 저주받은 화살에 저격당했습니다",
+  "death.attack.cataclysm.maledictio_magicae": "%s는 %s의 마법에 저주받았습니다",
   "death.attack.cataclysm.emp": "%s는 전기구이 통닭이 되버렸습니다.",
   "death.attack.cataclysm.emp.player": "%s는 전기구이 통닭이 되버렸습니다.",
   "death.attack.cataclysm.abyssal_burn": "%s가 차원을 떠났습니다",
@@ -478,5 +479,6 @@
   "key.cataclysm.boots_ability": "대격변 부츠 기술",
 
   "curios.identifier.feet": "발",
-  "curios.modifiers.feet": "발에 착용 시:"
+  "curios.modifiers.feet": "발에 착용 시:",
+  "entity.cataclysm.rage_meter": "",
 }

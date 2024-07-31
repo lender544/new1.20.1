@@ -137,7 +137,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         //awaken
         this.goalSelector.addGoal(0, new RemnantAwakenGoal(this,1,2,0,80));
         //change roar
-        this.goalSelector.addGoal(0, new RemnantPhaseChangeGoal(this,0,8,0,60));
+        this.goalSelector.addGoal(0, new RemnantPhaseChangeGoal(this,0,7,0,60));
         //right_stomp
         this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 8, 0, 47, 26, 20, 10){
             @Override
@@ -174,7 +174,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 10, 11, 70, 66, 32D, 80));
 
         //charge
-        this.goalSelector.addGoal(2, new InternalStateGoal(this,11,11,12,90,0){
+        this.goalSelector.addGoal(2, new InternalStateGoal(this,11,11,12,60,0){
             @Override
             public void tick() {
                 if(this.entity.onGround()){
@@ -245,15 +245,17 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     @Override
     public boolean hurt(DamageSource source, float damage) {
         double range = calculateRange(source);
-        if (this.getAttackState() == 8 && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+        if (this.getAttackState() == 7 && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         if (range > CMConfig.AncientRemnantLongRangelimit * CMConfig.AncientRemnantLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         Entity entity = source.getDirectEntity();
-        if (entity instanceof AbstractArrow) {
-            return false;
+        if (this.getAttackState() == 12){
+            if (entity instanceof AbstractArrow) {
+                return false;
+            }
         }
         if (this.isSleep()) {
             if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
@@ -479,16 +481,14 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
         this.legSolver.update(this, this.yBodyRot, this.getScale());
 
-        if (hunting_cooldown > 0) {
-            hunting_cooldown--;
-        }
-
         if (!this.isSleep()) {
-            if (tickCount % 4 == 0) bossEvent.update();
+            if (tickCount % 4 == 0) bossEvent.update(this.getHealth(), this.getMaxHealth());
         }
         if (!getNecklace()) {
             this.setAttackState(1);
         }
+        if (hunting_cooldown > 0) hunting_cooldown--;
+
         if (charge_cooldown > 0) charge_cooldown--;
         if (roar_cooldown > 0) roar_cooldown--;
         if (roar2_cooldown > 0) roar2_cooldown--;
@@ -516,7 +516,6 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         }
         floatRemnant();
-        Charge();
         frame++;
         float moveX = (float) (getX() - xo);
         float moveZ = (float) (getZ() - zo);
@@ -564,7 +563,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     
     private void ChargeBlockBreaking(){
         boolean flag = false;
-        AABB aabb = this.getBoundingBox().inflate(1.0D, 0.2D, 1.0D);
+        AABB aabb = this.getBoundingBox().inflate(1.5D, 0.2D, 1.5D);
         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(this.getY()), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
             BlockState blockstate = this.level().getBlockState(blockpos);
             if (blockstate != Blocks.AIR.defaultBlockState() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.REMNANT_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {

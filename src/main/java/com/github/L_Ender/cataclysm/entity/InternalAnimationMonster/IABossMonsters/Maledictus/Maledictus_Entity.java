@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
@@ -89,6 +90,7 @@ public class Maledictus_Entity extends IABoss_monster {
     public AnimationState uppercutrightAnimationState = new AnimationState();
     public AnimationState flyinghalberdsmash1AnimationState = new AnimationState();
     public AnimationState flyinghalberdsmash2AnimationState = new AnimationState();
+    public AnimationState radagonAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
 
 
@@ -100,12 +102,14 @@ public class Maledictus_Entity extends IABoss_monster {
     private int charge_cooldown = 0;
     private int uppercut_cooldown = 0;
     private int spin_cooldown = 0;
+    private int radagon_cooldown = 0;
     public static final int MASSEFFECT_COOLDOWN = 150;
     public static final int FLYATTACK_COOLDOWN = 100;
     public static final int CHARGE_COOLDOWN = 80;
     public static final int UPPERCUT_COOLDOWN = 80;
     public static final int SPIN_COOLDOWN = 80;
     public static final int NATURE_HEAL_COOLDOWN = 200;
+    public static final int RADAGON_COOLDOWN = 250;
     private int timeWithoutTarget;
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -238,6 +242,29 @@ public class Maledictus_Entity extends IABoss_monster {
 
 
 
+        //radagon
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,26,0,73,16,14F){
+            @Override
+            public boolean canUse() {
+                if(Maledictus_Entity.this.isQuarterHealth()){
+                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 32f && Maledictus_Entity.this.radagon_cooldown <= 0;
+                }else if(Maledictus_Entity.this.isHalfHealth()){
+                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 12f && Maledictus_Entity.this.radagon_cooldown <= 0;
+                }
+                return false;
+            }
+            @Override
+            public void start() {
+                super.start();
+                Maledictus_Entity.this.setWeapon(2);
+            }
+            @Override
+            public void stop() {
+                super.stop();
+                Maledictus_Entity.this.radagon_cooldown = RADAGON_COOLDOWN;
+                Maledictus_Entity.this.setWeapon(0);
+            }
+        });
 
         //backstep
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,10,0,15,15,4.5F){
@@ -282,6 +309,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
         //dash 3
         this.goalSelector.addGoal(0, new MaledictusChargeState(this, 17, 17, 0, 58, 11, 28, 16,30,2,0,3));
+
 
 
     }
@@ -385,6 +413,8 @@ public class Maledictus_Entity extends IABoss_monster {
             return this.flyinghalberdsmash1AnimationState;
         } else if (input == "flying_halberd_smash_2") {
             return this.flyinghalberdsmash2AnimationState;
+        } else if (input == "radagon") {
+            return this.radagonAnimationState;
         } else {
             return new AnimationState();
         }
@@ -533,6 +563,10 @@ public class Maledictus_Entity extends IABoss_monster {
                         this.stopAllAnimationStates();
                         this.flyinghalberdsmash2AnimationState.startIfStopped(this.tickCount);
                     }
+                    case 26 -> {
+                        this.stopAllAnimationStates();
+                        this.radagonAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
 
@@ -565,6 +599,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.uppercutleftAnimationState.stop();
         this.flyinghalberdsmash1AnimationState.stop();
         this.flyinghalberdsmash2AnimationState.stop();
+        this.radagonAnimationState.stop();
     }
 
     public void die(DamageSource p_21014_) {
@@ -604,7 +639,8 @@ public class Maledictus_Entity extends IABoss_monster {
         this.bossEvent1.setProgress(this.getHealth() / this.getMaxHealth());
         this.bossEvent2.setProgress((float) this.getRageMeter() / 5);
         if (tickCount % 4 == 0) {
-            bossEvent1.update();
+            bossEvent1.update(this.getHealth(), this.getMaxHealth());
+            bossEvent2.update(this.getRageMeter(),5);
         }
         if (masseffect_cooldown > 0) masseffect_cooldown--;
         if (flyattack_cooldown > 0) flyattack_cooldown--;
@@ -960,6 +996,25 @@ public class Maledictus_Entity extends IABoss_monster {
             }
 
         }
+
+        if(this.getAttackState() == 26){
+            if(this.attackTicks == 15) {
+                AreaAttack(4.5f, 4.5f, 80, 1.2F, (float) CMConfig.MaledictusSmashHpDamage, 0, true);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+            }
+            if(this.attackTicks == 44) {
+                AreaAttack(5.5f, 5.5f, 110, 1.0F, (float) CMConfig.MaledictusSmashHpDamage, 0, true);
+              //  ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+            }
+
+            for (int l = 44; l <= 60; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 42;
+                    radagonskill(0.3f, d, 1,2);
+                }
+            }
+        }
+
     }
 
     private void StrikeHalberd(int rune, float close,float radius,double range,int delay) {
@@ -981,6 +1036,67 @@ public class Maledictus_Entity extends IABoss_monster {
                     double extraZ = 0.5F * Mth.cos(angle);
 
                     this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), getX() + (double) Mth.cos(f2) * range + extraX, this.getY() + extraY, getZ() + (double) Mth.sin(f2) * range + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
+            }
+        }
+    }
+
+    private void radagonskill(float spreadarc, int distance, float vec, int delay) {
+        double perpFacing = this.yBodyRot * (Math.PI / 180);
+        double facingAngle = perpFacing + Math.PI / 2;
+        double spread = Math.PI * spreadarc;
+        int arcLen = Mth.ceil(distance * spread);
+
+        for (int i = 0; i < arcLen; i++) {
+            double theta = (i / (arcLen - 1.0) - 0.5) * spread + facingAngle;
+            double vx = Math.cos(theta);
+            double vz = Math.sin(theta);
+            double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180);
+            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180);
+            int hitX = Mth.floor(px);
+            int hitZ = Mth.floor(pz);
+
+            this.spawnHalberd(hitX + 0.5D, hitZ + 0.5D, this.getY() -5, this.getY() + 3, (float) theta, delay);
+            this.radagonparticle(hitX + 0.5D, hitZ + 0.5D, this.getY() -5, this.getY() + 3);
+        }
+    }
+
+    private void radagonparticle(double x, double z, double minY, double maxY) {
+        BlockPos blockpos = BlockPos.containing(x, maxY, z);
+        boolean flag = false;
+        double d0 = 0.0D;
+
+        do {
+            BlockPos blockpos1 = blockpos.below();
+            BlockState blockstate = this.level().getBlockState(blockpos1);
+            if (blockstate.isFaceSturdy(this.level(), blockpos1, Direction.UP)) {
+                if (!this.level().isEmptyBlock(blockpos)) {
+                    BlockState blockstate1 = this.level().getBlockState(blockpos);
+                    VoxelShape voxelshape = blockstate1.getCollisionShape(this.level(), blockpos);
+                    if (!voxelshape.isEmpty()) {
+                        d0 = voxelshape.max(Direction.Axis.Y);
+                    }
+                }
+
+                flag = true;
+                break;
+            }
+
+            blockpos = blockpos.below();
+        } while(blockpos.getY() >= Mth.floor(minY) - 1);
+
+        if (flag) {
+            if (this.level().isClientSide) {
+                for (int i1 = 0; i1 < 4 ; i1++) {
+                    double DeltaMovementX = getRandom().nextGaussian() * 0.007D;
+                    double DeltaMovementY = getRandom().nextGaussian() * 0.007D;
+                    double DeltaMovementZ = getRandom().nextGaussian() * 0.007D;
+                    float angle = (0.01745329251F * this.yBodyRot) + i1;
+                    double extraX = 0.35F * Mth.sin((float) (Math.PI + angle));
+                    double extraY = 0.3F;
+                    double extraZ = 0.35F * Mth.cos(angle);
+
+                    this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), x + extraX, (double)blockpos.getY() + d0 + extraY, z + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
             }
         }
@@ -1518,7 +1634,7 @@ public class Maledictus_Entity extends IABoss_monster {
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 0F);
-                entity.lookAt(target, 30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 0F);
             } else {
                 entity.setYRot(entity.yRotO);
             }
@@ -1552,8 +1668,7 @@ public class Maledictus_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-          //  && this.entity.flyattack_cooldown <= 0
-            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random ;
+            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.flyattack_cooldown <= 0 ;
         }
 
         @Override
@@ -1632,8 +1747,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
         @Override
         public boolean canUse() {
-            LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && entity.spin_cooldown  <= 0;
+            return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < random && entity.spin_cooldown  <= 0;
         }
 
         @Override

@@ -326,7 +326,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     public void tick() {
         super.tick();
         //prevgetYRot() = getYRot();
-        if (tickCount % 4 == 0) bossInfo.update();
+        if (tickCount % 4 == 0) bossInfo.update(this.getHealth(), this.getMaxHealth());
         repelEntities(1.8F, 4.0f, 1.8F, 1.8F);
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 

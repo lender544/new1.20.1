@@ -26,8 +26,8 @@ public class CMBossInfoServer extends ServerBossEvent {
         this.renderType = renderType;
     }
 
-    public void update() {
-        this.setProgress(this.entity.getHealth() / this.entity.getMaxHealth());
+    public void update(float numerator,float denominator) {
+        this.setProgress(numerator / denominator);
         Iterator<ServerPlayer> it = this.unseen.iterator();
         while (it.hasNext()) {
             ServerPlayer player = it.next();
