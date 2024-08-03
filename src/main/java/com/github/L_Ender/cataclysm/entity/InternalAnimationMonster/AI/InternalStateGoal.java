@@ -63,7 +63,7 @@ public class InternalStateGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return attackfinaltick > 0 ? this.entity.attackTicks <= attackfinaltick : canUse();
+        return attackfinaltick > 0 ? this.entity.attackTicks <= attackfinaltick && this.entity.getAttackState() == attackstate : canUse();
     }
 
 

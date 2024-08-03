@@ -75,7 +75,7 @@ import static java.lang.Math.*;
 
 public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
-    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(),this,BossEvent.BossBarColor.PURPLE,false,1);
+    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(),BossEvent.BossBarColor.PURPLE,false,1);
     private static final EntityDataAccessor<Boolean> IS_HELMETLESS = SynchedEntityData.defineId(Ender_Guardian_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> USED_MASS_DESTRUCTION = SynchedEntityData.defineId(Ender_Guardian_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Optional<BlockPos>> TELEPORT_POS = SynchedEntityData.defineId(Ender_Guardian_Entity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
@@ -326,7 +326,6 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     public void tick() {
         super.tick();
         //prevgetYRot() = getYRot();
-        if (tickCount % 4 == 0) bossInfo.update(this.getHealth(), this.getMaxHealth());
         repelEntities(1.8F, 4.0f, 1.8F, 1.8F);
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 
@@ -632,8 +631,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 if (!(entityHit instanceof Ender_Guardian_Entity)) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     if (airborne > 0) {
@@ -660,8 +659,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             if (!isAlliedTo(entityHit) && !(entityHit instanceof Ender_Guardian_Entity) && entityHit != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage);
-                if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && ticks > 0) {
-                    disableShield(entityHit, ticks);
+                if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && ticks > 0) {
+                    disableShield(player, ticks);
                 }
 
                 launch(entityHit);

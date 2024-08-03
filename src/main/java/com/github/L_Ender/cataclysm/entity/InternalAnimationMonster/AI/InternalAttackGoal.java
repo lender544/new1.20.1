@@ -58,7 +58,7 @@ public class InternalAttackGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.entity.attackTicks <= attackMaxtick;
+        return  this.entity.getAttackState() == attackstate && this.entity.attackTicks <= attackMaxtick;
     }
 
 

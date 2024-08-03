@@ -241,8 +241,8 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
 
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     entityHit.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
                 }
             }

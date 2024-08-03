@@ -74,7 +74,7 @@ import java.util.EnumSet;
 public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implements Enemy {
 
    // private final ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(false);
-    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), this, BossEvent.BossBarColor.RED, false,0);
+    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.RED, false,0);
     public int frame;
     public static final Animation MONSTROSITY_EARTHQUAKE = Animation.create(75);
     public static final Animation MONSTROSITY_CHARGE = Animation.create(82);
@@ -264,7 +264,6 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     public void tick() {
         super.tick();
         this.floatStrider();
-        if (tickCount % 4 == 0) bossInfo.update(this.getHealth() , this.getMaxHealth());
 
         frame++;
         float moveX = (float) (getX() - xo);
@@ -273,6 +272,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         if (!this.isSilent() && frame % 25 == 1 && speed > 0.05 && this.getIsAwaken()) {
             playSound(ModSounds.MONSTROSITYSTEP.get(), 1F, 1.0f);
         }
+        this.bossInfo.setVisible(this.getIsAwaken());
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
         BlockBreaking();
         prevdeactivateProgress = deactivateProgress;
@@ -452,8 +452,8 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
             if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
-                if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource)) {
-                    disableShield(entity, 120);
+                if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource)) {
+                    disableShield(player, 120);
                 }
 
                 if (flag) {

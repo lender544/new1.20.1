@@ -92,7 +92,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     public float prevdeactivateProgress;
     private int destroyBlocksTick;
     private int blockBreakCounter;
-    private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(),this,BossEvent.BossBarColor.RED,true,4);
+    private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(),BossEvent.BossBarColor.RED,true,4);
 
     private int mode_change_cooldown = 0;
     private int skill_cooldown = 160;
@@ -285,7 +285,6 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
         }
         if (this.getIsAct()) {
             if (skill_cooldown > 0) skill_cooldown--;
-            if (tickCount % 4 == 0) bossEvent.update(this.getHealth(), this.getMaxHealth());
         }
 
 
@@ -780,6 +779,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
 
     public void setIsAct(boolean isAct) {
         this.entityData.set(IS_ACT, isAct);
+        this.bossEvent.setVisible(isAct);
     }
 
     public boolean getIsAct() {

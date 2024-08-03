@@ -394,8 +394,8 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Wadjet_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     double d0 = entityHit.getX() - this.getX();

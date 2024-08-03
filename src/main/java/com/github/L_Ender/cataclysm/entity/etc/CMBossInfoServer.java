@@ -13,30 +13,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class CMBossInfoServer extends ServerBossEvent {
-    private final Mob entity;
 
-    private final Set<ServerPlayer> unseen = new HashSet<>();
     private int renderType;
-    private boolean visible = true;
 
-    public CMBossInfoServer(Component component, Mob entity, BossEvent.BossBarColor bossBarColor, boolean dark, int renderType) {
+    public CMBossInfoServer(Component component, BossEvent.BossBarColor bossBarColor, boolean dark, int renderType) {
         super(component, bossBarColor, BossBarOverlay.PROGRESS);
         this.setDarkenScreen(dark);
-        this.entity = entity;
         this.renderType = renderType;
     }
 
-    public void update(float numerator,float denominator) {
-        this.setProgress(numerator / denominator);
-        Iterator<ServerPlayer> it = this.unseen.iterator();
-        while (it.hasNext()) {
-            ServerPlayer player = it.next();
-            if (this.entity.getSensing().hasLineOfSight(player)) {
-                super.addPlayer(player);
-                it.remove();
-            }
-        }
-    }
 
     public void setRenderType(int renderType) {
         if (renderType != this.renderType) {
@@ -50,21 +35,14 @@ public class CMBossInfoServer extends ServerBossEvent {
     }
 
 
-    @Override
-    public void addPlayer(ServerPlayer player) {
-        Cataclysm.sendNonLocal(new MessageUpdateBossBar(this.getId(), renderType), player);
-        if (this.entity.getSensing().hasLineOfSight(player)) {
-            super.addPlayer(player);
-        } else {
-            this.unseen.add(player);
-        }
+    public void addPlayer(ServerPlayer serverPlayer) {
+        Cataclysm.sendNonLocal(new MessageUpdateBossBar(this.getId(), renderType), serverPlayer);
+        super.addPlayer(serverPlayer);
     }
 
-    @Override
-    public void removePlayer(ServerPlayer player) {
-        super.removePlayer(player);
-        this.unseen.remove(player);
-        Cataclysm.sendNonLocal(new MessageUpdateBossBar(this.getId(), -1), player);
+    public void removePlayer(ServerPlayer serverPlayer) {
+        Cataclysm.sendNonLocal(new MessageUpdateBossBar(this.getId(), -1), serverPlayer);
+        super.removePlayer(serverPlayer);
     }
 
 }

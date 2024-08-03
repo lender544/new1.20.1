@@ -185,7 +185,7 @@ public class Phantom_Halberd_Entity extends Entity {
                 }
             }
             if (this.warmupDelayTicks < -12 && this.warmupDelayTicks > -34) {
-                for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
+                for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
                     this.damage(livingentity);
                 }
             }

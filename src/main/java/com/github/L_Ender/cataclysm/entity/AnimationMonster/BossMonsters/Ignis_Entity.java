@@ -74,7 +74,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
-    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), this, BossEvent.BossBarColor.YELLOW, false,2);
+    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.YELLOW, false,2);
     public static final Animation SWING_ATTACK = Animation.create(55);
     public static final Animation SWING_ATTACK_SOUL = Animation.create(46);
     public static final Animation SWING_ATTACK_BERSERK = Animation.create(37);
@@ -615,7 +615,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             swordProgress--;
         }
 
-        if (tickCount % 4 == 0) bossInfo.update(this.getHealth(), this.getMaxHealth());
         LivingEntity target = this.getTarget();
         SwingParticles();
         if (this.level().isClientSide) {
@@ -947,9 +946,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.25D))) {
                     if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
                         DamageSource damagesource = this.damageSources().mobAttack(this);
-                        boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
-                        if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource)) {
-                            disableShield(entity, 200);
+                        entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
+                        if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource)) {
+                            disableShield(player, 200);
                         }
 
                     }
@@ -1012,8 +1011,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                     if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
                         DamageSource damagesource = this.damageSources().mobAttack(this);
                         boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
-                        if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource)) {
-                            disableShield(entity, 200);
+                        if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource)) {
+                            disableShield(player, 200);
                         }
                     }
                 }
@@ -1478,8 +1477,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entityHit.getMaxHealth() * hpdamage));
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     if (flag) {
@@ -1532,8 +1531,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entityHit.getMaxHealth() * hpdamage));
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     if (flag) {
@@ -1567,8 +1566,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + entityHit.getMaxHealth() * 0.1f);
-                    if (entityHit instanceof Player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entityHit, shieldbreakticks);
+                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     if (flag && !entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive()) {
@@ -1848,8 +1847,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             for (LivingEntity entity : hit) {
                 if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(entity, shieldbreakticks);
+                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
+                    if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
 
                     if (flag) {
@@ -1919,8 +1919,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
-                if (entity instanceof Player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                    disableShield(entity, shieldbreakticks);
+                if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    disableShield(player, shieldbreakticks);
                 }
 
                 if (flag) {
