@@ -1212,7 +1212,8 @@
     "subtitle": "maledictus_bow_pull.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/maledictus_bow_pull"
+        "name": "cataclysm:entity/maledictus_bow_pull",
+        "volume": 1.5, "pitch": 1.0
       }
     ]
   },
@@ -1264,7 +1265,8 @@
     "subtitle": "maledictus_spear.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/maledictus_spear"
+        "name": "cataclysm:entity/maledictus_spear",
+        "volume": 0.5, "pitch": 1.0
       }
     ]
   }

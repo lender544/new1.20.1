@@ -266,7 +266,7 @@ public class ModelThe_Prowler extends AdvancedEntityModel<The_Prowler_Entity> {
 	public void setupAnim(The_Prowler_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		this.resetToDefaultPose();
 		this.upperbody.rotateAngleY += netHeadYaw * 0.6F * Mth.DEG_TO_RAD;
-		float sawspeed = entity.getAttackState() == 3 ? 0F : 1.0f;
+		float sawspeed = entity.getAttackState() == 3 ? 0F : 0.5f;
 		this.animate(entity.getAnimationState("death"), Prowler_Animation.DEATH, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("spin"), Prowler_Animation.SPIN, ageInTicks, 1.0F);
@@ -276,7 +276,7 @@ public class ModelThe_Prowler extends AdvancedEntityModel<The_Prowler_Entity> {
 		this.animate(entity.getAnimationState("stun"), Prowler_Animation.STUN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("laser"), Prowler_Animation.LASER, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("pierce"), Prowler_Animation.PIERCE, ageInTicks, 1.0F);
-		saw.rotateAngleX -= ageInTicks * sawspeed;
+		saw.rotateAngleX += ageInTicks * sawspeed;
 	}
 
 	@Override

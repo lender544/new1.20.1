@@ -40,6 +40,7 @@ public class CMConfig {
     public static double Sandstormdamage = 5;
     public static double AncientDesertSteledamage = 18;
     public static double PhantomArrowbasedamage = 4;
+    public static double PhantomHalberddamage = 13;
 
     public static boolean ScreenShake = true;
     public static boolean BossMusic = true;
@@ -127,6 +128,8 @@ public class CMConfig {
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
+    public static double MaledictusNatureHealing = 10D;
+    public static double MaledictusPhantomHalberddamage = 13;
 
     public static double MonstrosityLongRangelimit = 18D;
     public static double EnderguardianLongRangelimit = 12D;
@@ -228,6 +231,7 @@ public class CMConfig {
             AmethystClusterdamage = ConfigHolder.COMMON.AmethystClusterdamage.get();
             Sandstormdamage = ConfigHolder.COMMON.Sandstormdamage.get();
             AncientDesertSteledamage = ConfigHolder.COMMON.AncientDesertSteledamage.get();
+            PhantomHalberddamage = ConfigHolder.COMMON.PhantomHalberddamage.get();
 
             Lavabombradius = ConfigHolder.COMMON.Lavabombradius.get();
             ScreenShake = ConfigHolder.COMMON.ScreenShake.get();
@@ -309,6 +313,8 @@ public class CMConfig {
             RemnantStompHpDamage = ConfigHolder.COMMON.RemnantStompHpDamage.get();
 
             MaledictusHpDamage = ConfigHolder.COMMON.MaledictusHpDamage.get();
+            MaledictusNatureHealing = ConfigHolder.COMMON.MaledictusNatureHealing.get();
+            MaledictusPhantomHalberddamage = ConfigHolder.COMMON.MaledictusPhantomHalberddamage.get();
             MaledictusShockWaveHpDamage = ConfigHolder.COMMON.MaledictusShockWaveHpDamage.get();
             MaledictusAOEHpDamage = ConfigHolder.COMMON.MaledictusAOEHpDamage.get();
             MaledictusFlyingSmashHpDamage = ConfigHolder.COMMON.MaledictusFlyingSmashHpDamage.get();

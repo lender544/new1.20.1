@@ -40,6 +40,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue AmethystClusterdamage;
     public final ForgeConfigSpec.DoubleValue Sandstormdamage;
     public final ForgeConfigSpec.DoubleValue AncientDesertSteledamage;
+    public final ForgeConfigSpec.DoubleValue PhantomHalberddamage;
 
     public final ForgeConfigSpec.BooleanValue ScreenShake;
     public final ForgeConfigSpec.BooleanValue BossMusic;
@@ -150,6 +151,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageCap;
+    public final ForgeConfigSpec.DoubleValue MaledictusNatureHealing;
+    public final ForgeConfigSpec.DoubleValue MaledictusPhantomHalberddamage;
 
     public final ForgeConfigSpec.DoubleValue MaledictusHpDamage;
     public final ForgeConfigSpec.DoubleValue MaledictusShockWaveHpDamage;
@@ -227,6 +230,7 @@ public class CommonConfig {
         AmethystClusterdamage = buildDouble(builder, "Amethyst Cluster Damage", "all", 12, 0, 1000000, "Amethyst Cluster's Damage");
         Sandstormdamage = buildDouble(builder, "Sandstorm Damage", "all", 5, 0, 1000000, "Sandstorm's Damage");
         AncientDesertSteledamage = buildDouble(builder, "Ancient Desert Stele Damage", "all", 18, 0, 1000000, "Ancient Desert Stele's Damage");
+        PhantomHalberddamage = buildDouble(builder, "Phantom Halberd Damage", "all", 14, 0, 1000000, "Phantom Halberd's Damage");
         builder.pop();
 
         builder.push("Ender Guardian");
@@ -294,7 +298,6 @@ public class CommonConfig {
         HarbingerHealingMultiplier = buildDouble(builder, "HarbingerHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Harbinger's Healing Multiplier");
         HarbingerWitherMissiledamage = buildDouble(builder, "Harbinger's WitherMissiledamage", "all", 8, 0D, 1000000D, "Harbinger's Wither Missile's Damage");
         HarbingerLaserdamage = buildDouble(builder, "Harbinger's laser damage", "all", 5, 0D, 1000000D, "Harbinger's laser's Damage");
-
         HarbingerLongRangelimit = buildDouble(builder, "The Harbinger's prevent attacks from far away Range", "all", 35D, 1D, 1000000D, "Harbinger's Immune to Long distance attack range.");
         HarbingerDamageCap = buildDouble(builder, "The Harbinger DamageCap", "all", 22D, 0D, 1000000D, "Harbinger's DamageCap");
         HarbingerLightFire = buildBoolean(builder, "The Harbinger Light A Fire", "all", true, "Harbinger's lasers can light a fire in MobGriefing");
@@ -362,6 +365,8 @@ public class CommonConfig {
         builder.push("Maledictus");
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
+        MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", 10D, 0D, 1000000D, "Maledictus's Healing with out target");
+        MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 10D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
         MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");
         MaledictusShockWaveHpDamage = buildDouble(builder, "Maledictus's Shock Wave Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Maledictus's Shock wave Hp Damage");

@@ -8,7 +8,9 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalA
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Ignited_Berserker_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
@@ -38,6 +40,7 @@ import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -61,6 +64,11 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     public AnimationState strongAttackAnimationState = new AnimationState();
     public AnimationState strongSpinAnimationState = new AnimationState();
     public AnimationState pierceAnimationState = new AnimationState();
+    public static final int SPIN_COOLDOWN = 80;
+    public static final int LASER_COOLDOWN = 200;
+    private int spin_cooldown = 0;
+    private int laser_cooldown = 100;
+
     public The_Prowler_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 20;
@@ -76,11 +84,64 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
 
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,1,1,0,60,0));
+        this.goalSelector.addGoal(0, new InternalStateGoal(this, 1, 1, 0, 60, 0));
 
         this.goalSelector.addGoal(1, new Lasershoot(this, 0, 2, 0, 90, 55, 8F, 40, 100F));
+        //spin
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,55,22,4.75F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 26 && The_Prowler_Entity.this.spin_cooldown <= 0;
 
+            }
+
+            @Override
+            public void stop() {
+                super.stop();
+                The_Prowler_Entity.this.spin_cooldown = SPIN_COOLDOWN;
+            }
+        });
+
+        //melee
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,0,70,38,5F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 20 ;
+            }
+        });
+        //strong
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,6,0,70,45,6F){
+            @Override
+            public boolean canUse() {
+                LivingEntity target = entity.getTarget();
+                return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 20 && target !=null && this.entity.distanceTo(target) >= 2.75D;
+
+
+            }
+        });
+        //pierce
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,7,0,100,38,4.25F){
+            @Override
+            public boolean canUse() {
+                LivingEntity target = entity.getTarget();
+                return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 24 && target !=null;
+
+
+            }
+        });
+        //strongspin
+        /*
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,8,0,95,38,4.25F){
+            @Override
+            public boolean canUse() {
+                return true;
+
+            }
+        });
+
+         */
     }
 
     public static AttributeSupplier.Builder the_prowler() {
@@ -88,9 +149,9 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
                 .add(Attributes.ATTACK_DAMAGE, 14)
-                .add(Attributes.MAX_HEALTH, 150)
+                .add(Attributes.MAX_HEALTH, 160)
                 .add(Attributes.ARMOR, 10)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.9);
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.95);
     }
 
 
@@ -128,6 +189,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
     }
+
     public AnimationState getAnimationState(String input) {
         if (input == "stun") {
             return this.stunAnimationState;
@@ -219,24 +281,89 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen( false, this.tickCount);
+            this.idleAnimationState.animateWhen(false, this.tickCount);
         }
-
+        if (laser_cooldown > 0) laser_cooldown--;
+        if (spin_cooldown > 0) spin_cooldown--;
 
     }
 
     public void aiStep() {
         super.aiStep();
         LivingEntity target = this.getTarget();
+        if (this.getAttackState() == 2) {
+            if (this.attackTicks == 55) {
+                this.level().playSound((Player) null, this, ModSounds.DEATH_LASER.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+            }
+        }
 
 
-        if (this.getAttackState() == 1)
+        if (this.getAttackState() == 1) {
             if (this.level().isClientSide) {
                 for (int i = 0; i < 2; ++i) {
                     this.level().addParticle(ParticleTypes.LARGE_SMOKE, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), 0.0D, 0.0D, 0.0D);
                 }
             }
+        }
+        if (this.getAttackState() == 4) {
+            if (this.attackTicks == 33 || this.attackTicks == 40) {
+                AreaAttack(6.0f, 6.0F, 180, 1.0F);
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            }
+            if (this.attackTicks == 33) {
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            }
+        }
 
+        if (this.getAttackState() == 5) {
+            if (this.attackTicks == 27){
+                    this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            }
+            if (this.attackTicks == 38 || this.attackTicks == 45 || this.attackTicks == 52 || this.attackTicks == 59) {
+                AreaAttack(5.4f, 5.5F, 110, 0.5F);
+
+            }
+        }
+        float f1 = (float) Math.cos(Math.toRadians(this.getYRot() + 90));
+        float f2 = (float) Math.sin(Math.toRadians(this.getYRot() + 90));
+        if (this.getAttackState() == 6) {
+            if (this.attackTicks == 38) {
+                this.push(f1 * 1.5, 0, f2 * 1.5);
+            }
+            if (this.attackTicks == 37){
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            }
+            if (this.attackTicks ==45) {
+                AreaAttack(5.5f, 5.5f, 70, 1.5F);
+
+            }
+        }
+        if (this.getAttackState() == 7) {
+            if(target !=null) {
+                if (this.attackTicks == 15) {
+                    Missilelaunch(2.0f, 0.5F, target);
+                }
+                if (this.attackTicks == 18) {
+                    Missilelaunch(2.3f, 0.5F, target);
+                }
+                if (this.attackTicks == 21) {
+                    Missilelaunch(2.6f, 0.5F, target);
+                }
+            }
+            if (this.attackTicks == 30) {
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+            }
+            if (this.attackTicks == 46 || this.attackTicks == 54 || this.attackTicks == 62) {
+                AreaAttack(5.5F, 5.5F, 60, 0.5F);
+
+
+            }
+
+            if (this.attackTicks == 84) {
+                AreaAttack(5.5F, 5.5F, 140, 1.0F);
+
+            }
+        }
     }
 
     private void AreaAttack(float range, float height, float arc, float damage) {
@@ -254,7 +381,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof The_Prowler_Entity) && entityHit != this) {
-                    entityHit.hurt(this.damageSources().mobAttack(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    entityHit.hurt(CMDamageTypes.causeShredderDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
 
                 }
             }
@@ -336,7 +463,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target);
+            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target) && this.entity.laser_cooldown <= 0;
         }
 
         @Override
@@ -347,6 +474,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         @Override
         public void stop() {
             super.stop();
+            entity.laser_cooldown = LASER_COOLDOWN;
         }
 
         @Override
@@ -354,7 +482,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             LivingEntity target = entity.getTarget();
             super.tick();
             if (this.entity.attackTicks == attackshot) {
-                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 20);
+                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28);
                 entity.level().addFreshEntity(DeathBeam);
             }
             if (this.entity.attackTicks >= attackshot) {

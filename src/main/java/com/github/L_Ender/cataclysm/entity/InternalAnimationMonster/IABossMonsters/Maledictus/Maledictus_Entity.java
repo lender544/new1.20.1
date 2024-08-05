@@ -687,9 +687,9 @@ public class Maledictus_Entity extends IABoss_monster {
             }
 
             if (this.getAttackState() == 0 && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.AncientRemnantNatureHealing > 0) {
+                if (!isNoAi() && CMConfig.MaledictusPhantomHalberddamage > 0) {
                     if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.AncientRemnantNatureHealing);
+                        this.heal((float) CMConfig.MaledictusPhantomHalberddamage);
                     }
                 }
             }
@@ -840,8 +840,11 @@ public class Maledictus_Entity extends IABoss_monster {
         }
 
         if (this.getAttackState() == 11 || this.getAttackState() == 12 || this.getAttackState() == 13 || this.getAttackState() == 14) {
+            if (this.attackTicks == 21) {
+                this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
+            }
             if (this.attackTicks == 24) {
-                this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.PHANTOM_SPEAR.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
             if (this.attackTicks >= 24 && this.attackTicks <= 33) {
                 Rushattack(-0.05D, 0.5D,3.25, 1.1F, (float) CMConfig.MaledictusHpDamage, 0, true);
@@ -861,8 +864,11 @@ public class Maledictus_Entity extends IABoss_monster {
 
 
         if (this.getAttackState() == 15 || this.getAttackState() == 16) {
-            if (this.attackTicks == 16) {
+            if (this.attackTicks == 13) {
                 this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+            }
+            if (this.attackTicks == 16) {
+                this.playSound(ModSounds.PHANTOM_SPEAR.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
             if (this.attackTicks >= 16 && this.attackTicks <= 25) {
                 Rushattack(-0.035D, 0.5D,3.25, 1.2F, (float) CMConfig.MaledictusHpDamage, 0, true);
@@ -880,8 +886,11 @@ public class Maledictus_Entity extends IABoss_monster {
             }
         }
         if (this.getAttackState() == 17) {
-            if (this.attackTicks == 16) {
+            if (this.attackTicks == 13) {
                 this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+            }
+            if (this.attackTicks == 16) {
+                this.playSound(ModSounds.PHANTOM_SPEAR.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
             if (this.attackTicks >= 16 && this.attackTicks <= 24) {
                 Rushattack(0, 0.5D,3.25, 1.3F, (float) CMConfig.MaledictusHpDamage, 0, true);
@@ -997,6 +1006,7 @@ public class Maledictus_Entity extends IABoss_monster {
 
         if (this.getAttackState() == 25) {
             if (this.attackTicks == 4) {
+                this.playSound(ModSounds.PHANTOM_SPEAR.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.3f, 0, 40);
                 MakeRingparticle(2.25f, 0.3f, 40, 0.337f, 0.925f, 0.8f, 1.0f, 30f);
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(2.0D))) {
@@ -1045,7 +1055,11 @@ public class Maledictus_Entity extends IABoss_monster {
         }
 
         if(this.getAttackState() == 26){
+            if(this.attackTicks == 13) {
+                this.playSound(ModSounds.PHANTOM_SPEAR.get(), 1.0F, 1.0f);
+            }
             if(this.attackTicks == 15) {
+                this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 1.0F, 1.0f);
                 AreaAttack(4.5f, 4.5f, 80, 1.2F, (float) CMConfig.MaledictusSmashHpDamage, 0, true,false);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
             }
@@ -1064,7 +1078,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if(this.getAttackState() == 27){
             if(this.attackTicks == 20) {
                 AreaAttack(5.25f, 5.25f, 110, 1.0F, (float) CMConfig.MaledictusHpDamage, 120, false,true);
-                //  ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 1.3f);
             }
         }
 
@@ -1211,7 +1225,7 @@ public class Maledictus_Entity extends IABoss_monster {
         } while(blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Phantom_Halberd_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this));
+            this.level().addFreshEntity(new Phantom_Halberd_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this,(float)CMConfig.MaledictusPhantomHalberddamage));
         }
     }
 
