@@ -108,7 +108,10 @@ public class Animation_Monsters extends Monster implements Enemy {
 
     public void disableShield(Player player, int ticks) {
         player.disableShield(true);
+        /*SHIELDS.forEach((item) -> player.getCooldowns().addCooldown(item, 300));*/
+
         player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
+        player.stopUsingItem();
 
     }
 

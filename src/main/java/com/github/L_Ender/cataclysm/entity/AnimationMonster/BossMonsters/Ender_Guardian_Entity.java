@@ -631,7 +631,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 if (!(entityHit instanceof Ender_Guardian_Entity)) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
-                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
 
@@ -659,7 +659,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             if (!isAlliedTo(entityHit) && !(entityHit instanceof Ender_Guardian_Entity) && entityHit != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage);
-                if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && ticks > 0) {
+                if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && ticks > 0) {
                     disableShield(player, ticks);
                 }
 

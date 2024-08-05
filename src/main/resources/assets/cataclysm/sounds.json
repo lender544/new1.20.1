@@ -1207,5 +1207,65 @@
         "name": "cataclysm:entity/maledictus_mace_swing2"
       }
     ]
+  },
+  "maledictus_bow_pull": {
+    "subtitle": "maledictus_bow_pull.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_bow_pull"
+      }
+    ]
+  },
+  "maledictus_death": {
+    "subtitle": "maledictus_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_death"
+      }
+    ]
+  },
+  "maledictus_idle": {
+    "subtitle": "maledictus_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_idle1"
+      },
+      {
+        "name": "cataclysm:entity/maledictus_idle2"
+      },
+      {
+        "name": "cataclysm:entity/maledictus_idle3"
+      }
+    ]
+  },
+  "maledictus_jump": {
+    "subtitle": "maledictus_jump.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_jump1"
+      },
+      {
+        "name": "cataclysm:entity/maledictus_jump2"
+      },
+      {
+        "name": "cataclysm:entity/maledictus_jump3"
+      }
+    ]
+  },
+  "maledictus_short_roar": {
+    "subtitle": "maledictus_short_roar.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_short_roar"
+      }
+    ]
+  },
+  "maledictus_spear": {
+    "subtitle": "maledictus_spear.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/maledictus_spear"
+      }
+    ]
   }
 }

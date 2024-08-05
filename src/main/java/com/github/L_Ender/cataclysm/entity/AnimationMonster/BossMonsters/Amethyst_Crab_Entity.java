@@ -238,10 +238,9 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!(entityHit instanceof Amethyst_Crab_Entity)) {
-
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     entityHit.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
                 }

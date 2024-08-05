@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Prowler;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -33,6 +34,11 @@ public class RendererThe_Prowler extends MobRenderer<The_Prowler_Entity, ModelTh
     }
 
     @Override
+    protected float getFlipDegrees(The_Prowler_Entity entity) {
+        return 0;
+    }
+
+    @Override
     public ResourceLocation getTextureLocation(The_Prowler_Entity entity) {
         WalkAnimationState walkanimationstate = entity.walkAnimation;
         int f3 = (int) walkanimationstate.position(entity.tickCount);
@@ -44,7 +50,7 @@ public class RendererThe_Prowler extends MobRenderer<The_Prowler_Entity, ModelTh
     }
 
     public Vec3 getRenderOffset(The_Prowler_Entity entityIn, float partialTicks) {
-        if (entityIn.getAnimation() == The_Prowler_Entity.PROWLER_STUN && entityIn.getAnimationTick() <= 45 ) {
+        if (entityIn.getAttackState() == 1) {
             double d0 = 0.05D;
             return new Vec3(this.rnd.nextGaussian() * d0, 0.0D, this.rnd.nextGaussian() * d0);
         } else {

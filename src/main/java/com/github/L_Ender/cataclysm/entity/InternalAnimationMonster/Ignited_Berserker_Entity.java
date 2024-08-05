@@ -396,7 +396,7 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignited_Berserker_Entity) && entityHit != this) {
                     DamageSource damagesource = CMDamageTypes.causeSwordDanceDamage(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
 

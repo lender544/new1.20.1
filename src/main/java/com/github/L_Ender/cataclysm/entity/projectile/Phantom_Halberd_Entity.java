@@ -230,7 +230,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (id == 4) {
             this.clientSideAttackStarted = true;
             if (!this.isSilent()) {
-               // this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.VOID_RUNE_RISING.get(), this.getSoundSource(), 0.5F, this.random.nextFloat() * 0.2F + 0.85F, false);
+                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.PHANTOM_SPEAR.get(), this.getSoundSource(), 0.5F, this.random.nextFloat() * 0.2F + 0.85F, false);
             }
         }
 
@@ -245,12 +245,6 @@ public class Phantom_Halberd_Entity extends Entity {
             return i <= 0 ? 1.0F : 1.0F - ((float)i - p_36937_) / 20.0F;
         }
     }
-
-    public float getLightLevelDependentMagicValue() {
-        return 1.0F;
-    }
-
-
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {

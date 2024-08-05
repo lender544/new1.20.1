@@ -452,7 +452,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
             if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
-                if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource)) {
+                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
                     disableShield(player, 120);
                 }
 

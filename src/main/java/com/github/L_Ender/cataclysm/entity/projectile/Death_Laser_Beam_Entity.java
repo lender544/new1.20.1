@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -107,6 +108,9 @@ public class Death_Laser_Beam_Entity extends Entity {
         if (!level().isClientSide) {
             if (caster instanceof The_Harbinger_Entity) {
                 this.updateWithHarbinger();
+            }
+            if (caster instanceof The_Prowler_Entity) {
+                this.updateWithProwler();
             }
         }
 
@@ -335,6 +339,13 @@ public class Death_Laser_Beam_Entity extends Entity {
         this.setPitch((float) (-caster.getXRot() * Math.PI / 180.0d));
         this.setPos(caster.getX() ,caster.getY() + 2.7 , caster.getZ());
     }
+
+    private void updateWithProwler() {
+        this.setYaw((float) ((caster.yHeadRot + 90) * Math.PI / 180.0d));
+        this.setPitch((float) (-caster.getXRot() * Math.PI / 180.0d));
+        this.setPos(caster.getX() ,caster.getY() + 1.8, caster.getZ());
+    }
+
 
     public static class LaserbeamHitResult {
         private BlockHitResult blockHit;

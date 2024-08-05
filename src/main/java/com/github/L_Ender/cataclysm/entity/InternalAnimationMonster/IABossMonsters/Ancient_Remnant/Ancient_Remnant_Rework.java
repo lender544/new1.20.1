@@ -722,7 +722,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof LLibrary_Boss_Monster) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
-                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
 
@@ -756,7 +756,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof LLibrary_Boss_Monster) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
-                    if (entityHit instanceof Player player && entityHit.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
 
@@ -850,7 +850,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             if (!isAlliedTo(entity) && !(entity instanceof LLibrary_Boss_Monster) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
-                if (entity instanceof Player player && entity.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
                     disableShield(player, shieldbreakticks);
                 }
                 if (flag) {
