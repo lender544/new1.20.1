@@ -133,7 +133,7 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		cube_r4.setRotationPoint(0.0F, -1.0171F, -2.2611F);
 		left_front_leg.addChild(cube_r4);
 		setRotationAngle(cube_r4, 0.5672F, 0.0F, 0.0F);
-		cube_r4.setTextureOffset(100, 126).addBox(-1.5F, 1.0F, -3.0F, 6.0F, 9.0F, 5.0F, 0.0F, false);
+		cube_r4.setTextureOffset(100, 126).addBox(-1.0F, 1.0F, -3.0F, 6.0F, 9.0F, 5.0F, 0.0F, false);
 
 		pelvis = new AdvancedModelBox(this,"pelvis");
 		pelvis.setRotationPoint(0.0F, 2.0F, 0.0F);
@@ -147,10 +147,10 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		front_cloth1.setTextureOffset(119, 68).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 9.0F, 0.0F, 0.0F, false);
 
 		front_cloth2 = new AdvancedModelBox(this,"front_cloth2");
-		front_cloth1.setRotationPoint(0.0F, -2.0F, -1.6F);
-		pelvis.addChild(front_cloth1);
-		setRotationAngle(front_cloth1, -0.1309F, 0.0F, 0.0F);
-		front_cloth1.setTextureOffset(119, 68).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 9.0F, 0.0F, 0.0F, false);
+		front_cloth2.setRotationPoint(0.0F, 9.0F, 0.0F);
+		front_cloth1.addChild(front_cloth2);
+		setRotationAngle(front_cloth2, 0.2618F, 0.0F, 0.0F);
+		front_cloth2.setTextureOffset(22, 127).addBox(-4.0F, 0.0F, 0.0F, 8.0F, 8.0F, 0.0F, 0.0F, false);
 
 		body = new AdvancedModelBox(this,"body");
 		body.setRotationPoint(0.0F, 1.6F, 3.6F);

@@ -173,7 +173,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
 
         //charge_prepare
-        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 10, 11, 70, 66, 32D, 80));
+        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 10, 11, 70, 66, 32D, 10));
 
         //charge
         this.goalSelector.addGoal(2, new InternalStateGoal(this,11,11,12,60,0){

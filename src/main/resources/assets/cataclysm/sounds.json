@@ -1266,7 +1266,7 @@
     "sounds": [
       {
         "name": "cataclysm:entity/maledictus_spear",
-        "volume": 0.5, "pitch": 1.0
+        "volume": 0.35, "pitch": 1.0
       }
     ]
   }

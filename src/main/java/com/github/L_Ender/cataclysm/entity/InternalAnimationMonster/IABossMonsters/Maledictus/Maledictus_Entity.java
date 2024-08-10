@@ -35,6 +35,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -104,6 +105,7 @@ public class Maledictus_Entity extends IABoss_monster {
     private int uppercut_cooldown = 0;
     private int spin_cooldown = 0;
     private int radagon_cooldown = 0;
+    private int spear_swing_cooldown = 0;
     public static final int MASSEFFECT_COOLDOWN = 150;
     public static final int FLYATTACK_COOLDOWN = 100;
     public static final int CHARGE_COOLDOWN = 80;
@@ -111,6 +113,7 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final int SPIN_COOLDOWN = 100;
     public static final int NATURE_HEAL_COOLDOWN = 200;
     public static final int RADAGON_COOLDOWN = 250;
+    public static final int SPEAR_SWING_COOLDOWN = 100;
     private int timeWithoutTarget;
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -144,7 +147,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,27,0,50,22,3.5F){
             @Override
             public boolean canUse() {
-                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 34f;
+                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 32f && Maledictus_Entity.this.spear_swing_cooldown <= 0;
 
             }
             @Override
@@ -155,6 +158,7 @@ public class Maledictus_Entity extends IABoss_monster {
             @Override
             public void stop() {
                 super.stop();
+                Maledictus_Entity.this.spear_swing_cooldown = SPEAR_SWING_COOLDOWN;
                 Maledictus_Entity.this.setWeapon(0);
             }
         });
@@ -267,9 +271,9 @@ public class Maledictus_Entity extends IABoss_monster {
             @Override
             public boolean canUse() {
                 if(Maledictus_Entity.this.isQuarterHealth()){
-                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 34f && Maledictus_Entity.this.radagon_cooldown <= 0;
+                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 35f && Maledictus_Entity.this.radagon_cooldown <= 0;
                 }else if(Maledictus_Entity.this.isHalfHealth()){
-                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 20f && Maledictus_Entity.this.radagon_cooldown <= 0;
+                    return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 25f && Maledictus_Entity.this.radagon_cooldown <= 0;
                 }
                 return false;
             }
@@ -291,7 +295,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,10,0,15,15,4.5F){
             @Override
             public boolean canUse() {
-                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Maledictus_Entity.this.charge_cooldown <= 0;
+                return super.canUse() && Maledictus_Entity.this.getRandom().nextFloat() * 100.0F < 18f && Maledictus_Entity.this.charge_cooldown <= 0;
             }
             @Override
             public void start() {
@@ -321,7 +325,7 @@ public class Maledictus_Entity extends IABoss_monster {
         this.goalSelector.addGoal(0, new MaledictusChargeState(this, 12, 12, 0, 55, 18, 31, 24,0,2,0,1));
 
         //only charge
-        this.goalSelector.addGoal(1, new MaledictusChargeGoal(this, 0, 19, 30, 24, 4.5F, 13F, 2,0,16f));
+        this.goalSelector.addGoal(1, new MaledictusChargeGoal(this, 0, 19, 30, 24, 4.5F, 13F, 2,0,18f));
 
         //dash 2-backstep
         this.goalSelector.addGoal(0, new MaledictusChargeState(this, 15, 15, 0, 55, 10, 25, 16,27,2,0,2));
@@ -345,7 +349,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 .add(Attributes.FOLLOW_RANGE, 50.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.33F)
                 .add(Attributes.ATTACK_DAMAGE, 13)
-                .add(Attributes.MAX_HEALTH, 400)
+                .add(Attributes.MAX_HEALTH, 450)
                 .add(Attributes.ARMOR, 10)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
@@ -358,7 +362,10 @@ public class Maledictus_Entity extends IABoss_monster {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-
+        double range = calculateRange(source);
+        if (range > CMConfig.MaledictusLongRangelimit * CMConfig.MaledictusLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return false;
+        }
         if (reducedDamageTicks > 0) {
             float reductionFactor = 1.0f - (reducedDamageTicks / 30.0f);
             damage *= reductionFactor;
@@ -673,6 +680,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if (uppercut_cooldown > 0) uppercut_cooldown--;
         if (spin_cooldown > 0) spin_cooldown--;
         if (radagon_cooldown > 0) radagon_cooldown--;
+        if (spear_swing_cooldown > 0) spear_swing_cooldown--;
         LivingEntity target = this.getTarget();
         if (!this.level().isClientSide) {
             if (this.isFlying()) {
@@ -1225,7 +1233,7 @@ public class Maledictus_Entity extends IABoss_monster {
         } while(blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Phantom_Halberd_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this,(float)CMConfig.MaledictusPhantomHalberddamage));
+            this.level().addFreshEntity(new Phantom_Halberd_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this,(float)CMConfig.MaledictusPhantomHalberddamage + (float) CMConfig.MaledictusPhantomHalberddamage * this.getRageMeter() * 0.1F));
         }
     }
 

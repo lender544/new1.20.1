@@ -49,6 +49,11 @@ public class ModBlocks {
                     .strength(25f, 600f)
                     .sound(SoundType.METAL)));
 
+    public static final RegistryObject<Block> CURSIUM_BLOCK = BLOCKS.register("cursium_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(50f, 1200f)
+                    .sound(SoundType.METAL)));
+
     public static final RegistryObject<Block> POLISHED_END_STONE = BLOCKS.register("polished_end_stone",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.END_STONE)));
 

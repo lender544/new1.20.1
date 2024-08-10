@@ -57,7 +57,7 @@ public class void_core extends Item {
         }
         ItemStack stack = player.getItemInHand(hand);
         if (hasSucceeded) {
-            player.getCooldowns().addCooldown(this, 2);
+            player.getCooldowns().addCooldown(this, CMConfig.VoidCoreCooldown);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
@@ -88,7 +88,7 @@ public class void_core extends Item {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player));
+            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player));
             return true;
         }
         return false;
