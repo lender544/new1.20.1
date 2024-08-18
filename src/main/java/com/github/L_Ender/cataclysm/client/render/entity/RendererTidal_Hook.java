@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelTidal_Hook;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 
@@ -27,8 +28,8 @@ import org.joml.Matrix4f;
 
 public class RendererTidal_Hook extends EntityRenderer<Tidal_Hook_Entity> {
 	private final ModelTidal_Hook model = new ModelTidal_Hook();
-	private static final ResourceLocation TEXTURE = new ResourceLocation( "cataclysm:textures/entity/tidal_hook.png");
-	private static final ResourceLocation CHAIN_TEXTURE = new ResourceLocation( "cataclysm:textures/entity/tidal_hook_chain.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation( Cataclysm.MODID,"textures/entity/tidal_hook.png");
+	private static final ResourceLocation CHAIN_TEXTURE = new ResourceLocation( Cataclysm.MODID,"textures/entity/tidal_hook_chain.png");
 	private static final RenderType CHAIN_LAYER = RenderType.entitySmoothCutout(CHAIN_TEXTURE);
 
 	public RendererTidal_Hook(EntityRendererProvider.Context renderManagerIn) {

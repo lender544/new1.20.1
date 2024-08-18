@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Portal_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,10 +15,10 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class RendererAbyss_Portal extends EntityRenderer<Abyss_Portal_Entity> {
-    private static final ResourceLocation TEXTURE_0 = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_idle_0.png");
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_idle_1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_idle_2.png");
-    private static final ResourceLocation TEXTURE_3 = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_idle_3.png");
+    private static final ResourceLocation TEXTURE_0 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_idle_0.png");
+    private static final ResourceLocation TEXTURE_1 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_idle_1.png");
+    private static final ResourceLocation TEXTURE_2 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_idle_2.png");
+    private static final ResourceLocation TEXTURE_3 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_idle_3.png");
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[8];
 
     private static final ResourceLocation[] TEXTURE_IDLE = new ResourceLocation[4];
@@ -25,10 +26,10 @@ public class RendererAbyss_Portal extends EntityRenderer<Abyss_Portal_Entity> {
     public RendererAbyss_Portal(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn);
         for(int i = 0; i < 8; i++){
-            TEXTURE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_grow_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_grow_" + i + ".png");
         }
         for(int i = 0; i < 4; i++){
-            TEXTURE_IDLE[i] = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_portal_idle_" + i + ".png");
+            TEXTURE_IDLE[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_portal_idle_" + i + ".png");
         }
 
     }

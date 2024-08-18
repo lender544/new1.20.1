@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelTidal_Tentacle;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelTidal_Tentacle_Claws;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
@@ -26,9 +27,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class RendererTidal_Tentacle extends EntityRenderer<Tidal_Tentacle_Entity> {
 
-    private static final ResourceLocation CLAW_TEXTURE = new ResourceLocation("cataclysm:textures/entity/tidal_tentacle_claws.png");
+    private static final ResourceLocation CLAW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/tidal_tentacle_claws.png");
 
-    private static final ResourceLocation TENTACLE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/tidal_tentacle.png");
+    private static final ResourceLocation TENTACLE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/tidal_tentacle.png");
 
     private static final ModelTidal_Tentacle_Claws CLAW_MODEL = new ModelTidal_Tentacle_Claws();
     private static final ModelTidal_Tentacle TONGUE_MODEL = new ModelTidal_Tentacle();

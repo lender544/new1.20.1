@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -112,7 +113,7 @@ public class CMRenderTypes extends RenderType {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(new ResourceLocation("cataclysm:textures/particle/em_pulse.png"), true, true))
+                .setTextureState(new TextureStateShard(new ResourceLocation(Cataclysm.MODID,"textures/particle/em_pulse.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
@@ -166,7 +167,7 @@ public class CMRenderTypes extends RenderType {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                 .setCullState(NO_CULL)
-                .setTextureState(new TextureStateShard(new ResourceLocation("cataclysm:textures/particle/shock_wave.png"), true, true))
+                .setTextureState(new TextureStateShard(new ResourceLocation(Cataclysm.MODID,"textures/particle/shock_wave.png"), true, true))
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)

@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelLava_Bomb;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import org.joml.Quaternionf;
 @OnlyIn(Dist.CLIENT)
 public class RendererLava_Bomb extends EntityRenderer<Lava_Bomb_Entity> {
 
-    private static final ResourceLocation FIRE_BOMB_TEXTURES = new ResourceLocation("cataclysm:textures/entity/fire_bomb.png");
+    private static final ResourceLocation FIRE_BOMB_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/fire_bomb.png");
     private final ModelLava_Bomb model = new ModelLava_Bomb();
 
 

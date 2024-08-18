@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Ancient_Remnant_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Prowler_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Wadjet_Animation;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
@@ -268,15 +269,14 @@ public class ModelThe_Prowler extends AdvancedEntityModel<The_Prowler_Entity> {
 		this.upperbody.rotateAngleY += netHeadYaw * 0.6F * Mth.DEG_TO_RAD;
 		float sawspeed = entity.getAttackState() == 3 ? 0F : 0.5f;
 		this.animate(entity.getAnimationState("death"), Prowler_Animation.DEATH, ageInTicks, 1.0F);
-
+		this.animate(entity.getAnimationState("idle"), Prowler_Animation.IDLE, ageInTicks, 1.0f);
 		this.animate(entity.getAnimationState("spin"), Prowler_Animation.SPIN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("melee"), Prowler_Animation.MELEE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("strong_attack"), Prowler_Animation.STRONG_ATTACK, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("strong_spin"), Prowler_Animation.STRONG_SPIN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("stun"), Prowler_Animation.STUN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("laser"), Prowler_Animation.LASER, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("pierce"), Prowler_Animation.PIERCE, ageInTicks, 1.0F);
-		saw.rotateAngleX += ageInTicks * sawspeed;
+		saw.rotateAngleX -= ageInTicks * sawspeed;
 	}
 
 	@Override

@@ -62,7 +62,6 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     public AnimationState spinAnimationState = new AnimationState();
     public AnimationState meleeAnimationState = new AnimationState();
     public AnimationState strongAttackAnimationState = new AnimationState();
-    public AnimationState strongSpinAnimationState = new AnimationState();
     public AnimationState pierceAnimationState = new AnimationState();
     public static final int SPIN_COOLDOWN = 80;
     public static final int LASER_COOLDOWN = 200;
@@ -88,9 +87,10 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
 
         this.goalSelector.addGoal(0, new InternalStateGoal(this, 1, 1, 0, 60, 0));
 
-        this.goalSelector.addGoal(1, new Lasershoot(this, 0, 2, 0, 90, 55, 8F, 40, 100F));
+        //laser
+        this.goalSelector.addGoal(1, new Lasershoot(this, 0, 2, 0, 90, 20, 8F, 20, 100F));
         //spin
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,55,22,4.75F){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,50,22,4.75F){
             @Override
             public boolean canUse() {
                 return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 26 && The_Prowler_Entity.this.spin_cooldown <= 0;
@@ -105,14 +105,14 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         });
 
         //melee
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,0,70,38,5F){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,0,50,38,5F){
             @Override
             public boolean canUse() {
                 return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 20 ;
             }
         });
         //strong
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,6,0,70,45,6F){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,6,0,55,45,6F){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -122,7 +122,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             }
         });
         //pierce
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,7,0,100,38,4.25F){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,7,0,80,38,4.25F){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -131,17 +131,6 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
 
             }
         });
-        //strongspin
-        /*
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,8,0,95,38,4.25F){
-            @Override
-            public boolean canUse() {
-                return true;
-
-            }
-        });
-
-         */
     }
 
     public static AttributeSupplier.Builder the_prowler() {
@@ -207,8 +196,6 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             return this.strongAttackAnimationState;
         } else if (input == "pierce") {
             return this.pierceAnimationState;
-        } else if (input == "strong_spin") {
-            return this.strongSpinAnimationState;
         } else {
             return new AnimationState();
         }
@@ -247,10 +234,6 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
                         this.stopAllAnimationStates();
                         this.pierceAnimationState.startIfStopped(this.tickCount);
                     }
-                    case 8 -> {
-                        this.stopAllAnimationStates();
-                        this.strongSpinAnimationState.startIfStopped(this.tickCount);
-                    }
                 }
         }
         super.onSyncedDataUpdated(p_21104_);
@@ -264,7 +247,6 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         this.strongAttackAnimationState.stop();
         this.deathAnimationState.stop();
         this.pierceAnimationState.stop();
-        this.strongSpinAnimationState.stop();
     }
 
 
@@ -274,14 +256,14 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     }
 
     public int deathtimer() {
-        return 60;
+        return 40;
     }
 
 
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(false, this.tickCount);
+            this.idleAnimationState.animateWhen(this.getAttackState() != 1, this.tickCount);
         }
         if (laser_cooldown > 0) laser_cooldown--;
         if (spin_cooldown > 0) spin_cooldown--;
@@ -292,7 +274,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         super.aiStep();
         LivingEntity target = this.getTarget();
         if (this.getAttackState() == 2) {
-            if (this.attackTicks == 55) {
+            if (this.attackTicks == 38) {
                 this.level().playSound((Player) null, this, ModSounds.DEATH_LASER.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
             }
         }
@@ -306,20 +288,20 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             }
         }
         if (this.getAttackState() == 4) {
-            if (this.attackTicks == 33 || this.attackTicks == 40) {
+            if (this.attackTicks == 23 || this.attackTicks == 32) {
                 AreaAttack(6.0f, 6.0F, 180, 1.0F);
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
             }
-            if (this.attackTicks == 33) {
+            if (this.attackTicks == 23) {
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
             }
         }
 
         if (this.getAttackState() == 5) {
             if (this.attackTicks == 27){
-                    this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+                this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
             }
-            if (this.attackTicks == 38 || this.attackTicks == 45 || this.attackTicks == 52 || this.attackTicks == 59) {
+            if (this.attackTicks == 20 || this.attackTicks == 26 || this.attackTicks == 32 || this.attackTicks == 38 || this.attackTicks == 44) {
                 AreaAttack(5.4f, 5.5F, 110, 0.5F);
 
             }
@@ -327,39 +309,39 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         float f1 = (float) Math.cos(Math.toRadians(this.getYRot() + 90));
         float f2 = (float) Math.sin(Math.toRadians(this.getYRot() + 90));
         if (this.getAttackState() == 6) {
-            if (this.attackTicks == 38) {
+            if (this.attackTicks == 18) {
                 this.push(f1 * 1.5, 0, f2 * 1.5);
             }
-            if (this.attackTicks == 37){
+            if (this.attackTicks == 17){
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_SPIN_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
             }
-            if (this.attackTicks ==45) {
+            if (this.attackTicks ==25) {
                 AreaAttack(5.5f, 5.5f, 70, 1.5F);
 
             }
         }
         if (this.getAttackState() == 7) {
             if(target !=null) {
-                if (this.attackTicks == 15) {
+                if (this.attackTicks == 12) {
                     Missilelaunch(2.0f, 0.5F, target);
                 }
-                if (this.attackTicks == 18) {
+                if (this.attackTicks == 15) {
                     Missilelaunch(2.3f, 0.5F, target);
                 }
-                if (this.attackTicks == 21) {
+                if (this.attackTicks == 18) {
                     Missilelaunch(2.6f, 0.5F, target);
                 }
             }
-            if (this.attackTicks == 30) {
+            if (this.attackTicks == 18) {
                 this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PROWLER_SAW_ATTACK.get(), SoundSource.HOSTILE, 1.5f, 1F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
             }
-            if (this.attackTicks == 46 || this.attackTicks == 54 || this.attackTicks == 62) {
+            if (this.attackTicks == 25 || this.attackTicks == 32 || this.attackTicks == 40) {
                 AreaAttack(5.5F, 5.5F, 60, 0.5F);
 
 
             }
 
-            if (this.attackTicks == 84) {
+            if (this.attackTicks == 64) {
                 AreaAttack(5.5F, 5.5F, 140, 1.0F);
 
             }

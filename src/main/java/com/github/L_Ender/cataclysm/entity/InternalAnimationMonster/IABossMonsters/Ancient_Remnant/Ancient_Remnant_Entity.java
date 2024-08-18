@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
@@ -12,9 +12,9 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.projectile.Ancient_Desert_Stele_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.EarthQuake_Entity;
 import com.github.L_Ender.cataclysm.init.*;
-import com.github.L_Ender.cataclysm.message.MessageUpdateBossBar;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolver;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -69,7 +69,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 
-public class Ancient_Remnant_Rework extends IABoss_monster {
+public class Ancient_Remnant_Entity extends IABoss_monster {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState sandstormroarAnimationState = new AnimationState();
     public AnimationState phaseroarAnimationState = new AnimationState();
@@ -78,36 +78,40 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     public AnimationState threetailhitAnimationState = new AnimationState();
     public AnimationState rightstompAnimationState = new AnimationState();
     public AnimationState leftstompAnimationState = new AnimationState();
+    public AnimationState rightDoubleStompAnimationState = new AnimationState();
+    public AnimationState leftDoubleStompAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
     public AnimationState rightbiteAnimationState = new AnimationState();
     public AnimationState chargeprepareAnimationState = new AnimationState();
     public AnimationState chargeAnimationState = new AnimationState();
     public AnimationState chargestunAnimationState = new AnimationState();
-    private static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> NECKLACE = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> POWER = SynchedEntityData.defineId(Ancient_Remnant_Rework.class, EntityDataSerializers.BOOLEAN);
+    public AnimationState groundtailAnimationState = new AnimationState();
+    public AnimationState tailswingAnimationState = new AnimationState();
+    public AnimationState monolithAnimationState = new AnimationState();
+    private static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Ancient_Remnant_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> NECKLACE = SynchedEntityData.defineId(Ancient_Remnant_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> POWER = SynchedEntityData.defineId(Ancient_Remnant_Entity.class, EntityDataSerializers.BOOLEAN);
 
     public final LegSolver legSolver = new LegSolver(new LegSolver.Leg(0F, 0.75F, 4.0F, false), new LegSolver.Leg(0F, -0.75F, 4.0F, false));
-    private Ancient_Remnant_Rework.AttackMode mode = Ancient_Remnant_Rework.AttackMode.CIRCLE;
+    private Ancient_Remnant_Entity.AttackMode mode = Ancient_Remnant_Entity.AttackMode.CIRCLE;
     private int hunting_cooldown = 160;
-    private int charge_cooldown = 0;
     private int roar_cooldown = 0;
-    private int roar2_cooldown = 0;
+    private int monoltih_cooldown = 0;
     private int earthquake_cooldown = 0;
     private int stomp_cooldown = 0;
-    public static final int CHARGE_COOLDOWN = 250;
+    private boolean hit = false;
     public static final int ROAR_COOLDOWN = 500;
-    public static final int ROAR2_COOLDOWN = 200;
+    public static final int MONOLITH2_COOLDOWN = 200;
     public static final int EARTHQUAKE_COOLDOWN = 160;
-    public static final int STOMP_COOLDOWN = 200;
+    public static final int STOMP_COOLDOWN = 110;
     private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.WHITE,false,7);
+    private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"), BossEvent.BossBarColor.WHITE,false,8);
     public static final int NATURE_HEAL_COOLDOWN = 200;
     private int timeWithoutTarget;
     public int frame;
-    public static final int MINE_COOLDOWN = 100;
 
     
-    public Ancient_Remnant_Rework(EntityType entity, Level world) {
+    public Ancient_Remnant_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 500;
         this.setMaxUpStep(1.5F);
@@ -140,24 +144,13 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         this.goalSelector.addGoal(0, new RemnantAwakenGoal(this,1,2,0,80));
         //change roar
         this.goalSelector.addGoal(0, new RemnantPhaseChangeGoal(this,0,7,0,60));
-        //right_stomp
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 8, 0, 47, 26, 20, 10){
-            @Override
-            public boolean canUse() {
-                LivingEntity target = entity.getTarget();
-                return super.canUse() && target !=null && target.getY() <= this.entity.getY() + 4.5F&& this.entity.distanceTo(target) > 5.5D ;
-            }
-        });
-        //left_stomp
-        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 9, 0, 47, 26, 20, 10){
-            @Override
-            public boolean canUse() {
-                LivingEntity target = entity.getTarget();
-                return super.canUse() && target !=null  && target.getY() <= this.entity.getY() + 4.5F && this.entity.distanceTo(target) > 5.5D ;
-            }
-        });
+
+
+        //stomp
+        this.goalSelector.addGoal(3, new RemnantStompGoal(this,0, 8,9, 13, 14,0,50,66, 26, 20, 36));
+
         //sandstorm_roar
-        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 6, 0, 60, 11, 32D, 18){
+        this.goalSelector.addGoal(3, new RemnantStormAttackGoal(this,0, 6, 0, 60, 11, 32D, 18){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -171,9 +164,11 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
         });
 
+        //sandstorm_roar
+        this.goalSelector.addGoal(3, new RemnantMonolithAttackGoal(this,0, 17, 0, 70, 20));
 
         //charge_prepare
-        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 10, 11, 70, 66, 32D, 10));
+        this.goalSelector.addGoal(3, new RemnantChargeGoal(this,0, 10, 11, 70, 66, 32D, 60));
 
         //charge
         this.goalSelector.addGoal(2, new InternalStateGoal(this,11,11,12,60,0){
@@ -191,6 +186,29 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         //charge stun
         this.goalSelector.addGoal(1, new InternalStateGoal(this,12,12,0,120,0));
 
+        //ground_tail
+        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 15, 0, 110, 85, 12, 10){
+            @Override
+            public boolean canUse() {
+                LivingEntity target = entity.getTarget();
+                return super.canUse() && target !=null && target.onGround() && this.entity.earthquake_cooldown <= 0;
+            }
+            @Override
+            public void stop() {
+                super.stop();
+                this.entity.earthquake_cooldown = EARTHQUAKE_COOLDOWN;
+            }
+        });
+
+        //tail_swing
+        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 16, 0, 58, 13, 7.5D, 10){
+            @Override
+            public boolean canUse() {
+                LivingEntity target = entity.getTarget();
+                return super.canUse() && target !=null && target.getY() < this.entity.getY() + 1.0D;
+            }
+        });
+
         //phase_roar
         this.goalSelector.addGoal(2, new RemnantPhaseChangeGoal(this,0,7,0,60));
 
@@ -202,9 +220,9 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
     public static AttributeSupplier.Builder maledictus() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.FOLLOW_RANGE, 50.0D)
+                .add(Attributes.FOLLOW_RANGE, 70.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.33F)
-                .add(Attributes.ATTACK_DAMAGE, 12)
+                .add(Attributes.ATTACK_DAMAGE, 25)
                 .add(Attributes.MAX_HEALTH, 400)
                 .add(Attributes.ARMOR, 10)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
@@ -229,7 +247,6 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     }
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
-        this.setNecklace(true);
         return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_, p_29682_);
     }
 
@@ -254,7 +271,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             return false;
         }
         Entity entity = source.getDirectEntity();
-        if (this.getAttackState() == 12){
+        if (this.getAttackState() != 12){
             if (entity instanceof AbstractArrow) {
                 return false;
             }
@@ -293,6 +310,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     public void setNecklace(boolean necklace) {
         this.entityData.set(NECKLACE, necklace);
         this.bossEvent.setVisible(necklace);
+        this.bossEvent2.setVisible(necklace);
     }
 
     public boolean getNecklace() {
@@ -381,6 +399,16 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             return this.leftstompAnimationState;
         } else if (input == "charge_stun") {
             return this.chargestunAnimationState;
+        } else if (input == "right_double_stomp") {
+            return this.rightDoubleStompAnimationState;
+        } else if (input == "left_double_stomp") {
+            return this.leftDoubleStompAnimationState;
+        } else if (input == "ground_tail") {
+            return this.groundtailAnimationState;
+        } else if (input == "tail_swing") {
+            return this.tailswingAnimationState;
+        } else if (input == "monolith") {
+            return this.monolithAnimationState;
         } else {
             return new AnimationState();
         }
@@ -446,6 +474,26 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                         this.stopAllAnimationStates();
                         this.chargestunAnimationState.startIfStopped(this.tickCount);
                     }
+                    case 13 -> {
+                        this.stopAllAnimationStates();
+                        this.rightDoubleStompAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 14 -> {
+                        this.stopAllAnimationStates();
+                        this.leftDoubleStompAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 15 -> {
+                        this.stopAllAnimationStates();
+                        this.groundtailAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 16 -> {
+                        this.stopAllAnimationStates();
+                        this.tailswingAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 17 -> {
+                        this.stopAllAnimationStates();
+                        this.monolithAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
 
@@ -465,6 +513,11 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         this.rightstompAnimationState.stop();
         this.leftstompAnimationState.stop();
         this.chargeprepareAnimationState.stop();
+        this.rightDoubleStompAnimationState.stop();
+        this.leftDoubleStompAnimationState.stop();
+        this.groundtailAnimationState.stop();
+        this.monolithAnimationState.stop();
+        this.tailswingAnimationState.stop();
     }
 
     public void die(DamageSource p_21014_) {
@@ -482,6 +535,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             this.idleAnimationState.animateWhen(getAttackState() != 3, this.tickCount);
         }
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
+        this.bossEvent2.setProgress((float) this.getRage() / 5);
         this.legSolver.update(this, this.yBodyRot, this.getScale());
 
         if (!getNecklace()) {
@@ -489,9 +543,8 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
         if (hunting_cooldown > 0) hunting_cooldown--;
 
-        if (charge_cooldown > 0) charge_cooldown--;
         if (roar_cooldown > 0) roar_cooldown--;
-        if (roar2_cooldown > 0) roar2_cooldown--;
+        if (monoltih_cooldown > 0) monoltih_cooldown--;
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (stomp_cooldown > 0) stomp_cooldown--;
         LivingEntity target = this.getTarget();
@@ -512,7 +565,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
         if(this.getIsPower()) {
             if (this.tickCount % 20 == 0) {
-                this.heal(2.0F);
+                this.heal(1.0F);
             }
         }
         floatRemnant();
@@ -544,8 +597,8 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
         if (this.tickCount % 4 == 0) {
             for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
-                if (!isAlliedTo(Lentity) && !(Lentity instanceof Ancient_Remnant_Rework) && Lentity != this) {
-                    boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5f + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5f, Lentity.getMaxHealth() * CMConfig.RemnantChargeHpDamage)));
+                if (!isAlliedTo(Lentity) && !(Lentity instanceof Ancient_Remnant_Entity) && Lentity != this) {
+                    boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f, Lentity.getMaxHealth() * CMConfig.RemnantChargeHpDamage)));
                     if (flag) {
                         if (Lentity.onGround()) {
                             double d0 = Lentity.getX() - this.getX();
@@ -620,7 +673,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
         if(this.getAttackState() == 8){
             if(this.attackTicks == 28) {
-                StompParticle(0.9f,1.3f);
+                StompParticle(0.9f,1.4f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
             }
@@ -630,15 +683,15 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                     int d = l - 26;
                     int d2 = l - 25;
                     float ds = (d + d2) / 2;
-                    StompDamage(0.4f, d, 6,0.9F, 0, 1.3f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
-                    StompDamage(0.4f, d2, 6,0.9F, 0, 1.3f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
-                    Stompsound(ds,1.3f);
+                    StompDamage(0.4f, d, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,1.4f);
                 }
             }
         }
         if(this.getAttackState() == 9){
             if(this.attackTicks == 28) {
-                StompParticle(0.9f,-1.3f);
+                StompParticle(0.9f,-1.4f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
             }
@@ -647,9 +700,9 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                     int d = l - 26;
                     int d2 = l - 25;
                     float ds = (d + d2) / 2;
-                    StompDamage(0.4f, d, 6,0.9F, 0, -1.3f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
-                    StompDamage(0.4f, d2, 6,0.9F, 0, -1.3f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
-                    Stompsound(ds,-1.3f);
+                    StompDamage(0.4f, d, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,-1.4f);
                 }
             }
         }
@@ -689,6 +742,115 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             }
         }
 
+        if(this.getAttackState() == 13) {
+            if(this.attackTicks == 28) {
+                StompParticle(0.9f,1.4f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
+            }
+
+            for (int l = 28; l <= 45; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 26;
+                    int d2 = l - 25;
+                    float ds = (d + d2) / 2;
+                    StompDamage(0.4f, d, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,1.4f);
+                }
+            }
+
+            if(this.attackTicks == 50) {
+                StompParticle(0.9f,1.4f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
+            }
+
+            for (int l = 50; l <= 67; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 48;
+                    int d2 = l - 47;
+                    float ds = (d + d2) / 2;
+                    StompDamage(0.4f, d, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, 1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,1.4f);
+                }
+            }
+        }
+
+        if(this.getAttackState() == 14) {
+            if(this.attackTicks == 28) {
+                StompParticle(0.9f,-1.4f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
+            }
+            for (int l = 28; l <= 45; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 26;
+                    int d2 = l - 25;
+                    float ds = (d + d2) / 2;
+                    StompDamage(0.4f, d, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,-1.4f);
+                }
+            }
+            if(this.attackTicks == 50) {
+                StompParticle(0.9f,-1.4f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                this.playSound(ModSounds.REMNANT_STOMP.get(), 1F, 1.0f);
+            }
+            for (int l = 50; l <= 67; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 48;
+                    int d2 = l - 47;
+                    float ds = (d + d2) / 2;
+                    StompDamage(0.4f, d, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    StompDamage(0.4f, d2, 6,0.9F, 0, -1.4f,80, 0.85f, (float) CMConfig.RemnantStompHpDamage, 0.1f);
+                    Stompsound(ds,-1.4f);
+                }
+            }
+        }
+        if(this.getAttackState() == 15) {
+            if(this.attackTicks == 1) {
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_TAIL_SLAM_1.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+            }
+            if(this.attackTicks == 26) {
+                AreaAttack(10,10,70,1.0f,(float) CMConfig.RemnantHpDamage,160,0);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                EarthQuakeSummon(5.5f, 22 + random.nextInt(8), 0.8f);
+                StompParticle(5.5f,0.8f);
+            }
+            if(this.attackTicks == 55) {
+                AreaAttack(10,10,70,1.0f,(float) CMConfig.RemnantHpDamage,160,0);
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_TAIL_SLAM_2.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                EarthQuakeSummon(5.25f, 22 + random.nextInt(8), 1.5f);
+                StompParticle(5.25f,1.5f);
+            }
+            if(this.attackTicks == 85) {
+                AreaAttack(10,10,70,1.0f,(float) CMConfig.RemnantHpDamage,160,0);
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_TAIL_SLAM_3.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 10);
+                EarthQuakeSummon(5.5f, 22 + random.nextInt(8), 0.8f);
+                StompParticle(5.5f,0.8f);
+            }
+
+        }
+
+        if(this.getAttackState() == 16) {
+            if(this.attackTicks == 12) {
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_TAIL_SWING.get(), SoundSource.HOSTILE, 2.0f, 1.0f);
+            }
+            if(this.attackTicks == 25){
+                TailAreaAttack(8,8,1.05F,120,1.0f,(float) CMConfig.RemnantHpDamage,200,100);
+            }
+        }
+        if(this.getAttackState() == 17) {
+            if(this.attackTicks == 16) {
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 80);
+               this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.1f);
+            }
+        }
     }
 
 
@@ -728,6 +890,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
 
                     if (flag) {
+                        hit = true;
                         if (stunticks > 0) {
                             entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), stunticks));
                         }
@@ -760,8 +923,8 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                         disableShield(player, shieldbreakticks);
                     }
 
-
                     if (flag) {
+                        hit = true;
                         if (stunticks > 0) {
                             entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), stunticks));
                         }
@@ -845,8 +1008,8 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
 
 
         AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        for (LivingEntity entity : hit) {
+        List<LivingEntity> hitbox = level().getEntitiesOfClass(LivingEntity.class, selection);
+        for (LivingEntity entity : hitbox) {
             if (!isAlliedTo(entity) && !(entity instanceof LLibrary_Boss_Monster) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
@@ -854,6 +1017,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
                     disableShield(player, shieldbreakticks);
                 }
                 if (flag) {
+                    hit = true;
                     double magnitude = -4;
                     double x = vx * (1 - factor) * magnitude;
                     double y = 0;
@@ -928,7 +1092,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             EarthQuake_Entity peq = new EarthQuake_Entity(this.level(), this);
             peq.setDamage((float) CMConfig.AncientRemnantEarthQuakeDamage);
             peq.shootFromRotation(this, 0, angle * i, 0.0F, 0.45F, 0.0F);
-            peq.setPos(this.getX() + vec * vecX + f * math, this.getY(), getZ() + vec * vecZ + f1 * math);
+            peq.setPos(this.getX() + vec * vecX + f * math, this.getY() + 0.3D, getZ() + vec * vecZ + f1 * math);
             this.level().addFreshEntity(peq);
 
         }
@@ -980,11 +1144,13 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
         this.bossEvent.addPlayer(player);
+        this.bossEvent2.addPlayer(player);
     }
 
     public void stopSeenByPlayer(ServerPlayer player) {
         super.stopSeenByPlayer(player);
         this.bossEvent.removePlayer(player);
+        this.bossEvent2.removePlayer(player);
     }
 
     @Override
@@ -1009,16 +1175,117 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         MELEE
     }
 
+    static class RemnantStompGoal extends Goal {
+        protected final Ancient_Remnant_Entity entity;
+        private final int getattackstate;
+        private final int attackstate1;
+        private final int attackstate2;
+        private final int attackstate3;
+        private final int attackstate4;
+        private final int attackendstate;
+        private final int attackMaxtick1;
+        private final int attackMaxtick2;
+        private final int attackseetick;
+        private final double attackrange;
+        private final float random;
+
+
+        public RemnantStompGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate1, int attackstate2, int attackstate3, int attackstate4, int attackendstate, int attackMaxtick1, int attackMaxtick2, int attackseetick, double attackrange, float random) {
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+            this.getattackstate = getattackstate;
+            this.attackstate1 = attackstate1;
+            this.attackstate2 = attackstate2;
+            this.attackstate3 = attackstate3;
+            this.attackstate4 = attackstate4;
+            this.attackendstate = attackendstate;
+            this.attackMaxtick1 = attackMaxtick1;
+            this.attackMaxtick2 = attackMaxtick2;
+            this.attackseetick = attackseetick;
+            this.attackrange = attackrange;
+            this.random = random;
+
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && this.entity.stomp_cooldown <= 0 && target.isAlive() && this.entity.distanceTo(target) < attackrange
+                    && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random
+                    && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE
+                    && target.getY() <= this.entity.getY() + 4.5F && this.entity.distanceTo(target) > 5.5D ;
+        }
+
+
+        @Override
+        public void start() {
+            if(this.entity.getIsPower()) {
+                if (this.entity.random.nextBoolean()) {
+                    this.entity.setAttackState(attackstate3);
+                } else {
+                    this.entity.setAttackState(attackstate4);
+                }
+            }else {
+                if (this.entity.random.nextBoolean()) {
+                    this.entity.setAttackState(attackstate1);
+                }else{
+                    this.entity.setAttackState(attackstate2);
+                }
+            }
+            this.entity.hit = false;
+            entity.getNavigation().stop();
+            LivingEntity target = entity.getTarget();
+            if (target != null) {
+                this.entity.lookAt(target, 30.0F, 30.0F);
+                entity.getLookControl().setLookAt(target, 30, 30);
+            }
+        }
+
+        @Override
+        public void stop() {
+            this.entity.setAttackState(attackendstate);
+            this.entity.stomp_cooldown = STOMP_COOLDOWN;
+            if(this.entity.hit) {
+                if (this.entity.getRage() > 0) {
+                    this.entity.setRage(this.entity.getRage() - 1);
+                    this.entity.hit = false;
+                }
+            }else{
+                if (this.entity.getRage() < 5) {
+                    this.entity.setRage(this.entity.getRage() + 1);
+                    this.entity.hit = false;
+                }
+            }
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            if (this.entity.getAttackState() == attackstate1 || this.entity.getAttackState() == attackstate2){
+                return this.entity.attackTicks <= attackMaxtick1;
+            }else if (this.entity.getAttackState() == attackstate3 || this.entity.getAttackState() == attackstate4){
+                return this.entity.attackTicks <= attackMaxtick2;
+            }
+            return false;
+        }
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks < attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
+        }
+    }
+
     static class RemnantAwakenGoal extends Goal {
-        protected final Ancient_Remnant_Rework entity;
+        protected final Ancient_Remnant_Entity entity;
         private final int getattackstate;
         private final int attackstate;
         private final int attackendstate;
         private final int attackMaxtick;
 
-
-
-        public RemnantAwakenGoal(Ancient_Remnant_Rework entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick) {
+        public RemnantAwakenGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick) {
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
             this.getattackstate = getattackstate;
@@ -1057,13 +1324,13 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     }
 
     static class RemnantPhaseChangeGoal extends Goal {
-        protected final Ancient_Remnant_Rework entity;
+        protected final Ancient_Remnant_Entity entity;
         private final int getattackstate;
         private final int attackstate;
         private final int attackendstate;
         private final int attackMaxtick;
 
-        public RemnantPhaseChangeGoal(Ancient_Remnant_Rework entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick) {
+        public RemnantPhaseChangeGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick) {
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
             this.getattackstate = getattackstate;
@@ -1099,8 +1366,8 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
     }
 
-    static class RemnantAttackGoal extends Goal {
-        protected final Ancient_Remnant_Rework entity;
+    static class RemnantStormAttackGoal extends Goal {
+        protected final Ancient_Remnant_Entity entity;
         private final int getattackstate;
         private final int attackstate;
         private final int attackendstate;
@@ -1110,7 +1377,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         private final float random;
 
 
-        public RemnantAttackGoal(Ancient_Remnant_Rework entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange,float random) {
+        public RemnantStormAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
             this.getattackstate = getattackstate;
@@ -1126,7 +1393,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == Ancient_Remnant_Rework.AttackMode.MELEE;
+            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
         }
 
 
@@ -1134,6 +1401,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         public void start() {
             this.entity.setAttackState(attackstate);
             entity.getNavigation().stop();
+            this.entity.hit = false;
             LivingEntity target = entity.getTarget();
             if (target != null) {
                 this.entity.lookAt(target, 30.0F, 30.0F);
@@ -1151,8 +1419,277 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
             return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
         }
 
-        public boolean requiresUpdateEveryTick() {
-            return false;
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks < attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
+        }
+    }
+
+    static class RemnantMonolithAttackGoal extends Goal {
+        protected final Ancient_Remnant_Entity entity;
+        private final int getattackstate;
+        private final int attackstate;
+        private final int attackendstate;
+        private final int attackMaxtick;
+        private final int attackseetick;
+
+
+        public RemnantMonolithAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick) {
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+            this.getattackstate = getattackstate;
+            this.attackstate = attackstate;
+            this.attackendstate = attackendstate;
+            this.attackMaxtick = attackMaxtick;
+            this.attackseetick = attackseetick;
+
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+
+            return target !=null && target.isAlive() && (this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && target.getY() >= this.entity.getY() + 8
+                    ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 3f && this.entity.distanceTo(target) > 12.0D) && this.entity.getAttackState() == getattackstate && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
+
+        }
+
+
+        @Override
+        public void start() {
+            this.entity.setAttackState(attackstate);
+            entity.getNavigation().stop();
+            this.entity.hit = false;
+            LivingEntity target = entity.getTarget();
+            if (target != null) {
+                this.entity.lookAt(target, 30.0F, 30.0F);
+                entity.getLookControl().setLookAt(target, 30, 30);
+            }
+        }
+
+        @Override
+        public void stop() {
+            this.entity.setAttackState(attackendstate);
+            this.entity.monoltih_cooldown = MONOLITH2_COOLDOWN;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
+        }
+
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks < attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
+            if(this.entity.attackTicks == attackseetick && target !=null) {
+                double d1 = target.getY();
+                float f = (float) Mth.atan2(target.getZ() - this.entity.getZ(), target.getX() - this.entity.getX());
+                int l;
+
+
+                StrikeWindmillMonolith(8, 16, 2.0, 0.75, 0.6, d1,1);
+
+
+                for (l = 0; l < 16; ++l) {
+                    double d2 = 1.25 * (double) (l + 1);
+                    int j = (int) ( 5 + 1.5f * l);
+                    this.spawnSpikeLine(this.entity.getX() + (double) Mth.cos(f) * d2, this.entity.getZ() + (double) Mth.sin(f) * d2, d1, f, j);
+                }
+            }
+
+        }
+
+        private void StrikeWindmillMonolith(int numberOfBranches, int particlesPerBranch, double initialRadius, double radiusIncrement, double curveFactor,double spawnY, int delay) {
+            float angleIncrement = (float) (2 * Math.PI / numberOfBranches);
+            for (int branch = 0; branch < numberOfBranches; ++branch) {
+                float baseAngle = angleIncrement * branch;
+
+                for (int i = 0; i < particlesPerBranch; ++i) {
+                    double currentRadius = initialRadius + i * radiusIncrement;
+                    float currentAngle = (float) (baseAngle + i * angleIncrement / initialRadius + (float) (i * curveFactor));
+
+                    double xOffset = currentRadius * Math.cos(currentAngle);
+                    double zOffset = currentRadius * Math.sin(currentAngle);
+
+                    double spawnX = this.entity.getX() + xOffset;
+                    double spawnZ = this.entity.getZ() + zOffset;
+                    int d3 = delay * (i + 1);
+                    this.spawnSpikeLine(spawnX, spawnZ, spawnY,  currentAngle, d3);
+                }
+            }
+        }
+
+        private void spawnSpikeLine(double posX, double posZ, double posY, float rotation, int delay) {
+            BlockPos blockpos = BlockPos.containing(posX, posY, posZ);
+            double d0 = 0.0D;
+
+            do {
+                BlockPos blockpos1 = blockpos.above();
+                BlockState blockstate = entity.level().getBlockState(blockpos1);
+                if (blockstate.isFaceSturdy(entity.level(), blockpos1, Direction.DOWN)) {
+                    if (!entity.level().isEmptyBlock(blockpos)) {
+                        BlockState blockstate1 = entity.level().getBlockState(blockpos);
+                        VoxelShape voxelshape = blockstate1.getCollisionShape(entity.level(), blockpos);
+                        if (!voxelshape.isEmpty()) {
+                            d0 = voxelshape.max(Direction.Axis.Y);
+                        }
+                    }
+
+                    break;
+                }
+
+                blockpos = blockpos.above();
+            } while (blockpos.getY() < Math.min(entity.level().getMaxBuildHeight(), entity.getBlockY() + 20));
+            this.entity.level().addFreshEntity(new Ancient_Desert_Stele_Entity(this.entity.level(), posX, (double)blockpos.getY() + d0 -3, posZ, rotation, delay, this.entity));
+
+        }
+    }
+
+    static class RemnantAttackGoal extends Goal {
+        protected final Ancient_Remnant_Entity entity;
+        private final int getattackstate;
+        private final int attackstate;
+        private final int attackendstate;
+        private final int attackMaxtick;
+        private final int attackseetick;
+        private final double attackrange;
+        private final float random;
+
+
+        public RemnantAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+            this.getattackstate = getattackstate;
+            this.attackstate = attackstate;
+            this.attackendstate = attackendstate;
+            this.attackMaxtick = attackMaxtick;
+            this.attackseetick = attackseetick;
+            this.attackrange = attackrange;
+            this.random = random;
+
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
+        }
+
+
+        @Override
+        public void start() {
+            this.entity.setAttackState(attackstate);
+            entity.getNavigation().stop();
+            this.entity.hit = false;
+            LivingEntity target = entity.getTarget();
+            if (target != null) {
+                this.entity.lookAt(target, 30.0F, 30.0F);
+                entity.getLookControl().setLookAt(target, 30, 30);
+            }
+        }
+
+        @Override
+        public void stop() {
+            this.entity.setAttackState(attackendstate);
+            if(this.entity.hit) {
+                if (this.entity.getRage() > 0) {
+                    this.entity.setRage(this.entity.getRage() - 1);
+                    this.entity.hit = false;
+                }
+            }else{
+                if (this.entity.getRage() < 5) {
+                    this.entity.setRage(this.entity.getRage() + 1);
+                    this.entity.hit = false;
+                }
+            }
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
+        }
+
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks < attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
+        }
+    }
+
+    static class RemnantChargeGoal extends Goal {
+        protected final Ancient_Remnant_Entity entity;
+        private final int getattackstate;
+        private final int attackstate;
+        private final int attackendstate;
+        private final int attackMaxtick;
+        private final int attackseetick;
+        private final double attackrange;
+        private final float random;
+
+
+        public RemnantChargeGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+            this.getattackstate = getattackstate;
+            this.attackstate = attackstate;
+            this.attackendstate = attackendstate;
+            this.attackMaxtick = attackMaxtick;
+            this.attackseetick = attackseetick;
+            this.attackrange = attackrange;
+            this.random = random;
+
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && target.isAlive() && this.entity.getRage() >= 5 && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
+        }
+
+
+        @Override
+        public void start() {
+            this.entity.setAttackState(attackstate);
+            entity.getNavigation().stop();
+            entity.setRage(0);
+            LivingEntity target = entity.getTarget();
+            if (target != null) {
+                this.entity.lookAt(target, 30.0F, 30.0F);
+                entity.getLookControl().setLookAt(target, 30, 30);
+            }
+        }
+
+        @Override
+        public void stop() {
+            this.entity.setAttackState(attackendstate);
+            if(this.entity.hit) {
+                if (this.entity.getRage() > 0) {
+                    this.entity.setRage(this.entity.getRage() - 1);
+                    this.entity.hit = false;
+                }
+            }else{
+                if (this.entity.getRage() < 5) {
+                    this.entity.setRage(this.entity.getRage() + 1);
+                }
+            }
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
         }
 
         public void tick() {
@@ -1167,14 +1704,14 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
     }
 
     class RemnantAttackModeGoal extends Goal {
-        private final Ancient_Remnant_Rework mob;
+        private final Ancient_Remnant_Entity mob;
         private LivingEntity target;
         private int circlingTime = 0;
         private final float huntingTime = 0;
         private float circleDistance = 9;
         private boolean clockwise = false;
 
-        public RemnantAttackModeGoal(Ancient_Remnant_Rework mob) {
+        public RemnantAttackModeGoal(Ancient_Remnant_Entity mob) {
             this.mob = mob;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
@@ -1190,7 +1727,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
 
         public void start() {
-            this.mob.mode = Ancient_Remnant_Rework.AttackMode.CIRCLE;
+            this.mob.mode = Ancient_Remnant_Entity.AttackMode.CIRCLE;
             circlingTime = 0;
             circleDistance = 18 + this.mob.random.nextInt(10);
             clockwise = this.mob.random.nextBoolean();
@@ -1198,7 +1735,7 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         }
 
         public void stop() {
-            this.mob.mode = Ancient_Remnant_Rework.AttackMode.CIRCLE;
+            this.mob.mode = Ancient_Remnant_Entity.AttackMode.CIRCLE;
             circlingTime = 0;
             circleDistance = 18 + this.mob.random.nextInt(10);
             clockwise = this.mob.random.nextBoolean();
@@ -1221,17 +1758,17 @@ public class Ancient_Remnant_Rework extends IABoss_monster {
         public void tick() {
             LivingEntity target = this.mob.getTarget();
             if (target != null) {
-                if (this.mob.mode == Ancient_Remnant_Rework.AttackMode.CIRCLE) {
+                if (this.mob.mode == Ancient_Remnant_Entity.AttackMode.CIRCLE) {
                     circlingTime++;
                     circleEntity(target, circleDistance, 1.0f, clockwise, circlingTime, 0, 1);
                     if (huntingTime >= this.mob.hunting_cooldown) {
-                        this.mob.mode = Ancient_Remnant_Rework.AttackMode.MELEE;
+                        this.mob.mode = Ancient_Remnant_Entity.AttackMode.MELEE;
                     }else{
                         if(this.mob.distanceTo(target) < 4D){
-                            this.mob.mode = Ancient_Remnant_Rework.AttackMode.MELEE;
+                            this.mob.mode = Ancient_Remnant_Entity.AttackMode.MELEE;
                         }
                     }
-                } else if (this.mob.mode == Ancient_Remnant_Rework.AttackMode.MELEE) {
+                } else if (this.mob.mode == Ancient_Remnant_Entity.AttackMode.MELEE) {
                     this.mob.getNavigation().moveTo(target, 1.0D);
                     this.mob.getLookControl().setLookAt(target, 30, 30);
                 }

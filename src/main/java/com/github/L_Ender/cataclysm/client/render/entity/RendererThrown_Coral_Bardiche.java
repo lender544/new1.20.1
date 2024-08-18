@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Bardiche;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Bardiche_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
@@ -20,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererThrown_Coral_Bardiche extends EntityRenderer<ThrownCoral_Bardiche_Entity> {
 
-    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/coral_bardiche.png");
+    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
     private final ModelCoral_Bardiche model = new ModelCoral_Bardiche();
 
 

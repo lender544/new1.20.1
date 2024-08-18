@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Leviathan;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Leviathan_Tongue;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Leviathan_Tongue_End;
@@ -31,9 +32,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererThe_Leviathan extends MobRenderer<The_Leviathan_Entity, ModelThe_Leviathan> {
 
-    private static final ResourceLocation LEVIATHAN_TEXTURES = new ResourceLocation("cataclysm:textures/entity/leviathan/the_leviathan.png");
-    private static final ResourceLocation BURNING_LEVIATHAN_TEXTURES = new ResourceLocation("cataclysm:textures/entity/leviathan/the_burning_leviathan.png");
-    private static final ResourceLocation LEVIATHAN_TEXTURE_EYES = new ResourceLocation("cataclysm:textures/entity/leviathan/the_leviathan_eye.png");
+    private static final ResourceLocation LEVIATHAN_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/the_leviathan.png");
+    private static final ResourceLocation BURNING_LEVIATHAN_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/the_burning_leviathan.png");
+    private static final ResourceLocation LEVIATHAN_TEXTURE_EYES = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/the_leviathan_eye.png");
     private final RandomSource rnd = RandomSource.create();
     private static final ModelThe_Leviathan_Tongue TONGUE_MODEL = new ModelThe_Leviathan_Tongue();
     private static final ModelThe_Leviathan_Tongue_End TONGUE_END_MODEL = new ModelThe_Leviathan_Tongue_End();

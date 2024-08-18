@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Harbinger;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Item_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Layer;
@@ -26,7 +27,7 @@ import org.joml.Matrix4f;
 @OnlyIn(Dist.CLIENT)
 public class RendererThe_Harbinger extends MobRenderer<The_Harbinger_Entity, ModelThe_Harbinger> {
 
-    private static final ResourceLocation HARBINGER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/harbinger/the_harbinger.png");
+    private static final ResourceLocation HARBINGER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/the_harbinger.png");
     private final RandomSource rnd = RandomSource.create();
     private static final float HALF_SQRT_3 = (float)(Math.sqrt(3.0D) / 2.0D);
 

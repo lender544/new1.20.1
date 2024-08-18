@@ -60,28 +60,28 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ModelMeat_Shredder MEAT_SHREDDER_MODEL = new ModelMeat_Shredder();
     private static final ModelLaser_Gatling LASER_GATLING_MODEL = new ModelLaser_Gatling();
     private static final ModelAncient_Spear ANCIENT_SPEAR_MODEL = new ModelAncient_Spear();
-    private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation("cataclysm:textures/item/bulwark_of_the_flame.png");
-    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation("cataclysm:textures/item/gauntlet_of_guard.png");
-    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation("cataclysm:textures/item/gauntlet_of_bulwark.png");
-    private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation("cataclysm:textures/item/the_incinerator.png");
-    private static final ResourceLocation VOID_FORGE_TEXTURE = new ResourceLocation("cataclysm:textures/item/void_forge.png");
-    private static final ResourceLocation TIDAL_CLAWS_TEXTURE = new ResourceLocation("cataclysm:textures/item/tidal_claws.png");
-    private static final ResourceLocation MEAT_SHREDDER_TEXTURE = new ResourceLocation("cataclysm:textures/item/meat_shredder.png");
-    private static final ResourceLocation LASER_GATLING_TEXTURE = new ResourceLocation("cataclysm:textures/item/laser_gatling.png");
-    private static final ResourceLocation ALTAR_OF_FIRE_TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altar_of_fire.png");
-    private static final ResourceLocation ALTAR_OF_VOID_TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_void.png");
-    private static final ResourceLocation ALTAR_OF_AMETHYST_TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_amethyst.png");
-    private static final ResourceLocation ALTAR_OF_ABYSS_TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_abyss.png");
-    private static final ResourceLocation ABYSSAL_EGG_TEXTURE = new ResourceLocation("cataclysm:textures/block/abyssal_egg.png");
-    private static final ResourceLocation ABYSSAL_EGG_LAYER_TEXTURE = new ResourceLocation("cataclysm:textures/block/abyssal_egg_layer.png");
-    private static final ResourceLocation MIF_TEXTURE = new ResourceLocation("cataclysm:textures/block/mechanical_fusion_anvil.png");
-    private static final ResourceLocation WASW_TEXTURE = new ResourceLocation("cataclysm:textures/item/wither_assualt_shoulder_weapon.png");
-    private static final ResourceLocation VASW_TEXTURE = new ResourceLocation("cataclysm:textures/item/void_assualt_shoulder_weapon.png");
-    private static final ResourceLocation EMP_TEXTURE = new ResourceLocation("cataclysm:textures/block/emp.png");
+    private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
+    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
+    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
+    private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_incinerator.png");
+    private static final ResourceLocation VOID_FORGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge.png");
+    private static final ResourceLocation TIDAL_CLAWS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/tidal_claws.png");
+    private static final ResourceLocation MEAT_SHREDDER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/meat_shredder.png");
+    private static final ResourceLocation LASER_GATLING_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/laser_gatling.png");
+    private static final ResourceLocation ALTAR_OF_FIRE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_of_fire.png");
+    private static final ResourceLocation ALTAR_OF_VOID_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_void.png");
+    private static final ResourceLocation ALTAR_OF_AMETHYST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_amethyst.png");
+    private static final ResourceLocation ALTAR_OF_ABYSS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_abyss.png");
+    private static final ResourceLocation ABYSSAL_EGG_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg.png");
+    private static final ResourceLocation ABYSSAL_EGG_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg_layer.png");
+    private static final ResourceLocation MIF_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
+    private static final ResourceLocation WASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon.png");
+    private static final ResourceLocation VASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon.png");
+    private static final ResourceLocation EMP_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/emp.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
-    private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_spear.png");
-    private static final ResourceLocation CORAL_BARDICHE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/coral_bardiche.png");
-    private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = new ResourceLocation("cataclysm:textures/item/ancient_spear.png");
+    private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_spear.png");
+    private static final ResourceLocation CORAL_BARDICHE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
+    private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/ancient_spear.png");
 
     private Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
 
@@ -94,7 +94,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
 
         for(int i = 0; i < 8; i++){
-            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire_" + i + ".png");
+            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
         }
 
     }

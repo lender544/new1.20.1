@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Berserker;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
@@ -20,8 +21,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererIgnited_Berserker extends MobRenderer<Ignited_Berserker_Entity, ModelIgnited_Berserker<Ignited_Berserker_Entity>> {
 
-    private static final ResourceLocation BERSERKER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/ignited_berserker.png");
-    private static final ResourceLocation BERSERKER_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/ignited_berserker_layer.png");
+    private static final ResourceLocation BERSERKER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignited_berserker.png");
+    private static final ResourceLocation BERSERKER_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignited_berserker_layer.png");
 
     public RendererIgnited_Berserker(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelIgnited_Berserker<>(renderManagerIn.bakeLayer(CMModelLayers.IGNITED_BERSERKER_MODEL)), 0.5F);

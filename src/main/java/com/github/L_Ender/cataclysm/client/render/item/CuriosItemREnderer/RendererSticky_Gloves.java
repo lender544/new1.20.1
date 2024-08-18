@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class RendererSticky_Gloves implements ICurioRenderer {
     private final Sticky_Gloves_Model model;
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/curiositem/sticky_gloves.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/curiositem/sticky_gloves.png");
 
     public RendererSticky_Gloves() {
         this.model = new Sticky_Gloves_Model(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.STICKY_GLOVES_MODEL));

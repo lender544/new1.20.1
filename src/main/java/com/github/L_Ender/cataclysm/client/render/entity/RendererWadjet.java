@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWadjet;
 import com.github.L_Ender.cataclysm.client.render.layer.Kobolediator_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Wadjet_Layer;
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererWadjet extends MobRenderer<Wadjet_Entity, ModelWadjet> {
 
-    private static final ResourceLocation KOBOLEDIATOR_TEXTURES = new ResourceLocation("cataclysm:textures/entity/koboleton/wadjet.png");
+    private static final ResourceLocation KOBOLEDIATOR_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/wadjet.png");
     ;
 
     public RendererWadjet(EntityRendererProvider.Context renderManagerIn) {

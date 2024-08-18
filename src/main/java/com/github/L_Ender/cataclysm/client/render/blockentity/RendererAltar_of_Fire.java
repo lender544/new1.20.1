@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.blockentity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.block.Model_Altar_of_Fire;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
@@ -23,14 +24,14 @@ import org.joml.Matrix4f;
 
 public class RendererAltar_of_Fire<T extends TileEntityAltarOfFire> implements BlockEntityRenderer<T> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altar_of_fire.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_of_fire.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
-    public static final ResourceLocation FLAME_STRIKE = new ResourceLocation("cataclysm:textures/entity/flame_strike_sigil.png");
+    public static final ResourceLocation FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/flame_strike_sigil.png");
     private static final Model_Altar_of_Fire MODEL = new Model_Altar_of_Fire();
 
     public RendererAltar_of_Fire(Context rendererDispatcherIn) {
         for(int i = 0; i < 8; i++){
-            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/block/altar_of_fire/altarfire_" + i + ".png");
+            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
         }
     }
 

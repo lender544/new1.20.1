@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnis_Fireball;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,8 +19,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererIgnis_Fireball extends EntityRenderer<Ignis_Fireball_Entity>
 {
-	private static final ResourceLocation IGNIS_FIRE_BALL = new ResourceLocation("cataclysm:textures/entity/ignis_fireball.png");
-	private static final ResourceLocation IGNIS_FIRE_BALL_SOUL = new ResourceLocation("cataclysm:textures/entity/ignis_fireball_soul.png");
+	private static final ResourceLocation IGNIS_FIRE_BALL = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignis_fireball.png");
+	private static final ResourceLocation IGNIS_FIRE_BALL_SOUL = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignis_fireball_soul.png");
 
 	public ModelIgnis_Fireball model;
 

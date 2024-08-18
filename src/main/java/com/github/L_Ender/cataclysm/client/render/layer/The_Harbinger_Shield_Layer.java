@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Harbinger;
 import com.github.L_Ender.cataclysm.client.render.entity.RendererThe_Harbinger;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
@@ -18,7 +19,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class The_Harbinger_Shield_Layer extends RenderLayer<The_Harbinger_Entity, ModelThe_Harbinger> {
 
-    private static final ResourceLocation HARBINGER_LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/harbinger/the_harbinger_shield_layer.png");
+    private static final ResourceLocation HARBINGER_LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/the_harbinger_shield_layer.png");
 
 
     public The_Harbinger_Shield_Layer(RendererThe_Harbinger rendererTheHarbinger) {

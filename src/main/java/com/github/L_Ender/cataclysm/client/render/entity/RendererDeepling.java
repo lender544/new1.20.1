@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelDeepling;
 import com.github.L_Ender.cataclysm.client.render.layer.AbstractDeepling_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerDeeplingItem;
@@ -14,8 +15,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererDeepling extends MobRenderer<Deepling_Entity, ModelDeepling> {
 
-    private static final ResourceLocation SSAPBUG_TEXTURES = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_1.png");
-    private static final ResourceLocation DEEPLING_LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_layer.png");
+    private static final ResourceLocation SSAPBUG_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_1.png");
+    private static final ResourceLocation DEEPLING_LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_layer.png");
     public RendererDeepling(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelDeepling(), 0.7F);
         this.addLayer(new AbstractDeepling_Layer(this,DEEPLING_LAYER_TEXTURES));

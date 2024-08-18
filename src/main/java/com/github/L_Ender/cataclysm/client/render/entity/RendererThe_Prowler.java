@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Prowler;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
@@ -19,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererThe_Prowler extends MobRenderer<The_Prowler_Entity, ModelThe_Prowler> {
     private final RandomSource rnd = RandomSource.create();
-    private static final ResourceLocation PROWLER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/factory/the_prowler.png");
+    private static final ResourceLocation PROWLER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler.png");
 
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[4];
 
@@ -28,7 +29,7 @@ public class RendererThe_Prowler extends MobRenderer<The_Prowler_Entity, ModelTh
        // this.addLayer(new LayerGenericGlowing(this, PROWLER_LAYER_TEXTURES));
         this.addLayer(new The_Prowler_Layer(this));
         for(int i = 0; i < 4; i++){
-            TEXTURE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/factory/the_prowler_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler_" + i + ".png");
         }
 
     }

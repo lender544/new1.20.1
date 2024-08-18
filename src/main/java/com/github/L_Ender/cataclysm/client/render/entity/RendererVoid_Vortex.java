@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,17 +18,17 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererVoid_Vortex extends EntityRenderer<Void_Vortex_Entity> {
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation("cataclysm:textures/entity/void_vortex/void_vortex_idle1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation("cataclysm:textures/entity/void_vortex/void_vortex_idle2.png");
-    private static final ResourceLocation TEXTURE_3 = new ResourceLocation("cataclysm:textures/entity/void_vortex/void_vortex_idle3.png");
-    private static final ResourceLocation TEXTURE_4 = new ResourceLocation("cataclysm:textures/entity/void_vortex/void_vortex_idle4.png");
+    private static final ResourceLocation TEXTURE_1 = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_vortex/void_vortex_idle1.png");
+    private static final ResourceLocation TEXTURE_2 = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_vortex/void_vortex_idle2.png");
+    private static final ResourceLocation TEXTURE_3 = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_vortex/void_vortex_idle3.png");
+    private static final ResourceLocation TEXTURE_4 = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_vortex/void_vortex_idle4.png");
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[4];
 
 
     public RendererVoid_Vortex(EntityRendererProvider.Context mgr) {
         super(mgr);
         for(int i = 0; i < 4; i++) {
-            TEXTURE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/void_vortex/void_vortex_grow_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_vortex/void_vortex_grow_" + i + ".png");
         }
     }
 

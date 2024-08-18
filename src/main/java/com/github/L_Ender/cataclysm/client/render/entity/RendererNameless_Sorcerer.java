@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelNameless_Sorcerer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Nameless_Sorcerer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererNameless_Sorcerer extends MobRenderer<Nameless_Sorcerer_Entity, ModelNameless_Sorcerer> {
 
-    private static final ResourceLocation NAMELESS_SORCERER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/nameless_sorcerer.png");
+    private static final ResourceLocation NAMELESS_SORCERER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/nameless_sorcerer.png");
 
     public RendererNameless_Sorcerer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelNameless_Sorcerer(), 0.5F);

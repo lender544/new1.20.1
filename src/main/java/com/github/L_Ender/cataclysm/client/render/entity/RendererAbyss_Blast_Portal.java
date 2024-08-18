@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelAbyss_Blast_Portal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Portal_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RendererAbyss_Blast_Portal extends EntityRenderer<Abyss_Blast_Portal_Entity> {
 
-	private static final ResourceLocation PORTAL = new ResourceLocation("cataclysm:textures/entity/leviathan/portal/abyss_blast_portal.png");
+	private static final ResourceLocation PORTAL = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/portal/abyss_blast_portal.png");
 	public ModelAbyss_Blast_Portal model;
 
 	public RendererAbyss_Blast_Portal(EntityRendererProvider.Context manager)

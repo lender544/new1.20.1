@@ -293,6 +293,17 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM = SOUNDS.register("remnant_tail_slam",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam")));
 
+    public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_1 = SOUNDS.register("remnant_tail_slam_1",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_1")));
+
+
+    public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_2 = SOUNDS.register("remnant_tail_slam_2",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_2")));
+
+
+    public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_3 = SOUNDS.register("remnant_tail_slam_3",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_3")));
+
     public static final RegistryObject<SoundEvent> REMNANT_TAIL_SWING = SOUNDS.register("remnant_tail_swing",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_swing")));
 

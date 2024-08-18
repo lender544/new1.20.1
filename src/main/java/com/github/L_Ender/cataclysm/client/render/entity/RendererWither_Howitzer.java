@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWither_Howitzer;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Howitzer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererWither_Howitzer extends EntityRenderer<Wither_Howitzer_Entity> {
 
-    private static final ResourceLocation WITHER_HOWITZER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/harbinger/wither_howitzer.png");
+    private static final ResourceLocation WITHER_HOWITZER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/wither_howitzer.png");
     private final ModelWither_Howitzer model = new ModelWither_Howitzer();
 
 

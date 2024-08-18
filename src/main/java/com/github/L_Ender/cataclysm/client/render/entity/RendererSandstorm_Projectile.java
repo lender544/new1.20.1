@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnis_Fireball;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWither_Missile;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_Sandstorm_Projectile;
@@ -22,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererSandstorm_Projectile extends EntityRenderer<Sandstorm_Projectile>
 {
-	private static final ResourceLocation SANDSTORM = new ResourceLocation("cataclysm:textures/entity/koboleton/sandstorm.png");
+	private static final ResourceLocation SANDSTORM = new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/sandstorm.png");
 
 	public Model_Sandstorm_Projectile model;
 

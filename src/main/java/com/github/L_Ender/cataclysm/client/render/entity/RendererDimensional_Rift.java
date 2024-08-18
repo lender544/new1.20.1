@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Dimensional_Rift_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,15 +18,15 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererDimensional_Rift extends EntityRenderer<Dimensional_Rift_Entity> {
-    private static final ResourceLocation TEXTURE_IDLE_1 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_idle1.png");
-    private static final ResourceLocation TEXTURE_IDLE_2 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_idle2.png");
-    private static final ResourceLocation TEXTURE_IDLE_3 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_idle3.png");
-    private static final ResourceLocation TEXTURE_IDLE_4 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_idle4.png");
+    private static final ResourceLocation TEXTURE_IDLE_1 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_idle1.png");
+    private static final ResourceLocation TEXTURE_IDLE_2 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_idle2.png");
+    private static final ResourceLocation TEXTURE_IDLE_3 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_idle3.png");
+    private static final ResourceLocation TEXTURE_IDLE_4 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_idle4.png");
 
-    private static final ResourceLocation TEXTURE_GROW_1 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_0.png");
-    private static final ResourceLocation TEXTURE_GROW_2 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_1.png");
-    private static final ResourceLocation TEXTURE_GROW_3 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_2.png");
-    private static final ResourceLocation TEXTURE_GROW_4 = new ResourceLocation("cataclysm:textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_3.png");
+    private static final ResourceLocation TEXTURE_GROW_1 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_0.png");
+    private static final ResourceLocation TEXTURE_GROW_2 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_1.png");
+    private static final ResourceLocation TEXTURE_GROW_3 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_2.png");
+    private static final ResourceLocation TEXTURE_GROW_4 = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/dimensional_rift/dimensional_rift_grow_3.png");
 
 
 

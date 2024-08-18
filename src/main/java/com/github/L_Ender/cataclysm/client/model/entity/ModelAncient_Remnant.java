@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
@@ -13,7 +13,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 
-public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_Entity> {
+public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Ancient_Remnant_Entity> {
 	private final AdvancedModelBox root;
 	private final AdvancedModelBox mid_pivot;
 	private final AdvancedModelBox pelvis;
@@ -598,10 +598,10 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 		return ImmutableList.of(root);
 	}
 
-	public void animate(Ancient_Remnant_Entity entity, float f, float f1, float f2, float f3, float f4) {
+	public void animate(Ancient_Ancient_Remnant_Entity entity, float f, float f1, float f2, float f3, float f4) {
 		this.resetToDefaultPose();
 		animator.update(entity);
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_BITE1);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_BITE1);
 		animator.startKeyframe(15);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-2.5F), (float) Math.toRadians(2.5F), (float) Math.toRadians(2.5F));
 		animator.move(mid_pivot, 0,0.5F, 2);
@@ -696,7 +696,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(12);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_BITE2);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_BITE2);
 		animator.startKeyframe(13);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-2.5F), (float) Math.toRadians(-2.5F), (float) Math.toRadians(-2.5F));
 		animator.move(mid_pivot, 0,0.5F, 2);
@@ -792,7 +792,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(12);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_CHARGE_PREPARE);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_CHARGE_PREPARE);
 		animator.startKeyframe(13);
 		animator.move(root, 0,5, 2.5F);
 		animator.rotate(pelvis, (float) Math.toRadians(10F),(float) Math.toRadians(-5F), 0);
@@ -1033,7 +1033,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 		animator.resetKeyframe(10);
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_TAIL_ATTACK1);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_TAIL_ATTACK1);
 		animator.startKeyframe(13);
 		animator.rotate(mid_pivot, 0,(float) Math.toRadians(50F), 0);
 		animator.move(mid_pivot, 2,17, 10);
@@ -1200,7 +1200,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_TAIL_ATTACK2);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_TAIL_ATTACK2);
 		animator.startKeyframe(11);
 		animator.rotate(mid_pivot, 0,(float) Math.toRadians(-50F), 0);
 		animator.move(mid_pivot, -2,17, 10);
@@ -1368,7 +1368,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_LEFT_STOMP);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_LEFT_STOMP);
 		animator.startKeyframe(12);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-7.5F),(float) Math.toRadians(-5F), 0);
 		animator.move(mid_pivot, 0,2, 0);
@@ -1446,7 +1446,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(10);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_RIGHT_STOMP);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_RIGHT_STOMP);
 		animator.startKeyframe(12);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-7.5F),(float) Math.toRadians(5F), 0);
 		animator.move(mid_pivot, 0,2, 0);
@@ -1525,7 +1525,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 		animator.resetKeyframe(10);
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_LEFT_STOMP_EXTRA);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_LEFT_STOMP_EXTRA);
 		animator.startKeyframe(0);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-15F),(float) Math.toRadians(-7.5F), (float) Math.toRadians(-6.0F));
 		animator.move(mid_pivot, 0,12.4F, 0);
@@ -1603,7 +1603,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(10);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_RIGHT_STOMP_EXTRA);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_RIGHT_STOMP_EXTRA);
 		animator.startKeyframe(0);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-15F),(float) Math.toRadians(7.5F), (float) Math.toRadians(6.0F));
 		animator.move(mid_pivot, 0,12.4F, 0);
@@ -1682,7 +1682,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 		animator.resetKeyframe(10);
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_ROAR);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_ROAR);
 		animator.startKeyframe(10);
 		animator.rotate(pelvis, (float) Math.toRadians(15F),0, 0);
 		animator.rotate(tail1, (float) Math.toRadians(-55F),(float) Math.toRadians(5F), (float) Math.toRadians(-5F));
@@ -1849,7 +1849,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_TAIL_THREE);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_TAIL_THREE);
 		animator.startKeyframe(10);
 		animator.rotate(mid_pivot, (float) Math.toRadians(-5F),(float) Math.toRadians(-170F), 0);
 		animator.move(mid_pivot, 0,4, 0);
@@ -2053,7 +2053,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(15);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_ROAR2);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_ROAR2);
 		animator.startKeyframe(8);
 		animator.rotate(root, 0,(float) Math.toRadians(10F), 0);
 		animator.rotate(mid_pivot, 0,(float) Math.toRadians(1.5F), 0);
@@ -2155,7 +2155,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 		animator.resetKeyframe(10);
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_PHASE_ROAR);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_PHASE_ROAR);
 		animator.startKeyframe(8);
 		animator.rotate(root, 0,(float) Math.toRadians(-10F), 0);
 		animator.rotate(mid_pivot, 0,(float) Math.toRadians(-1.5F), 0);
@@ -2250,7 +2250,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 
 
 
-		animator.setAnimation(Ancient_Remnant_Entity.REMNANT_DEATH);
+		animator.setAnimation(Ancient_Ancient_Remnant_Entity.REMNANT_DEATH);
 		animator.startKeyframe(12);
 		animator.rotate(root, 0,(float) Math.toRadians(8.5F), 0);
 		animator.move(root, 0,4.3F, 0);
@@ -2443,7 +2443,7 @@ public class ModelAncient_Remnant extends AdvancedEntityModel<Ancient_Remnant_En
 	}
 
 	@Override
-	public void setupAnim(Ancient_Remnant_Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+	public void setupAnim(Ancient_Ancient_Remnant_Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		animate(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 		faceTarget(netHeadYaw, headPitch, 1, head);
 		float globalSpeed = 0.25f;

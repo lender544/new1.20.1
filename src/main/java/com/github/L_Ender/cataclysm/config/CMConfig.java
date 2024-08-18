@@ -107,7 +107,7 @@ public class CMConfig {
     public static double BabyLeviathanDamageMultiplier = 1D;
 
     public static double AmethystCrabHealthMultiplier = 1D;
-    public static double AmethystCrabEarthQuakeDamage = 5D;
+    public static double AmethystCrabEarthQuakeDamage = 11D;
     public static double AmethystCrabDamageMultiplier = 1D;
 
     public static double AncientRemnantHealthMultiplier = 1D;
@@ -137,7 +137,7 @@ public class CMConfig {
     public static double IgnisLongRangelimit = 15D;
     public static double HarbingerLongRangelimit = 35D;
     public static double LeviathanLongRangelimit = 38D;
-    public static double AncientRemnantLongRangelimit = 10D;
+    public static double AncientRemnantLongRangelimit = 14D;
     public static double ProwlerLongRangelimit = 12D;
     public static double MaledictusLongRangelimit = 38D;
 
@@ -155,7 +155,7 @@ public class CMConfig {
     public static double LeviathanTailSwingHpdamage = 0.08D;
     public static double LeviathanRushHpdamage = 0.05D;
     public static double LeviathanTentacleHpdamage = 0.03D;
-    public static double RemnantChargeHpDamage = 0.06D;
+    public static double RemnantChargeHpDamage = 0.1D;
     public static double RemnantStompHpDamage = 0.03D;
     public static double RemnantHpDamage = 0.05D;
     public static double MaledictusHpDamage = 0.05D;
@@ -339,7 +339,7 @@ public class CMConfig {
             AncientRemnantHealthMultiplier = ConfigHolder.COMMON.AncientRemnantHealthMultiplier.get();
             AncientRemnantDamageMultiplier = ConfigHolder.COMMON.AncientRemnantDamageMultiplier.get();
             AncientRemnantBlockBreaking = ConfigHolder.COMMON.AncientRemnantBlockBreaking.get();
-            AncientRemnantEarthQuakeDamage = ConfigHolder.COMMON.HarbingerLaserdamage.get();
+            AncientRemnantEarthQuakeDamage = ConfigHolder.COMMON.AncientRemnantEarthQuakeDamage.get();
             AncientRemnantNatureHealing = ConfigHolder.COMMON.AncientRemnantNatureHealing.get();
 
             ModernRemnantHealthMultiplier = ConfigHolder.COMMON.ModernRemnantHealthMultiplier.get();

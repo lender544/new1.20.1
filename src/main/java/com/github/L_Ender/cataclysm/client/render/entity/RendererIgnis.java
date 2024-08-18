@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnis;
 import com.github.L_Ender.cataclysm.client.render.RenderUtils;
 import com.github.L_Ender.cataclysm.client.render.layer.Ignis_Armor_Crack_Layer;
@@ -28,8 +29,8 @@ public class RendererIgnis extends MobRenderer<Ignis_Entity, ModelIgnis> {
         this.addLayer(new Ignis_Armor_Crack_Layer(this));
         this.addLayer(new Ignis_Shield_Layer(this));
         for(int i = 0; i < 8; i++){
-            TEXTURE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/ignis/ignis_idle_" + i + ".png");
-            TEXTURE_SOUL_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/ignis/ignis_soul_idle_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignis/ignis_idle_" + i + ".png");
+            TEXTURE_SOUL_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/ignis/ignis_soul_idle_" + i + ".png");
         }
     }
 

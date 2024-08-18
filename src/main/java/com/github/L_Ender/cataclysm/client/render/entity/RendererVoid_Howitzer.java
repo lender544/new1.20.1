@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelVoid_Howitzer;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Howitzer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererVoid_Howitzer extends EntityRenderer<Void_Howitzer_Entity> {
 
-    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/void_howitzer.png");
+    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_howitzer.png");
     private final ModelVoid_Howitzer model = new ModelVoid_Howitzer();
 
 

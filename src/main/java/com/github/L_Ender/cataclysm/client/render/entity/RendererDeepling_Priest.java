@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelDeepling_Priest;
 import com.github.L_Ender.cataclysm.client.render.layer.AbstractDeepling_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerDeepling_PriestItem;
@@ -15,8 +16,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererDeepling_Priest extends MobRenderer<Deepling_Priest_Entity, ModelDeepling_Priest> {
 
-    private static final ResourceLocation DEEPLING_TEXTURES = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_priest.png");
-    private static final ResourceLocation DEEPLING_LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_priest_layer.png");
+    private static final ResourceLocation DEEPLING_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_priest.png");
+    private static final ResourceLocation DEEPLING_LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_priest_layer.png");
 
     public RendererDeepling_Priest(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelDeepling_Priest(), 0.7F);

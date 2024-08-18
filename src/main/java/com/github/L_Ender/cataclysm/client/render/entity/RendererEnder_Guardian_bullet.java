@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelEnder_Guardian_Bullet;
 import com.github.L_Ender.cataclysm.entity.projectile.Ender_Guardian_Bullet_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererEnder_Guardian_bullet extends EntityRenderer<Ender_Guardian_Bullet_Entity>
 {
-	private static final ResourceLocation ENDER_GUARDIAN_TEXTURE = new ResourceLocation("cataclysm:textures/entity/shulkerbullet.png");
+	private static final ResourceLocation ENDER_GUARDIAN_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/shulkerbullet.png");
 	private static final RenderType ENDER_GUARDIAN_RENDER_TYPE = RenderType.entityTranslucent(ENDER_GUARDIAN_TEXTURE);
 	public ModelEnder_Guardian_Bullet model;
 

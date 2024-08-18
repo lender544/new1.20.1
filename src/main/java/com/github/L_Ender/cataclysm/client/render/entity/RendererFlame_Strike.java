@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -17,8 +18,8 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererFlame_Strike extends EntityRenderer<Flame_Strike_Entity> {
-    public static final ResourceLocation FLAME_STRIKE = new ResourceLocation("cataclysm:textures/entity/flame_strike_sigil.png");
-    public static final ResourceLocation SOUL_FLAME_STRIKE = new ResourceLocation("cataclysm:textures/entity/soul_flame_strike_sigil.png");
+    public static final ResourceLocation FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/flame_strike_sigil.png");
+    public static final ResourceLocation SOUL_FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/soul_flame_strike_sigil.png");
 
     public RendererFlame_Strike(EntityRendererProvider.Context mgr) {
         super(mgr);

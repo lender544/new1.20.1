@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelEndermaptera;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Endermaptera_Entity;
@@ -18,8 +19,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererEndermaptera extends MobRenderer<Endermaptera_Entity, ModelEndermaptera> {
 
-    private static final ResourceLocation SSAPBUG_TEXTURES = new ResourceLocation("cataclysm:textures/entity/ender_ssap_bug.png");
-    private static final ResourceLocation SSAPBUG_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/ender_ssap_bug_layer.png");
+    private static final ResourceLocation SSAPBUG_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/ender_ssap_bug.png");
+    private static final ResourceLocation SSAPBUG_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/ender_ssap_bug_layer.png");
 
     public RendererEndermaptera(Context renderManagerIn) {
         super(renderManagerIn, new ModelEndermaptera(), 0.7F);

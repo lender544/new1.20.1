@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,7 +18,7 @@ import org.joml.Matrix4f;
 
 public class RendererLaser_Beam extends EntityRenderer<Laser_Beam_Entity> {
 
-    private static final ResourceLocation TEXTURE_RED = new ResourceLocation("cataclysm:textures/entity/harbinger/laser_beam.png");
+    private static final ResourceLocation TEXTURE_RED = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/laser_beam.png");
     private static final RenderType RENDER_TYPE_RED = RenderType.eyes(TEXTURE_RED);
 
     public RendererLaser_Beam(EntityRendererProvider.Context mgr) {

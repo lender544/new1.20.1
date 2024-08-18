@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.effect.Abyss_Mark_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,8 +17,8 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererAbyss_Mark extends EntityRenderer<Abyss_Mark_Entity> {
-    public static final ResourceLocation ABYSS_MARK1 = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_warlock_mark1.png");
-    public static final ResourceLocation ABYSS_MARK2 = new ResourceLocation("cataclysm:textures/entity/deepling/deepling_warlock_mark2.png");
+    public static final ResourceLocation ABYSS_MARK1 = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_warlock_mark1.png");
+    public static final ResourceLocation ABYSS_MARK2 = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/deepling_warlock_mark2.png");
     public RendererAbyss_Mark(EntityRendererProvider.Context mgr) {
         super(mgr);
     }

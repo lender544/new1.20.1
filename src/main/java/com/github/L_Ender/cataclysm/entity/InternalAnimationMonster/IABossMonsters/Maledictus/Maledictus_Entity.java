@@ -120,8 +120,8 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
 
     public static final EntityDataAccessor<Integer> WEAPON = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
-    private final CMBossInfoServer bossEvent1 = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.GREEN,true,8);
-    private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"), BossEvent.BossBarColor.GREEN,false,9);
+    private final CMBossInfoServer bossEvent1 = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.GREEN,true,9);
+    private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"), BossEvent.BossBarColor.GREEN,false,10);
 
     public Maledictus_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -349,7 +349,7 @@ public class Maledictus_Entity extends IABoss_monster {
                 .add(Attributes.FOLLOW_RANGE, 50.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.33F)
                 .add(Attributes.ATTACK_DAMAGE, 13)
-                .add(Attributes.MAX_HEALTH, 450)
+                .add(Attributes.MAX_HEALTH, 420)
                 .add(Attributes.ARMOR, 10)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
@@ -1079,7 +1079,7 @@ public class Maledictus_Entity extends IABoss_monster {
             for (int l = 44; l <= 58; l = l + 2) {
                 if (this.attackTicks == l) {
                     int d = l - 42;
-                    radagonskill(0.6f, d, 1,2);
+                    radagonskill(0.7f, d, 1,2);
                 }
             }
         }

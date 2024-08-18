@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.util;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -13,15 +14,15 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 public class CMDamageTypes {
-    public static final ResourceKey<DamageType> LASER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:laser"));
-    public static final ResourceKey<DamageType> DEATHLASER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:deathlaser"));
-    public static final ResourceKey<DamageType> EMP = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:emp"));
-    public static final ResourceKey<DamageType> ABYSSAL_BURN = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:abyssal_burn"));
-    public static final ResourceKey<DamageType> SHREDDER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:shredder"));
-    public static final ResourceKey<DamageType> SWORD_DANCE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:sword_dance"));
-    public static final ResourceKey<DamageType> MALEDICTIO = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio"));
-    public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio_sagitta"));
-    public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation("cataclysm:maledictio_magicae"));
+    public static final ResourceKey<DamageType> LASER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"laser"));
+    public static final ResourceKey<DamageType> DEATHLASER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"deathlaser"));
+    public static final ResourceKey<DamageType> EMP = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"emp"));
+    public static final ResourceKey<DamageType> ABYSSAL_BURN = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"abyssal_burn"));
+    public static final ResourceKey<DamageType> SHREDDER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"shredder"));
+    public static final ResourceKey<DamageType> SWORD_DANCE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"sword_dance"));
+    public static final ResourceKey<DamageType> MALEDICTIO = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio"));
+    public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_sagitta"));
+    public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_magicae"));
 
     public static DamageSource causeLaserDamage(Entity attacker, LivingEntity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LASER), attacker, caster);

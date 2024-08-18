@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoralssus;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
@@ -14,10 +15,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererCoralssus extends MobRenderer<Coralssus_Entity, ModelCoralssus> {
 
-    private static final ResourceLocation FIRE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_fire.png");
-    private static final ResourceLocation HORN_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_horn.png");
-    private static final ResourceLocation TUBE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_tube.png");
-    private static final ResourceLocation SPONGE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/deepling/coralssus_sponge_horn.png");
+    private static final ResourceLocation FIRE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/coralssus_fire.png");
+    private static final ResourceLocation HORN_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/coralssus_horn.png");
+    private static final ResourceLocation TUBE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/coralssus_tube.png");
+    private static final ResourceLocation SPONGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/deepling/coralssus_sponge_horn.png");
 
 
     public RendererCoralssus(EntityRendererProvider.Context renderManagerIn) {

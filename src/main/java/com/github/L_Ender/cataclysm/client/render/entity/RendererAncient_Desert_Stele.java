@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelAncient_Desert_Stele;
 import com.github.L_Ender.cataclysm.entity.projectile.Ancient_Desert_Stele_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererAncient_Desert_Stele extends EntityRenderer<Ancient_Desert_Stele_Entity> {
-    private static final ResourceLocation ANCIENT_DESERT_STELE = new ResourceLocation("cataclysm:textures/entity/ancient_desert_stele.png");
+    private static final ResourceLocation ANCIENT_DESERT_STELE = new ResourceLocation(Cataclysm.MODID,"textures/entity/ancient_desert_stele.png");
     private final ModelAncient_Desert_Stele model = new ModelAncient_Desert_Stele();
 
     public RendererAncient_Desert_Stele(EntityRendererProvider.Context renderManagerIn) {

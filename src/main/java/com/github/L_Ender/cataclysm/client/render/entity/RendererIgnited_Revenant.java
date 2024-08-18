@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Revenant;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.layer.Revenant_Layer;
@@ -21,8 +22,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererIgnited_Revenant extends MobRenderer<Ignited_Revenant_Entity, ModelIgnited_Revenant> {
 
-    private static final ResourceLocation IGNITED_REVENANT_TEXTURES = new ResourceLocation("cataclysm:textures/entity/revenant_body.png");
-    private static final ResourceLocation IGNITED_REVENANT_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/revenant_layer.png");
+    private static final ResourceLocation IGNITED_REVENANT_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/revenant_body.png");
+    private static final ResourceLocation IGNITED_REVENANT_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/revenant_layer.png");
     private final RandomSource rnd = RandomSource.create();
 
     public RendererIgnited_Revenant(EntityRendererProvider.Context renderManagerIn) {

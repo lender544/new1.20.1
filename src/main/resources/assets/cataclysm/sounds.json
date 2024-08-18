@@ -899,6 +899,30 @@
       }
     ]
   },
+  "remnant_tail_slam_1": {
+    "subtitle": "remnant_tail_slam.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/remnant_tail_slam_1"
+      }
+    ]
+  },
+  "remnant_tail_slam_2": {
+    "subtitle": "remnant_tail_slam.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/remnant_tail_slam_2"
+      }
+    ]
+  },
+  "remnant_tail_slam_3": {
+    "subtitle": "remnant_tail_slam.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/remnant_tail_slam_3"
+      }
+    ]
+  },
   "remnant_tail_swing": {
     "subtitle": "remnant_tail_swing.sub",
     "sounds": [

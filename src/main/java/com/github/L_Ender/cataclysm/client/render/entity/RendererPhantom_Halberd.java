@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelVoid_Rune;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_Phantom_Halberd;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
@@ -24,8 +25,8 @@ import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererPhantom_Halberd extends EntityRenderer<Phantom_Halberd_Entity> {
-    private static final ResourceLocation PHANTOM_HALBERD = new ResourceLocation("cataclysm:textures/entity/maledictus/phantom_halberd.png");
-    private static final ResourceLocation PHANTOM_HALBERD_DISCARD = new ResourceLocation("cataclysm:textures/entity/maledictus/phantom_halberd_discard.png");
+    private static final ResourceLocation PHANTOM_HALBERD = new ResourceLocation(Cataclysm.MODID,"textures/entity/maledictus/phantom_halberd.png");
+    private static final ResourceLocation PHANTOM_HALBERD_DISCARD = new ResourceLocation(Cataclysm.MODID,"textures/entity/maledictus/phantom_halberd_discard.png");
     private final Model_Phantom_Halberd model = new Model_Phantom_Halberd();
     private static final RenderType DECAL = RenderType.entityDecal(PHANTOM_HALBERD);
     private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(PHANTOM_HALBERD);

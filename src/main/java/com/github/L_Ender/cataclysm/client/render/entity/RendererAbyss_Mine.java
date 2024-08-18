@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelAbyss_Mine;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Mine_Entity;
@@ -19,7 +20,7 @@ import org.joml.Quaternionf;
 @OnlyIn(Dist.CLIENT)
 public class RendererAbyss_Mine extends EntityRenderer<Abyss_Mine_Entity>
 {
-	private static final ResourceLocation ABYSS_MINE_TEXTURE = new ResourceLocation("cataclysm:textures/entity/leviathan/abyss_mine.png");
+	private static final ResourceLocation ABYSS_MINE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/abyss_mine.png");
 	private static final float SIN_45 = (float)Math.sin((Math.PI / 4D));
 	public ModelAbyss_Mine model;
 

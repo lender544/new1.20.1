@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.blockentity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAbyssal_Egg;
 import com.github.L_Ender.cataclysm.client.model.block.Model_Abyssal_Egg;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
@@ -12,8 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RendererAbyssal_Egg implements BlockEntityRenderer<TileEntityAbyssal_Egg> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/block/abyssal_egg.png");
-    private static final ResourceLocation LAYER_TEXTURE = new ResourceLocation("cataclysm:textures/block/abyssal_egg_layer.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg.png");
+    private static final ResourceLocation LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg_layer.png");
     private static final Model_Abyssal_Egg MODEL = new Model_Abyssal_Egg();
 
     public RendererAbyssal_Egg(Context rendererDispatcherIn) {

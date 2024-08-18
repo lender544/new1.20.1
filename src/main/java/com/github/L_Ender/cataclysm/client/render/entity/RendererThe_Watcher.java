@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Watcher;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.The_Watcher_Entity;
@@ -13,8 +14,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererThe_Watcher extends MobRenderer<The_Watcher_Entity, ModelThe_Watcher> {
 
-    private static final ResourceLocation WATCHER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/factory/the_watcher.png");
-    private static final ResourceLocation WATCHER_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/factory/the_watcher_layer.png");
+    private static final ResourceLocation WATCHER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_watcher.png");
+    private static final ResourceLocation WATCHER_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_watcher_layer.png");
 
     public RendererThe_Watcher(Context renderManagerIn) {
         super(renderManagerIn, new ModelThe_Watcher(), 0.7F);

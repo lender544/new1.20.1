@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 
 public class RendererSandstorm_In_A_Bottle implements ICurioRenderer {
     private final Sandstorm_In_A_BottleModel model;
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/curiositem/sandstorm_in_a_bottle.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/curiositem/sandstorm_in_a_bottle.png");
 
     public RendererSandstorm_In_A_Bottle() {
         this.model = new Sandstorm_In_A_BottleModel(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.SANDSTORM_IN_A_BOTTLE_MODEL));

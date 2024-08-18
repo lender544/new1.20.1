@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Revenant;
 import com.github.L_Ender.cataclysm.client.render.entity.RendererIgnited_Revenant;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignited_Revenant_Entity;
@@ -18,7 +19,7 @@ public class Revenant_Layer extends RenderLayer<Ignited_Revenant_Entity, ModelIg
 
     private final ModelIgnited_Revenant model = new ModelIgnited_Revenant();
 
-    private static final ResourceLocation REVENANT_SHIELD = new ResourceLocation("cataclysm:textures/entity/revenant_shield.png");
+    private static final ResourceLocation REVENANT_SHIELD = new ResourceLocation(Cataclysm.MODID,"textures/entity/revenant_shield.png");
 
 
     public Revenant_Layer(RendererIgnited_Revenant renderIgnis) {

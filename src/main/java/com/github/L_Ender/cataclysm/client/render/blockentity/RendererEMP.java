@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.blockentity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.EMP_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Model_EMP;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityEMP;
@@ -13,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RendererEMP<T extends TileEntityEMP> implements BlockEntityRenderer<T> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/block/emp.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/emp.png");
     private static final Model_EMP MODEL_EMP = new Model_EMP();
 
     public RendererEMP(Context rendererDispatcherIn) {

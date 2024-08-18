@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWither_Missile;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,7 +19,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererWither_Missile extends EntityRenderer<Wither_Missile_Entity>
 {
-    private static final ResourceLocation WITHER_MISSILE = new ResourceLocation("cataclysm:textures/entity/harbinger/wither_missile.png");
+    private static final ResourceLocation WITHER_MISSILE = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/wither_missile.png");
 
     public ModelWither_Missile model;
 

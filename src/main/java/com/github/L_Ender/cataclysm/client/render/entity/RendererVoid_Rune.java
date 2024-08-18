@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelVoid_Rune;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
@@ -20,7 +21,7 @@ import java.util.Random;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererVoid_Rune extends EntityRenderer<Void_Rune_Entity> {
-    private static final ResourceLocation VOID_RUNE = new ResourceLocation("cataclysm:textures/entity/void_rune.png");
+    private static final ResourceLocation VOID_RUNE = new ResourceLocation(Cataclysm.MODID,"textures/entity/void_rune.png");
     private final ModelVoid_Rune model = new ModelVoid_Rune();
     private final Random rnd = new Random();
 

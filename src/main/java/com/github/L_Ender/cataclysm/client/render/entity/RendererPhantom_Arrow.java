@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
@@ -20,7 +21,7 @@ import org.joml.Matrix4f;
 
 public class RendererPhantom_Arrow extends EntityRenderer<Phantom_Arrow_Entity> {
 
-    private static final ResourceLocation TEXTURE_RED = new ResourceLocation("cataclysm:textures/entity/maledictus/phantom_arrow.png");
+    private static final ResourceLocation TEXTURE_RED = new ResourceLocation(Cataclysm.MODID,"textures/entity/maledictus/phantom_arrow.png");
     private static final RenderType RENDER_TYPE_RED = CMRenderTypes.getGhost(TEXTURE_RED);
 
     public RendererPhantom_Arrow(EntityRendererProvider.Context mgr) {

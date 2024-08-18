@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelAmethyst_Cluster_Projectile;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelWither_Howitzer;
 import com.github.L_Ender.cataclysm.entity.projectile.Amethyst_Cluster_Projectile_Entity;
@@ -22,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererAmethyst_Cluster_Projectile extends EntityRenderer<Amethyst_Cluster_Projectile_Entity> {
 
-    private static final ResourceLocation WITHER_HOWITZER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/amethyst_cluster_projectile.png");
+    private static final ResourceLocation WITHER_HOWITZER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/amethyst_cluster_projectile.png");
     private final ModelAmethyst_Cluster_Projectile model = new ModelAmethyst_Cluster_Projectile();
 
 

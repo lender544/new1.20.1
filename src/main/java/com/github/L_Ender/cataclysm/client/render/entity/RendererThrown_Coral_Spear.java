@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Spear;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererThrown_Coral_Spear extends EntityRenderer<ThrownCoral_Spear_Entity> {
 
-    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/coral_spear.png");
+    private static final ResourceLocation VOID_HOWITZER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_spear.png");
     private final ModelCoral_Spear model = new ModelCoral_Spear();
 
 

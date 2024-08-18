@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Orb_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -19,7 +20,7 @@ import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererAbyss_Orb extends EntityRenderer<Abyss_Orb_Entity> {
-    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("cataclysm:textures/entity/leviathan/abyss_orb.png");
+    private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(Cataclysm.MODID,"textures/entity/leviathan/abyss_orb.png");
     private static final RenderType RENDER_TYPE = RenderType.entityCutoutNoCull(TEXTURE_LOCATION);
 
     public RendererAbyss_Orb(EntityRendererProvider.Context p_173962_) {

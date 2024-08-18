@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
 import com.github.L_Ender.cataclysm.blocks.Altar_Of_Abyss_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Model_Altar_of_Abyss;
@@ -21,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class RendererAltar_of_Abyss<T extends TileEntityAltarOfAbyss> implements BlockEntityRenderer<T> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("cataclysm:textures/block/altar_of_abyss.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_abyss.png");
     private static final Model_Altar_of_Abyss MODEL = new Model_Altar_of_Abyss();
 
     public RendererAltar_of_Abyss(Context rendererDispatcherIn) {

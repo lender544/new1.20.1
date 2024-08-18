@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Prowler;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.entity.RendererThe_Prowler;
@@ -18,14 +19,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class The_Prowler_Layer extends RenderLayer<The_Prowler_Entity, ModelThe_Prowler> {
-    private static final ResourceLocation PROWLER_LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/factory/the_prowler_layer.png");
+    private static final ResourceLocation PROWLER_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler_layer.png");
 
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[4];
 
     public The_Prowler_Layer(RendererThe_Prowler renderIn) {
         super(renderIn);
         for(int i = 0; i < 4; i++){
-            TEXTURE_PROGRESS[i] = new ResourceLocation("cataclysm:textures/entity/factory/the_prowler_layer_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler_layer_" + i + ".png");
         }
     }
 

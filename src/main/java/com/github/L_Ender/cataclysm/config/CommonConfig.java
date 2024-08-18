@@ -339,13 +339,13 @@ public class CommonConfig {
         AncientRemnantHealthMultiplier = buildDouble(builder, "AncientRemnantHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Health Multiplier");
         AncientRemnantDamageMultiplier  = buildDouble(builder, "AncientRemnantDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Damage Multiplier");
         AncientRemnantNatureHealing = buildDouble(builder, "AncientRemnantNatureHealing", "all", 10D, 0D, 1000000D, "AncientRemnant's Healing with out target");
-        AncientRemnantLongRangelimit = buildDouble(builder, "Ancient Remnant's prevent attacks from far away Range", "all", 15.0D, 1D, 1000000D, "Ancient Remnant's Immune to Long distance attack range.");
+        AncientRemnantLongRangelimit = buildDouble(builder, "Ancient Remnant's prevent attacks from far away Range", "all", 14.0D, 1D, 1000000D, "Ancient Remnant's Immune to Long distance attack range.");
         AncientRemnantDamageCap = buildDouble(builder, "AncientRemnantCap", "all", 21.0D, 0D, 1000000D, "Ancient Remnant's DamageCap");
         AncientRemnantBlockBreaking = buildBoolean(builder, "AncientRemnantBlockBreaking", "all", true, "Ancient Remnant's block breaking ignore the MobGriefing");
-        RemnantChargeHpDamage = buildDouble(builder, "Remnant's Charge Hp Damage", "all", 0.07D, 0.0D, 1.0D, "Remnant's Charge Hp Damage");
+        RemnantChargeHpDamage = buildDouble(builder, "Remnant's Charge Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Remnant's Charge Hp Damage");
         RemnantHpDamage = buildDouble(builder, "Remnant's Normal attack Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Remnant's Hp Damage");
         RemnantStompHpDamage = buildDouble(builder, "Remnant's Stomp Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Remnant's Stomp Hp Damage");
-        AncientRemnantEarthQuakeDamage = buildDouble(builder, "Remnant's EarthQuakeDamage", "all", 8.0D, 0D, 1000000D, "Remnant's EarthQuake Damage");
+        AncientRemnantEarthQuakeDamage = buildDouble(builder, "Remnant's EarthQuakeDamage", "all", 11.0D, 0D, 1000000D, "Remnant's EarthQuake Damage");
         builder.pop();
 
         builder.push("Koboleton");

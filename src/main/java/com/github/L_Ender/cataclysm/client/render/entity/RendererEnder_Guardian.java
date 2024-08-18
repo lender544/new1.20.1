@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelEnder_Guardian;
 import com.github.L_Ender.cataclysm.client.render.layer.Ender_Guardian_Layer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
@@ -14,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class RendererEnder_Guardian extends MobRenderer<Ender_Guardian_Entity, ModelEnder_Guardian> {
 
-    private static final ResourceLocation ENDER_GUARDIAN_TEXTURES = new ResourceLocation("cataclysm:textures/entity/ender_guardian.png");
+    private static final ResourceLocation ENDER_GUARDIAN_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/ender_guardian.png");
 
     public RendererEnder_Guardian(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ModelEnder_Guardian(), 1.5F);

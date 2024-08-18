@@ -117,8 +117,6 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
         }
 
 
-        AnimationHandler.INSTANCE.updateAnimations(this);
-
         if (this.level().isClientSide){
             ++LayerTicks;
             this.LayerBrightness += (0.0F - this.LayerBrightness) * 0.8F;
