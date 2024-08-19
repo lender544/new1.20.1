@@ -634,7 +634,7 @@ public class ModelAncient_Remnant_Rework extends AdvancedEntityModel<Ancient_Rem
 		this.animate(entityIn.getAnimationState("charge_stun"), Ancient_Remnant_Animation.CHARGE_STUN, ageInTicks, 1.0F);
 		float partialTick = Minecraft.getInstance().getFrameTime();
 
-		if (entityIn.isSleep()) {
+		if (!entityIn.isSleep()) {
 			articulateLegs(entityIn.legSolver, partialTick);
 		}
 

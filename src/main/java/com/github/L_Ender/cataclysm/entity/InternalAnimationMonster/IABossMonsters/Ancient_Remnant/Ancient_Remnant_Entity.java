@@ -881,7 +881,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof LLibrary_Boss_Monster) && entityHit != this) {
+                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ancient_Remnant_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
@@ -916,7 +916,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof LLibrary_Boss_Monster) && entityHit != this) {
+                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ancient_Remnant_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
@@ -1010,7 +1010,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
         List<LivingEntity> hitbox = level().getEntitiesOfClass(LivingEntity.class, selection);
         for (LivingEntity entity : hitbox) {
-            if (!isAlliedTo(entity) && !(entity instanceof LLibrary_Boss_Monster) && entity != this) {
+            if (!isAlliedTo(entity) && !(entity instanceof Ancient_Remnant_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
                 if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
@@ -1455,7 +1455,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             LivingEntity target = entity.getTarget();
 
             return target !=null && target.isAlive() && (this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && target.getY() >= this.entity.getY() + 8
-                    ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 3f && this.entity.distanceTo(target) > 12.0D) && this.entity.getAttackState() == getattackstate && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
+                    ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) > 12.0D ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) < 10.0D) && this.entity.getAttackState() == getattackstate && this.entity.mode == Ancient_Remnant_Entity.AttackMode.MELEE;
 
         }
 
