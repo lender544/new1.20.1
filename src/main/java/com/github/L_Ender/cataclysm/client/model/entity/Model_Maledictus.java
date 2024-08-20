@@ -178,15 +178,15 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		right_arm = new AdvancedModelBox(this,"right_arm");
 		right_arm.setRotationPoint(-2.3791F, 1.9143F, -1.5994F);
 		right_shoulder.addChild(right_arm);
-		right_arm.setTextureOffset(124, 160).addBox(-3.0F, -3.0F, -2.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
+		right_arm.setTextureOffset(22, 163).addBox(-3.0F, -3.0F, -2.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
 
 		right_front_arm = new AdvancedModelBox(this,"right_front_arm");
 		right_front_arm.setRotationPoint(-0.025F, 7.0F, 1.0F);
 		right_arm.addChild(right_front_arm);
 		setRotationAngle(right_front_arm, -0.3054F, 0.0F, 0.0F);
-		right_front_arm.setTextureOffset(22, 163).addBox(-3.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
+		right_front_arm.setTextureOffset(162, 99).addBox(-3.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
 		right_front_arm.setTextureOffset(52, 154).addBox(-4.0F, -3.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.1F, false);
-		right_front_arm.setTextureOffset(162, 99).addBox(-3.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, true);
+		right_front_arm.setTextureOffset(151, 155).addBox(-3.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, true);
 
 		bow = new AdvancedModelBox(this,"bow");
 		bow.setRotationPoint(-0.9401F, 9.0F, 0.0F);
@@ -204,13 +204,13 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		cube_r8.setRotationPoint(-0.5F, 0.7688F, 2.6724F);
 		bow.addChild(cube_r8);
 		setRotationAngle(cube_r8, -0.5672F, 0.0F, 0.0F);
-		cube_r8.setTextureOffset(0, 0).addBox(0.5F, 3.0F, -29.9F, 0.0F, 5.0F, 23.0F, 0.0F, false);
+		cube_r8.setTextureOffset(95, 97).addBox(0.5F, 3.0F, -29.9F, 0.0F, 5.0F, 23.0F, 0.0F, false);
 
 		cube_r9 = new AdvancedModelBox(this);
 		cube_r9.setRotationPoint(0.0F, 1.0F, -6.945F);
 		bow.addChild(cube_r9);
 		setRotationAngle(cube_r9, 0.5672F, 0.0F, 0.0F);
-		cube_r9.setTextureOffset(95, 97).addBox(0.0F, 4.0F, 9.0F, 0.0F, 5.0F, 23.0F, 0.0F, false);
+		cube_r9.setTextureOffset(95, 68).addBox(0.0F, 4.0F, 9.0F, 0.0F, 5.0F, 23.0F, 0.0F, false);
 		cube_r9.setTextureOffset(124, 116).addBox(-1.5F, 6.0F, 7.0F, 3.0F, 4.0F, 18.0F, 0.0F, false);
 
 		bow_string = new AdvancedModelBox(this,"bow_string");
@@ -261,11 +261,11 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		halberd.setTextureOffset(26, 0).addBox(-0.4901F, -0.7083F, -37.3333F, 1.0F, 1.0F, 5.0F, 0.0F, false);
 		halberd.setTextureOffset(46, 131).addBox(0.0099F, -2.7083F, -53.3333F, 0.0F, 5.0F, 17.0F, 0.0F, false);
 		halberd.setTextureOffset(64, 127).addBox(-1.4901F, -1.7083F, -31.3333F, 3.0F, 3.0F, 12.0F, 0.0F, false);
-		halberd.setTextureOffset(0, 21).addBox(2.0099F, -0.7083F, -16.8333F, 2.0F, 1.0F, 0.0F, 0.0F, false);
+		halberd.setTextureOffset(10, 21).addBox(2.0099F, -0.7083F, -16.8333F, 2.0F, 1.0F, 0.0F, 0.0F, false);
 		halberd.setTextureOffset(18, 21).addBox(-0.4901F, -4.2083F, -16.8333F, 1.0F, 2.0F, 0.0F, 0.0F, false);
 		halberd.setTextureOffset(13, 0).addBox(-1.9901F, -2.2083F, -17.3333F, 4.0F, 4.0F, 1.0F, 0.0F, false);
 		halberd.setTextureOffset(15, 21).addBox(-0.4901F, 1.7917F, -16.8333F, 1.0F, 2.0F, 0.0F, 0.0F, false);
-		halberd.setTextureOffset(0, 21).addBox(-4.1089F, -0.7083F, -16.8333F, 2.0F, 1.0F, 0.0F, 0.0F, true);
+		halberd.setTextureOffset(10, 21).addBox(-4.1089F, -0.7083F, -16.8333F, 2.0F, 1.0F, 0.0F, 0.0F, true);
 		halberd.setTextureOffset(0, 0).addBox(0.0099F, 1.2917F, -37.3333F, 0.0F, 15.0F, 25.0F, 0.0F, false);
 		halberd.setTextureOffset(123, 86).addBox(0.0099F, -11.7083F, -33.3333F, 0.0F, 10.0F, 19.0F, 0.0F, false);
 
@@ -279,21 +279,21 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		halberd2.setRotationPoint(-0.0139F, -0.2083F, -33.8333F);
 		halberd.addChild(halberd2);
 		setRotationAngle(halberd2, 0.0F, 0.0F, -0.7854F);
-		halberd2.setTextureOffset(5, 21).addBox(1.5238F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
+		halberd2.setTextureOffset(0, 21).addBox(1.5238F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
 		halberd2.setTextureOffset(13, 6).addBox(-1.4762F, -1.5F, -0.5F, 3.0F, 3.0F, 1.0F, 0.0F, false);
-		halberd2.setTextureOffset(5, 21).addBox(-3.595F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, true);
+		halberd2.setTextureOffset(0, 21).addBox(-3.595F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, true);
 
 		cube_r14 = new AdvancedModelBox(this);
 		cube_r14.setRotationPoint(0.0238F, 5.0F, 0.0F);
 		halberd2.addChild(cube_r14);
 		setRotationAngle(cube_r14, 0.0F, 0.0F, -1.5708F);
-		cube_r14.setTextureOffset(10, 21).addBox(1.5F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
+		cube_r14.setTextureOffset(5, 21).addBox(1.5F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
 
 		cube_r15 = new AdvancedModelBox(this);
 		cube_r15.setRotationPoint(0.0238F, 0.0F, 0.0F);
 		halberd2.addChild(cube_r15);
 		setRotationAngle(cube_r15, 0.0F, 0.0F, -1.5708F);
-		cube_r15.setTextureOffset(5, 21).addBox(1.5F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
+		cube_r15.setTextureOffset(0, 21).addBox(1.5F, -0.5F, 0.0F, 2.0F, 1.0F, 0.0F, 0.0F, false);
 
 		bone = new AdvancedModelBox(this,"bone");
 		bone.setRotationPoint(-0.0139F, -0.2083F, -16.8333F);
@@ -325,13 +325,13 @@ public class Model_Maledictus extends AdvancedEntityModel<Maledictus_Entity> {
 		left_arm = new AdvancedModelBox(this,"left_arm");
 		left_arm.setRotationPoint(2.3791F, 1.9143F, -0.5994F);
 		left_shoulder.addChild(left_arm);
-		left_arm.setTextureOffset(151, 155).addBox(-2.0F, -3.0F, -2.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
+		left_arm.setTextureOffset(124, 160).addBox(-2.0F, -3.0F, -2.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
 
 		left_front_arm = new AdvancedModelBox(this,"left_front_arm");
 		left_front_arm.setRotationPoint(0.025F, 7.0F, 1.0F);
 		left_arm.addChild(left_front_arm);
 		setRotationAngle(left_front_arm, -0.3054F, 0.0F, 0.0F);
-		left_front_arm.setTextureOffset(162, 99).addBox(-2.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
+		left_front_arm.setTextureOffset(151, 155).addBox(-2.0F, 0.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.0F, false);
 		left_front_arm.setTextureOffset(52, 154).addBox(-1.0F, -3.0F, -3.5F, 5.0F, 10.0F, 5.0F, 0.1F, true);
 
 		left_mace = new AdvancedModelBox(this,"left_mace");
