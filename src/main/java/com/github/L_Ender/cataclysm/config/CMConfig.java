@@ -39,7 +39,7 @@ public class CMConfig {
     public static int Lavabombradius = 2;
     public static double Sandstormdamage = 5;
     public static double AncientDesertSteledamage = 18;
-    public static double PhantomArrowbasedamage = 4;
+    public static double PlayerPhantomArrowbasedamage = 4.5D;
     public static double PhantomHalberddamage = 12;
 
     public static boolean ScreenShake = true;
@@ -163,6 +163,7 @@ public class CMConfig {
     public static double MaledictusAOEHpDamage = 0.15D;
     public static double MaledictusFlyingSmashHpDamage = 0.1D;
     public static double MaledictusSmashHpDamage = 0.08D;
+    public static double MaledictusPhantomArrowbasedamage = 4.5D;
 
     public static boolean Armor_Infinity_Durability = true;
 
@@ -232,6 +233,7 @@ public class CMConfig {
             AmethystClusterdamage = ConfigHolder.COMMON.AmethystClusterdamage.get();
             Sandstormdamage = ConfigHolder.COMMON.Sandstormdamage.get();
             AncientDesertSteledamage = ConfigHolder.COMMON.AncientDesertSteledamage.get();
+            PlayerPhantomArrowbasedamage = ConfigHolder.COMMON.PlayerPhantomArrowdamage.get();
             PhantomHalberddamage = ConfigHolder.COMMON.PhantomHalberddamage.get();
 
             Lavabombradius = ConfigHolder.COMMON.Lavabombradius.get();
@@ -321,7 +323,7 @@ public class CMConfig {
             MaledictusAOEHpDamage = ConfigHolder.COMMON.MaledictusAOEHpDamage.get();
             MaledictusFlyingSmashHpDamage = ConfigHolder.COMMON.MaledictusFlyingSmashHpDamage.get();
             MaledictusSmashHpDamage = ConfigHolder.COMMON.MaledictusSmashHpDamage.get();
-
+            MaledictusPhantomArrowbasedamage = ConfigHolder.COMMON.MaledictusPhantomArrowdamage.get();
 
             LeviathanHealthMultiplier = ConfigHolder.COMMON.LeviathanHealthMultiplier.get();
             LeviathanDamageMultiplier = ConfigHolder.COMMON.LeviathanDamageMultiplier.get();

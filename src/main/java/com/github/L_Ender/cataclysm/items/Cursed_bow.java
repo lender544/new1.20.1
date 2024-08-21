@@ -1,6 +1,8 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +18,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -39,19 +43,19 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
     }
+    
+    public InteractionResultHolder<ItemStack> use(Level p_40672_, Player p_40673_, InteractionHand p_40674_) {
+        ItemStack itemstack = p_40673_.getItemInHand(p_40674_);
+        boolean flag = !p_40673_.getProjectile(itemstack).isEmpty();
 
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        ItemStack itemstack = player.getItemInHand(interactionHand);
-        ItemStack ammo = player.getProjectile(itemstack);
-        boolean flag = player.isCreative();
-        if(flag || !ammo.isEmpty()){
-            AbstractArrow lastArrow = createArrow(player, itemstack, ItemStack.EMPTY);
-            EntityType lastArrowType = lastArrow == null ? EntityType.ARROW : lastArrow.getType();
-            itemstack.getOrCreateTag().putString("LastUsedArrowType", ForgeRegistries.ENTITY_TYPES.getKey(lastArrowType).toString());
-            player.startUsingItem(interactionHand);
-            return InteractionResultHolder.consume(itemstack);
-        }else{
+        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, p_40672_, p_40673_, p_40674_, flag);
+        if (ret != null) return ret;
+
+        if (!p_40673_.getAbilities().instabuild && !flag) {
             return InteractionResultHolder.fail(itemstack);
+        } else {
+            p_40673_.startUsingItem(p_40674_);
+            return InteractionResultHolder.consume(itemstack);
         }
     }
 
@@ -157,95 +161,94 @@ public class Cursed_bow extends ProjectileWeaponItem  {
         }
         return pointedEntity;
     }
-
     @Override
-    public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int timeLeft) {
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity living, int timeleft) {
         if (living instanceof Player player) {
-            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getTagEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
+            boolean flag = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
             ItemStack itemstack = player.getProjectile(stack);
-
-            int i = this.getUseDuration(stack) - timeLeft;
+            Entity pointedEntity = getPlayerLookTarget(level, living);
+            int i = this.getUseDuration(stack) - timeleft;
             i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, level, player, i, !itemstack.isEmpty() || flag);
             if (i < 0) return;
-            ItemStack ammoStack = player.getProjectile(stack);
-            AbstractArrow abstractArrow = createArrow(player, stack, ammoStack);
-            Entity pointedEntity = getPlayerLookTarget(level, living);
-            if (abstractArrow != null) {
 
-                if (!itemstack.isEmpty() || flag) {
-                    if (itemstack.isEmpty()) itemstack = new ItemStack(Items.ARROW);
+            if (!itemstack.isEmpty() || flag) {
+                if (itemstack.isEmpty()) {
+                    itemstack = new ItemStack(Items.ARROW);
+                }
 
-                    float f = getPowerForTime(i, stack);
-                    if (f >= 0.1D) {
-                        boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem arrowItem && arrowItem.isInfinite(itemstack, stack, player));
-                        if (!level.isClientSide()) {
-                            boolean darkArrows = isConvertibleArrow(abstractArrow);
-                            abstractArrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                float f = getPowerForTime(i,stack);
+                if (!((double)f < 0.1D)) {
+                    boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
+                    if (!level.isClientSide) {
+                        ArrowItem arrowItem = itemstack.getItem() instanceof ArrowItem arrow ? arrow : (ArrowItem) Items.ARROW;
+                        boolean hommingArrows = itemstack.is(Items.ARROW);
+                        int arrowcount = itemstack.is(Items.ARROW) ? 3 : 2 ;
+                        float offsetangle = itemstack.is(Items.ARROW) ? 12 : 3;
+                        for (int j = 0; j < arrowcount; j++) {
 
-                            for (int j = -1; j < 2; j++) {
-
-                                if (darkArrows) {
-                                    if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
-                                        Phantom_Arrow_Entity darkArrowEntity = new Phantom_Arrow_Entity(level, living, target);
-                                        abstractArrow = darkArrowEntity;
-                                    } else {
-                                        Phantom_Arrow_Entity darkArrowEntity = new Phantom_Arrow_Entity(level, living);
-                                        abstractArrow = darkArrowEntity;
-                                    }
+                            AbstractArrow abstractarrow = arrowItem.createArrow(level, itemstack, player);
+                            abstractarrow = customArrow(abstractarrow);
+                            abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                            if (hommingArrows) {
+                                if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
+                                    Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living, target);
+                                    hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    abstractarrow = hommingArrowEntity;
+                                } else {
+                                    Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living);
+                                    hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    abstractarrow = hommingArrowEntity;
                                 }
-
-                                abstractArrow.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, f * (3.0F - Math.abs(j)), 1.0F);
-                                abstractArrow.setDeltaMovement(abstractArrow.getDeltaMovement().add(0.0D, 0.0075 * 20F * j, 0.0D));
-
-                                if (j != 0) {
-                                    abstractArrow.setPos(abstractArrow.getX(), abstractArrow.getY() + 0.025F, abstractArrow.getZ());
-                                    abstractArrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                                } else if (flag1 || player.getAbilities().instabuild && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
-                                    abstractArrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                                }
-
-                                if (f == 1.0F) abstractArrow.setCritArrow(true);
-
-                                int p = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
-                                if (p > 0) abstractArrow.setBaseDamage(abstractArrow.getBaseDamage() + j * 0.5D + 0.5D);
-
-                                int k = EnchantmentHelper.getTagEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
-                                if (k > 0) abstractArrow.setKnockback(k);
-
-                                if (EnchantmentHelper.getTagEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0)
-                                    abstractArrow.setSecondsOnFire(100);
-
-                                level.addFreshEntity(abstractArrow);
+                            }
+                            abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot() + (j - (arrowcount - 1) / 2.0F) * offsetangle, 0.0F, f * 3.0F, 1.0F);
+                            if (f == 1.0F) {
+                                abstractarrow.setCritArrow(true);
                             }
 
+                            int p = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
+                            if (p > 0) {
+                                abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)p * abstractarrow.getBaseDamage() * 0.2D);
+                            }
+
+                            int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
+                            if (k > 0) {
+                                abstractarrow.setKnockback(k);
+                            }
+
+                            if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0) {
+                                abstractarrow.setSecondsOnFire(100);
+                            }
+                            level.addFreshEntity(abstractarrow);
                         }
 
-                        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-                        if (!flag1 && !player.getAbilities().instabuild) {
-                            itemstack.shrink(1);
-                            if (itemstack.isEmpty()) player.getInventory().removeItem(itemstack);
-                        }
-
-                        player.awardStat(Stats.ITEM_USED.get(this));
                     }
+
+                    level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+                    if (!flag1 && !player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                        if (itemstack.isEmpty()) {
+                            player.getInventory().removeItem(itemstack);
+                        }
+                    }
+
+                    player.awardStat(Stats.ITEM_USED.get(this));
                 }
             }
         }
     }
 
-
-    private AbstractArrow createArrow(Player player, ItemStack bowStack, ItemStack ammoIn) {
-        ItemStack ammo = ammoIn.isEmpty() ? player.getProjectile(bowStack) : ammoIn;
-        ArrowItem arrowitem = (ArrowItem)(ammo.getItem() instanceof ArrowItem ? ammo.getItem() : Items.ARROW);
-        AbstractArrow abstractArrow =  arrowitem.createArrow(player.level(), ammo, player);
-        return abstractArrow;
+    public AbstractArrow customArrow(AbstractArrow arrow) {
+        return arrow;
     }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category ==  EnchantmentCategory.BOW && enchantment != Enchantments.INFINITY_ARROWS && enchantment != Enchantments.FLAMING_ARROWS;
+    }
+
 
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
         return !oldStack.is(ModItems.CURSED_BOW.get()) || !newStack.is(ModItems.CURSED_BOW.get());
-    }
-    public static boolean isConvertibleArrow(Entity arrowEntity){
-        return arrowEntity instanceof Arrow arrow && arrow.getColor() == -1;
     }
 
     @Override

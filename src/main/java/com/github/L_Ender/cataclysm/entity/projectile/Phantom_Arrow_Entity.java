@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.client.particle.TrackLightningParticle;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModParticle;
@@ -59,7 +60,6 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
     private Entity finalTarget;
     @Nullable
     private UUID targetId;
-
     private boolean stopSeeking;
     public Phantom_Arrow_Entity(EntityType type, Level worldIn) {
         super(type, worldIn);
@@ -170,10 +170,10 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
 
     }
 
+
     protected void onHitEntity(EntityHitResult p_37573_) {
         Entity entity = p_37573_.getEntity();
         float f = (float)this.getDeltaMovement().length();
-        int i = Mth.ceil(Mth.clamp((double)f * this.getBaseDamage(), 0.0D, (double)Integer.MAX_VALUE));
         Entity entity1 = this.getOwner();
         DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this, (Entity)(entity1 == null ? this : entity1));
 
@@ -182,7 +182,7 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
         if (this.isOnFire() && !flag) {
             entity.setSecondsOnFire(5);
         }
-        if (entity.hurt(damagesource, i)) {
+        if (entity.hurt(damagesource, (float) this.getBaseDamage())) {
             if (flag) {
                 return;
             }
