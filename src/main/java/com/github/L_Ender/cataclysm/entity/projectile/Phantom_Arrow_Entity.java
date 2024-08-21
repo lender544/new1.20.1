@@ -79,6 +79,14 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
         }
     }
 
+    public Phantom_Arrow_Entity(Level worldIn, LivingEntity shooter) {
+        this(ModEntities.PHANTOM_ARROW.get(), shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), worldIn);
+        this.setOwner(shooter);
+        if (shooter instanceof Player) {
+            this.pickup = Pickup.ALLOWED;
+        }
+    }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TRANSPARENCY, 0);

@@ -11,21 +11,26 @@ import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Bl
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -60,6 +65,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ModelMeat_Shredder MEAT_SHREDDER_MODEL = new ModelMeat_Shredder();
     private static final ModelLaser_Gatling LASER_GATLING_MODEL = new ModelLaser_Gatling();
     private static final ModelAncient_Spear ANCIENT_SPEAR_MODEL = new ModelAncient_Spear();
+    private static final Model_Cursed_Bow CURSED_BOW_MODEL = new Model_Cursed_Bow();
+    private static final ResourceLocation CURSED_BOW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow.png");
+    private static final ResourceLocation CURSED_BOW_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow_ghost.png");
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
@@ -245,6 +253,23 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             ANCIENT_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
+
+        if (itemStackIn.is(ModItems.CURSED_BOW.get())) {
+            float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
+            float pullAmount = Cursed_bow.getPullingAmount(itemStackIn, partialTick);
+
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5f, 0.5f);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            CURSED_BOW_MODEL.setupAnim(null, pullAmount, ageInTicks,  0, 0, 0);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CURSED_BOW_TEXTURE), false, itemStackIn.hasFoil());
+            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(CURSED_BOW_GHOST_TEXTURE), false, itemStackIn.hasFoil());
+            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+
+            matrixStackIn.popPose();
+        }
+
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_FIRE.get().asItem()){
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
