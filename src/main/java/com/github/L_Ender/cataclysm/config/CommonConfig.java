@@ -22,6 +22,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue VASWCooldown;
     public final ForgeConfigSpec.IntValue VoidCoreCooldown;
     public final ForgeConfigSpec.IntValue Sandstorm_In_A_Bottle_Timer;
+    public final ForgeConfigSpec.IntValue SoulRenderCooldown;
 
     public final ForgeConfigSpec.DoubleValue Voidrunedamage;
     public final ForgeConfigSpec.IntValue Lavabombradius;
@@ -212,6 +213,7 @@ public class CommonConfig {
         VASWCooldown = buildInt(builder, "VASWCooldown", "all", 120, 0, 1000000, "Void Assault Shoulder Weapon's Cooldown");
         VoidCoreCooldown = buildInt(builder, "VoidCoreCooldown", "all", 160, 0, 1000000, "Void Core's Cooldown");
         Sandstorm_In_A_Bottle_Timer = buildInt(builder, "SandstormTimer", "all", 160, 0, 1000000, "Sandstorm's Timer");
+        SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         builder.pop();
 
         builder.push("Entity damage");
@@ -232,7 +234,7 @@ public class CommonConfig {
         AmethystClusterdamage = buildDouble(builder, "Amethyst Cluster Damage", "all", 12, 0, 1000000, "Amethyst Cluster's Damage");
         Sandstormdamage = buildDouble(builder, "Sandstorm Damage", "all", 5, 0, 1000000, "Sandstorm's Damage");
         AncientDesertSteledamage = buildDouble(builder, "Ancient Desert Stele Damage", "all", 18, 0, 1000000, "Ancient Desert Stele's Damage");
-        PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", 4.5D, 0, 1000000, "Player's Phantom Arrow's Damage");
+        PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", 5D, 0, 1000000, "Player's Phantom Arrow's Damage");
         PhantomHalberddamage = buildDouble(builder, "Phantom Halberd Damage", "all", 12, 0, 1000000, "Phantom Halberd's Damage");
         builder.pop();
 
@@ -377,7 +379,7 @@ public class CommonConfig {
         MaledictusAOEHpDamage = buildDouble(builder, "Maledictus's AOE Hp Damage", "all", 0.15D, 0.0D, 1.0D, "Maledictus's AOE Hp Damage");
         MaledictusFlyingSmashHpDamage = buildDouble(builder, "Maledictus's Flying Smash Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Maledictus's flying Smash Hp Damage");
         MaledictusSmashHpDamage = buildDouble(builder, "Maledictus's Jump Smash Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Maledictus's Jump Smash Hp Damage");
-        MaledictusPhantomArrowdamage = buildDouble(builder, "Maledictus's Phantom Arrow Damage", "all", 4.5D, 0, 1000000, "Maledictus's Phantom Arrow's Damage");
+        MaledictusPhantomArrowdamage = buildDouble(builder, "Maledictus's Phantom Arrow Damage", "all", 5D, 0, 1000000, "Maledictus's Phantom Arrow's Damage");
         builder.pop();
 
         builder.push("spawning");

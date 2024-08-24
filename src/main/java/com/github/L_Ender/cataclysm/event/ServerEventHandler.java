@@ -8,6 +8,8 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Har
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
+import com.github.L_Ender.cataclysm.items.Soul_Render;
+import com.github.L_Ender.cataclysm.items.The_Annihilator;
 import com.github.L_Ender.cataclysm.message.MessageParticle;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -26,6 +28,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -43,9 +46,11 @@ import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
@@ -64,6 +69,10 @@ public class ServerEventHandler {
         ChargeCapability.IChargeCapability chargeCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.CHARGE_CAPABILITY);
         if (chargeCapability != null) {
             chargeCapability.tick(event.getEntity());
+        }
+        RenderRushCapability.IRenderRushCapability RushCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.RENDER_RUSH_CAPABILITY);
+        if (RushCapability != null) {
+            RushCapability.tick(event.getEntity());
         }
     }
 
@@ -353,6 +362,21 @@ public class ServerEventHandler {
                 if (event.getEntity().getRandom().nextFloat() < 0.05F) {
                     event.setCanceled(true);
                 }
+            }
+        }
+    }
+
+
+
+    @SubscribeEvent
+    public void onLivingAttack(CriticalHitEvent event) {
+        ItemStack weapon = event.getEntity().getMainHandItem();
+        if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity) {
+            if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
+                if(event.isVanillaCritical()){
+                    event.setDamageModifier(2.25F);
+                }
+
             }
         }
     }

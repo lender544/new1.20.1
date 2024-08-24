@@ -5,7 +5,9 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -28,6 +30,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -73,7 +76,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                 tag.putInt("PrevUseTime", getUseTime(stack));
             }
 
-            int maxLoadTime = getMaxLoadTime(stack);
+            int maxLoadTime = getMaxLoadTime();
             if (using && useTime < maxLoadTime) {
                 int set = useTime +  1;
                 setUseTime(stack, set);
@@ -86,7 +89,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
         }
 
 
-    private static int getMaxLoadTime(ItemStack stack) {
+    private static int getMaxLoadTime() {
         return 20;
     }
 
@@ -109,7 +112,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     }
 
     public static float getPullingAmount(ItemStack itemStack, float partialTicks){
-        return Math.min(getLerpedUseTime(itemStack, partialTicks) / (float) getMaxLoadTime(itemStack), 1F);
+        return Math.min(getLerpedUseTime(itemStack, partialTicks) / (float) getMaxLoadTime(), 1F);
     }
 
 
@@ -117,8 +120,8 @@ public class Cursed_bow extends ProjectileWeaponItem  {
         return UseAnim.BOW;
     }
 
-    public static float getPowerForTime(int i, ItemStack itemStack) {
-        float f = (float) i / (float)getMaxLoadTime(itemStack);
+    public static float getPowerForTime(int i) {
+        float f = (float) i / (float)getMaxLoadTime();
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -129,7 +132,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
 
     private Entity getPlayerLookTarget(Level level, LivingEntity living) {
         Entity pointedEntity = null;
-        double range = 30.0D;
+        double range = 40.0D;
         Vec3 srcVec = living.getEyePosition();
         Vec3 lookVec = living.getViewVector(1.0F);
         Vec3 destVec = srcVec.add(lookVec.x() * range, lookVec.y() * range, lookVec.z() * range);
@@ -176,7 +179,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                     itemstack = new ItemStack(Items.ARROW);
                 }
 
-                float f = getPowerForTime(i,stack);
+                float f = getPowerForTime(i);
                 if (!((double)f < 0.1D)) {
                     boolean flag1 = player.getAbilities().instabuild || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, stack, player));
                     if (!level.isClientSide) {
@@ -188,26 +191,38 @@ public class Cursed_bow extends ProjectileWeaponItem  {
 
                             AbstractArrow abstractarrow = arrowItem.createArrow(level, itemstack, player);
                             abstractarrow = customArrow(abstractarrow);
-                            abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+
+                            int p = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
                             if (hommingArrows) {
                                 if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living, target);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    if (p > 0) {
+                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.25D + 0.5D);
+                                    }
                                     abstractarrow = hommingArrowEntity;
                                 } else {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    if (p > 0) {
+                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.25D + 0.5D);
+                                    }
                                     abstractarrow = hommingArrowEntity;
                                 }
+                            }else{
+                                if (p > 0) {
+                                    abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)p * 0.65D + 0.5D);
+                                }
                             }
+                            if (j != 1) {
+                                abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                            } else if (flag1 || player.getAbilities().instabuild && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+                                abstractarrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                            }
+
                             abstractarrow.shootFromRotation(player, player.getXRot(), player.getYRot() + (j - (arrowcount - 1) / 2.0F) * offsetangle, 0.0F, f * 3.0F, 1.0F);
                             if (f == 1.0F) {
                                 abstractarrow.setCritArrow(true);
-                            }
-
-                            int p = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
-                            if (p > 0) {
-                                abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)p * abstractarrow.getBaseDamage() * 0.2D);
                             }
 
                             int k = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
@@ -259,5 +274,10 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     @Override
     public int getDefaultProjectileRange() {
         return 64;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(Component.translatable("item.cataclysm.cursed_bow.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

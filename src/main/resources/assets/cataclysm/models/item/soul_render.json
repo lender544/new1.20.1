@@ -14,9 +14,9 @@
         0
       ],
       "scale": [
-        0.325,
-        0.325,
-        0.325
+        0.28,
+        0.28,
+        0.28
       ]
     },
     "ground": {
@@ -65,7 +65,7 @@
         0
       ],
       "scale": [
-        0.34,
+        0.35,
         0.35,
         0.35
       ]
@@ -104,5 +104,13 @@
         0.7
       ]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "cataclysm:item/soul_render_blocking"
+    }
+  ]
 }

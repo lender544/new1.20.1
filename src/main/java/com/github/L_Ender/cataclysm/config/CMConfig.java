@@ -20,6 +20,7 @@ public class CMConfig {
     public static int WASWHowitzerCooldown = 100;
     public static int VASWCooldown = 120;
     public static int VoidCoreCooldown = 160;
+    public static int SoulRenderCooldown = 100;
     public static int Sandstorm_In_A_Bottle_Timer = 160;
 
     public static double Voidrunedamage = 7;
@@ -39,7 +40,7 @@ public class CMConfig {
     public static int Lavabombradius = 2;
     public static double Sandstormdamage = 5;
     public static double AncientDesertSteledamage = 18;
-    public static double PlayerPhantomArrowbasedamage = 4.5D;
+    public static double PlayerPhantomArrowbasedamage = 5D;
     public static double PhantomHalberddamage = 12;
 
     public static boolean ScreenShake = true;
@@ -163,7 +164,7 @@ public class CMConfig {
     public static double MaledictusAOEHpDamage = 0.15D;
     public static double MaledictusFlyingSmashHpDamage = 0.1D;
     public static double MaledictusSmashHpDamage = 0.08D;
-    public static double MaledictusPhantomArrowbasedamage = 4.5D;
+    public static double MaledictusPhantomArrowbasedamage = 5D;
 
     public static boolean Armor_Infinity_Durability = true;
 
@@ -216,6 +217,7 @@ public class CMConfig {
             VASWCooldown = ConfigHolder.COMMON.VASWCooldown.get();
             VoidCoreCooldown = ConfigHolder.COMMON.VoidCoreCooldown.get();
             Sandstorm_In_A_Bottle_Timer = ConfigHolder.COMMON.Sandstorm_In_A_Bottle_Timer.get();
+            SoulRenderCooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
 
             Voidrunedamage = ConfigHolder.COMMON.Voidrunedamage.get();
             Ashenbreathdamage = ConfigHolder.COMMON.Ashenbreathdamage.get();

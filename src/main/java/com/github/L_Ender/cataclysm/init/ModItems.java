@@ -232,6 +232,12 @@ public class ModItems {
     public static final RegistryObject<Item> CURSED_BOW = ITEMS.register("cursed_bow",
             () -> new Cursed_bow(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> SOUL_RENDER = ITEMS.register("soul_render",
+            () -> new Soul_Render(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> THE_ANNIHILATOR = ITEMS.register("the_annihilator",
+            () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
+
     public static final RegistryObject<Item> MEAT_SHREDDER = ITEMS.register("meat_shredder",
             () -> new Meat_Shredder(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
 

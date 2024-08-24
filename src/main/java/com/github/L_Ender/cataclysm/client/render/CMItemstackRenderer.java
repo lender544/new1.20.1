@@ -66,8 +66,14 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ModelLaser_Gatling LASER_GATLING_MODEL = new ModelLaser_Gatling();
     private static final ModelAncient_Spear ANCIENT_SPEAR_MODEL = new ModelAncient_Spear();
     private static final Model_Cursed_Bow CURSED_BOW_MODEL = new Model_Cursed_Bow();
+    private static final Model_The_Annihilator THE_ANNIHILATOR = new Model_The_Annihilator();
+    private static final Model_Soul_render SOUL_RENDER = new Model_Soul_render();
     private static final ResourceLocation CURSED_BOW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow.png");
     private static final ResourceLocation CURSED_BOW_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow_ghost.png");
+    private static final ResourceLocation SOUL_RENDER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/soul_render.png");
+    private static final ResourceLocation SOUL_RENDER_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/soul_render_ghost.png");
+    private static final ResourceLocation THE_ANNIHILATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_annihilator.png");
+    private static final ResourceLocation THE_ANNIHILATOR_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_annihilator_ghost.png");
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
@@ -99,8 +105,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     public CMItemstackRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
-
-
         for(int i = 0; i < 8; i++){
             TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
         }
@@ -266,6 +270,29 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(CURSED_BOW_GHOST_TEXTURE), false, itemStackIn.hasFoil());
             CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.is(ModItems.SOUL_RENDER.get())) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5f, 0.5f);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(SOUL_RENDER_TEXTURE), false, itemStackIn.hasFoil());
+            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(SOUL_RENDER_GHOST_TEXTURE), false, itemStackIn.hasFoil());
+            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.is(ModItems.THE_ANNIHILATOR.get())) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5f, 0.5f);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_ANNIHILATOR_TEXTURE), false, itemStackIn.hasFoil());
+            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(THE_ANNIHILATOR_GHOST_TEXTURE), false, itemStackIn.hasFoil());
+            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
 
             matrixStackIn.popPose();
         }
