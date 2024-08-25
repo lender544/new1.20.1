@@ -14,16 +14,19 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +34,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -126,6 +130,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack itemStackIn, ItemDisplayContext transformType, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         float partialTick = Minecraft.getInstance().getPartialTick();
         boolean left = transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
+
         int tick;
         if(Minecraft.getInstance().player == null || Minecraft.getInstance().isPaused()){
             tick = ticksExisted;
@@ -293,7 +298,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(THE_ANNIHILATOR_GHOST_TEXTURE), false, itemStackIn.hasFoil());
             THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-
             matrixStackIn.popPose();
         }
 
@@ -355,6 +359,24 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getghost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
+    }
+
+    private void renderMapHand(PoseStack poseStack, MultiBufferSource bufferSource, int i, HumanoidArm humanoidArm) {
+        RenderSystem.setShaderTexture(0, Minecraft.getInstance().player.getSkinTextureLocation());
+        PlayerRenderer playerrenderer = (PlayerRenderer)Minecraft.getInstance().getEntityRenderDispatcher().<AbstractClientPlayer>getRenderer(Minecraft.getInstance().player);
+        poseStack.pushPose();
+        float f = humanoidArm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
+        poseStack.mulPose(Axis.YP.rotationDegrees(92.0F));
+        poseStack.mulPose(Axis.XP.rotationDegrees(45.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(f * -41.0F));
+        poseStack.translate(f * 0.3F, -1.1F, 0.45F);
+        if (humanoidArm == HumanoidArm.RIGHT) {
+            playerrenderer.renderRightHand(poseStack, bufferSource, i, Minecraft.getInstance().player);
+        } else {
+            playerrenderer.renderLeftHand(poseStack, bufferSource, i, Minecraft.getInstance().player);
+        }
+
+        poseStack.popPose();
     }
 
 
