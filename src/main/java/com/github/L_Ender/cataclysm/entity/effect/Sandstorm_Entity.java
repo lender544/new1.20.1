@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.client.particle.StormParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,6 +35,10 @@ public class Sandstorm_Entity extends Entity {
     protected static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> OFFSET = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.FLOAT);
 
+    private static final EntityDataAccessor<Boolean> POWERD = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
+    public AnimationState SpawnAnimationState = new AnimationState();
+    public AnimationState DespawnAnimationState = new AnimationState();
 
     public Sandstorm_Entity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
@@ -43,6 +49,7 @@ public class Sandstorm_Entity extends Entity {
         this.setCreatorEntityUUID(casterIn);
         this.setLifespan(lifespan);
         this.setPos(x, y, z);
+        this.setState(1);
         this.setOffset(offset);
     }
 
@@ -68,6 +75,17 @@ public class Sandstorm_Entity extends Entity {
            // this.level().addParticle((new StormParticle.OrbData(r, g, b,1.75f + random.nextFloat() * 0.45f,1.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
             this.level().addParticle((new StormParticle.OrbData(r, g, b,1.25f + random.nextFloat() * 0.45f,1.25f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
 
+
+            if(this.getState() == 1) {
+                if (this.getLifespan() < 295) {
+                    this.setState(0);
+                }
+            }
+            if(this.getState() == 0) {
+                if(this.getLifespan() < 10) {
+                    this.setState(2);
+                }
+            }
         }
 
         if (!this.isSilent() && level().isClientSide) {
@@ -160,7 +178,51 @@ public class Sandstorm_Entity extends Entity {
         this.entityData.define(CREATOR_ID, Optional.empty());
         this.entityData.define(LIFESPAN, 300);
         this.entityData.define(OFFSET,0f);
+        this.entityData.define(STATE,0);
     }
+
+    public AnimationState getAnimationState(String input) {
+        if (input == "spawn") {
+            return this.SpawnAnimationState;
+        } else if (input == "despawn") {
+            return this.DespawnAnimationState;
+        }else {
+            return new AnimationState();
+        }
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
+        if (STATE.equals(p_21104_)) {
+            if (this.level().isClientSide)
+                switch (this.getState()) {
+                    case 0 -> this.stopAllAnimationStates();
+                    case 1 -> {
+                        stopAllAnimationStates();
+                        this.SpawnAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 2 -> {
+                        stopAllAnimationStates();
+                        this.DespawnAnimationState.startIfStopped(this.tickCount);
+                    }
+                }
+        }
+
+        super.onSyncedDataUpdated(p_21104_);
+    }
+
+    public void stopAllAnimationStates() {
+        this.DespawnAnimationState.stop();
+        this.SpawnAnimationState.stop();
+    }
+
+    public int getState() {
+        return entityData.get(STATE);
+    }
+
+    public void setState(int state) {
+        entityData.set(STATE, state);
+    }
+
 
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.setLifespan(compound.getInt("Lifespan"));

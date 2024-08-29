@@ -168,7 +168,7 @@ public class Sandstorm_Projectile extends Projectile {
                     this.setState(0);
                 }
             }
-            if(lifetick > 295){
+            if(lifetick > 290){
                 if(this.getState() == 0) {
                     this.setState(2);
                 }

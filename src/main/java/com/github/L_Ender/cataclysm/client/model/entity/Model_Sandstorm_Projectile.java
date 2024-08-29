@@ -3,14 +3,12 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.client.animation.Kobolediator_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Projectile_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Animation;
 import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.model.WardenModel;
 
 public class Model_Sandstorm_Projectile extends AdvancedEntityModel<Sandstorm_Projectile> {
 	private final AdvancedModelBox root;
@@ -70,8 +68,8 @@ public class Model_Sandstorm_Projectile extends AdvancedEntityModel<Sandstorm_Pr
 		storm2.rotateAngleY += -storm.rotateAngleY + ageInTicks * 0.5F;
 		storm3.rotateAngleY += -storm.rotateAngleY -storm2.rotateAngleY + ageInTicks * 0.3F;
 		storm4.rotateAngleY += -storm.rotateAngleY -storm2.rotateAngleY - storm3.rotateAngleY + ageInTicks * 0.6F;
-		this.animate(entity.getAnimationState("spawn"), Sandstorm_Projectile_Animation.SPAWN, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("despawn"), Sandstorm_Projectile_Animation.DESPAWN, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("spawn"), Sandstorm_Animation.SPAWN, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("despawn"), Sandstorm_Animation.DESPAWN, ageInTicks, 1.0F);
 	}
 
 

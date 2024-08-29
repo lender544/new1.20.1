@@ -10,7 +10,7 @@ import com.github.L_Ender.lionfishapi.client.model.AdvancedAnimations.AdvancedKe
  * Exported for Minecraft version 1.19 or later with Mojang mappings
  * @author kor
  */
-public class Sandstorm_Projectile_Animation {
+public class Sandstorm_Animation {
 	public static final AdvancedAnimationDefinition SPAWN = AdvancedAnimationDefinition.Builder.withLength(0.3333F)
 		.addAnimation("storm", new AdvancedAnimationChannel(AdvancedAnimationChannel.Targets.ROTATION,
 			new AdvancedKeyframe(0.0F, AdvancedKeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AdvancedAnimationChannel.Interpolations.CATMULLROM),

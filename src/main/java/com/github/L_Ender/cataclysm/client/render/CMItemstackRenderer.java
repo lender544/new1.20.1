@@ -83,9 +83,12 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
     private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_incinerator.png");
     private static final ResourceLocation VOID_FORGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge.png");
+    private static final ResourceLocation VOID_FORGE_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge_layer.png");
     private static final ResourceLocation TIDAL_CLAWS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/tidal_claws.png");
     private static final ResourceLocation MEAT_SHREDDER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/meat_shredder.png");
+    private static final ResourceLocation MEAT_SHREDDER_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/meat_shredder_layer.png");
     private static final ResourceLocation LASER_GATLING_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/laser_gatling.png");
+    private static final ResourceLocation LASER_GATLING_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/laser_gatling_layer.png");
     private static final ResourceLocation ALTAR_OF_FIRE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_of_fire.png");
     private static final ResourceLocation ALTAR_OF_VOID_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_void.png");
     private static final ResourceLocation ALTAR_OF_AMETHYST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_amethyst.png");
@@ -94,7 +97,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation ABYSSAL_EGG_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg_layer.png");
     private static final ResourceLocation MIF_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
     private static final ResourceLocation WASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon.png");
+    private static final ResourceLocation WASW_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation VASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon.png");
+    private static final ResourceLocation VASW_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation EMP_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/emp.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_spear.png");
@@ -186,16 +191,20 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(WASW_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(WASW_TEXTURE), false, itemStackIn.hasFoil());
             WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(WASW_LAYER_TEXTURE), false, itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.VOID_ASSULT_SHOULDER_WEAPON.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(VASW_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VASW_TEXTURE), false, itemStackIn.hasFoil());
             WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VASW_LAYER_TEXTURE), false, itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
@@ -219,8 +228,11 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(VOID_FORGE_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VOID_FORGE_TEXTURE), false, itemStackIn.hasFoil());
             VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VOID_FORGE_LAYER_TEXTURE), false, itemStackIn.hasFoil());
+            VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.TIDAL_CLAWS.get()) {
@@ -236,8 +248,10 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(MEAT_SHREDDER_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(MEAT_SHREDDER_TEXTURE), false, itemStackIn.hasFoil());
             MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.CMEyes(MEAT_SHREDDER_LAYER_TEXTURE), false, itemStackIn.hasFoil());
+            MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             MEAT_SHREDDER_MODEL.animateStack(itemStackIn);
             matrixStackIn.popPose();
         }
@@ -245,12 +259,14 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(LASER_GATLING_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(LASER_GATLING_TEXTURE), false, itemStackIn.hasFoil());
             float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
             float openAmount = Minecraft.getInstance().player != null && Laser_Gatling.isCharged(itemStackIn) ? Minecraft.getInstance().player.tickCount + partialTick : 0;
 
             LASER_GATLING_MODEL.setupAnim(null, openAmount, 0, ageInTicks, 0, 0);
             LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(LASER_GATLING_LAYER_TEXTURE), false, itemStackIn.hasFoil());
+            LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
 
             matrixStackIn.popPose();
         }
