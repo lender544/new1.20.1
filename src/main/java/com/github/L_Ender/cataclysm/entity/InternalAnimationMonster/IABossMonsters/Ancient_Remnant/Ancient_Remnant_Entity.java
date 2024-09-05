@@ -959,7 +959,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             double vx = Math.cos(theta);
             double vz = Math.sin(theta);
             double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180) + f * math;
-            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180  + f1 * math);
+            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180) + f1 * math;
             float factor = 1 - distance / (float) 12;
             int hitX = Mth.floor(px);
             int hitZ = Mth.floor(pz);

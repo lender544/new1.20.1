@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_Maledictus;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
+import com.github.L_Ender.cataclysm.client.render.layer.MaledictusRiderLayer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Cicle_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
@@ -37,6 +38,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
         super(renderManagerIn, new Model_Maledictus(), 0.75F);
         this.addLayer(new Maledictus_Layer(this));
         this.addLayer(new Maledictus_Cicle_Layer(this, renderManagerIn));
+        this.addLayer(new MaledictusRiderLayer(this));
     }
     @Override
     public ResourceLocation getTextureLocation(Maledictus_Entity entity) {

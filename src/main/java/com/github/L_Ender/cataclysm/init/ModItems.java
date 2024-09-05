@@ -193,6 +193,13 @@ public class ModItems {
     public static final RegistryObject<Item> ANCIENT_METAL_NUGGET = ITEMS.register("ancient_metal_nugget",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> BLACK_STEEL_INGOT = ITEMS.register("black_steel_ingot",
+            () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> BLACK_STEEL_NUGGET = ITEMS.register("black_steel_nugget",
+            () -> new Item(new Item.Properties()));
+
+
     public static final RegistryObject<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
@@ -215,7 +222,13 @@ public class ModItems {
             () -> new Athame((new Item.Properties()).durability(250)));
 
     public static final RegistryObject<Item> KHOPESH = ITEMS.register("khopesh",
-            () -> new Khopesh(Tiers.GOLD, new Item.Properties()));
+            () -> new Khopesh(Tooltier.ANCIENT_METAL, new Item.Properties()));
+
+    public static final RegistryObject<Item> BLACK_STEEL_SWORD = ITEMS.register("black_steel_sword",
+            () -> new SwordItem(Tooltier.BLACK_STEEL, 3, -2.4F, new Item.Properties()));
+
+    public static final RegistryObject<Item> BLACK_STEEL_AXE = ITEMS.register("black_steel_axe",
+            () -> new AxeItem(Tooltier.BLACK_STEEL, 6.0F, -3.1F, new Item.Properties()));
 
     public static final RegistryObject<Item> BULWARK_OF_THE_FLAME = ITEMS.register("bulwark_of_the_flame",
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -511,6 +524,12 @@ public class ModItems {
 
     public static final RegistryObject<SpawnEggItem> MALEDICTUS_SPAWN_EGG = ITEMS.register("maledictus_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.MALEDICTUS,0x39d2b2, 0x945b31, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> ROYAL_DRAUGR_SPAWN_EGG = ITEMS.register("royal_draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ROYAL_DRAUGR,0x392116, 0x945b31, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> DRAUGR_SPAWN_EGG = ITEMS.register("draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DRAUGR,0x392116, 0x2b2825, new Item.Properties()));
 
     public static void initDispenser(){
         DispenserBlock.registerBehavior(VOID_SCATTER_ARROW.get(), new AbstractProjectileDispenseBehavior() {

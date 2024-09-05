@@ -10,6 +10,7 @@ import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.etc.LavaVisionFluidRenderer;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
@@ -104,6 +105,11 @@ public class ClientEvent {
             }
         }
 
+        Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
+        if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Maledictus_Entity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(6F), 0, 0);
+        }
+
     }
 
     @SubscribeEvent
@@ -146,7 +152,7 @@ public class ClientEvent {
             Minecraft mc = Minecraft.getInstance();
             ForgeGui gui = (ForgeGui)mc.gui;
             if (player.isPassenger()) {
-                if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof Hold_Attack_Entity) {
+                if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof Hold_Attack_Entity | player.getVehicle() instanceof Maledictus_Entity) {
                     if (event.getOverlay().id().equals(VanillaGuiOverlay.HELMET.id())) {
                         Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("entity.cataclysm.you_cant_escape"), false);
                     }
@@ -215,6 +221,15 @@ public class ClientEvent {
             this.drawVertex(lvt_20_1_, lvt_21_1_, ivertexbuilder, 1, 0, -1, 1, 0, 1, 0, 1, 240);
             matrixStackIn.popPose();
         }
+
+        if (ClientProxy.blockedEntityRenders.contains(event.getEntity().getUUID())) {
+            if (!Cataclysm.PROXY.isFirstPersonPlayer(event.getEntity())) {
+                MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
+                event.setCanceled(true);
+            }
+            ClientProxy.blockedEntityRenders.remove(event.getEntity().getUUID());
+        }
+
     }
 
     @SubscribeEvent

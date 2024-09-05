@@ -24,6 +24,16 @@ public class CommonProxy {
     public void clientInit() {
     }
 
+    public void blockRenderingEntity(UUID id) {
+    }
+
+    public void releaseRenderingEntity(UUID id) {
+    }
+
+    public boolean isFirstPersonPlayer(Entity entity) {
+        return false;
+    }
+
     public Object getISTERProperties() {
         return null;
     }

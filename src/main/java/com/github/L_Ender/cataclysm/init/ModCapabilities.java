@@ -23,7 +23,6 @@ public final class ModCapabilities {
     public static final Capability<Gone_With_SandstormCapability.IGone_With_SandstormCapability> GONE_WITH_SANDSTORM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<RenderRushCapability.IRenderRushCapability> RENDER_RUSH_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
-
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.register(HookCapability.HookCapabilityImp.class);
         event.register(RenderRushCapability.IRenderRushCapability.class);

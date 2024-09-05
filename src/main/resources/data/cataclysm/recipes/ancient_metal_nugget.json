@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "cataclysm:ancient_metal_ingot"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "cataclysm:ancient_metal_nugget"
+  }
+}

@@ -9,6 +9,8 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.The_Watcher_Entity;
 import com.github.L_Ender.cataclysm.entity.Deepling.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Draugr_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
@@ -20,6 +22,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -243,7 +246,10 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<Hold_Attack_Entity>> HOLD_ATTACK = ENTITY_TYPE.register("hold_attack", () -> EntityType.Builder.<Hold_Attack_Entity>of(Hold_Attack_Entity::new, MobCategory.MISC)
             .noSummon()
-            .sized(0f, 0f)
+            .sized(0.5f, 0.5f)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":hold_attack"));
 
     public static final RegistryObject<EntityType<Cm_Falling_Block_Entity>> CM_FALLING_BLOCK = ENTITY_TYPE.register("cm_falling_block", () -> EntityType.Builder.<Cm_Falling_Block_Entity>of(Cm_Falling_Block_Entity::new, MobCategory.MISC)
@@ -495,6 +501,18 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":maledictus"));
 
+
+    public static final RegistryObject<EntityType<Draugr_Entity>> DRAUGR = ENTITY_TYPE.register("draugr", () -> EntityType.Builder.of(Draugr_Entity::new, MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build(Cataclysm.MODID + ":draugr"));
+
+    public static final RegistryObject<EntityType<Royal_Draugr_Entity>> ROYAL_DRAUGR = ENTITY_TYPE.register("royal_draugr", () -> EntityType.Builder.of(Royal_Draugr_Entity::new, MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .clientTrackingRange(10)
+            .build(Cataclysm.MODID + ":royal_draugr"));
+
+
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){
             return Predicates.alwaysFalse();
@@ -552,6 +570,8 @@ public class ModEntities {
         event.put(WADJET.get(), Wadjet_Entity.wadjet().build());
         event.put(MALEDICTUS.get(), Maledictus_Entity.maledictus().build());
         event.put(ANCIENT_REMNANT.get(), Ancient_Remnant_Entity.maledictus().build());
+        event.put(DRAUGR.get(), Draugr_Entity.draugr().build());
+        event.put(ROYAL_DRAUGR.get(), Royal_Draugr_Entity.royal_draugr().build());
     }
 }
 

@@ -54,9 +54,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 @OnlyIn(Dist.CLIENT)
@@ -65,7 +63,7 @@ public class ClientProxy extends CommonProxy {
     public static final Int2ObjectMap<AbstractTickableSoundInstance> ENTITY_SOUND_INSTANCE_MAP = new Int2ObjectOpenHashMap<>();
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
-
+    public static List<UUID> blockedEntityRenders = new ArrayList<>();
 
     public void init() {
        // FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientLayerEvent::onAddLayers);
@@ -158,6 +156,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.KOBOLEDIATOR.get(), RendererKobolediator::new);
         EntityRenderers.register(ModEntities.WADJET.get(), RendererWadjet::new);
         EntityRenderers.register(ModEntities.MALEDICTUS.get(), RendererMaledictus::new);
+        EntityRenderers.register(ModEntities.DRAUGR.get(), Renderer_Draugr::new);
+        EntityRenderers.register(ModEntities.ROYAL_DRAUGR.get(), RendererRoyal_Draugr::new);
         EntityRenderers.register(ModEntities.PHANTOM_HALBERD.get(), RendererPhantom_Halberd::new);
         EntityRenderers.register(ModEntities.EARTHQUAKE.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.ANCIENT_DESERT_STELE.get(), RendererAncient_Desert_Stele::new);
@@ -208,6 +208,18 @@ public class ClientProxy extends CommonProxy {
 
     public Player getClientSidePlayer() {
         return Minecraft.getInstance().player;
+    }
+
+    public void blockRenderingEntity(UUID id) {
+        blockedEntityRenders.add(id);
+    }
+
+    public void releaseRenderingEntity(UUID id) {
+        blockedEntityRenders.remove(id);
+    }
+
+    public boolean isFirstPersonPlayer(Entity entity) {
+        return entity.equals(Minecraft.getInstance().cameraEntity) && Minecraft.getInstance().options.getCameraType().isFirstPerson();
     }
 
     @Override
