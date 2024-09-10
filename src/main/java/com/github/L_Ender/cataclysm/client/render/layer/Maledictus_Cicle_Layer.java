@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.render.etc.LightningRender;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -52,7 +54,10 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
         Quaternionf camera = this.entityRenderDispatcher.cameraOrientation();
         matrixStackIn.pushPose();
         matrixStackIn.pushPose();
-        translateToHand(matrixStackIn, right);
+
+        Vec3 offset = new Vec3(0, 0.0F, 0F);
+        Vec3 ridePos = getRiderPosition(offset,right);
+        matrixStackIn.translate(ridePos.x, ridePos.y, ridePos.z);
         matrixStackIn.mulPose(camera);
         matrixStackIn.translate(0.0F, -0.1F, 0.0F);
         matrixStackIn.scale(0.9F, 0.9F, 0.9F);
@@ -136,6 +141,16 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
                     drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.95f, 0.5215f, 0.1333F);
                 }
             }
+            if (entity.getAttackState() == 28) {
+                if (entity.attackTicks <= 26) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
+            }
+            if (entity.getAttackState() == 29) {
+                if (entity.attackTicks <= 26) {
+                    drawCircle(portalStatic, matrix4f, matrix3f, packedLightIn, 0.423f, 0.062f, 0.019F);
+                }
+            }
 
         }
 
@@ -146,8 +161,9 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
 
     private void renderLightning(PoseStack matrixStackIn, MultiBufferSource bufferIn, Maledictus_Entity entity,float partialtick, boolean right){
         matrixStackIn.pushPose();
-        translateToHand(matrixStackIn, right);
-        matrixStackIn.translate(0.0F, 0.1F, 0.0F);
+        Vec3 offset = new Vec3(0, 0.0F, 0F);
+        Vec3 ridePos = getRiderPosition(offset,right);
+        matrixStackIn.translate(ridePos.x, ridePos.y, ridePos.z);
         if (entity.attackTicks > 1 ) {
             if (entity.getAttackState() == 1) {
                 if (entity.attackTicks <= 50) {
@@ -227,6 +243,16 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
                     drawLightning(matrixStackIn, bufferIn, entity, 0.95f, 0.5215f, 0.1333F, partialtick);
                 }
             }
+            if (entity.getAttackState() == 28) {
+                if (entity.attackTicks <= 26) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
+            }
+            if (entity.getAttackState() == 29) {
+                if (entity.attackTicks <= 26) {
+                    drawLightning(matrixStackIn, bufferIn, entity, 0.423f, 0.062f, 0.019F, partialtick);
+                }
+            }
         }
 
         matrixStackIn.popPose();
@@ -302,6 +328,17 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model
         }
     }
 
+
+    public Vec3 getRiderPosition(Vec3 offsetIn,boolean right) {
+        PoseStack translationStack = new PoseStack();
+        translationStack.pushPose();
+        translateToHand(translationStack,right);
+        Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+        armOffsetVec.mul(translationStack.last().pose());
+        Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());
+        translationStack.popPose();
+        return vec3;
+    }
 
 }
 

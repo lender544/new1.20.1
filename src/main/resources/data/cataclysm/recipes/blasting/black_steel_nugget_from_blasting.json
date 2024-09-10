@@ -9,9 +9,16 @@
     },
     {
       "item": "cataclysm:black_steel_sword"
+    },
+    {
+      "item": "cataclysm:black_steel_shovel"
+    },
+    {
+      "item": "cataclysm:black_steel_hoe"
+    },
+    {
+      "item": "cataclysm:black_steel_pickaxe"
     }
   ],
-  "result": {
-    "id": "cataclysm:black_steel_nugget"
-  }
+  "result": "cataclysm:black_steel_nugget"
 }

@@ -373,9 +373,9 @@ public class ServerEventHandler {
         ItemStack weapon = event.getEntity().getMainHandItem();
         if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity) {
             if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
-                if(event.isVanillaCritical()){
+                //if(event.isVanillaCritical()){
                     event.setDamageModifier(2.25F);
-                }
+               // }
 
             }
         }

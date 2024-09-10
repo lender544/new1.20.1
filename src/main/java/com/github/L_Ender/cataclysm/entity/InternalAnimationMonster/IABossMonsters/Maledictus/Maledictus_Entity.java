@@ -3,38 +3,25 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.*;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
-import com.google.common.collect.UnmodifiableIterator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -42,8 +29,6 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -54,10 +39,8 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -70,8 +53,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 
 public class Maledictus_Entity extends IABoss_monster {
@@ -132,10 +113,8 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final int NATURE_HEAL_COOLDOWN = 200;
     public static final int RADAGON_COOLDOWN = 250;
     public static final int SPEAR_SWING_COOLDOWN = 100;
-    public static final int GRAB_COOLDOWN = 120;
+    public static final int GRAB_COOLDOWN = 250;
     private int timeWithoutTarget;
-    public LivingEntity pickupEntity;
-
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
     public static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
@@ -184,6 +163,32 @@ public class Maledictus_Entity extends IABoss_monster {
                 Maledictus_Entity.this.setWeapon(0);
             }
         });
+        //grab start
+        this.goalSelector.addGoal(1, new MaledictusGrabGoal(this, 0, 28, 29, 26, 24, 9F, 3,3,25F));
+
+        //grab_loop
+        this.goalSelector.addGoal(1, new MaledictusGrabState(this,29,29,30,15,0,3,3));
+
+        //grab_fail
+        this.goalSelector.addGoal(0, new InternalStateGoal(this,30,30,0,30,0){
+            @Override
+            public void stop() {
+                super.stop();
+                Maledictus_Entity.this.setWeapon(0);
+            }
+        });
+
+        //grab_success_start
+        this.goalSelector.addGoal(0, new MaledictusSuccessState(this, 31, 31, 32, 60, 0, 30,3,3,2));
+
+        //grab_success_loop
+        this.goalSelector.addGoal(1, new MaledictusfallingState(this, 32, 32,33,100, 0,3,3));
+
+        //grab_success_end
+        this.goalSelector.addGoal(0, new MaledictusfallingState(this, 33, 33, 0, 35,0,3,0));
+
+
+
         //combo first
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,19,20,27,10,6F){
             @Override
@@ -357,31 +362,6 @@ public class Maledictus_Entity extends IABoss_monster {
 
         //dash 3
         this.goalSelector.addGoal(0, new MaledictusChargeState(this, 17, 17, 0, 58, 10, 28, 16,30,2,0,3));
-
-        //grab start
-        this.goalSelector.addGoal(1, new MaledictusGrabGoal(this, 0, 28, 29, 26, 24, 9F, 3,3,16F));
-
-        //grab_loop
-        this.goalSelector.addGoal(1, new MaledictusGrabState(this,29,29,30,15,0,3,3));
-
-        //grab_fail
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,30,30,0,30,0){
-            @Override
-            public void stop() {
-                super.stop();
-                Maledictus_Entity.this.setWeapon(0);
-            }
-        });
-
-        //grab_success_start
-        this.goalSelector.addGoal(0, new MaledictusSuccessState(this, 31, 31, 32, 60, 0, 30,3,3,2));
-
-        //grab_success_loop
-        this.goalSelector.addGoal(1, new MaledictusfallingState(this, 32, 32,33,100, 0,3,3));
-
-        //grab_success_end
-        this.goalSelector.addGoal(0, new MaledictusfallingState(this, 33, 33, 0, 35,0,3,0));
-
 
     }
 
@@ -1249,11 +1229,27 @@ public class Maledictus_Entity extends IABoss_monster {
                 }
             }
         }
+        if(this.getAttackState() == 31){
+            if (this.level().isClientSide) {
+                for (int i = 0; i < 2; ++i) {
+                    this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), this.getRandomX(1.5D), this.getRandomY(), this.getRandomZ(1.5D), 0.0D, 0.0D, 0.0D);
+                }
+            }
+            if (this.attackTicks == 17) {
+                this.playSound(ModSounds.MALEDICTUS_LEAP.get(), 1F, 1.0f);
+            }
+
+        }
 
 
         if(this.getAttackState() == 32){
             if (this.onGround() || !this.getFeetBlockState().getFluidState().isEmpty()) {
                 this.setAttackState(33);
+            }
+            if (this.level().isClientSide) {
+                for (int i = 0; i < 2; ++i) {
+                    this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), this.getRandomX(1.5D), this.getRandomY(), this.getRandomZ(1.5D), 0.0D, 0.0D, 0.0D);
+                }
             }
         }
         if(this.getAttackState() == 33) {

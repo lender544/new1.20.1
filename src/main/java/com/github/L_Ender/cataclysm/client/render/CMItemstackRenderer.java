@@ -8,7 +8,6 @@ import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Bardiche;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelCoral_Spear;
 import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
@@ -24,7 +23,6 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -32,8 +30,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -51,6 +47,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     public static int ticksExisted = 0;
 
     private static final ModelBulwark_of_the_flame BULWARK_OF_THE_FLAME_MODEL = new ModelBulwark_of_the_flame();
+    private static final ModelBlack_Steel_Targe BLACK_STEEL_TARGE_MODEL = new ModelBlack_Steel_Targe();
     private static final Model_EMP EMP_MODEL = new Model_EMP();
     private static final Model_Mechanical_Anvil MF_MODEL = new Model_Mechanical_Anvil();
     private static final ModelGauntlet_of_Guard GAUNTLET_OF_GUARD_MODEL = new ModelGauntlet_of_Guard();
@@ -79,6 +76,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation THE_ANNIHILATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_annihilator.png");
     private static final ResourceLocation THE_ANNIHILATOR_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_annihilator_ghost.png");
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
+    private static final ResourceLocation BLACK_STEEL_TARGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/black_steel_targe.png");
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
     private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_incinerator.png");
@@ -142,7 +140,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }else{
             tick = Minecraft.getInstance().player.tickCount;
         }
-
         Item item = itemStackIn.getItem();
         if (item instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
@@ -161,6 +158,13 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BULWARK_OF_THE_FLAME_TEXTURE), false, itemStackIn.hasFoil());
             BULWARK_OF_THE_FLAME_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+        if (itemStackIn.getItem() == ModItems.BLACK_STEEL_TARGE.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BLACK_STEEL_TARGE_TEXTURE), false, itemStackIn.hasFoil());
+            BLACK_STEEL_TARGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_GUARD.get()) {

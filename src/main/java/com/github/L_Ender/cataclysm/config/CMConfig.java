@@ -186,14 +186,14 @@ public class CMConfig {
     public static int AmethystCrabSpawnWeight = 1;
     public static int AmethystCrabSpawnRolls = 100;
 
-    public static int KoboletonSpawnWeight = 2;
-    public static int KoboletonSpawnRolls = 30;
+    public static int KoboletonSpawnWeight = 15;
+    public static int KoboletonSpawnRolls = 1;
 
     public static int CoralgolemSpawnWeight = 1;
     public static int CoralgolemSpawnRolls = 70;
 
-    public static int IgnitedBerserkerSpawnWeight = 2;
-    public static int IgnitedBerserkerSpawnRolls = 15;
+    public static int IgnitedBerserkerSpawnWeight = 5;
+    public static int IgnitedBerserkerSpawnRolls = 2;
 
     public static int cursedPyramidCheckRange = 2;
     public static int cursedPyramidHeightVariance = 7;

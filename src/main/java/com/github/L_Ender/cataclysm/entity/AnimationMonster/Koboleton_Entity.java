@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -225,6 +226,10 @@ public class Koboleton_Entity extends Animation_Monster {
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
         return ModEntities.rollSpawn(CMConfig.KoboletonSpawnRolls, this.getRandom(), spawnReasonIn);
+    }
+
+    public static boolean checkKoboletonSpawnRules(EntityType<Koboleton_Entity> p_218997_, ServerLevelAccessor p_218998_, MobSpawnType p_218999_, BlockPos p_219000_, RandomSource p_219001_) {
+        return checkMonsterSpawnRules(p_218997_, p_218998_, p_218999_, p_219000_, p_219001_) && (p_218999_ == MobSpawnType.SPAWNER || p_218998_.canSeeSky(p_219000_));
     }
 
     public boolean isAlliedTo(Entity entityIn) {

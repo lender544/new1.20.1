@@ -26,12 +26,12 @@ public class Tooltier {
 
 
     public static final Tier ANCIENT_METAL = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 600, 8F, 2, 25,
+            new ForgeTier(3, 750, 8F, 2, 25,
                     BlockTags.create(prefix("needs_ancient_metal_tool")), () -> Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get())),
             prefix("ancient_metal"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 
     public static final Tier BLACK_STEEL = TierSortingRegistry.registerTier(
-            new ForgeTier(3, 600, 8F, 2, 25,
+            new ForgeTier(3, 750, 8F, 2, 25,
                     BlockTags.create(prefix("needs_black_steel_tool")), () -> Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get())),
             prefix("black_steel"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 

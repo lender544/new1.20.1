@@ -227,8 +227,21 @@ public class ModItems {
     public static final RegistryObject<Item> BLACK_STEEL_SWORD = ITEMS.register("black_steel_sword",
             () -> new SwordItem(Tooltier.BLACK_STEEL, 3, -2.4F, new Item.Properties()));
 
+    public static final RegistryObject<Item> BLACK_STEEL_SHOVEL = ITEMS.register("black_steel_shovel",
+            () -> new ShovelItem(Tooltier.BLACK_STEEL, 1.5F, -3.0F, new Item.Properties()));
+
+    public static final RegistryObject<Item> BLACK_STEEL_PICKAXE = ITEMS.register("black_steel_pickaxe",
+            () -> new PickaxeItem(Tooltier.BLACK_STEEL, 1, -2.8F, new Item.Properties()));
+
     public static final RegistryObject<Item> BLACK_STEEL_AXE = ITEMS.register("black_steel_axe",
             () -> new AxeItem(Tooltier.BLACK_STEEL, 6.0F, -3.1F, new Item.Properties()));
+
+
+    public static final RegistryObject<Item> BLACK_STEEL_HOE = ITEMS.register("black_steel_hoe",
+            () -> new HoeItem(Tooltier.BLACK_STEEL, -2, -1.0F, new Item.Properties()));
+
+    public static final RegistryObject<Item> BLACK_STEEL_TARGE = ITEMS.register("black_steel_targe",
+            () -> new Black_Steel_Targe(new Item.Properties().durability(772)));
 
     public static final RegistryObject<Item> BULWARK_OF_THE_FLAME = ITEMS.register("bulwark_of_the_flame",
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));

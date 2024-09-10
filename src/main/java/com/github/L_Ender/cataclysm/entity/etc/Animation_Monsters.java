@@ -174,6 +174,7 @@ public class Animation_Monsters extends Monster implements Enemy {
                 if (entity == null || entity.killedEntity((ServerLevel)this.level(), this)) {
                     this.gameEvent(GameEvent.ENTITY_DIE);
                     this.createWitherRose(livingentity);
+                    this.AfterDefeatBoss(livingentity);
                     if (!dropAfterDeathAnim){
                         this.dropAllDeathLoot(cause);
                     }

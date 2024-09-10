@@ -28,8 +28,8 @@ public class Modelignitium_Elytra_chestplate extends HumanoidModel {
         body.addOrReplaceChild("left_wing", CubeListBuilder.create()
                         .texOffs(0, 65)
                         .mirror()
-                        .addBox(-10.0F, 0.0F, 1.5F, 11.0F, 23.0F, 2.0F,  new CubeDeformation(0.0F)),
-                PartPose.offsetAndRotation(5.0F, 0.0F, 1.5F, 0.2617994F, 0.0F, -0.2617994F));
+                        .addBox(-11.0F, 0.0F, 1.5F, 11.0F, 23.0F, 2.0F,  new CubeDeformation(0.0F)),
+                PartPose.offsetAndRotation(6.0F, 0.0F, 1.5F, 0.2617994F, 0.0F, -0.2617994F));
         body.addOrReplaceChild("right_wing", CubeListBuilder.create()
                         .texOffs(0, 65)
                         .addBox(0.0F, 0.0F, 1.5F, 11.0F, 23.0F, 2.0F, new CubeDeformation(0.0F)),
