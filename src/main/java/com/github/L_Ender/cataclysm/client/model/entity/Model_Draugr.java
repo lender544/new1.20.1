@@ -3,9 +3,8 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.client.animation.Draugrs_Animation;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Draugr_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Royal_Draugr_Entity;
+import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
@@ -149,10 +148,10 @@ public class Model_Draugr extends AdvancedEntityModel<Draugr_Entity>  implements
 	public void setupAnim(Draugr_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		this.resetToDefaultPose();
 		this.faceTarget(netHeadYaw, headPitch, 1, head);
-		this.animateWalk(Draugrs_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
-		this.animate(entity.getAnimationState("idle"), Draugrs_Animation.IDLE, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("attack"), Draugrs_Animation.ATTACK, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("attack2"), Draugrs_Animation.ATTACK2, ageInTicks, 1.0F);
+		this.animateWalk(Draugar_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
+		this.animate(entity.getAnimationState("idle"), Draugar_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("attack"), Draugar_Animation.ATTACK, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("attack2"), Draugar_Animation.ATTACK2, ageInTicks, 1.0F);
 	}
 
 	@Override

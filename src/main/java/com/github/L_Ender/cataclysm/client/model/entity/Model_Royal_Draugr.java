@@ -3,18 +3,15 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.client.animation.Coralssus_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Draugrs_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Maledictus_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Animation;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Royal_Draugr_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
+import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 
 public class Model_Royal_Draugr extends AdvancedEntityModel<Royal_Draugr_Entity>  implements ArmedModel {
@@ -146,10 +143,22 @@ public class Model_Royal_Draugr extends AdvancedEntityModel<Royal_Draugr_Entity>
 	public void setupAnim(Royal_Draugr_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		this.resetToDefaultPose();
 		this.faceTarget(netHeadYaw, headPitch, 1, head);
-		this.animateWalk(Draugrs_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
-		this.animate(entity.getAnimationState("idle"), Draugrs_Animation.IDLE, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("attack"), Draugrs_Animation.ATTACK, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("attack2"), Draugrs_Animation.ATTACK2, ageInTicks, 1.0F);
+		this.animateWalk(Draugar_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
+		this.animate(entity.getAnimationState("idle"), Draugar_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("attack"), Draugar_Animation.ATTACK, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("attack2"), Draugar_Animation.ATTACK2, ageInTicks, 1.0F);
+
+		boolean flag2 = entity.getMainArm() == HumanoidArm.RIGHT;
+		if (entity.isUsingItem()) {
+			boolean flag3 = entity.getUsedItemHand() == InteractionHand.MAIN_HAND;
+			if (flag3 == flag2) {
+				this.right_arm.rotateAngleX = this.right_arm.rotateAngleX * 0.5F - 0.9424779F;
+				this.right_arm.rotateAngleY = (-(float)Math.PI / 6F);
+			} else {
+				this.left_arm.rotateAngleX = this.left_arm.rotateAngleX * 0.5F - 0.9424779F;
+				this.left_arm.rotateAngleY = ((float)Math.PI / 6F);
+			}
+		}
 	}
 
 	@Override

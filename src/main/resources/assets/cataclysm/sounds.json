@@ -380,6 +380,22 @@
       }
     ]
   },
+  "maledictus_music": {
+    "subtitle": "maledictus_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/maledictus_theme"
+      }
+    ]
+  },
+  "maledictus_music_disc": {
+    "subtitle": "maledictus_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/maledictus_theme_disc"
+      }
+    ]
+  },
   "revenant_breath": {
     "subtitle": "revenant_breath.sub",
     "sounds": [

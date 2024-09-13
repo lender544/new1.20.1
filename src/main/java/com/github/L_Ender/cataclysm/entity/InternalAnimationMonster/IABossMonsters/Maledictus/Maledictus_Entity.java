@@ -113,7 +113,7 @@ public class Maledictus_Entity extends IABoss_monster {
     public static final int NATURE_HEAL_COOLDOWN = 200;
     public static final int RADAGON_COOLDOWN = 250;
     public static final int SPEAR_SWING_COOLDOWN = 100;
-    public static final int GRAB_COOLDOWN = 250;
+    public static final int GRAB_COOLDOWN = 300;
     private int timeWithoutTarget;
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -1704,6 +1704,11 @@ public class Maledictus_Entity extends IABoss_monster {
 
     protected SoundEvent getAmbientSound() {
         return ModSounds.MALEDICTUS_IDLE.get();
+    }
+
+    @Override
+    public SoundEvent getBossMusic() {
+        return ModSounds.MALEDICTUS_MUSIC.get();
     }
 
     public void startSeenByPlayer(ServerPlayer player) {

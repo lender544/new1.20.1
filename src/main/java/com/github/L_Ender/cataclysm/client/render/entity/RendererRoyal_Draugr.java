@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Model_Royal_Draugr;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugrs.Royal_Draugr_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

@@ -241,7 +241,7 @@ public class ModItems {
             () -> new HoeItem(Tooltier.BLACK_STEEL, -2, -1.0F, new Item.Properties()));
 
     public static final RegistryObject<Item> BLACK_STEEL_TARGE = ITEMS.register("black_steel_targe",
-            () -> new Black_Steel_Targe(new Item.Properties().durability(772)));
+            () -> new Black_Steel_Targe(new Item.Properties().durability(840)));
 
     public static final RegistryObject<Item> BULWARK_OF_THE_FLAME = ITEMS.register("bulwark_of_the_flame",
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -405,6 +405,10 @@ public class ModItems {
 
     public static final RegistryObject<Item> MUSIC_DISC_ANCIENT_REMNANT = ITEMS.register("music_disc_ancient_remnant",
             () -> new RecordItem(14, ModSounds.REMNANT_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 144 * 20));
+
+    public static final RegistryObject<Item> MUSIC_DISC_MALEDICTUS = ITEMS.register("music_disc_maledictus",
+            () -> new RecordItem(14, ModSounds.MALEDICTUS_MUSIC_DISC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 201 * 20));
+
 
     public static final RegistryObject<Item> MECH_EYE = ITEMS.register("mech_eye",
             () -> new MechEyeItem(new Item.Properties().fireResistant()));
