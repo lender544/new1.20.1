@@ -102,6 +102,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         });
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,100,64,8));
 
+
         //chargePrepare
         this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,6,40,30,15) {
             @Override
