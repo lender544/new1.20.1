@@ -108,12 +108,11 @@ public class Animation_Monsters extends Monster implements Enemy {
 
     public void disableShield(Player player, int ticks) {
         if (player.isBlocking()) {
-            player.disableShield(true);
-            /*SHIELDS.forEach((item) -> player.getCooldowns().addCooldown(item, 300));*/
-
-            player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
-            player.stopUsingItem();
-
+            if (!player.level().isClientSide) {
+                player.disableShield(true);
+                player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
+                player.stopUsingItem();
+            }
         }
     }
 

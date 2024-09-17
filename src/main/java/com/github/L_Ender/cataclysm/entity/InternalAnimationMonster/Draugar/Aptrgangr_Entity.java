@@ -5,7 +5,9 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
@@ -58,6 +60,11 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState swingrightAnimationState = new AnimationState();
     public AnimationState smashAnimationState = new AnimationState();
+    public AnimationState chargestartAnimationState = new AnimationState();
+    public AnimationState chargeAnimationState = new AnimationState();
+    public AnimationState chargeendAnimationState = new AnimationState();
+    public AnimationState chargehitAnimationState = new AnimationState();
+    public AnimationState deathAnimationState = new AnimationState();
     private int earthquake_cooldown = 0;
     public static final int EARTHQUAKE_COOLDOWN = 80;
 
@@ -70,7 +77,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.setMaxUpStep(1.25F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.KobolediatorHealthMultiplier, CMConfig.KobolediatorDamageMultiplier);
+        setConfigattribute(this, CMConfig.AptrgangrHealthMultiplier, CMConfig.AptrgangrDamageMultiplier);
     }
 
     protected void registerGoals() {
@@ -79,16 +86,58 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.goalSelector.addGoal(2, new InternalMoveGoal(this,false,1.0D));
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,1,0,40,15,6){
+        this.goalSelector.addGoal(4, new InternalMoveGoal(this,false,1.0D));
+        this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,1,0,40,15,6){
             @Override
             public boolean canUse() {
                 return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f;
+            }
+        });
+
+
+        this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,2,0,40,10,6){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
             }
             @Override
             public void stop() {
                 super.stop();
                 Aptrgangr_Entity.this.earthquake_cooldown = EARTHQUAKE_COOLDOWN;
+            }
+        });
+
+        //chargePrepare
+        this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,3,4,24,24,15) {
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 12f && Aptrgangr_Entity.this.charge_cooldown <= 0;
+            }
+        });
+
+        this.goalSelector.addGoal(2, new InternalStateGoal(this,4,4,5,40,0){
+            @Override
+            public void tick() {
+                if(this.entity.onGround()){
+                    Vec3 vector3d = entity.getDeltaMovement();
+                    float f = entity.getYRot() * ((float)Math.PI / 180F);
+                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(1.0D).add(vector3d.scale(0.5D));
+                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                }
+            }
+        });
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,5,5,0,23,0) {
+            @Override
+            public void stop() {
+                super.stop();
+                Aptrgangr_Entity.this.charge_cooldown = CHARGE_COOLDOWN;
+            }
+        });
+        this.goalSelector.addGoal(0, new InternalStateGoal(this,6,6,0,18,0) {
+            @Override
+            public void stop() {
+                super.stop();
+                Aptrgangr_Entity.this.charge_cooldown = CHARGE_COOLDOWN;
             }
         });
     }
@@ -97,8 +146,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
-                .add(Attributes.ATTACK_DAMAGE, 14)
-                .add(Attributes.MAX_HEALTH, 180)
+                .add(Attributes.ATTACK_DAMAGE, 16)
+                .add(Attributes.MAX_HEALTH, 160)
                 .add(Attributes.ARMOR, 10)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
@@ -129,6 +178,16 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             return this.smashAnimationState;
         } else if (input == "idle") {
                 return this.idleAnimationState;
+        } else if (input == "charge_start") {
+            return this.chargestartAnimationState;
+        } else if (input == "charge") {
+            return this.chargeAnimationState;
+        } else if (input == "charge_end") {
+            return this.chargeendAnimationState;
+        } else if (input == "charge_hit") {
+            return this.chargehitAnimationState;
+        } else if (input == "death") {
+            return this.deathAnimationState;
         }else {
             return new AnimationState();
         }
@@ -152,6 +211,26 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
                         this.stopAllAnimationStates();
                         this.smashAnimationState.startIfStopped(this.tickCount);
                     }
+                    case 3 -> {
+                        this.stopAllAnimationStates();
+                        this.chargestartAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 4 -> {
+                        this.stopAllAnimationStates();
+                        this.chargeAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 5 -> {
+                        this.stopAllAnimationStates();
+                        this.chargeendAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 6 -> {
+                        this.stopAllAnimationStates();
+                        this.chargehitAnimationState.startIfStopped(this.tickCount);
+                    }
+                    case 7 -> {
+                        this.stopAllAnimationStates();
+                        this.deathAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
 
@@ -161,12 +240,18 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
     public void stopAllAnimationStates() {
         this.swingrightAnimationState.stop();
         this.smashAnimationState.stop();
+        this.chargestartAnimationState.stop();
+        this.chargeAnimationState.stop();
+        this.chargeendAnimationState.stop();
+        this.chargehitAnimationState.stop();
+        this.deathAnimationState.stop();
     }
 
 
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
+        this.setAttackState(7);
     }
 
     public int deathtimer(){
@@ -194,6 +279,31 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
 
     public void aiStep() {
         super.aiStep();
+
+        if(this.getAttackState() == 1) {
+            if (this.attackTicks == 15) {
+                this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 0.7f);
+                AreaAttack(5.25f, 5.25f, 120, 1, 120);
+            }
+
+        }
+
+        if(this.getAttackState() == 2) {
+            if (this.attackTicks == 11) {
+                this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 0.7f);
+            }
+            if (this.attackTicks == 15) {
+                AreaAttack(6.5f, 6.5f, 60, 1, 120);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
+                Makeparticle(0.6f, 5.0f, 0f);
+            }
+        }
+
+        if(this.getAttackState() == 4) {
+            if (this.horizontalCollision) {
+                this.setAttackState(6);
+            }
+        }
     }
 
     private void Makeparticle(float size,float vec, float math) {
@@ -226,35 +336,6 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         }
     }
 
-    private void ChargeBlockBreaking(){
-        boolean flag = false;
-        AABB aabb = this.getBoundingBox().inflate(0.5D, 0.2D, 0.5D);
-        for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(this.getY()), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
-            BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate != Blocks.AIR.defaultBlockState() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.REMNANT_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
-                if (random.nextInt(6) == 0 && !blockstate.hasBlockEntity()) {
-                    Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), blockpos.getX() + 0.5D, blockpos.getY() + 0.5D, blockpos.getZ() + 0.5D, blockstate, 20);
-                    flag = this.level().destroyBlock(blockpos, false, this) || flag;
-                    fallingBlockEntity.setDeltaMovement(fallingBlockEntity.getDeltaMovement().add(this.position().subtract(fallingBlockEntity.position()).multiply((-1.2D + random.nextDouble()) / 3, 0.2D + getRandom().nextGaussian() * 0.15D, (-1.2D + random.nextDouble()) / 3)));
-                    level().addFreshEntity(fallingBlockEntity);
-                } else {
-                    flag = this.level().destroyBlock(blockpos, false, this) || flag;
-                }
-            }
-        }
-    }
-
-
-    private void Stompsound(float distance,float math) {
-        double theta = (yBodyRot) * (Math.PI / 180);
-        theta += Math.PI / 2;
-        double vecX = Math.cos(theta);
-        double vecZ = Math.sin(theta);
-        float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
-        float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
-        this.level().playSound((Player)null, this.getX() + distance * vecX + f * math, this.getY(), this.getZ() + distance * vecZ + f1 * math, ModSounds.REMNANT_STOMP.get(), this.getSoundSource(), 0.6f, 1.0f);
-    }
-
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
@@ -281,96 +362,46 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         }
     }
 
-    private void StompDamage(float spreadarc, int distance, int height, float mxy, float vec,float math, int shieldbreakticks, float damage) {
-        double perpFacing = this.yBodyRot * (Math.PI / 180);
-        double facingAngle = perpFacing + Math.PI / 2;
-        int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
-        double spread = Math.PI * spreadarc;
-        int arcLen = Mth.ceil(distance * spread);
-        float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-        float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
-        for (int i = 0; i < arcLen; i++) {
-            double theta = (i / (arcLen - 1.0) - 0.5) * spread + facingAngle;
-            double vx = Math.cos(theta);
-            double vz = Math.sin(theta);
-            double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180) + f * math;
-            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180  + f1 * math);
-            float factor = 1 - distance / (float) 12;
-            int hitX = Mth.floor(px);
-            int hitZ = Mth.floor(pz);
-            BlockPos pos = new BlockPos(hitX, hitY + height, hitZ);
-            BlockState block = level().getBlockState(pos);
+    public void travel(Vec3 travelVector) {
+        super.travel(travelVector);
+    }
 
-            int maxDepth = 30;
-            for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
-                if (block.getRenderShape() == RenderShape.MODEL) {
-                    break;
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        return null;
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return true;
+    }
+
+    public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
+        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+        float f2 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+        double theta = (yBodyRot) * (Math.PI / 180);
+        theta += Math.PI / 2;
+        double vecX = Math.cos(theta);
+        double vecZ = Math.sin(theta);
+        double px = this.getX() + 0.5F * vecX;
+        double pz = this.getZ() + 0.5F * vecZ;
+
+        double y = this.getY() + passenger.getMyRidingOffset() + 2.0D;
+        if (hasPassenger(passenger)) {
+            if(this.getAttackState() == 33){
+                y = this.getY() - 0.2F * Mth.clamp(0, 0, 23);
+                if(this.attackTicks == 23) {
+                    passenger.stopRiding();
                 }
-                pos = pos.below();
-                block = level().getBlockState(pos);
             }
-
-            if (block.getRenderShape() != RenderShape.MODEL) {
-                block = Blocks.AIR.defaultBlockState();
-            }
-            spawnBlocks(hitX,hitY + height ,hitZ, (int) (this.getY() - height),block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage);
 
         }
+        moveFunc.accept(passenger, px, y, pz);
     }
 
 
-    private void spawnBlocks(int hitX, int hitY, int hitZ, int lowestYCheck,BlockState blockState,double px,double pz,float mxy,double vx,double vz,float factor, int shieldbreakticks,float damage) {
-        BlockPos blockpos = new BlockPos(hitX, hitY, hitZ);
-        BlockState block = level().getBlockState(blockpos);
-        double d0 = 0.0D;
-
-        do {
-            BlockPos blockpos1 = blockpos.below();
-            BlockState blockstate = this.level().getBlockState(blockpos1);
-            if (blockstate.isFaceSturdy(this.level(), blockpos1, Direction.UP)) {
-                if (!this.level().isEmptyBlock(blockpos)) {
-                    BlockState blockstate1 = this.level().getBlockState(blockpos);
-                    VoxelShape voxelshape = blockstate1.getCollisionShape(this.level(), blockpos);
-                    if (!voxelshape.isEmpty()) {
-                        d0 = voxelshape.max(Direction.Axis.Y);
-                    }
-                }
-
-                break;
-            }
-
-            blockpos = blockpos.below();
-        } while(blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
-
-
-        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, (double)blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
-        fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.04D, 0);
-        level().addFreshEntity(fallingBlockEntity);
-
-
-
-        AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        for (LivingEntity entity : hit) {
-            if (!isAlliedTo(entity) && !(entity instanceof Aptrgangr_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
-                }
-
-                if (flag) {
-                    double magnitude = -4;
-                    double x = vx * (1 - factor) * magnitude;
-                    double y = 0;
-                    if (entity.onGround()) {
-                        y += 0.15;
-                    }
-                    double z = vz * (1 - factor) * magnitude;
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
-                }
-            }
-        }
+    public boolean shouldRiderSit() {
+        return false;
     }
 
     public boolean isAlliedTo(Entity entityIn) {
@@ -378,7 +409,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             return true;
         } else if (super.isAlliedTo(entityIn)) {
             return true;
-        } else if (entityIn.getType().is(ModTag.TEAM_ANCIENT_REMNANT)) {
+        } else if (entityIn.getType().is(ModTag.TEAM_MALEDICTUS)) {
             return this.getTeam() == null && entityIn.getTeam() == null;
         } else {
             return false;

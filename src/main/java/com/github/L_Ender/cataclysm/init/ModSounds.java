@@ -437,4 +437,7 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> PHANTOM_SPEAR = SOUNDS.register("maledictus_spear",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_spear")));
+
+    public static final RegistryObject<SoundEvent> AXE_SWING = SOUNDS.register("axe_swing",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"axe_swing")));
 }

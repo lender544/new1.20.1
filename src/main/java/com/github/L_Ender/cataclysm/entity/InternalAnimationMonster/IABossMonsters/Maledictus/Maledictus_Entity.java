@@ -1214,7 +1214,7 @@ public class Maledictus_Entity extends IABoss_monster {
         if(this.getAttackState() == 27){
             if(this.attackTicks == 20) {
                 AreaAttack(5.25f, 5.25f, 110, 1.0F, (float) CMConfig.MaledictusHpDamage, 120, false,true);
-                this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 1.3f);
+                this.playSound(ModSounds.AXE_SWING.get(), 1.0F, 1.3f);
             }
         }
 

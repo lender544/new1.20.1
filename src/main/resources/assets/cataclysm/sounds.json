@@ -130,6 +130,26 @@
       }
     ]
   },
+  "axe_swing": {
+    "subtitle": "axeswingattack.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/axe_swing1"
+      },
+      {
+        "name": "cataclysm:entity/axe_swing2"
+      },
+      {
+        "name": "cataclysm:entity/axe_swing3"
+      },
+      {
+        "name": "cataclysm:entity/axe_swing4"
+      },
+      {
+        "name": "cataclysm:entity/axe_swing5"
+      }
+    ]
+  },
   "monstrosityhurt": {
     "subtitle": "monstrosityhurt.sub",
     "sounds": [

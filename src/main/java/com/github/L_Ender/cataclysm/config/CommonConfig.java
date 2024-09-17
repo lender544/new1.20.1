@@ -150,6 +150,10 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue WadjetHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue WadjetDamageMultiplier;
 
+
+    public final ForgeConfigSpec.DoubleValue AptrgangrHealthMultiplier;
+    public final ForgeConfigSpec.DoubleValue AptrgangrDamageMultiplier;
+
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageCap;
@@ -362,9 +366,14 @@ public class CommonConfig {
         KobolediatorDamageMultiplier = buildDouble(builder, "KobolediatorDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Kobolediator's Damage Multiplier");
         builder.pop();
 
-        builder.push("wadjet");
+        builder.push("Wadjet");
         WadjetHealthMultiplier = buildDouble(builder, "WadjetHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Health Multiplier");
         WadjetDamageMultiplier = buildDouble(builder, "WadjetDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Wadjet's Damage Multiplier");
+        builder.pop();
+
+        builder.push("Aptrgangr");
+        AptrgangrHealthMultiplier = buildDouble(builder, "AptrgangrHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Aptrgangr's Health Multiplier");
+        AptrgangrDamageMultiplier = buildDouble(builder, "AptrgangrDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Aptrgangr's Damage Multiplier");
         builder.pop();
 
         builder.push("Maledictus");
