@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
@@ -20,10 +21,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -119,17 +117,23 @@ public class Coral_Spear extends Item implements Vanishable {
         }
     }
 
-    public InteractionResultHolder<ItemStack> use(Level p_43405_, Player p_43406_, InteractionHand p_43407_) {
-        ItemStack itemstack = p_43406_.getItemInHand(p_43407_);
-        if (itemstack.getDamageValue() >= itemstack.getMaxDamage() - 1) {
-            return InteractionResultHolder.fail(itemstack);
-        } else if (EnchantmentHelper.getRiptide(itemstack) > 0 && !p_43406_.isInWaterOrRain()) {
-            return InteractionResultHolder.fail(itemstack);
-        } else {
-            p_43406_.startUsingItem(p_43407_);
-            return InteractionResultHolder.consume(itemstack);
+    public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
+        ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
+        InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+        ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
+        if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
+            return InteractionResultHolder.fail(item);
+        }else if (item.getDamageValue() >= item.getMaxDamage() - 1) {
+            return InteractionResultHolder.fail(item);
+        } else if (EnchantmentHelper.getRiptide(item) > 0 && !p_77659_2_.isInWaterOrRain()) {
+            return InteractionResultHolder.fail(item);
+        }else{
+            p_77659_2_.startUsingItem(p_77659_3_);
+            p_77659_1_.playSound(null, p_77659_2_.getX(), p_77659_2_.getY(), p_77659_2_.getZ(), ModSounds.SHREDDER_START.get(), SoundSource.PLAYERS, 1.5f, 1F / (p_77659_2_.getRandom().nextFloat() * 0.4F + 0.8F));
+            return InteractionResultHolder.consume(item);
         }
     }
+
 
     public boolean hurtEnemy(ItemStack p_43390_, LivingEntity p_43391_, LivingEntity p_43392_) {
         p_43390_.hurtAndBreak(1, p_43392_, (p_43414_) -> {

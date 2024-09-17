@@ -20,6 +20,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -147,6 +148,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.MALEDICTUS.get(), RendererMaledictus::new);
         EntityRenderers.register(ModEntities.DRAUGR.get(), Renderer_Draugr::new);
         EntityRenderers.register(ModEntities.ROYAL_DRAUGR.get(), RendererRoyal_Draugr::new);
+        EntityRenderers.register(ModEntities.APTRGANGR.get(), RendererAptrgangr::new);
         EntityRenderers.register(ModEntities.PHANTOM_HALBERD.get(), RendererPhantom_Halberd::new);
         EntityRenderers.register(ModEntities.EARTHQUAKE.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.ANCIENT_DESERT_STELE.get(), RendererAncient_Desert_Stele::new);

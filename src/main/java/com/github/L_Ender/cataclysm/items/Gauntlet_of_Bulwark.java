@@ -67,11 +67,18 @@ public class Gauntlet_of_Bulwark extends Item {
     }
 
 
-    @Override
     public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
-        ItemStack lvt_4_1_ = p_77659_2_.getItemInHand(p_77659_3_);
-        p_77659_2_.startUsingItem(p_77659_3_);
-        return InteractionResultHolder.consume(lvt_4_1_);
+        ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
+        InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+
+        ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
+
+        if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
+            return InteractionResultHolder.fail(item);
+        }else{
+            p_77659_2_.startUsingItem(p_77659_3_);
+            return InteractionResultHolder.consume(item);
+        }
     }
 
     public void onUseTick(Level worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {

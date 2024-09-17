@@ -89,15 +89,20 @@ public class The_Incinerator extends Item {
         }
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if (hand == InteractionHand.MAIN_HAND) {
-            player.startUsingItem(hand);
-            return InteractionResultHolder.consume(player.getItemInHand(hand));
-        } else {
-            return InteractionResultHolder.fail(player.getItemInHand(hand));
+    public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
+        ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
+        InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+
+        ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
+
+        if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
+            return InteractionResultHolder.fail(item);
+        }else{
+            p_77659_2_.startUsingItem(p_77659_3_);
+            return InteractionResultHolder.consume(item);
         }
     }
+
     @Override
     public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
         return true;

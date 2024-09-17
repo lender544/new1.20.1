@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class RendererRoyal_Draugr extends MobRenderer<Royal_Draugr_Entity, Model_Royal_Draugr> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugrs/royal_draugr.png");
-    private static final ResourceLocation LAYER = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugrs/draugr_layer.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/royal_draugr.png");
+    private static final ResourceLocation LAYER = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/draugr_layer.png");
 
     public RendererRoyal_Draugr(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Model_Royal_Draugr(), 0.5F);

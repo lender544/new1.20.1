@@ -49,16 +49,20 @@ public class Meat_Shredder extends Item {
 		this.whirligigsawAttributes = builder.build();
 	}
 
-	@Override
-	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-		if (hand == InteractionHand.MAIN_HAND) {
-			player.startUsingItem(hand);
-			world.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.SHREDDER_START.get(), SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
-			return InteractionResultHolder.consume(player.getItemInHand(hand));
-		} else {
-			return InteractionResultHolder.fail(player.getItemInHand(hand));
+
+	public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
+		ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
+		InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+		ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
+		if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
+			return InteractionResultHolder.fail(item);
+		}else{
+			p_77659_2_.startUsingItem(p_77659_3_);
+			p_77659_1_.playSound(null, p_77659_2_.getX(), p_77659_2_.getY(), p_77659_2_.getZ(), ModSounds.SHREDDER_START.get(), SoundSource.PLAYERS, 1.5f, 1F / (p_77659_2_.getRandom().nextFloat() * 0.4F + 0.8F));
+			return InteractionResultHolder.consume(item);
 		}
 	}
+
 
 	@Override
 	public boolean isEnchantable(ItemStack stack) {

@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.The_Watcher_Entity;
 import com.github.L_Ender.cataclysm.entity.Deepling.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
@@ -512,6 +513,10 @@ public class ModEntities {
             .clientTrackingRange(10)
             .build(Cataclysm.MODID + ":royal_draugr"));
 
+    public static final RegistryObject<EntityType<Aptrgangr_Entity>> APTRGANGR = ENTITY_TYPE.register("aptrgangr", () -> EntityType.Builder.of(Aptrgangr_Entity::new, MobCategory.MONSTER)
+            .sized(2.4F, 4.4f)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":aptrgangr"));
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){
@@ -567,6 +572,7 @@ public class ModEntities {
         event.put(THE_WATCHER.get(), The_Watcher_Entity.the_watcher().build());
         event.put(THE_PROWLER.get(), The_Prowler_Entity.the_prowler().build());
         event.put(KOBOLEDIATOR.get(), Kobolediator_Entity.kobolediator().build());
+        event.put(APTRGANGR.get(), Aptrgangr_Entity.aptrgangr().build());
         event.put(WADJET.get(), Wadjet_Entity.wadjet().build());
         event.put(MALEDICTUS.get(), Maledictus_Entity.maledictus().build());
         event.put(ANCIENT_REMNANT.get(), Ancient_Remnant_Entity.maledictus().build());

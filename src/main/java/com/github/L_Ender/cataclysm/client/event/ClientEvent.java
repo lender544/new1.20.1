@@ -304,7 +304,7 @@ public class ClientEvent {
     @OnlyIn(Dist.CLIENT)
     public void onPoseHand(EventPosePlayerHand event) {
         LivingEntity player = (LivingEntity) event.getEntityIn();
-        if (player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.THE_ANNIHILATOR.get()) && player.isUsingItem()){
+        if (player.getItemInHand(InteractionHand.OFF_HAND).is(ModItems.THE_ANNIHILATOR.get()) && player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.THE_ANNIHILATOR.get()) && player.isUsingItem()){
             if (player.getMainArm() == HumanoidArm.LEFT) {
                 event.getModel().rightArm.xRot = event.getModel().rightArm.xRot * 0.5F - 3.1415927F;
                 event.getModel().rightArm.yRot = 0.0F;
