@@ -9,7 +9,7 @@ import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
 public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
-    private final AdvancedModelBox roots;
+    public final AdvancedModelBox roots;
     private final AdvancedModelBox l_leg;
     private final AdvancedModelBox l_leg_armor;
     private final AdvancedModelBox left_leg_r1;
@@ -18,8 +18,8 @@ public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
     private final AdvancedModelBox r_leg_armor;
     private final AdvancedModelBox right_leg_r1;
     private final AdvancedModelBox right_leg_r2;
-    private final AdvancedModelBox body;
-    private final AdvancedModelBox chest;
+    public final AdvancedModelBox body;
+    public final AdvancedModelBox chest;
     private final AdvancedModelBox neck;
     private final AdvancedModelBox head;
     private final AdvancedModelBox helmet;
@@ -39,7 +39,7 @@ public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
     private final AdvancedModelBox body_r5;
     private final AdvancedModelBox body_r6;
     private final AdvancedModelBox body_r7;
-    private final AdvancedModelBox l_arm;
+    public final AdvancedModelBox l_arm;
     private final AdvancedModelBox l_arm_armor;
     private final AdvancedModelBox right_arm_r1;
     private final AdvancedModelBox right_arm_r2;
@@ -49,8 +49,9 @@ public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
     private final AdvancedModelBox right_arm_r6;
     private final AdvancedModelBox arrow;
     private final AdvancedModelBox arrow2;
-    private final AdvancedModelBox left_arm2;
-    private final AdvancedModelBox l_arm_cloth;
+    public final AdvancedModelBox left_arm2;
+    public final AdvancedModelBox l_arm_cloth;
+    public final AdvancedModelBox hold;
     private final AdvancedModelBox r_arm;
     private final AdvancedModelBox right_arm2;
     private final AdvancedModelBox r_arm_cloth;
@@ -377,6 +378,10 @@ public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
         l_arm_cloth.setTextureOffset(88, 31).addBox(-3.5F, -4.25F, -3.0F, 7.0F, 5.0F, 6.0F, 0.5F, false);
         l_arm_cloth.setTextureOffset(109, 129).addBox(-4.5F, 0.75F, -4.0F, 9.0F, 2.0F, 8.0F, 0.0F, true);
 
+        hold = new AdvancedModelBox(this);
+        hold.setRotationPoint(10.5F, -2.0F, 2.0F);
+        l_arm_cloth.addChild(hold);
+
         r_arm = new AdvancedModelBox(this,"r_arm");
         r_arm.setRotationPoint(-12.0F, -12.5F, 0.0F);
         chest.addChild(r_arm);
@@ -666,6 +671,7 @@ public class ModelAptrgangr extends AdvancedEntityModel<Aptrgangr_Entity> {
                 arrow2,
                 left_arm2,
                 l_arm_cloth,
+                hold,
                 r_arm,
                 right_arm2,
                 r_arm_cloth,

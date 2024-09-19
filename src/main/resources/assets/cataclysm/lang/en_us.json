@@ -182,6 +182,7 @@
   "item.cataclysm.maledictus_spawn_egg": "Maledictus Spawn Egg",
   "item.cataclysm.draugr_spawn_egg": "Draugr Spawn Egg",
   "item.cataclysm.royal_draugr_spawn_egg": "Royal Draugr Spawn Egg",
+  "item.cataclysm.aptrgangr_spawn_egg": "Aptrgangr Spawn Egg",
 
   "itemGroup.cataclysm": "Cataclysm",
   "block.cataclysm.witherite_block": "Witherite Block",
@@ -312,6 +313,7 @@
   "entity.cataclysm.wadjet": "Wadjet",
   "entity.cataclysm.maledictus": "Maledictus",
   "entity.cataclysm.draugr": "Draugr",
+  "entity.cataclysm.aptrgangr": "Aptrgangr",
   "entity.cataclysm.royal_draugr": "Royal Draugr",
   "entity.cataclysm.phantom_arrow": "Phantom Arrow",
   "entity.cataclysm.phantom_halberd": "Phantom Halberd",

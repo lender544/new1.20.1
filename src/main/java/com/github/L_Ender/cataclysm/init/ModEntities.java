@@ -514,9 +514,16 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":royal_draugr"));
 
     public static final RegistryObject<EntityType<Aptrgangr_Entity>> APTRGANGR = ENTITY_TYPE.register("aptrgangr", () -> EntityType.Builder.of(Aptrgangr_Entity::new, MobCategory.MONSTER)
-            .sized(2.4F, 4.4f)
+            .sized(2.4F, 4.0f)
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":aptrgangr"));
+
+    public static final RegistryObject<EntityType<Axe_Blade_Entity>> AXE_BLADE = ENTITY_TYPE.register("axe_blade", () -> EntityType.Builder.<Axe_Blade_Entity>of(Axe_Blade_Entity::new, MobCategory.MISC)
+            .sized(1.2F, 2.5F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .setShouldReceiveVelocityUpdates(true)
+            .build(Cataclysm.MODID + ":axe_blade"));
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){

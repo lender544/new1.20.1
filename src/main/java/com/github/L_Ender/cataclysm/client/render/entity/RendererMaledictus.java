@@ -21,13 +21,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderNameTagEvent;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 
 @OnlyIn(Dist.CLIENT)
 public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Maledictus> {
@@ -122,7 +120,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
             float hide = (entityIn.getHealth() / entityIn.getMaxHealth()) - 0.4F;
             float alpha = (1F - hide) * 0.6F;
             int i = getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
-            this.renderMaledictusModel(matrixStackIn, bufferIn, rendertype, partialTicks, packedLightIn, i, flag1 ? 0.15F : Mth.clamp(alpha, 0, 1), entityIn);
+            this.renderMaledictusModel(matrixStackIn, bufferIn, rendertype, partialTicks, packedLightIn, flag1 ? 0.15F : Mth.clamp(alpha, 0, 1), entityIn);
         }
         if (!entityIn.isSpectator()) {
             for (RenderLayer layerrenderer : this.layers) {
@@ -142,7 +140,7 @@ public class RendererMaledictus extends MobRenderer<Maledictus_Entity, Model_Mal
 
 
 
-    private void renderMaledictusModel(PoseStack matrixStackIn, MultiBufferSource source, RenderType defRenderType, float partialTicks, int packedLightIn, int overlayColors, float alphaIn, Maledictus_Entity entityIn) {
+    private void renderMaledictusModel(PoseStack matrixStackIn, MultiBufferSource source, RenderType defRenderType, float partialTicks, int packedLightIn, float alphaIn, Maledictus_Entity entityIn) {
         boolean hurt = Math.max(entityIn.hurtTime, entityIn.deathTime) > 0;
         this.model.renderToBuffer(matrixStackIn, source.getBuffer(defRenderType), packedLightIn, LivingEntityRenderer.getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks)), hurt ? 0.4F : 1.0F, hurt ? 0.8F : 1.0F, hurt ? 0.7F : 1.0F, alphaIn);
     }
