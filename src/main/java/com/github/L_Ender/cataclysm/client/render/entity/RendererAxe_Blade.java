@@ -47,13 +47,12 @@ public class RendererAxe_Blade extends EntityRenderer<Axe_Blade_Entity>
     public void render(Axe_Blade_Entity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.pushPose();
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot()));
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(90+entityIn.getYRot()));
         VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entityIn)));
-        this.model.setupAnim(entityIn, 0.0F, 0.0F, entityIn.tickCount + partialTicks, 0, 0);
-        float hide = ((float) entityIn.lifetick / 80);
-        float alpha = (1F - hide) * 0.6F;
-        int light = (int) (255 * Mth.clamp(alpha, 0, 1));
-        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, light);
+        model.setupAnim(entityIn, 0, 0, entityIn.tickCount + partialTicks, 0, 0);
+        float hide = ((float) entityIn.getTransparency() / 80);
+        float alpha = (1F - hide) ;
+        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, Mth.clamp(alpha, 0, 1));
         matrixStackIn.popPose();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }

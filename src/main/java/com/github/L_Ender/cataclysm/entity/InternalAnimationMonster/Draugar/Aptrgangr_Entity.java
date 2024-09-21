@@ -15,19 +15,20 @@ import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
-import com.github.L_Ender.cataclysm.entity.projectile.Axe_Blade_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -100,7 +101,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,1,0,40,15,4.5F){
             @Override
             public boolean canUse() {
-                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f;
+           //     return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f;
+                return false;
             }
         });
 
@@ -108,7 +110,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,2,0,40,10,6){
             @Override
             public boolean canUse() {
-                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
+               // return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
+                return true;
             }
             @Override
             public void stop() {
@@ -121,7 +124,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
-                return super.canUse() && target !=null && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f && Aptrgangr_Entity.this.earthquake_cooldown <= 0 && this.entity.distanceTo(target) > 6;
+               // return super.canUse() && target !=null && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f && this.entity.distanceTo(target) > 6 && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
+                return true;
             }
             @Override
             public void stop() {
@@ -135,7 +139,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,3,4,24,24,15) {
             @Override
             public boolean canUse() {
-                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 8f && Aptrgangr_Entity.this.charge_cooldown <= 0;
+              //  return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 8f && Aptrgangr_Entity.this.charge_cooldown <= 0;
+                return false;
             }
         });
 
@@ -346,28 +351,34 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
                 double vecZ = Math.sin(theta);
 
                 int skullCount = 5;
-                double angleBetween = 100D;
-                double distanceInFront = 4.0;
-                float bodyYaw = this.yBodyRot;
+                float angleBetween = 10f;
+                double distanceInFront = 5.0;
 
                 for (int i = 0; i <= (skullCount - 1); i++) {
-                    float offsetYaw = (float) (bodyYaw + (i - (skullCount - 1) / 2) * angleBetween);
-                    float radYaw = offsetYaw * ((float) Math.PI / 180F);
 
-                    double xDir = -Mth.sin(radYaw)  + vecX * distanceInFront;
-                    double zDir = Mth.cos(radYaw) + vecZ * distanceInFront;
-                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, xDir, 0, zDir, this.level(),(float) CMConfig.HarbingerWitherMissiledamage,(offsetYaw * (180F / (float)Math.PI))+90);
+                    float offsetYaw = (float) ((yBodyRot +90) + (i - (skullCount - 1) / 2) * angleBetween);
+                    float radYaw1 = offsetYaw * ((float) Math.PI / 180F);
+
+
+                    double xDir = -Mth.sin(radYaw1)  + vecX * distanceInFront;
+                    double zDir = Mth.cos(radYaw1) + vecZ * distanceInFront;
+                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, xDir, 0, zDir, this.level(),(float) CMConfig.HarbingerWitherMissiledamage,radYaw1);
 
                     double spawnX = this.getX() + vecX * distanceInFront;
                     double spawnY = this.getY(0.15D);
                     double spawnZ = this.getZ() + vecZ * distanceInFront;
                     witherskull.setPos(spawnX, spawnY, spawnZ);
 
-                    witherskull.shootFromRotation(this, 0, offsetYaw, 0.0F, 0.0F, 0.0F);
-
 
                     this.level().addFreshEntity(witherskull);
+
+
+                    this.spawnFangs(this.getX() + (double) Mth.cos(radYaw1) * 5, this.getZ() + (double) Mth.sin(radYaw1) * 5D, this.getY(), this.getY() + 3, radYaw1, 1);
+
+
                 }
+
+
             }
         }
         if(this.getAttackState() == 4) {
@@ -394,6 +405,36 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             }
         }
 
+    }
+
+
+    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
+        BlockPos blockpos = BlockPos.containing(x, maxY, z);
+        boolean flag = false;
+        double d0 = 0.0D;
+
+        do {
+            BlockPos blockpos1 = blockpos.below();
+            BlockState blockstate = this.level().getBlockState(blockpos1);
+            if (blockstate.isFaceSturdy(this.level(), blockpos1, Direction.UP)) {
+                if (!this.level().isEmptyBlock(blockpos)) {
+                    BlockState blockstate1 = this.level().getBlockState(blockpos);
+                    VoxelShape voxelshape = blockstate1.getCollisionShape(this.level(), blockpos);
+                    if (!voxelshape.isEmpty()) {
+                        d0 = voxelshape.max(Direction.Axis.Y);
+                    }
+                }
+
+                flag = true;
+                break;
+            }
+
+            blockpos = blockpos.below();
+        } while(blockpos.getY() >= Mth.floor(minY) - 1);
+
+        if (flag) {
+            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this));
+        }
     }
 
     private void doSpawnBlade(int count, float offset) {

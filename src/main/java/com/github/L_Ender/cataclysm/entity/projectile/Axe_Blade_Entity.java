@@ -13,6 +13,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,11 +32,18 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class Axe_Blade_Entity extends Projectile {
+import javax.annotation.Nullable;
+import java.util.UUID;
+
+public class Axe_Blade_Entity extends Entity {
     public double xPower;
     public double yPower;
     public double zPower;
+    private LivingEntity caster;
+    private UUID casterUuid;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Axe_Blade_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> TRANSPARENCY  = SynchedEntityData.defineId(Axe_Blade_Entity.class, EntityDataSerializers.INT);
+
     public int lifetick = 0;
     public AnimationState idleAnimationState = new AnimationState();
     public Axe_Blade_Entity(EntityType<? extends Axe_Blade_Entity> type, Level level) {
@@ -58,7 +66,7 @@ public class Axe_Blade_Entity extends Projectile {
         this(ModEntities.AXE_BLADE.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), p_36828_, p_36829_, p_36830_, p_36831_,Yrot);
         this.setOwner(p_36827_);
         this.setDamage(damage);
-
+        this.setYRot(Yrot * (180F / (float)Math.PI));
     }
 
     public Axe_Blade_Entity(EntityType<? extends Axe_Blade_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, double p_36821_, double p_36822_, double p_36823_, float damage, Level level) {
@@ -79,8 +87,25 @@ public class Axe_Blade_Entity extends Projectile {
 
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE,0f);
+        this.entityData.define(TRANSPARENCY, 0);
     }
 
+    public void setOwner(@Nullable LivingEntity p_190549_1_) {
+        this.caster = p_190549_1_;
+        this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUUID();
+    }
+
+    @Nullable
+    public LivingEntity getOwner() {
+        if (this.caster == null && this.casterUuid != null && this.level() instanceof ServerLevel) {
+            Entity entity = ((ServerLevel)this.level()).getEntity(this.casterUuid);
+            if (entity instanceof LivingEntity) {
+                this.caster = (LivingEntity)entity;
+            }
+        }
+
+        return this.caster;
+    }
 
     public AnimationState getAnimationState(String input) {
         if (input == "idle") {
@@ -98,6 +123,14 @@ public class Axe_Blade_Entity extends Projectile {
         entityData.set(DAMAGE, damage);
     }
 
+    public int getTransparency() {
+        return this.entityData.get(TRANSPARENCY);
+    }
+
+    public void setTransparency(int trans) {
+        this.entityData.set(TRANSPARENCY, trans);
+    }
+
 
     public boolean shouldRenderAtSqrDistance(double p_36837_) {
         double d0 = this.getBoundingBox().getSize() * 4.0D;
@@ -110,32 +143,11 @@ public class Axe_Blade_Entity extends Projectile {
     }
 
     public void tick() {
-        Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-            super.tick();
-
-            HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
-                this.onHit(hitresult);
-            }
-
-            this.checkInsideBlocks();
-            Vec3 vec3 = this.getDeltaMovement();
-            double d0 = this.getX() + vec3.x;
-            double d1 = this.getY() + vec3.y;
-            double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 1.0F);
-            float f = this.getInertia();
-            this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), this.getX() - vec3.x, this.getY() - vec3.y, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
-            // this.level().addParticle(ParticleTypes.SMOKE, this.getX() - vec3.x, this.getY() - vec3.y + 0.35D, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
-            this.setPos(d0, d1, d2);
-        } else {
-            this.discard();
-        }
+        super.tick();
 
         if (!this.level().isClientSide) {
             lifetick++;
+            setTransparency(this.lifetick);
             if (this.lifetick >= 80) {
                 this.discard();
             }
@@ -147,7 +159,6 @@ public class Axe_Blade_Entity extends Projectile {
 
 
     protected void onHitEntity(EntityHitResult p_37626_) {
-        super.onHitEntity(p_37626_);
 
         if (!this.level().isClientSide) {
             Entity entity = p_37626_.getEntity();
@@ -163,7 +174,7 @@ public class Axe_Blade_Entity extends Projectile {
     }
 
     protected void onHitBlock(BlockHitResult result) {
-        super.onHitBlock(result);
+
     }
 
     protected void onHit(HitResult ray) {
@@ -177,7 +188,7 @@ public class Axe_Blade_Entity extends Projectile {
     }
 
     protected boolean canHitEntity(Entity p_36842_) {
-        return super.canHitEntity(p_36842_) && !p_36842_.noPhysics;
+        return false;
     }
 
 
@@ -185,21 +196,25 @@ public class Axe_Blade_Entity extends Projectile {
         return 0.85F;
     }
 
-    public void addAdditionalSaveData(CompoundTag p_36848_) {
-        super.addAdditionalSaveData(p_36848_);
-        p_36848_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
-    }
-
-    public void readAdditionalSaveData(CompoundTag p_36844_) {
-        super.readAdditionalSaveData(p_36844_);
-        if (p_36844_.contains("power", 9)) {
-            ListTag listtag = p_36844_.getList("power", 6);
+    protected void readAdditionalSaveData(CompoundTag compound) {
+        if (compound.hasUUID("Owner")) {
+            this.casterUuid = compound.getUUID("Owner");
+        }
+        if (compound.contains("power", 9)) {
+            ListTag listtag = compound.getList("power", 6);
             if (listtag.size() == 3) {
                 this.xPower = listtag.getDouble(0);
                 this.yPower = listtag.getDouble(1);
                 this.zPower = listtag.getDouble(2);
             }
         }
+    }
+
+    protected void addAdditionalSaveData(CompoundTag compound) {
+        if (this.casterUuid != null) {
+            compound.putUUID("Owner", this.casterUuid);
+        }
+        compound.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
 
     }
 

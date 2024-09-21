@@ -138,7 +138,6 @@ public class Coral_Bardiche extends Item implements Vanishable {
                 return InteractionResultHolder.fail(item);
         }else{
             p_77659_2_.startUsingItem(p_77659_3_);
-            p_77659_1_.playSound(null, p_77659_2_.getX(), p_77659_2_.getY(), p_77659_2_.getZ(), ModSounds.SHREDDER_START.get(), SoundSource.PLAYERS, 1.5f, 1F / (p_77659_2_.getRandom().nextFloat() * 0.4F + 0.8F));
             return InteractionResultHolder.consume(item);
         }
     }
