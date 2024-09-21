@@ -74,7 +74,7 @@ import net.minecraftforge.fluids.FluidType;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemiAquatic, IHoldEntity {
+public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemiAquatic,IHoldEntity {
 
     public static final Animation LEVIATHAN_GRAB = Animation.create(160);
     public static final Animation LEVIATHAN_GRAB_BITE = Animation.create(13);
@@ -158,9 +158,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     private static final EntityDataAccessor<Optional<UUID>> TONGUE_UUID = SynchedEntityData.defineId(The_Leviathan_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Integer> TONGUE_ID = SynchedEntityData.defineId(The_Leviathan_Entity.class, EntityDataSerializers.INT);
 
-    private static final EntityDataAccessor<Optional<UUID>> HELD_UUID = SynchedEntityData.defineId(The_Leviathan_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private static final EntityDataAccessor<Integer> HELD_ID = SynchedEntityData.defineId(The_Leviathan_Entity.class, EntityDataSerializers.INT);
-
 
     public The_Leviathan_Entity(EntityType type, Level worldIn) {
         super(type, worldIn);
@@ -197,10 +194,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         this.entityData.define(MELT_DOWN, false);
         this.entityData.define(TONGUE_UUID, Optional.empty());
         this.entityData.define(TONGUE_ID, -1);
-
-        this.entityData.define(HELD_UUID, Optional.empty());
-        this.entityData.define(HELD_ID, -1);
-
     }
 
     protected void registerGoals() {
@@ -378,6 +371,12 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             this.entityData.set(TONGUE_ID, magneticWeapon.getId());
             magneticWeapon.setControllerUUID(this.getUUID());
         }
+
+        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown() && this.getAnimation() == LEVIATHAN_TENTACLE_HOLD_BLAST) {
+            this.getPassengers().get(0).setShiftKeyDown(false);
+        }
+
+
         LivingEntity target = this.getTarget();
         if (!level().isClientSide) {
             float halfHealth = this.getMaxHealth() / 2;
@@ -820,7 +819,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
 
         if(this.getAnimation() == LEVIATHAN_TENTACLE_HOLD_BLAST) {
-            HoldAttack();
             for (int i = 44, j = 0; i <= 84; i++, j++) {
                 float l = j * 0.025f;
                 if (this.getAnimationTick() == i) {
@@ -1137,22 +1135,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                         if (target.isShiftKeyDown()) {
                             target.setShiftKeyDown(false);
                         }
-                        //entityHit.startRiding(this, true);
-
-                        final float f17 = this.getYRot() * (float) Math.PI / 180.0F;
-                        final float pitch = this.getXRot() * (float) Math.PI / 180.0F;
-                        final float f3 = Mth.sin(f17) * (1 - Math.abs(this.getXRot() / 90F));
-                        final float f18 = Mth.cos(f17) * (1 - Math.abs(this.getXRot() / 90F));
-
-                        Hold_Attack_Entity hold = new Hold_Attack_Entity(ModEntities.HOLD_ATTACK.get(), this.level(),this, this.getX() + f3 * -8.25F,this.getY() + -pitch * 6F,this.getZ() + -f18 * -8.25F, 169, target);
-
-                        hold.setPosX((float) (this.getX() + f3 * -8.25F));
-                        hold.setPosY((float) (this.getY() + -pitch * 6F));
-                        hold.setPosZ((float) (this.getZ() + -f18 * -8.25F));
-                        hold.setControllerUUID(this.getUUID());
-                        this.setHeldUUID(hold.getUUID());
-                        this.level().addFreshEntity(hold);
-
+                        target.startRiding(this, true);
                         AnimationHandler.INSTANCE.sendAnimationMessage(this, LEVIATHAN_TENTACLE_HOLD_BLAST);
                     }
                 }
@@ -1161,9 +1144,15 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     }
 
-    private void HoldAttack() {
-        Entity hold = this.getHeldEntity();
-        if (hold instanceof Hold_Attack_Entity hold_attack_entity) {
+
+    public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
+        if (hasPassenger(passenger)) {
+            if (this.getAnimation() == LEVIATHAN_TENTACLE_HOLD_BLAST) {
+                if (this.getAnimationTick() == 169) {
+                    passenger.stopRiding();
+                    //passenger.push(f1 * 2.5, 0.8, f2 * 2.5);
+                }
+            }
             this.setXRot(this.xRotO);
             this.yBodyRot = this.getYRot();
             this.yHeadRot = this.getYRot();
@@ -1171,18 +1160,18 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             final float pitch = this.getXRot() * (float) Math.PI / 180.0F;
             final float f3 = Mth.sin(f17) * (1 - Math.abs(this.getXRot() / 90F));
             final float f18 = Mth.cos(f17) * (1 - Math.abs(this.getXRot() / 90F));
-            hold_attack_entity.setPosX((float) (this.getX() + f3 * -8.25F));
-            hold_attack_entity.setPosY((float) (this.getY() + -pitch * 6F));
-            hold_attack_entity.setPosZ((float) (this.getZ() + -f18 * -8.25F));
-
-            this.entityData.set(HELD_ID, hold_attack_entity.getId());
-            hold_attack_entity.setControllerUUID(this.getUUID());
-
-            if (this.getAnimationTick() == 169) {
-                hold_attack_entity.discard();
-            }
+            moveFunc.accept(passenger,this.getX() + f3 * -8.25F, this.getY() + -pitch * 6F, this.getZ() + -f18 * -8.25F);
 
         }
+    }
+
+    public boolean shouldRiderSit() {
+        return false;
+    }
+
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        return null;
     }
 
     protected boolean canRide(Entity p_31508_) {
@@ -1214,23 +1203,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return result;
     }
 
-    public void setHeldUUID(@Nullable UUID uniqueId) {
-        this.entityData.set(HELD_UUID, Optional.ofNullable(uniqueId));
-    }
-
-    public UUID getHeldUUID() {
-        return this.entityData.get(HELD_UUID).orElse(null);
-    }
-
-    public Entity getHeldEntity() {
-        if (!level().isClientSide) {
-            UUID id = getHeldUUID();
-            return id == null ? null : ((ServerLevel) level()).getEntity(id);
-        } else {
-            int id = this.entityData.get(HELD_ID);
-            return id == -1 ? null : level().getEntity(id);
-        }
-    }
 
     public static class BiteHitResult {
         private final List<LivingEntity> entities = new ArrayList<>();

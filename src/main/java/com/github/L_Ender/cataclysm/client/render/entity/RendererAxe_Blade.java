@@ -47,7 +47,9 @@ public class RendererAxe_Blade extends EntityRenderer<Axe_Blade_Entity>
     public void render(Axe_Blade_Entity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.pushPose();
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
-        matrixStackIn.mulPose(Axis.YP.rotationDegrees(90+entityIn.getYRot()));
+        matrixStackIn.translate(0, -2.25F, 0);
+        matrixStackIn.mulPose(Axis.YP.rotationDegrees(entityIn.getYRot()));
+        matrixStackIn.mulPose(Axis.XP.rotationDegrees(180));
         VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entityIn)));
         model.setupAnim(entityIn, 0, 0, entityIn.tickCount + partialTicks, 0, 0);
         float hide = ((float) entityIn.getTransparency() / 80);

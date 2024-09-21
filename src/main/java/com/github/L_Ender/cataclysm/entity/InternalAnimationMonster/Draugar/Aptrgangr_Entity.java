@@ -13,6 +13,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -46,7 +47,10 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.SnowGolem;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.vehicle.DismountHelper;
@@ -67,7 +71,7 @@ import java.util.List;
 import static java.lang.Math.toRadians;
 
 
-public class Aptrgangr_Entity extends Internal_Animation_Monster {
+public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHoldEntity {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState swingrightAnimationState = new AnimationState();
     public AnimationState smashAnimationState = new AnimationState();
@@ -97,12 +101,14 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, SnowGolem.class, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.goalSelector.addGoal(4, new InternalMoveGoal(this,false,1.0D));
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,1,0,40,15,4.5F){
             @Override
             public boolean canUse() {
-           //     return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f;
-                return false;
+                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f;
             }
         });
 
@@ -110,8 +116,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,2,0,40,10,6){
             @Override
             public boolean canUse() {
-               // return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
-                return true;
+                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
             }
             @Override
             public void stop() {
@@ -124,8 +129,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
-               // return super.canUse() && target !=null && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f && this.entity.distanceTo(target) > 6 && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
-                return true;
+               return super.canUse() && target !=null && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 22f && this.entity.distanceTo(target) > 6 && Aptrgangr_Entity.this.earthquake_cooldown <= 0;
             }
             @Override
             public void stop() {
@@ -139,8 +143,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,3,4,24,24,15) {
             @Override
             public boolean canUse() {
-              //  return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 8f && Aptrgangr_Entity.this.charge_cooldown <= 0;
-                return false;
+                return super.canUse() && Aptrgangr_Entity.this.getRandom().nextFloat() * 100.0F < 8f && Aptrgangr_Entity.this.charge_cooldown <= 0;
             }
         });
 
@@ -349,36 +352,23 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
                 theta += Math.PI / 2;
                 double vecX = Math.cos(theta);
                 double vecZ = Math.sin(theta);
+                int numberOfSkulls = 5;
+                float angleStep = 30.0f;
 
-                int skullCount = 5;
-                float angleBetween = 10f;
-                double distanceInFront = 5.0;
+                for (int i = 0; i < numberOfSkulls; i++) {
+                    float angle = yBodyRot + (i - (numberOfSkulls / 2)) * angleStep;
 
-                for (int i = 0; i <= (skullCount - 1); i++) {
-
-                    float offsetYaw = (float) ((yBodyRot +90) + (i - (skullCount - 1) / 2) * angleBetween);
-                    float radYaw1 = offsetYaw * ((float) Math.PI / 180F);
-
-
-                    double xDir = -Mth.sin(radYaw1)  + vecX * distanceInFront;
-                    double zDir = Mth.cos(radYaw1) + vecZ * distanceInFront;
-                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, xDir, 0, zDir, this.level(),(float) CMConfig.HarbingerWitherMissiledamage,radYaw1);
-
-                    double spawnX = this.getX() + vecX * distanceInFront;
+                    float rad = (float) Math.toRadians(angle);
+                    double dx = -Math.sin(rad);
+                    double dz = Math.cos(rad);
+                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float) CMConfig.HarbingerWitherMissiledamage,angle);
+                    double spawnX = this.getX() + vecX * 5;
                     double spawnY = this.getY(0.15D);
-                    double spawnZ = this.getZ() + vecZ * distanceInFront;
+                    double spawnZ = this.getZ() + vecZ * 5;
                     witherskull.setPos(spawnX, spawnY, spawnZ);
-
-
                     this.level().addFreshEntity(witherskull);
 
-
-                    this.spawnFangs(this.getX() + (double) Mth.cos(radYaw1) * 5, this.getZ() + (double) Mth.sin(radYaw1) * 5D, this.getY(), this.getY() + 3, radYaw1, 1);
-
-
                 }
-
-
             }
         }
         if(this.getAttackState() == 4) {
@@ -396,6 +386,13 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
                 this.level().addParticle(new RingParticle.RingData(yaw, pitch, 40, 0.337f, 0.925f, 0.8f, 1.0f, 50f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
                 this.level().addParticle(new RingParticle.RingData(yaw2, pitch, 40, 0.337f, 0.925f, 0.8f, 1.0f, 50f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
 
+            }
+        }
+
+        if(this.getAttackState() == 5) {
+            if (this.attackTicks == 4) {
+                this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 0.7f);
+                UpperAreaAttack(6.5f, 6.5f, 60, 1, 120,true);
             }
         }
 
@@ -518,6 +515,39 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
         }
     }
 
+    private void UpperAreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
+        List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        for (LivingEntity entityHit : entitiesHit) {
+            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+            float entityAttackingAngle = this.yBodyRot % 360;
+            if (entityHitAngle < 0) {
+                entityHitAngle += 360;
+            }
+            if (entityAttackingAngle < 0) {
+                entityAttackingAngle += 360;
+            }
+            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                if (!isAlliedTo(entityHit) && !(entityHit instanceof Aptrgangr_Entity) && entityHit != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean hurt =  entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
+                    }
+                    double d0 = entityHit.getX() - this.getX();
+                    double d1 = entityHit.getZ() - this.getZ();
+                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                    if (hurt && knockback) {
+                        entityHit.setDeltaMovement(entityHit.getDeltaMovement().add(0.0D, (double)0.4F * 2, 0.0D));
+                    }
+
+                }
+            }
+        }
+    }
+
+
     private void ChargeGrab(double inflateXZ,double inflateY,  double range, float damage, int shieldbreakticks, boolean maledictio) {
         double yaw = Math.toRadians(this.getYRot() + 90);
         double xExpand = range * Math.cos(yaw);
@@ -589,9 +619,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster {
             }else if (this.getAttackState() != 4){
                 passenger.stopRiding();
             }
-
+            moveFunc.accept(passenger, px, y, pz);
         }
-        moveFunc.accept(passenger, px, y, pz);
     }
 
 

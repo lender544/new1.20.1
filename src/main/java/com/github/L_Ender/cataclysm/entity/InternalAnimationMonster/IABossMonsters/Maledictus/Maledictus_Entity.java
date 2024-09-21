@@ -55,7 +55,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 
-public class Maledictus_Entity extends IABoss_monster {
+public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState swingAnimationState = new AnimationState();
     public AnimationState shotAnimationState = new AnimationState();

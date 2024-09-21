@@ -14,6 +14,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptr
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -157,7 +158,7 @@ public class ClientEvent {
             Minecraft mc = Minecraft.getInstance();
             ForgeGui gui = (ForgeGui)mc.gui;
             if (player.isPassenger()) {
-                if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof Hold_Attack_Entity | player.getVehicle() instanceof Maledictus_Entity) {
+                if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof IHoldEntity) {
                     if (event.getOverlay().id().equals(VanillaGuiOverlay.HELMET.id())) {
                         Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("entity.cataclysm.you_cant_escape"), false);
                     }

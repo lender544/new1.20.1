@@ -3,14 +3,12 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Hold_Attack_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
-import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
+import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
@@ -74,7 +72,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
-    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.YELLOW, false,2);
+    private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.YELLOW, false, 2);
     public static final Animation SWING_ATTACK = Animation.create(55);
     public static final Animation SWING_ATTACK_SOUL = Animation.create(46);
     public static final Animation SWING_ATTACK_BERSERK = Animation.create(37);
@@ -136,9 +134,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
     private static final EntityDataAccessor<Boolean> SHOW_SHIELD = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_SWORD = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> BOSS_PHASE = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.INT);
-
-    private static final EntityDataAccessor<Optional<UUID>> HELD_UUID = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private static final EntityDataAccessor<Integer> HELD_ID = SynchedEntityData.defineId(Ignis_Entity.class, EntityDataSerializers.INT);
 
     private Vec3 prevBladePos = new Vec3(0, 0, 0);
 
@@ -298,7 +293,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 if (this.getAnimationTick() > 16 && this.getAnimationTick() <= 46) {
                     AnimationHandler.INSTANCE.sendAnimationMessage(this, STRIKE);
                     this.playSound(SoundEvents.BLAZE_HURT, 0.5f, 0.4F + this.getRandom().nextFloat() * 0.1F);
-                    if( !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                    if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                         return false;
                     }
                 }
@@ -307,7 +302,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 if (this.getAnimationTick() > 8 && this.getAnimationTick() <= 38) {
                     AnimationHandler.INSTANCE.sendAnimationMessage(this, SHIELD_BREAK_STRIKE);
                     this.playSound(SoundEvents.BLAZE_HURT, 0.5f, 0.4F + this.getRandom().nextFloat() * 0.1F);
-                    if(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+                    if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                         return false;
                     }
                 }
@@ -404,8 +399,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         this.entityData.define(IS_SWORD, false);
         this.entityData.define(SHOW_SHIELD, true);
         this.entityData.define(BOSS_PHASE, 0);
-        this.entityData.define(HELD_UUID, Optional.empty());
-        this.entityData.define(HELD_ID, -1);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -497,25 +490,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
     public int getBossPhase() {
         return this.entityData.get(BOSS_PHASE);
-    }
-
-
-    public void setHeldUUID(@Nullable UUID uniqueId) {
-        this.entityData.set(HELD_UUID, Optional.ofNullable(uniqueId));
-    }
-
-    public UUID getHeldUUID() {
-        return this.entityData.get(HELD_UUID).orElse(null);
-    }
-
-    public Entity getHeldEntity() {
-        if (!level().isClientSide) {
-            UUID id = getHeldUUID();
-            return id == null ? null : ((ServerLevel) level()).getEntity(id);
-        } else {
-            int id = this.entityData.get(HELD_ID);
-            return id == -1 ? null : level().getEntity(id);
-        }
     }
 
     public Crackiness getCrackiness() {
@@ -615,6 +589,11 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             swordProgress--;
         }
 
+        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown() && this.getAnimation() == POKED_ATTACK) {
+            this.getPassengers().get(0).setShiftKeyDown(false);
+        }
+
+
         LivingEntity target = this.getTarget();
         SwingParticles();
         if (this.level().isClientSide) {
@@ -644,12 +623,12 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
 
             if (this.getAnimation() == NO_ANIMATION && timeWithoutTarget <= 0) {
-                if(!isNoAi() && CMConfig.IgnisNatureHealing > 0 ) {
+                if (!isNoAi() && CMConfig.IgnisNatureHealing > 0) {
                     if (this.tickCount % 20 == 0) {
                         this.heal((float) CMConfig.IgnisNatureHealing);
                     }
                 }
-                if(this.getIsBlocking() || this.getIsSword() && target == null){
+                if (this.getIsBlocking() || this.getIsSword() && target == null) {
                     this.setIsSword(false);
                     this.setIsBlocking(false);
                 }
@@ -718,7 +697,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
 
         }
-        
+
         if (body_check_cooldown > 0) body_check_cooldown--;
         if (air_smash_cooldown > 0) air_smash_cooldown--;
         if (counter_strike_cooldown > 0) counter_strike_cooldown--;
@@ -795,8 +774,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
         super.tick();
     }
-
-
 
 
     public void aiStep() {
@@ -1426,9 +1403,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 }
             }
         }
-        if (this.getAnimation() == POKED_ATTACK) {
-            HoldAttack();
-        }
     }
 
     private void blockbreak() {
@@ -1571,22 +1545,11 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                     }
 
                     if (flag && !entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive()) {
-                        if (entityHit.isShiftKeyDown()) {
-                            entityHit.setShiftKeyDown(false);
-                        }
-                        if (this.getHeldEntity() == null) {
-                            float radius = 4F;
-                            float angle = (0.01745329251F * this.yBodyRot);
-                            double extraX = radius * Mth.sin((float) (Math.PI + angle));
-                            double extraZ = radius * Mth.cos(angle);
-                            Hold_Attack_Entity hold = new Hold_Attack_Entity(ModEntities.HOLD_ATTACK.get(), this.level(), this, this.getX() + extraX, this.getY() + 1.2F, this.getZ() + extraZ, 46, entityHit);
-                            hold.setPosX((float) (this.getX() + extraX));
-                            hold.setPosY((float) (this.getY() + 1.2F));
-                            hold.setPosZ((float) (this.getZ() + extraZ));
-                            hold.setControllerUUID(this.getUUID());
-                            this.setHeldUUID(hold.getUUID());
-                            this.level().addFreshEntity(hold);
-
+                        if (this.getPassengers().isEmpty()) {
+                            if (entityHit.isShiftKeyDown()) {
+                                entityHit.setShiftKeyDown(false);
+                            }
+                            entityHit.startRiding(this, true);
                             AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                         }
                     }
@@ -1595,53 +1558,56 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         }
     }
 
-    private void HoldAttack() {
-        Entity hold = this.getHeldEntity();
-        if (hold instanceof Hold_Attack_Entity hold_attack_entity) {
-            int tick = this.getAnimationTick();
+
+    public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
+        if (hasPassenger(passenger)) {
+            int tick = 5;
+            if (this.getAnimation() == POKED_ATTACK) {
+                tick = this.getAnimationTick();
+                if (this.getAnimationTick() == 46) {
+                    passenger.stopRiding();
+                }
+            }
+            this.yHeadRot = yBodyRot;
             float radius = 4F;
             float angle = (0.01745329251F * this.yBodyRot);
             double extraX = radius * Mth.sin((float) (Math.PI + angle));
             double extraZ = radius * Mth.cos(angle);
             double extraY = tick < 10 ? 0 : 0.2F * Mth.clamp(tick - 10, 0, 15);
-            this.yHeadRot = yBodyRot;
-            hold_attack_entity.setPosX((float) (this.getX() + extraX));
-            hold_attack_entity.setPosY((float) (this.getY() + extraY + 1.2F));
-            hold_attack_entity.setPosZ((float) (this.getZ() + extraZ));
-
-            this.entityData.set(HELD_ID, hold_attack_entity.getId());
-            hold_attack_entity.setControllerUUID(this.getUUID());
-
-            if (this.getAnimationTick() == 46) {
-                hold_attack_entity.discard();
-            }
-
-            if (!hold_attack_entity.getPassengers().isEmpty()) {
-                if(hold_attack_entity.getPassengers().get(0) instanceof LivingEntity lifted) {
-                    if ((tick - 10) % 4 == 0) {
-                        boolean flag = lifted.hurt(this.damageSources().mobAttack(this), 4 + lifted.getMaxHealth() * 0.02f);
-                        if (flag) {
-                            MobEffectInstance effectinstance1 = lifted.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
-                            int i = 1;
-                            if (effectinstance1 != null) {
-                                i += effectinstance1.getAmplifier();
-                                lifted.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND.get());
-                            } else {
-                                --i;
-                            }
-                            i = Mth.clamp(i, 0, 4);
-                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 240, i, false, true, true);
-                            lifted.addEffect(effectinstance);
-                            this.heal(2f * (float) CMConfig.IgnisHealingMultiplier * (i + 1));
+            moveFunc.accept(passenger, this.getX() + extraX, this.getY() + extraY + 1.2F, this.getZ() + extraZ);
+            if ((tick - 10) % 4 == 0) {
+                if (passenger instanceof LivingEntity living) {
+                    boolean flag = living.hurt(this.damageSources().mobAttack(this), 4 + living.getMaxHealth() * 0.02f);
+                    if (flag) {
+                        MobEffectInstance effectinstance1 = living.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
+                        int i = 1;
+                        if (effectinstance1 != null) {
+                            i += effectinstance1.getAmplifier();
+                            living.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND.get());
+                        } else {
+                            --i;
                         }
+
+                        i = Mth.clamp(i, 0, 4);
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 240, i, false, true, true);
+                        living.addEffect(effectinstance);
+                        this.heal(2f * (float) CMConfig.IgnisHealingMultiplier * (i + 1));
                     }
                 }
-
             }
 
         }
-
     }
+
+    public boolean shouldRiderSit() {
+        return false;
+    }
+
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        return null;
+    }
+
 
     private void Flameswing() {
         Vec3 bladePos = socketPosArray[0];

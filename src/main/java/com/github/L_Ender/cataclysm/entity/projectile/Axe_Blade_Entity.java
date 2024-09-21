@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -14,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,10 +29,14 @@ import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -41,6 +47,7 @@ public class Axe_Blade_Entity extends Entity {
     public double zPower;
     private LivingEntity caster;
     private UUID casterUuid;
+    private boolean leftOwner;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Axe_Blade_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> TRANSPARENCY  = SynchedEntityData.defineId(Axe_Blade_Entity.class, EntityDataSerializers.INT);
 
@@ -66,7 +73,7 @@ public class Axe_Blade_Entity extends Entity {
         this(ModEntities.AXE_BLADE.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), p_36828_, p_36829_, p_36830_, p_36831_,Yrot);
         this.setOwner(p_36827_);
         this.setDamage(damage);
-        this.setYRot(Yrot * (180F / (float)Math.PI));
+        this.setYRot(Yrot);
     }
 
     public Axe_Blade_Entity(EntityType<? extends Axe_Blade_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, double p_36821_, double p_36822_, double p_36823_, float damage, Level level) {
@@ -144,7 +151,9 @@ public class Axe_Blade_Entity extends Entity {
 
     public void tick() {
         super.tick();
-
+        if (!this.leftOwner) {
+            this.leftOwner = this.checkLeftOwner();
+        }
         if (!this.level().isClientSide) {
             lifetick++;
             setTransparency(this.lifetick);
@@ -154,6 +163,22 @@ public class Axe_Blade_Entity extends Entity {
         }else{
             this.idleAnimationState.animateWhen(true, this.tickCount);
         }
+
+        HitResult raytraceresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
+        if (raytraceresult.getType() != HitResult.Type.MISS) {
+            this.onHit(raytraceresult);
+        }
+
+
+        this.checkInsideBlocks();
+        Vec3 vec3 = this.getDeltaMovement();
+        double d0 = this.getX() + vec3.x;
+        double d1 = this.getY() + vec3.y;
+        double d2 = this.getZ() + vec3.z;
+        float f = this.getInertia();
+        this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), this.getX() - vec3.x, this.getY() - vec3.y, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
+        this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
+        this.setPos(d0, d1, d2);
 
     }
 
@@ -165,6 +190,7 @@ public class Axe_Blade_Entity extends Entity {
             Entity entity1 = this.getOwner();
             if (entity1 instanceof LivingEntity livingentity) {
                 entity.hurt(this.damageSources().mobProjectile(this, livingentity), this.getDamage());
+
                 if (entity1 instanceof LivingEntity) {
                     this.doEnchantDamageEffects((LivingEntity) entity1, entity);
                 }
@@ -177,19 +203,34 @@ public class Axe_Blade_Entity extends Entity {
 
     }
 
-    protected void onHit(HitResult ray) {
-        HitResult.Type raytraceresult$type = ray.getType();
-        if (raytraceresult$type == HitResult.Type.ENTITY) {
-            this.onHitEntity((EntityHitResult) ray);
-        } else if (raytraceresult$type == HitResult.Type.BLOCK) {
-            this.onHitBlock((BlockHitResult) ray);
+    protected void onHit(HitResult p_37260_) {
+        HitResult.Type hitresult$type = p_37260_.getType();
+        if (hitresult$type == HitResult.Type.ENTITY) {
+            this.onHitEntity((EntityHitResult)p_37260_);
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, p_37260_.getLocation(), GameEvent.Context.of(this, (BlockState)null));
+        } else if (hitresult$type == HitResult.Type.BLOCK) {
+            BlockHitResult blockhitresult = (BlockHitResult)p_37260_;
+            this.onHitBlock(blockhitresult);
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
         }
 
     }
 
     protected boolean canHitEntity(Entity p_36842_) {
-        return false;
+        return canHit(p_36842_) && !p_36842_.noPhysics;
     }
+
+
+    protected boolean canHit(Entity p_37250_) {
+        if (!p_37250_.canBeHitByProjectile()) {
+            return false;
+        } else {
+            Entity entity = this.getOwner();
+            return entity == null || this.leftOwner || !entity.isPassengerOfSameVehicle(p_37250_);
+        }
+    }
+
 
 
     protected float getInertia() {
@@ -208,14 +249,32 @@ public class Axe_Blade_Entity extends Entity {
                 this.zPower = listtag.getDouble(2);
             }
         }
+        this.leftOwner = compound.getBoolean("LeftOwner");
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
+        if (this.leftOwner) {
+            compound.putBoolean("LeftOwner", true);
+        }
         compound.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
 
+    }
+    private boolean checkLeftOwner() {
+        Entity entity = this.getOwner();
+        if (entity != null) {
+            for (Entity entity1 : this.level().getEntities(this, this.getBoundingBox().expandTowards(this.getDeltaMovement()).inflate(1.0D), (p_234613_0_) -> {
+                return !p_234613_0_.isSpectator() && p_234613_0_.isPickable();
+            })) {
+                if (entity1.getRootVehicle() == entity.getRootVehicle()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public boolean isPickable() {
@@ -242,16 +301,6 @@ public class Axe_Blade_Entity extends Entity {
 
     public void recreateFromPacket(ClientboundAddEntityPacket p_150128_) {
         super.recreateFromPacket(p_150128_);
-        double d0 = p_150128_.getXa();
-        double d1 = p_150128_.getYa();
-        double d2 = p_150128_.getZa();
-        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        if (d3 != 0.0D) {
-            this.xPower = d0 / d3 * 0.1D;
-            this.yPower = d1 / d3 * 0.1D;
-            this.zPower = d2 / d3 * 0.1D;
-        }
-
     }
 }
 

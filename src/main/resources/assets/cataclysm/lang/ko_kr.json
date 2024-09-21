@@ -181,6 +181,7 @@
   "item.cataclysm.maledictus_spawn_egg": "말레딕투스 생성 알",
   "item.cataclysm.draugr_spawn_egg": "드라우그 생성 알",
   "item.cataclysm.royal_draugr_spawn_egg": "로얄 드라우그 생성 알",
+  "item.cataclysm.aptrgangr_spawn_egg": "아프트강그 생성 알",
 
   "itemGroup.cataclysm": "대격변",
   "block.cataclysm.witherite_block": "위더라이트 블록",
@@ -311,6 +312,8 @@
   "entity.cataclysm.maledictus": "말레딕투스",
   "entity.cataclysm.draugr": "드라우그",
   "entity.cataclysm.royal_draugr": "로얄 드라우그",
+  "entity.cataclysm.aptrgangr": "아프트강그",
+  "entity.cataclysm.axe_blade": "도끼 검기",
   "entity.cataclysm.phantom_arrow": "망령 화살",
   "entity.cataclysm.phantom_halberd": "망령 도끼창",
   "entity.cataclysm.all.command_0": "%s 이(가) 돌아다니는 중",

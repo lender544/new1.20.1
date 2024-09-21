@@ -9,11 +9,5 @@ import java.util.UUID;
  * Marker interface for entities that can forcefully pick up the player.
  */
 public interface IHoldEntity {
-    void setHeldUUID(@Nullable UUID uniqueId);
 
-    UUID getHeldUUID();
-
-    Entity getHeldEntity();
-
-    int getId();
 }
