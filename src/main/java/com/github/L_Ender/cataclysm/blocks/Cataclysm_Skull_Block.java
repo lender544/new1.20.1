@@ -56,6 +56,8 @@ public class Cataclysm_Skull_Block extends Abstract_Cataclysm_Skull_Block {
     }
 
     public static enum Types implements Cataclysm_Skull_Block.Type {
-        KOBOLEDIATOR;
+        KOBOLEDIATOR,
+        APTRGANGR,
+        DRAUGR
     }
 }

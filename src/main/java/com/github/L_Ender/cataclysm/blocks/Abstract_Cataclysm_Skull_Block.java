@@ -34,7 +34,7 @@ public abstract class Abstract_Cataclysm_Skull_Block extends BaseEntityBlock imp
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_151992_, BlockState p_151993_, BlockEntityType<T> p_151994_) {
         if (p_151992_.isClientSide) {
-            boolean flag = p_151993_.is(ModBlocks.KOBOLEDIATOR_SKULL.get()) || p_151993_.is(ModBlocks.KOBOLEDIATOR_WALL_SKULL.get());
+            boolean flag = p_151993_.is(ModBlocks.APTRGANGR_HEAD.get()) || p_151993_.is(ModBlocks.APTRGANGR_WALL_HEAD.get()) || p_151993_.is(ModBlocks.KOBOLEDIATOR_SKULL.get()) || p_151993_.is(ModBlocks.KOBOLEDIATOR_WALL_SKULL.get());
             if (flag) {
                 return createTickerHelper(p_151994_, ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_BlockEntity::animation);
             }

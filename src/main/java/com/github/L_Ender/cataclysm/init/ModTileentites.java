@@ -38,7 +38,7 @@ public class ModTileentites {
             BlockEntityType.Builder.of(TileEntityEMP::new, ModBlocks.EMP.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<Cataclysm_Skull_BlockEntity>> CATACLYSM_SKULL = TILE_ENTITY_TYPES.register("cataclysm_skull", () ->
-            BlockEntityType.Builder.of(Cataclysm_Skull_BlockEntity::new, ModBlocks.KOBOLEDIATOR_SKULL.get(), ModBlocks.KOBOLEDIATOR_WALL_SKULL.get()).build(null));
+            BlockEntityType.Builder.of(Cataclysm_Skull_BlockEntity::new, ModBlocks.KOBOLEDIATOR_SKULL.get(), ModBlocks.KOBOLEDIATOR_WALL_SKULL.get(),ModBlocks.APTRGANGR_HEAD.get(), ModBlocks.APTRGANGR_WALL_HEAD.get(),ModBlocks.DRAUGR_HEAD.get(), ModBlocks.DRAUGR_WALL_HEAD.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<TileEntityMechanical_fusion_Anvil>> MECHANICAL_FUSION_ANVIL = TILE_ENTITY_TYPES.register("mechanical_fusion_anvil", () ->
             BlockEntityType.Builder.of(TileEntityMechanical_fusion_Anvil::new, ModBlocks.MECHANICAL_FUSION_ANVIL.get()).build(null));

@@ -1,6 +1,8 @@
 package com.github.L_Ender.cataclysm.client.model;
 
 import com.github.L_Ender.cataclysm.client.model.armor.*;
+import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Berserker;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
@@ -27,6 +29,8 @@ public class CMModelLayers {
     public static final ModelLayerLocation SANDSTORM_IN_A_BOTTLE_MODEL = createLocation("sandstorm_in_a_bottle_model", "main");
     public static final ModelLayerLocation STICKY_GLOVES_MODEL = createLocation("sticky_gloves_model", "main");
     public static final ModelLayerLocation KOBOLEDIATOR_HEAD_MODEL = createLocation("kobolediator_head_model", "main");
+    public static final ModelLayerLocation APTRGANGR_HEAD_MODEL = createLocation("aptrgangr_head_model", "main");
+    public static final ModelLayerLocation DRAUGR_HEAD_MODEL = createLocation("draugr_head_model", "main");
     public static final ModelLayerLocation IGNITED_BERSERKER_MODEL = createLocation("ignited_berserker_model", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -39,6 +43,8 @@ public class CMModelLayers {
         event.registerLayerDefinition(BONE_REPTILE_ARMOR_MODEL, () -> ModelBone_Reptile_Armor.createArmorLayer(new CubeDeformation(1.0F)));
         event.registerLayerDefinition(STICKY_GLOVES_MODEL, () -> Sticky_Gloves_Model.createLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(KOBOLEDIATOR_HEAD_MODEL, KobolediatorHeadModel::createHeadLayer);
+        event.registerLayerDefinition(APTRGANGR_HEAD_MODEL, AptrgangrHeadModel::createHeadLayer);
+        event.registerLayerDefinition(DRAUGR_HEAD_MODEL, DraugrHeadModel::createHeadLayer);
         event.registerLayerDefinition(IGNITED_BERSERKER_MODEL, ModelIgnited_Berserker::createBodyLayer);
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL, () -> ModelCursium_Armor.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL_LEGS, () -> ModelCursium_Armor.createArmorLayer(new CubeDeformation(0.2F)));

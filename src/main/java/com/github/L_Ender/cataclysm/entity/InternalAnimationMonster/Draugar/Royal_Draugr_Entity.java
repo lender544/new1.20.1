@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -237,6 +238,18 @@ public class Royal_Draugr_Entity extends Monster implements IShieldEntity {
             this.setShieldCooldownTime(30);
         }
         return super.doHurtTarget(p_219472_);
+    }
+
+    protected void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        Entity entity = p_33574_.getEntity();
+        if (entity instanceof Creeper creeper) {
+            if (creeper.canDropMobsSkull()) {
+                creeper.increaseDroppedSkulls();
+                this.spawnAtLocation(ModItems.DRAUGR_HEAD.get());
+            }
+        }
+
     }
 
     @Nullable

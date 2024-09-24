@@ -80,7 +80,7 @@ public class Dimensional_Rift_Entity extends Entity {
                 if (entity instanceof LivingEntity) {
                     diff = diff.normalize().scale( getStage() * 0.015);
                     entity.setDeltaMovement(entity.getDeltaMovement().subtract(diff));
-                } else {
+                } else if(!entity.getType().is(ModTag.DIMENSIONAL_LIFT_IMMUNE)) {
                     diff = diff.normalize().scale(getStage() * 0.045);
                     entity.setDeltaMovement(entity.getDeltaMovement().subtract(diff));
                 }

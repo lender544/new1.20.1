@@ -48,6 +48,9 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_THE_LEVIATHAN = registerEntityTag("team_the_leviathan");
 
+
+    public static final TagKey<EntityType<?>> DIMENSIONAL_LIFT_IMMUNE = registerEntityTag("dimensional_lift_immune");
+
     public static final TagKey<EntityType<?>> TEAM_MALEDICTUS = registerEntityTag("team_maledictus");
 
     public static final TagKey<Block> ENDER_GOLEM_CAN_DESTROY = registerBlockTag("ender_golem_can_destroy");

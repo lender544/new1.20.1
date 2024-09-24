@@ -350,6 +350,12 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     public void aiStep() {
         super.aiStep();
+        if(this.getAttackState() == 2) {
+            if (this.attackTicks == 12) {
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.06f, 0, 20);
+            }
+        }
+
         if(this.getAttackState() == 3) {
             if (this.attackTicks == 20) {
                 AreaAttack(10.0f,6.0F,60,1,120);

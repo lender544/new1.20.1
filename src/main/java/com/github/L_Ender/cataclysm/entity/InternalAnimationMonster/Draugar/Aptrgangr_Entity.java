@@ -2,39 +2,30 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -49,15 +40,13 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -85,6 +74,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     private boolean chubu = false;
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 160;
+
 
     public Aptrgangr_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -302,6 +292,18 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         this.setAttackState(7);
     }
 
+    protected void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        Entity entity = p_33574_.getEntity();
+        if (entity instanceof Creeper creeper) {
+            if (creeper.canDropMobsSkull()) {
+                creeper.increaseDroppedSkulls();
+                this.spawnAtLocation(ModItems.APTRGANGR_HEAD.get());
+            }
+        }
+
+    }
+
     public int deathtimer(){
         return 60;
     }
@@ -334,6 +336,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         if(this.getAttackState() == 1) {
             if (this.attackTicks == 15) {
                 this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 0.7f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.06f, 0, 20);
                 AreaAttack(5.75f, 5.75f, 120, 1, 120,true);
             }
         }
@@ -343,7 +346,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
             }
             if (this.attackTicks == 15) {
                 AreaAttack(6.5f, 6.5f, 60, 1, 120,false);
-                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.15f, 0, 20);
                 this.playSound(SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.8f);
                 Makeparticle(0.6f, 5.0f, 0f);
 
@@ -392,12 +395,14 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         if(this.getAttackState() == 5) {
             if (this.attackTicks == 4) {
                 this.playSound(ModSounds.STRONGSWING.get(), 1.0F, 0.7f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.06f, 0, 20);
                 UpperAreaAttack(6.5f, 6.5f, 60, 1, 120,true);
             }
         }
 
         if(this.getAttackState() == 6) {
             if (this.attackTicks == 1) {
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
                 this.playSound(SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.9f);
             }
         }

@@ -108,6 +108,8 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     public static final Map<Cataclysm_Skull_Block.Type, ResourceLocation> SKIN_BY_TYPE = Util.make(Maps.newHashMap(), (p_261388_) -> {
         p_261388_.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/kobolediator.png"));
+        p_261388_.put(Cataclysm_Skull_Block.Types.APTRGANGR, new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/aptrgangr.png"));
+        p_261388_.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/draugr.png"));
     });
 
     public CMItemstackRenderer() {

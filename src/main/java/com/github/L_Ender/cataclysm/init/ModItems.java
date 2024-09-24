@@ -193,6 +193,7 @@ public class ModItems {
     public static final RegistryObject<Item> ANCIENT_METAL_NUGGET = ITEMS.register("ancient_metal_nugget",
             () -> new Item(new Item.Properties()));
 
+
     public static final RegistryObject<Item> BLACK_STEEL_INGOT = ITEMS.register("black_steel_ingot",
             () -> new Item(new Item.Properties()));
 
@@ -335,6 +336,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> NECKLACE_OF_THE_DESERT = ITEMS.register("necklace_of_the_desert",
             () -> new Necklace_Of_The_Desert(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> APTRGANGR_HEAD = ITEMS.register("aptrgangr_head",
+            () -> new CataclysmSkullItem(ModBlocks.APTRGANGR_HEAD.get(), ModBlocks.APTRGANGR_WALL_HEAD.get(), (new Item.Properties()).rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> DRAUGR_HEAD = ITEMS.register("draugr_head",
+            () -> new CataclysmSkullItem(ModBlocks.DRAUGR_HEAD.get(), ModBlocks.DRAUGR_WALL_HEAD.get(), (new Item.Properties()).rarity(Rarity.UNCOMMON)));
+
 
     public static final RegistryObject<Item> KOBOLEDIATOR_SKULL = ITEMS.register("kobolediator_skull",
             () -> new CataclysmSkullItem(ModBlocks.KOBOLEDIATOR_SKULL.get(), ModBlocks.KOBOLEDIATOR_WALL_SKULL.get(), (new Item.Properties()).rarity(Rarity.UNCOMMON)));

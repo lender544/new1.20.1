@@ -6,7 +6,9 @@ import com.github.L_Ender.cataclysm.blocks.Abstract_Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.blocks.Wall_Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.Cataclysm_Skull_Model_Base;
+import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -34,11 +36,15 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
     private final Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> modelByType;
     public static final Map<Cataclysm_Skull_Block.Type, ResourceLocation> SKIN_BY_TYPE = Util.make(Maps.newHashMap(), (p_261388_) -> {
         p_261388_.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/kobolediator.png"));
+        p_261388_.put(Cataclysm_Skull_Block.Types.APTRGANGR, new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/aptrgangr.png"));
+        p_261388_.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/draugr.png"));
     });
 
     public static Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> createSkullRenderers(EntityModelSet p_173662_) {
         ImmutableMap.Builder<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> builder = ImmutableMap.builder();
         builder.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new KobolediatorHeadModel(p_173662_.bakeLayer(CMModelLayers.KOBOLEDIATOR_HEAD_MODEL)));
+        builder.put(Cataclysm_Skull_Block.Types.APTRGANGR, new AptrgangrHeadModel(p_173662_.bakeLayer(CMModelLayers.APTRGANGR_HEAD_MODEL)));
+        builder.put(Cataclysm_Skull_Block.Types.DRAUGR, new DraugrHeadModel(p_173662_.bakeLayer(CMModelLayers.DRAUGR_HEAD_MODEL)));
         return builder.build();
     }
 
