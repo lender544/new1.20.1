@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.block.Model_Altar_of_Fire;
+import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Fire_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -27,7 +27,7 @@ public class RendererAltar_of_Fire<T extends TileEntityAltarOfFire> implements B
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_of_fire.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
     public static final ResourceLocation FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/flame_strike_sigil.png");
-    private static final Model_Altar_of_Fire MODEL = new Model_Altar_of_Fire();
+    private static final Altar_of_Fire_Model MODEL = new Altar_of_Fire_Model();
 
     public RendererAltar_of_Fire(Context rendererDispatcherIn) {
         for(int i = 0; i < 8; i++){

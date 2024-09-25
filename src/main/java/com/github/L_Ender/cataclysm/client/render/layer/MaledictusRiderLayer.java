@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.Model_Maledictus;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererMaledictus;
+import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Maledictus_Renderer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -18,9 +18,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
-public class MaledictusRiderLayer extends RenderLayer<Maledictus_Entity, Model_Maledictus> {
+public class MaledictusRiderLayer extends RenderLayer<Maledictus_Entity, Maledictus_Model> {
 
-    public MaledictusRiderLayer(RendererMaledictus render) {
+    public MaledictusRiderLayer(Maledictus_Renderer render) {
         super(render);
     }
 

@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnis;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererIgnis;
+import com.github.L_Ender.cataclysm.client.model.entity.Ignis_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Ignis_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -14,9 +14,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Ignis_Shield_Layer extends RenderLayer<Ignis_Entity, ModelIgnis> {
+public class Ignis_Shield_Layer extends RenderLayer<Ignis_Entity, Ignis_Model> {
 
-    private final ModelIgnis model = new ModelIgnis();
+    private final Ignis_Model model = new Ignis_Model();
 
     private static final ResourceLocation IGNIS_SHIELD = new ResourceLocation("cataclysm:textures/entity/ignis/ignis_shield.png");
 
@@ -28,7 +28,7 @@ public class Ignis_Shield_Layer extends RenderLayer<Ignis_Entity, ModelIgnis> {
 
     private static final ResourceLocation IGNIS_SHIELD_CRACK3 = new ResourceLocation("cataclysm:textures/entity/ignis/ignis_shield_crack3.png");
 
-    public Ignis_Shield_Layer(RendererIgnis renderIgnis) {
+    public Ignis_Shield_Layer(Ignis_Renderer renderIgnis) {
         super(renderIgnis);
     }
 

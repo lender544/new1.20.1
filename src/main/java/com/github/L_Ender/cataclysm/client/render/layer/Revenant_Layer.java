@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelIgnited_Revenant;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererIgnited_Revenant;
+import com.github.L_Ender.cataclysm.client.model.entity.Ignited_Revenant_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Ignited_Revenant_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignited_Revenant_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -15,14 +15,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Revenant_Layer extends RenderLayer<Ignited_Revenant_Entity, ModelIgnited_Revenant> {
+public class Revenant_Layer extends RenderLayer<Ignited_Revenant_Entity, Ignited_Revenant_Model> {
 
-    private final ModelIgnited_Revenant model = new ModelIgnited_Revenant();
+    private final Ignited_Revenant_Model model = new Ignited_Revenant_Model();
 
     private static final ResourceLocation REVENANT_SHIELD = new ResourceLocation(Cataclysm.MODID,"textures/entity/revenant_shield.png");
 
 
-    public Revenant_Layer(RendererIgnited_Revenant renderIgnis) {
+    public Revenant_Layer(Ignited_Revenant_Renderer renderIgnis) {
         super(renderIgnis);
     }
 

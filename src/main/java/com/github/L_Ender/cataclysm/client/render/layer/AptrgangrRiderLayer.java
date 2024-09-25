@@ -1,12 +1,9 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelAptrgangr;
-import com.github.L_Ender.cataclysm.client.model.entity.Model_Maledictus;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererAptrgangr;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererMaledictus;
+import com.github.L_Ender.cataclysm.client.model.entity.Aptrgangr_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Aptrgangr_Renderer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.CrashReport;
@@ -21,9 +18,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector4f;
 
-public class AptrgangrRiderLayer extends RenderLayer<Aptrgangr_Entity, ModelAptrgangr> {
+public class AptrgangrRiderLayer extends RenderLayer<Aptrgangr_Entity, Aptrgangr_Model> {
 
-    public AptrgangrRiderLayer(RendererAptrgangr render) {
+    public AptrgangrRiderLayer(Aptrgangr_Renderer render) {
         super(render);
     }
 

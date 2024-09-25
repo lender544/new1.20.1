@@ -1,9 +1,9 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Prowler;
+import com.github.L_Ender.cataclysm.client.model.entity.The_Prowler_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererThe_Prowler;
+import com.github.L_Ender.cataclysm.client.render.entity.The_Prowler_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,12 +18,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class The_Prowler_Layer extends RenderLayer<The_Prowler_Entity, ModelThe_Prowler> {
+public class The_Prowler_Layer extends RenderLayer<The_Prowler_Entity, The_Prowler_Model> {
     private static final ResourceLocation PROWLER_LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler_layer.png");
 
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[4];
 
-    public The_Prowler_Layer(RendererThe_Prowler renderIn) {
+    public The_Prowler_Layer(The_Prowler_Renderer renderIn) {
         super(renderIn);
         for(int i = 0; i < 4; i++){
             TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/factory/the_prowler_layer_" + i + ".png");

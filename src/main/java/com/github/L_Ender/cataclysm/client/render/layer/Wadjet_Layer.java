@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelWadjet;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererWadjet;
+import com.github.L_Ender.cataclysm.client.model.entity.Wadjet_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Wadjet_Renderer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -15,10 +15,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Wadjet_Layer extends RenderLayer<Wadjet_Entity, ModelWadjet> {
+public class Wadjet_Layer extends RenderLayer<Wadjet_Entity, Wadjet_Model> {
     private static final ResourceLocation LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/wadjet_layer.png");
 
-    public Wadjet_Layer(RendererWadjet renderIn) {
+    public Wadjet_Layer(Wadjet_Renderer renderIn) {
         super(renderIn);
 
     }

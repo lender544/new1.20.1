@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelThe_Harbinger;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererThe_Harbinger;
+import com.github.L_Ender.cataclysm.client.model.entity.The_Harbinger_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.The_Harbinger_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,12 +17,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class The_Harbinger_Shield_Layer extends RenderLayer<The_Harbinger_Entity, ModelThe_Harbinger> {
+public class The_Harbinger_Shield_Layer extends RenderLayer<The_Harbinger_Entity, The_Harbinger_Model> {
 
     private static final ResourceLocation HARBINGER_LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/the_harbinger_shield_layer.png");
 
 
-    public The_Harbinger_Shield_Layer(RendererThe_Harbinger rendererTheHarbinger) {
+    public The_Harbinger_Shield_Layer(The_Harbinger_Renderer rendererTheHarbinger) {
         super(rendererTheHarbinger);
     }
 

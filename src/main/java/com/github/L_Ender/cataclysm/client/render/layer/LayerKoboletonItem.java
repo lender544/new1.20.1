@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.model.entity.ModelKoboleton;
+import com.github.L_Ender.cataclysm.client.model.entity.Koboleton_Model;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.Koboleton_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class LayerKoboletonItem extends RenderLayer<Koboleton_Entity, ModelKoboleton> {
+public class LayerKoboletonItem extends RenderLayer<Koboleton_Entity, Koboleton_Model> {
     private final ItemInHandRenderer itemInHandRenderer;
 
     public LayerKoboletonItem(RenderLayerParent p_234846_, ItemInHandRenderer p_234847_) {

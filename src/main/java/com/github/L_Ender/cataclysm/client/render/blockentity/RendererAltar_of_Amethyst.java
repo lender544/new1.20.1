@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAmethyst;
 import com.github.L_Ender.cataclysm.blocks.Altar_Of_Amethyst_Block;
-import com.github.L_Ender.cataclysm.client.model.block.Model_Altar_of_Amethyst;
+import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Amethyst_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -28,7 +28,7 @@ public class RendererAltar_of_Amethyst<T extends TileEntityAltarOfAmethyst> impl
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_amethyst.png");
     public static final ResourceLocation BEAM_LOCATION = new ResourceLocation("textures/entity/beacon_beam.png");
-    private static final Model_Altar_of_Amethyst MODEL = new Model_Altar_of_Amethyst();
+    private static final Altar_of_Amethyst_Model MODEL = new Altar_of_Amethyst_Model();
 
     public RendererAltar_of_Amethyst(Context rendererDispatcherIn) {
     }

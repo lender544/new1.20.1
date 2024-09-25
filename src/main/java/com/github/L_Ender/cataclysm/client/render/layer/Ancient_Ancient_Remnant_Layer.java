@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.ModelAncient_Remnant;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererAncient_Remnant;
+import com.github.L_Ender.cataclysm.client.model.entity.Ancient_Remnant_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Ancient_Remnant_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -15,10 +15,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Ancient_Ancient_Remnant_Layer extends RenderLayer<Ancient_Ancient_Remnant_Entity, ModelAncient_Remnant> {
+public class Ancient_Ancient_Remnant_Layer extends RenderLayer<Ancient_Ancient_Remnant_Entity, Ancient_Remnant_Model> {
     private static final ResourceLocation LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/ancient_remnant/ancient_remnant_layer.png");
 
-    public Ancient_Ancient_Remnant_Layer(RendererAncient_Remnant renderIn) {
+    public Ancient_Ancient_Remnant_Layer(Ancient_Remnant_Renderer renderIn) {
         super(renderIn);
 
     }

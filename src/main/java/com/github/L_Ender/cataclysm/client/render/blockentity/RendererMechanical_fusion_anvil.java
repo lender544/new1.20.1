@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.Mechanical_fusion_Anvil;
-import com.github.L_Ender.cataclysm.client.model.block.Model_Mechanical_Anvil;
+import com.github.L_Ender.cataclysm.client.model.block.Mechanical_Anvil_Model;
 import com.github.L_Ender.cataclysm.blockentities.TileEntityMechanical_fusion_Anvil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 public class RendererMechanical_fusion_anvil<T extends TileEntityMechanical_fusion_Anvil> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
-    private static final Model_Mechanical_Anvil MODEL = new Model_Mechanical_Anvil();
+    private static final Mechanical_Anvil_Model MODEL = new Mechanical_Anvil_Model();
 
     public RendererMechanical_fusion_anvil(Context rendererDispatcherIn) {
     }

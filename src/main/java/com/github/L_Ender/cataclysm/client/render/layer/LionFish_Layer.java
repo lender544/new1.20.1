@@ -1,8 +1,8 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.model.entity.ModelLionfish;
+import com.github.L_Ender.cataclysm.client.model.entity.Lionfish_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererLionfish;
+import com.github.L_Ender.cataclysm.client.render.entity.Lionfish_Renderer;
 import com.github.L_Ender.cataclysm.entity.Deepling.Lionfish_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,10 +16,10 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LionFish_Layer extends RenderLayer<Lionfish_Entity, ModelLionfish> {
+public class LionFish_Layer extends RenderLayer<Lionfish_Entity, Lionfish_Model> {
 	private static final ResourceLocation LION_LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/deepling/lionfish_layer.png");
 
-    public LionFish_Layer(RendererLionfish renderIn) {
+    public LionFish_Layer(Lionfish_Renderer renderIn) {
 		super(renderIn);
 
 	}

@@ -1,23 +1,20 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.entity.Model_Maledictus;
-import com.github.L_Ender.cataclysm.client.render.entity.RendererMaledictus;
+import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
+import com.github.L_Ender.cataclysm.client.render.entity.Maledictus_Renderer;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningBoltData;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningRender;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,12 +27,12 @@ import java.util.UUID;
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 @OnlyIn(Dist.CLIENT)
-public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Model_Maledictus> {
+public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Maledictus_Model> {
     protected final EntityRenderDispatcher entityRenderDispatcher;
 
     private Map<UUID, LightningRender> lightningRenderMap = new HashMap<>();
     private final RandomSource rnd = RandomSource.create();
-    public Maledictus_Cicle_Layer(RendererMaledictus renderIn, EntityRendererProvider.Context context) {
+    public Maledictus_Cicle_Layer(Maledictus_Renderer renderIn, EntityRendererProvider.Context context) {
         super(renderIn);
         entityRenderDispatcher = context.getEntityRenderDispatcher();
     }

@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.model.entity.ModelDeepling_Priest;
+import com.github.L_Ender.cataclysm.client.model.entity.Deepling_Priest_Model;
 import com.github.L_Ender.cataclysm.entity.Deepling.Deepling_Priest_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.util.RandomSource;
 import org.joml.Matrix4f;
 
-public class LayerDeepling_Priest_Light extends RenderLayer<Deepling_Priest_Entity, ModelDeepling_Priest> {
+public class LayerDeepling_Priest_Light extends RenderLayer<Deepling_Priest_Entity, Deepling_Priest_Model> {
     private static final float HALF_SQRT_3 = (float)(Math.sqrt(3.0D) / 2.0D);
 
     public LayerDeepling_Priest_Light(RenderLayerParent p_234846_) {
