@@ -169,6 +169,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> MECHANICAL_FUSION_ANVIL = registerBlockAndItem("mechanical_fusion_anvil",
             Mechanical_fusion_Anvil::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
+    public static final RegistryObject<Block> DOOR_OF_SEAL = registerBlockAndItem("door_of_seal",
+            Door_of_Seal_Block::new, new Item.Properties().rarity(Rarity.EPIC), true);
+
+    public static final RegistryObject<Block> DOOR_OF_SEAL_PART = BLOCKS.register("door_of_seal_part", () -> new
+            Door_of_Seal_Block.Door_Of_Seal_Part_Block(BlockBehaviour.Properties.copy(ModBlocks.DOOR_OF_SEAL.get())));
 
     public static final RegistryObject<Block> KOBOLEDIATOR_SKULL = BLOCKS.register("kobolediator_skull", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).pushReaction(PushReaction.DESTROY)));
 

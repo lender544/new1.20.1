@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityMechanical_fusion_Anvil;
+import com.github.L_Ender.cataclysm.blockentities.Mechanical_fusion_Anvil_Block_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
@@ -56,7 +56,7 @@ public class Mechanical_Anvil_Model extends AdvancedEntityModel<Entity> {
 		this.resetToDefaultPose();
 	}
 
-	public void animate(TileEntityMechanical_fusion_Anvil beak, float partialTick) {
+	public void animate(Mechanical_fusion_Anvil_Block_Entity beak, float partialTick) {
 		this.resetToDefaultPose();
 		float ageInTicks = beak.tickCount + partialTick;
 		gear.rotateAngleX -= ageInTicks * 0.025F;

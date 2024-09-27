@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.blocks;
 
 import com.github.L_Ender.cataclysm.init.ModTileentites;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfVoid;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfVoid_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -41,12 +41,12 @@ public class Altar_Of_Void_Block extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityAltarOfVoid(pos, state);
+        return new AltarOfVoid_Block_Entity(pos, state);
     }
 
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_VOID.get(), TileEntityAltarOfVoid::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_VOID.get(), AltarOfVoid_Block_Entity::commonTick);
     }
 }

@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.blocks;
 
 
 import com.github.L_Ender.cataclysm.init.ModTileentites;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAmethyst;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAmethyst_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -50,8 +50,8 @@ public class Altar_Of_Amethyst_Block extends BaseEntityBlock {
 
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
-        if (worldIn.getBlockEntity(pos) instanceof TileEntityAltarOfAmethyst && (!player.isShiftKeyDown() && heldItem.getItem() != this.asItem())) {
-            TileEntityAltarOfAmethyst aof = (TileEntityAltarOfAmethyst)worldIn.getBlockEntity(pos);
+        if (worldIn.getBlockEntity(pos) instanceof AltarOfAmethyst_Block_Entity && (!player.isShiftKeyDown() && heldItem.getItem() != this.asItem())) {
+            AltarOfAmethyst_Block_Entity aof = (AltarOfAmethyst_Block_Entity)worldIn.getBlockEntity(pos);
             ItemStack copy = heldItem.copy();
             copy.setCount(1);
             if(aof.getItem(0).isEmpty()){
@@ -83,12 +83,12 @@ public class Altar_Of_Amethyst_Block extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityAltarOfAmethyst(pos, state);
+        return new AltarOfAmethyst_Block_Entity(pos, state);
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_AMETHYST.get(), TileEntityAltarOfAmethyst::cookTick);
+        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_AMETHYST.get(), AltarOfAmethyst_Block_Entity::cookTick);
     }
 
 }

@@ -198,20 +198,20 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living, target);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
                                     if (p > 0) {
-                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.25D + 0.5D);
+                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }
                                     abstractarrow = hommingArrowEntity;
                                 } else {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
                                     if (p > 0) {
-                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.25D + 0.5D);
+                                        hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }
                                     abstractarrow = hommingArrowEntity;
                                 }
                             }else{
                                 if (p > 0) {
-                                    abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)p * 0.65D + 0.5D);
+                                    abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + (double)p * 0.7D + 0.5D);
                                 }
                             }
                             if (j != 1) {

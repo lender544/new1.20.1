@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.blocks;
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAbyssal_Egg;
+import com.github.L_Ender.cataclysm.blockentities.Abyssal_Egg_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
@@ -120,12 +120,12 @@ public class Abyssal_Egg_Block extends BaseEntityBlock implements SimpleWaterlog
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityAbyssal_Egg(pos, state);
+        return new Abyssal_Egg_Block_Entity(pos, state);
     }
 
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.ABYSSAL_EGG.get(), TileEntityAbyssal_Egg::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.ABYSSAL_EGG.get(), Abyssal_Egg_Block_Entity::commonTick);
     }
 }

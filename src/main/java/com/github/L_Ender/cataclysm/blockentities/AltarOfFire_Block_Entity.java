@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class TileEntityAltarOfFire extends BaseContainerBlockEntity {
+public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
 
     public int tickCount;
     private static final int NUM_SLOTS = 1;
@@ -39,11 +39,11 @@ public class TileEntityAltarOfFire extends BaseContainerBlockEntity {
     public int summoningticks = 0;
     private final RandomSource rnd = RandomSource.create();
 
-    public TileEntityAltarOfFire(BlockPos pos, BlockState state) {
+    public AltarOfFire_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.ALTAR_OF_FIRE.get(), pos, state);
     }
 
-    public static void commonTick(Level level, BlockPos pos, BlockState state, TileEntityAltarOfFire entity) {
+    public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfFire_Block_Entity entity) {
         entity.tick();
 
     }

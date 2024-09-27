@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.blocks;
 
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAbyss_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -62,8 +62,8 @@ public class Altar_Of_Abyss_Block extends BaseEntityBlock implements SimpleWater
 
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
-        if (worldIn.getBlockEntity(pos) instanceof TileEntityAltarOfAbyss && (!player.isShiftKeyDown() && heldItem.getItem() != this.asItem())) {
-            TileEntityAltarOfAbyss aof = (TileEntityAltarOfAbyss)worldIn.getBlockEntity(pos);
+        if (worldIn.getBlockEntity(pos) instanceof AltarOfAbyss_Block_Entity && (!player.isShiftKeyDown() && heldItem.getItem() != this.asItem())) {
+            AltarOfAbyss_Block_Entity aof = (AltarOfAbyss_Block_Entity)worldIn.getBlockEntity(pos);
             ItemStack copy = heldItem.copy();
             copy.setCount(1);
             if(aof.getItem(0).isEmpty()){
@@ -102,12 +102,12 @@ public class Altar_Of_Abyss_Block extends BaseEntityBlock implements SimpleWater
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityAltarOfAbyss(pos, state);
+        return new AltarOfAbyss_Block_Entity(pos, state);
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_ABYSS.get(), TileEntityAltarOfAbyss::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.ALTAR_OF_ABYSS.get(), AltarOfAbyss_Block_Entity::commonTick);
     }
 
 }

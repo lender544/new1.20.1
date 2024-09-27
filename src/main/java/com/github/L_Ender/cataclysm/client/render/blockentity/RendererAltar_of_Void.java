@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Void_Model;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfVoid;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfVoid_Block_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
 import net.minecraft.resources.ResourceLocation;
 
-public class RendererAltar_of_Void<T extends TileEntityAltarOfVoid> implements BlockEntityRenderer<T> {
+public class RendererAltar_of_Void<T extends AltarOfVoid_Block_Entity> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_void.png");
     private static final Altar_of_Void_Model MODEL = new Altar_of_Void_Model();

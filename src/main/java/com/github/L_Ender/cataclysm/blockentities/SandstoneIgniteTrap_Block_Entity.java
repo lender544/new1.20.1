@@ -2,13 +2,9 @@ package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.blocks.Sandstone_Ignite_Trap;
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -18,16 +14,16 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class TileEntitySandstoneIgniteTrap extends BlockEntity {
+public class SandstoneIgniteTrap_Block_Entity extends BlockEntity {
 
     public int tickCount;
     private final RandomSource random = RandomSource.create();
 
-    public TileEntitySandstoneIgniteTrap(BlockPos pos, BlockState state) {
+    public SandstoneIgniteTrap_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.SANDSTONE_IGNITE_TRAP.get(), pos, state);
     }
 
-    public static void commonTick(Level level, BlockPos pos, BlockState state, TileEntitySandstoneIgniteTrap entity) {
+    public static void commonTick(Level level, BlockPos pos, BlockState state, SandstoneIgniteTrap_Block_Entity entity) {
         entity.tick(level, pos);
     }
 

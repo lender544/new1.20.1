@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Goals.Royal_DraugrAttackGoal;
 import com.github.L_Ender.cataclysm.entity.etc.IShieldEntity;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -323,27 +324,15 @@ public class Royal_Draugr_Entity extends Monster implements IShieldEntity {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ZOMBIE_HURT;
+        return ModSounds.DRAUGR_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ZOMBIE_DEATH;
+        return ModSounds.DRAUGR_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ZOMBIE_AMBIENT;
-    }
-
-
-    class DraugrMeleeAttackGoal extends MeleeAttackGoal {
-        public DraugrMeleeAttackGoal() {
-            super(Royal_Draugr_Entity.this, 1.0D, true);
-        }
-
-        protected double getAttackReachSqr(LivingEntity p_33377_) {
-            float f = Royal_Draugr_Entity.this.getBbWidth();
-            return (double)(f * 2.25F * f * 2.25F + p_33377_.getBbWidth());
-        }
+        return ModSounds.DRAUGR_IDLE.get();
     }
 
 }

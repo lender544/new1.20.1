@@ -13,17 +13,17 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 
-public class TileEntityAltarOfVoid extends BlockEntity {
+public class AltarOfVoid_Block_Entity extends BlockEntity {
 
     protected static final int SHORT_RANGE = 6;
 
     protected boolean spawnedBoss = false;
 
-    public TileEntityAltarOfVoid(BlockPos pos, BlockState state) {
+    public AltarOfVoid_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.ALTAR_OF_VOID.get(), pos, state);
     }
 
-    public static void commonTick(Level level, BlockPos pos, BlockState state, TileEntityAltarOfVoid entity) {
+    public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfVoid_Block_Entity entity) {
         entity.tick(level,pos,state,entity);
     }
 
@@ -31,7 +31,7 @@ public class TileEntityAltarOfVoid extends BlockEntity {
         return level.hasNearbyAlivePlayer(worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D, getRange());
     }
 
-    public void tick(Level level, BlockPos pos, BlockState state, TileEntityAltarOfVoid te) {
+    public void tick(Level level, BlockPos pos, BlockState state, AltarOfVoid_Block_Entity te) {
         if (spawnedBoss || !anyPlayerInRange()) {
             return;
         }

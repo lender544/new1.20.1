@@ -601,8 +601,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         theta += Math.PI / 2;
         double vecX = Math.cos(theta);
         double vecZ = Math.sin(theta);
-        double px = this.getX() + 2.0F * vecX;
-        double pz = this.getZ() + 2.0F * vecZ;
+        double px = this.getX() + 0.7F * vecX;
+        double pz = this.getZ() + 0.7F * vecZ;
 
         double y = this.getY() + passenger.getMyRidingOffset() + 0.6D;
         if (hasPassenger(passenger)) {
@@ -675,15 +675,15 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.HUSK_HURT;
+        return ModSounds.APTRGANGR_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.HUSK_DEATH;
+        return ModSounds.APTRGANGR_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.HUSK_AMBIENT;
+        return ModSounds.APTRGANGR_IDLE.get();
     }
 
     @Override

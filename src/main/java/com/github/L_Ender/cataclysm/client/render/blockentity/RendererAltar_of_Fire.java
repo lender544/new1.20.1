@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Fire_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfFire_Block_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -22,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class RendererAltar_of_Fire<T extends TileEntityAltarOfFire> implements BlockEntityRenderer<T> {
+public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_of_fire.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
@@ -41,7 +41,7 @@ public class RendererAltar_of_Fire<T extends TileEntityAltarOfFire> implements B
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 1.5F, 0.5F);
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-        MODEL.animate(tileEntityIn, partialTicks);;
+        MODEL.animate(tileEntityIn, partialTicks);
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         matrixStackIn.popPose();

@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfFire_Block_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
@@ -107,7 +107,7 @@ public class Altar_of_Fire_Model extends AdvancedEntityModel<Entity> {
 		this.resetToDefaultPose();
 	}
 
-	public void animate(TileEntityAltarOfFire beak, float partialTick) {
+	public void animate(AltarOfFire_Block_Entity beak, float partialTick) {
 		this.resetToDefaultPose();
 		float ageInTicks = beak.tickCount + partialTick;
 		this.walk(flag1, 0.1F, 0.05F, false, 0F, -0.05F, ageInTicks, 1F);

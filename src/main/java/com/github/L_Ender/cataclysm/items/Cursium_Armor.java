@@ -112,7 +112,7 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
         if (Type == 5) {
             if (player != null && !player.getCooldowns().isOnCooldown(ModItems.CURSIUM_HELMET.get())) {
                 boolean flag = false;
-                List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(12.0D));
+                List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(24.0D));
                 for (Entity entity : list) {
                     if (entity instanceof LivingEntity living) {
                         flag = true;

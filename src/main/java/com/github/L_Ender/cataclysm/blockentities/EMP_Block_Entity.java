@@ -17,17 +17,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class TileEntityEMP extends BlockEntity {
+public class EMP_Block_Entity extends BlockEntity {
 
     private float chompProgress;
     private float prevChompProgress;
     public int ticksExisted;
 
-    public TileEntityEMP(BlockPos pos, BlockState state) {
+    public EMP_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.EMP.get(), pos, state);
     }
 
-    public static void commonTick(Level level, BlockPos pos, BlockState state, TileEntityEMP entity) {
+    public static void commonTick(Level level, BlockPos pos, BlockState state, EMP_Block_Entity entity) {
         entity.tick();
 
     }

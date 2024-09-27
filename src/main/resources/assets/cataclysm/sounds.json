@@ -1329,5 +1329,93 @@
         "volume": 0.35, "pitch": 1.0
       }
     ]
+  },
+  "draugr_idle": {
+    "subtitle": "draugr_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_idle1"
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle2"
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle3"
+      }
+    ]
+  },
+  "draugr_hurt": {
+    "subtitle": "draugr_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/draugr_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/draugr_hurt3"
+      }
+    ]
+  },
+  "draugr_death": {
+    "subtitle": "draugr_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_death",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "aptrgangr_idle": {
+    "subtitle": "aptrgangr_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_idle1",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle2",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle3",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "aptrgangr_hurt": {
+    "subtitle": "aptrgangr_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_hurt1",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_hurt2",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_hurt3",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "aptrgangr_death": {
+    "subtitle": "aptrgangr_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_death",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
   }
 }

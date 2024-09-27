@@ -14,16 +14,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class TileEntityObsidianExplosionTrapBricks extends BlockEntity {
+public class ObsidianExplosionTrapBricks_Block_Entity extends BlockEntity {
 
     public int tickCount;
 
 
-    public TileEntityObsidianExplosionTrapBricks(BlockPos pos, BlockState state) {
+    public ObsidianExplosionTrapBricks_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.OBSIDIAN_EXPLOSION_TRAP_BRICKS.get(), pos, state);
     }
 
-    public static void commonTick(Level level, BlockPos pos, BlockState state, TileEntityObsidianExplosionTrapBricks entity) {
+    public static void commonTick(Level level, BlockPos pos, BlockState state, ObsidianExplosionTrapBricks_Block_Entity entity) {
         entity.tick();
     }
 

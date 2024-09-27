@@ -1,9 +1,9 @@
 package com.github.L_Ender.cataclysm.message;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAmethyst;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfFire;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAbyss_Block_Entity;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAmethyst_Block_Entity;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfFire_Block_Entity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -72,16 +72,16 @@ public class MessageUpdateblockentity {
                 if (player.level() != null) {
                     BlockPos pos = BlockPos.of(message.blockPos);
                     if (player.level().getBlockEntity(pos) != null) {
-                        if (player.level().getBlockEntity(pos) instanceof TileEntityAltarOfFire) {
-                            TileEntityAltarOfFire podium = (TileEntityAltarOfFire) player.level().getBlockEntity(pos);
+                        if (player.level().getBlockEntity(pos) instanceof AltarOfFire_Block_Entity) {
+                            AltarOfFire_Block_Entity podium = (AltarOfFire_Block_Entity) player.level().getBlockEntity(pos);
                             podium.setItem(0, message.heldStack);
                         }
-                        if (player.level().getBlockEntity(pos) instanceof TileEntityAltarOfAmethyst) {
-                            TileEntityAltarOfAmethyst podium = (TileEntityAltarOfAmethyst) player.level().getBlockEntity(pos);
+                        if (player.level().getBlockEntity(pos) instanceof AltarOfAmethyst_Block_Entity) {
+                            AltarOfAmethyst_Block_Entity podium = (AltarOfAmethyst_Block_Entity) player.level().getBlockEntity(pos);
                             podium.setItem(0, message.heldStack);
                         }
-                        if (player.level().getBlockEntity(pos) instanceof TileEntityAltarOfAbyss) {
-                            TileEntityAltarOfAbyss podium = (TileEntityAltarOfAbyss) player.level().getBlockEntity(pos);
+                        if (player.level().getBlockEntity(pos) instanceof AltarOfAbyss_Block_Entity) {
+                            AltarOfAbyss_Block_Entity podium = (AltarOfAbyss_Block_Entity) player.level().getBlockEntity(pos);
                             podium.setItem(0, message.heldStack);
                         }
                     }

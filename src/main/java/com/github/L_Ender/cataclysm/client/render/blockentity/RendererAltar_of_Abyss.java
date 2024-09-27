@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAbyss_Block_Entity;
 import com.github.L_Ender.cataclysm.blocks.Altar_Of_Abyss_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Abyss_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,7 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class RendererAltar_of_Abyss<T extends TileEntityAltarOfAbyss> implements BlockEntityRenderer<T> {
+public class RendererAltar_of_Abyss<T extends AltarOfAbyss_Block_Entity> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_abyss.png");
     private static final Altar_of_Abyss_Model MODEL = new Altar_of_Abyss_Model();

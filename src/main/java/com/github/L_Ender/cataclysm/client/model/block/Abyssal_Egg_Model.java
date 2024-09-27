@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAbyssal_Egg;
+import com.github.L_Ender.cataclysm.blockentities.Abyssal_Egg_Block_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
@@ -44,7 +44,7 @@ public class Abyssal_Egg_Model extends AdvancedEntityModel<Entity> {
 
 	}
 
-	public void animate(TileEntityAbyssal_Egg beak, float partialTick) {
+	public void animate(Abyssal_Egg_Block_Entity beak, float partialTick) {
 		this.resetToDefaultPose();
 		float ageInTicks = beak.tickCount + partialTick;
 		float spin = 0.01F;

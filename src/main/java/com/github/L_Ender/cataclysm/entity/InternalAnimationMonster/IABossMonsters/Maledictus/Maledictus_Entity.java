@@ -1270,7 +1270,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 2.0F + Math.min(DMG() * 2.0F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 1.8F + Math.min(DMG() * 1.8F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }

@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
 
-public class TileEntityAltarOfAmethyst extends BlockEntity implements Clearable {
+public class AltarOfAmethyst_Block_Entity extends BlockEntity implements Clearable {
     private static final int NUM_SLOTS = 1;
     private final NonNullList<ItemStack> items = NonNullList.withSize(NUM_SLOTS, ItemStack.EMPTY);
     public int blessingProgress;
@@ -30,11 +30,11 @@ public class TileEntityAltarOfAmethyst extends BlockEntity implements Clearable 
     public boolean brightThisTick = false;
     private final RecipeManager.CachedCheck<Container, AltarOfAmethystRecipe> quickCheck = RecipeManager.createCheck(ModRecipeTypes.AMETHYST_BLESS.get());
 
-    public TileEntityAltarOfAmethyst(BlockPos p_155301_, BlockState p_155302_) {
+    public AltarOfAmethyst_Block_Entity(BlockPos p_155301_, BlockState p_155302_) {
         super(ModTileentites.ALTAR_OF_AMETHYST.get(), p_155301_, p_155302_);
     }
 
-    public static void cookTick(Level p_155307_, BlockPos p_155308_, BlockState p_155309_, TileEntityAltarOfAmethyst p_155310_) {
+    public static void cookTick(Level p_155307_, BlockPos p_155308_, BlockState p_155309_, AltarOfAmethyst_Block_Entity p_155310_) {
         p_155310_.brightThisTick = false;
         p_155310_.tickCounts++;
         ItemStack itemstack = p_155310_.items.get(0);

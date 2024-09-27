@@ -392,7 +392,6 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> WADJET_DEATH = SOUNDS.register("wadjet_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_death")));
 
-
     public static final RegistryObject<SoundEvent> KOBOLEDIATOR_AMBIENT = SOUNDS.register("kobolediator_ambient",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"kobolediator_ambient")));
 
@@ -440,4 +439,22 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> AXE_SWING = SOUNDS.register("axe_swing",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"axe_swing")));
+
+    public static final RegistryObject<SoundEvent> DRAUGR_IDLE = SOUNDS.register("draugr_idle",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"draugr_idle")));
+
+    public static final RegistryObject<SoundEvent> DRAUGR_HURT = SOUNDS.register("draugr_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"draugr_hurt")));
+
+    public static final RegistryObject<SoundEvent> DRAUGR_DEATH = SOUNDS.register("draugr_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"draugr_death")));
+
+    public static final RegistryObject<SoundEvent> APTRGANGR_IDLE = SOUNDS.register("aptrgangr_idle",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"aptrgangr_idle")));
+
+    public static final RegistryObject<SoundEvent> APTRGANGR_HURT = SOUNDS.register("aptrgangr_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"aptrgangr_hurt")));
+
+    public static final RegistryObject<SoundEvent> APTRGANGR_DEATH = SOUNDS.register("aptrgangr_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"aptrgangr_death")));
 }

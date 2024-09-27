@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.blocks;
 import com.github.L_Ender.cataclysm.init.ModTag;
 
 import com.github.L_Ender.cataclysm.init.ModTileentites;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityObsidianExplosionTrapBricks;
+import com.github.L_Ender.cataclysm.blockentities.ObsidianExplosionTrapBricks_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -104,12 +104,12 @@ public class ObsidianExplosionTrapBricks extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityObsidianExplosionTrapBricks(pos, state);
+        return new ObsidianExplosionTrapBricks_Block_Entity(pos, state);
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.OBSIDIAN_EXPLOSION_TRAP_BRICKS.get(), TileEntityObsidianExplosionTrapBricks::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.OBSIDIAN_EXPLOSION_TRAP_BRICKS.get(), ObsidianExplosionTrapBricks_Block_Entity::commonTick);
     }
 
 }

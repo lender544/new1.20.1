@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAmethyst;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAmethyst_Block_Entity;
 import com.github.L_Ender.cataclysm.blocks.Altar_Of_Amethyst_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Amethyst_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,16 +21,30 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class RendererAltar_of_Amethyst<T extends TileEntityAltarOfAmethyst> implements BlockEntityRenderer<T> {
+public class RendererAltar_of_Amethyst<T extends AltarOfAmethyst_Block_Entity> implements BlockEntityRenderer<T> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_amethyst.png");
     public static final ResourceLocation BEAM_LOCATION = new ResourceLocation("textures/entity/beacon_beam.png");
     private static final Altar_of_Amethyst_Model MODEL = new Altar_of_Amethyst_Model();
 
     public RendererAltar_of_Amethyst(Context rendererDispatcherIn) {
+    }
+
+    public boolean shouldRenderOffScreen(AltarOfAmethyst_Block_Entity p_112138_) {
+        return true;
+    }
+
+    public int getViewDistance() {
+        return 256;
+    }
+
+    public boolean shouldRender(AltarOfAmethyst_Block_Entity p_173531_, Vec3 p_173532_) {
+        return Vec3.atCenterOf(p_173531_.getBlockPos()).multiply(1.0D, 0.0D, 1.0D).closerThan(p_173532_.multiply(1.0D, 0.0D, 1.0D), (double)this.getViewDistance());
     }
 
     @Override

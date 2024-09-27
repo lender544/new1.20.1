@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.blocks;
 
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import com.github.L_Ender.cataclysm.inventory.WeaponfusionMenu;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityMechanical_fusion_Anvil;
+import com.github.L_Ender.cataclysm.blockentities.Mechanical_fusion_Anvil_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -97,11 +97,11 @@ public class Mechanical_fusion_Anvil extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityMechanical_fusion_Anvil(pos, state);
+        return new Mechanical_fusion_Anvil_Block_Entity(pos, state);
     }
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.MECHANICAL_FUSION_ANVIL.get(), TileEntityMechanical_fusion_Anvil::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.MECHANICAL_FUSION_ANVIL.get(), Mechanical_fusion_Anvil_Block_Entity::commonTick);
     }
 }

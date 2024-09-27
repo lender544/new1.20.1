@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
@@ -176,15 +177,15 @@ public class Draugr_Entity extends Monster {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ZOMBIE_HURT;
+        return ModSounds.DRAUGR_HURT.get();
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ZOMBIE_DEATH;
+        return ModSounds.DRAUGR_DEATH.get();
     }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ZOMBIE_AMBIENT;
+        return ModSounds.DRAUGR_IDLE.get();
     }
 
 

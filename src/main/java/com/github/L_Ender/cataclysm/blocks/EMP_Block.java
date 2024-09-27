@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.blocks;
 import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 
 import com.github.L_Ender.cataclysm.init.ModTileentites;
-import com.github.L_Ender.cataclysm.blockentities.TileEntityEMP;
+import com.github.L_Ender.cataclysm.blockentities.EMP_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -94,7 +94,7 @@ public class EMP_Block extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new TileEntityEMP(pos, state);
+        return new EMP_Block_Entity(pos, state);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -103,6 +103,6 @@ public class EMP_Block extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return createTickerHelper(p_152182_, ModTileentites.EMP.get(), TileEntityEMP::commonTick);
+        return createTickerHelper(p_152182_, ModTileentites.EMP.get(), EMP_Block_Entity::commonTick);
     }
 }

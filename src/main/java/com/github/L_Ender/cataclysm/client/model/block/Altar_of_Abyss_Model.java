@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.blockentities.TileEntityAltarOfAbyss;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAbyss_Block_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
@@ -77,7 +77,7 @@ public class Altar_of_Abyss_Model extends AdvancedEntityModel<Entity> {
 	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 	}
 
-	public void animate(TileEntityAltarOfAbyss beak, float partialTick) {
+	public void animate(AltarOfAbyss_Block_Entity beak, float partialTick) {
 		this.resetToDefaultPose();
 		float amount = beak.getChompProgress(partialTick);
 		progressRotationPrev(skul, amount,(float)Math.toRadians(30F), 0f, 0, 30F);
