@@ -11,6 +11,7 @@ import com.github.L_Ender.cataclysm.entity.Deepling.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elite_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
@@ -513,6 +514,12 @@ public class ModEntities {
             .clientTrackingRange(10)
             .build(Cataclysm.MODID + ":royal_draugr"));
 
+    public static final RegistryObject<EntityType<Elite_Draugr_Entity>> ELITE_DRAUGR = ENTITY_TYPE.register("elite_draugr", () -> EntityType.Builder.of(Elite_Draugr_Entity::new, MobCategory.MONSTER)
+            .sized(0.8F, 2.6F)
+            .clientTrackingRange(10)
+            .build(Cataclysm.MODID + ":elite_draugr"));
+
+
     public static final RegistryObject<EntityType<Aptrgangr_Entity>> APTRGANGR = ENTITY_TYPE.register("aptrgangr", () -> EntityType.Builder.of(Aptrgangr_Entity::new, MobCategory.MONSTER)
             .sized(2.4F, 4.0f)
             .clientTrackingRange(8)
@@ -585,6 +592,7 @@ public class ModEntities {
         event.put(ANCIENT_REMNANT.get(), Ancient_Remnant_Entity.maledictus().build());
         event.put(DRAUGR.get(), Draugr_Entity.draugr().build());
         event.put(ROYAL_DRAUGR.get(), Royal_Draugr_Entity.royal_draugr().build());
+        event.put(ELITE_DRAUGR.get(), Elite_Draugr_Entity.elite_draugr().build());
     }
 }
 

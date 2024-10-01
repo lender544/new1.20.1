@@ -210,6 +210,9 @@ public class ModItems {
     public static final RegistryObject<Item> IGNITIUM_UPGARDE_SMITHING_TEMPLATE = ITEMS.register("ignitium_upgrade_smithing_template",
             () -> ModTemplate.createignitiumUpgradeTemplate());
 
+    public static final RegistryObject<Item> CURSIUM_UPGARDE_SMITHING_TEMPLATE = ITEMS.register("cursium_upgrade_smithing_template",
+            () -> ModTemplate.createcursiumUpgradeTemplate());
+
     public static final RegistryObject<Item> CHAIN_OF_SOUL_BINDING = ITEMS.register("chain_of_soul_binding",
             () -> new ItemInventoryOnly(new Item.Properties()));
 
@@ -552,6 +555,9 @@ public class ModItems {
 
     public static final RegistryObject<SpawnEggItem> APTRGANGR_SPAWN_EGG = ITEMS.register("aptrgangr_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.APTRGANGR,0x392116, 0xe8e7e4, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> ELITE_DRAUGR_SPAWN_EGG = ITEMS.register("elite_draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ELITE_DRAUGR,0x392116, 0x442318, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> ROYAL_DRAUGR_SPAWN_EGG = ITEMS.register("royal_draugr_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ROYAL_DRAUGR,0x392116, 0x945b31, new Item.Properties()));

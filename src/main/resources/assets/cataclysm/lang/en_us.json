@@ -44,6 +44,9 @@
   "item.cataclysm.ignitium_upgrade.desc":"Ignitium Upgrade",
   "item.cataclysm.ignitium_upgrade.applies_to.desc":"Netherite Equipment",
   "item.cataclysm.ignitium_upgrade.ingredients.desc":"Ignitium Ingot",
+  "item.cataclysm.cursium_upgrade.desc":"Cursium Upgrade",
+  "item.cataclysm.cursium_upgrade.applies_to.desc":"Netherite Equipment",
+  "item.cataclysm.cursium_upgrade.ingredients.desc":"Cursium Ingot",
   "item.cataclysm.tidal_claws.desc": "Right click to fire a grappling hook",
   "item.cataclysm.tidal_claws.desc2": "Left click to shoot a tentacle that damages entities",
   "item.cataclysm.bloom_stone_pauldrons.desc": "Press the %s to fire amethyst clusters around you that damage entities.",
@@ -183,6 +186,7 @@
   "item.cataclysm.draugr_spawn_egg": "Draugr Spawn Egg",
   "item.cataclysm.royal_draugr_spawn_egg": "Royal Draugr Spawn Egg",
   "item.cataclysm.aptrgangr_spawn_egg": "Aptrgangr Spawn Egg",
+  "item.cataclysm.elite_draugr_spawn_egg": "Elite Draugr Spawn Egg",
 
   "itemGroup.cataclysm": "Cataclysm",
   "block.cataclysm.witherite_block": "Witherite Block",
@@ -244,6 +248,8 @@
   "block.cataclysm.black_steel_fence": "Black Steel Fence",
   "block.cataclysm.black_steel_wall": "Black Steel Wall",
   "block.cataclysm.pointed_icicle": "Pointed Icicle",
+  "block.cataclysm.door_of_seal": "Door Of Seal",
+  "block.cataclysm.door_of_seal_part": "Door Of Seal Part",
 
 
   "entity.cataclysm.ender_golem": "Ender Golem",
@@ -318,6 +324,7 @@
   "entity.cataclysm.aptrgangr": "Aptrgangr",
   "entity.cataclysm.axe_blade": "Axe Blade",
   "entity.cataclysm.royal_draugr": "Royal Draugr",
+  "entity.cataclysm.elite_draugr": "Elite Draugr",
   "entity.cataclysm.phantom_arrow": "Phantom Arrow",
   "entity.cataclysm.phantom_halberd": "Phantom Halberd",
   "entity.cataclysm.all.command_0": "%s is wandering",

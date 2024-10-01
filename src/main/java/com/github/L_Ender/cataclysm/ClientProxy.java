@@ -147,6 +147,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.MALEDICTUS.get(), Maledictus_Renderer::new);
         EntityRenderers.register(ModEntities.DRAUGR.get(), Draugr_Renderer::new);
         EntityRenderers.register(ModEntities.ROYAL_DRAUGR.get(), Royal_Draugr_Renderer::new);
+        EntityRenderers.register(ModEntities.ELITE_DRAUGR.get(), Elite_Draugr_Renderer::new);
         EntityRenderers.register(ModEntities.APTRGANGR.get(), Aptrgangr_Renderer::new);
         EntityRenderers.register(ModEntities.AXE_BLADE.get(), Axe_Blade_Renderer::new);
         EntityRenderers.register(ModEntities.PHANTOM_HALBERD.get(), Phantom_Halberd_Renderer::new);

@@ -13,7 +13,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class Draugr_Model extends AdvancedEntityModel<Draugr_Entity>  implements ArmedModel {
+public class Draugr_Model extends AdvancedEntityModel<Draugr_Entity> implements ArmedModel {
 	private final AdvancedModelBox root;
 	private final AdvancedModelBox right_leg;
 	private final AdvancedModelBox left_leg;

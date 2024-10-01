@@ -46,7 +46,7 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
     public Door_of_Seal_Block() {
         super(Properties.of().mapColor(MapColor.METAL)
                 .noOcclusion()
-                .emissiveRendering((block, world, pos) -> true)
+                .dynamicShape()
                 .strength(-1.0F, 3600000.0F)
                 .noLootTable()
                 .requiresCorrectToolForDrops()
@@ -77,13 +77,13 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
 
 
     public InteractionResult use(BlockState p_49722_, Level p_49723_, BlockPos p_49724_, Player p_49725_, InteractionHand p_49726_, BlockHitResult p_49727_) {
-        return this.onHit(p_49723_, p_49727_, p_49725_, true) ? InteractionResult.sidedSuccess(p_49723_.isClientSide) : InteractionResult.PASS;
+        return this.onHit(p_49723_,p_49722_, p_49727_, p_49725_, true)  ? InteractionResult.sidedSuccess(p_49723_.isClientSide) : InteractionResult.PASS;
     }
 
-    public boolean onHit(Level p_49702_, BlockHitResult p_49704_, @javax.annotation.Nullable Player p_49705_, boolean p_49706_) {
+    public boolean onHit(Level p_49702_,BlockState blockState, BlockHitResult p_49704_, @javax.annotation.Nullable Player p_49705_, boolean p_49706_) {
         BlockPos blockpos = p_49704_.getBlockPos();
         if (p_49706_) {
-            this.attemptToRing(p_49705_, p_49702_, blockpos);
+            this.attemptToRing(p_49705_, p_49702_,blockState, blockpos);
             return true;
         } else {
             return false;
@@ -91,11 +91,12 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
     }
 
 
-    public boolean attemptToRing(@javax.annotation.Nullable Entity p_152189_, Level p_152190_, BlockPos p_152191_) {
+    public boolean attemptToRing(@javax.annotation.Nullable Entity p_152189_, Level p_152190_,BlockState blockState, BlockPos p_152191_) {
         BlockEntity blockentity = p_152190_.getBlockEntity(p_152191_);
-        if (!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity) {
+        if (!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity && !blockState.getValue(LIT)) {
             ((Door_Of_Seal_BlockEntity)blockentity).onHit(p_152190_);
-            p_152190_.playSound((Player)null, p_152191_, ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
+            p_152190_.setBlock(p_152191_, blockState.setValue(LIT, Boolean.valueOf(true)), 3);
+          //  p_152190_.playSound((Player)null, p_152191_, ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
             p_152190_.gameEvent(p_152189_, GameEvent.BLOCK_CHANGE, p_152191_);
             return true;
         } else {
@@ -119,8 +120,8 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
-    private VoxelShape getVoxelShape(BlockState p_49767_) {
-        return CLOSED_SHAPE;
+    public VoxelShape getVisualShape(BlockState p_48735_, BlockGetter p_48736_, BlockPos p_48737_, CollisionContext p_48738_) {
+        return Shapes.empty();
     }
 
 

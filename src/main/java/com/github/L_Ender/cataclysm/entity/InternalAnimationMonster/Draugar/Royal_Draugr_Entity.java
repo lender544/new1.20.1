@@ -43,8 +43,7 @@ public class Royal_Draugr_Entity extends Monster implements IShieldEntity {
     public AnimationState attackAnimationState = new AnimationState();
     public AnimationState attack2AnimationState = new AnimationState();
     private int shieldCooldownTime = 0;
-    private int jump_cooldown = 0;
-    private int attackTick;
+
 
     public Royal_Draugr_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -289,20 +288,9 @@ public class Royal_Draugr_Entity extends Monster implements IShieldEntity {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(true, this.tickCount);
         }
-        if (this.attackTick > 0) {
-            --this.attackTick;
-        }
-
         if (this.shieldCooldownTime > 0) {
             --this.shieldCooldownTime;
         }
-       if(this.isDraugrBlocking()){
-           this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.24F);
-           this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(1.0F);
-       }else{
-           this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.27F);
-           this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0.1F);
-       }
     }
 
     public void aiStep() {

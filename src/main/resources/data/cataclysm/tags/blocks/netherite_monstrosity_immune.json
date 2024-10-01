@@ -37,6 +37,8 @@
     "cataclysm:altar_of_amethyst",
     "cataclysm:altar_of_abyss",
     "cataclysm:emp",
-    "cataclysm:dungeon_block"
+    "cataclysm:dungeon_block",
+    "cataclysm:door_of_seal",
+    "cataclysm:door_of_seal_part"
   ]
 }

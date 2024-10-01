@@ -853,6 +853,14 @@
       }
     ]
   },
+  "door_of_seal_open": {
+    "subtitle": "door_of_seal_open.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:block/door_of_seal_open"
+      }
+    ]
+  },
   "remnant_charge_step": {
     "subtitle": "remnant_charge_step.sub",
     "sounds": [

@@ -25,6 +25,8 @@
     "cataclysm:altar_of_abyss",
     "cataclysm:emp",
     "cataclysm:dungeon_block",
-    "cataclysm:abyssal_egg"
+    "cataclysm:abyssal_egg",
+    "cataclysm:door_of_seal",
+    "cataclysm:door_of_seal_part"
   ]
 }

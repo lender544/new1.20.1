@@ -34,9 +34,6 @@ public class Draugr_Entity extends Monster {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState attackAnimationState = new AnimationState();
     public AnimationState attack2AnimationState = new AnimationState();
-    private int nanta_cooldown = 0;
-    private int jump_cooldown = 0;
-    private int attackTick;
 
     public Draugr_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -140,9 +137,6 @@ public class Draugr_Entity extends Monster {
         super.tick();
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(true, this.tickCount);
-        }
-        if (this.attackTick > 0) {
-            --this.attackTick;
         }
     }
 

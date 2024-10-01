@@ -3,7 +3,9 @@ package com.github.L_Ender.cataclysm.blockentities;
 import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
 import com.github.L_Ender.cataclysm.blocks.ObsidianExplosionTrapBricks;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
@@ -11,6 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,9 +66,23 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
         if(blockState.getBlock() instanceof Door_of_Seal_Block) {
             if (blockState.getValue(Door_of_Seal_Block.LIT)) {
                 ++entity.Animaitonticks;
-                if (entity.Animaitonticks >= 145) {
-                    if (blockState.getBlock() instanceof Door_of_Seal_Block) {
-                        if (!blockState.getValue(Door_of_Seal_Block.OPEN)) {
+                if (blockState.getBlock() instanceof Door_of_Seal_Block) {
+                    if (!blockState.getValue(Door_of_Seal_Block.OPEN)) {
+                        if (entity.Animaitonticks == 1) {
+                            ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.05f, 0, 120);
+                        }
+
+                        if (entity.Animaitonticks == 28) {
+                            level.playSound((Player)null, pos, ModSounds.DOOR_OF_SEAL_OPEN.get(), SoundSource.BLOCKS, 4F, level.random.nextFloat() * 0.2F + 1.0F);
+
+                            float x = pos.getX() + 0.5F;
+                            float y = pos.getY();
+                            float z = pos.getZ() + 0.5F;
+                            if (!level.isClientSide) {
+                                level.explode(null, x, y + 1, z, 2.0F, Level.ExplosionInteraction.NONE);
+                            }
+                        }
+                        if (entity.Animaitonticks >= 145) {
                             if (!level.isClientSide) {
                                 level.setBlock(pos, blockState.setValue(Door_of_Seal_Block.OPEN, Boolean.valueOf(true)), 2);
                                 for (int i = 0; i <= 7; i++) {
@@ -84,9 +101,9 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
                                     }
                                 }
                             }
-                        } else {
-                            entity.Animaitonticks = 0;
                         }
+                    }else{
+                        entity.Animaitonticks = 0;
                     }
                 }
             }

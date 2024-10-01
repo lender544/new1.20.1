@@ -3,15 +3,20 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Elite_Draugr_Animation;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elite_Draugr_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.ArmedModel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 
-public class Elite_Draugr_Model extends AdvancedEntityModel<Entity> {
+public class Elite_Draugr_Model extends AdvancedEntityModel<Elite_Draugr_Entity> implements ArmedModel {
 	private final AdvancedModelBox root;
 	private final AdvancedModelBox body;
 	private final AdvancedModelBox front_cloth1;
@@ -154,8 +159,17 @@ public class Elite_Draugr_Model extends AdvancedEntityModel<Entity> {
 	}
 
 	@Override
-	public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+	public void setupAnim(Elite_Draugr_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
 		this.resetToDefaultPose();
+		this.faceTarget(netHeadYaw, headPitch, 1, head);
+		this.animateWalk(Elite_Draugr_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
+		this.animate(entity.getAnimationState("idle"), Elite_Draugr_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("re_load"), Elite_Draugr_Animation.RE_LOAD, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("shoot"), Elite_Draugr_Animation.SHOOT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("shoot2"), Elite_Draugr_Animation.SHOOT2, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("swing"), Elite_Draugr_Animation.SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("attack"), Elite_Draugr_Animation.ATTACK, ageInTicks, 1.5F);
+		this.animate(entity.getAnimationState("attack2"), Elite_Draugr_Animation.ATTACK2, ageInTicks, 1.5F);
 
 	}
 
@@ -163,6 +177,23 @@ public class Elite_Draugr_Model extends AdvancedEntityModel<Entity> {
 		AdvancedModelBox.rotateAngleX = x;
 		AdvancedModelBox.rotateAngleY = y;
 		AdvancedModelBox.rotateAngleZ = z;
+	}
+
+	@Override
+	public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
+		root.translateAndRotate(poseStack);
+		body.translateAndRotate(poseStack);
+		waist.translateAndRotate(poseStack);
+		chest.translateAndRotate(poseStack);
+		if (arm == HumanoidArm.RIGHT) {
+			r_arm.translateAndRotate(poseStack);
+			r_arm2.translateAndRotate(poseStack);
+			poseStack.translate(0.0F, 0.0F, 0.0F);
+		} else {
+			l_arm.translateAndRotate(poseStack);
+			l_arm2.translateAndRotate(poseStack);
+			poseStack.translate(0.0F, 0.0F, 0.0F);
+		}
 	}
 
 	@Override

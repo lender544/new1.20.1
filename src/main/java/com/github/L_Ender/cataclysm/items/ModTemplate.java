@@ -29,6 +29,10 @@ public class ModTemplate extends Item {
     private static final Component IGNITIUM_UPGRADE = Component.translatable("item.cataclysm.ignitium_upgrade.desc").withStyle(TITLE_FORMAT);
     private static final Component IGNITIUM_UPGRADE_APPLIES_TO = Component.translatable("item.cataclysm.ignitium_upgrade.applies_to.desc").withStyle(DESCRIPTION_FORMAT);
     private static final Component IGNITIUM_UPGRADE_INGREDIENTS = Component.translatable("item.cataclysm.ignitium_upgrade.ingredients.desc").withStyle(DESCRIPTION_FORMAT);
+
+    private static final Component CURSIUM_UPGRADE = Component.translatable("item.cataclysm.cursium_upgrade.desc").withStyle(TITLE_FORMAT);
+    private static final Component CURSIUM_UPGRADE_APPLIES_TO = Component.translatable("item.cataclysm.cursium_upgrade.applies_to.desc").withStyle(DESCRIPTION_FORMAT);
+    private static final Component CURSIUM_UPGRADE_INGREDIENTS = Component.translatable("item.cataclysm.cursium_upgrade.ingredients.desc").withStyle(DESCRIPTION_FORMAT);
     private static final Component IGNITIUM_UPGRADE_BASE_SLOT_DESCRIPTION = Component.translatable("item.cataclysm.ignitium_upgrade.base_slot.desc");
     private static final Component IGNITIUM_UPGRADE_ADDITIONS_SLOT_DESCRIPTION = Component.translatable("item.cataclysm.ignitium_upgrade.additions_slot.desc");
     private static final ResourceLocation EMPTY_SLOT_HELMET = new ResourceLocation("item/empty_armor_slot_helmet");
@@ -61,7 +65,11 @@ public class ModTemplate extends Item {
     public static ModTemplate createignitiumUpgradeTemplate() {
         return new ModTemplate(IGNITIUM_UPGRADE_APPLIES_TO, IGNITIUM_UPGRADE_INGREDIENTS, IGNITIUM_UPGRADE, IGNITIUM_UPGRADE_BASE_SLOT_DESCRIPTION, IGNITIUM_UPGRADE_ADDITIONS_SLOT_DESCRIPTION, createignitiumUpgradeIconList(), createignitiumUpgradeMaterialList());
     }
-    
+
+    public static ModTemplate createcursiumUpgradeTemplate() {
+        return new ModTemplate(CURSIUM_UPGRADE_APPLIES_TO, CURSIUM_UPGRADE_INGREDIENTS, CURSIUM_UPGRADE, IGNITIUM_UPGRADE_BASE_SLOT_DESCRIPTION, IGNITIUM_UPGRADE_ADDITIONS_SLOT_DESCRIPTION, createignitiumUpgradeIconList(), createignitiumUpgradeMaterialList());
+    }
+
     private static List<ResourceLocation> createignitiumUpgradeIconList() {
         return List.of(EMPTY_SLOT_HELMET, EMPTY_SLOT_CHESTPLATE, EMPTY_SLOT_LEGGINGS, EMPTY_SLOT_BOOTS);
     }

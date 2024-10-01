@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.capabilities.*;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
@@ -177,6 +178,18 @@ public class ServerEventHandler {
             }
         }
     }
+
+
+    @SubscribeEvent
+    public void KnockbackEvent(LivingKnockBackEvent event) {
+        LivingEntity living = event.getEntity();
+        if(living instanceof Royal_Draugr_Entity royalDraugr){
+            if(royalDraugr.isDraugrBlocking()){
+                event.setCanceled(true);
+            }
+        }
+    }
+
 
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event) {
