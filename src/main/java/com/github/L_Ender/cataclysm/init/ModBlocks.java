@@ -155,10 +155,13 @@ public class ModBlocks {
             Altar_Of_Void_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
     public static final RegistryObject<Block> ALTAR_OF_AMETHYST = registerBlockAndItem("altar_of_amethyst",
-            Altar_Of_Amethyst_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant().fireResistant(), true);
+            Altar_Of_Amethyst_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
     public static final RegistryObject<Block> ALTAR_OF_ABYSS = registerBlockAndItem("altar_of_abyss",
-            Altar_Of_Abyss_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant().fireResistant(), true);
+            Altar_Of_Abyss_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
+
+    public static final RegistryObject<Block> CURSED_TOMBSTONE = registerBlockAndItem("cursed_tombstone",
+            Cursed_Tombstone_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
     public static final RegistryObject<Block> DUNGEON_BLOCK = BLOCKS.register("dungeon_block",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(-1.0F, 3600000.0F).noLootTable()));

@@ -181,6 +181,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_FIRE.get(), RendererAltar_of_Fire::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_VOID.get(), RendererAltar_of_Void::new);
         BlockEntityRenderers.register(ModTileentites.DOOR_OF_SEAL.get(), Door_Of_Seal_Renderer::new);
+        BlockEntityRenderers.register(ModTileentites.CURSED_TOMBSTONE.get(), Cursed_Tombstone_Renderer::new);
         BlockEntityRenderers.register(ModTileentites.EMP.get(), RendererEMP::new);
         BlockEntityRenderers.register(ModTileentites.MECHANICAL_FUSION_ANVIL.get(), RendererMechanical_fusion_anvil::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_AMETHYST.get(), RendererAltar_of_Amethyst::new);

@@ -4,16 +4,20 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.blockentities.EMP_Block_Entity;
+import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
+import com.github.L_Ender.cataclysm.blocks.Mechanical_fusion_Anvil;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Void_Model;
 import com.github.L_Ender.cataclysm.client.model.block.Door_Of_Seal_Model;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BeaconRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -43,11 +47,18 @@ public class Door_Of_Seal_Renderer implements BlockEntityRenderer<Door_Of_Seal_B
     @Override
     public void render(Door_Of_Seal_BlockEntity entity, float delta, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int overlay) {
         poseStack.pushPose();
-        poseStack.translate(0.5, 1.501, 0.5);
-        poseStack.mulPose(CMMathUtil.quatFromRotationXYZ(0, 0, 180, true));
-        if (entity.facing.getAxis() == Direction.Axis.X) {
-            poseStack.mulPose(CMMathUtil.quatFromRotationXYZ(0, 90, 0, true));
+        Direction dir = entity.getBlockState().getValue(Door_of_Seal_Block.FACING);
+        if(dir == Direction.NORTH){
+            poseStack.translate(0.5, 1.501F, 0.5F);
+        }else if(dir == Direction.EAST){
+            poseStack.translate(0.5F, 1.501F, 0.5F);
+        }else if(dir == Direction.SOUTH){
+            poseStack.translate(0.5, 1.501F, 0.5F);
+        }else if(dir == Direction.WEST){
+            poseStack.translate(0.5F, 1.501F, 0.5F);
         }
+        poseStack.mulPose(dir.getOpposite().getRotation());
+        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
         MODEL.animate(entity, delta);
         MODEL.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), packedLight, overlay, 1, 1F, 1, 1);
         poseStack.popPose();

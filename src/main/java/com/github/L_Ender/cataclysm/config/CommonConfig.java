@@ -8,7 +8,6 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue LavaVisionOpacity;
     public final ForgeConfigSpec.BooleanValue shadersCompat;
     public final ForgeConfigSpec.BooleanValue custombossbar;
-    public final ForgeConfigSpec.BooleanValue AddedServerlist;
 
     public final ForgeConfigSpec.BooleanValue Armor_Infinity_Durability;
     public final ForgeConfigSpec.IntValue BulwarkOfTheFlameCooldown;
@@ -23,6 +22,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue VoidCoreCooldown;
     public final ForgeConfigSpec.IntValue Sandstorm_In_A_Bottle_Timer;
     public final ForgeConfigSpec.IntValue SoulRenderCooldown;
+
+    public final ForgeConfigSpec.IntValue Cursed_tombstone_summon_cooldown;
 
     public final ForgeConfigSpec.DoubleValue Voidrunedamage;
     public final ForgeConfigSpec.IntValue Lavabombradius;
@@ -199,7 +200,6 @@ public class CommonConfig {
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
         custombossbar = buildBoolean(builder, "custombossbar(on/off)", "all", true, "custombossbar(on/off)");
-        AddedServerlist = buildBoolean(builder, "AddedServerlist(on/off)", "all", true, "AddedServerlist(on/off)");
         BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
         BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
         builder.pop();
@@ -218,6 +218,10 @@ public class CommonConfig {
         VoidCoreCooldown = buildInt(builder, "VoidCoreCooldown", "all", 160, 0, 1000000, "Void Core's Cooldown");
         Sandstorm_In_A_Bottle_Timer = buildInt(builder, "SandstormTimer", "all", 160, 0, 1000000, "Sandstorm's Timer");
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
+        builder.pop();
+
+        builder.push("Block");
+        Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 30, 3, 300, "Cursed Tombstone Summon cooldown Minute");
         builder.pop();
 
         builder.push("Entity damage");

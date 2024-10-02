@@ -31,6 +31,9 @@ public class ModTileentites {
     public static final RegistryObject<BlockEntityType<AltarOfAbyss_Block_Entity>> ALTAR_OF_ABYSS = TILE_ENTITY_TYPES.register("altar_of_abyss", () ->
             BlockEntityType.Builder.of(AltarOfAbyss_Block_Entity::new, ModBlocks.ALTAR_OF_ABYSS.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<Cursed_tombstone_Entity>> CURSED_TOMBSTONE = TILE_ENTITY_TYPES.register("cursed_tombstone", () ->
+            BlockEntityType.Builder.of(Cursed_tombstone_Entity::new, ModBlocks.CURSED_TOMBSTONE.get()).build(null));
+
     public static final RegistryObject<BlockEntityType<Abyssal_Egg_Block_Entity>> ABYSSAL_EGG = TILE_ENTITY_TYPES.register("abyssal_egg", () ->
             BlockEntityType.Builder.of(Abyssal_Egg_Block_Entity::new, ModBlocks.ABYSSAL_EGG.get()).build(null));
 
@@ -46,5 +49,6 @@ public class ModTileentites {
 
     public static final RegistryObject<BlockEntityType<Door_Of_Seal_BlockEntity>> DOOR_OF_SEAL = TILE_ENTITY_TYPES.register("door_of_seal", () ->
             BlockEntityType.Builder.of(Door_Of_Seal_BlockEntity::new, ModBlocks.DOOR_OF_SEAL.get()).build(null));
+
 
 }

@@ -1,8 +1,13 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus;
 
+import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
+import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
+import com.github.L_Ender.cataclysm.blocks.EndStoneTeleportTrapBricks;
+import com.github.L_Ender.cataclysm.blocks.Sandstone_Poison_Dart_Trap;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.Endermaptera_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -11,10 +16,13 @@ import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.*;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.world.data.CMWorldData;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,12 +30,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -39,9 +49,12 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
@@ -120,6 +133,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public static final EntityDataAccessor<Integer> RAGE = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
 
     public static final EntityDataAccessor<Integer> WEAPON = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.INT);
+
+    private static final EntityDataAccessor<BlockPos> TOMBSTONE_POS = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BLOCK_POS);
+    private static final EntityDataAccessor<Direction> TOMBSTONE_DIRECTION = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.DIRECTION);
 
     private final CMBossInfoServer bossEvent1 = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.GREEN,true,9);
     private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"), BossEvent.BossBarColor.GREEN,false,10);
@@ -494,6 +510,8 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
+        this.entityData.define(TOMBSTONE_POS, BlockPos.ZERO);
+        this.entityData.define(TOMBSTONE_DIRECTION, Direction.NORTH);
         this.entityData.define(WEAPON, 0);
         this.entityData.define(FLYING, false);
         this.entityData.define(RAGE, 0);
@@ -515,6 +533,25 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public void setFlying(boolean flying) {
         this.entityData.set(FLYING, flying);
     }
+
+
+    BlockPos getTombstonePos() {
+        return this.entityData.get(TOMBSTONE_POS);
+    }
+
+    public void setTombstonePos(BlockPos p_30220_) {
+        this.entityData.set(TOMBSTONE_POS, p_30220_);
+    }
+
+    public Direction getTombstoneDirection() {
+        return this.entityData.get(TOMBSTONE_DIRECTION);
+    }
+
+
+    public void setTombstoneDirection(Direction p_30220_) {
+        this.entityData.set(TOMBSTONE_DIRECTION, p_30220_);
+    }
+
 
     public int getRageMeter() {
         return this.entityData.get(RAGE);
@@ -766,12 +803,41 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         return 60;
     }
 
+    @Override
+    protected void AfterDefeatBoss(@Nullable LivingEntity living) {
+        if (!this.level().isClientSide) {
+            BlockState block = ModBlocks.CURSED_TOMBSTONE.get().defaultBlockState();
+            if (this.getTombstoneDirection() == Direction.UP || this.getTombstoneDirection() == Direction.DOWN) {
+                this.level().setBlockAndUpdate(this.getTombstonePos(), block.setValue(Cursed_Tombstone_Block.FACING, Direction.NORTH));
+            }else{
+                this.level().setBlockAndUpdate(this.getTombstonePos(), block.setValue(Cursed_Tombstone_Block.FACING, this.getTombstoneDirection()));
+            }
+        }
+    }
+
+
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putInt("TombstonePosX", this.getTombstonePos().getX());
+        compound.putInt("TombstonePosY", this.getTombstonePos().getY());
+        compound.putInt("TombstonePosZ", this.getTombstonePos().getZ());
+        compound.putByte("Tombstone_Direction", (byte)this.getTombstoneDirection().get3DDataValue());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        int i = compound.getInt("TombstonePosX");
+        int j = compound.getInt("TombstonePosY");
+        int k = compound.getInt("TombstonePosZ");
+        this.setTombstoneDirection(Direction.from3DDataValue(compound.getByte("Tombstone_Direction")));
+        this.setTombstonePos(new BlockPos(i, j, k));
+    }
+
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_30153_, DifficultyInstance p_30154_, MobSpawnType p_30155_, @Nullable SpawnGroupData p_30156_, @Nullable CompoundTag p_30157_) {
+        this.setTombstonePos(this.blockPosition());
+        this.setTombstoneDirection(Direction.SOUTH);
+        return super.finalizeSpawn(p_30153_, p_30154_, p_30155_, p_30156_, p_30157_);
     }
 
 

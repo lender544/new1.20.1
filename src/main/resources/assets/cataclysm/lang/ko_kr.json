@@ -95,7 +95,7 @@
   "item.cataclysm.music_disc_ancient_remnant": "음반",
   "item.cataclysm.music_disc_maledictus": "음반",
   "item.cataclysm.music_disc_maledictus.desc": "Rotch Gwylt - Maledictus",
-  "item.cataclysm.music_disc_netherite_monstrosity.desc": "LeoDragon1 - Forged In Soul Fire",
+  "item.cataclysm.music_disc_netherite_monstrosity.desc": "LeoDragon1 - Soul Bound Inferno",
   "item.cataclysm.music_disc_ender_guardian.desc": "LeoDragon1 - The Citadels Last Stand",
   "item.cataclysm.music_disc_ignis.desc": "LeoDragon1 - Burning Retribution",
   "item.cataclysm.music_disc_the_harbinger.desc": "LeoDragon1 - Withering Meltdown",
@@ -249,6 +249,8 @@
   "block.cataclysm.pointed_icicle": "뾰족한 고드름",
   "block.cataclysm.door_of_seal": "봉인의 문",
   "block.cataclysm.door_of_seal_part": "봉인의 문",
+  "block.cataclysm.cursed_tombstone": "저주받은 묘비",
+  "block.cataclysm.cursed_tombstone.message": "그것의 힘은 아직 미약하다....",
 
   "entity.cataclysm.ender_golem": "엔더 골렘",
   "entity.cataclysm.ender_guardian": "엔더 수호자",

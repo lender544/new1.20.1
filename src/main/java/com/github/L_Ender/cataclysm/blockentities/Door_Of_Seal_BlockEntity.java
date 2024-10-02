@@ -66,7 +66,7 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
         if(blockState.getBlock() instanceof Door_of_Seal_Block) {
             if (blockState.getValue(Door_of_Seal_Block.LIT)) {
                 ++entity.Animaitonticks;
-                if (blockState.getBlock() instanceof Door_of_Seal_Block) {
+
                     if (!blockState.getValue(Door_of_Seal_Block.OPEN)) {
                         if (entity.Animaitonticks == 1) {
                             ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.05f, 0, 120);
@@ -104,18 +104,12 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
                         }
                     }else{
                         entity.Animaitonticks = 0;
+                        if (level.isClientSide) {
+                            entity.openingAnimationState.stop();
+                            entity.openAnimationState.startIfStopped(entity.tickCount);
+                        }
                     }
-                }
-            }
-        }
-        if(blockState.getBlock() instanceof Door_of_Seal_Block) {
-            if (blockState.getValue(Door_of_Seal_Block.LIT)) {
-                if (blockState.getValue(Door_of_Seal_Block.OPEN)) {
-                    if (level.isClientSide) {
-                        entity.openingAnimationState.stop();
-                        entity.openAnimationState.startIfStopped(entity.tickCount);
-                    }
-                }
+
             }
         }
     }
