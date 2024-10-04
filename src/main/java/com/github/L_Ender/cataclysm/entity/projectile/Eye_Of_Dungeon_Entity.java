@@ -25,9 +25,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
     private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.ITEM_STACK);
-    private static final EntityDataAccessor<Float> R = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> G = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> B = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> R = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> G = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> B = SynchedEntityData.defineId(Eye_Of_Dungeon_Entity.class, EntityDataSerializers.INT);
 
 
     private double tx;
@@ -61,33 +61,33 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
     }
 
 
-    public float getR()
+    public int getR()
     {
         return this.entityData.get(R);
     }
 
-    public void setR(float r)
+    public void setR(int r)
     {
         this.entityData.set(R, r);
     }
 
-    public float getG()
+    public int getG()
     {
         return this.entityData.get(G);
     }
 
-    public void setG(float g)
+    public void setG(int g)
     {
         this.entityData.set(G, g);
     }
 
 
-    public float getB()
+    public int getB()
     {
         return this.entityData.get(B);
     }
 
-    public void setB(float b)
+    public void setB(int b)
     {
         this.entityData.set(B, b);
     }
@@ -95,9 +95,9 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
 
     protected void defineSynchedData() {
         this.getEntityData().define(DATA_ITEM_STACK, ItemStack.EMPTY);
-        this.getEntityData().define(R, 0f);
-        this.getEntityData().define(G, 0f);
-        this.getEntityData().define(B, 0f);
+        this.getEntityData().define(R, 0);
+        this.getEntityData().define(G, 0);
+        this.getEntityData().define(B, 0);
     }
 
 
@@ -205,17 +205,17 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
         if (!itemstack.isEmpty()) {
             p_36975_.put("Item", itemstack.save(new CompoundTag()));
         }
-        p_36975_.putFloat("R", this.getR());
-        p_36975_.putFloat("G", this.getG());
-        p_36975_.putFloat("B", this.getB());
+        p_36975_.putInt("R", this.getR());
+        p_36975_.putInt("G", this.getG());
+        p_36975_.putInt("B", this.getB());
     }
 
     public void readAdditionalSaveData(CompoundTag p_36970_) {
         ItemStack itemstack = ItemStack.of(p_36970_.getCompound("Item"));
         this.setItem(itemstack);
-        this.setR(p_36970_.getFloat("R"));
-        this.setG(p_36970_.getFloat("G"));
-        this.setB(p_36970_.getFloat("B"));
+        this.setR(p_36970_.getInt("R"));
+        this.setG(p_36970_.getInt("G"));
+        this.setB(p_36970_.getInt("B"));
     }
 
     public float getLightLevelDependentMagicValue() {

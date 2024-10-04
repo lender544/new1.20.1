@@ -399,7 +399,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                 double d3 = d0 * dist;
                 double d4 = d1 * dist;
                 double d5 = d2 * dist;
-                this.level().addParticle(new LightningParticle.OrbData(1.0f, 0.2f,  0.0f), this.getX() + d0, this.getY() + 2, this.getZ() + d2, d3, d4, d5);
+                this.level().addParticle(new LightningParticle.OrbData(255, 51,  0), this.getX() + d0, this.getY() + 2, this.getZ() + d2, d3, d4, d5);
 
                 if (entity != null && this.getAnimation() != MISSILE_FIRE_ANIAMATION) {
                     float f = Mth.cos((yBodyRot) * ((float) Math.PI / 180F));

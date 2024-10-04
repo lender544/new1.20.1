@@ -439,6 +439,9 @@ public class ModItems {
     public static final RegistryObject<Item> DESERT_EYE = ITEMS.register("desert_eye",
             () -> new DesertEyeItem(new Item.Properties().fireResistant()));
 
+    public static final RegistryObject<Item> CURSED_EYE = ITEMS.register("cursed_eye",
+            () -> new CursedEyeItem(new Item.Properties().fireResistant()));
+
     public static final RegistryObject<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F)
                     .effect(new MobEffectInstance(MobEffects.POISON, 300, 0), 1.0F)

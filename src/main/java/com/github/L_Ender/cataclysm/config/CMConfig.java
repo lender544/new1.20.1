@@ -66,6 +66,7 @@ public class CMConfig {
     public static boolean EnderguardianBlockBreaking = true;
     public static boolean EndergolemBlockBreaking = false;
     public static boolean IgnisBlockBreaking = true;
+    public static boolean MaledictusBlockBreaking = true;
     public static boolean AncientRemnantBlockBreaking = true;
     public static boolean LeviathanBlockBreaking = true;
     public static boolean HarbingerLightFire = true;
@@ -325,6 +326,7 @@ public class CMConfig {
             RemnantHpDamage = ConfigHolder.COMMON.RemnantHpDamage.get();
             RemnantStompHpDamage = ConfigHolder.COMMON.RemnantStompHpDamage.get();
 
+            MaledictusBlockBreaking = ConfigHolder.COMMON.MaledictusBlockBreaking.get();
             MaledictusHpDamage = ConfigHolder.COMMON.MaledictusHpDamage.get();
             MaledictusNatureHealing = ConfigHolder.COMMON.MaledictusNatureHealing.get();
             MaledictusPhantomHalberddamage = ConfigHolder.COMMON.MaledictusPhantomHalberddamage.get();

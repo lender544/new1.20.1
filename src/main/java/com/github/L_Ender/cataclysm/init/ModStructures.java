@@ -28,6 +28,9 @@ public class ModStructures {
     public static final RegistryObject<StructureType<Cursed_Pyramid_Structure>> CURSED_PYRAMID = STRUCTURE_TYPE_DEF_REG.register("cursed_pyramid", () -> () ->
             Cursed_Pyramid_Structure.CODEC);
 
+    public static final RegistryObject<StructureType<Frosted_Prison_Structure>> FROSTED_PRISON = STRUCTURE_TYPE_DEF_REG.register("frosted_prison", () -> () ->
+            Frosted_Prison_Structure.CODEC);
+
     public static final RegistryObject<StructureType<CataclysmJigsawStructure>> CATACLYSM_JIGSAW = STRUCTURE_TYPE_DEF_REG.register("cataclysm_jigsaw", () -> () ->
             CataclysmJigsawStructure.CODEC);
 
@@ -36,6 +39,8 @@ public class ModStructures {
     public static final RegistryObject<StructurePieceType> BAP = STRUCTURE_PIECE_DEF_REG.register("burning_arena", () -> Burning_Arena_Structure.Piece::new);
     public static final RegistryObject<StructurePieceType> SCP = STRUCTURE_PIECE_DEF_REG.register("sunken_city", () -> Sunken_City_Structure.Piece::new);
     public static final RegistryObject<StructurePieceType> CPD = STRUCTURE_PIECE_DEF_REG.register("cursed_pyramid", () -> Cursed_Pyramid_Structure.Piece::new);
+    public static final RegistryObject<StructurePieceType> FPP = STRUCTURE_PIECE_DEF_REG.register("frosted_prison", () -> Frosted_Prison_Structure.Piece::new);
+
 
 
     public static final ResourceKey<Structure> SOUL_BLACK_SMITH_KEY = ResourceKey.create(Registries.STRUCTURE, new ResourceLocation(Cataclysm.MODID, "soul_black_smith"));

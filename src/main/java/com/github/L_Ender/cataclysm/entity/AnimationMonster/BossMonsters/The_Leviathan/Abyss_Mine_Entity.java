@@ -112,7 +112,7 @@ public class Abyss_Mine_Entity extends Entity {
                     double d3 = (this.random.nextGaussian() * 0.3D);
                     double d4 = (this.random.nextGaussian() * 0.3D);
                     double d5 = (this.random.nextGaussian() * 0.3D);
-                    this.level().addParticle(new LightningParticle.OrbData(0.4f, 0.1f,  0.8f), d0, d1, d2, d3, d4, d5);
+                    this.level().addParticle(new LightningParticle.OrbData(102, 26, 204), d0, d1, d2, d3, d4, d5);
                 }
 
                 if (this.lifeTicks == 14) {

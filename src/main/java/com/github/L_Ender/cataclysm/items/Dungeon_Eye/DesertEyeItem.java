@@ -33,9 +33,9 @@ public class DesertEyeItem extends Item {
             if (blockpos != null) {
                 Eye_Of_Dungeon_Entity eyeofender = new Eye_Of_Dungeon_Entity(p_41184_, p_41185_.getX(), p_41185_.getY(0.5D), p_41185_.getZ());
                 eyeofender.setItem(itemstack);
-                eyeofender.setR(0.97f);
-                eyeofender.setG(0.66f);
-                eyeofender.setB(0.25f);
+                eyeofender.setR(247);
+                eyeofender.setG(168);
+                eyeofender.setB(64);
                 eyeofender.signalTo(blockpos);
                 p_41184_.gameEvent(GameEvent.PROJECTILE_SHOOT, eyeofender.position(), GameEvent.Context.of(p_41185_));
                 p_41184_.addFreshEntity(eyeofender);

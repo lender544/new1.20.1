@@ -30,12 +30,12 @@ import org.joml.Vector4f;
 import java.util.Locale;
 
 public class TrackLightningParticle extends Particle {
-    private float r ;
-    private float g ;
-    private float b ;
+    private int r ;
+    private int g ;
+    private int b ;
     private LightningRender lightningRender = new LightningRender();
 
-    public TrackLightningParticle(ClientLevel world, double x, double y, double z, double xd, double yd, double zd, float r, float g, float b) {
+    public TrackLightningParticle(ClientLevel world, double x, double y, double z, double xd, double yd, double zd, int r, int g, int b) {
         super(world, x, y, z);
         this.setSize(6.0F, 6.0F);
         this.x = x;
@@ -47,7 +47,7 @@ public class TrackLightningParticle extends Particle {
         Vec3 lightningTo = new Vec3(xd - x, yd - y, zd - z);
         this.lifetime = 5;
         int sections = 1 + (int) (9 * lightningTo.length());
-        LightningBoltData.BoltRenderInfo boltData = new LightningBoltData.BoltRenderInfo(0.5F, 0.1F, 0.5F, 0.85F, new Vector4f(r, g, b, 0.8F), 0.1F);
+        LightningBoltData.BoltRenderInfo boltData = new LightningBoltData.BoltRenderInfo(0.5F, 0.1F, 0.5F, 0.85F, new Vector4f((float) r /255, (float) g /255, (float) b /255, 0.8F), 0.1F);
         LightningBoltData bolt = new LightningBoltData(boltData, Vec3.ZERO, lightningTo, sections)
                 .size(0.1F + random.nextFloat() * 0.1F)
                 .lifespan(this.lifetime)
@@ -112,26 +112,26 @@ public class TrackLightningParticle extends Particle {
         public static final Deserializer<TrackLightningParticle.OrbData> DESERIALIZER = new Deserializer<TrackLightningParticle.OrbData>() {
             public TrackLightningParticle.OrbData fromCommand(ParticleType<TrackLightningParticle.OrbData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
                 reader.expect(' ');
-                float r = (float) reader.readDouble();
+                int r = reader.readInt();
                 reader.expect(' ');
-                float g = (float) reader.readDouble();
+                int g = reader.readInt();
                 reader.expect(' ');
-                float b = (float) reader.readDouble();
+                int b = reader.readInt();
                 return new TrackLightningParticle.OrbData(r, g, b);
             }
 
             public TrackLightningParticle.OrbData fromNetwork(ParticleType<TrackLightningParticle.OrbData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new TrackLightningParticle.OrbData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
+                return new TrackLightningParticle.OrbData(buffer.readInt(), buffer.readInt(), buffer.readInt());
             }
         };
 
-        private final float r;
-        private final float g;
-        private final float b;
+        private final int r;
+        private final int g;
+        private final int b;
 
 
 
-        public OrbData(float r, float g, float b) {
+        public OrbData(int r, int g, int b) {
             this.r = r;
             this.g = g;
             this.b = b;
@@ -141,14 +141,14 @@ public class TrackLightningParticle extends Particle {
 
         @Override
         public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeFloat(this.r);
-            buffer.writeFloat(this.g);
-            buffer.writeFloat(this.b);
+            buffer.writeInt(this.r);
+            buffer.writeInt(this.g);
+            buffer.writeInt(this.b);
         }
 
         @Override
         public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+            return String.format(Locale.ROOT, "%s %d %d %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
                     this.r, this.g, this.b);
         }
 
@@ -158,26 +158,26 @@ public class TrackLightningParticle extends Particle {
         }
 
         @OnlyIn(Dist.CLIENT)
-        public float getR() {
+        public int getR() {
             return this.r;
         }
 
         @OnlyIn(Dist.CLIENT)
-        public float getG() {
+        public int getG() {
             return this.g;
         }
 
         @OnlyIn(Dist.CLIENT)
-        public float getB() {
+        public int getB() {
             return this.b;
         }
 
 
         public static Codec<TrackLightningParticle.OrbData> CODEC(ParticleType<TrackLightningParticle.OrbData> particleType) {
             return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(TrackLightningParticle.OrbData::getR),
-                            Codec.FLOAT.fieldOf("g").forGetter(TrackLightningParticle.OrbData::getG),
-                            Codec.FLOAT.fieldOf("b").forGetter(TrackLightningParticle.OrbData::getB)
+                            Codec.INT.fieldOf("r").forGetter(TrackLightningParticle.OrbData::getR),
+                            Codec.INT.fieldOf("g").forGetter(TrackLightningParticle.OrbData::getG),
+                            Codec.INT.fieldOf("b").forGetter(TrackLightningParticle.OrbData::getB)
                     ).apply(codecBuilder, TrackLightningParticle.OrbData::new)
             );
         }

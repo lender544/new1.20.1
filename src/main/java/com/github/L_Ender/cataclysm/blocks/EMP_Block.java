@@ -85,7 +85,7 @@ public class EMP_Block extends BaseEntityBlock {
                         worldIn.addParticle(DustParticleOptions.REDSTONE, (double) pos.getX() + d1, (double) pos.getY() + 0.75D, (double) pos.getZ() + d3, 0, 0, 0);
                     }
                 }else{
-                    worldIn.addParticle((new LightningParticle.OrbData(1.0f, 0.2f,  0.0f)), (double) pos.getX() + 0.5D, (double) pos.getY() + 0.75D, (double) pos.getZ() + 0.5D, d * 2.0D, d, d * 2.0D);
+                    worldIn.addParticle((new LightningParticle.OrbData(255, 51,  0)), (double) pos.getX() + 0.5D, (double) pos.getY() + 0.75D, (double) pos.getZ() + 0.5D, d * 2.0D, d, d * 2.0D);
                 }
             }
         }

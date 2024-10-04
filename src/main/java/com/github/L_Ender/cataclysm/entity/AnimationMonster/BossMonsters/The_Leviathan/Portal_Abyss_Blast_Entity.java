@@ -179,7 +179,7 @@ public class Portal_Abyss_Blast_Entity extends Entity {
             float motionY = random.nextFloat() * 0.08F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticle.OrbData(0.4f, 0.1f,  0.8f)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticle.OrbData(102, 26, 204)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
         }
 
     }

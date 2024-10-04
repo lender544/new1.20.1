@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 
+import com.github.L_Ender.cataclysm.blocks.PointedIcicleBlock;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -11,10 +13,7 @@ import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
-import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,15 +39,21 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.animal.SnowGolem;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Fallable;
+import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -90,7 +95,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, SnowGolem.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
@@ -378,6 +383,9 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
             ChargeGrab(0.0D,0.0D,0.5, 0.1F, 0, true);
             if (this.horizontalCollision) {
                 chubu = true;
+                if (!this.level().isClientSide) {
+                    Icicle_Crash();
+                }
             }
             if (this.level().isClientSide) {
                 double x = this.getX();
@@ -407,43 +415,6 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
             }
         }
 
-    }
-
-
-    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
-        BlockPos blockpos = BlockPos.containing(x, maxY, z);
-        boolean flag = false;
-        double d0 = 0.0D;
-
-        do {
-            BlockPos blockpos1 = blockpos.below();
-            BlockState blockstate = this.level().getBlockState(blockpos1);
-            if (blockstate.isFaceSturdy(this.level(), blockpos1, Direction.UP)) {
-                if (!this.level().isEmptyBlock(blockpos)) {
-                    BlockState blockstate1 = this.level().getBlockState(blockpos);
-                    VoxelShape voxelshape = blockstate1.getCollisionShape(this.level(), blockpos);
-                    if (!voxelshape.isEmpty()) {
-                        d0 = voxelshape.max(Direction.Axis.Y);
-                    }
-                }
-
-                flag = true;
-                break;
-            }
-
-            blockpos = blockpos.below();
-        } while(blockpos.getY() >= Mth.floor(minY) - 1);
-
-        if (flag) {
-            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, this));
-        }
-    }
-
-    private void doSpawnBlade(int count, float offset) {
-        Vec3 looking = this.getLookAngle();
-        for (int i = -count; i < count; i++) {
-            SpawnBlade(looking.yRot(i * offset));
-        }
     }
 
     private void SpawnBlade(Vec3 vec3) {
@@ -580,6 +551,42 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
             }
         }
     }
+
+
+    private void Icicle_Crash() {
+
+        if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+            BlockPos ceil = this.blockPosition().offset(0, 5, 0);
+            while ((!level().getBlockState(ceil).isSolid() || level().getBlockState(ceil).getBlock() == ModBlocks.POINTED_ICICLE.get()) && ceil.getY() < level().getMaxBuildHeight()) {
+                ceil = ceil.above();
+            }
+            final int i = 8;
+            final int j = 8;
+            final int k = 8;
+
+            for (BlockPos blockpos1 : BlockPos.betweenClosed(ceil.offset(-i, -j, -k), ceil.offset(i, j, k))) {
+                if (level().getBlockState(blockpos1).getBlock() instanceof Fallable) {
+                    if (isHangingIcicle(blockpos1)) {
+                        while (isHangingIcicle(blockpos1.above()) && blockpos1.getY() < level().getMaxBuildHeight()) {
+                            blockpos1 = blockpos1.above();
+                        }
+                        if (isHangingIcicle(blockpos1)) {
+                            Vec3 vec3 = Vec3.atBottomCenterOf(blockpos1);
+                            FallingBlockEntity.fall(level(), BlockPos.containing(vec3.x, vec3.y, vec3.z), level().getBlockState(blockpos1));
+                        }
+                    } else {
+                        this.level().scheduleTick(blockpos1, level().getBlockState(blockpos1).getBlock(), 2);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private boolean isHangingIcicle(BlockPos pos) {
+        return level().getBlockState(pos).getBlock() instanceof PointedIcicleBlock && level().getBlockState(pos).getValue(PointedIcicleBlock.TIP_DIRECTION) == Direction.DOWN;
+    }
+
 
 
     public void travel(Vec3 travelVector) {

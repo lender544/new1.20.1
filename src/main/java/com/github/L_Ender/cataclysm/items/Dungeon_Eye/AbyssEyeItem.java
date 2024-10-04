@@ -33,9 +33,9 @@ public class AbyssEyeItem extends Item {
             if (blockpos != null) {
                 Eye_Of_Dungeon_Entity eyeofender = new Eye_Of_Dungeon_Entity(p_41184_, p_41185_.getX(), p_41185_.getY(0.5D), p_41185_.getZ());
                 eyeofender.setItem(itemstack);
-                eyeofender.setR(0.129f);
-                eyeofender.setG(0.086f);
-                eyeofender.setB(0.169f);
+                eyeofender.setR(33);
+                eyeofender.setG(22);
+                eyeofender.setB(43);
                 eyeofender.signalTo(blockpos);
                 p_41184_.gameEvent(GameEvent.PROJECTILE_SHOOT, eyeofender.position(), GameEvent.Context.of(p_41185_));
                 p_41184_.addFreshEntity(eyeofender);

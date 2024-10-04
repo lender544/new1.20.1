@@ -195,7 +195,7 @@ public class Death_Laser_Beam_Entity extends Entity {
             float motionY = random.nextFloat() * 0.08F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticle.OrbData(1.0f, 0.2f,  0.0f)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticle.OrbData(255, 26,  0)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
         }
 
     }

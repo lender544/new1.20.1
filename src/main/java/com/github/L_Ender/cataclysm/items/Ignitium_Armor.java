@@ -30,6 +30,7 @@ public class Ignitium_Armor extends ArmorItem {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getArmorRenderProperties());
     }
 
+
     @Override
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return Cataclysm.MODID + ":textures/armor/ignitium_armor" + (slot == EquipmentSlot.LEGS ? "_legs.png" : ".png");

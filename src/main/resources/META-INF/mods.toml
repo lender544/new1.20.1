@@ -6,13 +6,13 @@ modId= "cataclysm" #mandatory
 version="2.00" #mandatory
 # A display name for the mod
 displayName="Cataclysm Mod" #mandatory
-credits="0dyss2y,HedwigOwls,gytator,danimodder,Gibb50" #optional
+credits="0dyss2y,HedwigOwls,danimodder,Gibb50" #optional
 authors="L_Ender" #optional
 description='''
 Hello
 Also Listen Cataclysmic Tunes
 https://www.curseforge.com/minecraft/texture-packs/cataclysmic-tunes
-Artist=dogulkkun,mango03034
+Artist=dogulkkun,mango03034,Gytator,LegendNoob
 Patron
 [Adam,
 Angry Mutant Enderman,

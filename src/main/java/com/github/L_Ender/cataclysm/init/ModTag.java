@@ -71,6 +71,10 @@ public class ModTag {
 
     public static final TagKey<Block> REMNANT_IMMUNE = registerBlockTag("remnant_immune");
 
+    public static final TagKey<Block> MALEDICTUS_IMMUNE = registerBlockTag("maledictus_immune");
+
+    public static final TagKey<Block> FROSTED_PRISON_CHANDELIER = registerBlockTag("frosted_prison_chandelier");
+
     public static final TagKey<Block> CORALSSUS_BREAK = registerBlockTag("coralssus_break");
 
     public static final TagKey<Block> ENDERMAPTERA_CAN_NOT_SPAWN = registerBlockTag("endermaptera_can_not_spawn");
@@ -84,6 +88,8 @@ public class ModTag {
     public static final TagKey<Structure> EYE_OF_RUINED_LOCATED = registerStructureTag("eye_of_ruined_located");
 
     public static final TagKey<Structure> EYE_OF_FLAME_LOCATED = registerStructureTag("eye_of_flame_located");
+
+    public static final TagKey<Structure> EYE_OF_CURSE_LOCATED = registerStructureTag("eye_of_curse_located");
 
     public static final TagKey<Structure> EYE_OF_MONSTROUS_LOCATED = registerStructureTag("eye_of_monstrous_located");
 

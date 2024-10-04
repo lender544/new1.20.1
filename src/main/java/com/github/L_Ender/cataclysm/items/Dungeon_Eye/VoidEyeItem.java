@@ -34,9 +34,9 @@ public class VoidEyeItem extends Item {
                 Eye_Of_Dungeon_Entity eyeofender = new Eye_Of_Dungeon_Entity(p_41184_, p_41185_.getX(), p_41185_.getY(0.5D), p_41185_.getZ());
                 eyeofender.setItem(itemstack);
                 eyeofender.signalTo(blockpos);
-                eyeofender.setR(0.729f);
-                eyeofender.setG(0.584f);
-                eyeofender.setB(0.729f);
+                eyeofender.setR(186);
+                eyeofender.setG(149);
+                eyeofender.setB(186);
                 p_41184_.gameEvent(GameEvent.PROJECTILE_SHOOT, eyeofender.position(), GameEvent.Context.of(p_41185_));
                 p_41184_.addFreshEntity(eyeofender);
                 if (p_41185_ instanceof ServerPlayer) {

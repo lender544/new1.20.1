@@ -83,16 +83,17 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                     if(entity.tickCount > 63) {
                         Maledictus_Entity maledictus = ModEntities.MALEDICTUS.get().create(level);
                         if (maledictus != null) {
-                            maledictus.setPos(pos.getX(), pos.getY() + 2, pos.getZ());
+                            ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.1f, 0, 40);
+                            maledictus.setPos(pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5);
                             maledictus.setTombstonePos(pos);
                             maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
                             if (!level.isClientSide) {
                                 int MthX = Mth.floor(pos.getX());
                                 int MthY = Mth.floor(pos.getY());
                                 int MthZ = Mth.floor(pos.getZ());
-                                for (int k2 = -3; k2 <= 3; ++k2) {
-                                    for (int l2 = -3; l2 <= 3; ++l2) {
-                                        for (int j = 0; j <= 3; ++j) {
+                                for (int k2 = -1; k2 <= 1; ++k2) {
+                                    for (int l2 = -1; l2 <= 1; ++l2) {
+                                        for (int j = 0; j <= 5; ++j) {
                                             int i3 = MthX + k2;
                                             int k = MthY + j;
                                             int l = MthZ + l2;

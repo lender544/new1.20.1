@@ -167,6 +167,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue MaledictusFlyingSmashHpDamage;
     public final ForgeConfigSpec.DoubleValue MaledictusSmashHpDamage;
     public final ForgeConfigSpec.DoubleValue MaledictusPhantomArrowdamage;
+    public final ForgeConfigSpec.BooleanValue MaledictusBlockBreaking;
 
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
@@ -393,6 +394,7 @@ public class CommonConfig {
         MaledictusFlyingSmashHpDamage = buildDouble(builder, "Maledictus's Flying Smash Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Maledictus's flying Smash Hp Damage");
         MaledictusSmashHpDamage = buildDouble(builder, "Maledictus's Jump Smash Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Maledictus's Jump Smash Hp Damage");
         MaledictusPhantomArrowdamage = buildDouble(builder, "Maledictus's Phantom Arrow Damage", "all", 5D, 0, 1000000, "Maledictus's Phantom Arrow's Damage");
+        MaledictusBlockBreaking = buildBoolean(builder, "MaledictusBlockBreaking", "all", true, "Maledictus's cracked block breaking ignore the MobGriefing");
         builder.pop();
 
         builder.push("spawning");
