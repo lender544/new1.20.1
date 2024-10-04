@@ -473,6 +473,8 @@
   "advancements.cataclysm.sunken_city.description": "가라앉은 도시를 찾으세요",
   "advancements.cataclysm.cursed_pyramid.title": "저주 받은 피라미드",
   "advancements.cataclysm.cursed_pyramid.description": "저주 받은 피라미드를 찾으세요",
+  "advancements.cataclysm.frosted_prison.title": "서리 감옥",
+  "advancements.cataclysm.frosted_prison.description": "서리 감옥을 찾으세요",
   "advancements.cataclysm.kill_ender_golem.title": "팔레트 스왑",
   "advancements.cataclysm.kill_ender_golem.description": "엔더 골렘을 처치하세요",
   "advancements.cataclysm.kill_ender_guardian.title": "수호자의 비밀",
@@ -489,6 +491,8 @@
   "advancements.cataclysm.kill_leviathan.description": "심연의 제물을 제단에 바쳐 레비아탄을 소환한 뒤, 처치하세요",
   "advancements.cataclysm.kill_remnant.title": "죽음은 스스로 죽을 길을 찾는다는 거죠",
   "advancements.cataclysm.kill_remnant.description": "고대의 잔재를 저주 받은 피라미드내에 있는 수상한 모래에서 발굴하여 깨우시고 처치하세요",
+  "advancements.cataclysm.kill_maledictus.title": "저주에 맞서는 성전",
+  "advancements.cataclysm.kill_maledictus.description": "묘비를 눌러 말레딕투스를 소환한 뒤, 처치하세요",
 
   "trim_material.cataclysm.witherite": "위더라이트 소재",
   "trim_material.cataclysm.ignitium": "이그니티움 소재",

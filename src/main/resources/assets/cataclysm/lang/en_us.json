@@ -474,6 +474,8 @@
   "advancements.cataclysm.sunken_city.description": "Find the Sunken City",
   "advancements.cataclysm.cursed_pyramid.title": "Cursed Pyramid",
   "advancements.cataclysm.cursed_pyramid.description": "Find the Cursed Pyramid",
+  "advancements.cataclysm.frosted_prison.title": "Frosted Prison",
+  "advancements.cataclysm.frosted_prison.description": "Find the Frosted Prison",
   "advancements.cataclysm.kill_ender_golem.title": "Palette Swap",
   "advancements.cataclysm.kill_ender_golem.description": "Kill the Ender Golem",
   "advancements.cataclysm.kill_ender_guardian.title": "Was that a Shulker?",
@@ -490,6 +492,8 @@
   "advancements.cataclysm.kill_leviathan.description": "Summon and Defeat the Leviathan",
   "advancements.cataclysm.kill_remnant.title": "Death finds a Way",
   "advancements.cataclysm.kill_remnant.description": "Excavate from the suspicious sand within the cursed pyramid to wake up and knock down the Ancient Remnant",
+  "advancements.cataclysm.kill_maledictus.title": "Crusade Against Curse",
+  "advancements.cataclysm.kill_maledictus.description": "Summon and Defeat Maledictus",
 
   "trim_material.cataclysm.witherite": "Witherite Material",
   "trim_material.cataclysm.ignitium" : "Ignitium Material",
