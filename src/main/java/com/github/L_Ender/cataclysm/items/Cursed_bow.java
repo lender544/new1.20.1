@@ -257,6 +257,16 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 16;
+    }
+
+    @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return enchantment.category ==  EnchantmentCategory.BOW && enchantment != Enchantments.INFINITY_ARROWS && enchantment != Enchantments.FLAMING_ARROWS;
     }

@@ -412,7 +412,7 @@ public class ModItems {
             () -> new RecordItem(14, ModSounds.HARBINGER_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 144 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_THE_LEVIATHAN = ITEMS.register("music_disc_the_leviathan",
-            () -> new RecordItem(14, ModSounds.LEVIATHAN_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 240 * 20));
+            () -> new RecordItem(14, ModSounds.LEVIATHAN_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 291 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_ANCIENT_REMNANT = ITEMS.register("music_disc_ancient_remnant",
             () -> new RecordItem(14, ModSounds.REMNANT_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 144 * 20));
