@@ -330,7 +330,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
 
-        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown()) {
+        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown() && this.getAttackState() == 4) {
             this.getPassengers().get(0).setShiftKeyDown(false);
         }
 
