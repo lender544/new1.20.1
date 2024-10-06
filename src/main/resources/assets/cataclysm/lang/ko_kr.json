@@ -521,5 +521,6 @@
 
   "curios.identifier.feet": "발",
   "curios.modifiers.feet": "발에 착용 시:",
-  "entity.cataclysm.rage_meter": ""
+  "entity.cataclysm.rage_meter": "",
+  "entity.cataclysm.the_leviathan_immune": "레비아탄은 물 밖에선 무적입니다!"
 }

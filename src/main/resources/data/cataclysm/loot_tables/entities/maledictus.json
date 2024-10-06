@@ -1,16 +1,6 @@
 {
+  "type": "minecraft:entity",
   "pools": [
-    {
-      "name": "maledictus",
-      "rolls": 4,
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "cataclysm:cursium_ingot",
-          "weight": 1
-        }
-      ]
-    },
     {
       "name": "disc",
       "conditions": [
@@ -28,6 +18,28 @@
           "weight": 1
         }
       ]
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 3.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "cataclysm:cursium_ingot"
+        }
+      ],
+      "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cataclysm:entities/maledictus"
 }
