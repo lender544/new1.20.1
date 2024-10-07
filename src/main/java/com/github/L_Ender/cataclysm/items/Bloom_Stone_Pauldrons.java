@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Amethyst_Cluster_Projectile_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -76,7 +77,7 @@ public class Bloom_Stone_Pauldrons extends ArmorItem implements KeybindUsingArmo
                 double vy = 0 + player.getRandom().nextFloat() * 0.3F;
                 double vz = Mth.sin(throwAngle);
                 double v3 = Mth.sqrt((float) (vx * vx + vz * vz));
-                Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), player.level(), player);
+                Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), player.level(), player, (float)CMConfig.AmethystClusterdamage);
 
                 projectile.moveTo(sx, sy, sz, i * 11.25F, player.getXRot());
                 float speed = 0.8F;

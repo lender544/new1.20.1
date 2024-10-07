@@ -159,7 +159,7 @@ public class The_Incinerator extends Item {
         } while (blockpos.getY() >= minY);
 
         if (flag) {
-            world.addFreshEntity(new Flame_Strike_Entity(world, x, (double) blockpos.getY() + d0, z, rotation, duration, wait, delay, radius, false, player));
+            world.addFreshEntity(new Flame_Strike_Entity(world, x, (double) blockpos.getY() + d0, z, rotation, duration, wait, delay, radius,6F,2F, false, player));
             return true;
         }
         return false;

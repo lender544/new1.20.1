@@ -229,7 +229,7 @@ public class CommonConfig {
         Voidrunedamage = buildDouble(builder, "Voidrunedamage", "all", 7.0D, 0D, 1000000D, "Void Rune's Damage");
         Ashenbreathdamage = buildDouble(builder, "Ashenbreathdamage", "all", 4, 0D, 1000000D, "Ashen Breath's Damage");
         DeathLaserdamage = buildDouble(builder, "DeathLaserdamage", "all", 5, 0D, 1000000D, "Death Laser's Damage");
-        DeathLaserHpdamage = buildDouble(builder, "DeathLaserHpdamage", "all", 0.05, 0.0D, 1.0D, "Death Laser's Hp Damage");
+        DeathLaserHpdamage = buildDouble(builder, "DeathLaserHpdamage", "all", 5, 0.0D, 100.0D, "Death Laser's Hp Damage");
         Laserdamage = buildDouble(builder, "Laserdamage", "all", 7, 0D, 1000000D, "Player's Laser's Damage");
         BlazingBonedamage = buildDouble(builder, "BlazingBonedamage", "all", 5, 0D, 1000000D, "Blazing Bone's Damage");
         Lionfishspikedamage = buildDouble(builder, "LionfishSpikedamage", "all", 4, 0D, 1000000D, "Lionfish Spike's Damage");
@@ -384,7 +384,7 @@ public class CommonConfig {
         builder.push("Maledictus");
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
-        MaledictusLongRangelimit = buildDouble(builder, "Maledictus's prevent attacks from far away Range", "all", 38.0D, 1D, 1000000D, "Maledictus's Immune to Long distance attack range.");
+        MaledictusLongRangelimit = buildDouble(builder, "Maledictus's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Maledictus's Immune to Long distance attack range.");
         MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", 10D, 0D, 1000000D, "Maledictus's Healing with out target");
         MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 10D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");

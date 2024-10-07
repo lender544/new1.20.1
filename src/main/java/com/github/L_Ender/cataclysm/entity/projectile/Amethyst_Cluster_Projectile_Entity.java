@@ -7,6 +7,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,13 +25,19 @@ import net.minecraftforge.network.NetworkHooks;
 
 public class Amethyst_Cluster_Projectile_Entity extends ThrowableProjectile {
 
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Amethyst_Cluster_Projectile_Entity.class, EntityDataSerializers.FLOAT);
+
+
+
     public Amethyst_Cluster_Projectile_Entity(EntityType<Amethyst_Cluster_Projectile_Entity> type, Level world) {
         super(type, world);
     }
 
-    public Amethyst_Cluster_Projectile_Entity(EntityType<Amethyst_Cluster_Projectile_Entity> type, Level world, LivingEntity thrower) {
+    public Amethyst_Cluster_Projectile_Entity(EntityType<Amethyst_Cluster_Projectile_Entity> type, Level world, LivingEntity thrower,float damage) {
         super(type, thrower, world);
+        this.setDamage(damage);
     }
+
 
 
     @Override
@@ -36,13 +45,12 @@ public class Amethyst_Cluster_Projectile_Entity extends ThrowableProjectile {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
         Entity entity = result.getEntity();
-        float i = (float) CMConfig.AmethystClusterdamage;
         if (shooter instanceof LivingEntity) {
             if (!((entity == shooter) || (shooter.isAlliedTo(entity)))) {
-                entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), i);
+                entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), this.getDamage());
             }
         }else{
-            entity.hurt(this.damageSources().magic(), i);
+            entity.hurt(this.damageSources().magic(),this.getDamage());
         }
     }
 
@@ -57,15 +65,25 @@ public class Amethyst_Cluster_Projectile_Entity extends ThrowableProjectile {
 
     @Override
     protected void defineSynchedData() {
+        this.entityData.define(DAMAGE, 0F);
+    }
 
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putFloat("damage", this.getDamage());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        this.setDamage(compound.getFloat("damage"));
     }
 
     @Override

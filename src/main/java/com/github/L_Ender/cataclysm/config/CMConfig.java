@@ -29,7 +29,7 @@ public class CMConfig {
     public static double DimensionalRiftdamage = 10;
     public static double Ashenbreathdamage = 4;
     public static double DeathLaserdamage = 5;
-    public static double DeathLaserHpdamage = 0.05D;
+    public static double DeathLaserHpdamage = 5D;
     public static double Laserdamage = 4;
     public static double BlazingBonedamage = 5;
     public static double LionFishSpikedamage = 4;
@@ -146,7 +146,7 @@ public class CMConfig {
     public static double LeviathanLongRangelimit = 38D;
     public static double AncientRemnantLongRangelimit = 14D;
     public static double ProwlerLongRangelimit = 12D;
-    public static double MaledictusLongRangelimit = 38D;
+    public static double MaledictusLongRangelimit = 12D;
 
     public static int BossMusicVolume = 1;
 

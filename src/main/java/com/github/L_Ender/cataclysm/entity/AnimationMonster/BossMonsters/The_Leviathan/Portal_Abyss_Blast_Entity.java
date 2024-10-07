@@ -55,6 +55,10 @@ public class Portal_Abyss_Blast_Entity extends Entity {
     private static final EntityDataAccessor<Integer> DURATION = SynchedEntityData.defineId(Portal_Abyss_Blast_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> CASTER = SynchedEntityData.defineId(Portal_Abyss_Blast_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> BEAMDIRECTION = SynchedEntityData.defineId(Portal_Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Portal_Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Portal_Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+
     public float prevYaw;
     public float prevPitch;
 
@@ -65,7 +69,7 @@ public class Portal_Abyss_Blast_Entity extends Entity {
 
     }
 
-    public Portal_Abyss_Blast_Entity(EntityType<? extends Portal_Abyss_Blast_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration, float direction) {
+    public Portal_Abyss_Blast_Entity(EntityType<? extends Portal_Abyss_Blast_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration, float direction,float damage,float Hpdamage) {
         this(type, world);
         this.caster = caster;
         this.setYaw(yaw);
@@ -73,19 +77,23 @@ public class Portal_Abyss_Blast_Entity extends Entity {
         this.setDuration(duration);
         this.setBeamDirection(direction);
         this.setPos(x, y, z);
+        this.setDamage(damage);
+        this.setHpDamage(Hpdamage);
         this.calculateEndPos();
         if (!world.isClientSide) {
             this.setCasterID(caster.getId());
         }
     }
 
-    public Portal_Abyss_Blast_Entity(EntityType<? extends Portal_Abyss_Blast_Entity> type, Level world, double x, double y, double z, float yaw, float pitch, int duration, float direction) {
+    public Portal_Abyss_Blast_Entity(EntityType<? extends Portal_Abyss_Blast_Entity> type, Level world, double x, double y, double z, float yaw, float pitch, int duration, float direction,float damage,float Hpdamage) {
         this(type, world);
         this.setYaw(yaw);
         this.setPitch(pitch);
         this.setDuration(duration);
         this.setBeamDirection(direction);
         this.setPos(x, y, z);
+        this.setDamage(damage);
+        this.setHpDamage(Hpdamage);
         this.calculateEndPos();
     }
 
@@ -190,7 +198,24 @@ public class Portal_Abyss_Blast_Entity extends Entity {
         this.entityData.define(PITCH, 0F);
         this.entityData.define(DURATION, 0);
         this.entityData.define(CASTER, -1);
-        this.entityData.define(BEAMDIRECTION, 90f);
+        this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(HPDAMAGE, 0F);
+    }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HPDAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HPDAMAGE, damage);
     }
 
     public float getYaw() {

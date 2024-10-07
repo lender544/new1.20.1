@@ -464,7 +464,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             LivingEntity target = entity.getTarget();
             super.tick();
             if (this.entity.attackTicks == attackshot) {
-                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28);
+                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28,(float) CMConfig.DeathLaserdamage,(float) CMConfig.DeathLaserHpdamage);
                 entity.level().addFreshEntity(DeathBeam);
             }
             if (this.entity.attackTicks >= attackshot) {

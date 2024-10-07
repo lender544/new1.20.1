@@ -2221,7 +2221,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         } while (blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Flame_Strike_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, duration, wait, delay, radius, soul, this));
+            this.level().addFreshEntity(new Flame_Strike_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, duration, wait, delay, radius,soul ? 8.0F : 6.0F,6F, soul, this));
         }
     }
 

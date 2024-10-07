@@ -8,6 +8,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -24,24 +27,41 @@ import net.minecraftforge.network.NetworkHooks;
 
 
 public class Blazing_Bone_Entity extends ThrowableItemProjectile {
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Blazing_Bone_Entity.class, EntityDataSerializers.FLOAT);
 
 
     public Blazing_Bone_Entity(EntityType<? extends Blazing_Bone_Entity> type, Level world) {
         super(type, world);
     }
 
-    public Blazing_Bone_Entity(Level worldIn, LivingEntity throwerIn) {
+    public Blazing_Bone_Entity(Level worldIn,float damage, LivingEntity throwerIn) {
         super(ModEntities.BLAZING_BONE.get(), throwerIn, worldIn);
+        this.setDamage(damage);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        this.getEntityData().define(DAMAGE, 0F);
+    }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putFloat("damage", this.getDamage());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        this.setDamage(tag.getFloat("damage"));
     }
 
     @Override
@@ -60,13 +80,12 @@ public class Blazing_Bone_Entity extends ThrowableItemProjectile {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
         Entity entity = result.getEntity();
-        float i = (float) CMConfig.BlazingBonedamage;
         if (shooter instanceof LivingEntity) {
             if (!((entity == shooter) || (shooter.isAlliedTo(entity)))) {
-                entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), i);
+                entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), this.getDamage());
             }
         }else{
-            entity.hurt(this.damageSources().magic(), i);
+            entity.hurt(this.damageSources().magic(),this.getDamage());
         }
     }
 

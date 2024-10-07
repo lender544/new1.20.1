@@ -2,14 +2,10 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
@@ -18,10 +14,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -237,6 +231,7 @@ public class Sandstorm_Projectile extends Projectile {
     }
 
     protected void onHit(HitResult ray) {
+
         HitResult.Type hitresult$type = ray.getType();
         if (hitresult$type == HitResult.Type.ENTITY) {
             this.onHitEntity((EntityHitResult)ray);
@@ -262,6 +257,7 @@ public class Sandstorm_Projectile extends Projectile {
         super.addAdditionalSaveData(p_36848_);
         p_36848_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
         p_36848_.putInt("state", this.getState());
+        p_36848_.putFloat("damage", this.getDamage());
     }
 
     public void readAdditionalSaveData(CompoundTag p_36844_) {
@@ -275,6 +271,7 @@ public class Sandstorm_Projectile extends Projectile {
             }
         }
         this.setState(p_36844_.getInt("state"));
+        this.setDamage(p_36844_.getFloat("damage"));
     }
 
     public boolean isPickable() {

@@ -246,13 +246,6 @@ public class ModEntities {
             .setUpdateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":screen_shake"));
 
-    public static final RegistryObject<EntityType<Hold_Attack_Entity>> HOLD_ATTACK = ENTITY_TYPE.register("hold_attack", () -> EntityType.Builder.<Hold_Attack_Entity>of(Hold_Attack_Entity::new, MobCategory.MISC)
-            .noSummon()
-            .sized(0.5f, 0.5f)
-            .clientTrackingRange(4)
-            .updateInterval(10)
-            .setShouldReceiveVelocityUpdates(true)
-            .build(Cataclysm.MODID + ":hold_attack"));
 
     public static final RegistryObject<EntityType<Cm_Falling_Block_Entity>> CM_FALLING_BLOCK = ENTITY_TYPE.register("cm_falling_block", () -> EntityType.Builder.<Cm_Falling_Block_Entity>of(Cm_Falling_Block_Entity::new, MobCategory.MISC)
             .sized(0.98F, 0.98F)

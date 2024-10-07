@@ -197,6 +197,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                                 if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living, target);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    hommingArrowEntity.setBroke(true);
                                     if (p > 0) {
                                         hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }
@@ -204,6 +205,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                                 } else {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living);
                                     hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    hommingArrowEntity.setBroke(true);
                                     if (p > 0) {
                                         hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }
@@ -289,5 +291,6 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("item.cataclysm.cursed_bow.desc").withStyle(ChatFormatting.DARK_GREEN));
+        tooltip.add(Component.translatable("item.cataclysm.cursed_bow2.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

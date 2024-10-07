@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Le
 import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -54,6 +55,10 @@ public class Abyss_Blast_Entity extends Entity {
     private static final EntityDataAccessor<Integer> DURATION = SynchedEntityData.defineId(Abyss_Blast_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> CASTER = SynchedEntityData.defineId(Abyss_Blast_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> BEAMDIRECTION = SynchedEntityData.defineId(Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Abyss_Blast_Entity.class, EntityDataSerializers.FLOAT);
+
+
     public float prevYaw;
     public float prevPitch;
 
@@ -68,13 +73,15 @@ public class Abyss_Blast_Entity extends Entity {
         }
     }
 
-    public Abyss_Blast_Entity(EntityType<? extends Abyss_Blast_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration, float direction) {
+    public Abyss_Blast_Entity(EntityType<? extends Abyss_Blast_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration, float direction,float damage,float Hpdamage) {
         this(type, world);
         this.caster = caster;
         this.setYaw(yaw);
         this.setPitch(pitch);
         this.setDuration(duration);
         this.setBeamDirection(direction);
+        this.setDamage(damage);
+        this.setHpDamage(Hpdamage);
         this.setPos(x, y, z);
         this.calculateEndPos();
         if (!world.isClientSide) {
@@ -142,7 +149,7 @@ public class Abyss_Blast_Entity extends Entity {
                 for (LivingEntity target : hit) {
                     if (caster != null) {
                         if (!this.caster.isAlliedTo(target) && target != caster) {
-                            boolean flag = target.hurt(CMDamageTypes.causeDeathLaserDamage(this, caster), (float) ((float) CMConfig.AbyssBlastdamage + Math.min(CMConfig.AbyssBlastdamage, target.getMaxHealth() * CMConfig.AbyssBlastHpdamage)));
+                            boolean flag = target.hurt(CMDamageTypes.causeDeathLaserDamage(this, caster), (float) (this.getDamage() + Math.min(this.getDamage(), target.getMaxHealth() * this.getHpDamage() * 0.01)));
                             if (flag) {
                                 MobEffectInstance effectinstance1 = target.getEffect(ModEffect.EFFECTABYSSAL_BURN.get());
                                 int i = 1;
@@ -186,7 +193,26 @@ public class Abyss_Blast_Entity extends Entity {
         this.entityData.define(DURATION, 0);
         this.entityData.define(CASTER, -1);
         this.entityData.define(BEAMDIRECTION, 90f);
+        this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(HPDAMAGE, 0F);
     }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HPDAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HPDAMAGE, damage);
+    }
+
 
     public float getYaw() {
         return entityData.get(YAW);
@@ -236,7 +262,8 @@ public class Abyss_Blast_Entity extends Entity {
         this.setPitch(compound.getFloat("Pitch"));
         this.setDuration(compound.getInt("Duration"));
         this.setBeamDirection(compound.getFloat("BeamDirection"));
-
+        this.setDamage(compound.getFloat("damage"));
+        this.setHpDamage(compound.getFloat("Hpdamage"));
     }
 
     @Override
@@ -245,6 +272,8 @@ public class Abyss_Blast_Entity extends Entity {
         compound.putFloat("Pitch", this.getPitch());
         compound.putInt("Duration", this.getDuration());
         compound.putFloat("BeamDirection", this.getBeamDirection());
+        compound.putFloat("damage", this.getDamage());
+        compound.putFloat("Hpdamage", this.getHpDamage());
     }
 
     @Override

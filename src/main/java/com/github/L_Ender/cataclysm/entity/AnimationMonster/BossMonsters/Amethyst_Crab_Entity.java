@@ -603,7 +603,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                     double vy = 0 + entity.random.nextFloat() * 0.3F;
                     double vz = Mth.sin(throwAngle);
                     double v3 = Mth.sqrt((float) (vx * vx + vz * vz));
-                    Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), entity.level(), entity);
+                    Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), entity.level(), entity,(float)CMConfig.AmethystClusterdamage);
 
                     projectile.moveTo(sx, sy, sz, i * 11.25F, entity.getXRot());
                     float speed = 0.8F;

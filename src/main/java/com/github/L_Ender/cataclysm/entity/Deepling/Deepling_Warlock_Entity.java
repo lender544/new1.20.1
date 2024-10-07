@@ -237,7 +237,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
                     double sx = this.warlock.getX();
                     double sy = this.warlock.getY();
                     double sz = this.warlock.getZ();
-                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,this.warlock.getUUID(),target);
+                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage,this.warlock.getUUID(),target);
                     this.warlock.level().addFreshEntity(fireball);
                 }
 

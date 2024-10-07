@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -117,7 +118,7 @@ public class Void_Howitzer_Entity extends ThrowableProjectile {
 
         if (flag) {
             LivingEntity entity1 = (LivingEntity) this.getOwner();
-            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, entity1));
+            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.Voidrunedamage, entity1));
         }
     }
 

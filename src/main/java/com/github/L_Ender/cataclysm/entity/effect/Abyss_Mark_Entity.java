@@ -37,16 +37,21 @@ public class Abyss_Mark_Entity extends Entity {
     private static final EntityDataAccessor<Optional<UUID>> CREATOR_ID = SynchedEntityData.defineId(Abyss_Mark_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     protected static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Abyss_Mark_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Abyss_Mark_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Abyss_Mark_Entity.class, EntityDataSerializers.FLOAT);
+
 
 
     public Abyss_Mark_Entity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
     }
 
-    public Abyss_Mark_Entity(Level worldIn, double x, double y, double z, int lifespan, UUID casterIn, LivingEntity finalTarget) {
+    public Abyss_Mark_Entity(Level worldIn, double x, double y, double z, int lifespan,float damage,float hpdamage, UUID casterIn, LivingEntity finalTarget) {
         this(ModEntities.ABYSS_MARK.get(), worldIn);
         this.setCreatorEntityUUID(casterIn);
         this.setLifespan(lifespan);
+        this.setDamage(damage);
+        this.setHpDamage(hpdamage);
         this.finalTarget = finalTarget;
         this.setPos(x, y, z);
     }
@@ -75,7 +80,7 @@ public class Abyss_Mark_Entity extends Entity {
 
         if (this.getLifespan() <= 0) {
             if (owner != null){
-                this.level().addFreshEntity(new Abyss_Blast_Portal_Entity(this.level(), this.getX(),  this.getY(),  this.getZ(), this.getYRot(), 0, (LivingEntity) owner));
+                this.level().addFreshEntity(new Abyss_Blast_Portal_Entity(this.level(), this.getX(),  this.getY(),  this.getZ(), this.getYRot(), 0, this.getDamage(),this.getHpDamage(), (LivingEntity) owner));
             }
             this.remove(RemovalReason.DISCARDED);
         }
@@ -147,6 +152,24 @@ public class Abyss_Mark_Entity extends Entity {
     protected void defineSynchedData() {
         this.entityData.define(CREATOR_ID, Optional.empty());
         this.entityData.define(LIFESPAN, 300);
+        this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(HPDAMAGE, 0F);
+    }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HPDAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HPDAMAGE, damage);
     }
 
     protected void readAdditionalSaveData(CompoundTag compound) {
@@ -167,6 +190,8 @@ public class Abyss_Mark_Entity extends Entity {
 
             }
         }
+        this.setDamage(compound.getFloat("damage"));
+        this.setHpDamage(compound.getFloat("Hpdamage"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
@@ -177,5 +202,7 @@ public class Abyss_Mark_Entity extends Entity {
         if (this.finalTarget != null) {
             compound.putUUID("Target", this.finalTarget.getUUID());
         }
+        compound.putFloat("damage", this.getDamage());
+        compound.putFloat("Hpdamage", this.getHpDamage());
     }
 }

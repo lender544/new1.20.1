@@ -232,5 +232,6 @@ public class Soul_Render extends Item {
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
 		tooltip.add(Component.translatable("item.cataclysm.soul_render.desc").withStyle(ChatFormatting.DARK_GREEN));
+		tooltip.add(Component.translatable("item.cataclysm.soul_render2.desc").withStyle(ChatFormatting.DARK_GREEN));
 	}
 }

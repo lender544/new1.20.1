@@ -45,7 +45,7 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.ANCIENT_METAL_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.RARE)));
 
     public static final RegistryObject<BlockItem> CURSIUM_BLOCK = ITEMS.register("cursium_block",
-            () -> new BlockItem(ModBlocks.CURSIUM_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.RARE)));
+            () -> new BlockItem(ModBlocks.CURSIUM_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<BlockItem> DUNGEON_BLOCK = ITEMS.register("dungeon_block",
             () -> new BlockItem(ModBlocks.DUNGEON_BLOCK.get(), new Item.Properties()));
@@ -403,13 +403,13 @@ public class ModItems {
             () -> new RecordItem(14, ModSounds.MONSTROSITY_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 289 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_ENDER_GUARDIAN = ITEMS.register("music_disc_ender_guardian",
-            () -> new RecordItem(14, ModSounds.ENDERGUARDIAN_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 226 * 20));
+            () -> new RecordItem(14, ModSounds.ENDERGUARDIAN_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 196 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_IGNIS = ITEMS.register("music_disc_ignis",
             () -> new RecordItem(14, ModSounds.IGNIS_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 153 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_THE_HARBINGER = ITEMS.register("music_disc_the_harbinger",
-            () -> new RecordItem(14, ModSounds.HARBINGER_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 144 * 20));
+            () -> new RecordItem(14, ModSounds.HARBINGER_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 189 * 20));
 
     public static final RegistryObject<Item> MUSIC_DISC_THE_LEVIATHAN = ITEMS.register("music_disc_the_leviathan",
             () -> new RecordItem(14, ModSounds.LEVIATHAN_MUSIC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 291 * 20));

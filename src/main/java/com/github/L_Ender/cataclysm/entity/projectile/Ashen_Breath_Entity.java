@@ -6,6 +6,9 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -26,14 +29,19 @@ public class Ashen_Breath_Entity extends Entity {
     private LivingEntity caster;
     private UUID casterUuid;
 
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Ashen_Breath_Entity.class, EntityDataSerializers.FLOAT);
+
+
     public Ashen_Breath_Entity(EntityType<? extends Ashen_Breath_Entity> type, Level world) {
         super(type, world);
 
     }
 
-    public Ashen_Breath_Entity(EntityType<? extends Ashen_Breath_Entity> type, Level world, LivingEntity caster) {
+
+    public Ashen_Breath_Entity(EntityType<? extends Ashen_Breath_Entity> type, Level world,float damage,LivingEntity caster) {
         super(type, world);
         this.setCaster(caster);
+        this.setDamage(damage);
 
     }
 
@@ -118,7 +126,7 @@ public class Ashen_Breath_Entity extends Entity {
             if (inRange && yawCheck && pitchCheck || CloseCheck) {
                 if (this.tickCount % 3 == 0) {
                     if (!isAlliedTo(entityHit) && entityHit != caster) {
-                        boolean flag = entityHit.hurt(this.damageSources().indirectMagic(this, caster), (float) CMConfig.Ashenbreathdamage);
+                        boolean flag = entityHit.hurt(this.damageSources().indirectMagic(this, caster), this.getDamage());
                         if (flag) {
                             //entityHit.setDeltaMovement(entityHit.getDeltaMovement().multiply(0.25, 1, 0.25));
                             MobEffectInstance effectinstance = new MobEffectInstance(MobEffects.BLINDNESS, 60, 0, false, false, true);
@@ -132,7 +140,15 @@ public class Ashen_Breath_Entity extends Entity {
 
     @Override
     protected void defineSynchedData() {
+        this.getEntityData().define(DAMAGE, 0F);
+    }
 
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
     }
 
     public void setCaster(@Nullable LivingEntity p_190549_1_) {
@@ -159,14 +175,14 @@ public class Ashen_Breath_Entity extends Entity {
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
-
+        this.setDamage(compound.getFloat("damage"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
-
+        compound.putFloat("damage", this.getDamage());
     }
 
 

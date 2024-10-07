@@ -58,6 +58,9 @@ public class Death_Laser_Beam_Entity extends Entity {
     private static final EntityDataAccessor<Integer> CASTER = SynchedEntityData.defineId(Death_Laser_Beam_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HEAD = SynchedEntityData.defineId(Death_Laser_Beam_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FIRE = SynchedEntityData.defineId(Death_Laser_Beam_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Death_Laser_Beam_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Death_Laser_Beam_Entity.class, EntityDataSerializers.FLOAT);
+
     public float prevYaw;
     public float prevPitch;
 
@@ -72,13 +75,16 @@ public class Death_Laser_Beam_Entity extends Entity {
         }
     }
 
-    public Death_Laser_Beam_Entity(EntityType<? extends Death_Laser_Beam_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration) {
+
+    public Death_Laser_Beam_Entity(EntityType<? extends Death_Laser_Beam_Entity> type, Level world, LivingEntity caster, double x, double y, double z, float yaw, float pitch, int duration,float damage,float Hpdamage) {
         this(type, world);
         this.caster = caster;
         this.setYaw(yaw);
         this.setPitch(pitch);
         this.setDuration(duration);
         this.setPos(x, y, z);
+        this.setDamage(damage);
+        this.setHpDamage(Hpdamage);
         this.calculateEndPos();
         if (!world.isClientSide) {
             this.setCasterID(caster.getId());
@@ -171,7 +177,7 @@ public class Death_Laser_Beam_Entity extends Entity {
                 for (LivingEntity target : hit) {
                     if (caster != null) {
                     if (!this.caster.isAlliedTo(target) && target != caster) {
-                        boolean flag = target.hurt(CMDamageTypes.causeDeathLaserDamage(this, caster), (float) ((float) CMConfig.DeathLaserdamage + Math.min(CMConfig.DeathLaserdamage, target.getMaxHealth() * CMConfig.DeathLaserHpdamage)));
+                        boolean flag = target.hurt(CMDamageTypes.causeDeathLaserDamage(this, caster), (float) (this.getDamage() + Math.min(this.getDamage(), target.getMaxHealth() * this.getHpDamage() * 0.01)));
                         if (this.getFire()) {
                             if (flag) {
 
@@ -208,7 +214,26 @@ public class Death_Laser_Beam_Entity extends Entity {
         this.entityData.define(CASTER, -1);
         this.entityData.define(HEAD, 0);
         this.entityData.define(FIRE, false);
+        this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(HPDAMAGE, 0F);
     }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HPDAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HPDAMAGE, damage);
+    }
+
 
     public float getYaw() {
         return entityData.get(YAW);

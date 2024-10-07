@@ -30,6 +30,9 @@ public class Flame_Strike_Entity extends Entity {
     private static final EntityDataAccessor<Boolean> DATA_WAITING = SynchedEntityData.defineId(Flame_Strike_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DATA_SEE = SynchedEntityData.defineId(Flame_Strike_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SOUL = SynchedEntityData.defineId(Flame_Strike_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Flame_Strike_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Flame_Strike_Entity.class, EntityDataSerializers.FLOAT);
+
     private static final float MAX_RADIUS = 32.0F;
     private int duration = 600;
     private int waitTime;
@@ -45,13 +48,15 @@ public class Flame_Strike_Entity extends Entity {
         this.setRadius(3.0F);
     }
 
-    public Flame_Strike_Entity(Level level, double x, double y, double z, float p_i47276_8_, int duration, int wait,int delay, float radius, boolean soul, LivingEntity casterIn) {
+    public Flame_Strike_Entity(Level level, double x, double y, double z, float p_i47276_8_, int duration, int wait,int delay, float radius, float damage, float Hpdamage, boolean soul, LivingEntity casterIn) {
         this(ModEntities.FLAME_STRIKE.get(), level);
         this.setOwner(casterIn);
         this.setDuration(duration);
         this.waitTime = wait;
         this.warmupDelayTicks = delay;
         this.setRadius(radius);
+        this.setDamage(damage);
+        this.setHpDamage(Hpdamage);
         this.setSoul(soul);
         this.setYRot(p_i47276_8_ * (180F / (float)Math.PI));
         this.setPos(x, y, z);
@@ -59,6 +64,8 @@ public class Flame_Strike_Entity extends Entity {
 
     protected void defineSynchedData() {
         this.getEntityData().define(DATA_RADIUS, 0.5F);
+        this.getEntityData().define(DAMAGE, 0F);
+        this.getEntityData().define(HPDAMAGE, 0F);
         this.getEntityData().define(DATA_WAITING, true);
         this.getEntityData().define(DATA_SEE, false);
         this.getEntityData().define(SOUL, false);
@@ -70,6 +77,23 @@ public class Flame_Strike_Entity extends Entity {
         }
 
     }
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HPDAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HPDAMAGE, damage);
+    }
+
 
     public void refreshDimensions() {
         double d0 = this.getX();
@@ -189,9 +213,8 @@ public class Flame_Strike_Entity extends Entity {
         LivingEntity caster = this.getOwner();
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != caster) {
             if (this.tickCount % 2 == 0) {
-                float damage = this.isSoul() ? 8.0F : 6.0F;
                 if (caster == null) {
-                    boolean flag = Hitentity.hurt(this.damageSources().magic(), damage + Hitentity.getMaxHealth() * 0.06f);
+                    boolean flag = Hitentity.hurt(this.damageSources().magic(), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
                     if (flag) {
                         MobEffectInstance effectinstance1 = Hitentity.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
                         int i = 1;
@@ -210,8 +233,7 @@ public class Flame_Strike_Entity extends Entity {
                     if (caster.isAlliedTo(Hitentity)) {
                         return;
                     }
-                    float hpDmg = (float) (caster instanceof Player ? 0.02 : 0.06);
-                    boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, caster), damage + Hitentity.getMaxHealth() * hpDmg);
+                    boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
                     if (flag) {
                         MobEffectInstance effectinstance1 = Hitentity.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
                         int i = 1;
@@ -268,7 +290,8 @@ public class Flame_Strike_Entity extends Entity {
             this.ownerUUID = p_19727_.getUUID("Owner");
         }
         setSoul(p_19727_.getBoolean("is_soul"));
-
+        this.setDamage(p_19727_.getFloat("damage"));
+        this.setHpDamage(p_19727_.getFloat("Hpdamage"));
     }
 
     protected void addAdditionalSaveData(CompoundTag p_19737_) {
@@ -281,7 +304,8 @@ public class Flame_Strike_Entity extends Entity {
             p_19737_.putUUID("Owner", this.ownerUUID);
         }
         p_19737_.putBoolean("is_soul", isSoul());
-
+        p_19737_.putFloat("damage", this.getDamage());
+        p_19737_.putFloat("Hpdamage", this.getHpDamage());
 
     }
 
