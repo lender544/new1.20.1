@@ -102,10 +102,10 @@ public class Abyss_Blast_Portal_Entity extends Entity {
 			}
 			if (this.warmupDelayTicks == -22) {
 				if (caster != null) {
-					Portal_Abyss_Blast_Entity DeathBeam1 = new Portal_Abyss_Blast_Entity(ModEntities.PORTAL_ABYSS_BLAST.get(), this.level(), this.getCaster(), this.getX(), this.getY(), this.getZ(), (float) ((this.getYRot() - 90) * Math.PI / 180), (float) (90 * Math.PI / 180), laserdurations, 90,this.getDamage(),this.getHpDamage());
+					Portal_Abyss_Blast_Entity DeathBeam1 = new Portal_Abyss_Blast_Entity(ModEntities.PORTAL_ABYSS_BLAST.get(), this.level(), this.getCaster(), this.getX(), this.getY(), this.getZ(), (float) ((this.getYRot() - 90) * Math.PI / 180), (float) (90 * Math.PI / 180), laserdurations, 90,1,0);
 					this.level().addFreshEntity(DeathBeam1);
 				}else{
-					Portal_Abyss_Blast_Entity DeathBeam2 = new Portal_Abyss_Blast_Entity(ModEntities.PORTAL_ABYSS_BLAST.get(), this.level(), this.getX(), this.getY(), this.getZ(), (float) ((this.getYRot() - 90) * Math.PI / 180), (float) (90 * Math.PI / 180), laserdurations,90,this.getDamage(),this.getHpDamage());
+					Portal_Abyss_Blast_Entity DeathBeam2 = new Portal_Abyss_Blast_Entity(ModEntities.PORTAL_ABYSS_BLAST.get(), this.level(), this.getX(), this.getY(), this.getZ(), (float) ((this.getYRot() - 90) * Math.PI / 180), (float) (90 * Math.PI / 180), laserdurations,90,2,1);
 					this.level().addFreshEntity(DeathBeam2);
 				}
 			}
