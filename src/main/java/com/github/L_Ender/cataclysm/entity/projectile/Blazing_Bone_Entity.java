@@ -41,7 +41,8 @@ public class Blazing_Bone_Entity extends ThrowableItemProjectile {
 
     @Override
     protected void defineSynchedData() {
-        this.getEntityData().define(DAMAGE, 0F);
+        super.defineSynchedData();
+        this.entityData.define(DAMAGE, 0F);
     }
 
     public float getDamage() {

@@ -140,7 +140,7 @@ public class Ashen_Breath_Entity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        this.getEntityData().define(DAMAGE, 0F);
+      this.entityData.define(DAMAGE, 0F);
     }
 
     public float getDamage() {
