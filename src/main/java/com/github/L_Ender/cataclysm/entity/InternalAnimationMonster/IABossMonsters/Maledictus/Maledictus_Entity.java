@@ -1969,14 +1969,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity, target);
                         throwntrident.setBaseDamage(CMConfig.MaledictusPhantomArrowbasedamage + CMConfig.MaledictusPhantomArrowbasedamage * this.entity.getRageMeter() * 0.05f);
-                        if (CMConfig.MaledictusBlockBreaking) {
-                            throwntrident.setBroke(false);
-                        } else {
-                            if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.entity.level(), this.entity)) {
-                                throwntrident.setBroke(true);
-
-                            }
-                        }
                         throwntrident.shoot(x, d2 + distance * (double) 0.15F, z, 1.8F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
@@ -2079,13 +2071,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                         Phantom_Arrow_Entity throwntrident = new Phantom_Arrow_Entity(this.entity.level(), this.entity, target);
                         throwntrident.setBaseDamage(CMConfig.MaledictusPhantomArrowbasedamage + CMConfig.MaledictusPhantomArrowbasedamage * this.entity.getRageMeter() * 0.05f);
-                        if (CMConfig.MaledictusBlockBreaking) {
-                            throwntrident.setBroke(false);
-                        } else {
-                            if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.entity.level(), this.entity)) {
-                                throwntrident.setBroke(true);
-                            }
-                        }
                         throwntrident.shoot(x, d2 + distance * (double) 0.15F, z, 1.5F, 1);
                         this.entity.playSound(SoundEvents.CROSSBOW_SHOOT, 1.0F, 1.0F / (this.entity.getRandom().nextFloat() * 0.4F + 0.8F));
                         this.entity.level().addFreshEntity(throwntrident);
