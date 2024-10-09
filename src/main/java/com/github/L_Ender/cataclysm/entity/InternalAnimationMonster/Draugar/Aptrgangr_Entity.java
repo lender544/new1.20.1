@@ -383,7 +383,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     float rad = (float) Math.toRadians(angle);
                     double dx = -Math.sin(rad);
                     double dz = Math.cos(rad);
-                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float) CMConfig.HarbingerWitherMissiledamage,angle);
+                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float) CMConfig.AptrgangrAxeBladeDamage,angle);
                     double spawnX = this.getX() + vecX * 5;
                     double spawnY = this.getY(0.15D);
                     double spawnZ = this.getZ() + vecZ * 5;
@@ -430,19 +430,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         }
 
     }
-
-    private void SpawnBlade(Vec3 vec3) {
-        float f0 = (float) Mth.atan2(vec3.z, vec3.x);
-        double x = this.getX() + Mth.cos(f0) * 2.5D;
-        double y = this.getY() + 0.5D;
-        double z = this.getZ() + Mth.sin(f0) * 2.5D;
-
-        Wither_Missile_Entity witherskull = new Wither_Missile_Entity(this, x, y, z, this.level(),(float) CMConfig.HarbingerWitherMissiledamage);
-        this.level().addFreshEntity(witherskull);
-
-    }
-
-
+    
     private void Makeparticle(float size,float vec, float math) {
         if (this.level().isClientSide) {
             float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));

@@ -44,6 +44,7 @@ public class CMConfig {
     public static double AncientDesertSteledamage = 18;
     public static double PlayerPhantomArrowbasedamage = 5D;
     public static double PhantomHalberddamage = 12;
+    public static double AptrgangrAxeBladeDamage = 8;
 
     public static boolean ScreenShake = true;
     public static boolean BossMusic = true;
@@ -246,6 +247,7 @@ public class CMConfig {
             PlayerPhantomArrowbasedamage = ConfigHolder.COMMON.PlayerPhantomArrowdamage.get();
             PhantomHalberddamage = ConfigHolder.COMMON.PhantomHalberddamage.get();
 
+
             Lavabombradius = ConfigHolder.COMMON.Lavabombradius.get();
             ScreenShake = ConfigHolder.COMMON.ScreenShake.get();
             BossMusic = ConfigHolder.COMMON.BossMusic.get();
@@ -368,6 +370,7 @@ public class CMConfig {
 
             AptrgangrHealthMultiplier = ConfigHolder.COMMON.AptrgangrHealthMultiplier.get();
             AptrgangrDamageMultiplier = ConfigHolder.COMMON.AptrgangrDamageMultiplier.get();
+            AptrgangrAxeBladeDamage = ConfigHolder.COMMON.AptrgangrAxeBladeDamage.get();
 
             MaledictusHealthMultiplier = ConfigHolder.COMMON.MaledictusHealthMultiplier.get();
             MaledictusDamageMultiplier = ConfigHolder.COMMON.MaledictusDamageMultiplier.get();

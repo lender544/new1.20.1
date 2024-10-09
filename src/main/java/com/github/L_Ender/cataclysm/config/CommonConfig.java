@@ -154,6 +154,7 @@ public class CommonConfig {
 
     public final ForgeConfigSpec.DoubleValue AptrgangrHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue AptrgangrDamageMultiplier;
+    public final ForgeConfigSpec.DoubleValue AptrgangrAxeBladeDamage;
 
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
@@ -379,6 +380,8 @@ public class CommonConfig {
         builder.push("Aptrgangr");
         AptrgangrHealthMultiplier = buildDouble(builder, "AptrgangrHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Aptrgangr's Health Multiplier");
         AptrgangrDamageMultiplier = buildDouble(builder, "AptrgangrDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Aptrgangr's Damage Multiplier");
+        AptrgangrAxeBladeDamage = buildDouble(builder, "AptrgangrAxeBladeDamage", "all", 8, 0D, 1000000D, "Axe Blade's Damage");
+
         builder.pop();
 
         builder.push("Maledictus");
