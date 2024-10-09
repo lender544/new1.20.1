@@ -430,7 +430,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         }
 
     }
-    
+
     private void Makeparticle(float size,float vec, float math) {
         if (this.level().isClientSide) {
             float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
