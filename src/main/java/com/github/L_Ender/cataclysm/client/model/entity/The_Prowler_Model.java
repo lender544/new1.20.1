@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 
 import com.github.L_Ender.cataclysm.client.animation.Prowler_Animation;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;

@@ -6,7 +6,7 @@ import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Prowler_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;

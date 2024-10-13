@@ -81,8 +81,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     private boolean chubu = false;
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 160;
-
-
+    public static final int NATURE_HEAL_COOLDOWN = 60;
+    private int timeWithoutTarget;
     public Aptrgangr_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 35;
@@ -340,7 +340,22 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         super.tick();
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
+        }else{
+            if (timeWithoutTarget > 0) timeWithoutTarget--;
+            LivingEntity target = this.getTarget();
+            if (target != null) {
+                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
+            }
+
+            if (timeWithoutTarget <= 0) {
+                if (!isNoAi() ) {
+                    if (this.tickCount % 20 == 0) {
+                        this.heal(this.getMaxHealth()/ 10);
+                    }
+                }
+            }
         }
+
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
 

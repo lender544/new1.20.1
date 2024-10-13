@@ -898,9 +898,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             }
 
             if (this.getAttackState() == 0 && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.MaledictusPhantomHalberddamage > 0) {
+                if (!isNoAi() && CMConfig.MaledictusNatureHealing > 0) {
                     if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.MaledictusPhantomHalberddamage);
+                        this.heal((float) CMConfig.MaledictusNatureHealing);
                     }
                 }
             }

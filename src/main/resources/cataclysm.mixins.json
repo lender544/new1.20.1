@@ -17,7 +17,14 @@
     "StructureManagerAccessor",
     "StructureProcessorAccessor",
     "StructureTemplateMixin",
-    "WorldGenRegionAccessor"
+    "WorldGenRegionAccessor",
+    "accessor.BeardifierAccessor",
+    "accessor.BoundingBoxAccessor",
+    "accessor.CriteriaTriggersAccessor",
+    "accessor.FeaturePoolElementAccessor",
+    "accessor.ListPoolElementAccessor",
+    "accessor.SinglePoolElementAccessor",
+    "accessor.StructureTemplatePoolAccessor"
   ],
   "client": [
     "Client.HumanoidModelMixin"
