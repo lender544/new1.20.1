@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.ShulkerBulletRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
@@ -110,7 +111,6 @@ public class RendererAltar_of_Amethyst<T extends AltarOfAmethyst_Block_Entity> i
         float f = (float)Math.floorMod(p_112190_, 40) + p_112188_;
         float f1 = p_112192_ < 0 ? f : -f;
         float f2 = Mth.frac(f1 * 0.2F - (float)Mth.floor(f1 * 0.1F));
-
         p_112185_.pushPose();
         p_112185_.mulPose(Axis.YP.rotationDegrees(f * 2.25F - 45.0F));
         float f6 = 0.0F;

@@ -1415,7 +1415,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                         AABB aabb = this.getBoundingBox().inflate(0.2D);
                         for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(this.getY()), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                             BlockState blockstate = this.level().getBlockState(blockpos);
-                            if (blockstate != Blocks.AIR.defaultBlockState() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.IGNIS_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
+                            if (!blockstate.isAir() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.IGNIS_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
                                 flag = this.level().destroyBlock(blockpos, true, this) || flag;
                             }
                         }

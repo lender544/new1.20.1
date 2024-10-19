@@ -445,7 +445,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                     AABB aabb = this.getBoundingBox().inflate(1.5D, 0.2D, 1.5D);
                     for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                         BlockState blockstate = this.level().getBlockState(blockpos);
-                        if (blockstate != Blocks.AIR.defaultBlockState() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
+                        if (!blockstate.isAir() && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
                             if (random.nextInt(3) == 0 && !blockstate.hasBlockEntity()) {
                                 Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), blockpos.getX() + 0.5D, blockpos.getY() + 0.5D, blockpos.getZ() + 0.5D, blockstate, 20);
                                 flag = this.level().destroyBlock(blockpos, false, this) || flag;
@@ -496,7 +496,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                     AABB aabb = this.getBoundingBox().inflate(0.2D);
                     for (BlockPos pos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                         BlockState blockstate = level().getBlockState(pos);
-                        if (blockstate != Blocks.AIR.defaultBlockState()  && blockstate.canEntityDestroy(this.level(), pos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE)) {
+                        if (!blockstate.isAir()  && blockstate.canEntityDestroy(this.level(), pos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE)) {
                             if (random.nextInt(5) == 0 && !blockstate.hasBlockEntity()) {
                                 Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, blockstate, 20);
                                 flag = this.level().destroyBlock(pos, false, this) || flag;
@@ -536,7 +536,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                                     int i1 = j2 + k2;
                                     BlockPos blockpos = new BlockPos(l2, l, i1);
                                     BlockState blockstate = this.level().getBlockState(blockpos);
-                                    if (blockstate != Blocks.AIR.defaultBlockState()  && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
+                                    if (!blockstate.isAir()  && blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ModTag.HARBINGER_IMMUNE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
                                         if (random.nextInt(5) == 0 && !blockstate.hasBlockEntity()) {
                                             Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), blockpos.getX() + 0.5D, blockpos.getY() + 0.5D, blockpos.getZ() + 0.5D, blockstate, 20);
                                             flag = this.level().destroyBlock(blockpos, false, this) || flag;
