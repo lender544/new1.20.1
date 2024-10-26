@@ -139,14 +139,8 @@ public class Animation_Monsters extends Monster implements Enemy {
 
     public void onDeathUpdate(int deathDuration) { // TODO copy from entityLiving
         onDeathAIUpdate();
-
         ++this.deathTime;
         if (this.deathTime >= deathDuration && !this.level().isClientSide() && !this.isRemoved()) {
-            lastHurtByPlayer = killDataAttackingPlayer;
-            lastHurtByPlayerTime = killDataRecentlyHit;
-            if (!this.level().isClientSide && dropAfterDeathAnim && killDataCause != null) {
-                dropAllDeathLoot(killDataCause);
-            }
             this.level().broadcastEntityEvent(this, (byte) 60);
             this.remove(RemovalReason.KILLED);
         }

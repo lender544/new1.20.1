@@ -32,7 +32,7 @@ public class Tooltier {
 
     public static final Tier BLACK_STEEL = TierSortingRegistry.registerTier(
             new ForgeTier(3, 750, 8F, 2, 25,
-                    BlockTags.create(prefix("needs_black_steel_tool")), () -> Ingredient.of(ModItems.ANCIENT_METAL_INGOT.get())),
+                    BlockTags.create(prefix("needs_black_steel_tool")), () -> Ingredient.of(ModItems.BLACK_STEEL_INGOT.get())),
             prefix("black_steel"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 
 }

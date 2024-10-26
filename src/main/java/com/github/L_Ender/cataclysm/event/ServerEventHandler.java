@@ -368,11 +368,11 @@ public class ServerEventHandler {
         }
         if (!event.getEntity().getItemBySlot(EquipmentSlot.LEGS).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.LEGS).getItem() == ModItems.CURSIUM_LEGGINGS.get()) {
             if (event.getSource().is(DamageTypeTags.IS_PROJECTILE)) {
-                if (event.getEntity().getRandom().nextFloat() < 0.1F) {
+                if (event.getEntity().getRandom().nextFloat() < 0.15F) {
                     event.setCanceled(true);
                 }
             } else if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                if (event.getEntity().getRandom().nextFloat() < 0.05F) {
+                if (event.getEntity().getRandom().nextFloat() < 0.08F) {
                     event.setCanceled(true);
                 }
             }
