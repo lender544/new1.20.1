@@ -46,6 +46,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
@@ -252,8 +253,8 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
                 double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
-                float f = Mth.cos( this.yBodyRot * ((float)Math.PI / 180F)) ;
-                float f1 = Mth.sin( this.yBodyRot * ((float)Math.PI / 180F)) ;
+                float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
+                float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
                 double extraX = 0.75F * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
@@ -262,12 +263,14 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
                 theta += Math.PI / 2;
                 double vecX = Math.cos(theta);
                 double vecZ = Math.sin(theta);
-                int hitX = Mth.floor(getX() + vec * vecX+ extraX);
+                int hitX = Mth.floor(getX() + vec * vecX + extraX);
                 int hitY = Mth.floor(getY());
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = level().getBlockState(hit.below());
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
             }
         }
     }

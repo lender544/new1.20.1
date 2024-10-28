@@ -17,6 +17,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -129,7 +130,9 @@ public class Void_Rune_Entity extends Entity {
                         double d3 = (this.random.nextGaussian() * 0.07D);
                         double d4 = (this.random.nextGaussian() * 0.07D);
                         double d5 = (this.random.nextGaussian() * 0.07D);
-                        this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), d0, d1, d2, d3, d4, d5);
+                        if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                            this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), d0, d1, d2, d3, d4, d5);
+                        }
                     }
                 }
 

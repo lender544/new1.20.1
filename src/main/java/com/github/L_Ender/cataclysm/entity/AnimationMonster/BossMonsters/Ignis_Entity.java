@@ -1745,8 +1745,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = level().getBlockState(hit.below());
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, motionX, motionY, motionZ);
-
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, motionX, motionY, motionZ);
+                }
             }
             this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 25, 1f, 1f, 1f, 1f, 25f, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX + f * math, getY() + 0.3f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }

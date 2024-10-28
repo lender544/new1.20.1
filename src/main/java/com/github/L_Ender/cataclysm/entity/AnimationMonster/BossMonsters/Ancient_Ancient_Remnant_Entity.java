@@ -855,8 +855,9 @@ public class Ancient_Ancient_Remnant_Entity extends LLibrary_Boss_Monster {
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = level().getBlockState(hit.below());
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
-
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
             }
             this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 20, 1f, 1f, 1f, 1f, 25f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
 

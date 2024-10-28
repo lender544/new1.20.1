@@ -43,6 +43,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -274,13 +275,14 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                 double extraX = 1.0 * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = 1.0 * Mth.cos(angle);
-                int hitX = Mth.floor(getX() + vec * vecX+ extraX);
+                int hitX = Mth.floor(getX() + vec * vecX + extraX);
                 int hitY = Mth.floor(getY());
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = level().getBlockState(hit.below());
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
-
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
             }
             this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 25, 1f, 1f, 1f, 1f, 25f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.3f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
@@ -293,8 +295,8 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                 double DeltaMovementY = getRandom().nextGaussian() * 0.1D;
                 double DeltaMovementZ = getRandom().nextGaussian() * 0.07D;
                 float angle = (0.01745329251F * this.yBodyRot) + i1;
-                float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-                float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+                float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
+                float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
                 double extraX = size * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = size * Mth.cos(angle);
@@ -307,7 +309,9 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                 int hitZ = Mth.floor(getZ() + vec * vecZ + extraZ);
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = level().getBlockState(hit.below());
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
             }
         }
     }

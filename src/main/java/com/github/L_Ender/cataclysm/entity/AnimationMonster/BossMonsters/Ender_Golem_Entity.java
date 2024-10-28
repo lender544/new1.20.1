@@ -41,6 +41,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -295,7 +296,9 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                 double extraX = 4F * Mth.sin((float) (Math.PI + angle));
                 double extraY = 0.3F;
                 double extraZ = 4F * Mth.cos(angle);
-                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), this.getX() + extraX, this.getY() + extraY, this.getZ() + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                if (block.getRenderShape() != RenderShape.INVISIBLE) {
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), this.getX() + extraX, this.getY() + extraY, this.getZ() + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                }
             }
         }
     }
