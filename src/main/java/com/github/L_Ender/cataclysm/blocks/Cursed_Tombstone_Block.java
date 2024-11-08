@@ -31,6 +31,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -53,7 +54,7 @@ public class Cursed_Tombstone_Block extends BaseEntityBlock {
 
     public Cursed_Tombstone_Block() {
         super(Properties.of()
-                .noOcclusion()
+                .mapColor(MapColor.METAL)
                 .noOcclusion()
                 .dynamicShape()
                 .strength(-1.0F, 3600000.0F)

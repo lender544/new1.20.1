@@ -1,7 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.etc;
 
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.sound.BossMusicPlayer;
+import com.github.L_Ender.cataclysm.message.MessageMusic;
+import com.github.L_Ender.cataclysm.message.MessageUpdateBossBar;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -58,23 +61,17 @@ public class Animation_Monsters extends Monster implements Enemy {
     public void tick() {
         super.tick();
         if (!level().isClientSide && getBossMusic() != null) {
-            if (canPlayMusic()) {
-                this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
+            if (canPlayMusic() && this.getBossMusic() != null) {
+                Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), true));
             } else {
-                this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
+                Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), false));
             }
         }
     }
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == MUSIC_PLAY_ID) {
-            BossMusicPlayer.playBossMusic(this);
-        } else if (id == MUSIC_STOP_ID) {
-            BossMusicPlayer.stopBossMusic(this);
-        } else{
-            super.handleEntityEvent(id);
-        }
+        super.handleEntityEvent(id);
     }
 
     public boolean canPlayerHearMusic(Player player) {
