@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
@@ -16,6 +17,7 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.message.MessageMusic;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
@@ -767,7 +769,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         if(this.getAnimation() == LEVIATHAN_PHASE2){
             if (this.getAnimationTick() == 1) {
                 if (!level().isClientSide && getBossMusic() != null) {
-                    this.level().broadcastEntityEvent(this, MUSIC_STOP_ID);
+                    Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), false));
                 }
             }
 
@@ -777,7 +779,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     setMeltDown(true);
                 }
                 if (!level().isClientSide && getBossMusic() != null) {
-                    this.level().broadcastEntityEvent(this, MUSIC_PLAY_ID);
+                    Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), true));
                 }
                 for(int i = 0; i < 3; ++i) {
                     motion = new Vec3(0.5, -1.25, 0.5).yRot(-(float)(120 * i) * 0.01745329251F);

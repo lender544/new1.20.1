@@ -39,8 +39,6 @@ public class Animation_Monsters extends Monster implements Enemy {
     public DamageSource killDataCause;
     public Player killDataAttackingPlayer;
     public int attackTicks;
-    public static final byte MUSIC_PLAY_ID = 67;
-    public static final byte MUSIC_STOP_ID = 68;
 
     @OnlyIn(Dist.CLIENT)
     public Vec3[] socketPosArray;
@@ -106,9 +104,9 @@ public class Animation_Monsters extends Monster implements Enemy {
     public void disableShield(Player player, int ticks) {
         if (player.isBlocking()) {
             if (!player.level().isClientSide) {
-                player.disableShield(true);
                 player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
                 player.stopUsingItem();
+                player.level().broadcastEntityEvent(this, (byte)30);
             }
         }
     }
