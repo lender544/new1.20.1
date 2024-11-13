@@ -256,6 +256,10 @@ public class ModItems {
     public static final RegistryObject<Item> GAUNTLET_OF_BULWARK = ITEMS.register("gauntlet_of_bulwark",
             () -> new Gauntlet_of_Bulwark(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> GAUNTLET_OF_MAELSTROM = ITEMS.register("gauntlet_of_maelstrom",
+            () -> new Gauntlet_of_Maelstrom(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
+
     public static final RegistryObject<Item> THE_INCINERATOR = ITEMS.register("the_incinerator",
             () -> new The_Incinerator(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 

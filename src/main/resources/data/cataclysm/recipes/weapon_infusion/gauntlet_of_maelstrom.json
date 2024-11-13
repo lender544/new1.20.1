@@ -1,0 +1,12 @@
+{
+    "type": "cataclysm:weapon_fusion",
+    "base": {
+        "item": "cataclysm:gauntlet_of_guard"
+    },
+    "addition": {
+        "item": "cataclysm:sandstorm_in_a_bottle"
+    },
+    "result": {
+        "item": "cataclysm:gauntlet_of_maelstrom"
+    }
+}

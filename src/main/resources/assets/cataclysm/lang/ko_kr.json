@@ -155,6 +155,8 @@
   "item.cataclysm.cursium_boots": "커스뮴 부츠",
   "item.cataclysm.ancient_spear": "고대의 창",
   "item.cataclysm.ancient_spear.desc": "공격시 모래폭풍을 발사한다",
+  "item.cataclysm.gauntlet_of_maelstrom": "소용돌이의 건틀릿",
+  "item.cataclysm.gauntlet_of_maelstrom.desc": "공허 소용돌이를 소환한다",
 
   "item.cataclysm.endermaptera_spawn_egg": "엔더마프테라 생성 알",
   "item.cataclysm.ender_golem_spawn_egg": "엔더 골렘 생성 알",

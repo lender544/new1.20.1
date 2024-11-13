@@ -38,22 +38,18 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
-public class Gauntlet_of_Bulwark extends Item {
+public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
     private final Multimap<Attribute, AttributeModifier> guantletAttributes;
-    protected static final UUID ARMOR_MODIFIER = UUID.fromString("FFB9296F-A5B3-4215-8196-4091D31575C6");
-    protected static final UUID ARMOR_TOUGHNESS_MODIFIER = UUID.fromString("4A87FDB4-7CCC-471D-96C4-03AC8515E62F");
-    protected static final UUID KNOCKBACK_RESISTANCE_MODIFIER = UUID.fromString("0F9ECB41-87F5-4787-8731-0A6C693B77F3");
 
     public Gauntlet_of_Bulwark(Properties group) {
         super(group);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 10.0D, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR, new AttributeModifier(ARMOR_MODIFIER, "Tool modifier", 3.0F, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(ARMOR_TOUGHNESS_MODIFIER, "Tool modifier", 3F, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(KNOCKBACK_RESISTANCE_MODIFIER, "Tool modifier", 0.15F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ARMOR, new AttributeModifier(BASE_ARMOR_ID, "Tool modifier", 3.0F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ARMOR_TOUGHNESS_ID, "Tool modifier", 3F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(BASE_KNOCKBACK_RESISTANCE_ID, "Tool modifier", 0.15F, AttributeModifier.Operation.ADDITION));
         this.guantletAttributes = builder.build();
     }
 
