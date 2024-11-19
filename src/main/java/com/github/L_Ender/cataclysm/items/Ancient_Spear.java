@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -78,7 +79,7 @@ public class Ancient_Spear extends Item implements ILeftClick, Vanishable, More_
     }
 
     public boolean onLeftClick(ItemStack stack, LivingEntity playerIn){
-        if(stack.is(ModItems.ANCIENT_SPEAR.get()) && (!(playerIn instanceof Player) || isCharged((Player)playerIn, stack))){
+        if(stack.is(ModItems.ANCIENT_SPEAR.get()) && playerIn.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.ANCIENT_SPEAR.get()) && (!(playerIn instanceof Player) || isCharged((Player)playerIn, stack))){
             return launchTornado(stack, playerIn);
         }
         return false;

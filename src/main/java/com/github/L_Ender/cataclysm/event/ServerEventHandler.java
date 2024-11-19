@@ -55,6 +55,11 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.PacketDistributor;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
+
+import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Cataclysm.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ServerEventHandler {
@@ -118,6 +123,16 @@ public class ServerEventHandler {
                     event.setAmount(event.getAmount() + target.getMaxHealth() * 0.03f);
                 }
 
+            }
+        }
+
+        if (event.getSource().getDirectEntity() instanceof LivingEntity living) {
+            List<SlotResult> slot = CuriosApi.getCuriosHelper().findCurios(living, stack -> stack.is(ModItems.BLAZING_GRIPS.get()));
+            if (!slot.isEmpty()) {
+                if (event.getEntity().getRandom().nextFloat() < 0.15F * slot.size()) {
+                    MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 60, 0);
+                    target.addEffect(effectinstance);
+                }
             }
         }
 
@@ -291,7 +306,7 @@ public class ServerEventHandler {
                             --i;
                         }
 
-                        i = Mth.clamp(i, 0, 2);
+                        i = Mth.clamp(i, 0, 4);
                         MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 100, i, false, false, true);
                         ((LivingEntity) attacker).addEffect(effectinstance);
 
@@ -384,12 +399,18 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void onLivingAttack(CriticalHitEvent event) {
         ItemStack weapon = event.getEntity().getMainHandItem();
-        if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity) {
+        if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity livingEntity) {
             if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
                 //if(event.isVanillaCritical()){
                     event.setDamageModifier(2.25F);
                // }
 
+            }
+            if (weapon.getItem() == ModItems.THE_IMMOLATOR.get()) {
+                if(livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())){
+                    event.setResult(Event.Result.ALLOW);
+                }
+                event.setDamageModifier(2.0F);
             }
         }
     }

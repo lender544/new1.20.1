@@ -56,6 +56,10 @@
   "item.cataclysm.laser_gatling.desc": "You can reload with the Redstone in your inventory",
   "item.cataclysm.meat_shredder.desc": "Right-click damages entities in front (i-frame ignore)",
   "item.cataclysm.necklace_of_the_desert.desc": "It looks like you can wake something up......",
+  "item.cataclysm.blazing_grips.desc": "On hit, there is a chance to apply Blazing Brand to the target",
+  "item.cataclysm.wrath_of_the_desert.desc": "Fires three cursed sandstorms",
+  "item.cataclysm.immolator.desc": "Critical damage to targets afflicted with Blazing Brand",
+  "item.cataclysm.immolator2.desc": "If you hold it in both hands, you can charge it for 2 seconds for summon Flame strike",
 
   "entity.cataclysm.you_cant_escape": "You can't escape",
   "entity.cataclysm.rage_meter": "",
@@ -160,6 +164,11 @@
   "item.cataclysm.ancient_spear.desc": "If you Left Click, shoot the Sandstorm",
   "item.cataclysm.gauntlet_of_maelstrom": "Gauntlet of Maelstrom",
   "item.cataclysm.gauntlet_of_maelstrom.desc": "Summon the Void Vortex",
+  "item.cataclysm.blazing_grips": "Blazing Grips",
+  "item.cataclysm.wrath_of_the_desert": "Wrath of the Desert",
+  "item.cataclysm.the_immolator": "The Immolator",
+
+
 
   "item.cataclysm.endermaptera_spawn_egg": "Endermaptera Spawn Egg",
   "item.cataclysm.ender_golem_spawn_egg": "Ender Golem Spawn Egg",

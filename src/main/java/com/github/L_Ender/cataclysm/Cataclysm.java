@@ -85,6 +85,7 @@ public class Cataclysm {
         ModParticle.PARTICLE.register(bus);
         ModStructures.STRUCTURE_PIECE_DEF_REG.register(bus);
         ModStructures.STRUCTURE_TYPE_DEF_REG.register(bus);
+        Modfeatures.FEATURES.register(bus);
         ModTileentites.TILE_ENTITY_TYPES.register(bus);
         ModEntities.ENTITY_TYPE.register(bus);
         ModSounds.SOUNDS.register(bus);

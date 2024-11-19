@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -76,7 +77,7 @@ public class Gauntlet_of_Maelstrom extends Item implements More_Tool_Attribute {
             int standingOnY = Mth.floor(entityLiving.getY()) - 10;
             boolean hasSucceeded = false;
             float yawRadians = (float) (Math.toRadians(90 + player.getYRot()));
-            HitResult result = player.pick(24D, 1.0F, true);
+            HitResult result = player.pick(32D, 1.0F, true);
             if (result.getType() == HitResult.Type.BLOCK) {
                 if (!level.isClientSide) {
                     BlockPos startPos = ((BlockHitResult) result).getBlockPos();
@@ -85,7 +86,7 @@ public class Gauntlet_of_Maelstrom extends Item implements More_Tool_Attribute {
                     }
 
                     if (hasSucceeded) {
-                        player.getCooldowns().addCooldown(this, 40);
+                        player.getCooldowns().addCooldown(this, CMConfig.GauntletOfMaelstromCooldown);
                         player.awardStat(Stats.ITEM_USED.get(this));
                     }
                 }

@@ -22,6 +22,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue VoidCoreCooldown;
     public final ForgeConfigSpec.IntValue Sandstorm_In_A_Bottle_Timer;
     public final ForgeConfigSpec.IntValue SoulRenderCooldown;
+    public final ForgeConfigSpec.IntValue GauntletOfMaelstromCooldown;
+    public final ForgeConfigSpec.IntValue ImmolatorCooldown;
 
     public final ForgeConfigSpec.IntValue Cursed_tombstone_summon_cooldown;
 
@@ -44,6 +46,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue AncientDesertSteledamage;
     public final ForgeConfigSpec.DoubleValue PlayerPhantomArrowdamage;
     public final ForgeConfigSpec.DoubleValue PhantomHalberddamage;
+    public final ForgeConfigSpec.DoubleValue CursedSandstormdamage;
 
     public final ForgeConfigSpec.BooleanValue ScreenShake;
     public final ForgeConfigSpec.BooleanValue BossMusic;
@@ -220,6 +223,9 @@ public class CommonConfig {
         VoidCoreCooldown = buildInt(builder, "VoidCoreCooldown", "all", 160, 0, 1000000, "Void Core's Cooldown");
         Sandstorm_In_A_Bottle_Timer = buildInt(builder, "SandstormTimer", "all", 160, 0, 1000000, "Sandstorm's Timer");
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
+        GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 80, 0, 1000000, "Gauntlet of Maelstrom's Timer");
+        ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
+
         builder.pop();
 
         builder.push("Block");
@@ -246,6 +252,9 @@ public class CommonConfig {
         AncientDesertSteledamage = buildDouble(builder, "Ancient Desert Stele Damage", "all", 18, 0, 1000000, "Ancient Desert Stele's Damage");
         PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", 5D, 0, 1000000, "Player's Phantom Arrow's Damage");
         PhantomHalberddamage = buildDouble(builder, "Phantom Halberd Damage", "all", 12, 0, 1000000, "Phantom Halberd's Damage");
+        CursedSandstormdamage = buildDouble(builder, "Cursed Sandstorm Damage", "all", 6, 0, 1000000, "Cursed Sandstorm's Damage");
+
+
         builder.pop();
 
         builder.push("Ender Guardian");

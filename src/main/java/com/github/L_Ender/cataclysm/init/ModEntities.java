@@ -480,6 +480,14 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":sandstorm_projectile"));
 
+    public static final RegistryObject<EntityType<Cursed_Sandstorm_Entity>> CURSED_SANDSTORM = ENTITY_TYPE.register("cursed_sandstorm", () -> EntityType.Builder.<Cursed_Sandstorm_Entity>of(Cursed_Sandstorm_Entity::new, MobCategory.MISC)
+            .sized(0.5F, 1.0F)
+            .setShouldReceiveVelocityUpdates(true)
+            .setUpdateInterval(1)
+            .setTrackingRange(20)
+            .setShouldReceiveVelocityUpdates(true)
+            .build(Cataclysm.MODID + ":cursed_sandstorm"));
+
     public static final RegistryObject<EntityType<Ancient_Desert_Stele_Entity>> ANCIENT_DESERT_STELE = ENTITY_TYPE.register("ancient_desert_stele", () -> EntityType.Builder.<Ancient_Desert_Stele_Entity>of(Ancient_Desert_Stele_Entity::new, MobCategory.MISC)
             .sized(0.8F, 1.375F)
             .clientTrackingRange(6)

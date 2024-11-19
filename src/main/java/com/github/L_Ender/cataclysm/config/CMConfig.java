@@ -22,6 +22,8 @@ public class CMConfig {
     public static int VoidCoreCooldown = 160;
     public static int SoulRenderCooldown = 100;
     public static int Sandstorm_In_A_Bottle_Timer = 160;
+    public static int GauntletOfMaelstromCooldown = 80;
+    public static int ImmolatorCooldown = 300;
 
     public static int Cursed_tombstone_summon_cooldown = 30;
 
@@ -45,6 +47,8 @@ public class CMConfig {
     public static double PlayerPhantomArrowbasedamage = 5D;
     public static double PhantomHalberddamage = 12;
     public static double AptrgangrAxeBladeDamage = 8;
+    public static double CursedSandstormDamage = 6D;
+
 
     public static boolean ScreenShake = true;
     public static boolean BossMusic = true;
@@ -225,8 +229,11 @@ public class CMConfig {
             VoidCoreCooldown = ConfigHolder.COMMON.VoidCoreCooldown.get();
             Sandstorm_In_A_Bottle_Timer = ConfigHolder.COMMON.Sandstorm_In_A_Bottle_Timer.get();
             SoulRenderCooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
+            GauntletOfMaelstromCooldown = ConfigHolder.COMMON.GauntletOfMaelstromCooldown.get();
+            ImmolatorCooldown = ConfigHolder.COMMON.ImmolatorCooldown.get();
 
-            Cursed_tombstone_summon_cooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
+
+            Cursed_tombstone_summon_cooldown = ConfigHolder.COMMON.Cursed_tombstone_summon_cooldown.get();
 
             Voidrunedamage = ConfigHolder.COMMON.Voidrunedamage.get();
             Ashenbreathdamage = ConfigHolder.COMMON.Ashenbreathdamage.get();
@@ -246,7 +253,7 @@ public class CMConfig {
             AncientDesertSteledamage = ConfigHolder.COMMON.AncientDesertSteledamage.get();
             PlayerPhantomArrowbasedamage = ConfigHolder.COMMON.PlayerPhantomArrowdamage.get();
             PhantomHalberddamage = ConfigHolder.COMMON.PhantomHalberddamage.get();
-
+            CursedSandstormDamage = ConfigHolder.COMMON.CursedSandstormdamage.get();
 
             Lavabombradius = ConfigHolder.COMMON.Lavabombradius.get();
             ScreenShake = ConfigHolder.COMMON.ScreenShake.get();

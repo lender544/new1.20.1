@@ -25,6 +25,9 @@ import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -63,6 +66,7 @@ import java.util.Random;
 @OnlyIn(Dist.CLIENT)
 public class ClientEvent {
     public static final ResourceLocation FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/soul_flame_strike_sigil.png");
+    public static final ResourceLocation NORMAL_FLAME_STRIKE = new ResourceLocation(Cataclysm.MODID,"textures/entity/flame_strike_sigil.png");
     private boolean previousLavaVision = false;
     private LiquidBlockRenderer previousFluidRenderer;
     private static final ResourceLocation SANDSTORM_ICON = new ResourceLocation(Cataclysm.MODID,"textures/gui/sandstorm_icons.png");
@@ -185,7 +189,8 @@ public class ClientEvent {
     @OnlyIn(Dist.CLIENT)
     public void onPreRenderEntity(RenderLivingEvent.Pre event) {
         LivingEntity player = (LivingEntity) event.getEntity();
-        boolean usingIncinerator = player.isUsingItem() && player.getUseItem().is(ModItems.THE_INCINERATOR.get());
+        boolean usingIncinerator = player.isUsingItem() && (player.getUseItem().is(ModItems.THE_INCINERATOR.get()));
+        boolean usingImmolator = player.isUsingItem() && player.getUseItem().is(ModItems.THE_IMMOLATOR.get());
         Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
         if (SandstormCapability != null) {
             if(SandstormCapability.isSandstorm()){
@@ -210,6 +215,27 @@ public class ClientEvent {
             float f3 = Mth.clamp(i, 1, 60);
             matrixStackIn.pushPose();
             VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),CMRenderTypes.getGlowingEffect(FLAME_STRIKE),false, true);
+            matrixStackIn.translate(0.0D, 0.001, 0.0D);
+            matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F + f2));
+            PoseStack.Pose lvt_19_1_ = matrixStackIn.last();
+            Matrix4f lvt_20_1_ = lvt_19_1_.pose();
+            Matrix3f lvt_21_1_ = lvt_19_1_.normal();
+            this.drawVertex(lvt_20_1_, lvt_21_1_, ivertexbuilder, -1, 0, -1, 0, 0, 1, 0, 1, 240);
+            this.drawVertex(lvt_20_1_, lvt_21_1_, ivertexbuilder, -1, 0, 1, 0, 1, 1, 0, 1, 240);
+            this.drawVertex(lvt_20_1_, lvt_21_1_, ivertexbuilder, 1, 0, 1, 1, 1, 1, 0, 1, 240);
+            this.drawVertex(lvt_20_1_, lvt_21_1_, ivertexbuilder, 1, 0, -1, 1, 0, 1, 0, 1, 240);
+            matrixStackIn.popPose();
+        }
+
+        if(usingImmolator){
+            int i = player.getTicksUsingItem();
+            float f2 = (float) player.tickCount + event.getPartialTick();
+            PoseStack matrixStackIn = event.getPoseStack();
+            float f3 = Mth.clamp(i, 1, 45);
+            matrixStackIn.pushPose();
+            VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),CMRenderTypes.getGlowingEffect(NORMAL_FLAME_STRIKE),false, true);
             matrixStackIn.translate(0.0D, 0.001, 0.0D);
             matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
@@ -307,6 +333,15 @@ public class ClientEvent {
     public void onPoseHand(EventPosePlayerHand event) {
         LivingEntity player = (LivingEntity) event.getEntityIn();
         if (player.getItemInHand(InteractionHand.OFF_HAND).is(ModItems.THE_ANNIHILATOR.get()) && player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.THE_ANNIHILATOR.get()) && player.isUsingItem()){
+            if (player.getMainArm() == HumanoidArm.LEFT) {
+                event.getModel().rightArm.xRot = event.getModel().rightArm.xRot * 0.5F - 3.1415927F;
+                event.getModel().rightArm.yRot = 0.0F;
+            } else {
+                event.getModel().leftArm.xRot = event.getModel().leftArm.xRot * 0.5F - 3.1415927F;
+                event.getModel().leftArm.yRot = 0.0F;
+            }
+        }
+        if (player.getItemInHand(InteractionHand.OFF_HAND).is(ModItems.THE_IMMOLATOR.get()) && player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.THE_IMMOLATOR.get()) && player.isUsingItem()){
             if (player.getMainArm() == HumanoidArm.LEFT) {
                 event.getModel().rightArm.xRot = event.getModel().rightArm.xRot * 0.5F - 3.1415927F;
                 event.getModel().rightArm.yRot = 0.0F;

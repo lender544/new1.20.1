@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.render.blockentity.*;
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import com.github.L_Ender.cataclysm.client.render.etc.CurioHeadRenderer;
 import com.github.L_Ender.cataclysm.client.render.item.CMItemRenderProperties;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSandstorm_In_A_Bottle;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
@@ -138,6 +139,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.MODERN_REMNANT.get(), Modern_Remnant_Renderer::new);
         EntityRenderers.register(ModEntities.SANDSTORM.get(), Sandstorm_Renderer::new);
         EntityRenderers.register(ModEntities.SANDSTORM_PROJECTILE.get(), Sandstorm_Projectile_Renderer::new);
+        EntityRenderers.register(ModEntities.CURSED_SANDSTORM.get(), Cursed_Sandstorm_Renderer::new);
         EntityRenderers.register(ModEntities.THE_WATCHER.get(), The_Watcher_Renderer::new);
         EntityRenderers.register(ModEntities.THE_PROWLER.get(), The_Prowler_Renderer::new);
         EntityRenderers.register(ModEntities.KOBOLETON.get(), Koboleton_Renderer::new);
@@ -193,6 +195,7 @@ public class ClientProxy extends CommonProxy {
         CuriosRendererRegistry.register(ModItems.KOBOLEDIATOR_SKULL.get(), CurioHeadRenderer::new);
         CuriosRendererRegistry.register(ModItems.APTRGANGR_HEAD.get(), CurioHeadRenderer::new);
         CuriosRendererRegistry.register(ModItems.DRAUGR_HEAD.get(), CurioHeadRenderer::new);
+        CuriosRendererRegistry.register(ModItems.BLAZING_GRIPS.get(), Blazing_Grips_Renderer::new);
 
     }
 

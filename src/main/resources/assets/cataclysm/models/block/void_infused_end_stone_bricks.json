@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "cataclysm:block/void_infused_end_stone_bricks"
+    "end":  "cataclysm:block/void_infused_end_stone_bricks_top",
+    "side": "cataclysm:block/void_infused_end_stone_bricks"
   }
 }

@@ -47,6 +47,10 @@
   "item.cataclysm.annihilator2.desc": "양손의 착용시, 2초간 충전하여 광역 피해를 줄 수 있다",
   "item.cataclysm.soul_render.desc": "분쇄의 질주를 쓸 수 있다",
   "item.cataclysm.soul_render2.desc": "웅크린채 사용시 망령 할버드를 나선형으로 소환한다.",
+  "item.cataclysm.blazing_grips.desc": "타격시 일정 확률로 대상에게 불타는 낙인을 건다.",
+  "item.cataclysm.wrath_of_the_desert.desc": "3개의 저주받은 모래폭풍을 발사한다",
+  "item.cataclysm.immolator.desc": "불타는 낙인이 걸린 대상에게 확정 치명타",
+  "item.cataclysm.immolator2.desc": "양손의 착용시, 2초간 충전하여 불기둥을 소환할 수 있다",
   "entity.cataclysm.you_cant_escape": "넌 벗어날 수 없다.",
   "cataclysm.container.weapon_fusion": "§c무기 융합",
 
@@ -157,6 +161,9 @@
   "item.cataclysm.ancient_spear.desc": "공격시 모래폭풍을 발사한다",
   "item.cataclysm.gauntlet_of_maelstrom": "소용돌이의 건틀릿",
   "item.cataclysm.gauntlet_of_maelstrom.desc": "공허 소용돌이를 소환한다",
+  "item.cataclysm.blazing_grips": "타오르는 손길",
+  "item.cataclysm.wrath_of_the_desert": "사막의 분노",
+  "item.cataclysm.the_immolator": "임모레이터",
 
   "item.cataclysm.endermaptera_spawn_egg": "엔더마프테라 생성 알",
   "item.cataclysm.ender_golem_spawn_egg": "엔더 골렘 생성 알",
