@@ -38,10 +38,10 @@ public class Void_Vortex_Entity extends Entity {
         super(entityTypeIn, worldIn);
     }
 
-    public Void_Vortex_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, LivingEntity casterIn) {
+    public Void_Vortex_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, LivingEntity casterIn,int span) {
         this(ModEntities.VOID_VORTEX.get(), worldIn);
         this.setOwner(casterIn);
-        this.setLifespan(300);
+        this.setLifespan(span);
         this.setYRot(p_i47276_8_ * (180F / (float)Math.PI));
         this.setPos(x, y, z);
     }
@@ -80,11 +80,13 @@ public class Void_Vortex_Entity extends Entity {
             AABB screamBox = new AABB(this.getX() - 3f, this.getY(), this.getZ() - 3, this.getX() + 3, this.getY() + 15F, this.getZ() + 3F);
 
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, screamBox)) {
-                if (entity instanceof Player && ((Player) entity).getAbilities().invulnerable) continue;
-                if(entity != owner) {
-                    Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
-                    diff = diff.normalize().scale(0.075);
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(0, -2, 0).subtract(diff));
+
+                if(owner != null && entity != owner) {
+                        if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
+                        Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
+                        diff = diff.normalize().scale(0.075);
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0, -2, 0).subtract(diff));
+                    }
                 }
             }
         }

@@ -46,6 +46,8 @@
     "cataclysm:frosted_stone_brick_wall",
     "cataclysm:black_steel_block",
     "cataclysm:black_steel_wall",
-    "cataclysm:black_steel_fence"
+    "cataclysm:black_steel_fence",
+    "cataclysm:polished_obsidian",
+    "cataclysm:void_crystal"
   ]
 }

@@ -73,11 +73,17 @@ public class ModItems {
     public static final RegistryObject<BlockItem> VOID_STONE = ITEMS.register("void_stone",
             () -> new BlockItem(ModBlocks.VOID_STONE.get(), new Item.Properties().fireResistant()));
 
+    public static final RegistryObject<BlockItem> VOID_CRYSTAL = ITEMS.register("void_crystal",
+            () -> new BlockItem(ModBlocks.VOID_CRYSTAL.get(), new Item.Properties()));
+
     public static final RegistryObject<BlockItem> VOID_LANTERN_BLOCK = ITEMS.register("void_lantern_block",
             () -> new BlockItem(ModBlocks.VOID_LANTERN_BLOCK.get(), new Item.Properties().fireResistant()));
 
     public static final RegistryObject<BlockItem> OBSIDIAN_BRICKS = ITEMS.register("obsidian_bricks",
             () -> new BlockItem(ModBlocks.OBSIDIAN_BRICKS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POLISHED_OBSIDIAN = ITEMS.register("polished_obsidian",
+            () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockItem> CHISELED_OBSIDIAN_BRICKS = ITEMS.register("chiseled_obsidian_bricks",
             () -> new BlockItem(ModBlocks.CHISELED_OBSIDIAN_BRICKS.get(), new Item.Properties()));

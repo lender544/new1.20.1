@@ -223,7 +223,7 @@ public class CommonConfig {
         VoidCoreCooldown = buildInt(builder, "VoidCoreCooldown", "all", 160, 0, 1000000, "Void Core's Cooldown");
         Sandstorm_In_A_Bottle_Timer = buildInt(builder, "SandstormTimer", "all", 160, 0, 1000000, "Sandstorm's Timer");
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
-        GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 80, 0, 1000000, "Gauntlet of Maelstrom's Timer");
+        GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
 
         builder.pop();

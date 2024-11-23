@@ -22,7 +22,7 @@ public class CMConfig {
     public static int VoidCoreCooldown = 160;
     public static int SoulRenderCooldown = 100;
     public static int Sandstorm_In_A_Bottle_Timer = 160;
-    public static int GauntletOfMaelstromCooldown = 80;
+    public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
 
     public static int Cursed_tombstone_summon_cooldown = 30;

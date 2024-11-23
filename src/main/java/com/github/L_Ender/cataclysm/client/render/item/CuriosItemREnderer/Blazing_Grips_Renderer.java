@@ -18,20 +18,47 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.armortrim.ArmorTrim;
 import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
+
+import javax.annotation.Nullable;
 
 public class Blazing_Grips_Renderer implements ICurioRenderer {
     private final Blazing_Grips_Model model;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/curiositem/blazing_grips.png");
+    private final Blazing_Grips_Model slimModel;
 
     public Blazing_Grips_Renderer() {
         this.model = new Blazing_Grips_Model(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.BLAZING_GRIPS_MODEL));
+        this.slimModel  = new Blazing_Grips_Model(Minecraft.getInstance().getEntityModels().bakeLayer(CMModelLayers.BLAZING_GRIPS_SLIM_MODEL));
     }
+
+    @Nullable
+    public static Blazing_Grips_Renderer getGloveRenderer(ItemStack stack) {
+        if (!stack.isEmpty()) {
+            return CuriosRendererRegistry.getRenderer(stack.getItem())
+                    .filter(Blazing_Grips_Renderer.class::isInstance)
+                    .map(Blazing_Grips_Renderer.class::cast)
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    protected Blazing_Grips_Model getModel(boolean hasSlimArms) {
+        return hasSlimArms ? slimModel : model;
+    }
+
+    protected static boolean hasSlimArms(Entity entity) {
+        return entity instanceof AbstractClientPlayer player && player.getModelName().equals("slim");
+    }
+
 
 
     public ResourceLocation getCuriosTexture() {
@@ -39,9 +66,60 @@ public class Blazing_Grips_Renderer implements ICurioRenderer {
     }
 
     @Override
-    public <T extends LivingEntity, M extends EntityModel<T>> void render(ItemStack stack, SlotContext slotContext, PoseStack poseStack, RenderLayerParent<T, M> renderLayerParent, MultiBufferSource buffer, int packedLight, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        ICurioRenderer.followBodyRotations(slotContext.entity(), this.model);
-        VertexConsumer consumer = ItemRenderer.getArmorFoilBuffer(buffer, RenderType.armorCutoutNoCull(getCuriosTexture()), false, stack.hasFoil());
-        this.model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+    public <T extends LivingEntity, M extends EntityModel<T>> void render(
+            ItemStack stack,
+            SlotContext slotContext,
+            PoseStack poseStack,
+            RenderLayerParent<T, M> renderLayerParent,
+            MultiBufferSource multiBufferSource,
+            int light,
+            float limbSwing,
+            float limbSwingAmount,
+            float partialTicks,
+            float ageInTicks,
+            float netHeadYaw,
+            float headPitch
+    ) {
+        boolean hasSlimArms = hasSlimArms(slotContext.entity());
+        Blazing_Grips_Model model = getModel(hasSlimArms);
+        InteractionHand hand = slotContext.index() % 2 == 0 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        HumanoidArm handSide = hand == InteractionHand.MAIN_HAND ? slotContext.entity().getMainArm() : slotContext.entity().getMainArm().getOpposite();
+
+        model.setupAnim(slotContext.entity(), limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        model.prepareMobModel(slotContext.entity(), limbSwing, limbSwingAmount, partialTicks);
+        ICurioRenderer.followBodyRotations(slotContext.entity(), model);
+
+        renderArm(model, poseStack, multiBufferSource, handSide, light, stack.hasFoil());
+    }
+
+    protected void renderArm(Blazing_Grips_Model model, PoseStack matrixStack, MultiBufferSource buffer, HumanoidArm handSide, int light, boolean hasFoil) {
+        RenderType renderType = model.renderType(getCuriosTexture());
+        VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
+        model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+    }
+
+    public final void renderFirstPersonArm(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, HumanoidArm side, boolean hasFoil) {
+        if (!player.isSpectator()) {
+            boolean hasSlimArms = hasSlimArms(player);
+            Blazing_Grips_Model model = getModel(hasSlimArms);
+
+            ModelPart arm = side == HumanoidArm.LEFT ? model.leftArm : model.rightArm;
+
+            model.setAllVisible(false);
+            arm.visible = true;
+
+            model.crouching = false;
+            model.attackTime = model.swimAmount = 0;
+            model.setupAnim(player, 0, 0, 0, 0, 0);
+            arm.xRot = 0;
+
+            renderFirstPersonArm(model, arm, matrixStack, buffer, light, hasFoil);
+        }
+    }
+
+    protected void renderFirstPersonArm(Blazing_Grips_Model model, ModelPart arm, PoseStack matrixStack, MultiBufferSource buffer, int light,  boolean hasFoil) {
+        RenderType renderType = model.renderType(getCuriosTexture());
+        VertexConsumer builder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
+        arm.render(matrixStack, builder, light, OverlayTexture.NO_OVERLAY);
     }
 }

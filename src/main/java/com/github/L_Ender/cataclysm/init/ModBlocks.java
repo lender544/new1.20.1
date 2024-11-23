@@ -81,6 +81,14 @@ public class ModBlocks {
                         return 7;
                     })));
 
+    public static final RegistryObject<Block> VOID_CRYSTAL = BLOCKS.register("void_crystal",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
+                    .sound(SoundType.GLASS)
+                    .requiresCorrectToolForDrops()
+                    .strength(50f, 1200f).lightLevel((state) -> {
+                        return 7;
+                    })));
+
     public static final RegistryObject<Block> VOID_LANTERN_BLOCK = BLOCKS.register("void_lantern_block" ,
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ)
             .sound(SoundType.GLASS)
@@ -100,6 +108,9 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.PURPUR_BLOCK)));
 
     public static final RegistryObject<Block> OBSIDIAN_BRICKS = BLOCKS.register("obsidian_bricks",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.OBSIDIAN)));
+
+    public static final RegistryObject<Block> POLISHED_OBSIDIAN = BLOCKS.register("polished_obsidian",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OBSIDIAN)));
 
     public static final RegistryObject<Block> CHISELED_OBSIDIAN_BRICKS = BLOCKS.register("chiseled_obsidian_bricks",

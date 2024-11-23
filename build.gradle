@@ -43,7 +43,7 @@ repositories{
 
 }
 
-version = '2.25 - 1.20.1'
+version = '2.27 - 1.20.1'
 group = 'com.github.L_Ender' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'L_Enders_Cataclysm'
 
@@ -125,7 +125,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft 'net.neoforged:forge:1.20.1-47.1.88'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:lionfish-api-1001614:5919678")
+    implementation fg.deobf("curse.maven:lionfish-api-1001614:5922047")
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")

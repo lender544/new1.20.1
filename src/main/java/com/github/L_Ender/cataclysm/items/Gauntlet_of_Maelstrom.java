@@ -120,7 +120,7 @@ public class Gauntlet_of_Maelstrom extends Item implements More_Tool_Attribute {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Void_Vortex_Entity(world, x, (double)blockpos.getY() + d0, z, rotation, player));
+            world.addFreshEntity(new Void_Vortex_Entity(world, x, (double)blockpos.getY() + d0, z, rotation, player,150));
             return true;
         }
         return false;

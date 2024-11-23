@@ -5,9 +5,12 @@ import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.capabilities.Gone_With_SandstormCapability;
 import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.PlayerSandstorm_Model;
+import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.etc.LavaVisionFluidRenderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
@@ -60,6 +63,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotTypePreset;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
+import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 
 import java.util.Random;
 
@@ -351,6 +358,35 @@ public class ClientEvent {
             }
         }
     }
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public void onRenderArm(RenderArmEvent event) {
+        InteractionHand hand = event.getArm() == event.getPlayer().getMainArm() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        CuriosApi.getCuriosHelper().getCuriosHandler(event.getPlayer()).ifPresent(handler -> {
+            ICurioStacksHandler stacksHandler = handler.getCurios().get(SlotTypePreset.HANDS.getIdentifier());
+            if (stacksHandler != null) {
+                IDynamicStackHandler stacks = stacksHandler.getStacks();
+                IDynamicStackHandler cosmeticStacks = stacksHandler.getCosmeticStacks();
+
+                for (int slot = hand == InteractionHand.MAIN_HAND ? 0 : 1; slot < stacks.getSlots(); slot += 2) {
+                    ItemStack stack = cosmeticStacks.getStackInSlot(slot);
+                    if (stack.isEmpty() && stacksHandler.getRenders().get(slot)) {
+                        stack = stacks.getStackInSlot(slot);
+                    }
+
+                    Blazing_Grips_Renderer gripsrenderer = Blazing_Grips_Renderer.getGloveRenderer(stack);
+                    if (gripsrenderer != null) {
+                        gripsrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
+                    }
+                    RendererSticky_Gloves stickyrenderer = RendererSticky_Gloves.getGloveRenderer(stack);
+                    if (stickyrenderer != null) {
+                        stickyrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
+                    }
+                }
+            }
+        });
+    }
+
 
     private void CustomHealth(RenderGuiOverlayEvent.Pre event,int back){
         Player player = Minecraft.getInstance().player;

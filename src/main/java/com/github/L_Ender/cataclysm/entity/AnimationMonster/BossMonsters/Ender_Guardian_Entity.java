@@ -944,7 +944,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         } while(blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Void_Vortex_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, this));
+            this.level().addFreshEntity(new Void_Vortex_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, this,300));
         }
     }
 
