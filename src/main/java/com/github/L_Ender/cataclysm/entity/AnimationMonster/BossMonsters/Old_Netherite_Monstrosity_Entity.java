@@ -5,14 +5,13 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackMoveGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.partentity.Cm_Part_Entity;
-import com.github.L_Ender.cataclysm.entity.partentity.Netherite_Monstrosity_Part;
+import com.github.L_Ender.cataclysm.entity.partentity.Old_Netherite_Monstrosity_Part;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -72,7 +71,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implements Enemy {
+public class Old_Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implements Enemy {
 
    // private final ServerBossEvent bossInfo = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS)).setDarkenScreen(false);
     private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.RED, false,0);
@@ -84,10 +83,10 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     public static final Animation MONSTROSITY_EARTHQUAKE3 = Animation.create(70);
     public static final Animation MONSTROSITY_BERSERK = Animation.create(80);
     public static final Animation MONSTROSITY_DEATH = Animation.create(185);
-    public final Netherite_Monstrosity_Part headPart;
-    public final Netherite_Monstrosity_Part[] monstrosityParts;
-    private static final EntityDataAccessor<Boolean> IS_BERSERK = SynchedEntityData.defineId(Netherite_Monstrosity_Entity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> IS_AWAKEN = SynchedEntityData.defineId(Netherite_Monstrosity_Entity.class, EntityDataSerializers.BOOLEAN);
+    public final Old_Netherite_Monstrosity_Part headPart;
+    public final Old_Netherite_Monstrosity_Part[] monstrosityParts;
+    private static final EntityDataAccessor<Boolean> IS_BERSERK = SynchedEntityData.defineId(Old_Netherite_Monstrosity_Entity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> IS_AWAKEN = SynchedEntityData.defineId(Old_Netherite_Monstrosity_Entity.class, EntityDataSerializers.BOOLEAN);
     private int lavabombmagazine = CMConfig.Lavabombmagazine;
     public boolean Blocking = CMConfig.NetheritemonstrosityBodyBloking;
     public float deactivateProgress;
@@ -96,12 +95,12 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     public static final int NATURE_HEAL_COOLDOWN = 200;
     private int timeWithoutTarget;
 
-    public Netherite_Monstrosity_Entity(EntityType entity, Level world) {
+    public Old_Netherite_Monstrosity_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 300;
         this.setMaxUpStep(1.75F);
-        this.headPart = new Netherite_Monstrosity_Part(this, 1.6F, 2.5F);
-        this.monstrosityParts = new Netherite_Monstrosity_Part[]{this.headPart};
+        this.headPart = new Old_Netherite_Monstrosity_Part(this, 1.6F, 2.5F);
+        this.monstrosityParts = new Old_Netherite_Monstrosity_Part[]{this.headPart};
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.LAVA, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
@@ -206,7 +205,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         return air;
     }
 
-    public boolean attackEntityFromPart(Netherite_Monstrosity_Part netherite_monstrosity_part, DamageSource source, float amount) {
+    public boolean attackEntityFromPart(Old_Netherite_Monstrosity_Part oldNetherite_monstrosity_part, DamageSource source, float amount) {
         return this.hurt(source, amount);
     }
 
@@ -353,7 +352,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
             }
         }
         if (this.getAnimation() == MONSTROSITY_BERSERK) {
-            Netherite_Monstrosity_Entity.this.setIsBerserk(true);
+            Old_Netherite_Monstrosity_Entity.this.setIsBerserk(true);
             if (this.getAnimationTick() == 20) {
                 this.playSound(ModSounds.MONSTROSITYGROWL.get(), 3, 1);
             }
@@ -399,7 +398,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
             return true;
         } else if (super.isAlliedTo(entityIn)) {
             return true;
-        } else if (entityIn instanceof Netherite_Monstrosity_Entity) {
+        } else if (entityIn instanceof Old_Netherite_Monstrosity_Entity) {
             return this.getTeam() == null && entityIn.getTeam() == null;
         } else {
             return false;
@@ -409,7 +408,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     @Override
     protected void onDeathAIUpdate() {
         super.onDeathAIUpdate();
-        setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+        setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
         if (this.deathTime == 68) {
             this.playSound(ModSounds.MONSTROSITYLAND.get(), 1, 1);
         }
@@ -450,7 +449,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     private void EarthQuake() {
         this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
-            if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
+            if (!isAlliedTo(entity) && !(entity instanceof Old_Netherite_Monstrosity_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
                 if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
@@ -603,7 +602,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         return itementity;
     }
 
-    private void setPartPosition(Netherite_Monstrosity_Part part, double offsetX, double offsetY, double offsetZ) {
+    private void setPartPosition(Old_Netherite_Monstrosity_Part part, double offsetX, double offsetY, double offsetZ) {
         part.setPos(this.getX() + offsetX * part.scale, this.getY() + offsetY * part.scale, this.getZ() + offsetZ * part.scale);
     }
 
@@ -675,10 +674,6 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         this.bossInfo.removePlayer(player);
     }
 
-    public BossEvent.BossBarColor bossBarColor() {
-        return BossEvent.BossBarColor.RED;
-    }
-
 
     @Nullable
     public Animation getDeathAnimation()
@@ -687,9 +682,9 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
     }
 
 
-    class EarthQuakeGoal extends AnimationGoal<Netherite_Monstrosity_Entity> {
+    class EarthQuakeGoal extends AnimationGoal<Old_Netherite_Monstrosity_Entity> {
 
-        public EarthQuakeGoal(Netherite_Monstrosity_Entity entity) {
+        public EarthQuakeGoal(Old_Netherite_Monstrosity_Entity entity) {
             super(entity);
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
@@ -702,36 +697,36 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         }
 
         public void tick() {
-            LivingEntity target = Netherite_Monstrosity_Entity.this.getTarget();
-            Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+            LivingEntity target = Old_Netherite_Monstrosity_Entity.this.getTarget();
+            Old_Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
                 //I wanted to clear this code, but I didn't because I was too lazy.
-            if (Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE) {
-                if (Netherite_Monstrosity_Entity.this.getAnimationTick() < 34 && target !=null || Netherite_Monstrosity_Entity.this.getAnimationTick() > 54 && target !=null) {
-                    Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (Old_Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE) {
+                if (Old_Netherite_Monstrosity_Entity.this.getAnimationTick() < 34 && target !=null || Old_Netherite_Monstrosity_Entity.this.getAnimationTick() > 54 && target !=null) {
+                    Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                     entity.lookAt(target, 30, 30);
                 } else {
-                    Netherite_Monstrosity_Entity.this.setYRot(Netherite_Monstrosity_Entity.this.yRotO);
+                    Old_Netherite_Monstrosity_Entity.this.setYRot(Old_Netherite_Monstrosity_Entity.this.yRotO);
                   //  Netherite_Monstrosity_Entity.this.yBodyRot = Netherite_Monstrosity_Entity.this.yBodyRotO;
                 }
 
             }
-            if (Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE2) {
-                if (Netherite_Monstrosity_Entity.this.getAnimationTick() < 24  && target !=null || Netherite_Monstrosity_Entity.this.getAnimationTick() > 44  && target !=null) {
-                    Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (Old_Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE2) {
+                if (Old_Netherite_Monstrosity_Entity.this.getAnimationTick() < 24  && target !=null || Old_Netherite_Monstrosity_Entity.this.getAnimationTick() > 44  && target !=null) {
+                    Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                     entity.lookAt(target, 30, 30);
                 } else {
-                    Netherite_Monstrosity_Entity.this.setYRot(Netherite_Monstrosity_Entity.this.yRotO);
+                    Old_Netherite_Monstrosity_Entity.this.setYRot(Old_Netherite_Monstrosity_Entity.this.yRotO);
                     //Netherite_Monstrosity_Entity.this.yBodyRot = Netherite_Monstrosity_Entity.this.yBodyRotO;
                 }
 
             }
 
-            if (Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE3) {
-                if (Netherite_Monstrosity_Entity.this.getAnimationTick() < 29 && target !=null || Netherite_Monstrosity_Entity.this.getAnimationTick() > 49 && target !=null) {
-                    Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (Old_Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_EARTHQUAKE3) {
+                if (Old_Netherite_Monstrosity_Entity.this.getAnimationTick() < 29 && target !=null || Old_Netherite_Monstrosity_Entity.this.getAnimationTick() > 49 && target !=null) {
+                    Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                     entity.lookAt(target, 30, 30);
                 } else {
-                    Netherite_Monstrosity_Entity.this.setYRot(Netherite_Monstrosity_Entity.this.yRotO);
+                    Old_Netherite_Monstrosity_Entity.this.setYRot(Old_Netherite_Monstrosity_Entity.this.yRotO);
                     //Netherite_Monstrosity_Entity.this.yBodyRot = Netherite_Monstrosity_Entity.this.yBodyRotO;
                 }
             }
@@ -740,72 +735,72 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
 
 
 
-    class ShootGoal extends SimpleAnimationGoal<Netherite_Monstrosity_Entity> {
+    class ShootGoal extends SimpleAnimationGoal<Old_Netherite_Monstrosity_Entity> {
 
-        public ShootGoal(Netherite_Monstrosity_Entity entity, Animation animation) {
+        public ShootGoal(Old_Netherite_Monstrosity_Entity entity, Animation animation) {
             super(entity, animation);
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
 
         public void tick() {
-            LivingEntity target = Netherite_Monstrosity_Entity.this.getTarget();
-            Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+            LivingEntity target = Old_Netherite_Monstrosity_Entity.this.getTarget();
+            Old_Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
             int lavabombcount = CMConfig.Lavabombamount;
 
 
             if(target !=null) {
-                Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                 entity.lookAt(target, 30, 30);
-                if (Netherite_Monstrosity_Entity.this.getAnimationTick() == 30) {
-                    Netherite_Monstrosity_Entity.this.playSound(ModSounds.MONSTROSITYSHOOT.get(), 3, 0.75f);
-                    Netherite_Monstrosity_Entity.this.lavabombmagazine--;
+                if (Old_Netherite_Monstrosity_Entity.this.getAnimationTick() == 30) {
+                    Old_Netherite_Monstrosity_Entity.this.playSound(ModSounds.MONSTROSITYSHOOT.get(), 3, 0.75f);
+                    Old_Netherite_Monstrosity_Entity.this.lavabombmagazine--;
                     for (int i = 0; i < lavabombcount; ++i) {
-                        Lava_Bomb_Entity lava = new Lava_Bomb_Entity(ModEntities.LAVA_BOMB.get(), Netherite_Monstrosity_Entity.this.level(), Netherite_Monstrosity_Entity.this);
-                        double d0 = target.getX() - Netherite_Monstrosity_Entity.this.headPart.getX();
+                        Lava_Bomb_Entity lava = new Lava_Bomb_Entity(ModEntities.LAVA_BOMB.get(), Old_Netherite_Monstrosity_Entity.this.level(), Old_Netherite_Monstrosity_Entity.this);
+                        double d0 = target.getX() - Old_Netherite_Monstrosity_Entity.this.headPart.getX();
                         double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - lava.getY();
-                        double d2 = target.getZ() - Netherite_Monstrosity_Entity.this.headPart.getZ();
+                        double d2 = target.getZ() - Old_Netherite_Monstrosity_Entity.this.headPart.getZ();
                         double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-                        lava.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.0F, 24 - Netherite_Monstrosity_Entity.this.level().getDifficulty().getId() * 4);
-                        Netherite_Monstrosity_Entity.this.level().addFreshEntity(lava);
+                        lava.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.0F, 24 - Old_Netherite_Monstrosity_Entity.this.level().getDifficulty().getId() * 4);
+                        Old_Netherite_Monstrosity_Entity.this.level().addFreshEntity(lava);
                     }
                 }
             }
         }
     }
 
-    class BerserkGoal extends SimpleAnimationGoal<Netherite_Monstrosity_Entity> {
+    class BerserkGoal extends SimpleAnimationGoal<Old_Netherite_Monstrosity_Entity> {
 
-        public BerserkGoal(Netherite_Monstrosity_Entity entity, Animation animation) {
+        public BerserkGoal(Old_Netherite_Monstrosity_Entity entity, Animation animation) {
             super(entity, animation);
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
 
         public void tick() {
-            Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
-            LivingEntity target = Netherite_Monstrosity_Entity.this.getTarget();
+            Old_Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+            LivingEntity target = Old_Netherite_Monstrosity_Entity.this.getTarget();
             if (target!= null) {
-                Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                 entity.lookAt(target, 30, 30);
             }
         }
     }
 
-    class HealGoal extends SimpleAnimationGoal<Netherite_Monstrosity_Entity> {
+    class HealGoal extends SimpleAnimationGoal<Old_Netherite_Monstrosity_Entity> {
 
-        public HealGoal(Netherite_Monstrosity_Entity entity, Animation animation) {
+        public HealGoal(Old_Netherite_Monstrosity_Entity entity, Animation animation) {
             super(entity, animation);
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
 
         public void tick() {
-            LivingEntity target = Netherite_Monstrosity_Entity.this.getTarget();
-            Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
-            if (Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_CHARGE && target!=null){
-                if (Netherite_Monstrosity_Entity.this.getAnimationTick() < 34 || Netherite_Monstrosity_Entity.this.getAnimationTick() > 72) {
-                    Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
+            LivingEntity target = Old_Netherite_Monstrosity_Entity.this.getTarget();
+            Old_Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+            if (Old_Netherite_Monstrosity_Entity.this.getAnimation() == MONSTROSITY_CHARGE && target!=null){
+                if (Old_Netherite_Monstrosity_Entity.this.getAnimationTick() < 34 || Old_Netherite_Monstrosity_Entity.this.getAnimationTick() > 72) {
+                    Old_Netherite_Monstrosity_Entity.this.getLookControl().setLookAt(target, 30.0F, 30.0F);
                     entity.lookAt(target, 30, 30);
                 } else {
-                    Netherite_Monstrosity_Entity.this.setYRot(Netherite_Monstrosity_Entity.this.yRotO);
+                    Old_Netherite_Monstrosity_Entity.this.setYRot(Old_Netherite_Monstrosity_Entity.this.yRotO);
                   //  Netherite_Monstrosity_Entity.this.yBodyRot = Netherite_Monstrosity_Entity.this.yBodyRotO;
                 }
             }
@@ -828,7 +823,7 @@ public class Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster implemen
         }
 
         public void tick() {
-            Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
+            Old_Netherite_Monstrosity_Entity.this.setDeltaMovement(0, Old_Netherite_Monstrosity_Entity.this.getDeltaMovement().y, 0);
         }
     }
 

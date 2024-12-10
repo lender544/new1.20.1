@@ -15,6 +15,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elit
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.*;
@@ -52,6 +53,12 @@ public class ModEntities {
             .clientTrackingRange(10)
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":ender_guardian"));
+
+    public static final RegistryObject<EntityType<Old_Netherite_Monstrosity_Entity>> OLD_NETHERITE_MONSTROSITY = ENTITY_TYPE.register("old_netherite_monstrosity", () -> EntityType.Builder.of(Old_Netherite_Monstrosity_Entity::new, MobCategory.MONSTER)
+            .sized(3.0f, 5.75f)
+            .fireImmune()
+            .clientTrackingRange(4)
+            .build(Cataclysm.MODID + ":old_netherite_monstrosity"));
 
     public static final RegistryObject<EntityType<Netherite_Monstrosity_Entity>> NETHERITE_MONSTROSITY = ENTITY_TYPE.register("netherite_monstrosity", () -> EntityType.Builder.of(Netherite_Monstrosity_Entity::new, MobCategory.MONSTER)
             .sized(3.0f, 5.75f)
@@ -277,6 +284,15 @@ public class ModEntities {
             .fireImmune()
             .clientTrackingRange(10).updateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":flame_strike"));
+
+
+    public static final RegistryObject<EntityType<Boltstrike_Entity>> BOLT_STRIKE = ENTITY_TYPE.register("bolt_strike", () -> EntityType.Builder.<Boltstrike_Entity>of(Boltstrike_Entity::new, MobCategory.MISC)
+            .sized(0.0F, 0.0F)
+            .clientTrackingRange(16)
+            .updateInterval(Integer.MAX_VALUE)
+            .build(Cataclysm.MODID + ":bolt_strike"));
+
+
 
     public static final RegistryObject<EntityType<Ashen_Breath_Entity>> ASHEN_BREATH = ENTITY_TYPE.register("ashen_breath", () -> EntityType.Builder.<Ashen_Breath_Entity>of(Ashen_Breath_Entity::new, MobCategory.MISC)
             .sized(0.0f, 0.0f)
@@ -562,6 +578,7 @@ public class ModEntities {
         SpawnPlacements.register(IGNITED_BERSERKER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
         event.put(ENDER_GOLEM.get(), Ender_Golem_Entity.ender_golem().build());
         event.put(NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Entity.netherite_monstrosity().build());
+        event.put(OLD_NETHERITE_MONSTROSITY.get(), Old_Netherite_Monstrosity_Entity.netherite_monstrosity().build());
         event.put(NAMELESS_SORCERER.get(), Nameless_Sorcerer_Entity.nameless_sorcerer().build());
         event.put(IGNIS.get(), Ignis_Entity.ignis().build());
         event.put(ENDER_GUARDIAN.get(), Ender_Guardian_Entity.ender_guardian().build());

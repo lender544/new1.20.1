@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.message;
 
+import com.github.L_Ender.cataclysm.capabilities.ParryCapability;
 import com.github.L_Ender.cataclysm.capabilities.RenderRushCapability;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import net.minecraft.client.Minecraft;
@@ -10,37 +11,37 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class MessageRenderRush {
+public class MessageParryFrame {
 	private final int entityID;
-	private final boolean hasRush;
+	private final int frame;
 
-	public MessageRenderRush(int id, RenderRushCapability.IRenderRushCapability cap) {
+	public MessageParryFrame(int id, ParryCapability.IParryCapability cap) {
 		this.entityID = id;
-		this.hasRush = cap.isRush();
+		this.frame = cap.getParryFrame();
 	}
 
-	public MessageRenderRush(Entity entity, RenderRushCapability.IRenderRushCapability cap) {
+	public MessageParryFrame(Entity entity, ParryCapability.IParryCapability cap) {
 		this(entity.getId(), cap);
 	}
 
-	public MessageRenderRush(FriendlyByteBuf buf) {
+	public MessageParryFrame(FriendlyByteBuf buf) {
 		this.entityID = buf.readInt();
-		this.hasRush = buf.readBoolean();
+		this.frame = buf.readInt();
 	}
 
 	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(this.entityID);
-		buf.writeBoolean(this.hasRush);
+		buf.writeInt(this.frame);
 	}
 
 	public static class Handler {
 
-		public static boolean onMessage(MessageRenderRush message, Supplier<NetworkEvent.Context> ctx) {
+		public static boolean onMessage(MessageParryFrame message, Supplier<NetworkEvent.Context> ctx) {
 			ctx.get().enqueueWork(() -> {
 				Entity entity = Minecraft.getInstance().level.getEntity(message.entityID);
 				if (entity instanceof LivingEntity) {
-					entity.getCapability(ModCapabilities.RENDER_RUSH_CAPABILITY).ifPresent(cap -> {
-						cap.setRush(message.hasRush);
+					entity.getCapability(ModCapabilities.PARRY_CAPABILITY).ifPresent(cap -> {
+						cap.setParryFrame(message.frame);
 					});
 				}
 			});

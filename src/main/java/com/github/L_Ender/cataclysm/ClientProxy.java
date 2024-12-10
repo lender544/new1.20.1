@@ -80,7 +80,8 @@ public class ClientProxy extends CommonProxy {
     public void clientInit() {
         ItemRenderer itemRendererIn = Minecraft.getInstance().getItemRenderer();
         EntityRenderers.register(ModEntities.ENDER_GOLEM.get(), Ender_Golem_Renderer::new);
-        EntityRenderers.register(ModEntities.NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Renderer::new);
+        EntityRenderers.register(ModEntities.NETHERITE_MONSTROSITY.get(), New_Netherite_Monstrosity_Renderer::new);
+        EntityRenderers.register(ModEntities.OLD_NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Renderer::new);
         EntityRenderers.register(ModEntities.LAVA_BOMB.get(), Lava_Bomb_Renderer::new);
         EntityRenderers.register(ModEntities.NAMELESS_SORCERER.get(), Nameless_Sorcerer_Renderer::new);
         EntityRenderers.register(ModEntities.IGNIS.get(), Ignis_Renderer::new);
@@ -101,6 +102,9 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.ASHEN_BREATH.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.WALL_WATCHER.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.FLAME_STRIKE.get(), Flame_Strike_Renderer::new);
+
+        EntityRenderers.register(ModEntities.BOLT_STRIKE.get(), Boltstrike_Renderer::new);
+
         EntityRenderers.register(ModEntities.CM_FALLING_BLOCK.get(), Cm_Falling_Block_Renderer::new);
         EntityRenderers.register(ModEntities.IGNIS_FIREBALL.get(), Ignis_Fireball_Renderer::new);
         EntityRenderers.register(ModEntities.IGNIS_ABYSS_FIREBALL.get(), Ignis_Abyss_Fireball_Renderer::new);

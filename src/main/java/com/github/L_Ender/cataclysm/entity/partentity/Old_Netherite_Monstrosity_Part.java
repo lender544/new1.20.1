@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.partentity;
 
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Old_Netherite_Monstrosity_Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -11,18 +11,18 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstrosity_Entity> {
+public class Old_Netherite_Monstrosity_Part extends Cm_Part_Entity<Old_Netherite_Monstrosity_Entity> {
 
     private final EntityDimensions size;
     public float scale = 1;
 
-    public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity parent, float sizeX, float sizeY) {
+    public Old_Netherite_Monstrosity_Part(Old_Netherite_Monstrosity_Entity parent, float sizeX, float sizeY) {
         super(parent);
         this.size = EntityDimensions.scalable(sizeX, sizeY);
         this.refreshDimensions();
     }
 
-    public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity nm, float sizeX, float sizeY, EntityDimensions size) {
+    public Old_Netherite_Monstrosity_Part(Old_Netherite_Monstrosity_Entity nm, float sizeX, float sizeY, EntityDimensions size) {
         super(nm);
         this.size = size;
     }

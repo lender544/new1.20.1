@@ -460,4 +460,7 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> DOOR_OF_SEAL_OPEN = SOUNDS.register("door_of_seal_open",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"door_of_seal_open")));
+
+    public static final RegistryObject<SoundEvent> BOLT_STRIKE = SOUNDS.register("bolt_strike",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"bolt_strike")));
 }

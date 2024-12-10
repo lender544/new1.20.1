@@ -2,49 +2,42 @@ package com.github.L_Ender.cataclysm.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.*;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
-import com.github.L_Ender.cataclysm.items.Soul_Render;
-import com.github.L_Ender.cataclysm.items.The_Annihilator;
 import com.github.L_Ender.cataclysm.message.MessageParticle;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.SandstormUtils;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.CriticalHitEvent;
@@ -59,7 +52,6 @@ import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.List;
-import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Cataclysm.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ServerEventHandler {
@@ -322,9 +314,31 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void onShieldDamage(ShieldBlockEvent event) {
         DamageSource source = event.getDamageSource();
+
+        LivingEntity entity = event.getEntity();
+        Item item = entity.getUseItem().getItem();
+        Entity directEntity = source.getDirectEntity();
         if (source.is(CMDamageTypes.MALEDICTIO_SAGITTA)) {
             event.setShieldTakesDamage(false);
         }
+
+
+        ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
+
+        if(item == ModItems.BULWARK_OF_THE_FLAME.get()) {
+            if (ParryCapability != null) {
+                if (ParryCapability.getParryFrame() < 15) {
+                    if (directEntity instanceof LivingEntity livingEntity) {
+                        livingEntity.setSecondsOnFire(3);
+                        livingEntity.playSound(SoundEvents.ANVIL_LAND, 0.8f, 1.3F);
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 100, 0);
+                        livingEntity.knockback(0.5F, entity.getX() - livingEntity.getX(), entity.getZ() - livingEntity.getZ());
+                        livingEntity.addEffect(effectinstance);
+                    }
+                }
+            }
+        }
+
     }
     @SubscribeEvent
     public void DeathEvent(LivingDeathEvent event) {
@@ -426,6 +440,42 @@ public class ServerEventHandler {
     public void onPlayerInteract(PlayerInteractEvent.RightClickItem event) {
         if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
             event.setCanceled(true);
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onStartUsing(LivingEntityUseItemEvent.Start event) {
+        Item item = event.getItem().getItem();
+        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player player && player.attackAnim == 0 && !player.getCooldowns().isOnCooldown(item)) {
+            ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
+            if (ParryCapability != null) {
+                ParryCapability.setParryFrame(0);
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onUseTick(LivingEntityUseItemEvent.Tick event) {
+        Item item = event.getItem().getItem();
+        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player player) {
+            ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
+            if (ParryCapability != null) {
+                ParryCapability.setParryFrame(ParryCapability.getParryFrame() + 1);
+            }
+
+        }
+    }
+
+    @SubscribeEvent
+    public void onStopUsing(LivingEntityUseItemEvent.Stop event) {
+        Item item = event.getItem().getItem();
+        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player) {
+            ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
+            if (ParryCapability != null) {
+                ParryCapability.setParryFrame(0);
+            }
         }
     }
 

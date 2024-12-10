@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
+import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
@@ -277,6 +278,9 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         if (this.getAttackState() == 2) {
             if (this.attackTicks == 38) {
                 this.level().playSound((Player) null, this, ModSounds.DEATH_LASER.get(), SoundSource.HOSTILE, 1.0f, 1.0f);
+
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.2f, 0, 10);
+
             }
         }
 

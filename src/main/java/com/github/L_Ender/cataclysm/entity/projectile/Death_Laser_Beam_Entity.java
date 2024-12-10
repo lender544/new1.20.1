@@ -140,7 +140,7 @@ public class Death_Laser_Beam_Entity extends Entity {
             this.calculateEndPos();
             List<LivingEntity> hit = raytraceEntities(level(), new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ), false, true, true).entities;
             if (blockSide != null) {
-                spawnExplosionParticles(3);
+                spawnExplosionParticles(5);
                 if (!this.level().isClientSide) {
                     for (BlockPos pos : BlockPos.betweenClosed(Mth.floor(collidePosX - 0.5F), Mth.floor(collidePosY - 0.5F), Mth.floor(collidePosZ - 0.5F), Mth.floor(collidePosX + 0.5F), Mth.floor(collidePosY + 0.5F), Mth.floor(collidePosZ + 0.5F))) {
                         BlockState block = level().getBlockState(pos);
@@ -196,9 +196,9 @@ public class Death_Laser_Beam_Entity extends Entity {
 
     private void spawnExplosionParticles(int amount) {
         for (int i = 0; i < amount; i++) {
-            final float velocity = 1.0F;
+            final float velocity = 1.5F;
             float yaw = (float) (random.nextFloat() * 2 * Math.PI);
-            float motionY = random.nextFloat() * 0.08F;
+            float motionY = random.nextFloat() * 0.8F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
             level().addParticle((new LightningParticle.OrbData(255, 26,  0)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);

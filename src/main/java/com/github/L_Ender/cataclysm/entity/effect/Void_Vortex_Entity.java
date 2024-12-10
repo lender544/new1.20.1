@@ -82,7 +82,7 @@ public class Void_Vortex_Entity extends Entity {
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, screamBox)) {
 
                 if(owner != null && entity != owner) {
-                        if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
+                    if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
                         Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
                         diff = diff.normalize().scale(0.075);
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0, -2, 0).subtract(diff));

@@ -23,12 +23,17 @@ public final class ModCapabilities {
     public static final Capability<Gone_With_SandstormCapability.IGone_With_SandstormCapability> GONE_WITH_SANDSTORM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<RenderRushCapability.IRenderRushCapability> RENDER_RUSH_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
+    public static final Capability<ParryCapability.IParryCapability> PARRY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+
+
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.register(HookCapability.HookCapabilityImp.class);
         event.register(RenderRushCapability.IRenderRushCapability.class);
         event.register(ChargeCapability.ChargeCapabilityImp.class);
         event.register(TidalTentacleCapability.TentacleCapabilityImp.class);
         event.register(Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp.class);
+        event.register(ParryCapability.ParryCapabilityImp.class);
+
     }
 
     public static void attachEntityCapability(AttachCapabilitiesEvent<Entity> e) {
@@ -37,6 +42,7 @@ public final class ModCapabilities {
             e.addCapability(ChargeCapability.ID, new ChargeCapability.ChargeCapabilityImp.ChargeProvider());
             e.addCapability(RenderRushCapability.ID, new RenderRushCapability.RenderRushCapabilityImp.RenderRushProvider());
             e.addCapability(TidalTentacleCapability.ID, new TidalTentacleCapability.TentacleCapabilityImp.TentacleProvider());
+            e.addCapability(ParryCapability.ID, new ParryCapability.ParryCapabilityImp.ParryProvider());
             if (e.getObject() instanceof Player player) {
                 Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp spellHolder = new Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp(player);
                 attachCapability(e, spellHolder, GONE_WITH_SANDSTORM_CAPABILITY, "sandstorm_cap");

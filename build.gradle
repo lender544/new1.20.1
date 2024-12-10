@@ -12,36 +12,46 @@ buildscript {
 
 plugins {
     id 'eclipse'
-    id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle' version '[6.0.18,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'net.neoforged.gradle' version '[6.0.13, 6.2)'
+    id 'io.github.0ffz.github-packages' version '[1,2)'
+    id 'org.spongepowered.mixin' version '[0.7,0.8)'
 }
 
-repositories{
+repositories {
+    maven { url = 'https://maven.minecraftforge.net/' }
+
     maven {
-        name = "CurseForge"
-        url = "https://minecraft.curseforge.com/api/maven/"
+        name "Modding Legacy Maven"
+        url "https://maven.moddinglegacy.com/maven"
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
     }
     maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
-    maven {
-        name = "CurseMaven"
-        url = "https://www.cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
+    flatDir {
+        dir 'libs'
     }
-
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
-
+    mavenCentral()
 }
+
+
 
 version = '2.27 - 1.20.1'
 group = 'com.github.L_Ender' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -52,66 +62,60 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
     mappings channel: 'official', version: '1.20.1'
-
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
+
     // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+    // These can be tweaked, removed, or duplicated as h  needed.
     runs {
         client {
             workingDirectory project.file('run')
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             arg "-mixin.config="+"lionfishapi.mixins.json"
+            arg "-mixin.config="+"cataclysm.mixins.json"
 
-            // Recommended logging data for a userdev environment
+            // Recommended logging data f  or a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                cataclysm {
                     source sourceSets.main
                 }
             }
         }
 
         server {
-            workingDirectory project.file('run')
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
+            workingDirectory project.file('run')
+            arg "-mixin.config="+"lionfishapi.mixins.json"
+            arg "-mixin.config="+"cataclysm.mixins.json"
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                lionfishapi {
                     source sourceSets.main
                 }
             }
         }
 
         data {
-            workingDirectory project.file('run')
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
+            workingDirectory project.file('run')
+            arg "-mixin.config="+"lionfishapi.mixins.json"
+            arg "-mixin.config="+"cataclysm.mixins.json"
 
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
             mods {
-                examplemod {
+                lionfishapi {
                     source sourceSets.main
                 }
             }
@@ -143,8 +147,8 @@ mixin {
     config 'cataclysm.mixins.json'
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
-tasks.named('jar', Jar).configure {
+
+jar {
     manifest {
         attributes([
                 "Specification-Title": "com.github.L_Ender.cataclysm",
@@ -156,21 +160,17 @@ tasks.named('jar', Jar).configure {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-
-    reproducibleFileOrder = true
-    preserveFileTimestamps = false
-
-    // This is the preferred method to reobfuscate your jar file
-    finalizedBy 'reobfJar'
 }
 
+// Example configuration to allow publishing using the maven-publish task
+// This is the preferred method to reobfuscate your jar file
+jar.finalizedBy('reobfJar')
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
 //publish.dependsOn('reobfJar')
 
-// Example configuration to allow publishing using the maven-publish task
 publishing {
     publications {
-        register('mavenJava', MavenPublication) {
+        mavenJava(MavenPublication) {
             artifact jar
         }
     }
@@ -180,5 +180,6 @@ publishing {
         }
     }
 }
+
 
 

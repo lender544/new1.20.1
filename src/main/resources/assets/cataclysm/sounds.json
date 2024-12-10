@@ -1425,5 +1425,15 @@
         "pitch": 0.7
       }
     ]
+  },
+  "bolt_strike": {
+    "subtitle": "bolt_strike.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/bolt_strike",
+        "volume": 2.0,
+        "pitch": 1.0
+      }
+    ]
   }
 }

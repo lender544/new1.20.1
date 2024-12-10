@@ -49,7 +49,6 @@ public class Mechanical_fusion_Anvil extends BaseEntityBlock {
 
     public Mechanical_fusion_Anvil() {
         super(Properties.of().mapColor(MapColor.METAL)
-                .emissiveRendering((block, world, pos) -> true)
                 .strength(50.0F, 1200.0F)
                 .requiresCorrectToolForDrops()
                 .sound(SoundType.ANVIL));

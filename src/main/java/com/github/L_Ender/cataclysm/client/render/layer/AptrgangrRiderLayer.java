@@ -33,14 +33,14 @@ public class AptrgangrRiderLayer extends RenderLayer<Aptrgangr_Entity, Aptrgangr
                 if (passenger == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
                     continue;
                 }
-                Cataclysm.PROXY.releaseRenderingEntity(passenger.getUUID());
                 poseStack.pushPose();
                 poseStack.translate(ridePos.x, ridePos.y - 0.65F + passenger.getBbHeight(), ridePos.z);
                 poseStack.mulPose(Axis.XN.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(360 - bodyYaw));
+                Cataclysm.PROXY.releaseRenderingEntity(passenger.getUUID());
                 renderPassenger(passenger, 0, 0, 0, 0, partialTicks, poseStack, bufferIn, packedLightIn);
-                poseStack.popPose();
                 Cataclysm.PROXY.blockRenderingEntity(passenger.getUUID());
+                poseStack.popPose();
             }
 
         }

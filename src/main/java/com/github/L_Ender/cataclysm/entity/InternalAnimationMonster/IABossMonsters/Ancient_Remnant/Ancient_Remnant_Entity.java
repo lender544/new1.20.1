@@ -207,9 +207,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             }
         });
 
-        //phase_roar
-        this.goalSelector.addGoal(2, new RemnantPhaseChangeGoal(this,0,7,0,60));
-
     }
 
     protected PathNavigation createNavigation(Level worldIn) {
