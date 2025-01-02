@@ -21,7 +21,7 @@ public class CMConfig {
     public static int VASWCooldown = 120;
     public static int VoidCoreCooldown = 160;
     public static int SoulRenderCooldown = 100;
-    public static int Sandstorm_In_A_Bottle_Timer = 160;
+    public static int SandstormInABottleCOOLDOWN = 300;
     public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
 
@@ -48,7 +48,8 @@ public class CMConfig {
     public static double PhantomHalberddamage = 12;
     public static double AptrgangrAxeBladeDamage = 8;
     public static double CursedSandstormDamage = 6D;
-
+    public static double FlameJetDamage = 7D;
+    public static double FlareBombDamage = 7D;
 
     public static boolean ScreenShake = true;
     public static boolean BossMusic = true;
@@ -77,6 +78,7 @@ public class CMConfig {
     public static boolean HarbingerLightFire = true;
     public static boolean LeviathanImmuneOutofWater = true;
     public static boolean KobolediatorBlockBreaking = false;
+    public static boolean MonstrosityBlockBreaking = true;
 
     public static double MonstrosityHealthMultiplier = 1D;
     public static double MonstrosityDamageMultiplier = 1D;
@@ -126,6 +128,8 @@ public class CMConfig {
 
     public static double ModernRemnantHealthMultiplier = 1D;
     public static double ModernRemnantDamageMultiplier = 1D;
+
+    public static double MinistrosityHealthMultiplier = 1D;
 
     public static double CauseKoboletontoDropItemInHandPercent = 5d;
 
@@ -227,7 +231,7 @@ public class CMConfig {
             WASWHowitzerCooldown = ConfigHolder.COMMON.WASWHowitzerCooldown.get();
             VASWCooldown = ConfigHolder.COMMON.VASWCooldown.get();
             VoidCoreCooldown = ConfigHolder.COMMON.VoidCoreCooldown.get();
-            Sandstorm_In_A_Bottle_Timer = ConfigHolder.COMMON.Sandstorm_In_A_Bottle_Timer.get();
+            SandstormInABottleCOOLDOWN = ConfigHolder.COMMON.SandstormInABottleCooldown.get();
             SoulRenderCooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
             GauntletOfMaelstromCooldown = ConfigHolder.COMMON.GauntletOfMaelstromCooldown.get();
             ImmolatorCooldown = ConfigHolder.COMMON.ImmolatorCooldown.get();
@@ -254,6 +258,8 @@ public class CMConfig {
             PlayerPhantomArrowbasedamage = ConfigHolder.COMMON.PlayerPhantomArrowdamage.get();
             PhantomHalberddamage = ConfigHolder.COMMON.PhantomHalberddamage.get();
             CursedSandstormDamage = ConfigHolder.COMMON.CursedSandstormdamage.get();
+            FlameJetDamage = ConfigHolder.COMMON.FlameJetDamage.get();
+            FlareBombDamage = ConfigHolder.COMMON.FlareBombDamage.get();
 
             Lavabombradius = ConfigHolder.COMMON.Lavabombradius.get();
             ScreenShake = ConfigHolder.COMMON.ScreenShake.get();
@@ -276,6 +282,8 @@ public class CMConfig {
             EnderguardianBlockBreaking = ConfigHolder.COMMON.EnderguardianBlockBreaking.get();
             EndergolemBlockBreaking = ConfigHolder.COMMON.EndergolemBlockBreaking.get();
             KobolediatorBlockBreaking = ConfigHolder.COMMON.KobolediatorBlockBreaking.get();
+            MonstrosityBlockBreaking = ConfigHolder.COMMON.MonstrosityBlockBreaking.get();
+
 
             MonstrosityHealthMultiplier = ConfigHolder.COMMON.MonstrosityHealthMultiplier.get();
             MonstrosityDamageMultiplier = ConfigHolder.COMMON.MonstrosityDamageMultiplier.get();
@@ -366,6 +374,8 @@ public class CMConfig {
 
             ModernRemnantHealthMultiplier = ConfigHolder.COMMON.ModernRemnantHealthMultiplier.get();
             ModernRemnantDamageMultiplier = ConfigHolder.COMMON.ModernRemnantDamageMultiplier.get();
+
+            MinistrosityHealthMultiplier = ConfigHolder.COMMON.MinistrosityHealthMultiplier.get();
 
             CauseKoboletontoDropItemInHandPercent = ConfigHolder.COMMON.CauseKoboletontoDropItemInHandPercent.get();
 

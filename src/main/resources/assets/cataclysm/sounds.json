@@ -1426,6 +1426,26 @@
       }
     ]
   },
+  "ministrosity_fill_bucket": {
+    "subtitle": "ministrosity_fill_bucket.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/ministrosity_fill_bucket",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "ministrosity_hurt": {
+    "subtitle": "ministrosity_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/ministrosity_hurt",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "bolt_strike": {
     "subtitle": "bolt_strike.sub",
     "sounds": [

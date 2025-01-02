@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "cataclysm:item/lava_power_cell"
+	}
+}

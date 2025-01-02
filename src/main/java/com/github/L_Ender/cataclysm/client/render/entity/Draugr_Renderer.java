@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Draugr_Model;
+import com.github.L_Ender.cataclysm.client.model.entity.Royal_Draugr_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +17,7 @@ public class Draugr_Renderer extends MobRenderer<Draugr_Entity, Draugr_Model> {
     private static final ResourceLocation LAYER = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/draugr_layer.png");
 
     public Draugr_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Draugr_Model(), 0.5F);
+        super(renderManagerIn, new Draugr_Model(renderManagerIn.bakeLayer(CMModelLayers.DRAUGR_MODEL)), 0.5F);
         this.addLayer(new LayerGenericGlowing(this, LAYER));
         this.addLayer(new ItemInHandLayer<>(this, renderManagerIn.getItemInHandRenderer()));
     }

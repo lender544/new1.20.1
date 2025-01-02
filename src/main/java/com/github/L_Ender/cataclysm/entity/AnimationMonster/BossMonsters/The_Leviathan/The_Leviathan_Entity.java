@@ -1097,25 +1097,25 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         endPosY = getY() + radius * Math.sin(renderPitch);
         if(this.getAnimationTick() == anime){
             this.playSound(ModSounds.LEVIATHAN_TENTACLE_STRIKE.get(), 1.0F, 1.0F);
-            if (!level().isClientSide) {
-                List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY,inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
-                for (LivingEntity target : hit) {
-                    if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
-                        boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), target.getMaxHealth() * CMConfig.LeviathanTentacleHpdamage)));
-                        if (target instanceof Player player && target.isDamageSourceBlocked(damagesource)) {
-                            disableShield(player, 90);
-                        }
 
-                        if(flag){
-                            double d0 = target.getX() - this.getX();
-                            double d1 = target.getZ() - this.getZ();
-                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                            target.push(d0 / d2 * 7.0D, 0.2D, d1 / d2 * 7.0D);
-                        }
+            List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY,inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
+            for (LivingEntity target : hit) {
+                if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), target.getMaxHealth() * CMConfig.LeviathanTentacleHpdamage)));
+                    if (target instanceof Player player && target.isDamageSourceBlocked(damagesource)) {
+                        disableShield(player, 90);
+                    }
+
+                    if(flag){
+                        double d0 = target.getX() - this.getX();
+                        double d1 = target.getZ() - this.getZ();
+                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                        target.push(d0 / d2 * 7.0D, 0.2D, d1 / d2 * 7.0D);
                     }
                 }
             }
+
         }
     }
 
@@ -1127,26 +1127,29 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         endPosX = getX() + radius * Math.cos(renderYaw) * Math.cos(renderPitch);
         endPosZ = getZ() + radius * Math.sin(renderYaw) * Math.cos(renderPitch);
         endPosY = getY() + radius * Math.sin(renderPitch);
-        if (!level().isClientSide) {
-            List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY, inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
-            for (LivingEntity target : hit) {
-                if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = target.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + target.getMaxHealth() * 0.1f);
-                    if (target instanceof Player player && target.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+
+        List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY, inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
+        for (LivingEntity target : hit) {
+            if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
+                DamageSource damagesource = this.damageSources().mobAttack(this);
+                boolean flag = target.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + target.getMaxHealth() * 0.1f);
+                if (target instanceof Player player && target.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
+                    disableShield(player, shieldbreakticks);
+                }
+
+                if (flag && !target.getType().is(ModTag.IGNIS_CANT_POKE) && target.isAlive()) {
+                    if (target.isShiftKeyDown()) {
+                        target.setShiftKeyDown(false);
+                    }
+                    if (!this.level().isClientSide) {
+                        target.startRiding(this, true);
                     }
 
-                    if (flag && !target.getType().is(ModTag.IGNIS_CANT_POKE) && target.isAlive()) {
-                        if (target.isShiftKeyDown()) {
-                            target.setShiftKeyDown(false);
-                        }
-                        target.startRiding(this, true);
-                        AnimationHandler.INSTANCE.sendAnimationMessage(this, LEVIATHAN_TENTACLE_HOLD_BLAST);
-                    }
+                    AnimationHandler.INSTANCE.sendAnimationMessage(this, LEVIATHAN_TENTACLE_HOLD_BLAST);
                 }
             }
         }
+
 
     }
 

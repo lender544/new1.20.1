@@ -39,7 +39,6 @@ public class InternalMoveGoal extends Goal {
             this.monster.setTarget((LivingEntity) null);
         }
         this.monster.setAggressive(false);
-        this.monster.getNavigation().stop();
     }
 
     public boolean canContinueToUse() {

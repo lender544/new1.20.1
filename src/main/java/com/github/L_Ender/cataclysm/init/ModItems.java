@@ -4,7 +4,6 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Scatter_Arrow_Entity;
 import com.github.L_Ender.cataclysm.items.*;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Sandstorm_In_A_Bottle;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Sticky_Gloves;
 import com.github.L_Ender.cataclysm.items.Dungeon_Eye.*;
 import net.minecraft.core.BlockPos;
@@ -299,7 +298,7 @@ public class ModItems {
             () -> new Void_Assault_SHoulder_Weapon(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final RegistryObject<Item> VOID_FORGE = ITEMS.register("void_forge",
-            () -> new void_forge(Tiers.NETHERITE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> TIDAL_CLAWS = ITEMS.register("tidal_claws",
             () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -311,7 +310,7 @@ public class ModItems {
             () -> new zweiender(ModItemTier.TOOL_ENDERITE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> INFERNAL_FORGE = ITEMS.register("infernal_forge",
-            () -> new infernal_forge(Tiers.NETHERITE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> SANDSTORM_IN_A_BOTTLE = ITEMS.register("sandstorm_in_a_bottle",
             () -> new Sandstorm_In_A_Bottle(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -324,6 +323,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> REMNANT_SKULL = ITEMS.register("remnant_skull",
             () -> new Remnant_Skull(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
+    public static final RegistryObject<Item> NETHERITE_EFFIGY = ITEMS.register("netherite_effigy",
+            () -> new Netherite_Effigy(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final RegistryObject<Item> VOID_SCATTER_ARROW = ITEMS.register("void_scatter_arrow",
             () -> new Void_Scatter_Arrow_Item(new Item.Properties().fireResistant()));
@@ -401,8 +403,10 @@ public class ModItems {
     public static final RegistryObject<Item> CURSIUM_BOOTS = ITEMS.register("cursium_boots",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
-
     public static final RegistryObject<Item> MONSTROUS_HORN = ITEMS.register("monstrous_horn",
+            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> LAVA_POWER_CELL = ITEMS.register("lava_power_cell",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> MONSTROUS_HELM = ITEMS.register("monstrous_helm",
@@ -490,11 +494,17 @@ public class ModItems {
     public static final RegistryObject<Item> MODERN_REMNANT_BUCKET = ITEMS.register("modern_remnant_bucket",
             () -> new ModernRemantBucket(ModEntities.MODERN_REMNANT, Fluids.EMPTY, new Item.Properties().fireResistant()));
 
+    public static final RegistryObject<Item> NETHERITE_MINISTROSITY_BUCKET = ITEMS.register("netherite_ministrosity_bucket",
+            () -> new ModernRemantBucket(ModEntities.NETHERITE_MINISTROSITY, Fluids.EMPTY, new Item.Properties().fireResistant()));
+
     public static final RegistryObject<SpawnEggItem> ENDER_GOLEM_SPAWN_EGG = ITEMS.register("ender_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDER_GOLEM, 0x2a1a42, 0xa153fe, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> NETHERITE_MONSTROSITY_SPAWN_EGG = ITEMS.register("netherite_monstrosity_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.NETHERITE_MONSTROSITY, 0x4d494d, 0xf48522, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> NETHERITE_MINISTROSITY_SPAWN_EGG = ITEMS.register("netherite_ministrosity_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.NETHERITE_MINISTROSITY, 0x6b686b, 0xc25f01, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> NAMELESS_SORCERER_SPAWN_EGG = ITEMS.register("nameless_sorcerer_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.NAMELESS_SORCERER, 9804699, 0xB92424, new Item.Properties()));

@@ -1,12 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -19,7 +16,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;

@@ -17,6 +17,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
+import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.*;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -66,12 +67,32 @@ public class ModEntities {
             .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":netherite_monstrosity"));
 
+    public static final RegistryObject<EntityType<Netherite_Ministrosity_Entity>> NETHERITE_MINISTROSITY  = ENTITY_TYPE.register("netherite_ministrosity", () -> EntityType.Builder.of(Netherite_Ministrosity_Entity::new, MobCategory.CREATURE)
+            .sized(0.5F, 0.9F)
+            .clientTrackingRange(10)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":netherite_ministrosity"));
+
     public static final RegistryObject<EntityType<Lava_Bomb_Entity>> LAVA_BOMB = ENTITY_TYPE.register("lava_bomb", () -> EntityType.Builder.<Lava_Bomb_Entity>of(Lava_Bomb_Entity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f)
             .fireImmune()
             .setShouldReceiveVelocityUpdates(true)
             .setUpdateInterval(20)
             .build(Cataclysm.MODID + ":lava_bomb"));
+
+    public static final RegistryObject<EntityType<Flare_Bomb_Entity>> FLARE_BOMB = ENTITY_TYPE.register("flare_bomb", () -> EntityType.Builder.<Flare_Bomb_Entity>of(Flare_Bomb_Entity::new, MobCategory.MISC)
+            .sized(0.5f, 0.5f)
+            .fireImmune()
+            .setShouldReceiveVelocityUpdates(true)
+            .setUpdateInterval(20)
+            .build(Cataclysm.MODID + ":flare_bomb"));
+
+    public static final RegistryObject<EntityType<Flame_Jet_Entity>> FLAME_JET = ENTITY_TYPE.register("flame_jet", () -> EntityType.Builder.<Flame_Jet_Entity>of(Flame_Jet_Entity::new, MobCategory.MISC)
+            .sized(0.6F, 2.5F)
+            .clientTrackingRange(6)
+            .updateInterval(2)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":flame_jet"));
 
     public static final RegistryObject<EntityType<Nameless_Sorcerer_Entity>> NAMELESS_SORCERER = ENTITY_TYPE.register("nameless_sorcerer", () -> EntityType.Builder.of(Nameless_Sorcerer_Entity::new, MobCategory.MONSTER)
             .sized(0.6F, 1.95F)
@@ -577,6 +598,7 @@ public class ModEntities {
         SpawnPlacements.register(AMETHYST_CRAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Amethyst_Crab_Entity::canCrabSpawnSpawnRules);
         SpawnPlacements.register(IGNITED_BERSERKER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
         event.put(ENDER_GOLEM.get(), Ender_Golem_Entity.ender_golem().build());
+        event.put(NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Entity.ministrosity().build());
         event.put(NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Entity.netherite_monstrosity().build());
         event.put(OLD_NETHERITE_MONSTROSITY.get(), Old_Netherite_Monstrosity_Entity.netherite_monstrosity().build());
         event.put(NAMELESS_SORCERER.get(), Nameless_Sorcerer_Entity.nameless_sorcerer().build());

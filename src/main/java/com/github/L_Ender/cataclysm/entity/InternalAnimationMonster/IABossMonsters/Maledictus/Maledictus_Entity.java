@@ -1622,7 +1622,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                             entity.setShiftKeyDown(false);
                         }
                         if(this.getPassengers().isEmpty()){
-                            entity.startRiding(this, true);
+                            if (!this.level().isClientSide) {
+                                entity.startRiding(this, true);
+                            }
                         }
                     }
 

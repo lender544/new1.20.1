@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Netherite_Monstrosity_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.entity.New_Netherite_Monstrosity_Renderer;
@@ -17,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class Netherite_Monstrosity_Layer2 extends RenderLayer<Netherite_Monstrosity_Entity, Netherite_Monstrosity_Model> {
-    private static final ResourceLocation NETHERITE_MONSTRISITY_LAYER_TEXTURES  = new ResourceLocation("cataclysm:textures/entity/monstrosity/netherite_monstrosity_layer2.png");
+    private static final ResourceLocation NETHERITE_MONSTRISITY_LAYER_TEXTURES  = new ResourceLocation(Cataclysm.MODID,"textures/entity/monstrosity/netherite_monstrosity_layer2.png");
 
     public Netherite_Monstrosity_Layer2(New_Netherite_Monstrosity_Renderer renderIn) {
         super(renderIn);
@@ -31,6 +32,10 @@ public class Netherite_Monstrosity_Layer2 extends RenderLayer<Netherite_Monstros
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
 
         float strength = 0.5F + Mth.clamp(((float) Math.cos((entity.LayerTicks + partialTicks) * 0.1F)) - 0.25F, -0.25F, 0.5F);
+
+        if(!entity.getIsAwaken()){
+            strength = 0F;
+        }
 
         strength += Mth.lerp(partialTicks, entity.oLayerBrightness, entity.LayerBrightness) * 1 * Mth.PI;
         strength = Mth.clamp(strength, 0.25f, 1.0F);

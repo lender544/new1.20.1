@@ -18,9 +18,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
 
-public class AnimationPet extends TamableAnimal implements IAnimatedEntity, IFollower {
-    private int animationTick;
-    private Animation currentAnimation;
+public class AnimationPet extends TamableAnimal implements IFollower {
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.INT);
 
@@ -29,39 +27,6 @@ public class AnimationPet extends TamableAnimal implements IAnimatedEntity, IFol
 
     }
 
-
-    protected void onAnimationFinish(Animation animation) {}
-
-
-    @Override
-    public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION};
-    }
-
-    @Override
-    public int getAnimationTick() {
-        return animationTick;
-    }
-
-    @Override
-    public void setAnimationTick(int tick) {
-        animationTick = tick;
-    }
-
-    @Override
-    public Animation getAnimation() {
-        return this.currentAnimation;
-    }
-
-
-    @Override
-    public void setAnimation(Animation animation) {
-        if (animation == NO_ANIMATION) {
-            onAnimationFinish(this.currentAnimation);
-        }
-        this.currentAnimation = animation;
-        setAnimationTick(0);
-    }
 
 
     protected void defineSynchedData() {
@@ -116,6 +81,8 @@ public class AnimationPet extends TamableAnimal implements IAnimatedEntity, IFol
     public boolean removeWhenFarAway(double p_21542_) {
         return false;
     }
+
+
 
     public void circleEntity(LivingEntity target, float radius, float speed, boolean direction, int circleFrame, float offset, float moveSpeedMultiplier) {
         int directionInt = direction ? 1 : -1;

@@ -559,7 +559,9 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                             if (entity.isShiftKeyDown()) {
                                 entity.setShiftKeyDown(false);
                             }
-                            entity.startRiding(this, true);
+                            if (!this.level().isClientSide) {
+                                entity.startRiding(this, true);
+                            }
                         }
 
                     }

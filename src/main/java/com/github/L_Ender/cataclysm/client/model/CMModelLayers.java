@@ -4,8 +4,7 @@ import com.github.L_Ender.cataclysm.client.model.armor.*;
 import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
-import com.github.L_Ender.cataclysm.client.model.entity.Ignited_Berserker_Model;
-import com.github.L_Ender.cataclysm.client.model.entity.Netherite_Monstrosity_Model;
+import com.github.L_Ender.cataclysm.client.model.entity.*;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Blazing_Grips_Model;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
@@ -37,7 +36,15 @@ public class CMModelLayers {
     public static final ModelLayerLocation APTRGANGR_HEAD_MODEL = createLocation("aptrgangr_head_model", "main");
     public static final ModelLayerLocation DRAUGR_HEAD_MODEL = createLocation("draugr_head_model", "main");
     public static final ModelLayerLocation IGNITED_BERSERKER_MODEL = createLocation("ignited_berserker_model", "main");
-    public static final ModelLayerLocation NETHERITE_MOMSTROSITY_MODEL = createLocation("netherite_monstrosity_model", "main");
+    public static final ModelLayerLocation NETHERITE_MONSTROSITY_MODEL = createLocation("netherite_monstrosity_model", "main");
+    public static final ModelLayerLocation NETHERITE_MINISTROSITY_MODEL = createLocation("netherite_ministrosity_model", "main");
+    public static final ModelLayerLocation FLARE_BOMB_MODEL = createLocation("flare_bomb_model", "main");
+
+    public static final ModelLayerLocation ROYAL_DRAUGR_MODEL = createLocation("royal_draugr", "main");
+
+    public static final ModelLayerLocation DRAUGR_MODEL = createLocation("draugr", "main");
+
+    public static final ModelLayerLocation ELITE_DRAUGR_MODEL = createLocation("elite_draugr", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
@@ -55,10 +62,16 @@ public class CMModelLayers {
         event.registerLayerDefinition(APTRGANGR_HEAD_MODEL, AptrgangrHeadModel::createHeadLayer);
         event.registerLayerDefinition(DRAUGR_HEAD_MODEL, DraugrHeadModel::createHeadLayer);
         event.registerLayerDefinition(IGNITED_BERSERKER_MODEL, Ignited_Berserker_Model::createBodyLayer);
-        event.registerLayerDefinition(NETHERITE_MOMSTROSITY_MODEL, Netherite_Monstrosity_Model::createBodyLayer);
-
+        event.registerLayerDefinition(NETHERITE_MONSTROSITY_MODEL, Netherite_Monstrosity_Model::createBodyLayer);
+        event.registerLayerDefinition(NETHERITE_MINISTROSITY_MODEL, Netherite_Ministrosity_Model::createBodyLayer);
+        event.registerLayerDefinition(FLARE_BOMB_MODEL, Flare_Bomb_Model::createBodyLayer);
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL_LEGS, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.2F)));
+
+        event.registerLayerDefinition(ROYAL_DRAUGR_MODEL, Royal_Draugr_Model::createBodyLayer);
+        event.registerLayerDefinition(DRAUGR_MODEL, Draugr_Model::createBodyLayer);
+        event.registerLayerDefinition(ELITE_DRAUGR_MODEL, Elite_Draugr_Model::createBodyLayer);
+
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

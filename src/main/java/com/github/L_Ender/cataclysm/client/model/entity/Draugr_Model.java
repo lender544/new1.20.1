@@ -1,160 +1,120 @@
-package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench 4.8.3
-// Exported for Minecraft version 1.15 - 1.16 with MCP mappings
+package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench 4.11.2
+// Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
+
 
 
 import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
-import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
-import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
-import com.google.common.collect.ImmutableList;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.ArmedModel;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.HumanoidArm;
 
-public class Draugr_Model extends AdvancedEntityModel<Draugr_Entity> implements ArmedModel {
-	private final AdvancedModelBox root;
-	private final AdvancedModelBox right_leg;
-	private final AdvancedModelBox left_leg;
-	private final AdvancedModelBox body;
-	private final AdvancedModelBox left_arm;
-	private final AdvancedModelBox left_arm_r1;
-	private final AdvancedModelBox left_arm_r2;
-	private final AdvancedModelBox right_arm;
-	private final AdvancedModelBox right_arm_r1;
-	private final AdvancedModelBox right_arm_r2;
-	private final AdvancedModelBox head;
-	private final AdvancedModelBox maw;
-	private final AdvancedModelBox body_r1;
+public class Draugr_Model extends HierarchicalModel<Draugr_Entity> implements ArmedModel {
+	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	private final ModelPart everything;
+	private final ModelPart root;
+	private final ModelPart right_leg;
+	private final ModelPart left_leg;
+	private final ModelPart body;
+	private final ModelPart left_arm;
+	private final ModelPart left_arm_r1;
+	private final ModelPart left_arm_r2;
+	private final ModelPart right_arm;
+	private final ModelPart right_arm_r1;
+	private final ModelPart right_arm_r2;
+	private final ModelPart head;
+	private final ModelPart maw;
+	private final ModelPart body_r1;
 
+	public Draugr_Model(ModelPart root) {
+		this.everything = root;
+		this.root = this.everything.getChild("root");
+		this.right_leg = this.root.getChild("right_leg");
+		this.left_leg = this.root.getChild("left_leg");
+		this.body = this.root.getChild("body");
+		this.left_arm = this.body.getChild("left_arm");
+		this.left_arm_r1 = this.left_arm.getChild("left_arm_r1");
+		this.left_arm_r2 = this.left_arm.getChild("left_arm_r2");
+		this.right_arm = this.body.getChild("right_arm");
+		this.right_arm_r1 = this.right_arm.getChild("right_arm_r1");
+		this.right_arm_r2 = this.right_arm.getChild("right_arm_r2");
+		this.head = this.body.getChild("head");
+		this.maw = this.head.getChild("maw");
+		this.body_r1 = this.maw.getChild("body_r1");
+	}
 
-	public Draugr_Model() {
-		texWidth = 128;
-		texHeight = 64;
+	public static LayerDefinition createBodyLayer() {
+		MeshDefinition meshdefinition = new MeshDefinition();
+		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		root = new AdvancedModelBox(this,"root");
-		root.setRotationPoint(0.0F, 24.0F, 0.0F);
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
+		PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(0, 16).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(84, 0).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.2F)), PartPose.offset(-2.0F, -12.0F, 0.1F));
 
-		right_leg = new AdvancedModelBox(this,"right_leg");
-		right_leg.setRotationPoint(-2.0F, -12.0F, 0.1F);
-		root.addChild(right_leg);
-		right_leg.setTextureOffset(0, 16).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, 0.0F, false);
-		right_leg.setTextureOffset(84, 0).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, 0.2F, false);
+		PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(76, 0).mirror().addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.2F)).mirror(false), PartPose.offset(2.0F, -12.0F, 0.1F));
 
-		left_leg = new AdvancedModelBox(this,"left_leg");
-		left_leg.setRotationPoint(2.0F, -12.0F, 0.1F);
-		root.addChild(left_leg);
-		left_leg.setTextureOffset(0, 16).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, 0.0F, true);
-		left_leg.setTextureOffset(76, 0).addBox(-1.0F, 0.0F, -1.1F, 2.0F, 12.0F, 2.0F, 0.2F, true);
+		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(16, 16).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
+		.texOffs(52, 0).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.2F))
+		.texOffs(32, 36).addBox(-4.0F, -3.0F, -2.0F, 8.0F, 11.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offsetAndRotation(0.0F, -12.0F, 0.0F, -0.0873F, -0.2182F, 0.0F));
 
-		body = new AdvancedModelBox(this,"body");
-		body.setRotationPoint(0.0F, -12.0F, 0.0F);
-		root.addChild(body);
-		setRotationAngle(body, -0.0873F, -0.2182F, 0.0F);
-		body.setTextureOffset(16, 16).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
-		body.setTextureOffset(52, 0).addBox(-4.0F, -12.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.2F, false);
-		body.setTextureOffset(32, 36).addBox(-4.0F, -3.0F, -2.0F, 8.0F, 11.0F, 4.0F, 0.5F, false);
+		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(76, 0).mirror().addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.2F)).mirror(false)
+		.texOffs(0, 48).mirror().addBox(-1.0F, 3.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.5F)).mirror(false)
+		.texOffs(40, 16).mirror().addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(5.0F, -9.0F, 0.0F, 0.1309F, 0.0F, -0.0436F));
 
-		left_arm = new AdvancedModelBox(this,"left_arm");
-		left_arm.setRotationPoint(5.0F, -9.0F, 0.0F);
-		body.addChild(left_arm);
-		setRotationAngle(left_arm, 0.1309F, 0.0F, -0.0436F);
-		left_arm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);
-		left_arm.setTextureOffset(76, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.2F, true);
-		left_arm.setTextureOffset(0, 48).addBox(-1.0F, 3.0F, -1.0F, 2.0F, 5.0F, 2.0F, 0.5F, true);
-		left_arm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, true);
+		PartDefinition left_arm_r1 = left_arm.addOrReplaceChild("left_arm_r1", CubeListBuilder.create().texOffs(58, 17).mirror().addBox(-1.0F, -2.0F, -3.5F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.9763F, -0.7164F, 0.0F, 0.0F, 0.0F, -0.2182F));
 
-		left_arm_r1 = new AdvancedModelBox(this,"left_arm_r1");
-		left_arm_r1.setRotationPoint(1.9763F, -0.7164F, 0.0F);
-		left_arm.addChild(left_arm_r1);
-		setRotationAngle(left_arm_r1, 0.0F, 0.0F, -0.2182F);
-		left_arm_r1.setTextureOffset(58, 17).addBox(-1.0F, -2.0F, -3.5F, 0.0F, 6.0F, 7.0F, 0.0F, true);
+		PartDefinition left_arm_r2 = left_arm.addOrReplaceChild("left_arm_r2", CubeListBuilder.create().texOffs(48, 23).mirror().addBox(-1.0F, -2.0F, -1.5F, 2.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(1.0F, -0.5F, 0.0F, 0.0F, 0.0F, -0.2182F));
 
-		left_arm_r2 = new AdvancedModelBox(this,"left_arm_r2");
-		left_arm_r2.setRotationPoint(1.0F, -0.5F, 0.0F);
-		left_arm.addChild(left_arm_r2);
-		setRotationAngle(left_arm_r2, 0.0F, 0.0F, -0.2182F);
-		left_arm_r2.setTextureOffset(48, 23).addBox(-1.0F, -2.0F, -1.5F, 2.0F, 4.0F, 3.0F, 0.0F, true);
+		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(40, 16).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(84, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.2F))
+		.texOffs(0, 48).addBox(-1.0F, 2.0F, -1.0F, 2.0F, 5.0F, 2.0F, new CubeDeformation(0.5F)), PartPose.offsetAndRotation(-5.0F, -8.0F, 0.0F, 0.1309F, 0.0F, 0.0436F));
 
-		right_arm = new AdvancedModelBox(this,"right_arm");
-		right_arm.setRotationPoint(-5.0F, -8.0F, 0.0F);
-		body.addChild(right_arm);
-		setRotationAngle(right_arm, 0.1309F, 0.0F, 0.0436F);
-		right_arm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.0F, false);
-		right_arm.setTextureOffset(84, 0).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 12.0F, 2.0F, 0.2F, false);
-		right_arm.setTextureOffset(0, 48).addBox(-1.0F, 2.0F, -1.0F, 2.0F, 5.0F, 2.0F, 0.5F, false);
+		PartDefinition right_arm_r1 = right_arm.addOrReplaceChild("right_arm_r1", CubeListBuilder.create().texOffs(48, 18).addBox(-1.0F, -3.0F, -1.5F, 2.0F, 5.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.7526F, -1.3329F, 1.5F, 0.0F, 0.0F, 0.2182F));
 
-		right_arm_r1 = new AdvancedModelBox(this,"right_arm_r1");
-		right_arm_r1.setRotationPoint(-2.7526F, -1.3329F, 1.5F);
-		right_arm.addChild(right_arm_r1);
-		setRotationAngle(right_arm_r1, 0.0F, 0.0F, 0.2182F);
-		right_arm_r1.setTextureOffset(48, 18).addBox(-1.0F, -3.0F, -1.5F, 2.0F, 5.0F, 0.0F, 0.0F, false);
+		PartDefinition right_arm_r2 = right_arm.addOrReplaceChild("right_arm_r2", CubeListBuilder.create().texOffs(58, 23).addBox(0.0F, -2.0F, -3.5F, 0.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
+		.texOffs(48, 23).addBox(-1.0F, -2.0F, -1.5F, 2.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, -0.5F, 0.0F, 0.0F, 0.0F, 0.2182F));
 
-		right_arm_r2 = new AdvancedModelBox(this,"right_arm_r2");
-		right_arm_r2.setRotationPoint(-1.0F, -0.5F, 0.0F);
-		right_arm.addChild(right_arm_r2);
-		setRotationAngle(right_arm_r2, 0.0F, 0.0F, 0.2182F);
-		right_arm_r2.setTextureOffset(58, 23).addBox(0.0F, -2.0F, -3.5F, 0.0F, 6.0F, 7.0F, 0.0F, false);
-		right_arm_r2.setTextureOffset(48, 23).addBox(-1.0F, -2.0F, -1.5F, 2.0F, 4.0F, 3.0F, 0.0F, false);
+		PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F))
+		.texOffs(92, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.2F))
+		.texOffs(0, 32).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.5F))
+		.texOffs(58, 36).addBox(0.0F, -16.0F, 0.0F, 10.0F, 11.0F, 0.0F, new CubeDeformation(0.0F))
+		.texOffs(0, 55).mirror().addBox(-10.0F, -13.0F, 0.0F, 6.0F, 8.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, -12.0F, -1.0F, 0.5079F, 0.1287F, -0.137F));
 
-		head = new AdvancedModelBox(this,"head");
-		head.setRotationPoint(0.0F, -12.0F, -1.0F);
-		body.addChild(head);
-		setRotationAngle(head, 0.5079F, 0.1287F, -0.137F);
-		head.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
-		head.setTextureOffset(92, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.2F, false);
-		head.setTextureOffset(0, 32).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.5F, false);
-		head.setTextureOffset(58, 36).addBox(0.0F, -16.0F, 0.0F, 10.0F, 11.0F, 0.0F, 0.0F, false);
-		head.setTextureOffset(0, 55).addBox(-10.0F, -13.0F, 0.0F, 6.0F, 8.0F, 0.0F, 0.0F, true);
+		PartDefinition maw = head.addOrReplaceChild("maw", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, -2.5F, -1.0F, -0.0873F, 0.0F, 0.2182F));
 
-		maw = new AdvancedModelBox(this,"maw");
-		maw.setRotationPoint(0.0F, -2.5F, -1.0F);
-		head.addChild(maw);
-		setRotationAngle(maw, -0.0873F, 0.0F, 0.2182F);
+		PartDefinition body_r1 = maw.addOrReplaceChild("body_r1", CubeListBuilder.create().texOffs(32, 6).addBox(-3.0F, 0.0F, -4.0F, 6.0F, 5.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.1309F, 0.0F, 0.0F));
 
-
-		body_r1 = new AdvancedModelBox(this,"body_r1");
-		body_r1.setRotationPoint(0.0F, 0.0F, 0.0F);
-		maw.addChild(body_r1);
-		setRotationAngle(body_r1, -0.1309F, 0.0F, 0.0F);
-		body_r1.setTextureOffset(32, 6).addBox(-3.0F, 0.0F, -4.0F, 6.0F, 5.0F, 4.0F, 0.0F, false);
-		this.updateDefaultPose();
+		return LayerDefinition.create(meshdefinition, 128, 64);
 	}
 
 	@Override
-	public Iterable<BasicModelPart> parts() {
-		return ImmutableList.of(root);
-	}
+	public void setupAnim(Draugr_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
-	@Override
-	public Iterable<AdvancedModelBox> getAllParts() {
-		return ImmutableList.of(root,
-		 right_leg,
-		 left_leg,
-		 body,
-		 left_arm,
-		 left_arm_r1,
-		 left_arm_r2,
-		 right_arm,
-		 right_arm_r1,
-		 head,
-		 maw,
-		 body_r1);
-	}
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-	@Override
-	public void setupAnim(Draugr_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
-		this.resetToDefaultPose();
-		this.faceTarget(netHeadYaw, headPitch, 1, head);
+		this.animateHeadLookTarget(netHeadYaw, headPitch);
 		this.animateWalk(Draugar_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
 		this.animate(entity.getAnimationState("idle"), Draugar_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("attack"), Draugar_Animation.ATTACK, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("attack2"), Draugar_Animation.ATTACK2, ageInTicks, 1.0F);
+
 	}
 
-	@Override
+	private void animateHeadLookTarget(float yRot, float xRot) {
+		this.head.xRot = xRot * ((float) Math.PI / 180F);
+		this.head.yRot = yRot * ((float) Math.PI / 180F);
+	}
+
 	public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
 		root.translateAndRotate(poseStack);
 		body.translateAndRotate(poseStack);
@@ -167,9 +127,13 @@ public class Draugr_Model extends AdvancedEntityModel<Draugr_Entity> implements 
 		}
 	}
 
-	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
-		AdvancedModelBox.rotateAngleX = x;
-		AdvancedModelBox.rotateAngleY = y;
-		AdvancedModelBox.rotateAngleZ = z;
+
+	public ModelPart root() {
+		return this.root;
+	}
+
+	@Override
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

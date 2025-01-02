@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm;
 
 import com.github.L_Ender.cataclysm.client.event.ClientEvent;
 import com.github.L_Ender.cataclysm.client.gui.GUIWeponfusion;
+import com.github.L_Ender.cataclysm.client.gui.MinistrosityInventoryScreen;
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.blockentity.*;
@@ -54,7 +55,7 @@ public class ClientProxy extends CommonProxy {
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
     public static List<UUID> blockedEntityRenders = new ArrayList<>();
-
+    private Entity referencedMob = null;
     public void init() {
        // FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientLayerEvent::onAddLayers);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupParticles);
@@ -75,14 +76,20 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
         registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
+        registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.OrbFactory());
+        registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
+        registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
     }
 
     public void clientInit() {
         ItemRenderer itemRendererIn = Minecraft.getInstance().getItemRenderer();
         EntityRenderers.register(ModEntities.ENDER_GOLEM.get(), Ender_Golem_Renderer::new);
         EntityRenderers.register(ModEntities.NETHERITE_MONSTROSITY.get(), New_Netherite_Monstrosity_Renderer::new);
+        EntityRenderers.register(ModEntities.NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Renderer::new);
         EntityRenderers.register(ModEntities.OLD_NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Renderer::new);
         EntityRenderers.register(ModEntities.LAVA_BOMB.get(), Lava_Bomb_Renderer::new);
+        EntityRenderers.register(ModEntities.FLARE_BOMB.get(), Flare_Bomb_Renderer::new);
+        EntityRenderers.register(ModEntities.FLAME_JET.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.NAMELESS_SORCERER.get(), Nameless_Sorcerer_Renderer::new);
         EntityRenderers.register(ModEntities.IGNIS.get(), Ignis_Renderer::new);
         EntityRenderers.register(ModEntities.ENDER_GUARDIAN.get(), Ender_Guardian_Renderer::new);
@@ -194,6 +201,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
         BlockEntityRenderers.register(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
         MenuScreens.register(ModMenu.WEAPON_FUSION.get(), GUIWeponfusion::new);
+        MenuScreens.register(ModMenu.MINISTROSITY_INVENTORY.get(), MinistrosityInventoryScreen::new);
         CuriosRendererRegistry.register(ModItems.SANDSTORM_IN_A_BOTTLE.get(), RendererSandstorm_In_A_Bottle::new);
         CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), RendererSticky_Gloves::new);
         CuriosRendererRegistry.register(ModItems.KOBOLEDIATOR_SKULL.get(), CurioHeadRenderer::new);
@@ -323,6 +331,14 @@ public class ClientProxy extends CommonProxy {
         e.register(ModKeybind.HELMET_KEY_ABILITY);
         e.register(ModKeybind.CHESTPLATE_KEY_ABILITY);
         e.register(ModKeybind.BOOTS_KEY_ABILITY);
+    }
+
+    public Entity getReferencedMob() {
+        return referencedMob;
+    }
+
+    public void setReferencedMob(Entity referencedMob) {
+        this.referencedMob = referencedMob;
     }
 
     public void removeBossBarRender(UUID bossBar) {

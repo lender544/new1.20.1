@@ -20,7 +20,6 @@ public final class ModCapabilities {
     public static final Capability<HookCapability.IHookCapability> HOOK_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<TidalTentacleCapability.ITentacleCapability> TENTACLE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<ChargeCapability.IChargeCapability> CHARGE_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
-    public static final Capability<Gone_With_SandstormCapability.IGone_With_SandstormCapability> GONE_WITH_SANDSTORM_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     public static final Capability<RenderRushCapability.IRenderRushCapability> RENDER_RUSH_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
     public static final Capability<ParryCapability.IParryCapability> PARRY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
@@ -31,7 +30,6 @@ public final class ModCapabilities {
         event.register(RenderRushCapability.IRenderRushCapability.class);
         event.register(ChargeCapability.ChargeCapabilityImp.class);
         event.register(TidalTentacleCapability.TentacleCapabilityImp.class);
-        event.register(Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp.class);
         event.register(ParryCapability.ParryCapabilityImp.class);
 
     }
@@ -43,10 +41,7 @@ public final class ModCapabilities {
             e.addCapability(RenderRushCapability.ID, new RenderRushCapability.RenderRushCapabilityImp.RenderRushProvider());
             e.addCapability(TidalTentacleCapability.ID, new TidalTentacleCapability.TentacleCapabilityImp.TentacleProvider());
             e.addCapability(ParryCapability.ID, new ParryCapability.ParryCapabilityImp.ParryProvider());
-            if (e.getObject() instanceof Player player) {
-                Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp spellHolder = new Gone_With_SandstormCapability.Gone_With_SandstormCapabilityImp(player);
-                attachCapability(e, spellHolder, GONE_WITH_SANDSTORM_CAPABILITY, "sandstorm_cap");
-            }
+
         }
     }
 
@@ -57,37 +52,5 @@ public final class ModCapabilities {
         return entity.getCapability(capability).isPresent() ? entity.getCapability(capability).orElseThrow(() -> new IllegalArgumentException("Lazy optional must not be empty")) : null;
     }
 
-
-    private static <T extends Tag, C extends INBTSerializable<T>> void attachCapability(AttachCapabilitiesEvent<?> event, C capData, Capability<C> capability, String name)
-    {
-        LazyOptional<C> optional = LazyOptional.of(() -> capData);
-        ICapabilitySerializable<T> provider = new ICapabilitySerializable<>()
-        {
-            @Override
-            public <S> LazyOptional<S> getCapability(Capability<S> cap, Direction side)
-            {
-                if(cap == capability)
-                {
-                    return optional.cast();
-                }
-
-                return LazyOptional.empty();
-            }
-
-            @Override
-            public T serializeNBT()
-            {
-                return capData.serializeNBT();
-            }
-
-            @Override
-            public void deserializeNBT(T tag)
-            {
-                capData.deserializeNBT(tag);
-            }
-        };
-
-        event.addCapability(new ResourceLocation(Cataclysm.MODID, name), provider);
-    }
 
 }

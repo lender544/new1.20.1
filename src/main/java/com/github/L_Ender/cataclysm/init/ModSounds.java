@@ -62,6 +62,12 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MONSTROSITY_MUSIC = SOUNDS.register("monstrosity_music",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"monstrosity_music")));
 
+    public static final RegistryObject<SoundEvent> MINISTROSITY_FILL_BUCKET = SOUNDS.register("ministrosity_fill_bucket",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_fill_bucket")));
+
+    public static final RegistryObject<SoundEvent> MINISTROSITY_HURT = SOUNDS.register("ministrosity_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_hurt")));
+
     public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC = SOUNDS.register("enderguardian_music",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music")));
 

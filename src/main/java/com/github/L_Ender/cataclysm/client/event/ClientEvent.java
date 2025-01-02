@@ -2,10 +2,8 @@ package com.github.L_Ender.cataclysm.client.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.ClientProxy;
-import com.github.L_Ender.cataclysm.capabilities.Gone_With_SandstormCapability;
 import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.PlayerSandstorm_Model;
-import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.etc.LavaVisionFluidRenderer;
@@ -28,9 +26,6 @@ import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -182,13 +177,6 @@ public class ClientEvent {
     @SubscribeEvent
     public void onPostRenderHUD(RenderGuiOverlayEvent.Post event) {
         Player player = Minecraft.getInstance().player;
-        if (player != null) {
-            Minecraft mc = Minecraft.getInstance();
-            ForgeGui gui = (ForgeGui)mc.gui;
-            if (event.getOverlay() == VanillaGuiOverlay.AIR_LEVEL.type() && !mc.options.hideGui && gui.shouldDrawSurvivalElements()) {
-                renderSandstormOverlay(event);
-            }
-        }
     }
 
 
@@ -198,23 +186,6 @@ public class ClientEvent {
         LivingEntity player = (LivingEntity) event.getEntity();
         boolean usingIncinerator = player.isUsingItem() && (player.getUseItem().is(ModItems.THE_INCINERATOR.get()));
         boolean usingImmolator = player.isUsingItem() && player.getUseItem().is(ModItems.THE_IMMOLATOR.get());
-        Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
-        if (SandstormCapability != null) {
-            if(SandstormCapability.isSandstorm()){
-                event.setCanceled(true);
-                event.getPoseStack().pushPose();
-                float limbSwing = event.getEntity().walkAnimation.position() - event.getEntity().walkAnimation.speed() * (1.0F - event.getPartialTick());
-                float limbSwingAmount = event.getEntity().walkAnimation.speed(event.getPackedLight());
-                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(), RenderType.armorCutoutNoCull(SANDSTORM_TEXTURE), false, event.getEntity().getItemBySlot(EquipmentSlot.CHEST).hasFoil());
-                event.getPoseStack().translate(0.0D, event.getEntity().getBbHeight(), 0.0D);
-                event.getPoseStack().mulPose(Axis.ZP.rotationDegrees(180.0F));
-                SANDSTORM_MODEL.setupAnim(event.getEntity(), limbSwing, limbSwingAmount, event.getEntity().tickCount + event.getPartialTick(), 0, 0);
-                SANDSTORM_MODEL.renderToBuffer(event.getPoseStack(), vertexconsumer, event.getPackedLight(), OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-                event.getPoseStack().popPose();
-                MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
-                return;
-            }
-        }
         if(usingIncinerator){
             int i = player.getTicksUsingItem();
             float f2 = (float) player.tickCount + event.getPartialTick();
@@ -267,18 +238,7 @@ public class ClientEvent {
 
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onPreRenderPlayer(RenderPlayerEvent.Pre event) {
-        Player player = event.getEntity();
-        Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
-        if (SandstormCapability != null) {
-            if (SandstormCapability.isSandstorm()) {
-                return;
-            }
-        }
 
-    }
 
     public void drawVertex(Matrix4f p_229039_1_, Matrix3f p_229039_2_, VertexConsumer p_229039_3_, int p_229039_4_, int p_229039_5_, int p_229039_6_, float p_229039_7_, float p_229039_8_, int p_229039_9_, int p_229039_10_, int p_229039_11_, int p_229039_12_) {
         p_229039_3_.vertex(p_229039_1_, (float) p_229039_4_, (float) p_229039_5_, (float) p_229039_6_).color(255, 255, 255, 255).uv(p_229039_7_, p_229039_8_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_229039_12_).normal(p_229039_2_, (float) p_229039_9_, (float) p_229039_11_, (float) p_229039_10_).endVertex();
@@ -481,6 +441,7 @@ public class ClientEvent {
         RenderSystem.setShaderTexture(0, EFFECT_HEART);
     }
 
+    /**
     private void renderSandstormOverlay(RenderGuiOverlayEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         Minecraft mc = Minecraft.getInstance();
@@ -516,6 +477,7 @@ public class ClientEvent {
             }
         }
     }
+     */
 
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

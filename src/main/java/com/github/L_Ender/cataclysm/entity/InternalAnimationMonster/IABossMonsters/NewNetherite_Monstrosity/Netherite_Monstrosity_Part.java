@@ -52,7 +52,7 @@ public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstro
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean flag = this.getParent() != null && this.getParent().attackEntityFromPart(this, source, amount * 1.35F);
+        boolean flag = this.getParent() != null && this.getParent().attackEntityFromPart(this, source, amount * 1.8F);
         if (flag) {
             this.gameEvent(GameEvent.ENTITY_DAMAGE);
         }

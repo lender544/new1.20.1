@@ -42,4 +42,17 @@ public class CMMathUtil {
     }
 
 
+    public static float smin(float a, float b, float k) {
+        float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
+        return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
+    }
+
+
+
+    public static float cullAnimationTick(int tick, float amplitude, float partialTick, int startOffset, int endAt) {
+        float i = Mth.clamp(tick + partialTick - startOffset, 0, endAt);
+        float f = (float) Math.sin((i / (float) (endAt)) * Math.PI) * amplitude;
+        return CMMathUtil.smin(f, 1.0F, 0.1F);
+    }
+
 }

@@ -20,7 +20,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue WASWHowitzerCooldown;
     public final ForgeConfigSpec.IntValue VASWCooldown;
     public final ForgeConfigSpec.IntValue VoidCoreCooldown;
-    public final ForgeConfigSpec.IntValue Sandstorm_In_A_Bottle_Timer;
+    public final ForgeConfigSpec.IntValue SandstormInABottleCooldown;
+
     public final ForgeConfigSpec.IntValue SoulRenderCooldown;
     public final ForgeConfigSpec.IntValue GauntletOfMaelstromCooldown;
     public final ForgeConfigSpec.IntValue ImmolatorCooldown;
@@ -47,6 +48,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue PlayerPhantomArrowdamage;
     public final ForgeConfigSpec.DoubleValue PhantomHalberddamage;
     public final ForgeConfigSpec.DoubleValue CursedSandstormdamage;
+    public final ForgeConfigSpec.DoubleValue FlameJetDamage;
+    public final ForgeConfigSpec.DoubleValue FlareBombDamage;
 
     public final ForgeConfigSpec.BooleanValue ScreenShake;
     public final ForgeConfigSpec.BooleanValue BossMusic;
@@ -72,6 +75,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue MonstrosityLongRangelimit;
     public final ForgeConfigSpec.BooleanValue NetheritemonstrosityBodyBloking;
     public final ForgeConfigSpec.DoubleValue MonstrositysHpdamage;
+    public final ForgeConfigSpec.BooleanValue MonstrosityBlockBreaking;
 
     public final ForgeConfigSpec.BooleanValue EndergolemBlockBreaking;
     public final ForgeConfigSpec.DoubleValue EndergolemLongRangelimit;
@@ -144,6 +148,8 @@ public class CommonConfig {
 
     public final ForgeConfigSpec.DoubleValue ModernRemnantHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue ModernRemnantDamageMultiplier;
+
+    public final ForgeConfigSpec.DoubleValue MinistrosityHealthMultiplier;
 
     public final ForgeConfigSpec.DoubleValue CauseKoboletontoDropItemInHandPercent;
 
@@ -221,7 +227,7 @@ public class CommonConfig {
         WASWHowitzerCooldown = buildInt(builder, "WASWHowitzerCooldown", "all", 100, 0, 1000000, "Wither Assault Shoulder Weapon's Howitzer Cooldown");
         VASWCooldown = buildInt(builder, "VASWCooldown", "all", 120, 0, 1000000, "Void Assault Shoulder Weapon's Cooldown");
         VoidCoreCooldown = buildInt(builder, "VoidCoreCooldown", "all", 160, 0, 1000000, "Void Core's Cooldown");
-        Sandstorm_In_A_Bottle_Timer = buildInt(builder, "SandstormTimer", "all", 160, 0, 1000000, "Sandstorm's Timer");
+        SandstormInABottleCooldown = buildInt(builder, "Sandstormcooldown", "all", 300, 0, 1000000, "Sandstorm's cooldown");
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
@@ -253,8 +259,8 @@ public class CommonConfig {
         PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", 5D, 0, 1000000, "Player's Phantom Arrow's Damage");
         PhantomHalberddamage = buildDouble(builder, "Phantom Halberd Damage", "all", 12, 0, 1000000, "Phantom Halberd's Damage");
         CursedSandstormdamage = buildDouble(builder, "Cursed Sandstorm Damage", "all", 6, 0, 1000000, "Cursed Sandstorm's Damage");
-
-
+        FlameJetDamage = buildDouble(builder, "Flame Jet Damage", "all", CMConfig.FlameJetDamage, 0, 1000000, "Flame jet's Damage");
+        FlareBombDamage = buildDouble(builder, "Flare Bomb Damage", "all", CMConfig.FlareBombDamage, 0, 1000000, "Flare Bomb's Damage");
         builder.pop();
 
         builder.push("Ender Guardian");
@@ -286,6 +292,9 @@ public class CommonConfig {
         NetheritemonstrosityBodyBloking = buildBoolean(builder, "NetheritemonstrosityBodyBloking", "all", true, "Monstrosity's bodyBlocking verdict");
         MonstrositysHpdamage = buildDouble(builder, "Monstrosity's attack Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Monstrosity's attack Hp Damage");
         MonstrosityLongRangelimit = buildDouble(builder, "Monstrosity's prevent attacks from far away Range", "all", 18.0D, 1D, 1000000D, "Monstrosity's Immune to Long distance attack range.");
+        MonstrosityBlockBreaking = buildBoolean(builder, "monstrosityBlockBreaking", "all", true, "Monstrosity's block breaking ignore the MobGriefing");
+
+
         builder.pop();
 
         builder.push("Ender Golem");
@@ -351,6 +360,12 @@ public class CommonConfig {
         ModernRemnantHealthMultiplier = buildDouble(builder, "ModernRemnantHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Modern Remnant's Health Multiplier");
         ModernRemnantDamageMultiplier  = buildDouble(builder, "ModernRemnantDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Modern Remnant's Damage Multiplier");
         builder.pop();
+
+
+        builder.push("Netherite Ministrosity");
+        MinistrosityHealthMultiplier = buildDouble(builder, "MinistrosityHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Ministrosity's Health Multiplier");
+        builder.pop();
+
 
         builder.push("Amethyst Crab");
         AmethystCrabHealthMultiplier = buildDouble(builder, "AmethystCrabHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Amethyst Crab's Health Multiplier");

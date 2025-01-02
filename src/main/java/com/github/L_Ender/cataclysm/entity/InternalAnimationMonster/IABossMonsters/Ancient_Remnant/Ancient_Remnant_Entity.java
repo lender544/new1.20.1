@@ -307,6 +307,9 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.entityData.set(NECKLACE, necklace);
         this.bossEvent.setVisible(necklace);
         this.bossEvent2.setVisible(necklace);
+        if(!necklace){
+            this.setAttackState(1);
+        }
     }
 
     public boolean getNecklace() {
@@ -534,9 +537,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.bossEvent2.setProgress((float) this.getRage() / 5);
         this.legSolver.update(this, this.yBodyRot, this.getScale());
 
-        if (!getNecklace()) {
-            this.setAttackState(1);
-        }
+
         if (hunting_cooldown > 0) hunting_cooldown--;
 
         if (roar_cooldown > 0) roar_cooldown--;

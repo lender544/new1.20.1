@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.inventory.MinistrostiyMenu;
 import com.github.L_Ender.cataclysm.inventory.WeaponfusionMenu;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
@@ -13,5 +14,9 @@ public class ModMenu {
     public static final DeferredRegister<MenuType<?>> DEF_REG = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Cataclysm.MODID);
 
     public static final RegistryObject<MenuType<WeaponfusionMenu>> WEAPON_FUSION = DEF_REG.register("weapon_fusion", () -> new MenuType<WeaponfusionMenu>(WeaponfusionMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
+
+    public static final RegistryObject<MenuType<MinistrostiyMenu>> MINISTROSITY_INVENTORY = DEF_REG.register("ministrosity_inventory", () -> new MenuType<>(MinistrostiyMenu::new, FeatureFlags.VANILLA_SET));
+
 
 }

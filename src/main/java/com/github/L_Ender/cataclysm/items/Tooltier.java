@@ -35,6 +35,12 @@ public class Tooltier {
                     BlockTags.create(prefix("needs_black_steel_tool")), () -> Ingredient.of(ModItems.BLACK_STEEL_INGOT.get())),
             prefix("black_steel"), List.of(Tiers.IRON), List.of(Tiers.DIAMOND));
 
+    public static final Tier MONSTROSITY = TierSortingRegistry.registerTier(
+            new ForgeTier(4, 2800, 9F, 4, 25,
+                    BlockTags.create(prefix("needs_monstrosity_tool")), () -> Ingredient.of(ModItems.MONSTROUS_HORN.get())),
+            prefix("monstrosity"), List.of(Tiers.NETHERITE), List.of());
+
+
 }
 
 

@@ -42,7 +42,7 @@ public class Cursed_tombstone_Entity extends BlockEntity {
     public static void commonTick(Level level, BlockPos pos, BlockState blockState, Cursed_tombstone_Entity entity) {
         if(blockState.getBlock() instanceof Cursed_Tombstone_Block) {
             if (!blockState.getValue(Cursed_Tombstone_Block.POWERED)) {
-                if(entity.summonCooldownProgress < CMConfig.Cursed_tombstone_summon_cooldown * 120){
+                if(entity.summonCooldownProgress < CMConfig.Cursed_tombstone_summon_cooldown * 20 * 60){
                     entity.summonCooldownProgress++;
                 }else{
                     if (!level.isClientSide) {

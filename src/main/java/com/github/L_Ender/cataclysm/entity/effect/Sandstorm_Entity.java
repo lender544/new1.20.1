@@ -170,6 +170,16 @@ public class Sandstorm_Entity extends Entity {
                 Vec3 orbit = new Vec3(center.x + Math.cos((double) (speed + offset)) * (double) radius, center.y, center.z + Math.sin((double) (speed + offset)) * (double) radius);
                 this.moveTo(orbit);
             }
+            if (owner instanceof Player) {
+                Vec3 center = owner.position().add(0.0, 0, 0.0);
+                float radius = 6;
+                float speed = this.tickCount * 0.04f;
+                float offset = this.getOffset();
+                Vec3 orbit = new Vec3(center.x + Math.cos((double) (speed + offset)) * (double) radius, center.y, center.z + Math.sin((double) (speed + offset)) * (double) radius);
+                this.moveTo(orbit);
+            }
+
+
         }
     }
 

@@ -16,10 +16,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -34,9 +31,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class void_forge extends PickaxeItem {
-    public void_forge(Tiers toolMaterial, Properties props) {
+    public void_forge(Tier toolMaterial, Properties props) {
 
-        super(toolMaterial, 8, -3.2f, props);
+        super(toolMaterial, 8, -3.0f, props);
     }
 
     @Override

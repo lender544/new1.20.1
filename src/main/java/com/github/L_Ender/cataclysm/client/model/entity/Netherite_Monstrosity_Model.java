@@ -183,7 +183,7 @@ public class Netherite_Monstrosity_Model extends HierarchicalModel<Netherite_Mon
 
 		PartDefinition l_core = lefthand.addOrReplaceChild("l_core", CubeListBuilder.create(), PartPose.offset(0.0F, 13.0F, 0.0F));
 
-		PartDefinition righthand_r7 = l_core.addOrReplaceChild("righthand_r7", CubeListBuilder.create().texOffs(0, 341).mirror().addBox(-4.0F, 6.5F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false)
+		PartDefinition righthand_r7 = l_core.addOrReplaceChild("righthand_r7", CubeListBuilder.create().texOffs(0, 341).mirror().addBox(-4.0F, 6.5F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(-0.5F)).mirror(false)
 				.texOffs(0, 357).mirror().addBox(-4.0F, 6.5F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.2F)).mirror(false), PartPose.offsetAndRotation(0.0F, -10.5F, 0.0F, 0.0F, -1.5708F, 0.0F));
 
 		PartDefinition l_flame_2 = l_core.addOrReplaceChild("l_flame_2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
@@ -297,6 +297,8 @@ public class Netherite_Monstrosity_Model extends HierarchicalModel<Netherite_Mon
 		this.animate(entity.getAnimationState("fire"), Netherite_Monstrosity_Animation.FIRE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("drain"), Netherite_Monstrosity_Animation.DRAIN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("shoulder_check"), Netherite_Monstrosity_Animation.SHOULDER_CHECK, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("overpower"), Netherite_Monstrosity_Animation.OVERPOWER, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("flare_shot"), Netherite_Monstrosity_Animation.FLARE_SHOT, ageInTicks, 1.0F);
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {

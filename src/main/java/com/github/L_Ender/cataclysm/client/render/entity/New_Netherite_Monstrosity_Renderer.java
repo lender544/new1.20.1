@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Netherite_Monstrosity_Model;
+import com.github.L_Ender.cataclysm.client.render.layer.Netherite_Monstrosity_Flare;
 import com.github.L_Ender.cataclysm.client.render.layer.Netherite_Monstrosity_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Netherite_Monstrosity_Layer2;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
@@ -21,9 +22,10 @@ public class New_Netherite_Monstrosity_Renderer extends MobRenderer<Netherite_Mo
     private static final ResourceLocation NETHER_MONSTROSITY_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/monstrosity/netherite_monstrosity.png");
 
     public New_Netherite_Monstrosity_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Netherite_Monstrosity_Model(renderManagerIn.bakeLayer(CMModelLayers.NETHERITE_MOMSTROSITY_MODEL)), 2.5F);
+        super(renderManagerIn, new Netherite_Monstrosity_Model(renderManagerIn.bakeLayer(CMModelLayers.NETHERITE_MONSTROSITY_MODEL)), 2.5F);
         this.addLayer(new Netherite_Monstrosity_Layer(this));
         this.addLayer(new Netherite_Monstrosity_Layer2(this));
+        this.addLayer(new Netherite_Monstrosity_Flare(this));
     }
     @Override
     public ResourceLocation getTextureLocation(Netherite_Monstrosity_Entity entity) {

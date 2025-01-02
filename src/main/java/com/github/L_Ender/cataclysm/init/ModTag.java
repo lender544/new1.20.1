@@ -44,6 +44,8 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_IGNIS = registerEntityTag("team_ignis");
 
+    public static final TagKey<EntityType<?>> TEAM_MONSTROSITY = registerEntityTag("team_monstrosity");
+
     public static final TagKey<EntityType<?>> TEAM_THE_HARBINGER = registerEntityTag("team_the_harbinger");
 
     public static final TagKey<EntityType<?>> TEAM_THE_LEVIATHAN = registerEntityTag("team_the_leviathan");
@@ -116,6 +118,8 @@ public class ModTag {
     public static final TagKey<Item> STICKY_ITEM = registerItemTag("sticky_item");
 
     public static final TagKey<Item> BONE_ITEM = registerItemTag("bone_item");
+
+    public static final TagKey<Item> MINISTROSITY_BLACKLIST = registerItemTag("ministrosity_blacklist");
 
     public static final TagKey<MobEffect> EFFECTIVE_FOR_BOSSES = registerEffectTag("effective_for_bosses");
 

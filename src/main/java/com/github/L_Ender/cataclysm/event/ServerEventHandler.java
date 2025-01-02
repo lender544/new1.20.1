@@ -84,16 +84,6 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
-        if (SandstormCapability != null) {
-            SandstormCapability.tick(event);
-        }
-    }
-
-
-    @SubscribeEvent
     public void onLivingDamage(LivingHurtEvent event) {
         LivingEntity target = event.getEntity();
         if (!target.level().isClientSide() && event.getSource().getDirectEntity() instanceof LivingEntity living) {

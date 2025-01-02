@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:soul_black_smith/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:soul_black_smith_4",
+        "projection": "rigid",
+        "processors": {
+          "processors": []
+        },
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

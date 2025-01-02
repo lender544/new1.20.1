@@ -40,10 +40,13 @@
     "cataclysm:tidal_claws",
     "cataclysm:sandstorm_in_a_bottle",
     "cataclysm:remnant_skull",
+    "cataclysm:netherite_effigy",
     "cataclysm:the_baby_leviathan_bucket",
     "cataclysm:modern_remnant_bucket",
     "cataclysm:soul_render",
     "cataclysm:the_annihilator",
-    "cataclysm:cursed_bow"
+    "cataclysm:cursed_bow",
+    "cataclysm:lava_power_cell",
+    "cataclysm:netherite_ministrosity_bucket"
   ]
 }

@@ -22,6 +22,27 @@
       ]
     },
     {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 24.0,
+                "min": 16.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "cataclysm:lava_power_cell"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
       "name": "disc",
       "conditions": [
         {

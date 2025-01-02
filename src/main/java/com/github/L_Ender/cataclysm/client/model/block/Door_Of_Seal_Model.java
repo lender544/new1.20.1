@@ -3,16 +3,12 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.blockentities.AltarOfFire_Block_Entity;
 import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.client.animation.Door_Of_Seal_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
-import net.minecraft.client.renderer.blockentity.ShulkerBoxRenderer;
 import net.minecraft.world.entity.Entity;
 
 public class Door_Of_Seal_Model extends AdvancedEntityModel<Entity> {
