@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.layer.MaledictusRiderLayer;
@@ -33,7 +34,7 @@ public class Maledictus_Renderer extends MobRenderer<Maledictus_Entity, Maledict
     private static final ResourceLocation MALEDICTUS_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/maledictus/maledictus_ghost.png");
 
     public Maledictus_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Maledictus_Model(), 0.75F);
+        super(renderManagerIn, new Maledictus_Model(renderManagerIn.bakeLayer(CMModelLayers.MALEDICTUS_MODEL)), 0.75F);
         this.addLayer(new Maledictus_Layer(this));
         this.addLayer(new Maledictus_Cicle_Layer(this, renderManagerIn));
         this.addLayer(new MaledictusRiderLayer(this));

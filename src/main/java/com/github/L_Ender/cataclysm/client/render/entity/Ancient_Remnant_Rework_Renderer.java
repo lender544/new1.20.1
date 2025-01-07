@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Ancient_Remnant_Rework_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Ancient_Remnant_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
@@ -18,7 +19,7 @@ public class Ancient_Remnant_Rework_Renderer extends MobRenderer<Ancient_Remnant
     private final RandomSource rnd = RandomSource.create();
 
     public Ancient_Remnant_Rework_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Ancient_Remnant_Rework_Model(), 1.5F);
+        super(renderManagerIn, new Ancient_Remnant_Rework_Model(renderManagerIn.bakeLayer(CMModelLayers.ANCIENT_REMNANT_MODEL)), 1.5F);
         this.addLayer(new Ancient_Remnant_Layer(this));
     }
 

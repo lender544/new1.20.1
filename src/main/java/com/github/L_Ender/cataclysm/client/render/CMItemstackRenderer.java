@@ -71,10 +71,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Cursed_Bow_Model CURSED_BOW_MODEL = new Cursed_Bow_Model();
     private static final Wrath_of_Desert_Model WRATH_OF_DESERT_MODEL = new Wrath_of_Desert_Model();
     private static final The_Annihilator_Model THE_ANNIHILATOR = new The_Annihilator_Model();
-
     private static final The_Immolator_Model THE_IMMOLATOR_MODEL = new The_Immolator_Model();
-
     private static final Soul_render_Model SOUL_RENDER = new Soul_render_Model();
+
     private static final ResourceLocation CURSED_BOW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow.png");
     private static final ResourceLocation CURSED_BOW_GHOST_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/cursed_bow_ghost.png");
 

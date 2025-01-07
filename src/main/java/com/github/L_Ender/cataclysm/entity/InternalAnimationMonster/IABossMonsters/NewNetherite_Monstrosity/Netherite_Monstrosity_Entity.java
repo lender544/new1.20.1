@@ -108,7 +108,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     private int timeWithoutTarget;
 
     private int shoot_cooldown = 0;
-    public static final int SHOOT_COOLDOWN = 100;
+    public static final int SHOOT_COOLDOWN = 240;
     private boolean onLava = false;
     private int check_cooldown = 0;
     public static final int CHECK_COOLDOWN = 80;
@@ -117,7 +117,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     public static final int OVERPOWER_COOLDOWN = 160;
 
     private int flare_shoot_cooldown = 0;
-    public static final int FLARE_SHOOT_COOLDOWN = 160;
+    public static final int FLARE_SHOOT_COOLDOWN = 120;
 
     public Netherite_Monstrosity_Entity(EntityType entity, Level world) {
         super(entity, world);

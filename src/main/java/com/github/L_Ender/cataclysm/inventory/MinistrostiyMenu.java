@@ -8,6 +8,8 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.HorseInventoryMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -15,12 +17,10 @@ public class MinistrostiyMenu extends AbstractContainerMenu {
     private final Container horseContainer;
     private final Netherite_Ministrosity_Entity horse;
 
-    public MinistrostiyMenu(int i, Inventory inventory) {
-        this(i, inventory,new SimpleContainer(24), (Netherite_Ministrosity_Entity) Cataclysm.PROXY.getReferencedMob());
-    }
+
 
     public MinistrostiyMenu(int p_39656_, Inventory p_39657_, Container p_39658_, final Netherite_Ministrosity_Entity p_39659_) {
-        super(ModMenu.MINISTROSITY_INVENTORY.get(), p_39656_);
+        super((MenuType)null, p_39656_);
         this.horseContainer = p_39658_;
         this.horse = p_39659_;
         int i = 3;

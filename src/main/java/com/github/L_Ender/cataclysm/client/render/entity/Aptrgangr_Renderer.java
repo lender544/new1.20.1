@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Aptrgangr_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
@@ -20,7 +21,7 @@ public class Aptrgangr_Renderer extends MobRenderer<Aptrgangr_Entity, Aptrgangr_
     private static final ResourceLocation APTRGANGR_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/aptrgangr.png");
 
     public Aptrgangr_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Aptrgangr_Model(), 1.25F);
+        super(renderManagerIn, new Aptrgangr_Model(renderManagerIn.bakeLayer(CMModelLayers.APTRGANGR_MODEL)), 1.25F);
         this.addLayer(new AptrgangrRiderLayer(this));
         this.addLayer(new Aptrgangr_Layer(this));
 

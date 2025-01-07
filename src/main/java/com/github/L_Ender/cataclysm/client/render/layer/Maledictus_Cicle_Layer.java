@@ -305,31 +305,10 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Maled
     }
 
 
-
-
-    public void translateToHand(PoseStack matrixStack,boolean right) {
-        this.getParentModel().root.translateAndRotate(matrixStack);
-        this.getParentModel().berserker.translateAndRotate(matrixStack);
-        this.getParentModel().pelvis.translateAndRotate(matrixStack);
-        this.getParentModel().body.translateAndRotate(matrixStack);
-        if(right) {
-            this.getParentModel().right_shoulder.translateAndRotate(matrixStack);
-            this.getParentModel().right_arm.translateAndRotate(matrixStack);
-            this.getParentModel().right_front_arm.translateAndRotate(matrixStack);
-            this.getParentModel().right_particle.translateAndRotate(matrixStack);
-        }else{
-            this.getParentModel().left_shoulder.translateAndRotate(matrixStack);
-            this.getParentModel().left_arm.translateAndRotate(matrixStack);
-            this.getParentModel().left_front_arm.translateAndRotate(matrixStack);
-            this.getParentModel().left_particle.translateAndRotate(matrixStack);
-        }
-    }
-
-
     public Vec3 getRiderPosition(Vec3 offsetIn,boolean right) {
         PoseStack translationStack = new PoseStack();
         translationStack.pushPose();
-        translateToHand(translationStack,right);
+        this.getParentModel().translateToHand(translationStack,right);
         Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
         armOffsetVec.mul(translationStack.last().pose());
         Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());

@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.The_Prowler_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
@@ -23,7 +24,7 @@ public class The_Prowler_Renderer extends MobRenderer<The_Prowler_Entity, The_Pr
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[4];
 
     public The_Prowler_Renderer(Context renderManagerIn) {
-        super(renderManagerIn, new The_Prowler_Model(), 0.7F);
+        super(renderManagerIn, new The_Prowler_Model(renderManagerIn.bakeLayer(CMModelLayers.PROWLER_MODEL)), 0.7F);
        // this.addLayer(new LayerGenericGlowing(this, PROWLER_LAYER_TEXTURES));
         this.addLayer(new The_Prowler_Layer(this));
         for(int i = 0; i < 4; i++){

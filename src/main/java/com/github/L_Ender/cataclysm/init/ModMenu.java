@@ -16,7 +16,5 @@ public class ModMenu {
     public static final RegistryObject<MenuType<WeaponfusionMenu>> WEAPON_FUSION = DEF_REG.register("weapon_fusion", () -> new MenuType<WeaponfusionMenu>(WeaponfusionMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
 
-    public static final RegistryObject<MenuType<MinistrostiyMenu>> MINISTROSITY_INVENTORY = DEF_REG.register("ministrosity_inventory", () -> new MenuType<>(MinistrostiyMenu::new, FeatureFlags.VANILLA_SET));
-
 
 }

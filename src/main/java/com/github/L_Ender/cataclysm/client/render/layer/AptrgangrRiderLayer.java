@@ -47,20 +47,11 @@ public class AptrgangrRiderLayer extends RenderLayer<Aptrgangr_Entity, Aptrgangr
     }
 
 
-    public void translateToHand(PoseStack matrixStack) {
-        this.getParentModel().roots.translateAndRotate(matrixStack);
-        this.getParentModel().body.translateAndRotate(matrixStack);
-        this.getParentModel().chest.translateAndRotate(matrixStack);
-        this.getParentModel().l_arm.translateAndRotate(matrixStack);
-        this.getParentModel().left_arm2.translateAndRotate(matrixStack);
-        this.getParentModel().l_arm_cloth.translateAndRotate(matrixStack);
-        this.getParentModel().hold.translateAndRotate(matrixStack);
-    }
 
     public Vec3 getRiderPosition(Vec3 offsetIn) {
         PoseStack translationStack = new PoseStack();
         translationStack.pushPose();
-        translateToHand(translationStack);
+        this.getParentModel().translateToHand(translationStack);
         Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
         armOffsetVec.mul(translationStack.last().pose());
         Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());

@@ -87,7 +87,7 @@ public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Mi
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		//this.mid_root.xRot = xRot * ((float) Math.PI / 180F);
-		this.roots.yRot = yRot * ((float) Math.PI / 180F);
+		this.roots.yRot += yRot * ((float) Math.PI / 180F);
 	}
 
 

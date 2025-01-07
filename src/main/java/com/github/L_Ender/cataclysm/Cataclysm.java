@@ -156,6 +156,8 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageMusic.class, MessageMusic::write, MessageMusic::read, MessageMusic.Handler::onMessage);
 
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageParryFrame.class, MessageParryFrame::encode, MessageParryFrame::new, MessageParryFrame.Handler::onMessage);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageMiniinventory.class, MessageMiniinventory::write, MessageMiniinventory::read, MessageMiniinventory.Handler::handle);
+
 
         event.enqueueWork(ModItems::initDispenser);
         event.enqueueWork(ModJigsaw::registerJigsawElements);

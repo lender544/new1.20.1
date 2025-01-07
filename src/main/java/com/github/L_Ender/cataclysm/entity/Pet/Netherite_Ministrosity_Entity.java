@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.inventory.MinistrostiyMenu;
+import com.github.L_Ender.cataclysm.message.MessageMiniinventory;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -39,6 +40,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,7 +51,7 @@ import java.util.Optional;
 public class Netherite_Ministrosity_Entity extends InternalAnimationPet implements Bucketable,ContainerListener, HasCustomInventoryScreen {
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(Netherite_Ministrosity_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> IS_AWAKEN = SynchedEntityData.defineId(Netherite_Ministrosity_Entity.class, EntityDataSerializers.BOOLEAN);
-    protected SimpleContainer miniInventory;
+    public SimpleContainer miniInventory;
     public float LayerBrightness, oLayerBrightness;
     public int LayerTicks;
     public AnimationState idleAnimationState = new AnimationState();
@@ -149,25 +153,23 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     @Override
     public void openCustomInventoryScreen(Player playerEntity) {
-        if (isAlive()) {
-            if (!this.level().isClientSide) {
-                this.setAttackState(3);
-                Cataclysm.PROXY.setReferencedMob(this);
-                playerEntity.openMenu(new MenuProvider() {
-                    @Override
-                    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
-                        return new MinistrostiyMenu(id, playerInventory, miniInventory, Netherite_Ministrosity_Entity.this);
-                    }
+        if(playerEntity instanceof ServerPlayer serverplayer) {
+            if (isAlive()) {
+                if (serverplayer.containerMenu != serverplayer.inventoryMenu) {
+                    serverplayer.closeContainer();
+                }
 
-                    @Override
-                    public Component getDisplayName() {
-                        return Netherite_Ministrosity_Entity.this.getDisplayName();
-                    }
-                });
+                this.setAttackState(3);
+                serverplayer.nextContainerCounter();
+                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.PLAYER.with(() -> serverplayer), new MessageMiniinventory(serverplayer.containerCounter, this.miniInventory.getContainerSize(), this.getId()));
+                serverplayer.containerMenu = new MinistrostiyMenu(serverplayer.containerCounter, serverplayer.getInventory(), this.miniInventory, this);
+                serverplayer.initMenu(serverplayer.containerMenu);
+                MinecraftForge.EVENT_BUS.post(new PlayerContainerEvent.Open(serverplayer, serverplayer.containerMenu));
             }
         }
 
     }
+
 
     public int getInventoryColumns() {
         return 5;

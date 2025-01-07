@@ -302,8 +302,8 @@ public class Netherite_Monstrosity_Model extends HierarchicalModel<Netherite_Mon
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
-		this.head.xRot = xRot * ((float) Math.PI / 180F);
-		this.head.yRot = yRot * ((float) Math.PI / 180F);
+		this.head.xRot += xRot * ((float) Math.PI / 180F);
+		this.head.yRot += yRot * ((float) Math.PI / 180F);
 	}
 
 	public ModelPart root() {

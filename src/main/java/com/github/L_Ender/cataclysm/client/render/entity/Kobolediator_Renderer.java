@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Kobolediator_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Kobolediator_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
@@ -17,7 +18,7 @@ public class Kobolediator_Renderer extends MobRenderer<Kobolediator_Entity, Kobo
     private static final ResourceLocation KOBOLEDIATOR_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/kobolediator.png");
 
     public Kobolediator_Renderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new Kobolediator_Model(), 1.25F);
+        super(renderManagerIn, new Kobolediator_Model(renderManagerIn.bakeLayer(CMModelLayers.KOBOLEDIATOR_MODEL)), 1.25F);
         this.addLayer(new Kobolediator_Layer(this));
 
     }

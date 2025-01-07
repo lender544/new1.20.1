@@ -39,12 +39,18 @@ public class CMModelLayers {
     public static final ModelLayerLocation NETHERITE_MONSTROSITY_MODEL = createLocation("netherite_monstrosity_model", "main");
     public static final ModelLayerLocation NETHERITE_MINISTROSITY_MODEL = createLocation("netherite_ministrosity_model", "main");
     public static final ModelLayerLocation FLARE_BOMB_MODEL = createLocation("flare_bomb_model", "main");
-
     public static final ModelLayerLocation ROYAL_DRAUGR_MODEL = createLocation("royal_draugr", "main");
-
     public static final ModelLayerLocation DRAUGR_MODEL = createLocation("draugr", "main");
-
     public static final ModelLayerLocation ELITE_DRAUGR_MODEL = createLocation("elite_draugr", "main");
+
+
+    public static final ModelLayerLocation ANCIENT_REMNANT_MODEL = createLocation("ancient_remnant_model", "main");
+    public static final ModelLayerLocation MALEDICTUS_MODEL = createLocation("maledictus_model", "main");
+    public static final ModelLayerLocation APTRGANGR_MODEL = createLocation("aptrgangr_model", "main");
+    public static final ModelLayerLocation KOBOLEDIATOR_MODEL = createLocation("kobolediator_model", "main");
+    public static final ModelLayerLocation PROWLER_MODEL = createLocation("prowler_model", "main");
+
+
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
@@ -67,11 +73,15 @@ public class CMModelLayers {
         event.registerLayerDefinition(FLARE_BOMB_MODEL, Flare_Bomb_Model::createBodyLayer);
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL_LEGS, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.2F)));
-
         event.registerLayerDefinition(ROYAL_DRAUGR_MODEL, Royal_Draugr_Model::createBodyLayer);
         event.registerLayerDefinition(DRAUGR_MODEL, Draugr_Model::createBodyLayer);
         event.registerLayerDefinition(ELITE_DRAUGR_MODEL, Elite_Draugr_Model::createBodyLayer);
 
+        event.registerLayerDefinition(ANCIENT_REMNANT_MODEL, Ancient_Remnant_Rework_Model::createBodyLayer);
+        event.registerLayerDefinition(MALEDICTUS_MODEL, Maledictus_Model::createBodyLayer);
+        event.registerLayerDefinition(APTRGANGR_MODEL, Aptrgangr_Model::createBodyLayer);
+        event.registerLayerDefinition(KOBOLEDIATOR_MODEL, Kobolediator_Model::createBodyLayer);
+        event.registerLayerDefinition(PROWLER_MODEL, The_Prowler_Model::createBodyLayer);
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {
