@@ -159,6 +159,59 @@ public class ModItems {
     public static final RegistryObject<BlockItem> BLACKSTONE_PILLAR = ITEMS.register("blackstone_pillar",
             () -> new BlockItem(ModBlocks.BLACKSTONE_PILLAR.get(), new Item.Properties()));
 
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE = ITEMS.register("azure_seastone",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_SLAB = ITEMS.register("azure_seastone_slab",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_STAIRS = ITEMS.register("azure_seastone_stairs",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_WALL = ITEMS.register("azure_seastone_wall",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_TILES = ITEMS.register("azure_seastone_tiles",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_TILES.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> CHISELED_AZURE_SEASTONE = ITEMS.register("chiseled_azure_seastone",
+            () -> new BlockItem(ModBlocks.CHISELED_AZURE_SEASTONE.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_BRICKS = ITEMS.register("azure_seastone_bricks",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_BRICKS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_BRICK_SLAB = ITEMS.register("azure_seastone_brick_slab",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_BRICK_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_BRICK_STAIRS = ITEMS.register("azure_seastone_brick_stairs",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_BRICK_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_BRICK_WALL = ITEMS.register("azure_seastone_brick_wall",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_BRICK_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POLISHED_AZURE_SEASTONE = ITEMS.register("polished_azure_seastone",
+            () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POLISHED_AZURE_SEASTONE_SLAB = ITEMS.register("polished_azure_seastone_slab",
+            () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE_SLAB.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POLISHED_AZURE_SEASTONE_STAIRS = ITEMS.register("polished_azure_seastone_stairs",
+            () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE_STAIRS.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> POLISHED_AZURE_SEASTONE_WALL = ITEMS.register("polished_azure_seastone_wall",
+            () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_PILLAR = ITEMS.register("azure_seastone_pillar",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_PILLAR.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_PILLAR_WALL = ITEMS.register("azure_seastone_pillar_wall",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_PILLAR_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> CHISELED_AZURE_SEASTONE_PILLAR = ITEMS.register("chiseled_azure_seastone_pillar",
+            () -> new BlockItem(ModBlocks.CHISELED_AZURE_SEASTONE_PILLAR.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> CHISELED_AZURE_SEASTONE_PILLAR_WALL = ITEMS.register("chiseled_azure_seastone_pillar_wall",
+            () -> new BlockItem(ModBlocks.CHISELED_AZURE_SEASTONE_PILLAR_WALL.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockItem> FROSTED_STONE_BRICKS = ITEMS.register("frosted_stone_bricks",
             () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICKS.get(), new Item.Properties()));

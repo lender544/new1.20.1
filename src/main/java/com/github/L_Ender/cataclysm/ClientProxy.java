@@ -332,13 +332,6 @@ public class ClientProxy extends CommonProxy {
         e.register(ModKeybind.BOOTS_KEY_ABILITY);
     }
 
-    public Entity getReferencedMob() {
-        return referencedMob;
-    }
-
-    public void setReferencedMob(Entity referencedMob) {
-        this.referencedMob = referencedMob;
-    }
 
     public void removeBossBarRender(UUID bossBar) {
         this.bossBarRenderTypes.remove(bossBar);

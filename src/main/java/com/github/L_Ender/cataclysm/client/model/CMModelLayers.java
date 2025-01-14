@@ -42,8 +42,6 @@ public class CMModelLayers {
     public static final ModelLayerLocation ROYAL_DRAUGR_MODEL = createLocation("royal_draugr", "main");
     public static final ModelLayerLocation DRAUGR_MODEL = createLocation("draugr", "main");
     public static final ModelLayerLocation ELITE_DRAUGR_MODEL = createLocation("elite_draugr", "main");
-
-
     public static final ModelLayerLocation ANCIENT_REMNANT_MODEL = createLocation("ancient_remnant_model", "main");
     public static final ModelLayerLocation MALEDICTUS_MODEL = createLocation("maledictus_model", "main");
     public static final ModelLayerLocation APTRGANGR_MODEL = createLocation("aptrgangr_model", "main");

@@ -203,7 +203,8 @@
   "item.cataclysm.aptrgangr_spawn_egg": "아프트강그 생성 알",
   "item.cataclysm.elite_draugr_spawn_egg": "엘리트 드라우그 생성 알",
 
-  "itemGroup.cataclysm": "대격변",
+  "itemGroup.cataclysm.item": "대격변 아이템",
+  "itemGroup.cataclysm.block": "대격변 블록",
   "block.cataclysm.witherite_block": "위더라이트 블록",
   "block.cataclysm.enderite_block": "엔더라이트 블록",
   "block.cataclysm.ignitium_block": "이그니티움 블록",
@@ -254,6 +255,29 @@
   "block.cataclysm.mechanical_fusion_anvil": "기계식 융합 모루",
   "block.cataclysm.abyssal_egg": "심연의 알",
   "block.cataclysm.blackstone_pillar": "흑암 기둥",
+
+  "block.cataclysm.azure_seastone": "청해석",
+  "block.cataclysm.azure_seastone_slab": "청해석 반 블록",
+  "block.cataclysm.azure_seastone_stairs": "청해석 계단",
+  "block.cataclysm.azure_seastone_wall": "청해석 담장",
+
+  "block.cataclysm.azure_seastone_tiles": "청해석 타일",
+  "block.cataclysm.chiseled_azure_seastone": "조각된 청해석",
+  "block.cataclysm.azure_seastone_bricks": "청해석 벽돌",
+  "block.cataclysm.azure_seastone_brick_slab": "청해석 벽돌 반 블록",
+  "block.cataclysm.azure_seastone_brick_stairs": "청해석 벽돌 계단",
+  "block.cataclysm.azure_seastone_brick_wall": "청해석 벽돌 담장",
+
+  "block.cataclysm.polished_azure_seastone": "매끄러운 청해석",
+  "block.cataclysm.polished_azure_seastone_slab": "매끄러운 청해석 반 블록",
+  "block.cataclysm.polished_azure_seastone_stairs": "매끄러운 청해석 계단",
+  "block.cataclysm.polished_azure_seastone_wall": "매끄러운 청해석 담장",
+
+  "block.cataclysm.azure_seastone_pillar": "청해석 기둥",
+  "block.cataclysm.azure_seastone_pillar_wall": "청해석 기둥 담장",
+  "block.cataclysm.chiseled_azure_seastone_pillar": "조각된 청해석 기둥",
+  "block.cataclysm.chiseled_azure_seastone_pillar_wall": "조각된 청해석 기둥 담장",
+  
   "block.cataclysm.kobolediator_skull": "코볼레디에이터 해골",
   "block.cataclysm.draugr_head": "드라우그 머리",
   "block.cataclysm.aptrgangr_head": "아프트강그 머리",
@@ -270,6 +294,7 @@
   "block.cataclysm.cursed_tombstone": "저주받은 묘비",
   "block.cataclysm.cursed_tombstone.message": "그것의 힘은 아직 미약하다....",
 
+  
   "entity.cataclysm.ender_golem": "엔더 골렘",
   "entity.cataclysm.ender_guardian": "엔더 수호자",
   "entity.cataclysm.ender_guardian_bullet": "엔더 수호자 탄환",

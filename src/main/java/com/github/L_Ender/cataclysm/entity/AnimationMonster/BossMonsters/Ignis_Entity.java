@@ -71,7 +71,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Ignis_Entity extends LLibrary_Boss_Monster{
+public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
     private final CMBossInfoServer bossInfo = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.YELLOW, false, 2);
     public static final Animation SWING_ATTACK = Animation.create(55);
     public static final Animation SWING_ATTACK_SOUL = Animation.create(46);

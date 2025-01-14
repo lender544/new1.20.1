@@ -282,7 +282,7 @@ public class Netherite_Monstrosity_Model extends HierarchicalModel<Netherite_Mon
 
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
 
-		if(!(entity.getAttackState() == 8 && entity.attackTicks > 16 && entity.attackTicks < 47)) {
+		if(!(entity.getAttackState() == 8 && entity.attackTicks > 19 && entity.attackTicks < 49)) {
 			this.animateWalk(Netherite_Monstrosity_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
 		}
 

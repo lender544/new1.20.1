@@ -4,6 +4,8 @@
     "cataclysm:obsidian_brick_slab",
     "cataclysm:polished_end_stone_slab",
     "cataclysm:frosted_stone_brick_slab",
-    "cataclysm:stone_tile_slab"
+    "cataclysm:azure_seastone_slab",
+    "cataclysm:azure_seastone_brick_slab",
+    "cataclysm:polished_azure_seastone_slab"
   ]
 }

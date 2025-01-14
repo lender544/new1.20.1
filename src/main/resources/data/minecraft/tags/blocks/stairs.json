@@ -4,6 +4,9 @@
     "cataclysm:obsidian_brick_stairs",
     "cataclysm:polished_end_stone_stairs",
     "cataclysm:frosted_stone_brick_stairs",
-    "cataclysm:stone_tile_stairs"
+    "cataclysm:stone_tile_stairs",
+    "cataclysm:azure_seastone_stairs",
+    "cataclysm:azure_seastone_brick_stairs",
+    "cataclysm:polished_azure_seastone_stairs"
   ]
 }

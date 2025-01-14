@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "cataclysm:block/azure_seastone_slab" },
+    "type=top": { "model": "cataclysm:block/azure_seastone_slab_top" },
+    "type=double": { "model": "cataclysm:block/azure_seastone" }
+  }
+}

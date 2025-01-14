@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class MinistrosityInventoryScreen extends AbstractContainerScreen<MinistrostiyMenu> {
-    private static final ResourceLocation HORSE_INVENTORY_LOCATION = new ResourceLocation(Cataclysm.MODID,"textures/gui/ministrosity.png");
+    private static final ResourceLocation HORSE_INVENTORY_LOCATION = new ResourceLocation(Cataclysm.MODID,"textures/gui/ministrosity2.png");
     private final Netherite_Ministrosity_Entity mini;
     private float xMouse;
     private float yMouse;
@@ -34,7 +34,7 @@ public class MinistrosityInventoryScreen extends AbstractContainerScreen<Ministr
         p_282553_.blit(HORSE_INVENTORY_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
 
             p_282553_.blit(HORSE_INVENTORY_LOCATION, i + 70, j + 17, 0, this.imageHeight, mini.getInventoryColumns() * 18, 54);
-            InventoryScreen.renderEntityInInventoryFollowsMouse(p_282553_, i + 43, j + 62, 40, (float)(i + 43) - this.xMouse, (float)(j + 75 - 50) - this.yMouse, mini);
+            InventoryScreen.renderEntityInInventoryFollowsMouse(p_282553_, i + 35, j + 62, 40, (float)(i + 35) - this.xMouse, (float)(j + 75 - 50) - this.yMouse, mini);
 
     }
 

@@ -291,6 +291,63 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
 
+    public static final RegistryObject<Block> AZURE_SEASTONE = BLOCKS.register("azure_seastone",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ)
+                    .instrument(NoteBlockInstrument.BASEDRUM)
+                    .requiresCorrectToolForDrops()
+                    .strength(2.0F, 6.0F)));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_SLAB = BLOCKS.register("azure_seastone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_STAIRS = BLOCKS.register("azure_seastone_stairs",
+            () -> new StairBlock(AZURE_SEASTONE.get().defaultBlockState(),BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_WALL = BLOCKS.register("azure_seastone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_TILES = BLOCKS.register("azure_seastone_tiles",
+            () -> new FacingBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> CHISELED_AZURE_SEASTONE = BLOCKS.register("chiseled_azure_seastone",
+            () -> new FacingBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_BRICKS = BLOCKS.register("azure_seastone_bricks",
+            () -> new Block(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_BRICK_SLAB = BLOCKS.register("azure_seastone_brick_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_BRICK_STAIRS = BLOCKS.register("azure_seastone_brick_stairs",
+            () -> new StairBlock(AZURE_SEASTONE_BRICKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(AZURE_SEASTONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_BRICK_WALL = BLOCKS.register("azure_seastone_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE_BRICKS.get())));
+
+    public static final RegistryObject<Block> POLISHED_AZURE_SEASTONE = BLOCKS.register("polished_azure_seastone",
+            () -> new Block(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> POLISHED_AZURE_SEASTONE_SLAB = BLOCKS.register("polished_azure_seastone_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(POLISHED_AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> POLISHED_AZURE_SEASTONE_STAIRS = BLOCKS.register("polished_azure_seastone_stairs",
+            () -> new StairBlock(POLISHED_AZURE_SEASTONE.get().defaultBlockState(),BlockBehaviour.Properties.copy(POLISHED_AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> POLISHED_AZURE_SEASTONE_WALL = BLOCKS.register("polished_azure_seastone_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_PILLAR = BLOCKS.register("azure_seastone_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_PILLAR_WALL = BLOCKS.register("azure_seastone_pillar_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> CHISELED_AZURE_SEASTONE_PILLAR = BLOCKS.register("chiseled_azure_seastone_pillar",
+            () -> new FacingPillarBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> CHISELED_AZURE_SEASTONE_PILLAR_WALL = BLOCKS.register("chiseled_azure_seastone_pillar_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
     public static final RegistryObject<Block> POINTED_ICICLE = BLOCKS.register("pointed_icicle",
             () -> new PointedIcicleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE)
                     .forceSolidOn().instrument(NoteBlockInstrument.CHIME)

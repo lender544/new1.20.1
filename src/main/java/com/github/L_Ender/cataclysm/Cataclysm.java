@@ -1,19 +1,27 @@
 package com.github.L_Ender.cataclysm;
 
 
+import com.github.L_Ender.cataclysm.client.gui.MinistrosityInventoryScreen;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.config.BiomeConfig;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.config.ConfigHolder;
+import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.event.ServerEventHandler;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.inventory.MinistrostiyMenu;
 import com.github.L_Ender.cataclysm.message.*;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnBiomeModifier;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnStructureModifier;
 import com.mojang.serialization.Codec;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.BiomeModifier;
@@ -106,7 +114,6 @@ public class Cataclysm {
         final DeferredRegister<Codec<? extends StructureModifier>> structureModifiers = DeferredRegister.create(ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Cataclysm.MODID);
         structureModifiers.register(bus);
         structureModifiers.register("cataclysm_structure_spawns", CMMobSpawnStructureModifier::makeCodec);
-
     }
 
     private void setupEntityModelLayers(final EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -154,7 +161,6 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageParticle.class, MessageParticle::encode, MessageParticle::new, MessageParticle.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageRenderRush.class, MessageRenderRush::encode, MessageRenderRush::new, MessageRenderRush.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageMusic.class, MessageMusic::write, MessageMusic::read, MessageMusic.Handler::onMessage);
-
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageParryFrame.class, MessageParryFrame::encode, MessageParryFrame::new, MessageParryFrame.Handler::onMessage);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageMiniinventory.class, MessageMiniinventory::write, MessageMiniinventory::read, MessageMiniinventory.Handler::handle);
 

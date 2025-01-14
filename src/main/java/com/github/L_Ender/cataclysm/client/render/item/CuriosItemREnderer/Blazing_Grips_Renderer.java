@@ -4,12 +4,14 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Blazing_Grips_Model;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
+import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
@@ -33,6 +35,7 @@ import javax.annotation.Nullable;
 public class Blazing_Grips_Renderer implements ICurioRenderer {
     private final Blazing_Grips_Model model;
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/curiositem/blazing_grips.png");
+    private static final ResourceLocation TEXTURE_LAYER = new ResourceLocation(Cataclysm.MODID,"textures/curiositem/blazing_grips_layer.png");
     private final Blazing_Grips_Model slimModel;
 
     public Blazing_Grips_Renderer() {
@@ -90,12 +93,16 @@ public class Blazing_Grips_Renderer implements ICurioRenderer {
         ICurioRenderer.followBodyRotations(slotContext.entity(), model);
 
         renderArm(model, poseStack, multiBufferSource, handSide, light, stack.hasFoil());
+
+
     }
 
     protected void renderArm(Blazing_Grips_Model model, PoseStack matrixStack, MultiBufferSource buffer, HumanoidArm handSide, int light, boolean hasFoil) {
         RenderType renderType = model.renderType(getCuriosTexture());
         VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         model.renderArm(handSide, matrixStack, vertexBuilder, light, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        VertexConsumer builder = ItemRenderer.getFoilBuffer(buffer, CMRenderTypes.CMEyes(TEXTURE_LAYER), false, hasFoil);
+        model.renderArm(handSide, matrixStack, builder, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
     }
 
     public final void renderFirstPersonArm(PoseStack matrixStack, MultiBufferSource buffer, int light, AbstractClientPlayer player, HumanoidArm side, boolean hasFoil) {
@@ -121,5 +128,7 @@ public class Blazing_Grips_Renderer implements ICurioRenderer {
         RenderType renderType = model.renderType(getCuriosTexture());
         VertexConsumer builder = ItemRenderer.getFoilBuffer(buffer, renderType, false, hasFoil);
         arm.render(matrixStack, builder, light, OverlayTexture.NO_OVERLAY);
+        VertexConsumer builder2 = ItemRenderer.getFoilBuffer(buffer, CMRenderTypes.CMEyes(TEXTURE_LAYER), false, hasFoil);
+        arm.render(matrixStack, builder2, LightTexture.pack(15, 15), OverlayTexture.NO_OVERLAY);
     }
 }

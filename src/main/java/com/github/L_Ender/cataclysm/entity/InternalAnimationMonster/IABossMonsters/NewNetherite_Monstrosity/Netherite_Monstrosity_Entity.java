@@ -228,7 +228,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             }
         });
         //check
-        this.goalSelector.addGoal(3, new ShoulderCheck(this, 0, 8, 0, 68, 16, 16, 16, 47, 12));
+        this.goalSelector.addGoal(3, new ShoulderCheck(this, 0, 8, 0, 70, 19, 16, 19, 49, 12));
 
 
         //overpower
@@ -681,17 +681,17 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         }
 
         if (this.getAttackState() == 8) {
-            if (this.attackTicks == 20
-                    || this.attackTicks == 25
-                    || this.attackTicks == 30
-                    || this.attackTicks == 35
-                    || this.attackTicks == 40
-                    || this.attackTicks == 45) {
+            if (this.attackTicks == 22
+                    || this.attackTicks == 27
+                    || this.attackTicks == 32
+                    || this.attackTicks == 37
+                    || this.attackTicks == 42
+                    || this.attackTicks == 47) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.15f, 0, 6);
                 playSound(ModSounds.MONSTROSITYSTEP.get(), 1F, 1.0f);
             }
 
-            if (this.attackTicks > 16 && this.attackTicks < 47) {
+            if (this.attackTicks > 19 && this.attackTicks < 49) {
                 if (!this.level().isClientSide) {
                     if(CMConfig.MonstrosityBlockBreaking) {
                         ChargeBlockBreaking();

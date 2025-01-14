@@ -206,7 +206,8 @@
   "item.cataclysm.aptrgangr_spawn_egg": "Aptrgangr Spawn Egg",
   "item.cataclysm.elite_draugr_spawn_egg": "Elite Draugr Spawn Egg",
 
-  "itemGroup.cataclysm": "Cataclysm",
+  "itemGroup.cataclysm.item": "Cataclysm Items",
+  "itemGroup.cataclysm.block": "Cataclysm Blocks",
   "block.cataclysm.witherite_block": "Block of Witherite",
   "block.cataclysm.enderite_block": "Block of Enderite",
   "block.cataclysm.ignitium_block": "Block of Ignitium",
@@ -257,6 +258,29 @@
   "block.cataclysm.mechanical_fusion_anvil":"Mechanical Fusion Anvil",
   "block.cataclysm.abyssal_egg": "Abyssal Egg",
   "block.cataclysm.blackstone_pillar": "Blackstone Pillar",
+
+  "block.cataclysm.azure_seastone": "Azure Seastone",
+  "block.cataclysm.azure_seastone_slab": "Azure Seastone Slab",
+  "block.cataclysm.azure_seastone_stairs": "Azure Seastone Stairs",
+  "block.cataclysm.azure_seastone_wall": "Azure Seastone Wall",
+
+  "block.cataclysm.azure_seastone_tiles": "Azure Seastone Tiles",
+  "block.cataclysm.chiseled_azure_seastone": "Chiseled Azure Seastone",
+  "block.cataclysm.azure_seastone_bricks": "Azure Seastone Bricks",
+  "block.cataclysm.azure_seastone_brick_slab": "Azure Seastone Brick Slab",
+  "block.cataclysm.azure_seastone_brick_stairs": "Azure Seastone Brick Stairs",
+  "block.cataclysm.azure_seastone_brick_wall": "Azure Seastone Brick Wall",
+
+  "block.cataclysm.polished_azure_seastone": "Polished Azure Seastone",
+  "block.cataclysm.polished_azure_seastone_slab": "Polished Azure Seastone Slab",
+  "block.cataclysm.polished_azure_seastone_stairs": "Polished Azure Seastone Stairs",
+  "block.cataclysm.polished_azure_seastone_wall": "Polished Azure Seastone Wall",
+
+  "block.cataclysm.azure_seastone_pillar": "Azure Seastone Pillar",
+  "block.cataclysm.azure_seastone_pillar_wall": "Azure Seastone Pillar Wall",
+  "block.cataclysm.chiseled_azure_seastone_pillar": "Chiseled Azure Seastone Pillar",
+  "block.cataclysm.chiseled_azure_seastone_pillar_wall": "Chiseled Azure Seastone Pillar Wall",
+
   "block.cataclysm.kobolediator_skull": "Kobolediator Skull",
   "block.cataclysm.draugr_head": "Draugr Head",
   "block.cataclysm.aptrgangr_head": "Aptrgangr Head",

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "cataclysm:block/chiseled_azure_seastone",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "cataclysm:block/chiseled_azure_seastone"
+    },
+    "facing=south": {
+      "model": "cataclysm:block/chiseled_azure_seastone",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cataclysm:block/chiseled_azure_seastone",
+      "y": 270
+    }
+  }
+}
