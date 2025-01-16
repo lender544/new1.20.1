@@ -192,7 +192,9 @@ public class ModGroup {
                 entries.accept(ModItems.CHORUS_SLAB.get());
                 entries.accept(ModItems.CHORUS_STAIRS.get());
                 entries.accept(ModItems.CHORUS_FENCE.get());
+                entries.accept(ModItems.PRISMARINE_BRICK_FENCE.get());
                 entries.accept(ModItems.QUARTZ_BRICK_WALL.get());
+                entries.accept(ModItems.PRISMARINE_BRICK_WALL.get());
                 entries.accept(ModItems.STONE_PILLAR.get());
                 entries.accept(ModItems.CHISELED_STONE_BRICK_PILLAR.get());
                 entries.accept(ModItems.STONE_TILES.get());
@@ -204,6 +206,7 @@ public class ModGroup {
                 entries.accept(ModItems.AZURE_SEASTONE_SLAB.get());
                 entries.accept(ModItems.AZURE_SEASTONE_STAIRS.get());
                 entries.accept(ModItems.AZURE_SEASTONE_WALL.get());
+                entries.accept(ModItems.AZURE_SEASTONE_FENCE.get());
                 entries.accept(ModItems.AZURE_SEASTONE_TILES.get());
                 entries.accept(ModItems.CHISELED_AZURE_SEASTONE.get());
                 entries.accept(ModItems.AZURE_SEASTONE_BRICKS.get());

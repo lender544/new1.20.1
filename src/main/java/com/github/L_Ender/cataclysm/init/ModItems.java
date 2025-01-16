@@ -135,8 +135,14 @@ public class ModItems {
     public static final RegistryObject<BlockItem> CHORUS_FENCE = ITEMS.register("chorus_fence",
             () -> new BlockItem(ModBlocks.CHORUS_FENCE.get(), new Item.Properties()));
 
+    public static final RegistryObject<BlockItem> PRISMARINE_BRICK_FENCE = ITEMS.register("prismarine_brick_fence",
+            () -> new BlockItem(ModBlocks.PRISMARINE_BRICK_FENCE.get(), new Item.Properties()));
+
     public static final RegistryObject<BlockItem> QUARTZ_BRICK_WALL = ITEMS.register("quartz_brick_wall",
             () -> new BlockItem(ModBlocks.QUARTZ_BRICK_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> PRISMARINE_BRICK_WALL = ITEMS.register("prismarine_brick_wall",
+            () -> new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockItem> STONE_PILLAR = ITEMS.register("stone_pillar",
             () -> new BlockItem(ModBlocks.STONE_PILLAR.get(), new Item.Properties()));
@@ -170,6 +176,9 @@ public class ModItems {
 
     public static final RegistryObject<BlockItem> AZURE_SEASTONE_WALL = ITEMS.register("azure_seastone_wall",
             () -> new BlockItem(ModBlocks.AZURE_SEASTONE_WALL.get(), new Item.Properties()));
+
+    public static final RegistryObject<BlockItem> AZURE_SEASTONE_FENCE = ITEMS.register("azure_seastone_fence",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_FENCE.get(), new Item.Properties()));
 
     public static final RegistryObject<BlockItem> AZURE_SEASTONE_TILES = ITEMS.register("azure_seastone_tiles",
             () -> new BlockItem(ModBlocks.AZURE_SEASTONE_TILES.get(), new Item.Properties()));

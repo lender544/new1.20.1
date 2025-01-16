@@ -230,8 +230,14 @@ public class ModBlocks {
     public static final RegistryObject<Block> CHORUS_FENCE = BLOCKS.register("chorus_fence",
             () -> new FenceBlock(BlockBehaviour.Properties.copy(CHORUS_PLANKS.get())));
 
+    public static final RegistryObject<Block> PRISMARINE_BRICK_FENCE = BLOCKS.register("prismarine_brick_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.PRISMARINE_BRICKS)));
+
     public static final RegistryObject<Block> QUARTZ_BRICK_WALL = BLOCKS.register("quartz_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.QUARTZ_BRICKS)));
+
+    public static final RegistryObject<Block> PRISMARINE_BRICK_WALL = BLOCKS.register("prismarine_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.PRISMARINE_BRICKS)));
 
     public static final RegistryObject<Block> STONE_PILLAR = BLOCKS.register("stone_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -305,6 +311,9 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> AZURE_SEASTONE_WALL = BLOCKS.register("azure_seastone_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
+
+    public static final RegistryObject<Block> AZURE_SEASTONE_FENCE = BLOCKS.register("azure_seastone_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
 
     public static final RegistryObject<Block> AZURE_SEASTONE_TILES = BLOCKS.register("azure_seastone_tiles",
             () -> new FacingBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));

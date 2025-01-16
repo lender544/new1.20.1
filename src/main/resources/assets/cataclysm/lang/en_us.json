@@ -296,6 +296,9 @@
   "block.cataclysm.door_of_seal_part": "Door of Seal Part",
   "block.cataclysm.cursed_tombstone": "Cursed Tombstone",
   "block.cataclysm.cursed_tombstone.message": "Its power is still weak....",
+  "block.cataclysm.azure_seastone_fence": "Azure Seastone Fence",
+  "block.cataclysm.prismarine_brick_fence": "Prismarine Brick Fence",
+  "block.cataclysm.prismarine_brick_wall": "Prismarine Brick Wall",
 
   "entity.cataclysm.ender_golem": "Ender Golem",
   "entity.cataclysm.ender_guardian": "Ender Guardian",

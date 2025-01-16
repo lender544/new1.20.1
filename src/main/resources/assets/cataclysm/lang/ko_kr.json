@@ -293,7 +293,9 @@
   "block.cataclysm.door_of_seal_part": "봉인의 문",
   "block.cataclysm.cursed_tombstone": "저주받은 묘비",
   "block.cataclysm.cursed_tombstone.message": "그것의 힘은 아직 미약하다....",
-
+  "block.cataclysm.azure_seastone_fence": "청해석 울타리",
+  "block.cataclysm.prismarine_brick_fence": "프리즈마린 울타리",
+  "block.cataclysm.prismarine_brick_wall": "프리즈마린 담장",
   
   "entity.cataclysm.ender_golem": "엔더 골렘",
   "entity.cataclysm.ender_guardian": "엔더 수호자",

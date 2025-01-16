@@ -67,6 +67,9 @@
     "cataclysm:azure_seastone_brick_slab",
     "cataclysm:azure_seastone_brick_stairs",
     "cataclysm:azure_seastone_bricks",
-    "cataclysm:azure_seastone_brick_wall"
+    "cataclysm:azure_seastone_brick_wall",
+    "cataclysm:azure_seastone_fence",
+    "cataclysm:prismarine_brick_fence",
+    "cataclysm:prismarine_brick_wall"
   ]
 }

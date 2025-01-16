@@ -57,8 +57,6 @@ public class Monstrous_Helm extends ArmorItem {
     public void onArmorTick(ItemStack stack, Level world, Player player) {
         boolean berserk = player.getMaxHealth() * 1 / 2 >= player.getHealth();
         double radius = 4.0D;
-        double xx = Mth.cos(player.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
-        double zz = Mth.sin(player.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
         List<Entity> list = world.getEntities(player, player.getBoundingBox().inflate(radius));
         if(berserk && !(player.getCooldowns().isOnCooldown(this))) {
            // player.playSound(SoundEvents.ENTITY_RAVAGER_ROAR, 0.75F, 0.5F);

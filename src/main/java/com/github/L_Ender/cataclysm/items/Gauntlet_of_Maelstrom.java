@@ -81,7 +81,7 @@ public class Gauntlet_of_Maelstrom extends Item implements More_Tool_Attribute {
             if (result.getType() == HitResult.Type.BLOCK) {
                 if (!level.isClientSide) {
                     BlockPos startPos = ((BlockHitResult) result).getBlockPos();
-                    if (this.spawnVortex(startPos.getX() + 0.5, startPos.getY(), startPos.getZ() + 0.5, standingOnY, yawRadians, level, player)) {
+                    if (this.spawnVortex(startPos.getX() + 0.5, startPos.getY(), startPos.getZ() + 0.5, standingOnY, yawRadians, level, entityLiving)) {
                         hasSucceeded = true;
                     }
 
@@ -92,10 +92,11 @@ public class Gauntlet_of_Maelstrom extends Item implements More_Tool_Attribute {
                 }
             }
         }
+
     }
 
 
-    private boolean spawnVortex(double x, double y, double z, int lowestYCheck, float rotation, Level world, Player player) {
+    private boolean spawnVortex(double x, double y, double z, int lowestYCheck, float rotation, Level world, LivingEntity player) {
         BlockPos blockpos = BlockPos.containing(x, y, z);
         boolean flag = false;
         double d0 = 0.0D;

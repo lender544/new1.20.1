@@ -348,6 +348,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     }
 
+    public void onAboveBubbleCol(boolean p_20313_) {
+
+    }
+
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
@@ -1520,7 +1524,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             }
             if (this.entity.getAnimationTick() > 25 && this.entity.getAnimationTick() <= 145) {
                 if (target != null && target.isAlive()) {
-                    if (this.entity.distanceTo(target) < 8) {
+                    if (this.entity.distanceTo(target) < 8.5F) {
                         if (weapon instanceof The_Leviathan_Tongue_Entity magneticWeapon) {
                             if(magneticWeapon.getComingBack()) {
                                 magneticWeapon.remove(RemovalReason.DISCARDED);
