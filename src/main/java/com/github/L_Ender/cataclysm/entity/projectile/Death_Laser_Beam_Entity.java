@@ -165,7 +165,7 @@ public class Death_Laser_Beam_Entity extends Entity {
                                 this.level().setBlockAndUpdate(blockpos1, BaseFireBlock.getState(this.level(), blockpos1));
                             }
                         }else{
-                            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                                 if (this.level().isEmptyBlock(blockpos1)) {
                                     this.level().setBlockAndUpdate(blockpos1, BaseFireBlock.getState(this.level(), blockpos1));
                                 }

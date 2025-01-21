@@ -147,7 +147,7 @@ public class Dimensional_Rift_Entity extends Entity {
         int MthY = Mth.floor(this.getY());
         int MthZ = Mth.floor(this.getZ());
         if (!this.level().isClientSide) {
-            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                 for (int k2 = -x; k2 <= x; ++k2) {
                     for (int l2 = -z; l2 <= z; ++l2) {
                         for (int j = -y; j <= y; ++j) {

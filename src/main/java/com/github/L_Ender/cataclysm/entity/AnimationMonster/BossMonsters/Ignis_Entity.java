@@ -1803,7 +1803,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 if (CMConfig.IgnisBlockBreaking) {
                     this.level().destroyBlock(pos, false, this);
                 } else {
-                    if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                         this.level().destroyBlock(pos, false, this);
                     }
                 }
@@ -1873,7 +1873,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (CMConfig.IgnisBlockBreaking) {
                 this.level().destroyBlock(pos, false, this);
             } else {
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     this.level().destroyBlock(pos, false, this);
                 }
             }

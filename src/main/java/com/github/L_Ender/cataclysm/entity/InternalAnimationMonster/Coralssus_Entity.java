@@ -483,7 +483,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     private void BlockBreaking() {
         boolean flag = false;
         if (!this.level().isClientSide) {
-            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
             AABB aabb = this.getBoundingBox().inflate(1.5D, 1.5D, 1.5D);
             for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(this.getY()), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
                 BlockState blockstate = this.level().getBlockState(blockpos);

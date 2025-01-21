@@ -704,7 +704,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                     if(CMConfig.MonstrosityBlockBreaking) {
                         ChargeBlockBreaking();
                     }else{
-                        if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                             ChargeBlockBreaking();
                         }
                     }

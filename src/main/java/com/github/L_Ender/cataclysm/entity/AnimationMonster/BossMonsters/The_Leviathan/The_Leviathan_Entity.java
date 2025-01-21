@@ -493,7 +493,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                         if(CMConfig.LeviathanBlockBreaking){
                             blockbreak(0.5D,0.5D,0.5D);
                         }else{
-                            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                                 blockbreak(0.5D,0.5D,0.5D);
                             }
                         }
@@ -503,7 +503,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     if (CMConfig.LeviathanBlockBreaking) {
                         blockbreak2();
                     } else {
-                        if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                             blockbreak2();
                         }
                     }
@@ -634,7 +634,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     if(CMConfig.LeviathanBlockBreaking) {
                         chargeblockbreaking();
                     }else{
-                        if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                             chargeblockbreaking();
                         }
                     }

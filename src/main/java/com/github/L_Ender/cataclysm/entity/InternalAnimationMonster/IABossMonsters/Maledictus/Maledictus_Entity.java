@@ -1372,7 +1372,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 if (CMConfig.MaledictusBlockBreaking) {
                     blockdestroy();
                 } else {
-                    if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                         blockdestroy();
                     }
                 }
@@ -1385,7 +1385,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             if (CMConfig.MaledictusBlockBreaking) {
                 blockdestroy2(0.35D,2.0D);
             } else {
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     blockdestroy2(0.35D,2.0D);
                 }
             }

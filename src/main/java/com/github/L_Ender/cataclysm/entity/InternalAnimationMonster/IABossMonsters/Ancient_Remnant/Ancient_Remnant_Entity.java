@@ -564,7 +564,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if(CMConfig.AncientRemnantBlockBreaking) {
                 ChargeBlockBreaking(0.5D);
             }else{
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     ChargeBlockBreaking(0.5D);
                 }
             }
@@ -596,7 +596,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if(CMConfig.AncientRemnantBlockBreaking) {
                 ChargeBlockBreaking(1.5D);
             }else{
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     ChargeBlockBreaking(1.5D);
                 }
             }

@@ -207,7 +207,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                         if (Breaking) {
                             BlockBreaking(4, 4, 4);
                         } else {
-                            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                                 BlockBreaking(4, 4, 4);
                             }
                         }
@@ -231,7 +231,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                         if (Breaking) {
                             BlockBreaking(4, 4, 4);
                         } else {
-                            if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                            if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                                 BlockBreaking(4, 4, 4);
                             }
                         }

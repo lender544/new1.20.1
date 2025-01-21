@@ -500,7 +500,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                     if (Breaking) {
                         BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
                     } else {
-                        if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                             BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
                         }
                     }

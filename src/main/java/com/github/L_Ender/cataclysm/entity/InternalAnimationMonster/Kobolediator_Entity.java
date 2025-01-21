@@ -395,7 +395,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 if(CMConfig.KobolediatorBlockBreaking) {
                     ChargeBlockBreaking();
                 }else{
-                    if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                         ChargeBlockBreaking();
                     }
                 }

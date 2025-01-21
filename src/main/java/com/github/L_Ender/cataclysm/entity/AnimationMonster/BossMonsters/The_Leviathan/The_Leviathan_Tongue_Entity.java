@@ -67,7 +67,7 @@ public class The_Leviathan_Tongue_Entity extends Entity {
             if(CMConfig.LeviathanBlockBreaking){
                 blockbreak(0.25d,0.25d,0.25d);
             }else{
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     blockbreak(0.25d,0.25d,0.25d);
                 }
             }

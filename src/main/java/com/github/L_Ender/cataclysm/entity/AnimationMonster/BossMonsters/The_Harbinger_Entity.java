@@ -436,7 +436,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     private void blockbreak() {
         if (getIsCharge()) {
             if (!this.level().isClientSide) {
-                if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                     boolean flag = false;
                     AABB aabb = this.getBoundingBox().inflate(1.5D, 0.2D, 1.5D);
                     for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(aabb.minY), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {

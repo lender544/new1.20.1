@@ -49,6 +49,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Ravager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
@@ -375,10 +376,11 @@ public class Ancient_Ancient_Remnant_Entity extends LLibrary_Boss_Monster {
                 if(CMConfig.AncientRemnantBlockBreaking) {
                     ChargeBlockBreaking();
                 }else{
-                    if (!net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
                         ChargeBlockBreaking();
                     }
                 }
+
             }
             if (this.tickCount % 4 == 0) {
                 for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.5D))) {
