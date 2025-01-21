@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:ignitium_chestplate",
+    "cataclysm:ignitium_elytra_chestplate",
+    "cataclysm:cursium_chestplate",
+    "cataclysm:bloom_stone_pauldrons",
+    "cataclysm:bone_reptile_chestplate"
+  ]
+}

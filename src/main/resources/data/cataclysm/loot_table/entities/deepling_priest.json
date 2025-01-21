@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "deepling_priest",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:athame",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

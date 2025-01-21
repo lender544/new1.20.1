@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "minecraft:end_stone"
+        },
+        {
+            "item": "minecraft:end_stone_bricks"
+        }
+    ],
+    "result": "cataclysm:end_stone_pillar",
+    "count": 1
+}

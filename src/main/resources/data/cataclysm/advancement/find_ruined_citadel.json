@@ -1,0 +1,41 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "citadel": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structure": "cataclysm:ruined_citadel"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.find_ruined_citadel.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "cataclysm:chiseled_end_stone_bricks"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.find_ruined_citadel.title"
+    }
+  },
+  "requirements": [
+    [
+      "citadel"
+    ]
+  ]
+}

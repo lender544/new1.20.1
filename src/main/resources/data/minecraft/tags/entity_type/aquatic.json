@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:the_leviathan",
+    "cataclysm:the_baby_leviathan",
+    "cataclysm:deepling",
+    "cataclysm:deepling_priest",
+    "cataclysm:deepling_angler",
+    "cataclysm:deepling_brute",
+    "cataclysm:deepling_warlock",
+    "cataclysm:coralssus"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:the_incinerator",
+    "cataclysm:athame",
+    "cataclysm:tidal_claws",
+    "cataclysm:infernal_forge",
+    "cataclysm:void_forge",
+    "cataclysm:meat_shredder",
+    "cataclysm:gauntlet_of_guard",
+    "cataclysm:gauntlet_of_bulwark",
+    "cataclysm:gauntlet_of_maelstrom",
+    "cataclysm:soul_render",
+    "cataclysm:the_annihilator",
+    "cataclysm:the_immolator",
+    "cataclysm:ancient_spear"
+  ]
+}

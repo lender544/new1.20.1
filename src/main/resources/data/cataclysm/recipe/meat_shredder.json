@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " #I",
+        " n#",
+        "n  "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:redstone"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        },
+        "n": {
+            "item": "cataclysm:witherite_ingot"
+        }
+    },
+    "result": {
+        "id": "cataclysm:meat_shredder",
+        "count": 1
+    }
+}

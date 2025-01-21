@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:frosted_prison/mob/aptrgangr",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:aptrgangr",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

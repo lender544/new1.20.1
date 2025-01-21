@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:jigsaw",
+  "biomes": "#cataclysm:has_structure/ancient_factory_biomes",
+  "start_pool": "cataclysm:ancient_factory/start_pool",
+  "liquid_settings": "ignore_waterlogging",
+  "size": 6,
+  "max_distance_from_center": 72,
+  "step": "underground_decoration",
+  "terrain_adaptation": "beard_thin",
+  "start_height": {
+    "absolute": -30
+  },
+  "use_expansion_hack": false,
+  "spawn_overrides": {
+  }
+}

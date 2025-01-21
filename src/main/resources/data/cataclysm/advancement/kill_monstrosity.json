@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "cataclysm:infernal_forge"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_monstrosity.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_monstrosity.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:find_soul_black_smith",
+  "criteria": {
+    "netheritemonstrosity": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:netherite_monstrosity"
+        }
+      }
+    }
+  }
+}

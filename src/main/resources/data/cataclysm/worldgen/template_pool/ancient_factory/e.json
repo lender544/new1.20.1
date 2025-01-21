@@ -1,0 +1,18 @@
+{
+  "name": "cataclysm:ancient_factory/e",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:ancient_factory_e",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "id": "cataclysm:gauntlet_of_guard"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_ender_guardian.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_ender_guardian.description"
+    },
+    "hidden": true,
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:kill_ender_golem",
+  "criteria": {
+    "enderguardian": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:ender_guardian"
+        }
+      }
+    }
+  }
+}

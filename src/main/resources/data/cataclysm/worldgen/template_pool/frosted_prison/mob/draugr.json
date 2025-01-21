@@ -1,0 +1,28 @@
+{
+  "name": "cataclysm:frosted_prison/mob/draugr",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 2,
+      "element": {
+        "location": "cataclysm:draugr_axe",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    },
+    {
+      "weight": 3,
+      "element": {
+        "location": "cataclysm:draugr_sword",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

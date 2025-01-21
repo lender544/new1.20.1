@@ -1,0 +1,12 @@
+{
+    "type": "cataclysm:weapon_fusion",
+    "base": {
+        "item": "cataclysm:cursed_bow"
+    },
+    "addition": {
+        "item": "cataclysm:sandstorm_in_a_bottle"
+    },
+    "result": {
+        "id": "cataclysm:wrath_of_the_desert"
+    }
+}

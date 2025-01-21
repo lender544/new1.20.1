@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:ancient_factory/mob/the_prowler",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:the_prowler",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

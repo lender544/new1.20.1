@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:end_stone_brick_stairs",
+    "minecraft:end_stone_bricks",
+    "minecraft:end_stone_brick_wall",
+    "minecraft:crying_obsidian",
+    "minecraft:obsidian",
+    "minecraft:purpur_block",
+    "minecraft:purpur_stairs",
+    "cataclysm:void_stone",
+    "cataclysm:chiseled_obsidian_bricks",
+    "cataclysm:chiseled_end_stone_bricks",
+    "cataclysm:chiseled_purpur_block",
+    "cataclysm:obsidian_brick_slab",
+    "cataclysm:obsidian_bricks",
+    "cataclysm:obsidian_brick_stairs",
+    "cataclysm:obsidian_explosion_trap_bricks",
+    "cataclysm:void_lantern_block",
+    "cataclysm:void_infused_end_stone_bricks",
+    "cataclysm:polished_end_stone",
+    "cataclysm:polished_end_stone_stairs"
+  ]
+}

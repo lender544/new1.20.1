@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:obsidian_bricks"
+        }
+    },
+    "result": {
+        "id": "cataclysm:obsidian_brick_slab",
+        "count": 6
+    }
+}

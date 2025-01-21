@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:ancient_factory/mob/the_watcher",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:the_watcher",
+              "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

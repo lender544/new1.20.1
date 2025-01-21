@@ -1,0 +1,12 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "cataclysm:chorus_stem"
+        }
+    ],
+    "result": {
+        "id": "cataclysm:chorus_planks",
+        "count": 2
+    }
+}

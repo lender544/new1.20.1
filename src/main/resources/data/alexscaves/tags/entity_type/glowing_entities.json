@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "__comment": "all non-player mobs that glow, used by hullbreaker.",
+  "values": [
+    "cataclysm:ignis",
+    "cataclysm:netherite_monstrosity",
+    "cataclysm:the_leviathan",
+    "cataclysm:maledictus"
+  ]
+}

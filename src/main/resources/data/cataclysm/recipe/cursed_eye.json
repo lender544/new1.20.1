@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "gBg",
+        "PEP",
+        "gRg"
+    ],
+    "key": {
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "B": {
+            "item": "minecraft:bone"
+        },
+        "P": {
+            "item": "minecraft:phantom_membrane"
+        },
+        "E": {
+            "item": "minecraft:ender_eye"
+        },
+        "R": {
+            "item": "minecraft:rotten_flesh"
+        }
+    },
+    "result": {
+        "id": "cataclysm:cursed_eye",
+        "count": 1
+    }
+}

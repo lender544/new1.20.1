@@ -1,0 +1,52 @@
+{
+  "pools": [
+    {
+      "name": "bottle",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:sandstorm_in_a_bottle"
+        }
+      ]
+    },
+    {
+      "name": "skull",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:remnant_skull"
+        }
+      ]
+    },
+    {
+      "name": "metal",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:ancient_metal_block"
+        }
+      ]
+    },
+    {
+      "name": "disc",
+      "conditions": [
+        {
+          "condition": "random_chance_with_looting",
+          "chance": 0.1,
+          "looting_multiplier": 0.1
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:music_disc_ancient_remnant",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

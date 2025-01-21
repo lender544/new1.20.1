@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "cataclysm:burning_arena",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "cataclysm:cataclysm_random_spread",
+    "salt": 9123456789,
+    "spacing": 80,
+    "separation": 50,
+    "super_exclusion_zone": {
+      "chunk_count": 10,
+      "other_set": "#cataclysm:burning_arena_avoid"
+    }
+  }
+}

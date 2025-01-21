@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:laser",
+    "cataclysm:deathlaser",
+    "cataclysm:emp",
+    "cataclysm:abyssal_burn",
+    "cataclysm:maledictio_magicae",
+    "cataclysm:shredder",
+    "cataclysm:maledictio_sagitta",
+    "cataclysm:maledictio"
+  ]
+}

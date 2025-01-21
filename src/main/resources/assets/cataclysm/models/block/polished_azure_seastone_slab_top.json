@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom":  "cataclysm:block/polished_azure_seastone",
+    "top": "cataclysm:block/polished_azure_seastone",
+    "side": "cataclysm:block/polished_azure_seastone"
+  }
+}
