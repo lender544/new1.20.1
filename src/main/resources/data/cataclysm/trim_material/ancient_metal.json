@@ -1,0 +1,9 @@
+{
+  "asset_name": "ancient_metal",
+  "description": {
+    "color": "#b98a3c",
+    "translate": "trim_material.cataclysm.ancient_metal"
+  },
+  "ingredient": "cataclysm:ancient_metal_ingot",
+  "item_model_index": 0.67447
+}

@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#i ",
+        "iRn",
+        " ni"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:redstone"
+        },
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "R": {
+            "item": "minecraft:redstone_block"
+        },
+        "n": {
+            "item": "cataclysm:witherite_ingot"
+        }
+    },
+    "result": {
+        "id": "cataclysm:laser_gatling",
+        "count": 1
+    }
+}

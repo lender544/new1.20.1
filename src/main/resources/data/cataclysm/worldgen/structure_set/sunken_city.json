@@ -1,0 +1,19 @@
+{
+  "structures": [
+    {
+      "structure": "cataclysm:sunken_city",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "cataclysm:cataclysm_random_spread",
+    "salt": 1673928450,
+    "spacing": 100,
+    "separation": 70,
+    "spread_type": "triangular",
+    "super_exclusion_zone": {
+      "chunk_count": 10,
+      "other_set": "#cataclysm:sunken_city_avoid"
+    }
+  }
+}

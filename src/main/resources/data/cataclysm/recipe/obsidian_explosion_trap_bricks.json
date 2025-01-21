@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "#C#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:obsidian_bricks"
+        },
+        "C": {
+            "item": "cataclysm:void_stone"
+        }
+    },
+    "result": {
+        "id": "cataclysm:obsidian_explosion_trap_bricks",
+        "count": 8
+    }
+}

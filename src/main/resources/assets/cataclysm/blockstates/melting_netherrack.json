@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "cataclysm:block/melting_netherrack_0"
+    },
+    "age=1": {
+      "model": "cataclysm:block/melting_netherrack_1"
+    },
+    "age=2": {
+      "model": "cataclysm:block/melting_netherrack_2"
+    },
+    "age=3": {
+      "model": "cataclysm:block/melting_netherrack_3"
+    }
+  }
+}

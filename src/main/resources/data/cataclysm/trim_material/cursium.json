@@ -1,0 +1,9 @@
+{
+  "asset_name": "cursium",
+  "description": {
+    "color": "#20b595",
+    "translate": "trim_material.cataclysm.cursium"
+  },
+  "ingredient": "cataclysm:cursium_ingot",
+  "item_model_index": 0.86447
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "cataclysm:block/purpur_void_rune_trap_block_off"
+    },
+    "lit=true": {
+      "model": "cataclysm:block/purpur_void_rune_trap_block_on"
+    }
+  }
+}

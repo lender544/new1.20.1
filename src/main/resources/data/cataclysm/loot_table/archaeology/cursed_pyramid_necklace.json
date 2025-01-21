@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:necklace_of_the_desert"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "cataclysm:archaeology/cursed_pyramid_necklace"
+}
