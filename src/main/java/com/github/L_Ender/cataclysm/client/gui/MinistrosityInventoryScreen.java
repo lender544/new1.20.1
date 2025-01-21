@@ -35,12 +35,7 @@ public class MinistrosityInventoryScreen extends AbstractContainerScreen<Ministr
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         p_282553_.blit(HORSE_INVENTORY_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
-
-
         p_282553_.blit(HORSE_INVENTORY_LOCATION, i + 70, j + 17, 0, this.imageHeight, inventoryColumns * 18, 54);
-
-
-
         InventoryScreen.renderEntityInInventoryFollowsMouse(p_282553_, i - 10, j + 18, i + 78, j + 70, 34, 0.0F, this.xMouse, this.yMouse, this.mini);
     }
 
