@@ -146,8 +146,10 @@ public class Animation_Monsters extends Monster implements Enemy {
     @Override
     public void die(DamageSource cause) // TODO copy from entityLiving
     {
+
+
         if (net.neoforged.neoforge.common.CommonHooks.onLivingDeath(this, cause)) return;
-        if (!this.dead) {
+        if (!this.isRemoved() && !this.dead) {
             Entity entity = cause.getEntity();
             LivingEntity livingentity = this.getKillCredit();
             if (this.deathScore >= 0 && livingentity != null) {
@@ -163,20 +165,16 @@ public class Animation_Monsters extends Monster implements Enemy {
             if (this.level() instanceof ServerLevel serverlevel) {
                 if (entity == null || entity.killedEntity(serverlevel, this)) {
                     this.gameEvent(GameEvent.ENTITY_DIE);
+                    this.dropAllDeathLoot(serverlevel, cause);
                     this.createWitherRose(livingentity);
-                    this.AfterDefeatBoss(livingentity);
-                    if (!dropAfterDeathAnim){
-                        this.dropAllDeathLoot(serverlevel,cause);
-                    }
                 }
-            }
-            killDataCause = cause;
-            killDataRecentlyHit = this.lastHurtByPlayerTime;
-            killDataAttackingPlayer = lastHurtByPlayer;
 
-            this.level().broadcastEntityEvent(this, (byte)3);
+                this.level().broadcastEntityEvent(this, (byte)3);
+            }
+
             this.setPose(Pose.DYING);
         }
+
     }
 
     protected void AfterDefeatBoss(@Nullable LivingEntity p_21269_) {

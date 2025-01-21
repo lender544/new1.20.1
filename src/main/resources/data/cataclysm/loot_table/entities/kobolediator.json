@@ -34,7 +34,8 @@
                 "max": 3.0,
                 "min": 1.0
               },
-              "function": "minecraft:looting_enchant"
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
             }
           ],
           "name": "cataclysm:koboleton_bone"
@@ -63,7 +64,8 @@
                 "max": 2.0,
                 "min": 1.0
               },
-              "function": "minecraft:looting_enchant"
+              "enchantment": "minecraft:looting",
+              "function": "minecraft:enchanted_count_increase"
             }
           ],
           "name": "cataclysm:ancient_metal_ingot"

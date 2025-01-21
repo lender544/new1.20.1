@@ -34,9 +34,10 @@
       "name": "disc",
       "conditions": [
         {
-          "condition": "random_chance_with_looting",
-          "chance": 0.1,
-          "looting_multiplier": 0.1
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "unenchanted_chance": 0.1,
+          "enchanted_chance": 0.1,
+          "enchantment": "minecraft:looting"
         }
       ],
       "rolls": 1,

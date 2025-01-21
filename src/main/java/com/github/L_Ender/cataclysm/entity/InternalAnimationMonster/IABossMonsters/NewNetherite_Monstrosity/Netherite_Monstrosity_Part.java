@@ -12,24 +12,24 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.boss.EnderDragonPart;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstrosity_Entity> {
-
+    public final Netherite_Monstrosity_Entity parentMob;
     private final EntityDimensions size;
     public float scale = 1;
 
     public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity parent, float sizeX, float sizeY) {
         super(parent);
         this.size = EntityDimensions.scalable(sizeX, sizeY);
+        this.parentMob = parent;
         this.refreshDimensions();
     }
 
-    public Netherite_Monstrosity_Part(Netherite_Monstrosity_Entity nm, float sizeX, float sizeY, EntityDimensions size) {
-        super(nm);
-        this.size = size;
-    }
+
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
@@ -55,11 +55,7 @@ public class Netherite_Monstrosity_Part extends Cm_Part_Entity<Netherite_Monstro
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        boolean flag = this.getParent() != null && this.getParent().attackEntityFromPart(this, source, amount * 1.8F);
-        if (flag) {
-            this.gameEvent(GameEvent.ENTITY_DAMAGE);
-        }
-        return flag;
+        return this.isInvulnerableTo(source) ? false : this.parentMob.hurtParts(this, source, amount);
     }
 
     @Override

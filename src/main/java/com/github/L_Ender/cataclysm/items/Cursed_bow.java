@@ -199,6 +199,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                 boolean hommingArrows = itemstack.is(Items.ARROW);
                 int arrowcount = itemstack.is(Items.ARROW) ? 3 : 2 ;
                 float offsetangle = itemstack.is(Items.ARROW) ? 12 : 3;
+                boolean flag1 = shooter.hasInfiniteMaterials() || (itemstack.getItem() instanceof ArrowItem && ((ArrowItem)itemstack.getItem()).isInfinite(itemstack, weapon, shooter));
                 for (int j = 0; j < arrowcount; j++) {
 
                     //AbstractArrow abstractarrow = arrowItem.createArrow(level, itemstack, player);
@@ -220,7 +221,11 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                     } else {
                         abstractarrow.setBaseDamage(abstractarrow.getBaseDamage() + 0.5D);
                     }
-
+                    if (j != 1) {
+                        abstractarrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                    } else if (flag1 || shooter.hasInfiniteMaterials()  && (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+                        abstractarrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                    }
                     abstractarrow.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot() + (j - (arrowcount - 1) / 2.0F) * offsetangle, 0.0F, velocity * 3, inaccuracy);
                     if (f == 1.0F) {
                         abstractarrow.setCritArrow(true);
