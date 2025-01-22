@@ -360,14 +360,14 @@ public class ModItems {
             () -> new Void_Assault_SHoulder_Weapon(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final DeferredItem<Item> VOID_FORGE = ITEMS.register("void_forge",
-            () -> new void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));
 
     public static final DeferredItem<Item> TIDAL_CLAWS = ITEMS.register("tidal_claws",
             () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Tidal_Claws.createAttributes())));
 
 
     public static final DeferredItem<Item> INFERNAL_FORGE = ITEMS.register("infernal_forge",
-            () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));
 
     public static final DeferredItem<Item> SANDSTORM_IN_A_BOTTLE = ITEMS.register("sandstorm_in_a_bottle",
             () -> new Sandstorm_In_A_Bottle(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));

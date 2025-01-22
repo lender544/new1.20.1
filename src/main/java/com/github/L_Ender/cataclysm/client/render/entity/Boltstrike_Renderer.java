@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningBoltData;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningRender;
 
-import com.github.L_Ender.cataclysm.entity.effect.Boltstrike_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Bolt_strike_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @OnlyIn(Dist.CLIENT)
-public class Boltstrike_Renderer extends EntityRenderer<Boltstrike_Entity> {
+public class Boltstrike_Renderer extends EntityRenderer<Bolt_strike_Entity> {
     private Map<UUID, LightningRender> lightningRenderMap = new HashMap<>();
     private static final int MAX_HEIGHT = 15;
     private static final double START_MIN_RADIUS = 0.7D;
@@ -36,7 +36,7 @@ public class Boltstrike_Renderer extends EntityRenderer<Boltstrike_Entity> {
     }
 
 
-    public void render(Boltstrike_Entity entity, float p_115267_, float partialTicks, PoseStack poseStack, MultiBufferSource p_115270_, int p_115271_) {
+    public void render(Bolt_strike_Entity entity, float p_115267_, float partialTicks, PoseStack poseStack, MultiBufferSource p_115270_, int p_115271_) {
         double x = Mth.lerp(partialTicks, entity.xOld, entity.getX());
         double y = Mth.lerp(partialTicks, entity.yOld, entity.getY());
         double z = Mth.lerp(partialTicks, entity.zOld, entity.getZ());
@@ -80,7 +80,7 @@ public class Boltstrike_Renderer extends EntityRenderer<Boltstrike_Entity> {
     }
 
 
-    public ResourceLocation getTextureLocation(Boltstrike_Entity p_115264_) {
+    public ResourceLocation getTextureLocation(Bolt_strike_Entity p_115264_) {
         return TextureAtlas.LOCATION_BLOCKS;
 
     }

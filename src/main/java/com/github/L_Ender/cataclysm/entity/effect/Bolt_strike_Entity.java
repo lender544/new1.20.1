@@ -13,7 +13,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,19 +25,19 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class Boltstrike_Entity extends Entity {
+public class Bolt_strike_Entity extends Entity {
     private int warmupDelayTicks;
     private boolean sentSpikeEvent;
     public int lifeTicks;
     private boolean clientSideAttackStarted;
 
 
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Boltstrike_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Boltstrike_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Bolt_strike_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Bolt_strike_Entity.class, EntityDataSerializers.FLOAT);
 
-    private static final EntityDataAccessor<Integer> R = SynchedEntityData.defineId(Boltstrike_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> G = SynchedEntityData.defineId(Boltstrike_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> B = SynchedEntityData.defineId(Boltstrike_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> R = SynchedEntityData.defineId(Bolt_strike_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> G = SynchedEntityData.defineId(Bolt_strike_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> B = SynchedEntityData.defineId(Bolt_strike_Entity.class, EntityDataSerializers.INT);
 
 
     @Nullable
@@ -42,15 +45,12 @@ public class Boltstrike_Entity extends Entity {
     @Nullable
     private UUID ownerUUID;
 
-
-
-    public Boltstrike_Entity(EntityType<? extends Boltstrike_Entity> p_i50170_1_, Level p_i50170_2_) {
-        super(p_i50170_1_, p_i50170_2_);
-        this.noCulling = true;
+    public Bolt_strike_Entity(EntityType<? extends Bolt_strike_Entity> entityType, Level level) {
+        super(entityType, level);
+        this.warmupDelayTicks = 34;
     }
 
-
-    public Boltstrike_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage, LivingEntity casterIn) {
+    public Bolt_strike_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage, LivingEntity casterIn) {
         this(ModEntities.BOLT_STRIKE.get(), worldIn);
         this.warmupDelayTicks = p_i47276_9_;
         this.setCaster(casterIn);
@@ -64,6 +64,7 @@ public class Boltstrike_Entity extends Entity {
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(DAMAGE, 0F);
+        p_326229_.define(HPDAMAGE, 0F);
         p_326229_.define(R, 0);
         p_326229_.define(G, 0);
         p_326229_.define(B, 0);
@@ -127,10 +128,11 @@ public class Boltstrike_Entity extends Entity {
     }
 
     @Override
-    public boolean shouldRenderAtSqrDistance(double p_20869_) {
-        double d0 = 64.0D * getViewScale();
-        return p_20869_ < d0 * d0;
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        double d0 = (double)64.0F * getViewScale();
+        return distance < d0 * d0;
     }
+
 
 
 
@@ -166,7 +168,6 @@ public class Boltstrike_Entity extends Entity {
     }
 
 
-    @Override
     public void tick() {
         super.tick();
 
@@ -254,8 +255,7 @@ public class Boltstrike_Entity extends Entity {
 
     }
 
-    @Override
-    public void addAdditionalSaveData(CompoundTag compound) {
+    protected void addAdditionalSaveData(CompoundTag compound) {
         if (this.ownerUUID != null) {
             compound.putUUID("Owner", this.ownerUUID);
         }
@@ -266,8 +266,7 @@ public class Boltstrike_Entity extends Entity {
        // compound.putFloat("Hpdamage", this.getHpDamage());
     }
 
-    @Override
-    public void readAdditionalSaveData(CompoundTag compound) {
+    protected void readAdditionalSaveData(CompoundTag compound) {
         if (compound.hasUUID("Owner")) {
             this.ownerUUID = compound.getUUID("Owner");
         }

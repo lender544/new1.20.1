@@ -297,12 +297,13 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":flame_strike"));
 
 
-    public static final DeferredHolder<EntityType<?>,EntityType<Boltstrike_Entity>> BOLT_STRIKE = ENTITY_TYPE.register("bolt_strike", () -> EntityType.Builder.<Boltstrike_Entity>of(Boltstrike_Entity::new, MobCategory.MISC)
+
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Bolt_strike_Entity>> BOLT_STRIKE = ENTITY_TYPE.register("bolt_strike", () -> EntityType.Builder.<Bolt_strike_Entity>of(Bolt_strike_Entity::new, MobCategory.MISC)
             .sized(0.0F, 0.0F)
             .clientTrackingRange(16)
             .updateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":bolt_strike"));
-
 
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ashen_Breath_Entity>> ASHEN_BREATH = ENTITY_TYPE.register("ashen_breath", () -> EntityType.Builder.<Ashen_Breath_Entity>of(Ashen_Breath_Entity::new, MobCategory.MISC)

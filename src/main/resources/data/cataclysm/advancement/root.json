@@ -1,21 +1,37 @@
+
+
 {
+  "criteria": {
+    "crafting_table": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:crafting_table"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
   "display": {
-    "icon": {
-      "id": "cataclysm:the_incinerator"
-    },
-    "title": {
-      "translate": "advancements.cataclysm.root.title"
-    },
+    "announce_to_chat": false,
+    "background": "cataclysm:textures/block/obsidian_bricks.png",
     "description": {
       "translate": "advancements.cataclysm.root.description"
     },
-    "background": "cataclysm:textures/block/obsidian_bricks.png",
+    "icon": {
+      "count": 1,
+      "id": "cataclysm:the_incinerator"
+    },
     "show_toast": false,
-    "announce_to_chat": false
-  },
-  "criteria": {
-    "custom_test_name": {
-      "trigger": "minecraft:tick"
+    "title": {
+      "translate": "advancements.cataclysm.root.title"
     }
-  }
+  },
+  "requirements": [
+    [
+      "crafting_table"
+    ]
+  ],
+  "sends_telemetry_event": true
 }

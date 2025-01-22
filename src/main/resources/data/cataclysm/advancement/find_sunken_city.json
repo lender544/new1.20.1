@@ -9,7 +9,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structure": "cataclysm:sunken_city"
+                "structures": "cataclysm:sunken_city"
               }
             }
           }

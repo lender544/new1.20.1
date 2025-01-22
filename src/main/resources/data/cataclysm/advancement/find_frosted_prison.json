@@ -9,7 +9,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structure": "cataclysm:frosted_prison"
+                "structures": "cataclysm:frosted_prison"
               }
             }
           }

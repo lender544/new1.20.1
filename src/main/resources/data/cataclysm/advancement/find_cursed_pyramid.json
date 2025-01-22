@@ -9,7 +9,7 @@
             "entity": "this",
             "predicate": {
               "location": {
-                "structure": "cataclysm:cursed_pyramid"
+                "structures": "cataclysm:cursed_pyramid"
               }
             }
           }
