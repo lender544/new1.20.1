@@ -33,16 +33,4 @@ public class Bone_Reptile_Armor extends ArmorItem {
         return ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/armor/bone_reptile_armor.png");
     }
 
-
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final ArmorRender INSTANCE = new ArmorRender();
-
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(CMModelLayers.BONE_REPTILE_ARMOR_MODEL);
-            return new HumanoidModel(root);
-        }
-    }
-
 }

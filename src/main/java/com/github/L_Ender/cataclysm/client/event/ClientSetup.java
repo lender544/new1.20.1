@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.client.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.gui.GUIWeponfusion;
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
@@ -9,23 +8,15 @@ import com.github.L_Ender.cataclysm.client.render.blockentity.*;
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import com.github.L_Ender.cataclysm.client.render.etc.CurioHeadRenderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSandstorm_In_A_Bottle;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.*;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.Items;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -41,6 +32,7 @@ public class ClientSetup {
 		bus.addListener(ClientSetup::registerParticleFactories);
 		bus.addListener(ClientSetup::registerClientExtensions);
 		bus.addListener(ClientSetup::doClientStuff);
+	//	bus.addListener(ClientSetup::addLayers);
 	}
 
 	private static void registerScreens(RegisterMenuScreensEvent event) {
@@ -203,14 +195,15 @@ public class ClientSetup {
 		
 	}
 
+
 	private static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
-		event.registerItem(Ignitium_Armor.ArmorRender.INSTANCE, ModItems.IGNITIUM_HELMET.get(), ModItems.IGNITIUM_CHESTPLATE.get(), ModItems.IGNITIUM_LEGGINGS.get(), ModItems.IGNITIUM_BOOTS.get());
-		event.registerItem(Cursium_Armor.ArmorRender.INSTANCE, ModItems.CURSIUM_HELMET.get(), ModItems.CURSIUM_CHESTPLATE.get(), ModItems.CURSIUM_LEGGINGS.get(), ModItems.CURSIUM_BOOTS.get());
-		event.registerItem(Bone_Reptile_Armor.ArmorRender.INSTANCE, ModItems.BONE_REPTILE_HELMET.get(), ModItems.BONE_REPTILE_CHESTPLATE.get());
-		event.registerItem(Monstrous_Helm.ArmorRender.INSTANCE, ModItems.MONSTROUS_HELM.get());
-		event.registerItem(Ignitium_Elytra_ChestPlate.ArmorRender.INSTANCE, ModItems.IGNITIUM_ELYTRA_CHESTPLATE.get());
-		event.registerItem(Bloom_Stone_Pauldrons.ArmorRender.INSTANCE, ModItems.BLOOM_STONE_PAULDRONS.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.IGNITIUM_HELMET.get(), ModItems.IGNITIUM_CHESTPLATE.get(), ModItems.IGNITIUM_LEGGINGS.get(), ModItems.IGNITIUM_BOOTS.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.CURSIUM_HELMET.get(), ModItems.CURSIUM_CHESTPLATE.get(), ModItems.CURSIUM_LEGGINGS.get(), ModItems.CURSIUM_BOOTS.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.BONE_REPTILE_HELMET.get(), ModItems.BONE_REPTILE_CHESTPLATE.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.MONSTROUS_HELM.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.IGNITIUM_ELYTRA_CHESTPLATE.get());
+		event.registerItem(CustomArmorRenderProperties.INSTANCE.get(), ModItems.BLOOM_STONE_PAULDRONS.get());
 
 		event.registerItem(CMItemstackRenderer.CLIENT_ITEM_EXTENSION,
 				ModItems.BULWARK_OF_THE_FLAME.get(), ModItems.BLACK_STEEL_TARGE.get(), ModItems.GAUNTLET_OF_GUARD.get(), ModItems.GAUNTLET_OF_BULWARK.get(), ModItems.GAUNTLET_OF_MAELSTROM.get(),

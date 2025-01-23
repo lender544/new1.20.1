@@ -84,15 +84,11 @@ public class Monstrous_Helm extends ArmorItem {
         return ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/armor/monstrous_helm.png");
     }
 
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final Monstrous_Helm.ArmorRender INSTANCE = new Monstrous_Helm.ArmorRender();
 
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(CMModelLayers.MONSTROUS_HELM);
-            return new HumanoidModel(root);
-        }
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
+        tooltips.add(Component.translatable("item.cataclysm.monstrous_helm.desc").withStyle(ChatFormatting.DARK_GREEN));
+        tooltips.add(Component.translatable("item.cataclysm.monstrous_helm2.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 
 }

@@ -72,15 +72,4 @@ public class Ignitium_Elytra_ChestPlate extends ArmorItem {
     }
 
 
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final Ignitium_Elytra_ChestPlate.ArmorRender INSTANCE = new Ignitium_Elytra_ChestPlate.ArmorRender();
-
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(CMModelLayers.ELYTRA_ARMOR);
-            return new HumanoidModel(root);
-        }
-    }
-
 }

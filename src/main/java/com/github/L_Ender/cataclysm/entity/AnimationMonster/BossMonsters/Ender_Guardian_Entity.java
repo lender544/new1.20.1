@@ -949,7 +949,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         if (!this.level().isClientSide) {
             double xx = Mth.cos(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
             double zz = Mth.sin(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
-            this.level().explode(this, this.getX() + xx, this.getY() + (double) this.getEyeHeight(), getZ() + zz, 2.0F, Level.ExplosionInteraction.NONE);
+            this.level().explode(this, this.getX() + xx, this.getY() + (double) this.getEyeHeight(), getZ() + zz, 2.0F, Level.ExplosionInteraction.MOB);
         }
     }
 

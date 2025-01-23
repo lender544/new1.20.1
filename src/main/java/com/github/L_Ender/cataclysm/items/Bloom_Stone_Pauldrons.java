@@ -100,16 +100,4 @@ public class Bloom_Stone_Pauldrons extends ArmorItem implements KeybindUsingArmo
         return ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/armor/bloom_stone_pauldrons.png");
     }
 
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final Bloom_Stone_Pauldrons.ArmorRender INSTANCE = new Bloom_Stone_Pauldrons.ArmorRender();
-
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = models.bakeLayer(CMModelLayers.BLOOM_STONE_PAULDRONS_MODEL);
-            return new HumanoidModel(root);
-        }
-    }
-
-
 }

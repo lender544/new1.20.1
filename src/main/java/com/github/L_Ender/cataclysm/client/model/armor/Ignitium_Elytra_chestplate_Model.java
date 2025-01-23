@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.model.armor;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -8,11 +9,11 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-public class ignitium_Elytra_chestplate_Model<T extends LivingEntity> extends HumanoidModel<T> {
+public class Ignitium_Elytra_chestplate_Model<T extends LivingEntity> extends HumanoidModel<T> {
     private final ModelPart rightWing;
     private final ModelPart leftWing;
 
-    public ignitium_Elytra_chestplate_Model(ModelPart part) {
+    public Ignitium_Elytra_chestplate_Model(ModelPart part) {
         super(part);
         this.leftWing = part.getChild("body").getChild("left_wing");
         this.rightWing = part.getChild("body").getChild("right_wing");
@@ -88,8 +89,15 @@ public class ignitium_Elytra_chestplate_Model<T extends LivingEntity> extends Hu
     }
 
 
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    public Ignitium_Elytra_chestplate_Model withAnimations(LivingEntity entity){
+        float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+        float limbSwingAmount = entity.walkAnimation.speed(partialTick);
+        float limbSwing = entity.walkAnimation.position() + partialTick;
+        setupAnim(entity, limbSwing, limbSwingAmount, entity.tickCount + partialTick, 0, 0);
+        return  this;
+    }
+
+    public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = 0.2617994F;
         float f1 = -0.2617994F;
         float f2 = 0.0F;

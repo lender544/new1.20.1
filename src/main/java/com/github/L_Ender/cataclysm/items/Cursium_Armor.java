@@ -140,15 +140,5 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
     }
 
 
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final Cursium_Armor.ArmorRender INSTANCE = new Cursium_Armor.ArmorRender();
-
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = slot == EquipmentSlot.LEGS ? models.bakeLayer(CMModelLayers.CURSIUM_ARMOR_MODEL_LEGS) : models.bakeLayer(CMModelLayers.CURSIUM_ARMOR_MODEL);
-            return new HumanoidModel(root);
-        }
-    }
 
 }

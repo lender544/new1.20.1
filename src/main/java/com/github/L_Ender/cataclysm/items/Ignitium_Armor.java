@@ -69,14 +69,4 @@ public class Ignitium_Armor extends ArmorItem {
     }
 
 
-    public static final class ArmorRender implements IClientItemExtensions {
-        public static final Ignitium_Armor.ArmorRender INSTANCE = new Ignitium_Armor.ArmorRender();
-
-        @Override
-        public @NotNull HumanoidModel<?> getHumanoidArmorModel(LivingEntity living, ItemStack stack, EquipmentSlot slot, HumanoidModel<?> model) {
-            EntityModelSet models = Minecraft.getInstance().getEntityModels();
-            ModelPart root = slot == EquipmentSlot.LEGS ? models.bakeLayer(CMModelLayers.IGNITIUM_ARMOR_MODEL_LEGS) : models.bakeLayer(CMModelLayers.IGNITIUM_ARMOR_MODEL);
-            return new HumanoidModel(root);
-        }
-    }
 }

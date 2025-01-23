@@ -4,15 +4,11 @@ package com.github.L_Ender.cataclysm;
 import com.github.L_Ender.cataclysm.client.event.ClientEvent;
 import com.github.L_Ender.cataclysm.client.event.ClientSetup;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.config.BiomeConfig;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.Armortier;
 import com.github.L_Ender.cataclysm.message.*;
-import com.github.L_Ender.cataclysm.world.CMMobSpawnBiomeModifier;
-import com.github.L_Ender.cataclysm.world.CMMobSpawnStructureModifier;
-import com.mojang.serialization.MapCodec;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -23,12 +19,8 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.StructureModifier;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

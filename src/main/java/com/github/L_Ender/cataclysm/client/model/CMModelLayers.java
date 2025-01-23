@@ -53,7 +53,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
         event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL, () -> Ignitium_Armor_Model.createArmorLayer(new CubeDeformation(0.6F)));
         event.registerLayerDefinition(BLOOM_STONE_PAULDRONS_MODEL, () -> Bloom_Stone_Pauldrons_Model.createArmorLayer(new CubeDeformation(0.5F)));
-        event.registerLayerDefinition(ELYTRA_ARMOR, () -> ignitium_Elytra_chestplate_Model.createArmorLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(ELYTRA_ARMOR, () -> Ignitium_Elytra_chestplate_Model.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL_LEGS, () -> Ignitium_Armor_Model.createArmorLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(SANDSTORM_IN_A_BOTTLE_MODEL, () -> Sandstorm_In_A_BottleModel.createLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(BONE_REPTILE_ARMOR_MODEL, () -> Bone_Reptile_Armor_Model.createArmorLayer(new CubeDeformation(1.0F)));
