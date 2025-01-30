@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.layer;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.The_Harbinger_Model;
+import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.entity.The_Harbinger_Renderer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -25,10 +26,12 @@ public class The_Harbinger_Layer extends RenderLayer<The_Harbinger_Entity, The_H
 
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, The_Harbinger_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        float f = 1.0F - entity.deactivateProgress / 40;
+
+        int f = (int) (255 - entity.deactivateProgress * 255 / 40);
         RenderType eyes = RenderType.eyes(HARBINGER_LAYER_TEXTURES);
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-        int i = FastColor.ARGB32.color(255, (int) f, (int) f, (int) f);
+
+        int i = FastColor.ARGB32.color(255, f, f, f);
 
         this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, i);
 

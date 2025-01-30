@@ -470,4 +470,7 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION = SOUNDS.register("explosion",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"explosion")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> PARRY = SOUNDS.register("parry",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"parry")));
 }

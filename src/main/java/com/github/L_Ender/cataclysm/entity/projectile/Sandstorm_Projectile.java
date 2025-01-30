@@ -188,9 +188,6 @@ public class Sandstorm_Projectile extends Projectile {
             float g = 0.85f + random.nextFloat() * ran;
             float b = 0.69f + random.nextFloat() * ran * 1.5F;
             this.level().addParticle((new StormParticleOptions(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            //this.level().addParticle((new StormParticleOptions(r, g, b,2.0f + random.nextFloat() * 0.45f,2.0f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            // this.level().addParticle((new StormParticleOptions(r, g, b,1.75f + random.nextFloat() * 0.45f,1.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-
             if (!this.isSilent()) {
           //      Cataclysm.PROXY.playWorldSound(this, (byte) 2);
             }

@@ -75,9 +75,9 @@ public abstract class AbstractLightTrailParticle extends Particle {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
             VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(CMRenderTypes.CMEyes(getTrailTexture()));
             Vec3 cameraPos = camera.getPosition();
-            double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
-            double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
-            double z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
+            float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
+            float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
+            float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
 
             PoseStack posestack = new PoseStack();
             posestack.pushPose();
@@ -95,12 +95,12 @@ public abstract class AbstractLightTrailParticle extends Particle {
 
                 Vec3 draw1 = drawFrom;
                 Vec3 draw2 = sample;
-
                 PoseStack.Pose posestack$pose = posestack.last();
-                vertexconsumer.addVertex((float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex((float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex((float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex((float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+                Matrix4f matrix4f = posestack$pose.pose();
+                vertexconsumer.addVertex(matrix4f,(float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+                vertexconsumer.addVertex(matrix4f,(float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+                vertexconsumer.addVertex(matrix4f,(float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+                vertexconsumer.addVertex(matrix4f,(float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
                 samples++;
                 drawFrom = sample;
             }

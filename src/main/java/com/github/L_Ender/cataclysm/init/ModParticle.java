@@ -18,6 +18,9 @@ public class ModParticle {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLE = DeferredRegister.create(Registries.PARTICLE_TYPE, Cataclysm.MODID);
 
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SPARK = PARTICLE.register("spark", ()-> new SimpleParticleType(false));
+
+
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SOUL_LAVA = PARTICLE.register("soul_lava", ()-> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SANDSTORM = PARTICLE.register("sandstorm", ()-> new SimpleParticleType(false));
@@ -31,6 +34,17 @@ public class ModParticle {
             return LightningParticleOptions.STREAM_CODEC;
         }
     });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<SparkTrailParticleOptions>> SPARK_TRAIL = PARTICLE.register("spark_trail", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<SparkTrailParticleOptions> codec() {
+            return SparkTrailParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, SparkTrailParticleOptions> streamCodec() {
+            return SparkTrailParticleOptions.STREAM_CODEC;
+        }
+    });
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<StormParticleOptions>> STORM = PARTICLE.register("storm", () -> new ParticleType<>(false) {
         @Override

@@ -138,6 +138,22 @@ public class CMRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static final RenderType LIGHTNING = create(
+            "lightning",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            1536,
+            false,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
+                    .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .setTransparencyState(LIGHTNING_TRANSPARENCY)
+                    .setOutputState(WEATHER_TARGET)
+                    .createCompositeState(false)
+    );
+
+
     public static RenderType getGhost(ResourceLocation texture) {
         CompositeState renderState = CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)

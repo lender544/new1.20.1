@@ -73,12 +73,12 @@ public class CMModelLayers {
         event.registerLayerDefinition(ROYAL_DRAUGR_MODEL, Royal_Draugr_Model::createBodyLayer);
         event.registerLayerDefinition(DRAUGR_MODEL, Draugr_Model::createBodyLayer);
         event.registerLayerDefinition(ELITE_DRAUGR_MODEL, Elite_Draugr_Model::createBodyLayer);
-
         event.registerLayerDefinition(ANCIENT_REMNANT_MODEL, Ancient_Remnant_Rework_Model::createBodyLayer);
         event.registerLayerDefinition(MALEDICTUS_MODEL, Maledictus_Model::createBodyLayer);
         event.registerLayerDefinition(APTRGANGR_MODEL, Aptrgangr_Model::createBodyLayer);
         event.registerLayerDefinition(KOBOLEDIATOR_MODEL, Kobolediator_Model::createBodyLayer);
         event.registerLayerDefinition(PROWLER_MODEL, The_Prowler_Model::createBodyLayer);
+
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

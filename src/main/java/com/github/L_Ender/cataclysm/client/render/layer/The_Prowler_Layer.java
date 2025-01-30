@@ -44,11 +44,11 @@ public class The_Prowler_Layer extends RenderLayer<The_Prowler_Entity, The_Prowl
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, The_Prowler_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             //need rework
-        float f = 1.0F - entity.deathTime / (float) entity.deathtimer();
+        int f = 255 - entity.deathTime * 255 /  entity.deathtimer();
         RenderType eyes = CMRenderTypes.CMEyes(this.getTextureLocation(entity));
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
 
-        int i = FastColor.ARGB32.color(255, (int) f, (int) f, (int) f);
+        int i = FastColor.ARGB32.color(255, f, f, f);
 
         this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, i);
     }

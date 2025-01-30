@@ -74,6 +74,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 160;
 
+
     public Kobolediator_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 35;

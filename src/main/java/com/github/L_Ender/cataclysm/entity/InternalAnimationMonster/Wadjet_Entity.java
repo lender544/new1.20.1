@@ -587,7 +587,6 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         @Override
         public void stop() {
             this.entity.setAttackState(attackendstate);
-            this.entity.attackCooldown = 0;
             this.entity.magic_cooldown = MAGIC_COOLDOWN;
         }
 

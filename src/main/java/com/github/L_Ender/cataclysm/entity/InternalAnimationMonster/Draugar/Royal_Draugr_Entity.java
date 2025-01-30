@@ -51,6 +51,7 @@ public class Royal_Draugr_Entity extends Monster implements IShieldEntity {
         this.xpReward = 7;
     }
 
+
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new Royal_DraugrAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));

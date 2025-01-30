@@ -271,8 +271,10 @@ public class Lionfish_Entity extends Monster implements IAnimatedEntity {
 
 
         protected void checkAndPerformAttack(LivingEntity p_25557_) {
-            if (this.mob.getAnimation() == NO_ANIMATION) {
-                this.mob.setAnimation(LIONFISH_BITE);
+            if (this.canPerformAttack(p_25557_)) {
+                if (this.mob.getAnimation() == NO_ANIMATION) {
+                    this.mob.setAnimation(LIONFISH_BITE);
+                }
             }
         }
     }

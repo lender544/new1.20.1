@@ -1,6 +1,8 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.Deepling.Deepling_Warlock_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -254,10 +256,12 @@ public class Koboleton_Entity extends Animation_Monster {
             return (double)(this.mob.getBbWidth() * 2.5F * this.mob.getBbWidth() * 2.5F + p_25556_.getBbWidth());
         }
 
-        protected void checkAndPerformAttack(LivingEntity p_25557_, double p_25558_) {
-            double d0 = this.getAttackReachSqr(p_25557_);
-            if (p_25558_ <= d0 && this.mob.getAnimation() == NO_ANIMATION) {
-                this.mob.setAnimation(COBOLETON_ATTACK);
+
+        protected void checkAndPerformAttack(LivingEntity p_25557_) {
+            if (this.canPerformAttack(p_25557_)) {
+                if (this.mob.getAnimation() == NO_ANIMATION) {
+                    this.mob.setAnimation(COBOLETON_ATTACK);
+                }
             }
 
         }

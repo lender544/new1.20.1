@@ -54,6 +54,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -949,7 +950,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         if (!this.level().isClientSide) {
             double xx = Mth.cos(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
             double zz = Mth.sin(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
-            this.level().explode(this, this.getX() + xx, this.getY() + (double) this.getEyeHeight(), getZ() + zz, 2.0F, Level.ExplosionInteraction.MOB);
+            this.level().explode(this, this.getX() + xx, this.getY() + (double) this.getEyeHeight(), getZ() + zz, 2.0F, Level.ExplosionInteraction.TRIGGER);
+
         }
     }
 

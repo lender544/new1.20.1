@@ -342,10 +342,6 @@ protected void dropCustomDeathLoot(ServerLevel p_348503_, DamageSource p_34697_,
             return true;
         }
 
-        protected double getAttackReachSqr(LivingEntity p_25556_) {
-            float f = p_25556_.getBbWidth();
-            return f * 2.5F * f * 2.5F + p_25556_.getBbWidth();
-        }
 
     }
 
@@ -418,9 +414,7 @@ protected void dropCustomDeathLoot(ServerLevel p_348503_, DamageSource p_34697_,
            if(this.entity.getAttackState() == 2) {
                if(target != null && entity.attackTicks == 10) {
                    this.entity.performRangedAttack(target, 1.0F);
-                   if(isHoldingCrossbow()) {
-                       this.entity.getUseItem().set(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY);
-                   }
+
                    this.entity.setChargingCrossbow(false);
                }
            }

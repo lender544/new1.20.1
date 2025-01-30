@@ -188,7 +188,7 @@ public class Royal_DraugrAttackGoal extends Goal {
    }
 
    protected double getAttackReachSqr(LivingEntity p_25556_) {
-      float f = p_25556_.getBbWidth();
+      float f = this.mob.getBbWidth();
       return (double)(f * 2.25F * f * 2.25F + p_25556_.getBbWidth());
    }
 }

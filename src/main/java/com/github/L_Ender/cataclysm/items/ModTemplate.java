@@ -24,9 +24,9 @@ import java.util.List;
 public class ModTemplate extends Item {
     private static final ChatFormatting TITLE_FORMAT = ChatFormatting.GRAY;
     private static final ChatFormatting DESCRIPTION_FORMAT = ChatFormatting.BLUE;
-    private static final String DESCRIPTION_ID = Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"smithing_template"));
-    private static final Component INGREDIENTS_TITLE = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"smithing_template.ingredients"))).withStyle(TITLE_FORMAT);
-    private static final Component APPLIES_TO_TITLE = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"smithing_template.applies_to"))).withStyle(TITLE_FORMAT);
+    private static final String DESCRIPTION_ID = Util.makeDescriptionId("item", ResourceLocation.withDefaultNamespace("smithing_template"));
+    private static final Component INGREDIENTS_TITLE = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.withDefaultNamespace("smithing_template.ingredients"))).withStyle(TITLE_FORMAT);
+    private static final Component APPLIES_TO_TITLE = Component.translatable(Util.makeDescriptionId("item", ResourceLocation.withDefaultNamespace("smithing_template.applies_to"))).withStyle(TITLE_FORMAT);
     private static final Component IGNITIUM_UPGRADE = Component.translatable("item.cataclysm.ignitium_upgrade.desc").withStyle(TITLE_FORMAT);
     private static final Component IGNITIUM_UPGRADE_APPLIES_TO = Component.translatable("item.cataclysm.ignitium_upgrade.applies_to.desc").withStyle(DESCRIPTION_FORMAT);
     private static final Component IGNITIUM_UPGRADE_INGREDIENTS = Component.translatable("item.cataclysm.ignitium_upgrade.ingredients.desc").withStyle(DESCRIPTION_FORMAT);
@@ -36,11 +36,11 @@ public class ModTemplate extends Item {
     private static final Component CURSIUM_UPGRADE_INGREDIENTS = Component.translatable("item.cataclysm.cursium_upgrade.ingredients.desc").withStyle(DESCRIPTION_FORMAT);
     private static final Component IGNITIUM_UPGRADE_BASE_SLOT_DESCRIPTION = Component.translatable("item.cataclysm.ignitium_upgrade.base_slot.desc");
     private static final Component IGNITIUM_UPGRADE_ADDITIONS_SLOT_DESCRIPTION = Component.translatable("item.cataclysm.ignitium_upgrade.additions_slot.desc");
-    private static final ResourceLocation EMPTY_SLOT_HELMET = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"item/empty_armor_slot_helmet");
-    private static final ResourceLocation EMPTY_SLOT_CHESTPLATE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"item/empty_armor_slot_chestplate");
-    private static final ResourceLocation EMPTY_SLOT_LEGGINGS = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"item/empty_armor_slot_leggings");
-    private static final ResourceLocation EMPTY_SLOT_BOOTS = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"item/empty_armor_slot_boots");
-    private static final ResourceLocation EMPTY_SLOT_INGOT = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"item/empty_slot_ingot");
+    private static final ResourceLocation EMPTY_SLOT_HELMET = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_helmet");
+    private static final ResourceLocation EMPTY_SLOT_CHESTPLATE = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_chestplate");
+    private static final ResourceLocation EMPTY_SLOT_LEGGINGS = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_leggings");
+    private static final ResourceLocation EMPTY_SLOT_BOOTS = ResourceLocation.withDefaultNamespace("item/empty_armor_slot_boots");
+    private static final ResourceLocation EMPTY_SLOT_INGOT = ResourceLocation.withDefaultNamespace("item/empty_slot_ingot");
     private final Component appliesTo;
     private final Component ingredients;
     private final Component upgradeDescription;
@@ -48,6 +48,7 @@ public class ModTemplate extends Item {
     private final Component additionsSlotDescription;
     private final List<ResourceLocation> baseSlotEmptyIcons;
     private final List<ResourceLocation> additionalSlotEmptyIcons;
+
 
 
 

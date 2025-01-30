@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.message.MessageMusic;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -112,7 +113,7 @@ public class Meat_Shredder extends Item {
 					double d3 = d0 * dist;
 					double d4 = d1 * dist;
 					double d5 = d2 * dist;
-					entity.level().addParticle(ParticleTypes.LAVA, entity.getX(), living.getEyeY() - 0.1D + (entity.getEyePosition().y - living.getEyeY()), entity.getZ(), d3, d4, d5);
+					entity.level().addParticle(ModParticle.SPARK.get(), entity.getX(), living.getEyeY() - 0.1D + (entity.getEyePosition().y - living.getEyeY()), entity.getZ(), d3, d4, d5);
 				}
 			}
 		}
