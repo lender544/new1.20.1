@@ -1,5 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.LightTrailParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -26,7 +28,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -39,18 +40,18 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
-public class Water_Bolt_Entity extends Projectile {
+public class Stream_Water_Bolt_Entity extends Projectile {
     public double accelerationPower;
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Water_Bolt_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> BOUNCES = SynchedEntityData.defineId(Water_Bolt_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Stream_Water_Bolt_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> BOUNCES = SynchedEntityData.defineId(Stream_Water_Bolt_Entity.class, EntityDataSerializers.INT);
 
 
-    public Water_Bolt_Entity(EntityType<? extends Water_Bolt_Entity> type, Level level) {
+    public Stream_Water_Bolt_Entity(EntityType<? extends Stream_Water_Bolt_Entity> type, Level level) {
         super(type, level);
         this.accelerationPower = 0.1;
     }
 
-    public Water_Bolt_Entity(EntityType<? extends Water_Bolt_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
+    public Stream_Water_Bolt_Entity(EntityType<? extends Stream_Water_Bolt_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
         this(type, level);
         this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
         this.reapplyPosition();
@@ -58,8 +59,14 @@ public class Water_Bolt_Entity extends Projectile {
 
     }
 
+    public Stream_Water_Bolt_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage) {
+        this(ModEntities.STREAM_WATER_BOLT.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
+        this.setOwner(p_36827_);
+        this.setDamage(damage);
+        this.setRot(p_36827_.getYRot(), p_36827_.getXRot());
+    }
 
-    public Water_Bolt_Entity(EntityType<? extends Water_Bolt_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
+    public Stream_Water_Bolt_Entity(EntityType<? extends Stream_Water_Bolt_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
         this(type, level);
         this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
         this.setOwner(p_36827_);
@@ -125,16 +132,19 @@ public class Water_Bolt_Entity extends Projectile {
             double d2 = this.getZ() + vec3.z;
             ProjectileUtil.rotateTowardsMovement(this, 0.2F);
             float f = this.getInertia();
-            if (this.isInWater()) {
-                for(int i = 0; i < 4; ++i) {
-                    float f1 = 0.25F;
-                    this.level().addParticle(ParticleTypes.BUBBLE, d0 - vec3.x * 0.25D, d1 - vec3.y * 0.25D, d2 - vec3.z * 0.25D, vec3.x, vec3.y, vec3.z);
-                }
-                f = 0.8F;
-            }else{
-                this.level().addParticle(ParticleTypes.FLAME, this.getX() - vec3.x, this.getY() - vec3.y + 0.35D, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
-            }
-            this.level().addParticle(ParticleTypes.SMOKE, this.getX() - vec3.x, this.getY() - vec3.y + 0.35D, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
+
+
+
+            double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
+            double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
+            double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
+            float ran = 0.04f;
+            float r = (10 + random.nextInt(35)) /255F ;
+            float g = (6 + random.nextInt(35)) /255F ;
+            float b = (220 + random.nextInt(35)) /255F ;
+            this.level().addParticle((new StormParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
+
+
             this.setDeltaMovement(vec3.add(vec3.normalize().scale(this.accelerationPower)).scale((double)f));
             this.setPos(d0, d1, d2);
         } else {
@@ -211,9 +221,8 @@ public class Water_Bolt_Entity extends Projectile {
             Vec3 motion2 = new Vec3(motionX,motionY,motionZ);
 
             this.assignDirectionalMovement(motion2, this.accelerationPower);
-            if (this.tickCount > 500 || this.getTotalBounces() > 5) {
+            if (this.tickCount > 500 || this.getTotalBounces() > 15) {
                 if (!this.level().isClientSide) {
-                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2.0F, true, Level.ExplosionInteraction.NONE);
                     this.discard();
                 }
             } else {
@@ -251,7 +260,7 @@ public class Water_Bolt_Entity extends Projectile {
 
 
     protected float getInertia() {
-        return 1.0F;
+        return 0.6F;
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {

@@ -1456,6 +1456,16 @@
       }
     ]
   },
+  "parry": {
+    "subtitle": "parry.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/elden_parry",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "explosion": {
     "subtitle": "explosion.sub",
     "sounds": [

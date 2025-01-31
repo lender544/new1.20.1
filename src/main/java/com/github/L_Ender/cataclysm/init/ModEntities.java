@@ -16,7 +16,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Roya
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
-
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -28,7 +28,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -562,7 +561,6 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":axe_blade"));
 
-    /*
     public static final DeferredHolder<EntityType<?>,EntityType<Hippocamtus_Entity>> HIPPOCAMTUS = ENTITY_TYPE.register("hippocamtus", () -> EntityType.Builder.of(Hippocamtus_Entity::new, MobCategory.MONSTER)
             .sized(0.85F, 3.4f)
             .clientTrackingRange(8)
@@ -573,11 +571,10 @@ public class ModEntities {
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":urchinkin"));
 
-    public static final DeferredHolder<EntityType<?>,EntityType<Water_Bolt_Entity>> WATER_BOLT = ENTITY_TYPE.register("water_bolt", () -> EntityType.Builder.<Water_Bolt_Entity>of(Water_Bolt_Entity::new, MobCategory.MISC)
+    public static final DeferredHolder<EntityType<?>,EntityType<Stream_Water_Bolt_Entity>> STREAM_WATER_BOLT = ENTITY_TYPE.register("stream_water_bolt", () -> EntityType.Builder.<Stream_Water_Bolt_Entity>of(Stream_Water_Bolt_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .build(Cataclysm.MODID + ":water_bolt"));
-    */
+            .build(Cataclysm.MODID + ":stream_water_bolt"));
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){
@@ -644,8 +641,8 @@ public class ModEntities {
         event.put(DRAUGR.get(), Draugr_Entity.draugr().build());
         event.put(ROYAL_DRAUGR.get(), Royal_Draugr_Entity.royal_draugr().build());
         event.put(ELITE_DRAUGR.get(), Elite_Draugr_Entity.elite_draugr().build());
-      //  event.put(HIPPOCAMTUS.get(), Hippocamtus_Entity.Hippocamtus_Entity().build());
-      //  event.put(URCHINKIN.get(), Urchinkin_Entity.urchin().build());
+        event.put(HIPPOCAMTUS.get(), Hippocamtus_Entity.Hippocamtus_Entity().build());
+        event.put(URCHINKIN.get(), Urchinkin_Entity.urchin().build());
     }
 }
 
