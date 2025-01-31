@@ -1450,7 +1450,7 @@
     "subtitle": "bolt_strike.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/bolt_strike",
+        "name": "cataclysm:entity/emp_activated",
         "volume": 2.0,
         "pitch": 1.0
       }

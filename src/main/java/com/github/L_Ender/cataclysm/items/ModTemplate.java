@@ -50,6 +50,7 @@ public class ModTemplate extends Item {
 
 
 
+
     public ModTemplate(Component p_266834_, Component p_267043_, Component p_267048_, Component p_267278_, Component p_267090_, List<ResourceLocation> p_266755_, List<ResourceLocation> p_267060_) {
         super(new Item.Properties().fireResistant());
         this.appliesTo = p_266834_;

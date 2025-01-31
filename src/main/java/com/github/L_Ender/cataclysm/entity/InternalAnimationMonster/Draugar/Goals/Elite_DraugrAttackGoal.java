@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -113,8 +114,11 @@ public class Elite_DraugrAttackGoal extends Goal {
 
     public void stop() {
         super.stop();
+        LivingEntity livingentity = this.mob.getTarget();
+        if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
+            this.mob.setTarget(null);
+        }
         this.mob.setAggressive(false);
-        this.mob.setTarget((LivingEntity)null);
         this.seeTime = 0;
         if (isHoldingCrossbow()) {
             if (this.mob.isUsingItem()) {

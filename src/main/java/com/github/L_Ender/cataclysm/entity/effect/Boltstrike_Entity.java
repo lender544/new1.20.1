@@ -66,6 +66,7 @@ public class Boltstrike_Entity extends Entity {
     @Override
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE, 0f);
+        this.entityData.define(HPDAMAGE, 0f);
         this.entityData.define(R, 0);
         this.entityData.define(G, 0);
         this.entityData.define(B, 0);
@@ -180,7 +181,7 @@ public class Boltstrike_Entity extends Entity {
                 }
                 if (this.lifeTicks == 12){
                     if (!this.isSilent()) {
-                        this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.BOLT_STRIKE.get(), this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.2F + 0.85F, false);
+                        this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.EMP_ACTIVATED.get(), this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.2F + 0.85F, false);
                     }
                 }
 

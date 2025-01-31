@@ -238,6 +238,9 @@ public class ModGroup {
                 entries.accept(ModBlocks.MECHANICAL_FUSION_ANVIL.get().asItem());
                 entries.accept(ModBlocks.DOOR_OF_SEAL.get().asItem());
                 entries.accept(ModBlocks.ABYSSAL_EGG.get().asItem());
+                entries.accept(ModItems.APTRGANGR_HEAD.get());
+                entries.accept(ModItems.DRAUGR_HEAD.get());
+                entries.accept(ModItems.KOBOLEDIATOR_SKULL.get());
             })
             .withTabsBefore(ITEM.getKey())
             .build());

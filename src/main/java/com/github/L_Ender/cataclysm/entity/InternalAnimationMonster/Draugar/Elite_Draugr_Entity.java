@@ -347,10 +347,6 @@ public class Elite_Draugr_Entity extends Internal_Animation_Monster implements C
             return true;
         }
 
-        protected double getAttackReachSqr(LivingEntity p_25556_) {
-            float f = p_25556_.getBbWidth();
-            return f * 2.5F * f * 2.5F + p_25556_.getBbWidth();
-        }
 
     }
 

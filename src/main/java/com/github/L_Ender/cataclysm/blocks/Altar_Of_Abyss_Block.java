@@ -80,6 +80,7 @@ public class Altar_Of_Abyss_Block extends BaseEntityBlock implements SimpleWater
         return InteractionResult.PASS;
     }
 
+
     public BlockState rotate(BlockState p_48811_, Rotation p_48812_) {
         return p_48811_.setValue(FACING, p_48812_.rotate(p_48811_.getValue(FACING)));
     }
