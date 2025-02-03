@@ -73,7 +73,7 @@ public abstract class AbstractLightTrailParticle extends Particle {
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(CMRenderTypes.CMEyes(getTrailTexture()));
+            VertexConsumer vertexconsumer = getVetrexConsumer(multibuffersource$buffersource);
             Vec3 cameraPos = camera.getPosition();
             float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
             float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
@@ -107,6 +107,10 @@ public abstract class AbstractLightTrailParticle extends Particle {
             multibuffersource$buffersource.endBatch();
             posestack.popPose();
         }
+    }
+
+    protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.LIGHT_TRAIL_EFFECT.apply(getTrailTexture()));
     }
 
     public float getTrailRot(Camera camera) {

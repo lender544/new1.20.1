@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
@@ -97,16 +98,6 @@ public class CMRenderTypes extends RenderType {
         return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
 
-    public static RenderType CMEyes(ResourceLocation locationIn) {
-        TextureStateShard renderstateshard$texturestateshard = new TextureStateShard(locationIn, false, false);
-        return create("cm_eyes", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, CompositeState.builder()
-                .setShaderState(RENDERTYPE_EYES_SHADER)
-                .setTextureState(renderstateshard$texturestateshard)
-                .setTransparencyState(ADDITIVE_TRANSPARENCY)
-                .setCullState(NO_CULL)
-                .setWriteMaskState(COLOR_WRITE).
-                createCompositeState(false));
-    }
 
     public static RenderType getPulse() {
         CompositeState renderState = CompositeState.builder()
@@ -126,7 +117,7 @@ public class CMRenderTypes extends RenderType {
 
     public static RenderType getTrailEffect(ResourceLocation locationIn) {
         TextureStateShard renderstate$texturestate = new TextureStateShard(locationIn, false, false);
-        return create("trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, CompositeState.builder()
+        return create("trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, CompositeState.builder()
                 .setTextureState(renderstate$texturestate)
                 .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
@@ -134,9 +125,55 @@ public class CMRenderTypes extends RenderType {
                 .setCullState(NO_CULL)
                 .setLightmapState(LIGHTMAP)
                 .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_WRITE)
-                .createCompositeState(false));
+                .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                .createCompositeState(true));
     }
+
+    public static final Function<ResourceLocation, RenderType> NEW_TRAIL_EFFECT = Util.memoize(
+            p_286155_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setOutputState(ITEM_ENTITY_TARGET)
+                        .setLightmapState(LIGHTMAP)
+                        .setCullState(NO_CULL)
+                        .setOverlayState(OVERLAY)
+                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                        .createCompositeState(true);
+                return create("new_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
+            }
+    );
+
+    public static final Function<ResourceLocation, RenderType> LIGHT_TRAIL_EFFECT = Util.memoize(
+            p_286155_ -> {
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_EYES_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
+                        .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                        .setOutputState(ITEM_ENTITY_TARGET)
+                        .setLightmapState(LIGHTMAP)
+                        .setCullState(NO_CULL)
+                        .setOverlayState(OVERLAY)
+                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                        .createCompositeState(true);
+                return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
+            }
+    );
+
+
+    public static RenderType CMEyes(ResourceLocation locationIn) {
+        TextureStateShard renderstateshard$texturestateshard = new TextureStateShard(locationIn, false, false);
+        return create("cm_eyes", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, false, true, CompositeState.builder()
+                .setShaderState(RENDERTYPE_EYES_SHADER)
+                .setTextureState(renderstateshard$texturestateshard)
+                .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                .setCullState(NO_CULL)
+                .setWriteMaskState(COLOR_WRITE)
+                .setOverlayState(OVERLAY).
+                createCompositeState(false));
+    }
+
 
     public static final RenderType LIGHTNING = create(
             "lightning",

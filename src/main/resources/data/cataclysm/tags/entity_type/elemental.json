@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:blaze",
+    "minecraft:magma_cube",
+    "minecraft:breeze",
+    "minecraft:warden",
+    "minecraft:allay",
+    "minecraft:vex",
+    "cataclysm:ignited_berserker",
+    "cataclysm:ignited_revenant",
+    "cataclysm:ignis",
+    "cataclysm:maledictus"
+  ]
+}

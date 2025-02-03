@@ -100,7 +100,6 @@ public class Void_Vortex_Entity extends Entity {
         if(this.getLifespan() <= 16){
             if(!madeCloseNoise){
                 this.gameEvent(GameEvent.ENTITY_PLACE);
-             //   this.playSound(AMSoundRegistry.VOID_PORTAL_CLOSE.get(), 1.0F, 1 + random.nextFloat() * 0.2F);
                 madeCloseNoise = true;
             }
 

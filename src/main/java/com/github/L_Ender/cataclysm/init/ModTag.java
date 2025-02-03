@@ -53,6 +53,8 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_MALEDICTUS = registerEntityTag("team_maledictus");
 
+    public static final TagKey<EntityType<?>> ELEMENTAL = registerEntityTag("elemental");
+
     public static final TagKey<Block> ENDER_GOLEM_CAN_DESTROY = registerBlockTag("ender_golem_can_destroy");
 
     public static final TagKey<Block> CM_GLASS = registerBlockTag("cm_glass");
