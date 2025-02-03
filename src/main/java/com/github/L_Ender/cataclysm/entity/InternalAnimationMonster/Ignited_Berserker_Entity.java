@@ -172,8 +172,7 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getAttackState()) {
+            switch (this.getAttackState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         this.stopAllAnimationStates();

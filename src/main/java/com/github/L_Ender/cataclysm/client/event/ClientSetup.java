@@ -133,6 +133,10 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
 
+
+		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
+		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
+
 		// Block Entities
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_FIRE.get(), RendererAltar_of_Fire::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_VOID.get(), RendererAltar_of_Void::new);

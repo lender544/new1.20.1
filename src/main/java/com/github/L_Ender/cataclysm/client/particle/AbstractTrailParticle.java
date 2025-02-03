@@ -145,6 +145,6 @@ public abstract class AbstractTrailParticle extends Particle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleRenderType.CUSTOM;
     }
 }

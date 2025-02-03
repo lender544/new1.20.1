@@ -80,6 +80,8 @@ public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Mi
 		this.animate(entity.getAnimationState("chest_open"), Netherite_Ministrosity_Animation.CHEST_OPEN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("chest_loop"), Netherite_Ministrosity_Animation.CHEST_LOOP, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("chest_close"), Netherite_Ministrosity_Animation.CHEST_CLOSE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("sit_start"), Netherite_Ministrosity_Animation.SIT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("sit_end"), Netherite_Ministrosity_Animation.SIT_END, ageInTicks, 1.0F);
 	}
 
 

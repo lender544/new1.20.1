@@ -56,7 +56,7 @@ public class ModEntities {
             .clientTrackingRange(10)
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":ender_guardian"));
-    
+
 
     public static final DeferredHolder<EntityType<?>,EntityType<Netherite_Monstrosity_Entity>> NETHERITE_MONSTROSITY = ENTITY_TYPE.register("netherite_monstrosity", () -> EntityType.Builder.of(Netherite_Monstrosity_Entity::new, MobCategory.MONSTER)
             .sized(3.0f, 5.75f)
@@ -90,7 +90,7 @@ public class ModEntities {
             .updateInterval(2)
             .fireImmune()
             .build(Cataclysm.MODID + ":flame_jet"));
-    
+
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Entity>> IGNIS = ENTITY_TYPE.register("ignis", () -> EntityType.Builder.of(Ignis_Entity::new, MobCategory.MONSTER)
             .sized(2.25F, 3.5F)
@@ -560,6 +560,7 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":axe_blade"));
 
+
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){
             return Predicates.alwaysFalse();
@@ -589,7 +590,7 @@ public class ModEntities {
         event.register(AMETHYST_CRAB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Amethyst_Crab_Entity::canCrabSpawnSpawnRules,RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(IGNITED_BERSERKER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules,RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
-    
+
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
         event.put(ENDER_GOLEM.get(), Ender_Golem_Entity.ender_golem().build());
@@ -627,4 +628,3 @@ public class ModEntities {
         event.put(ELITE_DRAUGR.get(), Elite_Draugr_Entity.elite_draugr().build());
     }
 }
-
