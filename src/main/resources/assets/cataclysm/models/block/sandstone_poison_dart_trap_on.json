@@ -1,0 +1,24 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "bottom": "cataclysm:block/polished_sandstone",
+        "left_side": "cataclysm:block/sandstone_poison_dart_trap_on_left",
+        "right_side": "cataclysm:block/sandstone_poison_dart_trap_on_right",
+        "top": "cataclysm:block/polished_sandstone",
+        "front": "cataclysm:block/sandstone_poison_dart_trap_front_on",
+        "particle": "cataclysm:block/sandstone_poison_dart_trap_front_on"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#top", "cullface": "down" },
+                "up":    { "uv": [ 0, 16, 16, 0 ], "texture": "#top", "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#front", "cullface": "north" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#bottom", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#right_side", "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#left_side", "cullface": "east" }
+            }
+        }
+    ]
+}

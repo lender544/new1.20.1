@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "cataclysm:bulwark_of_the_flame"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_ignis.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_ignis.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:kill_revenant",
+  "criteria": {
+    "ignis": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:ignis"
+        }
+      }
+    }
+  }
+}

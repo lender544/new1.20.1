@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end":  "cataclysm:block/frosted_stone_bricks_top",
+    "side": "cataclysm:block/frosted_stone_bricks"
+  }
+}

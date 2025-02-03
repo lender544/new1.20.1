@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:ender_golem",
+    "cataclysm:ender_guardian",
+    "cataclysm:ignis",
+    "cataclysm:ancient_remnant",
+    "cataclysm:ancient_ancient_remnant",
+    "cataclysm:netherite_monstrosity",
+    "cataclysm:the_harbinger",
+    "cataclysm:the_leviathan",
+    "cataclysm:maledictus",
+    "cataclysm:draugr",
+    "cataclysm:elite_draugr",
+    "cataclysm:royal_draugr",
+    "cataclysm:aptrgangr"
+  ]
+}

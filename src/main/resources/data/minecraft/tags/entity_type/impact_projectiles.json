@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:void_shard",
+    "cataclysm:void_scatter_arrow",
+    "cataclysm:phantom_arrow",
+    "cataclysm:lava_bomb",
+    "cataclysm:ignis_abyss_fireball",
+    "cataclysm:ignis_fireball",
+    "cataclysm:wither_missile",
+    "cataclysm:wither_homing_missile",
+    "cataclysm:wither_howitzer",
+    "cataclysm:laser_beam",
+    "cataclysm:abyss_orb",
+    "cataclysm:lionfish_spike",
+    "cataclysm:tidal_hook",
+    "cataclysm:amethyst_cluster_projectile",
+    "cataclysm:ancient_desert_stele"
+  ]
+}

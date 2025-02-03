@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.cataclysm.music_disc_ender_guardian.desc"
+  },
+  "length_in_seconds": 196.0,
+  "sound_event": "cataclysm:enderguardian_music"
+}

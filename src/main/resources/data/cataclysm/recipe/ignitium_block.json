@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:ignitium_ingot"
+        }
+    },
+    "result": {
+        "id": "cataclysm:ignitium_block",
+        "count": 1
+    }
+}

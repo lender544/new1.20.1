@@ -1,0 +1,17 @@
+{
+  "type": "cataclysm:sunken_city",
+  "biomes": "#cataclysm:has_structure/sunken_city_biomes",
+  "step": "surface_structures",
+  "liquid_settings": "ignore_waterlogging",
+  "start_height": {
+    "absolute": 0
+  },
+  "use_expansion_hack": false,
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+      ]
+    }
+  }
+}

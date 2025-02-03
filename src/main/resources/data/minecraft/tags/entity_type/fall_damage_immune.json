@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:ender_golem",
+    "cataclysm:ender_guardian",
+    "cataclysm:ignis",
+    "cataclysm:netherite_monstrosity",
+    "cataclysm:the_harbinger",
+    "cataclysm:the_leviathan",
+    "cataclysm:maledictus",
+    "cataclysm:ancient_remnant",
+    "cataclysm:ancient_ancient_remnant",
+    "cataclysm:amethyst_crab",
+    "cataclysm:ignited_berserker",
+    "cataclysm:ignited_revenant",
+    "cataclysm:aptrgangr",
+    "cataclysm:koboleton",
+    "cataclysm:kobolediator",
+    "cataclysm:wadjet",
+    "cataclysm:modern_remnant",
+    "cataclysm:the_prowler",
+    "cataclysm:the_watcher"
+  ]
+}

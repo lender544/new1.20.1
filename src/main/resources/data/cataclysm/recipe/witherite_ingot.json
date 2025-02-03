@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "cataclysm:witherite_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "cataclysm:witherite_ingot"
+  }
+}

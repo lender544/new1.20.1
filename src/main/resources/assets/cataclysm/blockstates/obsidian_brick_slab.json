@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "cataclysm:block/obsidian_brick_slab" },
+    "type=top": { "model": "cataclysm:block/obsidian_brick_slab_top" },
+    "type=double": { "model": "cataclysm:block/obsidian_bricks" }
+  }
+}

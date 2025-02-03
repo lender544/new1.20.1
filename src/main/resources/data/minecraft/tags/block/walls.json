@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:obsidian_brick_wall",
+    "cataclysm:purpur_wall",
+    "cataclysm:quartz_brick_wall",
+    "cataclysm:frosted_stone_brick_wall",
+    "cataclysm:stone_tile_wall",
+    "cataclysm:black_steel_wall",
+    "cataclysm:azure_seastone_wall",
+    "cataclysm:azure_seastone_brick_wall",
+    "cataclysm:polished_azure_seastone_wall",
+    "cataclysm:azure_seastone_pillar_wall",
+    "cataclysm:chiseled_azure_seastone_pillar_wall",
+    "cataclysm:prismarine_brick_wall"
+  ]
+}

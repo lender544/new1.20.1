@@ -1,0 +1,41 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "factory": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "cataclysm:ancient_factory"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.ancient_factory.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "cataclysm:emp"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.ancient_factory.title"
+    }
+  },
+  "requirements": [
+    [
+      "factory"
+    ]
+  ]
+}

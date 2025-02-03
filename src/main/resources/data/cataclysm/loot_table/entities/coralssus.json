@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "coralssus",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:coral_chunk",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

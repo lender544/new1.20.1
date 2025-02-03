@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "cataclysm:block/end_stone_teleport_trap_bricks_off"
+    },
+    "lit=true": {
+      "model": "cataclysm:block/end_stone_teleport_trap_bricks_on"
+    }
+  }
+}

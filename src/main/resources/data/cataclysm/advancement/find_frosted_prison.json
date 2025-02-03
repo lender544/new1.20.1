@@ -1,0 +1,41 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "prison": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structures": "cataclysm:frosted_prison"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.frosted_prison.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "id": "cataclysm:door_of_seal"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.frosted_prison.title"
+    }
+  },
+  "requirements": [
+    [
+      "prison"
+    ]
+  ]
+}

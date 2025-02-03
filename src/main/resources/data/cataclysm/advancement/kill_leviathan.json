@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "id": "cataclysm:tidal_claws"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_leviathan.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_leviathan.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:find_sunken_city",
+  "criteria": {
+    "ignis": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:the_leviathan"
+        }
+      }
+    }
+  }
+}

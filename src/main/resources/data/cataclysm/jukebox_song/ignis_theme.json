@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.cataclysm.music_disc_ignis.desc"
+  },
+  "length_in_seconds": 153.0,
+  "sound_event": "cataclysm:ignis_music"
+}

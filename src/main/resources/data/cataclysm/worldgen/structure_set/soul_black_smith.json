@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "cataclysm:soul_black_smith",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "cataclysm:cataclysm_random_spread",
+    "salt": 1984567320,
+    "spacing": 60,
+    "separation": 50,
+    "super_exclusion_zone": {
+      "chunk_count": 10,
+      "other_set": "#cataclysm:soul_black_smith_avoid"
+    }
+  }
+}

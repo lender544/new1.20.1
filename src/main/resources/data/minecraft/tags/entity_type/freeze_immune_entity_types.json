@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:ender_golem",
+    "cataclysm:ender_guardian",
+    "cataclysm:ignis",
+    "cataclysm:netherite_monstrosity",
+    "cataclysm:the_harbinger",
+    "cataclysm:the_leviathan",
+    "cataclysm:maledictus",
+    "cataclysm:ancient_remnant",
+    "cataclysm:ancient_ancient_remnant"
+  ]
+}

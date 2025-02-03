@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:soul_black_smith/seven",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:soul_black_smith_7",
+        "projection": "rigid",
+        "processors": {
+          "processors": []
+        },
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

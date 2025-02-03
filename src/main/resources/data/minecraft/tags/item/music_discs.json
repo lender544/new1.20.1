@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:music_disc_netherite_monstrosity",
+    "cataclysm:music_disc_ender_guardian",
+    "cataclysm:music_disc_ignis",
+    "cataclysm:music_disc_the_harbinger",
+    "cataclysm:music_disc_the_leviathan",
+    "cataclysm:music_disc_ancient_remnant"
+  ]
+}
