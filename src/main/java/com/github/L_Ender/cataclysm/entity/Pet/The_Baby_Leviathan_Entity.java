@@ -221,20 +221,18 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
 
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
-        CompoundTag platTag = new CompoundTag();
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, p_330644_ -> {
-            p_330644_.put("BabyLeviathanData", platTag);
-        });
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, this::addAdditionalSaveData);
+
+
 
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag p_148832_) {
+        readAdditionalSaveData(p_148832_);
         Bucketable.loadDefaultDataFromBucketTag(this, p_148832_);
-        if (p_148832_.contains("BabyLeviathanData")) {
-            this.readAdditionalSaveData(p_148832_.getCompound("BabyLeviathanData"));
-        }
+
     }
 
     @Override

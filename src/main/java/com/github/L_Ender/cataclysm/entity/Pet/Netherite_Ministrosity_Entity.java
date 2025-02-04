@@ -257,7 +257,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         compound.putBoolean("is_Awaken", this.getIsAwaken());
         ListTag listtag = new ListTag();
 
-        for(int i = 2; i < this.miniInventory.getContainerSize(); ++i) {
+        for(int i = 1; i < this.miniInventory.getContainerSize(); ++i) {
             ItemStack itemstack = this.miniInventory.getItem(i);
             if (!itemstack.isEmpty()) {
                 CompoundTag compoundtag = new CompoundTag();
@@ -279,8 +279,8 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         for(int i = 0; i < listtag.size(); ++i) {
             CompoundTag compoundtag = listtag.getCompound(i);
             int j = compoundtag.getByte("Slot") & 255;
-            if (j >= 2 && j < this.miniInventory.getContainerSize()) {
-                this.miniInventory.setItem(j,  ItemStack.parse(this.registryAccess(), compoundtag).orElse(ItemStack.EMPTY));
+            if (j < this.miniInventory.getContainerSize() - 1) {
+                this.miniInventory.setItem(j + 1, (ItemStack)ItemStack.parse(this.registryAccess(), compoundtag).orElse(ItemStack.EMPTY));
             }
         }
 
@@ -360,20 +360,14 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
-        CompoundTag platTag = new CompoundTag();
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, this::addAdditionalSaveData);
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, p_330644_ -> {
-            p_330644_.put("MinistrosityData", platTag);
-        });
-
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag p_148832_) {
+        readAdditionalSaveData(p_148832_);
         Bucketable.loadDefaultDataFromBucketTag(this, p_148832_);
-        if (p_148832_.contains("MinistrosityData")) {
-            this.readAdditionalSaveData(p_148832_.getCompound("MinistrosityData"));
-        }
     }
 
 

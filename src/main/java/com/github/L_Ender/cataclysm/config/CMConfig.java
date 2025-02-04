@@ -200,7 +200,7 @@ public class CMConfig {
     public static int DeeplingWarlockSpawnRolls = 70;
 
     public static int AmethystCrabSpawnWeight = 1;
-    public static int AmethystCrabSpawnRolls = 40;
+    public static int AmethystCrabSpawnRolls = 20;
 
     public static int KoboletonSpawnWeight = 15;
     public static int KoboletonSpawnRolls = 1;

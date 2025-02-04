@@ -440,6 +440,8 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Amethyst_Crab_Entity>> AMETHYST_CRAB = ENTITY_TYPE.register("amethyst_crab", () -> EntityType.Builder.of(Amethyst_Crab_Entity::new, MobCategory.MONSTER)
             .sized(2.5F, 2.6F)
+            .spawnDimensionsScale(1.0F)
+            .clientTrackingRange(10)
             .fireImmune()
             .build(Cataclysm.MODID + ":amethyst_crab"));
 
