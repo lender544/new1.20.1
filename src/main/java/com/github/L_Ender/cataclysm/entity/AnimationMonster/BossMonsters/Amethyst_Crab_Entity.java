@@ -42,6 +42,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -153,6 +154,11 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
 
         return super.hurt(source, damage);
     }
+
+    public boolean checkSpawnObstruction(LevelReader reader) {
+        return reader.isUnobstructed(this);
+    }
+
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
         return ModEntities.rollSpawn(CMConfig.AmethystCrabSpawnRolls, this.getRandom(), spawnReasonIn) && super.checkSpawnRules(worldIn, spawnReasonIn);

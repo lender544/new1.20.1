@@ -46,6 +46,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -57,6 +58,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -221,20 +223,17 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
 
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
-        CompoundTag platTag = new CompoundTag();
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, this::addAdditionalSaveData);
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, p_330644_ -> {
-            p_330644_.put("BabyLeviathanData", platTag);
-        });
+
 
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag p_148832_) {
+        readAdditionalSaveData(p_148832_);
         Bucketable.loadDefaultDataFromBucketTag(this, p_148832_);
-        if (p_148832_.contains("BabyLeviathanData")) {
-            this.readAdditionalSaveData(p_148832_.getCompound("BabyLeviathanData"));
-        }
+
     }
 
     @Override
@@ -250,31 +249,30 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
     }
 
 
+
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
         InteractionResult type = super.mobInteract(player, hand);
+        if (!this.level().isClientSide){
         if (!isTame() && item == Items.TROPICAL_FISH) {
-            this.usePlayerItem(player, hand, itemstack);
+            itemstack.consume(1, player);
             this.gameEvent(GameEvent.EAT);
             fishFeedings++;
-            if ((fishFeedings > 10 && getRandom().nextInt(6) == 0 || fishFeedings > 30) && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player)) {
-                this.tame(player);
-                this.level().broadcastEntityEvent(this, (byte) 7);
-            } else {
-                this.level().broadcastEntityEvent(this, (byte) 6);
-            }
+            tryToTame(player);
             return InteractionResult.SUCCESS;
         }
         if (isTame() && this.isFood(itemstack)) {
             if (this.getHealth() < this.getMaxHealth()) {
                 this.usePlayerItem(player, hand, itemstack);
+                itemstack.consume(1, player);
                 this.gameEvent(GameEvent.EAT);
                 this.heal(5);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
 
+        }
         }
         if (isTame()) {
             Optional<InteractionResult> result = Bucketable.bucketMobPickup(player, hand, this);
@@ -301,6 +299,19 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
             }
         }
         return type;
+    }
+
+    private void tryToTame(Player player) {
+        if ((fishFeedings > 10 && getRandom().nextInt(6) == 0 || fishFeedings > 30) && !net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player)) {
+            this.tame(player);
+            this.navigation.stop();
+            this.setTarget((LivingEntity)null);
+            this.setOrderedToSit(true);
+            this.level().broadcastEntityEvent(this, (byte) 7);
+        } else {
+            this.level().broadcastEntityEvent(this, (byte) 6);
+        }
+
     }
 
     public void aiStep() {

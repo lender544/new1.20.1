@@ -161,20 +161,17 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
 
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
-        CompoundTag platTag = new CompoundTag();
+        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, this::addAdditionalSaveData);
         Bucketable.saveDefaultDataToBucketTag(this, bucket);
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, bucket, p_330644_ -> {
-            p_330644_.put("ModernRemnantData", platTag);
-        });
+
 
     }
 
     @Override
     public void loadFromBucketTag(CompoundTag p_148832_) {
+        readAdditionalSaveData(p_148832_);
         Bucketable.loadDefaultDataFromBucketTag(this, p_148832_);
-        if (p_148832_.contains("ModernRemnantData")) {
-            this.readAdditionalSaveData(p_148832_.getCompound("ModernRemnantData"));
-        }
+
     }
 
     @Override
