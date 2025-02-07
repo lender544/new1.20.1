@@ -1,15 +1,13 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
-import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
+import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Ender_Guardian_Bullet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
@@ -44,7 +42,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
@@ -54,8 +51,6 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -309,11 +304,14 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         return attack;
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.EnderguardianDamageCap;
     }
 
+    public int DamageTime() {
+        return CMConfig.EnderguardianDamageTime;
+    }
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {

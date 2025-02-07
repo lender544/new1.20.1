@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -54,6 +55,8 @@ public class ModTag {
     public static final TagKey<EntityType<?>> TEAM_MALEDICTUS = registerEntityTag("team_maledictus");
 
     public static final TagKey<EntityType<?>> ELEMENTAL = registerEntityTag("elemental");
+
+    public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
 
     public static final TagKey<Block> ENDER_GOLEM_CAN_DESTROY = registerBlockTag("ender_golem_can_destroy");
 
@@ -131,6 +134,7 @@ public class ModTag {
 
     public static final TagKey<Biome> AMETHYST_CRAB_SPAWN = registerBiomeTag("amethyst_crab_spawn");
 
+
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, name));
     }
@@ -153,6 +157,10 @@ public class ModTag {
 
     private static TagKey<Biome> registerBiomeTag(String name) {
         return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, name));
+    }
+
+    private static TagKey<DamageType> registerDamageTypeTag(String name) {
+        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, name));
     }
 
     public static <T> boolean isInTag(T value, TagKey<T> tagKey) {

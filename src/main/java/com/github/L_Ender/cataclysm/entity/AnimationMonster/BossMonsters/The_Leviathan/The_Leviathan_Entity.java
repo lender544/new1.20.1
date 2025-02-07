@@ -9,7 +9,10 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGo
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
-import com.github.L_Ender.cataclysm.entity.etc.*;
+import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
+import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
+import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
+import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.partentity.Cm_Part_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
@@ -324,9 +327,12 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return attack;
     }
 
-    @Override
     public float DamageCap() {
         return (float) CMConfig.LeviathanDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.LeviathanDamageTime;
     }
 
     @Override
@@ -499,7 +505,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                         }
                     }
                 }
-                if(mode ==AttackMode.MELEE) {
+                if(mode == AttackMode.MELEE) {
                     if (CMConfig.LeviathanBlockBreaking) {
                         blockbreak2();
                     } else {

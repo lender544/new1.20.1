@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -9,11 +8,14 @@ import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
-import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
+import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
-import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
@@ -69,7 +71,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
@@ -362,9 +366,13 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         return attack;
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.IgnisDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.IgnisDamageTime;
     }
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {

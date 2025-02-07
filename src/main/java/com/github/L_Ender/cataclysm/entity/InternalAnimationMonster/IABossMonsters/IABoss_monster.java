@@ -12,6 +12,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 
 public class IABoss_monster extends Internal_Animation_Monster implements Enemy {
+    private int reducedDamageTicks;
 
     public IABoss_monster(EntityType entity, Level world) {
         super(entity, world);
@@ -24,13 +25,42 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
         } else {
             damage = Math.min(DamageCap(), damage);
         }
-        return super.hurt(source, damage);
+        if (ReducedDamage(source)) {
+            if (reducedDamageTicks > 0) {
+                float reductionFactor = 1.0f - ((float) reducedDamageTicks / DamageTime());
+                damage *= reductionFactor;
+            }
+        }
+        boolean flag = super.hurt(source, damage);
+        if (ReducedDamage(source)) {
+            if (flag) {
+                reducedDamageTicks = DamageTime();
+            }
+        }
+        return flag;
+    }
+
+
+    public boolean ReducedDamage(DamageSource damageSource){
+        return !damageSource.is(ModTag.BYPASSES_HURT_TIME) && DamageTime() > 0;
+    }
+
+
+
+    public void tick() {
+        super.tick();
+        if (!this.level().isClientSide()) {
+            if (reducedDamageTicks > 0) reducedDamageTicks--;
+        }
     }
 
     public float DamageCap() {
         return Float.MAX_VALUE;
     }
 
+    public int DamageTime() {
+        return 40;
+    }
 
     public boolean canBePushedByEntity(Entity entity) {
         return true;

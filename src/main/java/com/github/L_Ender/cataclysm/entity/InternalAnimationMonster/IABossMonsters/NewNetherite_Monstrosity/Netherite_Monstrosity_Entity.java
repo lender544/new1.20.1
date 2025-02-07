@@ -2,7 +2,6 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -15,7 +14,6 @@ import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.partentity.Cm_Part_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flame_Jet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -54,8 +52,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.boss.EnderDragonPart;
-import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -305,6 +301,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     public float DamageCap() {
         return (float) CMConfig.MonstrosityDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.MonstrosityDamageTime;
     }
 
     public boolean canBeCollidedWith() {

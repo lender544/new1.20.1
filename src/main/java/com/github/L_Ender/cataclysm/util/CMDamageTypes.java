@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,6 +23,7 @@ public class CMDamageTypes {
     public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictio_sagitta"));
     public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictio_magicae"));
     public static final ResourceKey<DamageType> PENETRATE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"penetrate"));
+    public static final ResourceKey<DamageType> MALEDICTIO_ANIMA = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictio_anima"));
 
     public static DamageSource causeLaserDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LASER), attacker, caster);
@@ -55,6 +55,10 @@ public class CMDamageTypes {
 
     public static DamageSource causeMaledictioDamage(LivingEntity attacker) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO), attacker);
+    }
+
+    public static DamageSource causeMaledictioSoulDamage(LivingEntity attacker) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_ANIMA), attacker);
     }
 
     public static DamageSource causeMaledictioSagittaDamage(Entity attacker, Entity caster) {
