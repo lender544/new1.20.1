@@ -102,7 +102,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public AnimationState deathAnimationState = new AnimationState();
 
 
-    private int reducedDamageTicks;
     private boolean combo;
     private boolean grab;
     private int rageTicks;
@@ -413,24 +412,21 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         if ((this.getAttackState() == 31 || this.getAttackState() == 32 || this.getAttackState() == 33) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
-        if (reducedDamageTicks > 0) {
-            float reductionFactor = 1.0f - (reducedDamageTicks / 30.0f);
-            damage *= reductionFactor;
-        }
         if (this.destroyBlocksTick <= 0) {
             this.destroyBlocksTick = 20;
         }
 
-        boolean flag = super.hurt(source, damage);
-        if (flag) {
-            reducedDamageTicks = 30;
-        }
-        return flag;
+        return super.hurt(source, damage);
     }
 
     public float DamageCap() {
         return (float) CMConfig.MaledictusDamageCap;
     }
+
+    public int DamageTime() {
+        return CMConfig.MaledictusDamageTime;
+    }
+
 
     protected int decreaseAirSupply(int air) {
         return air;
@@ -862,7 +858,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
         } else {
-            if (reducedDamageTicks > 0) reducedDamageTicks--;
             if (rageTicks > 0) {
                 rageTicks--;
             } else {
@@ -1007,7 +1002,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 1.6F + Math.min(DMG() * 1.6F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioSoulDamage(this), (float) (DMG() * 1.6F + Math.min(DMG() * 1.6F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }
@@ -1353,7 +1348,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 2.0F + Math.min(DMG() * 2.0F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioSoulDamage(this), (float) (DMG() * 2.0F + Math.min(DMG() * 2.0F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }

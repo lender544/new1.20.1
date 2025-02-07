@@ -59,11 +59,18 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue EnderguardianDamageMultiplier;
     public final ModConfigSpec.DoubleValue EnderguardianNatureHealing;
     public final ModConfigSpec.DoubleValue EnderguardianDamageCap;
+    public final ModConfigSpec.IntValue EnderguardianDamageTime;
     public final ModConfigSpec.BooleanValue EnderguardianBlockBreaking;
     public final ModConfigSpec.DoubleValue EnderguardianLongRangelimit;
     public final ModConfigSpec.IntValue EnderguardianBlockBreakingX;
     public final ModConfigSpec.IntValue EnderguardianBlockBreakingY;
     public final ModConfigSpec.IntValue EnderguardianBlockBreakingZ;
+    public final ModConfigSpec.DoubleValue EnderguardianGravityPunchHpdamage;
+    public final ModConfigSpec.DoubleValue EnderguardianKnockbackHpdamage;
+    public final ModConfigSpec.DoubleValue EnderguardianUppercutHpdamage;
+    public final ModConfigSpec.DoubleValue EnderguardianTeleportAttackHpdamage;
+    public final ModConfigSpec.DoubleValue EnderguardianAreaAttackHpdamage;
+    public final ModConfigSpec.DoubleValue EnderguardianRocketPunchHpdamage;
 
     public final ModConfigSpec.IntValue Lavabombmagazine;
     public final ModConfigSpec.IntValue Lavabombamount;
@@ -72,6 +79,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue MonstrosityNatureHealing;
     public final ModConfigSpec.DoubleValue MonstrosityHealingMultiplier;
     public final ModConfigSpec.DoubleValue MonstrosityDamageCap;
+    public final ModConfigSpec.IntValue MonstrosityDamageTime;
     public final ModConfigSpec.DoubleValue MonstrosityLongRangelimit;
     public final ModConfigSpec.BooleanValue NetheritemonstrosityBodyBloking;
     public final ModConfigSpec.DoubleValue MonstrositysHpdamage;
@@ -81,18 +89,13 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue EndergolemLongRangelimit;
     public final ModConfigSpec.DoubleValue EndergolemHealthMultiplier;
     public final ModConfigSpec.DoubleValue EndergolemDamageMultiplier;
-    public final ModConfigSpec.DoubleValue EnderguardianGravityPunchHpdamage;
-    public final ModConfigSpec.DoubleValue EnderguardianKnockbackHpdamage;
-    public final ModConfigSpec.DoubleValue EnderguardianUppercutHpdamage;
-    public final ModConfigSpec.DoubleValue EnderguardianTeleportAttackHpdamage;
-    public final ModConfigSpec.DoubleValue EnderguardianAreaAttackHpdamage;
-    public final ModConfigSpec.DoubleValue EnderguardianRocketPunchHpdamage;
 
     public final ModConfigSpec.DoubleValue IgnisHealthMultiplier;
     public final ModConfigSpec.DoubleValue IgnisDamageMultiplier;
     public final ModConfigSpec.DoubleValue IgnisNatureHealing;
     public final ModConfigSpec.DoubleValue IgnisHealingMultiplier;
     public final ModConfigSpec.DoubleValue IgnisDamageCap;
+    public final ModConfigSpec.IntValue IgnisDamageTime;
     public final ModConfigSpec.DoubleValue IgnisLongRangelimit;
     public final ModConfigSpec.BooleanValue IgnisBlockBreaking;
 
@@ -110,6 +113,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue HarbingerHealingMultiplier;
     public final ModConfigSpec.DoubleValue HarbingerLongRangelimit;
     public final ModConfigSpec.DoubleValue HarbingerDamageCap;
+    public final ModConfigSpec.IntValue HarbingerDamageTime;
     public final ModConfigSpec.BooleanValue HarbingerLightFire;
     public final ModConfigSpec.DoubleValue HarbingerChargeHpDamage;
 
@@ -118,6 +122,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue LeviathanNatureHealing;
     public final ModConfigSpec.DoubleValue LeviathanLongRangelimit;
     public final ModConfigSpec.DoubleValue LeviathanDamageCap;
+    public final ModConfigSpec.IntValue LeviathanDamageTime;
     public final ModConfigSpec.BooleanValue LeviathanBlockBreaking;
     public final ModConfigSpec.BooleanValue LeviathanImmuneOutofWater;
     public final ModConfigSpec.DoubleValue LeviathanbiteHpdamage;
@@ -139,6 +144,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue AncientRemnantNatureHealing;
     public final ModConfigSpec.BooleanValue AncientRemnantBlockBreaking;
     public final ModConfigSpec.DoubleValue AncientRemnantDamageCap;
+    public final ModConfigSpec.IntValue AncientRemnantDamageTime;
     public final ModConfigSpec.DoubleValue AncientRemnantEarthQuakeDamage;
     public final ModConfigSpec.DoubleValue AncientRemnantLongRangelimit;
     public final ModConfigSpec.DoubleValue RemnantChargeHpDamage;
@@ -168,6 +174,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageCap;
+    public final ModConfigSpec.IntValue MaledictusDamageTime;
     public final ModConfigSpec.DoubleValue MaledictusLongRangelimit;
     public final ModConfigSpec.DoubleValue MaledictusNatureHealing;
     public final ModConfigSpec.DoubleValue MaledictusPhantomHalberddamage;
@@ -267,6 +274,7 @@ public class CommonConfig {
         EnderguardianHealthMultiplier = buildDouble(builder, "EnderGuardianHealthMultiplier", "all", 1.0D, 0D, 1000000D, "EnderGuardian's Health Multiplier");
         EnderguardianDamageMultiplier = buildDouble(builder, "EnderGuardianDamageMultiplier", "all", 1.0D, 0D, 1000000D, "EnderGuardian's Damage Multiplier");
         EnderguardianDamageCap = buildDouble(builder, "EnderGuardianDamageCap", "all", 22D, 0D, 1000000D, "EnderGuardian's DamageCap");
+        EnderguardianDamageTime = buildInt(builder, "EnderGuardianDamageTime", "all", CMConfig.EnderguardianDamageTime, 0, 100, "EnderGuardian's DamageTime");
         EnderguardianNatureHealing = buildDouble(builder, "EnderGuardianNatureHealing", "all", 10D, 0D, 1000000D, "EnderGuardian's Healing with out target");
         EnderguardianBlockBreaking = buildBoolean(builder, "EnderguardianBlockBreaking", "all", true, "Ender guardian's block breaking ignore the MobGriefing");
         EnderguardianLongRangelimit = buildDouble(builder, "Guardian's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Guardian's Immune to Long distance attack range.");
@@ -289,6 +297,7 @@ public class CommonConfig {
         MonstrosityHealingMultiplier = buildDouble(builder, "MonstrosityHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Healing Multiplier");
         MonstrosityNatureHealing = buildDouble(builder, "MonstrosityNatureHealing", "all", 10D, 0D, 1000000D, " Monstrosity's Healing with out target");
         MonstrosityDamageCap = buildDouble(builder, "MonstrosityDamageCap", "all", 22D, 0D, 1000000D, "Monstrosity's DamageCap");
+        MonstrosityDamageTime = buildInt(builder, "MonstrosityDamageTime", "all", CMConfig.MonstrosityDamageTime, 0, 100, "Monstrosity's DamageTime");
         NetheritemonstrosityBodyBloking = buildBoolean(builder, "NetheritemonstrosityBodyBloking", "all", true, "Monstrosity's bodyBlocking verdict");
         MonstrositysHpdamage = buildDouble(builder, "Monstrosity's attack Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Monstrosity's attack Hp Damage");
         MonstrosityLongRangelimit = buildDouble(builder, "Monstrosity's prevent attacks from far away Range", "all", 18.0D, 1D, 1000000D, "Monstrosity's Immune to Long distance attack range.");
@@ -311,6 +320,7 @@ public class CommonConfig {
         IgnisHealingMultiplier = buildDouble(builder, "IgnisHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Ignis's Healing Multiplier");
         IgnisLongRangelimit = buildDouble(builder, "Ignis's prevent attacks from far away Range", "all", 15.0D, 1D, 1000000D, "Ignis's Immune to Long distance attack range.");
         IgnisDamageCap = buildDouble(builder, "IgnisDamageCap", "all", 20D, 0D, 1000000D, "Ignis's DamageCap");
+        IgnisDamageTime = buildInt(builder, "IgnisDamageTime", "all", CMConfig.IgnisDamageTime, 0, 100, "Ignis's DamageTime");
         IgnisBlockBreaking = buildBoolean(builder, "IgnisBlockBreaking", "all", true, "Ignis's cracked block breaking ignore the MobGriefing");
         builder.pop();
 
@@ -333,6 +343,7 @@ public class CommonConfig {
         HarbingerLaserdamage = buildDouble(builder, "Harbinger's laser damage", "all", 5, 0D, 1000000D, "Harbinger's laser's Damage");
         HarbingerLongRangelimit = buildDouble(builder, "The Harbinger's prevent attacks from far away Range", "all", 35D, 1D, 1000000D, "Harbinger's Immune to Long distance attack range.");
         HarbingerDamageCap = buildDouble(builder, "The Harbinger DamageCap", "all", 22D, 0D, 1000000D, "Harbinger's DamageCap");
+        HarbingerDamageTime = buildInt(builder, "The Harbinger DamageTime", "all", CMConfig.HarbingerDamageTime, 0, 100, "Harbinger's DamageTime");
         HarbingerLightFire = buildBoolean(builder, "The Harbinger Light A Fire", "all", true, "Harbinger's lasers can light a fire in MobGriefing");
         HarbingerChargeHpDamage = buildDouble(builder, "The Harbinger's charge attack Hp Damage", "all", 0.06D, 0.0D, 1.0D, "The Harbinger's charge attack Hp Damage");
         builder.pop();
@@ -347,6 +358,7 @@ public class CommonConfig {
         LeviathanTailSwingHpdamage = buildDouble(builder, "Leviathan's TailSwing Hp Damage", "all", 0.08D, 0.0D, 1.0D, "Leviathan's TailSwing Hp Damage");
         LeviathanTentacleHpdamage = buildDouble(builder, "Leviathan's Tentacle Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Leviathan's Tentacle Hp Damage");
         LeviathanDamageCap = buildDouble(builder, "LeviathanDamageCap", "all", 20D, 0D, 1000000D, "Leviathan's DamageCap");
+        LeviathanDamageTime = buildInt(builder, "Leviathan DamageTime", "all", CMConfig.LeviathanDamageTime, 0, 100, "Leviathan's DamageTime");
         LeviathanBlockBreaking = buildBoolean(builder, "LeviathanBlockBreaking", "all", true, "Leviathan's block breaking ignore the MobGriefing");
         LeviathanImmuneOutofWater = buildBoolean(builder, "LeviathanImmuneOutofWater", "all", true, "Leviathan Immune Out of Water");
         builder.pop();
@@ -379,6 +391,7 @@ public class CommonConfig {
         AncientRemnantNatureHealing = buildDouble(builder, "AncientRemnantNatureHealing", "all", 10D, 0D, 1000000D, "AncientRemnant's Healing with out target");
         AncientRemnantLongRangelimit = buildDouble(builder, "Ancient Remnant's prevent attacks from far away Range", "all", 14.0D, 1D, 1000000D, "Ancient Remnant's Immune to Long distance attack range.");
         AncientRemnantDamageCap = buildDouble(builder, "AncientRemnantCap", "all", 21.0D, 0D, 1000000D, "Ancient Remnant's DamageCap");
+        AncientRemnantDamageTime = buildInt(builder, "Ancient Remnant DamageTime", "all", CMConfig.AncientRemnantDamageTime, 0, 100, "Ancient Remnant's DamageTime");
         AncientRemnantBlockBreaking = buildBoolean(builder, "AncientRemnantBlockBreaking", "all", true, "Ancient Remnant's block breaking ignore the MobGriefing");
         RemnantChargeHpDamage = buildDouble(builder, "Remnant's Charge Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Remnant's Charge Hp Damage");
         RemnantHpDamage = buildDouble(builder, "Remnant's Normal attack Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Remnant's Hp Damage");
@@ -415,6 +428,7 @@ public class CommonConfig {
         MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", 10D, 0D, 1000000D, "Maledictus's Healing with out target");
         MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 10D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
+        MaledictusDamageTime = buildInt(builder, "Maledictus DamageTime", "all", CMConfig.MaledictusDamageTime, 0, 100, "Maledictus's DamageTime");
         MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");
         MaledictusShockWaveHpDamage = buildDouble(builder, "Maledictus's Shock Wave Hp Damage", "all", 0.03D, 0.0D, 1.0D, "Maledictus's Shock wave Hp Damage");
         MaledictusAOEHpDamage = buildDouble(builder, "Maledictus's AOE Hp Damage", "all", 0.15D, 0.0D, 1.0D, "Maledictus's AOE Hp Damage");

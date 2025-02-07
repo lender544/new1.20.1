@@ -324,9 +324,12 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return attack;
     }
 
-    @Override
     public float DamageCap() {
         return (float) CMConfig.LeviathanDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.LeviathanDamageTime;
     }
 
     @Override

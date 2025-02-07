@@ -16,6 +16,8 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Roya
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Cindaria_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
@@ -568,6 +570,11 @@ public class ModEntities {
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":hippocamtus"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Cindaria_Entity>> CINDARIA = ENTITY_TYPE.register("cindaria", () -> EntityType.Builder.of(Cindaria_Entity::new, MobCategory.MONSTER)
+            .sized(0.6F, 2.3f)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":cindaria"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Urchinkin_Entity>> URCHINKIN = ENTITY_TYPE.register("urchinkin", () -> EntityType.Builder.of(Urchinkin_Entity::new, MobCategory.MONSTER)
             .sized(0.7F, 0.7F)
             .clientTrackingRange(8)
@@ -645,5 +652,6 @@ public class ModEntities {
         event.put(ELITE_DRAUGR.get(), Elite_Draugr_Entity.elite_draugr().build());
         event.put(HIPPOCAMTUS.get(), Hippocamtus_Entity.Hippocamtus_Entity().build());
         event.put(URCHINKIN.get(), Urchinkin_Entity.urchin().build());
+        event.put(CINDARIA.get(), Cindaria_Entity.cindaria().build());
     }
 }

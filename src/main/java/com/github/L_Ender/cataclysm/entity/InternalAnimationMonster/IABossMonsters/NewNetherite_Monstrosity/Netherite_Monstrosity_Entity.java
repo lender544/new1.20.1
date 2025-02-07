@@ -307,6 +307,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return (float) CMConfig.MonstrosityDamageCap;
     }
 
+    public int DamageTime() {
+        return CMConfig.MonstrosityDamageTime;
+    }
+
     public boolean canBeCollidedWith() {
         return this.isAlive() && Blocking && this.getAttackState() != 8;
     }

@@ -51,7 +51,8 @@ public class Water_Spear_Entity extends Projectile {
 
     public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
         this(type, level);
-        this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
+        this.setPosRaw(getX, gety, getz);
+        this.setOldPosAndRot();
         this.reapplyPosition();
         this.assignDirectionalMovement(vec3, this.accelerationPower);
 
@@ -61,7 +62,6 @@ public class Water_Spear_Entity extends Projectile {
         this(ModEntities.WATER_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
         this.setOwner(p_36827_);
         this.setDamage(damage);
-        this.setRot(p_36827_.getYRot(), p_36827_.getXRot());
     }
 
     public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
@@ -128,7 +128,7 @@ public class Water_Spear_Entity extends Projectile {
             double d0 = this.getX() + vec3.x;
             double d1 = this.getY() + vec3.y;
             double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 0.2F);
+            ProjectileUtil.rotateTowardsMovement(this, 1.0F);
             float f = this.getInertia();
 
 
@@ -303,8 +303,8 @@ public class Water_Spear_Entity extends Projectile {
 
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
-        Vec3 vec3 = new Vec3(packet.getXa(), packet.getYa(), packet.getZa());
-        this.setDeltaMovement(vec3);
+        this.xRotO = this.getXRot();
+        this.yRotO = this.getYRot();
 
     }
 

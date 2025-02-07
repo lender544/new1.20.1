@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:bypasses_invulnerability",
+    "cataclysm:shredder",
+    "cataclysm:maledictio_sagitta",
+    "cataclysm:abyssal_burn"
+  ]
+}

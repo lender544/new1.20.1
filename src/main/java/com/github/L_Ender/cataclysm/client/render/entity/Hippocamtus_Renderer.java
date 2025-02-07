@@ -3,13 +3,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.Draugr_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Hippocamtus_Model;
-import com.github.L_Ender.cataclysm.client.model.entity.Kobolediator_Model;
-import com.github.L_Ender.cataclysm.client.model.entity.Wadjet_Model;
-import com.github.L_Ender.cataclysm.client.render.layer.Wadjet_Layer;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Hippocamtus_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -20,7 +15,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Hippocamtus_Renderer extends MobRenderer<Hippocamtus_Entity, Hippocamtus_Model> {
 
-    private static final ResourceLocation KOBOLEDIATOR_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/hippocamtus.png");
+    private static final ResourceLocation KOBOLEDIATOR_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/hippocamtus.png");
     ;
 
     public Hippocamtus_Renderer(EntityRendererProvider.Context renderManagerIn) {

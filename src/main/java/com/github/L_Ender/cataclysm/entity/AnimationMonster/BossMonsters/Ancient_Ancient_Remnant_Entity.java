@@ -216,7 +216,7 @@ public class Ancient_Ancient_Remnant_Entity extends LLibrary_Boss_Monster {
         return super.hurt(source, damage);
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.AncientRemnantDamageCap;
     }

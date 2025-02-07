@@ -136,7 +136,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.HIPPOCAMTUS.get(), Hippocamtus_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHINKIN.get(), Urchinkin_Renderer::new);
 		event.registerEntityRenderer(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
-
+		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
 

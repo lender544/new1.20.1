@@ -2,10 +2,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
-import com.github.L_Ender.cataclysm.client.animation.Draugar_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Hippocamtus_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Urchinkin_Animation;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Hippocamtus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;

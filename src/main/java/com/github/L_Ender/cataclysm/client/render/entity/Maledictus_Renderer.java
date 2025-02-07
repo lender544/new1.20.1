@@ -3,12 +3,14 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.entity.Cindaria_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.layer.MaledictusRiderLayer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Cicle_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Cindaria_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -28,6 +30,7 @@ import net.minecraft.world.entity.Pose;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
+import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 import javax.annotation.Nullable;
@@ -148,8 +151,17 @@ public class Maledictus_Renderer extends MobRenderer<Maledictus_Entity, Maledict
         }
 
         matrixStackIn.popPose();
-       // super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        renderetc(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.client.event.RenderLivingEvent.Post<Maledictus_Entity, Maledictus_Model>(entityIn, this, partialTicks, matrixStackIn, bufferIn, packedLightIn));
+    }
+
+    private void renderetc(Maledictus_Entity p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        RenderNameTagEvent event = new RenderNameTagEvent(p_entity, p_entity.getDisplayName(), this, poseStack, bufferSource, packedLight, partialTick);
+        NeoForge.EVENT_BUS.post(event);
+        if (event.canRender().isTrue() || event.canRender().isDefault() && this.shouldShowName(p_entity)) {
+            this.renderNameTag(p_entity, event.getContent(), poseStack, bufferSource, packedLight, partialTick);
+        }
+
     }
     
 

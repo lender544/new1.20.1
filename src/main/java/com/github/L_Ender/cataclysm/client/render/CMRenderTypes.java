@@ -175,6 +175,30 @@ public class CMRenderTypes extends RenderType {
     }
 
 
+    public static RenderType jelly(ResourceLocation locationIn) {
+        TextureStateShard renderstateshard$texturestateshard = new TextureStateShard(locationIn, false, false);
+        return create("jelly", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, CompositeState.builder()
+                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
+                .setTextureState(renderstateshard$texturestateshard)
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(NO_CULL)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .setOverlayState(OVERLAY).
+                createCompositeState(true));
+    }
+
+    public static RenderType getTeslaBulb(ResourceLocation resourceLocation) {
+        return create("tesla_bulb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
+                RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, true))
+                        .setLightmapState(LIGHTMAP)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                        .setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(true));
+    }
+
+
+
     public static final RenderType LIGHTNING = create(
             "lightning",
             DefaultVertexFormat.POSITION_COLOR,
