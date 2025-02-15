@@ -98,7 +98,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public AnimationState deathAnimationState = new AnimationState();
 
 
-    private int reducedDamageTicks;
     private boolean combo;
     private boolean grab;
     private int rageTicks;
@@ -413,23 +412,19 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         if ((this.getAttackState() == 31 || this.getAttackState() == 32 || this.getAttackState() == 33) && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
-        if (reducedDamageTicks > 0) {
-            float reductionFactor = 1.0f - (reducedDamageTicks / 30.0f);
-            damage *= reductionFactor;
-        }
         if (this.destroyBlocksTick <= 0) {
             this.destroyBlocksTick = 20;
         }
 
-        boolean flag = super.hurt(source, damage);
-        if (flag) {
-            reducedDamageTicks = 30;
-        }
-        return flag;
+        return super.hurt(source, damage);
     }
 
     public float DamageCap() {
         return (float) CMConfig.MaledictusDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.MaledictusDamageTime;
     }
 
     protected int decreaseAirSupply(int air) {
@@ -612,8 +607,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getAttackState()) {
+            switch (this.getAttackState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         this.stopAllAnimationStates();
@@ -860,7 +854,6 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
         } else {
-            if (reducedDamageTicks > 0) reducedDamageTicks--;
             if (rageTicks > 0) {
                 rageTicks--;
             } else {
@@ -1005,7 +998,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 1.6F + Math.min(DMG() * 1.6F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioSoulDamage(this), (float) (DMG() * 1.5F + Math.min(DMG() * 1.5F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }
@@ -1303,7 +1296,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             if(this.attackTicks == 1) {
                 this.playSound(ModSounds.MALEDICTUS_SHORT_ROAR.get(), 1.0F, 1.0f);
             }
-            Grab(-0.025D, 0.5D,1.5, 0.6F, 0, 0, true);
+            Grab(-0.025D, 0.5D,1.5, 0.2F, 0, 0, true);
             if (this.level().isClientSide) {
                 for (int i = 0; i < 2; ++i) {
                     this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), this.getRandomX(1.5D), this.getRandomY(), this.getRandomZ(1.5D), 0.0D, 0.0D, 0.0D);
@@ -1351,7 +1344,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                     if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeMaledictioDamage(this), (float) (DMG() * 2.0F + Math.min(DMG() * 2.0F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
+                        entity.hurt(CMDamageTypes.causeMaledictioSoulDamage(this), (float) (DMG() * 1.75F + Math.min(DMG() * 1.75F, entity.getMaxHealth() * CMConfig.MaledictusAOEHpDamage)));
                     }
                 }
             }

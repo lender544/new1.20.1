@@ -20,7 +20,7 @@ import java.util.UUID;
 
 public class AnimationPet extends TamableAnimal implements IFollower {
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.INT);
 
     public AnimationPet(EntityType entity, Level world) {
         super(entity, world);

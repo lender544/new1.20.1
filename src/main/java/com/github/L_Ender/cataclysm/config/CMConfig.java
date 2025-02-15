@@ -62,6 +62,14 @@ public class CMConfig {
     public static double AncientRemnantDamageCap = 21;
     public static double MaledictusDamageCap = 20;
 
+    public static int EnderguardianDamageTime = 30;
+    public static int MonstrosityDamageTime = 10;
+    public static int IgnisDamageTime = 15;
+    public static int HarbingerDamageTime = 12;
+    public static int LeviathanDamageTime = 15;
+    public static int AncientRemnantDamageTime = 12;
+    public static int MaledictusDamageTime = 30;
+
     public static int Lavabombmagazine = 3;
     public static int Lavabombamount = 3;
 
@@ -145,7 +153,7 @@ public class CMConfig {
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
     public static double MaledictusNatureHealing = 10D;
-    public static double MaledictusPhantomHalberddamage = 13;
+    public static double MaledictusPhantomHalberddamage = 10;
 
     public static double MonstrosityLongRangelimit = 18D;
     public static double EnderguardianLongRangelimit = 12D;
@@ -199,7 +207,7 @@ public class CMConfig {
     public static int DeeplingWarlockSpawnRolls = 70;
 
     public static int AmethystCrabSpawnWeight = 1;
-    public static int AmethystCrabSpawnRolls = 40;
+    public static int AmethystCrabSpawnRolls = 20;
 
     public static int KoboletonSpawnWeight = 15;
     public static int KoboletonSpawnRolls = 1;
@@ -273,6 +281,15 @@ public class CMConfig {
             AncientRemnantDamageCap = ConfigHolder.COMMON.AncientRemnantDamageCap.get();
             MaledictusDamageCap = ConfigHolder.COMMON.MaledictusDamageCap.get();
 
+
+            EnderguardianDamageTime = ConfigHolder.COMMON.EnderguardianDamageTime.get();
+            MonstrosityDamageTime = ConfigHolder.COMMON.MonstrosityDamageTime.get();
+            IgnisDamageTime = ConfigHolder.COMMON.IgnisDamageTime.get();
+            HarbingerDamageTime = ConfigHolder.COMMON.HarbingerDamageTime.get();
+            LeviathanDamageTime = ConfigHolder.COMMON.LeviathanDamageTime.get();
+            AncientRemnantDamageTime = ConfigHolder.COMMON.AncientRemnantDamageTime.get();
+            MaledictusDamageTime = ConfigHolder.COMMON.MaledictusDamageTime.get();
+
             Lavabombmagazine = ConfigHolder.COMMON.Lavabombmagazine.get();
             Lavabombamount = ConfigHolder.COMMON.Lavabombamount.get();
             EnderguardianBlockBreakingX = ConfigHolder.COMMON.EnderguardianBlockBreakingX.get();
@@ -299,7 +316,7 @@ public class CMConfig {
 
             ProwlerHealthMultiplier = ConfigHolder.COMMON.ProwlerHealthMultiplier.get();
             ProwlerDamageMultiplier = ConfigHolder.COMMON.ProwlerDamageMultiplier.get();
-            
+
             HarbingerHealthMultiplier = ConfigHolder.COMMON.HarbingerHealthMultiplier.get();
             HarbingerDamageMultiplier = ConfigHolder.COMMON.HarbingerDamageMultiplier.get();
             HarbingerHealingMultiplier = ConfigHolder.COMMON.HarbingerHealingMultiplier.get();

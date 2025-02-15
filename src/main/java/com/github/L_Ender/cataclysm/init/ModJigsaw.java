@@ -1,8 +1,6 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.structures.jisaw.CataclysmPoolElement;
-import com.github.L_Ender.cataclysm.structures.jisaw.FallbackPoolElement;
 import com.github.L_Ender.cataclysm.structures.jisaw.element.CataclysmJigsawSinglePoolElement;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;

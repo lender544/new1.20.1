@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.ForgeRenderTypes;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -72,7 +73,7 @@ public abstract class AbstractTrailParticle extends Particle {
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(CMRenderTypes.getTrailEffect(getTrailTexture()));
+            VertexConsumer vertexconsumer = getVetrexConsumer(multibuffersource$buffersource);
             Vec3 cameraPos = camera.getPosition();
             double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
             double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
@@ -109,6 +110,11 @@ public abstract class AbstractTrailParticle extends Particle {
             posestack.popPose();
         }
     }
+
+    protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.NEW_TRAIL_EFFECT.apply(getTrailTexture()));
+    }
+
 
     public float getTrailRot(Camera camera) {
         return -0.017453292F * camera.getXRot();

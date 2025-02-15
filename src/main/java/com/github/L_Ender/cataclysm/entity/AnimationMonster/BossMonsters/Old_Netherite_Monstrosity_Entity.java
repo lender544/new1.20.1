@@ -232,7 +232,7 @@ public class Old_Netherite_Monstrosity_Entity extends LLibrary_Boss_Monster impl
         return attack;
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.MonstrosityDamageCap;
     }

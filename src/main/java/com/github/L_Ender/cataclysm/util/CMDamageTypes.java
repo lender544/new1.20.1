@@ -23,6 +23,7 @@ public class CMDamageTypes {
     public static final ResourceKey<DamageType> MALEDICTIO = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio"));
     public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_sagitta"));
     public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_magicae"));
+    public static final ResourceKey<DamageType> MALEDICTIO_ANIMA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_anima"));
 
     public static DamageSource causeLaserDamage(Entity attacker, LivingEntity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LASER), attacker, caster);
@@ -54,6 +55,10 @@ public class CMDamageTypes {
 
     public static DamageSource causeMaledictioDamage(LivingEntity attacker) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO), attacker);
+    }
+
+    public static DamageSource causeMaledictioSoulDamage(LivingEntity attacker) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_ANIMA), attacker);
     }
 
     public static DamageSource causeMaledictioSagittaDamage(Entity attacker, Entity caster) {

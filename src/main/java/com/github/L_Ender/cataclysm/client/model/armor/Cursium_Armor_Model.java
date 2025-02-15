@@ -45,9 +45,16 @@ public class Cursium_Armor_Model extends HumanoidModel {
 
         PartDefinition chestplate_r2 = left_shoulder.addOrReplaceChild("chestplate_r2", CubeListBuilder.create().texOffs(0, 92).mirror().addBox(-2.5F, -6.0F, -2.5F, 5.0F, 12.0F, 5.0F, new CubeDeformation(0.55F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.1745F));
 
+
         PartDefinition right_leggings_plate = rightLeg.addOrReplaceChild("right_leggings_plate", CubeListBuilder.create().texOffs(62, 108).addBox(-5.8F, -12.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.8F)), PartPose.offsetAndRotation(1.9F, 11.0F, 0.0F, 0.0F, 0.0F, 0.0873F));
 
+        PartDefinition right_boots_leggings = rightLeg.addOrReplaceChild("right_boots_leggings", CubeListBuilder.create().texOffs(80, 115).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+
         PartDefinition left_leggings_plate = leftLeg.addOrReplaceChild("left_leggings_plate", CubeListBuilder.create().texOffs(62, 108).mirror().addBox(2.8F, -12.0F, -2.0F, 3.0F, 6.0F, 4.0F, new CubeDeformation(0.8F)).mirror(false), PartPose.offsetAndRotation(-1.9F, 11.0F, 0.0F, 0.0F, 0.0F, -0.0873F));
+
+        PartDefinition left_boots_leggings = leftLeg.addOrReplaceChild("left_boots_leggings", CubeListBuilder.create().texOffs(80, 115).mirror().addBox(-2.0F, 0.0F, -2.0F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
+
 
         PartDefinition right_horn = head.addOrReplaceChild("right_horn", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.2F, -10.0F, 0.0F, -0.2618F, 0.0F, -0.6545F));
 

@@ -45,6 +45,9 @@ public class Void_Vortex_Entity extends Entity {
         this.setOwner(casterIn);
         this.setYRot(p_i47276_8_ * (180F / (float)Math.PI));
         this.setPos(x, y, z);
+        if (!worldIn.isClientSide) {
+            this.setCasterID(casterIn.getId());
+        }
     }
 
     @Override
@@ -57,6 +60,9 @@ public class Void_Vortex_Entity extends Entity {
         if (this.tickCount == 1) {
             if(this.getLifespan() == 0){
                 this.setLifespan(60);
+            }
+            if (level().isClientSide) {
+                owner = (LivingEntity) level().getEntity(getCasterID());
             }
         }
         if(!madeOpenNoise){

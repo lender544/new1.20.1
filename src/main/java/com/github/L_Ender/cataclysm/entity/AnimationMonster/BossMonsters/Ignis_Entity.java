@@ -362,9 +362,13 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         return attack;
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.IgnisDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.IgnisDamageTime;
     }
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {

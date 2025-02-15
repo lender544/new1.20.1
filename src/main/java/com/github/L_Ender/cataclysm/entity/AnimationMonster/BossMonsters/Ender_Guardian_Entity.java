@@ -308,11 +308,14 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         return attack;
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.EnderguardianDamageCap;
     }
 
+    public int DamageTime() {
+        return CMConfig.EnderguardianDamageTime;
+    }
 
     @Override
     public boolean isInvulnerableTo(DamageSource source) {

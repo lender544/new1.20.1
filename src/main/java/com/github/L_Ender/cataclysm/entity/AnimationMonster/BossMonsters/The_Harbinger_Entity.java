@@ -235,9 +235,13 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
         }
     }
 
-    @Override
+    
     public float DamageCap() {
         return (float) CMConfig.HarbingerDamageCap;
+    }
+
+    public int DamageTime() {
+        return CMConfig.HarbingerDamageTime;
     }
 
     public boolean canBeSeenAsEnemy() {

@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 import javax.annotation.Nullable;
 
 public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimatedEntity, Enemy {
-
+    private int reducedDamageTicks;
     public LLibrary_Boss_Monster(EntityType entity, Level world) {
         super(entity, world);
     }
@@ -30,11 +30,38 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         } else {
             damage = Math.min(DamageCap(), damage);
         }
-        return super.hurt(source, damage);
+        if (ReducedDamage(source)) {
+            if (reducedDamageTicks > 0) {
+                float reductionFactor = 1.0f - ((float) reducedDamageTicks / DamageTime());
+                damage *= reductionFactor;
+            }
+        }
+        boolean flag = super.hurt(source, damage);
+        if (ReducedDamage(source)) {
+            if (flag) {
+                reducedDamageTicks = DamageTime();
+            }
+        }
+        return flag;
+    }
+
+    public boolean ReducedDamage(DamageSource damageSource){
+        return !damageSource.is(ModTag.BYPASSES_HURT_TIME) && DamageTime() > 0;
     }
 
     public float DamageCap() {
         return Float.MAX_VALUE;
+    }
+
+    public int DamageTime() {
+        return 0;
+    }
+
+    public void tick() {
+        super.tick();
+        if (!this.level().isClientSide()) {
+            if (reducedDamageTicks > 0) reducedDamageTicks--;
+        }
     }
 
 

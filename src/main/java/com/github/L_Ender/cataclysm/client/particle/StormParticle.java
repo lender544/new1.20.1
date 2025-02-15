@@ -22,7 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Locale;
 
 public class StormParticle extends AbstractTrailParticle {
-    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/particle/storm.png");
+    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/particle/amogus.png");
 
     private final int EntityId;
     private final float width;

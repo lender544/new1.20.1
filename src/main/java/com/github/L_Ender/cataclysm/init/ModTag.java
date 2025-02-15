@@ -7,6 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -50,6 +51,7 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_THE_LEVIATHAN = registerEntityTag("team_the_leviathan");
 
+    public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
 
     public static final TagKey<EntityType<?>> DIMENSIONAL_LIFT_IMMUNE = registerEntityTag("dimensional_lift_immune");
 
@@ -150,6 +152,10 @@ public class ModTag {
     private static TagKey<Biome> registerBiomeTag(String name) {
         return TagKey.create(Registries.BIOME, new ResourceLocation(Cataclysm.MODID, name));
     }
+    private static TagKey<DamageType> registerDamageTypeTag(String name) {
+        return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID, name));
+    }
+
 
     public static <T> boolean isInTag(T value, TagKey<T> tagKey) {
         // noinspection unchecked

@@ -60,7 +60,8 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
     public AnimationState chestopenAnimationState = new AnimationState();
     public AnimationState chestloopAnimationState = new AnimationState();
     public AnimationState chestcloseAnimationState = new AnimationState();
-
+    public AnimationState sitstartAnimationState = new AnimationState();
+    public AnimationState sitendAnimationState = new AnimationState();
 
     public Netherite_Ministrosity_Entity(EntityType type, Level world) {
         super(type, world);
@@ -192,10 +193,16 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
             return this.chestloopAnimationState;
         } else if (input == "chest_close") {
             return this.chestcloseAnimationState;
+        } else if (input == "sit_start") {
+            return this.sitstartAnimationState;
+        } else if (input == "sit_end") {
+            return this.sitendAnimationState;
+
         }else {
             return new AnimationState();
         }
     }
+
 
 
 
@@ -289,31 +296,45 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getAttackState()) {
-                    case 0 -> this.stopAllAnimationStates();
-                    case 1 -> {
-                        this.stopAllAnimationStates();
-                        this.sleepAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 2 -> {
-                        this.stopAllAnimationStates();
-                        this.operationAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 3 -> {
-                        this.stopAllAnimationStates();
-                        this.chestopenAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 4 -> {
-                        this.stopAllAnimationStates();
-                        this.chestloopAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 5 -> {
-                        this.stopAllAnimationStates();
-                        this.chestcloseAnimationState.startIfStopped(this.tickCount);
-                    }
-
+            switch (this.getAttackState()) {
+                case 0 -> this.stopAllAnimationStates();
+                case 1 -> {
+                    this.stopAllAnimationStates();
+                    this.sleepAnimationState.startIfStopped(this.tickCount);
                 }
+                case 2 -> {
+                    this.stopAllAnimationStates();
+                    this.operationAnimationState.startIfStopped(this.tickCount);
+                }
+                case 3 -> {
+                    this.stopAllAnimationStates();
+                    this.chestopenAnimationState.startIfStopped(this.tickCount);
+                }
+                case 4 -> {
+                    this.stopAllAnimationStates();
+                    this.chestloopAnimationState.startIfStopped(this.tickCount);
+                }
+                case 5 -> {
+                    this.stopAllAnimationStates();
+                    this.chestcloseAnimationState.startIfStopped(this.tickCount);
+                }
+            }
+        }
+        if (COMMAND.equals(p_21104_)) {
+            switch (this.getCommand()) {
+                case 0 -> {
+                    this.sitAnimationStates();
+                    this.sitendAnimationState.startIfStopped(this.tickCount);
+                }
+                case 1 -> {
+                    this.sitAnimationStates();
+                }
+                case 2 -> {
+                    this.sitAnimationStates();
+                    this.sitstartAnimationState.startIfStopped(this.tickCount);
+                }
+
+            }
         }
 
         super.onSyncedDataUpdated(p_21104_);
@@ -327,6 +348,12 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         this.chestloopAnimationState.stop();
         this.chestcloseAnimationState.stop();
     }
+
+    public void sitAnimationStates() {
+        this.sitstartAnimationState.stop();
+        this.sitendAnimationState.stop();
+    }
+
 
     @Override
     public boolean fromBucket() {
