@@ -130,7 +130,7 @@ dependencies {
     // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     implementation "mezz.jei:jei-1.21-neoforge:${jei_version}"
-    implementation "curse.maven:lionfish-api-1001614:6076093"
+    implementation "curse.maven:lionfish-api-1001614:6168249"
     // Use the full Curios API jar at runtime
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
     // Example mod dependency using a mod jar from ./libs with a flat dir repository

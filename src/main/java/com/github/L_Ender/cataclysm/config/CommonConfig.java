@@ -242,7 +242,7 @@ public class CommonConfig {
         builder.pop();
 
         builder.push("Block");
-        Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 30, 3, 300, "Cursed Tombstone Summon cooldown Minute");
+        Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 1, 1, 300, "Cursed Tombstone Summon cooldown Minute");
         builder.pop();
 
         builder.push("Entity damage");
@@ -426,7 +426,7 @@ public class CommonConfig {
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
         MaledictusLongRangelimit = buildDouble(builder, "Maledictus's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Maledictus's Immune to Long distance attack range.");
         MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", 10D, 0D, 1000000D, "Maledictus's Healing with out target");
-        MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 10D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
+        MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 13D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
         MaledictusDamageTime = buildInt(builder, "Maledictus DamageTime", "all", CMConfig.MaledictusDamageTime, 0, 100, "Maledictus's DamageTime");
         MaledictusHpDamage = buildDouble(builder, "Maledictus's melee Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Maledictus's melee Hp Damage");

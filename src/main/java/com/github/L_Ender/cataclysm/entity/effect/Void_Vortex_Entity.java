@@ -22,7 +22,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class Void_Vortex_Entity extends Entity {
 
@@ -40,7 +39,7 @@ public class Void_Vortex_Entity extends Entity {
         super(entityTypeIn, worldIn);
     }
 
-    public Void_Vortex_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, LivingEntity casterIn,int span) {
+    public Void_Vortex_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, LivingEntity casterIn, int span) {
         this(ModEntities.VOID_VORTEX.get(), worldIn);
         this.setLifespan(span);
         this.setOwner(casterIn);
@@ -61,6 +60,9 @@ public class Void_Vortex_Entity extends Entity {
         if (this.tickCount == 1) {
             if(this.getLifespan() == 0){
                 this.setLifespan(60);
+            }
+            if (level().isClientSide) {
+                owner = (LivingEntity) level().getEntity(getCasterID());
             }
         }
         if(!madeOpenNoise){
@@ -85,7 +87,6 @@ public class Void_Vortex_Entity extends Entity {
             AABB screamBox = new AABB(this.getX() - 3f, this.getY(), this.getZ() - 3, this.getX() + 3, this.getY() + 15F, this.getZ() + 3F);
 
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, screamBox)) {
-
                 if(owner != null && entity != owner) {
                     if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
                         Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
