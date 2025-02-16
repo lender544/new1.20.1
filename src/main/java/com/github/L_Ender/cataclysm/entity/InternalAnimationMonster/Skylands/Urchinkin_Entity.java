@@ -187,7 +187,7 @@ public class Urchinkin_Entity extends Monster {
             return true;
         } else if (super.isAlliedTo(entityIn)) {
             return true;
-        } else if (entityIn.getType().is(ModTag.TEAM_MALEDICTUS)) {
+        } else if (entityIn.getType().is(ModTag.TEAM_SCYLLA)) {
             return this.getTeam() == null && entityIn.getTeam() == null;
         } else {
             return false;

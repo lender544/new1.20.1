@@ -26,7 +26,7 @@ public class CMConfig {
     public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
 
-    public static int Cursed_tombstone_summon_cooldown = 30;
+    public static int Cursed_tombstone_summon_cooldown = 1;
 
     public static double Voidrunedamage = 7;
     public static double DimensionalRiftdamage = 10;

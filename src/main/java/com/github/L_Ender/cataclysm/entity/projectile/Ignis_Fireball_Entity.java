@@ -6,11 +6,13 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_E
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -18,8 +20,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -96,7 +103,8 @@ public class Ignis_Fireball_Entity extends CMAbstractHurtingProjectile {
         super.onHitEntity(p_37626_);
         Entity entity = p_37626_.getEntity();
         Entity shooter = this.getOwner();
-        if (this.level() instanceof ServerLevel serverlevel && !(p_37626_.getEntity() instanceof Ignis_Fireball_Entity ||  p_37626_.getEntity() instanceof Ignis_Abyss_Fireball_Entity || p_37626_.getEntity() instanceof Cm_Falling_Block_Entity || p_37626_.getEntity() instanceof Ignis_Entity && entity instanceof Ignis_Entity) && getFired()) {
+
+        if (this.level() instanceof ServerLevel serverlevel && getFired() && !(entity instanceof Ignis_Fireball_Entity || entity instanceof Ignis_Abyss_Fireball_Entity || entity instanceof Cm_Falling_Block_Entity || entity instanceof Ignis_Entity && shooter instanceof Ignis_Entity)) {
             boolean flag;
             if (shooter instanceof LivingEntity owner) {
                 DamageSource damagesource = this.damageSources().mobProjectile(this, owner);
@@ -139,14 +147,36 @@ public class Ignis_Fireball_Entity extends CMAbstractHurtingProjectile {
     }
 
 
-    @Override
-    protected void onHit(HitResult ray) {
-        super.onHit(ray);
-        if (!this.level().isClientSide) {
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.MOB);
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+        if (!this.level().isClientSide && getFired()) {
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, true, Level.ExplosionInteraction.NONE);
             this.discard();
         }
     }
+
+    @Override
+    protected void onHit(HitResult result) {
+        HitResult.Type hitresult$type = result.getType();
+        if (hitresult$type == HitResult.Type.ENTITY) {
+            EntityHitResult entityhitresult = (EntityHitResult)result;
+            Entity entity = entityhitresult.getEntity();
+            if (entity.getType().is(EntityTypeTags.REDIRECTABLE_PROJECTILE) && entity instanceof Projectile) {
+                Projectile projectile = (Projectile)entity;
+                projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
+            }
+
+            this.onHitEntity(entityhitresult);
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, result.getLocation(), GameEvent.Context.of(this, (BlockState)null));
+        } else if (hitresult$type == HitResult.Type.BLOCK) {
+            BlockHitResult blockhitresult = (BlockHitResult)result;
+            this.onHitBlock(blockhitresult);
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
+        }
+
+    }
+
 
     public boolean isPickable() {
         return false;

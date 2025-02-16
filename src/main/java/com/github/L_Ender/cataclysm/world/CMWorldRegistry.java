@@ -1,39 +1,22 @@
 package com.github.L_Ender.cataclysm.world;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.BiomeConfig;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.lionfishapi.config.biome.SpawnBiomeData;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 import net.neoforged.neoforge.common.world.ModifiableStructureInfo;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CMWorldRegistry {
 
-    private static ResourceLocation getBiomeName(Holder<Biome> biome) {
-        return biome.unwrap().map((resourceKey) -> resourceKey.location(), (noKey) -> null);
-    }
 
-    public static boolean testBiome(Pair<String, SpawnBiomeData> entry, Holder<Biome> biome) {
-        boolean result = false;
-        try {
-            result = BiomeConfig.test(entry, biome, getBiomeName(biome));
-        } catch (Exception e) {
-            Cataclysm.LOGGER.warn("could not test biome config for " + entry.getLeft() + ", defaulting to no spawns for mob");
-            result = false;
-        }
-        return result;
-    }
+
+
 
     public static void addBiomeSpawns(Holder<Biome> biome, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
         if (biome.is(ModTag.DEEPLINGS_SPAWN) && CMConfig.DeeplingSpawnWeight > 0) {

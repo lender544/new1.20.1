@@ -77,7 +77,7 @@ public class Urchinkin_Model extends HierarchicalModel<Urchinkin_Entity> {
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
-		this.body.xRot += xRot * ((float) Math.PI / 180F);
+		this.body.xRot = xRot * ((float) Math.PI / 180F);
 		this.everything.yRot = yRot * ((float) Math.PI / 180F);
 
 	}

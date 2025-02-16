@@ -72,6 +72,12 @@ public class Axe_Blade_Model extends AdvancedEntityModel<Axe_Blade_Entity> {
 		resetToDefaultPose();
 		this.root.rotateAngleY = netHeadYaw * ((float) Math.PI / 180F);
 		this.root.rotateAngleX = headPitch * ((float) Math.PI / 180F);
-		this.animate(entityIn.getAnimationState("idle"), Axe_blade_Animation.IDLE, ageInTicks, 1.0F);
+
+		float randomValue = (float) (0.1f + (Math.random() * (1.0f - 0.1f)));
+		this.vfx.rotationPointZ += randomValue * 2;
+		this.blade.rotationPointZ += randomValue * 6;
+
+		this.blade.setScale(1F , 1F, 1F + randomValue * 0.2F);
+	//	this.animate(entityIn.getAnimationState("idle"), Axe_blade_Animation.IDLE, ageInTicks, 1.0F);
 	}
 }

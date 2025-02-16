@@ -281,10 +281,10 @@ public class ModItems {
             () -> new ItemInventoryOnly(new Item.Properties()));
 
     public static final DeferredItem<Item> CORAL_SPEAR = ITEMS.register("coral_spear",
-            () -> new Coral_Spear((new Item.Properties()).durability(110)));
+            () -> new Coral_Spear((new Item.Properties()).durability(110).attributes(Coral_Spear.createAttributes())));
 
     public static final DeferredItem<Item> CORAL_BARDICHE = ITEMS.register("coral_bardiche",
-            () -> new Coral_Bardiche((new Item.Properties()).durability(160)));
+            () -> new Coral_Bardiche((new Item.Properties()).durability(160).attributes(Coral_Bardiche.createAttributes())));
 
     public static final DeferredItem<Item> ATHAME = ITEMS.register("athame",
             () -> new Athame((new Item.Properties()).durability(250).attributes(Athame.createAttributes())));

@@ -242,7 +242,7 @@ public class CommonConfig {
         builder.pop();
 
         builder.push("Block");
-        Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 30, 3, 300, "Cursed Tombstone Summon cooldown Minute");
+        Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 1, 1, 300, "Cursed Tombstone Summon cooldown Minute");
         builder.pop();
 
         builder.push("Entity damage");

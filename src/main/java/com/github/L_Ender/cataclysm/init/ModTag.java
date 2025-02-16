@@ -49,6 +49,7 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_MONSTROSITY = registerEntityTag("team_monstrosity");
 
+    public static final TagKey<EntityType<?>> TEAM_SCYLLA = registerEntityTag("team_scylla");
 
     public static final TagKey<EntityType<?>> DIMENSIONAL_LIFT_IMMUNE = registerEntityTag("dimensional_lift_immune");
 

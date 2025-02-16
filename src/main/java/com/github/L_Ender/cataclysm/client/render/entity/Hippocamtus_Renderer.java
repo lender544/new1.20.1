@@ -4,6 +4,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Hippocamtus_Model;
+import com.github.L_Ender.cataclysm.client.render.layer.Hippocamtus_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -20,6 +22,7 @@ public class Hippocamtus_Renderer extends MobRenderer<Hippocamtus_Entity, Hippoc
 
     public Hippocamtus_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Hippocamtus_Model(renderManagerIn.bakeLayer(CMModelLayers.HIPPOCAMTUS_MODEL)), 0.75F);
+        this.addLayer(new Hippocamtus_Layer(this));
     }
     @Override
     public ResourceLocation getTextureLocation(Hippocamtus_Entity entity) {

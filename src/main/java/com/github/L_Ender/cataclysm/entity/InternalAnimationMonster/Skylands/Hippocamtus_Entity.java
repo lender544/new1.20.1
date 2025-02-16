@@ -48,6 +48,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     public AnimationState guardAnimationState = new AnimationState();
     public AnimationState guardcounterAnimationState = new AnimationState();
     public AnimationState parryingAnimationState = new AnimationState();
+    public AnimationState deathAnimationState = new AnimationState();
 
     public static final EntityDataAccessor<Boolean> STAB = SynchedEntityData.defineId(Hippocamtus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -80,7 +81,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
 
             @Override
             public boolean canUse() {
-                return super.canUse() && Hippocamtus_Entity.this.guard_cooldown <= 0;
+                return super.canUse() && Hippocamtus_Entity.this.getRandom().nextFloat() * 100.0F < 48f  && Hippocamtus_Entity.this.guard_cooldown <= 0;
             }
 
             @Override
@@ -154,7 +155,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
                 .add(Attributes.ATTACK_DAMAGE, 10)
-                .add(Attributes.MAX_HEALTH, 100)
+                .add(Attributes.MAX_HEALTH, 85)
                 .add(Attributes.ARMOR, 15)
                 .add(Attributes.STEP_HEIGHT, 1.75F)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7);
@@ -240,6 +241,8 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
             return this.parryingAnimationState;
         } else if (input == "idle") {
             return this.idleAnimationState;
+        } else if (input == "death") {
+            return this.deathAnimationState;
         } else {
             return new AnimationState();
         }
@@ -289,6 +292,10 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                         this.stopAllAnimationStates();
                         this.guardcounterAnimationState.startIfStopped(this.tickCount);
                     }
+                    case 7 -> {
+                        this.stopAllAnimationStates();
+                        this.deathAnimationState.startIfStopped(this.tickCount);
+                    }
                 }
         }
         super.onSyncedDataUpdated(p_21104_);
@@ -301,17 +308,20 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         this.guardAnimationState.stop();
         this.guardcounterAnimationState.stop();
         this.parryingAnimationState.stop();
-
+        this.deathAnimationState.stop();
     }
 
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
+        this.setAttackState(7);
     }
 
     public int deathtimer() {
-        return super.deathtimer();
+        return 60;
     }
+
+
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -324,7 +334,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(true , this.tickCount);
+            this.idleAnimationState.animateWhen(this.getAttackState() != 7 , this.tickCount);
         }
 
         if (charge_cooldown > 0) charge_cooldown--;
@@ -444,7 +454,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
             return true;
         } else if (super.isAlliedTo(entityIn)) {
             return true;
-        } else if (entityIn.getType().is(ModTag.TEAM_THE_LEVIATHAN)) {
+        } else if (entityIn.getType().is(ModTag.TEAM_SCYLLA)) {
             return this.getTeam() == null && entityIn.getTeam() == null;
         } else {
             return false;
@@ -462,7 +472,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     }
 
     public boolean canBeAffected(MobEffectInstance p_34192_) {
-        return p_34192_.getEffect() != ModEffect.EFFECTSTUN && p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
+        return p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
     }
 
 

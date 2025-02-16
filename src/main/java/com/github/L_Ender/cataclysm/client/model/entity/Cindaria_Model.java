@@ -157,10 +157,11 @@ public class Cindaria_Model extends HierarchicalModel<Cindaria_Entity> {
 		this.animate(entity.getAnimationState("idle"), Cindaria_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("magic1"), Cindaria_Animation.MAGIC, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("melee"), Cindaria_Animation.MELEE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("death"), Cindaria_Animation.DEATH, ageInTicks, 1.0F);
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
-		this.head.xRot += xRot * ((float) Math.PI / 180F);
+		this.head.xRot = xRot * ((float) Math.PI / 180F);
 		this.head.yRot = yRot * ((float) Math.PI / 180F);
 	}
 

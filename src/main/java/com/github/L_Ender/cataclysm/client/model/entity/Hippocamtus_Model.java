@@ -158,11 +158,12 @@ public class Hippocamtus_Model extends HierarchicalModel<Hippocamtus_Entity> {
 		this.animate(entity.getAnimationState("guard"), Hippocamtus_Animation.GUARD, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("guardcounter"), Hippocamtus_Animation.GUARD_COUNTER, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("parry"), Hippocamtus_Animation.PARRYING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("death"), Hippocamtus_Animation.DEATH, ageInTicks, 1.0F);
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot += xRot * ((float) Math.PI / 180F);
-		this.head.yRot = yRot * ((float) Math.PI / 180F);
+		this.head.yRot += yRot * ((float) Math.PI / 180F);
 	}
 
 	public ModelPart root() {

@@ -290,7 +290,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     public boolean hurtParts(Netherite_Monstrosity_Part part, DamageSource source, float damage) {
         if (part == this.headPart) {
-            damage = Math.min(Float.MAX_VALUE, damage * 1.8F);
+            damage = Math.min(Float.MAX_VALUE, damage * 1.5F);
         }
 
         boolean attack = super.hurt(source, damage);

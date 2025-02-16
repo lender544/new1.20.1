@@ -16,7 +16,9 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Roya
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Cindaria_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
@@ -408,6 +410,12 @@ public class ModEntities {
             .sized(0.5F, 0.5F)
             .build(Cataclysm.MODID + ":tidal_hook"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Storm_Bringer_Entity>> STORM_BRINGER = ENTITY_TYPE.register("storm_bringer", () -> EntityType.Builder.<Storm_Bringer_Entity>of(Storm_Bringer_Entity::new, MobCategory.MISC)
+            .sized(1.5F, 1.5F)
+            .clientTrackingRange(4)
+            .updateInterval(20)
+            .build(Cataclysm.MODID + ":storm_bringer"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Abyss_Portal_Entity>> ABYSS_PORTAL = ENTITY_TYPE.register("abyss_portal", () -> EntityType.Builder.<Abyss_Portal_Entity>of(Abyss_Portal_Entity::new, MobCategory.MISC)
             .fireImmune()
             .sized(3F, 0.15f)
@@ -575,6 +583,16 @@ public class ModEntities {
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":cindaria"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Clawdian_Entity>> CLAWDIAN = ENTITY_TYPE.register("clawdian", () -> EntityType.Builder.of(Clawdian_Entity::new, MobCategory.MONSTER)
+            .sized(2.5F, 4.5F)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":clawdian"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Entity>> SCYLLA = ENTITY_TYPE.register("scylla", () -> EntityType.Builder.of(Scylla_Entity::new, MobCategory.MONSTER)
+            .sized(1.5F, 3.0F)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":scylla"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Urchinkin_Entity>> URCHINKIN = ENTITY_TYPE.register("urchinkin", () -> EntityType.Builder.of(Urchinkin_Entity::new, MobCategory.MONSTER)
             .sized(0.7F, 0.7F)
             .clientTrackingRange(8)
@@ -653,5 +671,7 @@ public class ModEntities {
         event.put(HIPPOCAMTUS.get(), Hippocamtus_Entity.Hippocamtus_Entity().build());
         event.put(URCHINKIN.get(), Urchinkin_Entity.urchin().build());
         event.put(CINDARIA.get(), Cindaria_Entity.cindaria().build());
+        event.put(SCYLLA.get(), Scylla_Entity.scylla().build());
+        event.put(CLAWDIAN.get(), Clawdian_Entity.clawdian().build());
     }
 }

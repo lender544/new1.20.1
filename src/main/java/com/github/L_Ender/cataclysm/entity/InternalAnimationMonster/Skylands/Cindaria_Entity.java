@@ -44,6 +44,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState magic1AnimationState = new AnimationState();
     public AnimationState meleeAnimationState = new AnimationState();
+    public AnimationState deathAnimationState = new AnimationState();
     private int magic_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 100;
 
@@ -74,11 +75,9 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
-                .add(Attributes.ATTACK_DAMAGE, 10)
-                .add(Attributes.MAX_HEALTH, 100)
-                .add(Attributes.ARMOR, 15)
-                .add(Attributes.STEP_HEIGHT, 1.75F)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.7);
+                .add(Attributes.ATTACK_DAMAGE, 7)
+                .add(Attributes.MAX_HEALTH, 60)
+                .add(Attributes.STEP_HEIGHT, 1.75F);
     }
 
 
@@ -108,6 +107,8 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
             return this.meleeAnimationState;
         } else if (input == "idle") {
             return this.idleAnimationState;
+        } else if (input == "death") {
+            return this.deathAnimationState;
         } else {
             return new AnimationState();
         }
@@ -131,7 +132,11 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
                         this.stopAllAnimationStates();
                         this.meleeAnimationState.startIfStopped(this.tickCount);
                     }
-                }
+                    case 3 -> {
+                        this.stopAllAnimationStates();
+                        this.deathAnimationState.startIfStopped(this.tickCount);
+                    }
+            }
         }
         super.onSyncedDataUpdated(p_21104_);
     }
@@ -139,16 +144,17 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     public void stopAllAnimationStates() {
         this.magic1AnimationState.stop();
         this.meleeAnimationState.stop();
-
+        this.deathAnimationState.stop();
     }
 
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
+        this.setAttackState(3);
     }
 
     public int deathtimer() {
-        return super.deathtimer();
+        return 40;
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -210,7 +216,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
             return true;
         } else if (super.isAlliedTo(entityIn)) {
             return true;
-        } else if (entityIn.getType().is(ModTag.TEAM_THE_LEVIATHAN)) {
+        } else if (entityIn.getType().is(ModTag.TEAM_SCYLLA)) {
             return this.getTeam() == null && entityIn.getTeam() == null;
         } else {
             return false;

@@ -100,7 +100,8 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
         super.onHitEntity(p_37626_);
         Entity entity = p_37626_.getEntity();
         Entity shooter = this.getOwner();
-        if (this.level() instanceof ServerLevel serverlevel && !(p_37626_.getEntity() instanceof Ignis_Fireball_Entity ||  p_37626_.getEntity() instanceof Ignis_Abyss_Fireball_Entity || p_37626_.getEntity() instanceof Cm_Falling_Block_Entity || p_37626_.getEntity() instanceof Ignis_Entity && entity instanceof Ignis_Entity) && getFired()) {
+
+        if (this.level() instanceof ServerLevel serverlevel && getFired() && !(entity instanceof Ignis_Fireball_Entity || entity instanceof Ignis_Abyss_Fireball_Entity || entity instanceof Cm_Falling_Block_Entity || entity instanceof Ignis_Entity && shooter instanceof Ignis_Entity)) {
             boolean flag;
             if (shooter instanceof LivingEntity owner) {
                 DamageSource damagesource = this.damageSources().mobProjectile(this, owner);

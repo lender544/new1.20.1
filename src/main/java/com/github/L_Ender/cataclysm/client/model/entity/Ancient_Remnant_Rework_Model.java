@@ -422,7 +422,7 @@ public class Ancient_Remnant_Rework_Model extends HierarchicalModel<Ancient_Remn
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot += xRot * ((float) Math.PI / 180F);
-		this.head.yRot = yRot * ((float) Math.PI / 180F);
+		this.head.yRot += yRot * ((float) Math.PI / 180F);
 	}
 
 

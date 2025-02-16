@@ -187,16 +187,6 @@ public class CMRenderTypes extends RenderType {
                 createCompositeState(true));
     }
 
-    public static RenderType getTeslaBulb(ResourceLocation resourceLocation) {
-        return create("tesla_bulb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true,
-                RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, true))
-                        .setLightmapState(LIGHTMAP)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                        .setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(true));
-    }
-
 
 
     public static final RenderType LIGHTNING = create(

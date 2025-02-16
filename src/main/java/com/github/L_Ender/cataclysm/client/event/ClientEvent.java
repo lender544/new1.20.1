@@ -308,6 +308,8 @@ public class ClientEvent {
             } else {
                 event.getModel().leftArm.xRot = event.getModel().leftArm.xRot * 0.5F - 3.1415927F;
                 event.getModel().leftArm.yRot = 0.0F;
+
+                
             }
         }
         if (player.getItemInHand(InteractionHand.OFF_HAND).is(ModItems.THE_IMMOLATOR.get()) && player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.THE_IMMOLATOR.get()) && player.isUsingItem()){

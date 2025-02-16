@@ -53,6 +53,9 @@ public class CMModelLayers {
     public static final ModelLayerLocation URCHINKIN_MODEL = createLocation("urchinkin_model", "main");
     public static final ModelLayerLocation WATER_SPEAR_MODEL = createLocation("water_spear_model", "main");
     public static final ModelLayerLocation CINDARIA_MODEL = createLocation("cindaria", "main");
+    public static final ModelLayerLocation SCYLLA_MODEL = createLocation("scylla", "main");
+    public static final ModelLayerLocation STORM_BRINGER_MODEL = createLocation("storm_bringer", "main");
+    public static final ModelLayerLocation CLAWDIAN_MODEL = createLocation("clawdian", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
@@ -88,6 +91,9 @@ public class CMModelLayers {
         event.registerLayerDefinition(URCHINKIN_MODEL, Urchinkin_Model::createBodyLayer);
         event.registerLayerDefinition(WATER_SPEAR_MODEL, Water_Spear_Model::createBodyLayer);
         event.registerLayerDefinition(CINDARIA_MODEL, Cindaria_Model::createBodyLayer);
+        event.registerLayerDefinition(SCYLLA_MODEL, Scylla_Model::createBodyLayer);
+        event.registerLayerDefinition(STORM_BRINGER_MODEL, Storm_Bringer_Model::createBodyLayer);
+        event.registerLayerDefinition(CLAWDIAN_MODEL, Clawdian_Model::createBodyLayer);
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {
