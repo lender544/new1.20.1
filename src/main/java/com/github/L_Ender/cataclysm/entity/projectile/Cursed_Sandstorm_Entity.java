@@ -107,18 +107,17 @@ public class Cursed_Sandstorm_Entity extends Projectile {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getState()) {
-                    case 0 -> this.stopAllAnimationStates();
-                    case 1 -> {
-                        stopAllAnimationStates();
-                        this.SpawnAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 2 -> {
-                        stopAllAnimationStates();
-                        this.DespawnAnimationState.startIfStopped(this.tickCount);
-                    }
+            switch (this.getState()) {
+                case 0 -> this.stopAllAnimationStates();
+                case 1 -> {
+                    stopAllAnimationStates();
+                    this.SpawnAnimationState.startIfStopped(this.tickCount);
                 }
+                case 2 -> {
+                    stopAllAnimationStates();
+                    this.DespawnAnimationState.startIfStopped(this.tickCount);
+                }
+            }
         }
 
         super.onSyncedDataUpdated(p_21104_);

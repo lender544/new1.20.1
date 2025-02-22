@@ -70,6 +70,7 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
                     Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
                     if (ignis != null) {
                         ignis.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
+                        ignis.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
                             level.addFreshEntity(ignis);
                         }

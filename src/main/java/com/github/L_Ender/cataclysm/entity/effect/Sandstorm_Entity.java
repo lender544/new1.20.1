@@ -81,15 +81,15 @@ public class Sandstorm_Entity extends Entity {
             this.level().addParticle((new StormParticleOptions(r, g, b,1.25f + random.nextFloat() * 0.45f,1.25f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
 
 
-            if(this.getState() == 1) {
-                if (this.getLifespan() < 295) {
-                    this.setState(0);
-                }
+        }
+        if(this.getState() == 1) {
+            if (this.getLifespan() < 295) {
+                this.setState(0);
             }
-            if(this.getState() == 0) {
-                if(this.getLifespan() < 10) {
-                    this.setState(2);
-                }
+        }
+        if(this.getState() == 0) {
+            if(this.getLifespan() < 10) {
+                this.setState(2);
             }
         }
 
@@ -218,8 +218,7 @@ public class Sandstorm_Entity extends Entity {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getState()) {
+                            switch (this.getState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         stopAllAnimationStates();

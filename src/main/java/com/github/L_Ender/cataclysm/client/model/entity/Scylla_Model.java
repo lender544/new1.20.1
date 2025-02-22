@@ -7,6 +7,7 @@ import com.github.L_Ender.cataclysm.client.animation.Cindaria_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Scylla_Normal_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.WardenModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -53,6 +54,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	private final ModelPart chain_2;
 	private final ModelPart chain;
 	private final ModelPart chain_anker;
+	private final ModelPart trail;
 	private final ModelPart r_arm;
 	private final ModelPart r_armor;
 	private final ModelPart r_arm2;
@@ -103,6 +105,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.chain_2 = this.chain_3.getChild("chain_2");
 		this.chain = this.chain_2.getChild("chain");
 		this.chain_anker = this.chain.getChild("chain_anker");
+		this.trail = this.chain_anker.getChild("trail");
 		this.r_arm = this.chest.getChild("r_arm");
 		this.r_armor = this.r_arm.getChild("r_armor");
 		this.r_arm2 = this.r_arm.getChild("r_arm2");
@@ -302,6 +305,8 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition cube_r48 = chain_anker.addOrReplaceChild("cube_r48", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -34.7353F, 3.0107F, 0.0F, 3.1416F));
 
+		PartDefinition trail = chain_anker.addOrReplaceChild("trail", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, -49.0F));
+
 		PartDefinition r_arm = chest.addOrReplaceChild("r_arm", CubeListBuilder.create().texOffs(17, 130).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5F, -4.0F, 0.0F, 0.0F, 0.0F, 0.1309F));
 
 		PartDefinition r_armor = r_arm.addOrReplaceChild("r_armor", CubeListBuilder.create(), PartPose.offset(0.5F, -0.5F, 0.0F));
@@ -355,13 +360,51 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	public void setupAnim(Scylla_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
-		this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 1.5F, 4.0F);
-		this.l_eye.visible = false;
-		this.r_eye.visible = false;
-		this.chain_main.visible = false;
+		if(entity.getAttackState() ==0) {
+			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 1.5F, 4.0F);
+		}
+		this.l_eye.visible = entity.getEye();
+		this.r_eye.visible = entity.getEye();
+		this.chain_main.visible = entity.getChainAnchor();
 		this.animate(entity.getAnimationState("idle"), Scylla_Normal_Animation.IDLE, ageInTicks, 1.0F);
-
+		this.animate(entity.getAnimationState("cross_swing"), Scylla_Normal_Animation.CROSS_SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("cross_swing2"), Scylla_Normal_Animation.CROSS_SWING2, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("smash"), Scylla_Normal_Animation.SMASH, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("spin"), Scylla_Normal_Animation.ANCHOR_SPIN_ATTACK, ageInTicks, 1.0F);
 	}
+
+	public void translateToEye(PoseStack matrixStack,boolean right) {
+		this.root.translateAndRotate(matrixStack);
+		this.everything.translateAndRotate(matrixStack);
+		this.scylla.translateAndRotate(matrixStack);
+		this.body.translateAndRotate(matrixStack);
+		this.chest.translateAndRotate(matrixStack);
+		this.head.translateAndRotate(matrixStack);
+		if(right) {
+			this.r_eye.translateAndRotate(matrixStack);
+		}else{
+			this.l_eye.translateAndRotate(matrixStack);
+		}
+	}
+
+	public void translateChainAnchor(PoseStack matrixStack) {
+		this.root.translateAndRotate(matrixStack);
+		this.everything.translateAndRotate(matrixStack);
+		this.scylla.translateAndRotate(matrixStack);
+		this.body.translateAndRotate(matrixStack);
+		this.chest.translateAndRotate(matrixStack);
+		this.l_arm.translateAndRotate(matrixStack);
+		this.l_arm2.translateAndRotate(matrixStack);
+		this.chain_main.translateAndRotate(matrixStack);
+		this.chain_4.translateAndRotate(matrixStack);
+		this.chain_3.translateAndRotate(matrixStack);
+		this.chain_2.translateAndRotate(matrixStack);
+		this.chain.translateAndRotate(matrixStack);
+		this.chain_anker.translateAndRotate(matrixStack);
+		this.trail.translateAndRotate(matrixStack);
+	}
+
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot = xRot * ((float) Math.PI / 180F);

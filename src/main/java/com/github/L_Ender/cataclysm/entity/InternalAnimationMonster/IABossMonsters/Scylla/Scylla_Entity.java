@@ -1,18 +1,28 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -38,6 +48,14 @@ import java.util.List;
 public class Scylla_Entity extends IABoss_monster {
 
     public AnimationState idleAnimationState = new AnimationState();
+    public AnimationState CrossSwingAnimationState = new AnimationState();
+    public AnimationState CrossSwing2AnimationState = new AnimationState();
+    public AnimationState SmashAnimationState = new AnimationState();
+    public AnimationState backstepanimationState = new AnimationState();
+    public AnimationState spinanimationState = new AnimationState();
+    
+    public static final EntityDataAccessor<Boolean> EYE = SynchedEntityData.defineId(Scylla_Entity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> CHAIN_ANCHOR = SynchedEntityData.defineId(Scylla_Entity.class, EntityDataSerializers.BOOLEAN);
 
     private int magic_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 100;
@@ -51,6 +69,7 @@ public class Scylla_Entity extends IABoss_monster {
     }
 
 
+
     protected void registerGoals() {
 
         this.goalSelector.addGoal(1, new FloatGoal(this));
@@ -60,6 +79,49 @@ public class Scylla_Entity extends IABoss_monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+
+        this.goalSelector.addGoal(2, new HorizontalSwingGoal(this,0,6,32));
+
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,3,0,40,12,2.5F){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Scylla_Entity.this.getRandom().nextFloat() * 100.0F < 14f;
+            }
+        });
+
+        this.goalSelector.addGoal(1, new Back_StepGoal(this,0,4,0,20,20,3.0F,25F));
+
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,5,0,87,56,6f){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 90 ;
+            }
+
+            @Override
+            public void start() {
+                super.start();
+                Scylla_Entity.this.setChainAnchor(true);
+            }
+
+            @Override
+            public void tick() {
+                LivingEntity target = entity.getTarget();
+                if(target !=null && this.entity.attackTicks < 56 && this.entity.attackTicks >= 12) {
+                    this.entity.getNavigation().moveTo(target, 1.2F);
+                }else{
+                    this.entity.getNavigation().stop();
+                }
+                super.tick();
+            }
+
+
+            @Override
+            public void stop() {
+                super.stop();
+                Scylla_Entity.this.setChainAnchor(false);
+            }
+
+        });
 
     }
 
@@ -77,13 +139,9 @@ public class Scylla_Entity extends IABoss_monster {
 
 
 
-
-
     @Override
     public boolean hurt(DamageSource source, float damage) {
         Entity entity = source.getDirectEntity();
-
-
 
         return super.hurt(source, damage);
     }
@@ -98,6 +156,16 @@ public class Scylla_Entity extends IABoss_monster {
     public AnimationState getAnimationState(String input) {
         if (input == "idle") {
             return this.idleAnimationState;
+        }else if (input == "cross_swing") {
+            return this.CrossSwingAnimationState;
+        }else if (input == "cross_swing2") {
+            return this.CrossSwing2AnimationState;
+        }else if (input == "smash") {
+            return this.SmashAnimationState;
+        }else if (input == "back_step") {
+            return this.backstepanimationState;
+        }else if (input == "spin") {
+            return this.spinanimationState;
         } else {
             return new AnimationState();
         }
@@ -106,26 +174,74 @@ public class Scylla_Entity extends IABoss_monster {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         super.defineSynchedData(p_326229_);
+        p_326229_.define(EYE, false);
+        p_326229_.define(CHAIN_ANCHOR, false);
+    }
+
+
+    public boolean getEye() {
+        return this.entityData.get(EYE);
+    }
+
+    public void setEye(boolean weapon) {
+        this.entityData.set(EYE, weapon);
+    }
+
+    public boolean getChainAnchor() {
+        return this.entityData.get(CHAIN_ANCHOR);
+    }
+
+    public void setChainAnchor(boolean weapon) {
+        this.entityData.set(CHAIN_ANCHOR, weapon);
     }
 
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
             switch (this.getAttackState()) {
-                    case 0 -> this.stopAllAnimationStates();
+                case 0 -> this.stopAllAnimationStates();
+
+                case 1 -> {
+                    this.stopAllAnimationStates();
+                    this.CrossSwingAnimationState.startIfStopped(this.tickCount);
+                }
+                case 2 -> {
+                    this.stopAllAnimationStates();
+                    this.CrossSwing2AnimationState.startIfStopped(this.tickCount);
+                }
+                case 3 -> {
+                    this.stopAllAnimationStates();
+                    this.SmashAnimationState.startIfStopped(this.tickCount);
+                }
+                case 4 -> {
+                    this.stopAllAnimationStates();
+                    this.backstepanimationState.startIfStopped(this.tickCount);
+                }
+                case 5 -> {
+                    this.stopAllAnimationStates();
+                    this.spinanimationState.startIfStopped(this.tickCount);
+                }
             }
         }
         super.onSyncedDataUpdated(p_21104_);
     }
 
     public void stopAllAnimationStates() {
+        this.idleAnimationState.stop();
 
+        this.CrossSwingAnimationState.stop();
+
+        this.CrossSwing2AnimationState.stop();
+
+        this.SmashAnimationState.stop();
+        this.backstepanimationState.stop();
+        this.spinanimationState.stop();
     }
 
 
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
-        this.setAttackState(3);
+        this.setAttackState(10);
     }
 
     public int deathtimer() {
@@ -143,13 +259,30 @@ public class Scylla_Entity extends IABoss_monster {
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(this.getAttackState() != 7 , this.tickCount);
+            this.idleAnimationState.animateWhen(this.getAttackState() == 0 , this.tickCount);
         }
 
     }
 
     public void aiStep() {
         super.aiStep();
+
+        if(this.getAttackState() == 3) {
+            if (this.attackTicks == 13) {
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.2f, 0, 20);
+                this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
+                AreaAttack(4.75f,4.75f,65,1.15F,150,true,false);
+            }
+        }
+        if(this.getAttackState() == 5) {
+            if(this.attackTicks < 40 && this.attackTicks >= 12) {
+                float r = 143/255F;
+                float g = 241/255F;
+                float b = 215/255F;
+                this.level().addParticle((new StormParticleOptions(r, g, b,6f + random.nextFloat() * 0.25f,1.5F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            }
+
+        }
 
     }
 
@@ -225,6 +358,144 @@ public class Scylla_Entity extends IABoss_monster {
         return false;
     }
 
+
+
+    static class HorizontalSwingGoal extends Goal {
+        private final Scylla_Entity entity;
+        private final int getattackstate;
+        private final float attackrange;
+        private final float random;
+
+
+        public HorizontalSwingGoal(Scylla_Entity entity, int getattackstate ,float attackrange,float random) {
+            this.entity = entity;
+            this.getattackstate = getattackstate;
+            this.attackrange = attackrange;
+
+
+
+            this.random = random;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && target.isAlive()  && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate;
+        }
+
+        @Override
+        public void start() {
+            if (this.entity.random.nextBoolean()) {
+                this.entity.setAttackState(1);
+            } else {
+                this.entity.setAttackState(2);
+            }
+            entity.setEye(true);
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return this.entity.getAttackState() == 1 ? this.entity.attackTicks <= 35 && this.entity.getAttackState() == 1 : this.entity.attackTicks <= 29 && this.entity.getAttackState() == 2;
+        }
+
+
+        @Override
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            double theta = (this.entity.yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+
+            if(this.entity.getAttackState() == 1) {
+                if (entity.attackTicks < 12 && target != null) {
+                    entity.getLookControl().setLookAt(target, 30.0F, 30F);
+                    entity.lookAt(target, 30.0F, 30F);
+                } else {
+                    entity.setYRot(entity.yRotO);
+                }
+
+                if (entity.attackTicks == 8) {
+                    if (target != null) {
+                        float r = entity.distanceTo(target);
+                        r = Mth.clamp(r, 1F, 4F);
+                        entity.push(vecX * 0.45f * r, 0, vecZ * 0.45f * r);
+                    } else {
+                        entity.push(vecX * 1.8, 0, vecZ * 1.8);
+                    }
+                }
+
+            } else if (this.entity.getAttackState() == 2) {
+                if (entity.attackTicks < 9 && target != null) {
+                    entity.getLookControl().setLookAt(target, 30.0F, 30F);
+                    entity.lookAt(target, 30.0F, 30F);
+                } else {
+                    entity.setYRot(entity.yRotO);
+                }
+
+                if (entity.attackTicks == 5) {
+                    if (target != null) {
+                        float r = entity.distanceTo(target);
+                        r = Mth.clamp(r, 1F, 4F);
+                        entity.push(vecX * 0.45f * r, 0, vecZ * 0.45f * r);
+                    } else {
+                        entity.push(vecX * 1.8, 0, vecZ * 1.8);
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void stop() {
+            this.entity.setAttackState(0);
+            entity.setEye(false);
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+    }
+
+
+    class Back_StepGoal extends InternalAttackGoal {
+        private final float random;
+
+
+        public Back_StepGoal(Scylla_Entity entity, int attackstate, int attackgetstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+            super(entity,attackstate,attackgetstate,attackendstate,attackMaxtick,attackseetick,attackrange);
+            this.random = random;
+            this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return super.canUse() && target != null && this.entity.getRandom().nextFloat() * 100.0F < random;
+        }
+
+
+        @Override
+        public void start() {
+            super.start();
+            float speed = -1.5f;
+            float dodgeYaw = (float) Math.toRadians(this.entity.getYRot() + 90 + this.entity.getRandom().nextFloat() * 120 - 60);
+            Vec3 m = this.entity.getDeltaMovement().add(speed * Math.cos(dodgeYaw), 0, speed * Math.sin(dodgeYaw));
+            this.entity.setDeltaMovement(m.x, 0.3, m.z);
+
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+    }
 
 }
 

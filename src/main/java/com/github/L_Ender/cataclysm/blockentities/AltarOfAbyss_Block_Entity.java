@@ -73,6 +73,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                     The_Leviathan_Entity leviathan = ModEntities.THE_LEVIATHAN.get().create(level);
                     if (leviathan != null) {
                         leviathan.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
+                        leviathan.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
                             level.addFreshEntity(leviathan);
                         }

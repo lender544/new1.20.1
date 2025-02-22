@@ -523,8 +523,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F)
-                    .effect(new MobEffectInstance(MobEffects.POISON, 300, 0), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.CONFUSION, 300, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.POISON, 140, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.CONFUSION, 140, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 120 * 20, 0), 1.0F)
                     .build())));
 
     public static final DeferredItem<Item> AMETHYST_CRAB_MEAT = ITEMS.register("amethyst_crab_meat",
@@ -543,6 +544,10 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> LIONFISH_SPIKE = ITEMS.register("lionfish_spike",
+            () -> new ItemInventoryOnly(new Item.Properties()));
+
+
+    public static final DeferredItem<Item> URCHIN_SPIKE = ITEMS.register("urchin_spike",
             () -> new ItemInventoryOnly(new Item.Properties()));
 
     public static final DeferredItem<Item> THE_BABY_LEVIATHAN_BUCKET = ITEMS.register("the_baby_leviathan_bucket",
@@ -650,6 +655,20 @@ public class ModItems {
     public static final DeferredItem<SpawnEggItem> DRAUGR_SPAWN_EGG = ITEMS.register("draugr_spawn_egg",
             () -> new SpawnEggItem(ModEntities.DRAUGR.get(),0x392116, 0x2b2825, new Item.Properties()));
 
+    public static final DeferredItem<SpawnEggItem> SCYLLA_SPAWN_EGG = ITEMS.register("scylla_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.SCYLLA.get(),0x80a1af, 0x3f569b, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> CLAWDIAN_SPAWN_EGG = ITEMS.register("clawdian_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.CLAWDIAN.get(),0x8b261d, 0xc96546, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> HIPPOCAMTUS_SPAWN_EGG = ITEMS.register("hippocamtus_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.HIPPOCAMTUS.get(),0x7e8fab, 0xffe98e, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> CINDARIA_SPAWN_EGG = ITEMS.register("cindaria_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.CINDARIA.get(),0xcf95ff, 0x62eaad, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> URCHINKIN_SPAWN_EGG = ITEMS.register("urchinkin_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.URCHINKIN.get(),0x000000, 0x2b1052, new Item.Properties()));
 
     public static final DeferredItem<BlockItem> ALTAR_OF_VOID = ITEMS.register("altar_of_void",
             () -> new BlockItem(ModBlocks.ALTAR_OF_VOID.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));

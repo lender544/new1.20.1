@@ -88,7 +88,15 @@ public class ModParticle {
         }
     });
 
-
+    public static final DeferredHolder<ParticleType<?>, ParticleType<CustomPoofParticleOptions>> CUSTOM_POOF = PARTICLE.register("custom_poof", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<CustomPoofParticleOptions> codec() {
+            return CustomPoofParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, CustomPoofParticleOptions> streamCodec() {
+            return CustomPoofParticleOptions.STREAM_CODEC;
+        }
+    });
 
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
@@ -107,7 +115,5 @@ public class ModParticle {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLAME_JET = PARTICLE.register("flame_jet", () -> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLARE_EXPLODE = PARTICLE.register("flare_explode", () -> new SimpleParticleType(false));
-
-
 
 }

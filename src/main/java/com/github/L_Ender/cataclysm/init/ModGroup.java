@@ -156,6 +156,12 @@ public class ModGroup {
                 entries.accept(ModItems.ELITE_DRAUGR_SPAWN_EGG.get());
                 entries.accept(ModItems.ROYAL_DRAUGR_SPAWN_EGG.get());
                 entries.accept(ModItems.DRAUGR_SPAWN_EGG.get());
+                entries.accept(ModItems.SCYLLA_SPAWN_EGG.get());
+                entries.accept(ModItems.CLAWDIAN_SPAWN_EGG.get());
+                entries.accept(ModItems.HIPPOCAMTUS_SPAWN_EGG.get());
+                entries.accept(ModItems.CINDARIA_SPAWN_EGG.get());
+                entries.accept(ModItems.URCHINKIN_SPAWN_EGG.get());
+
             })
             .build());
 

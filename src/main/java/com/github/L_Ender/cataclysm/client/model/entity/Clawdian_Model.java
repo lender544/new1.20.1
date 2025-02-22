@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 // Paste this class into your mod and generate all required imports
 
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Clawdian_Skill_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Hippocamtus_Animation;
 
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
@@ -231,12 +232,19 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
-
-		this.animateWalk(Clawdian_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 1.5F);
+		if(entity.getAttackState() != 5 && entity.getAttackState() != 2) {
+			this.animateWalk(Clawdian_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 1.5F);
+		}
 		this.animate(entity.getAnimationState("idle"), Clawdian_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("vertical_swing"), Clawdian_Animation.VERTICAL_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("horizontal_swing"), Clawdian_Animation.HORIZONTAL_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Clawdian_Animation.DEATH, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("charge_ready"), Clawdian_Skill_Animation.CHARGE_READY, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("charge_loop"), Clawdian_Skill_Animation.CHARGE_LOOP, ageInTicks, 1.5F);
+		this.animate(entity.getAnimationState("charge_end"), Clawdian_Skill_Animation.CHARGE_END, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("wave_stomp"), Clawdian_Skill_Animation.WAVE_STOMP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("claw_punch"), Clawdian_Animation.CLAW_PUNCH, ageInTicks, 1.0F);
 		float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
 
 		articulateLegs(entity.legSolver, partialTick);
@@ -272,15 +280,6 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 		left_b_fore_leg_solver.zRot += (heightBackLeft - max) * Math.toRadians(-45F);
 
 
-	}
-
-	private float avg(float a, float b) {
-		return (a + b) / 2;
-	}
-
-	private float smin(float a, float b, float k) {
-		float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
-		return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
 	}
 
 

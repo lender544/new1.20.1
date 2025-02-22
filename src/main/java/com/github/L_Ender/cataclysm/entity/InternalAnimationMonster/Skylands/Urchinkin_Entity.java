@@ -5,6 +5,8 @@ import com.github.L_Ender.cataclysm.entity.Deepling.Lionfish_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Lionfish_Spike_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Urchin_Spike_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.ChatFormatting;
@@ -164,19 +166,35 @@ public class Urchinkin_Entity extends Monster {
                 for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
                     if (!isAlliedTo(livingentity) && !(livingentity instanceof Urchinkin_Entity) && livingentity != this) {
                       boolean flag =  livingentity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-
-
                       if(flag) {
                           if (!this.level().isClientSide) {
                               livingentity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0), this);
                           }
                       }
-
-
-
                     }
-
                 }
+            }
+            if (this.attackTicks == 13 || this.attackTicks == 16 || this.attackTicks == 19 ||this.attackTicks == 22 ||this.attackTicks == 25 ||this.attackTicks == 28) {
+                SpikeNansa(3);
+            }
+        }
+    }
+
+    @Override
+    public void die(DamageSource cause) {
+        super.die(cause);
+        SpikeNansa(6);
+
+    }
+
+    private void SpikeNansa(int spike){
+        int shardCount = spike + random.nextInt(2);
+        if (!this.level().isClientSide) {
+            for (int i = 0; i < shardCount; i++) {
+                float f = ((i + 1) / (float) shardCount) * 360F;
+                Urchin_Spike_Entity shard = new Urchin_Spike_Entity(this.level(), this);
+                shard.shoot(this.random.nextFloat() * 0.4F * 2.0F - 0.4F, this.random.nextFloat() * 0.25F + 0.1F,this.random.nextFloat() * 0.4F * 2.0F - 0.4F, 0.35F, 1F);
+                level().addFreshEntity(shard);
             }
         }
     }

@@ -9,6 +9,8 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue shadersCompat;
     public final ModConfigSpec.BooleanValue custombossbar;
 
+    public final ModConfigSpec.IntValue Return_Home;
+
     public final ModConfigSpec.BooleanValue Armor_Infinity_Durability;
     public final ModConfigSpec.IntValue BulwarkOfTheFlameCooldown;
     public final ModConfigSpec.IntValue GauntletOfBulwarkCooldown;
@@ -217,9 +219,13 @@ public class CommonConfig {
         LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
+        builder.pop();
+
+        builder.push("bosses Common settings");
         custombossbar = buildBoolean(builder, "custombossbar(on/off)", "all", true, "custombossbar(on/off)");
         BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
         BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
+        Return_Home = buildInt(builder, "ReturnHome", "all", CMConfig.Return_Home, 0, 200, "If the boss leaves the summoned location and there is no target, it returns to the summoned location. When set to 0, it does not return");
         builder.pop();
 
         builder.push("Weapon");

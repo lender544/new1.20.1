@@ -10,6 +10,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -65,7 +66,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(3, new CindariaMoveGoal(this, 1.0D,8.0F));
-        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,2,0,39,13,4.5F));
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,2,0,39,13,3.75F));
         this.goalSelector.addGoal(2, new MagicAttackGoal(this,0,1,0,50,15,4.5F,16));
 
     }
@@ -176,10 +177,16 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     public void aiStep() {
         super.aiStep();
 
+
+        if(this.getAttackState() == 2) {
+            if (this.attackTicks == 14) {
+                AreaAttack(4.75f, 4.75f, 100, 1.0F, 0, true);
+            }
+        }
     }
 
 
-    private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback, boolean penetrate) {
+    private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -194,7 +201,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Cindaria_Entity) && entityHit != this) {
-                    DamageSource damagesource = penetrate ? CMDamageTypes.causePenetrateDamage(this) :this.damageSources().mobAttack(this);
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);

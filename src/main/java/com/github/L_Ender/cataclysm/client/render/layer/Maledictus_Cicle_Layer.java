@@ -60,8 +60,6 @@ public class Maledictus_Cicle_Layer extends RenderLayer<Maledictus_Entity, Maled
         matrixStackIn.translate(0.0F, -0.1F, 0.0F);
         matrixStackIn.scale(0.9F, 0.9F, 0.9F);
         PoseStack.Pose posestack$pose = matrixStackIn.last();
-        Matrix4f matrix4f = posestack$pose.pose();
-        Matrix3f matrix3f = posestack$pose.normal();
         VertexConsumer portalStatic = bufferIn.getBuffer(RenderType.entityTranslucent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/ring_1.png"),true));
         matrixStackIn.translate(0.0F, 0.1F, 0.0F);
         if (entity.attackTicks > 1 ) {

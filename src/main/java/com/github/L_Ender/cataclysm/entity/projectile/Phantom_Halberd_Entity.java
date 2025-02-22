@@ -75,8 +75,7 @@ public class Phantom_Halberd_Entity extends Entity {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getState()) {
+                            switch (this.getState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         stopAllAnimationStates();

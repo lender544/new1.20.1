@@ -143,8 +143,8 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.STORM_BRINGER.get(), Storm_Bringer_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
-
-
+		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
+		event.registerEntityRenderer(ModEntities.WAVE.get(), Wave_Renderer::new);
 		// Block Entities
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_FIRE.get(), RendererAltar_of_Fire::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_VOID.get(), RendererAltar_of_Void::new);
@@ -169,6 +169,7 @@ public class ClientSetup {
 		registry.registerSpriteSet(ModParticle.CURSED_FLAME.get(), CursedFlameParticle.Provider::new);
 		registry.registerSpriteSet(ModParticle.SMALL_CURSED_FLAME.get(), CursedFlameParticle.SmallFlameProvider::new);
 		registry.registerSpriteSet(ModParticle.PHANTOM_WING_FLAME.get(), Phantom_Wing_FlameParticle.EmissiveProvider::new);
+		registry.registerSpriteSet(ModParticle.CUSTOM_POOF.get(), Custom_Poof_Particle.Provider::new);
 		registry.registerSpecial(ModParticle.EM_PULSE.get(), new EM_PulseParticle.Factory());
 		registry.registerSpecial(ModParticle.SHOCK_WAVE.get(), new Shock_WaveParticle.Factory());
 		registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.Factory());

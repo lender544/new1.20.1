@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "cataclysm:black_steel_targe"
+    "cataclysm:black_steel_targe",
+    "cataclysm:coral_spear",
+    "cataclysm:coral_bardiche"
   ]
 }

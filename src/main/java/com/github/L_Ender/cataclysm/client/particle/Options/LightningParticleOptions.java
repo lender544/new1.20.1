@@ -17,9 +17,9 @@ public record LightningParticleOptions(int r,int g,int b) implements ParticleOpt
     //For networking. Encoder/Decoder functions very intuitive
     public static StreamCodec<? super ByteBuf, LightningParticleOptions> STREAM_CODEC = StreamCodec.of(
             (buf, option) -> {
-                buf.writeFloat(option.r);
-                buf.writeFloat(option.g);
-                buf.writeFloat(option.b);
+                buf.writeInt(option.r);
+                buf.writeInt(option.g);
+                buf.writeInt(option.b);
             },
             (buf) -> {
                 return new LightningParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());

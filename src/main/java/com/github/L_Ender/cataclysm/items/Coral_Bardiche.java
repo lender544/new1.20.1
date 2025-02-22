@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Bardiche_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -17,6 +18,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,6 +38,7 @@ import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 
@@ -81,59 +84,40 @@ public class Coral_Bardiche extends Item implements ProjectileItem,RangeTool {
         return 72000;
     }
 
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int useTime) {
+        int i = Mth.clamp(this.getUseDuration(stack, livingEntity) - useTime, 0, 60);
 
-    @Override
-    public void releaseUsing(ItemStack p_43394_, Level p_43395_, LivingEntity p_43396_, int p_43397_) {
-        if (p_43396_ instanceof Player player) {
-            int i = this.getUseDuration(p_43394_, p_43396_) - p_43397_;
-            if (i >= 10) {
-                float f = EnchantmentHelper.getTridentSpinAttackStrength(p_43394_, player);
-                if (!(f > 0.0F) || player.isInWaterOrRain()) {
-                    if (!isTooDamagedToUse(p_43394_)) {
-                        Holder<SoundEvent> holder = EnchantmentHelper.pickHighestLevel(p_43394_, EnchantmentEffectComponents.TRIDENT_SOUND)
-                                .orElse(SoundEvents.TRIDENT_THROW);
-                        if (!p_43395_.isClientSide) {
-                            p_43394_.hurtAndBreak(1, player, LivingEntity.getSlotForHand(p_43396_.getUsedItemHand()));
-                            if (f == 0.0F) {
-                                ThrownCoral_Bardiche_Entity throwntrident = new ThrownCoral_Bardiche_Entity(p_43395_, player, p_43394_);
-                                throwntrident.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
-                                if (player.hasInfiniteMaterials()) {
-                                    throwntrident.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                                }
+        if (i > 0) {
+            float f = 0.1F * i;
+            Vec3 vec3 = livingEntity.getDeltaMovement().add(livingEntity.getViewVector(1.0F).normalize().multiply(f, f * 0.15F, f));
+            if (i >= 10 && !level.isClientSide) {
+                int maxWaves = i / 5;
 
-                                p_43395_.addFreshEntity(throwntrident);
-                                p_43395_.playSound(null, throwntrident, holder.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                                if (!player.hasInfiniteMaterials()) {
-                                    player.getInventory().removeItem(p_43394_);
-                                }
-                            }
-                        }
+                for (int wave = 0; wave < maxWaves; wave++) {
+                    float f1 = (float) wave / maxWaves;
+                    int lifespan = 50;
+                    Vec3 waveCenterPos = livingEntity.position().add(vec3.scale(f1 * 2));
+                    Wave_Entity leftWaveEntity = new Wave_Entity(level, livingEntity,lifespan,1);
+                    leftWaveEntity.setPos(waveCenterPos.x, livingEntity.getY(), waveCenterPos.z);
 
-                        player.awardStat(Stats.ITEM_USED.get(this));
-                        if (f > 0.0F) {
-                            float f7 = player.getYRot();
-                            float f1 = player.getXRot();
-                            float f2 = -Mth.sin(f7 * (float) (Math.PI / 180.0)) * Mth.cos(f1 * (float) (Math.PI / 180.0));
-                            float f3 = -Mth.sin(f1 * (float) (Math.PI / 180.0));
-                            float f4 = Mth.cos(f7 * (float) (Math.PI / 180.0)) * Mth.cos(f1 * (float) (Math.PI / 180.0));
-                            float f5 = Mth.sqrt(f2 * f2 + f3 * f3 + f4 * f4);
-                            f2 *= f / f5;
-                            f3 *= f / f5;
-                            f4 *= f / f5;
-                            player.push((double)f2, (double)f3, (double)f4);
-                            player.startAutoSpinAttack(20, 8.0F, p_43394_);
-                            if (player.onGround()) {
-                                float f6 = 1.1999999F;
-                                player.move(MoverType.SELF, new Vec3(0.0, 1.1999999F, 0.0));
-                            }
+                    leftWaveEntity.setState(1);
+                    leftWaveEntity.setYRot(-(float) (Mth.atan2(vec3.x, vec3.z) * (double) (180F / (float) Math.PI)) + 60 - 15 * wave);
+                   // level.addFreshEntity(leftWaveEntity);
 
-                            p_43395_.playSound(null, player, holder.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                        }
-                    }
+                    Wave_Entity rightWaveEntity = new Wave_Entity(level, livingEntity,lifespan,1);
+                    rightWaveEntity.setPos(waveCenterPos.x, livingEntity.getY(), waveCenterPos.z);
+                    rightWaveEntity.setState(1);
+                    rightWaveEntity.setYRot(-(float) (Mth.atan2(vec3.x, vec3.z) * (double) (180F / (float) Math.PI)) - 60 + 15 * wave);
+                    level.addFreshEntity(rightWaveEntity);
                 }
+
             }
+
+
         }
     }
+
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level p_43405_, Player p_43406_, InteractionHand p_43407_) {

@@ -5,9 +5,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Hippocamtus_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Scylla_Model;
-import com.github.L_Ender.cataclysm.client.render.layer.Cindaria_Layer;
-import com.github.L_Ender.cataclysm.client.render.layer.Hippocamtus_Layer;
-import com.github.L_Ender.cataclysm.client.render.layer.Scylla_Snake_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.*;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,10 +20,14 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
 
     private static final ResourceLocation SCYLLA_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/scylla/scylla_no_snake.png");
 
+    private static final ResourceLocation SCYLLA_EYE_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/scylla/scylla_eye.png");
 
     public Scylla_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Scylla_Model(renderManagerIn.bakeLayer(CMModelLayers.SCYLLA_MODEL)), 0.75F);
         this.addLayer(new Scylla_Snake_Layer(this));
+        this.addLayer(new Scylla_Eye_Spark_Layer(this, renderManagerIn));;
+        this.addLayer(new LayerGenericGlowing(this, SCYLLA_EYE_TEXTURES));
+        this.addLayer(new Scylla_Anchor_Layer(this, renderManagerIn));;
     }
     @Override
     public ResourceLocation getTextureLocation(Scylla_Entity entity) {

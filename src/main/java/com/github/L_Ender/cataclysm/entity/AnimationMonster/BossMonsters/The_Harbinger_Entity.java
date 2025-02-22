@@ -724,20 +724,25 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
         double d3 = targetX - d0;
         double d4 = targetY - d1;
         double d5 = targetZ - d2;
+        Vec3 vec3 = new Vec3(d3, d4, d5);
         if(this.getIsLaserMode()) {
             if (!this.isSilent()) {
                 this.playSound(ModSounds.HARBINGER_LASER.get(),1,1.0F);
             }
-          Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this.level(), this);
-            laserBeam.shoot(d3, d4, d5, 1F, 1F);
-            laserBeam.setDamage((float) CMConfig.HarbingerLaserdamage);
-            laserBeam.setPosRaw(d0, d1, d2);
-            this.level().addFreshEntity(laserBeam);
+
+            Laser_Beam_Entity laser = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.HarbingerLaserdamage);
+            float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
+            float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
+
+            laser.setYRot(yRot);
+            laser.setXRot(xRot);
+            laser.setPosRaw(d0, d1, d2);
+            this.level().addFreshEntity(laser);
+
         }else{
             if (!this.isSilent()) {
                 this.playSound(ModSounds.ROCKET_LAUNCH.get(),1,0.8F);
             }
-            Vec3 vec3 = new Vec3(d3, d4, d5);
 
             Wither_Missile_Entity witherskull = new Wither_Missile_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.HarbingerWitherMissiledamage);
             witherskull.setPosRaw(d0, d1, d2);
@@ -782,6 +787,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     public void setIsAct(boolean isAct) {
         this.entityData.set(IS_ACT, isAct);
         this.bossEvent.setVisible(isAct);
+        this.setHomePos(this.blockPosition());
     }
 
     public boolean getIsAct() {

@@ -14,9 +14,9 @@ public record SparkTrailParticleOptions(int r, int g, int b) implements Particle
     //For networking. Encoder/Decoder functions very intuitive
     public static StreamCodec<? super ByteBuf, SparkTrailParticleOptions> STREAM_CODEC = StreamCodec.of(
             (buf, option) -> {
-                buf.writeFloat(option.r);
-                buf.writeFloat(option.g);
-                buf.writeFloat(option.b);
+                buf.writeInt(option.r);
+                buf.writeInt(option.g);
+                buf.writeInt(option.b);
             },
             (buf) -> {
                 return new SparkTrailParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());

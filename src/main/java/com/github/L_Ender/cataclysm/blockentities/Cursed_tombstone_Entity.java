@@ -13,8 +13,11 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TurtleEggBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -76,6 +79,7 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                         if (maledictus != null) {
                             ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.1f, 0, 40);
                             maledictus.setPos(pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5);
+                            maledictus.setHomePos(pos);
                             maledictus.setTombstonePos(pos);
                             maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
                             if (!level.isClientSide) {
