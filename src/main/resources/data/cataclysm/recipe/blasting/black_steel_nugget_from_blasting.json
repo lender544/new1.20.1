@@ -20,5 +20,7 @@
       "item": "cataclysm:black_steel_pickaxe"
     }
   ],
-  "result": "cataclysm:black_steel_nugget"
+  "result": {
+    "id": "cataclysm:black_steel_nugget"
+  }
 }
