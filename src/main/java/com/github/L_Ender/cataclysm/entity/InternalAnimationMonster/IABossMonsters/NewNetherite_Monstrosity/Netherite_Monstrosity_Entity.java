@@ -747,8 +747,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
                 Makeparticle(-0.3f, 3.4f);
                 Makeparticle(-0.3F, -3.4f);
-                CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
-                CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                if(!this.level().isClientSide) {
+                    CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                    CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                }
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1, 0.7F);
             }
             if (this.attackTicks == 26) {
@@ -800,6 +802,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         }
 
     }
+
 
     private void spawnJet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);

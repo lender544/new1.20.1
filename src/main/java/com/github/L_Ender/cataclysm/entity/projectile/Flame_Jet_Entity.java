@@ -1,5 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.nbt.CompoundTag;
@@ -103,7 +105,6 @@ public class Flame_Jet_Entity extends Entity {
                     double d1 = this.getY() + 2.0D;
                     double d2 = this.getZ();
                     this.level().addAlwaysVisibleParticle(ModParticle.FLAME_JET.get(), d0, d1, d2, 0, 0, 0);
-
                 }
 
             }

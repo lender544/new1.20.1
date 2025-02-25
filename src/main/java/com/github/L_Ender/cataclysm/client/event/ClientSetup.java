@@ -11,7 +11,6 @@ import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazin
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.init.*;
-import com.github.L_Ender.cataclysm.items.*;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -47,6 +46,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.LAVA_BOMB.get(), Lava_Bomb_Renderer::new);
 		event.registerEntityRenderer(ModEntities.FLARE_BOMB.get(), Flare_Bomb_Renderer::new);
 		event.registerEntityRenderer(ModEntities.FLAME_JET.get(), RendererNull::new);
+		event.registerEntityRenderer(ModEntities.LIGHTNING_STORM.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.IGNIS.get(), Ignis_Renderer::new);
 		event.registerEntityRenderer(ModEntities.ENDER_GUARDIAN.get(), Ender_Guardian_Renderer::new);
 		event.registerEntityRenderer(ModEntities.ENDER_GUARDIAN_BULLET.get(), Ender_Guardian_bullet_Renderer::new);
@@ -89,6 +89,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.DEEPLING.get(), Deepling_Renderer::new);
 		event.registerEntityRenderer(ModEntities.ABYSS_MINE.get(), Abyss_Mine_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CORAL_SPEAR.get(), Thrown_Coral_Spear_Renderer::new);
+
 		event.registerEntityRenderer(ModEntities.CORAL_BARDICHE.get(), Thrown_Coral_Bardiche_Renderer::new);
 		event.registerEntityRenderer(ModEntities.DEEPLING_BRUTE.get(), Deepling_Brute_Renderer::new);
 		event.registerEntityRenderer(ModEntities.DEEPLING_PRIEST.get(), Deepling_Priest_Renderer::new);
@@ -139,6 +140,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.CLAWDIAN.get(), Clawdian_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHINKIN.get(), Urchinkin_Renderer::new);
 		event.registerEntityRenderer(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
+		event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
 		event.registerEntityRenderer(ModEntities.STORM_BRINGER.get(), Storm_Bringer_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
@@ -175,12 +177,16 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.Factory());
 		registry.registerSpecial(ModParticle.SPARK_TRAIL.get(), new SparkTrailParticle.Factory());
 		registry.registerSpecial(ModParticle.TRACK_LIGHTNING.get(), new TrackLightningParticle.Factory());
+		registry.registerSpecial(ModParticle.SPIN_TRAIL_PARTICLE.get(), new SpinTrailParticle.Factory());
+		registry.registerSpecial(ModParticle.CIRCLE_LIGHTNING.get(), new CircleLightningParticle.Factory());
+		registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
 		registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
 		registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
 		registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
 		registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.Factory());
 		registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
+		registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
 	}
 

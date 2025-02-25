@@ -173,6 +173,12 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue AptrgangrDamageMultiplier;
     public final ModConfigSpec.DoubleValue AptrgangrAxeBladeDamage;
 
+    public final ModConfigSpec.DoubleValue ClawdianHealthMultiplier;
+    public final ModConfigSpec.DoubleValue ClawdianDamageMultiplier;
+
+    public final ModConfigSpec.DoubleValue ScyllaHealthMultiplier;
+    public final ModConfigSpec.DoubleValue ScyllaDamageMultiplier;
+
     public final ModConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageCap;
@@ -426,6 +432,17 @@ public class CommonConfig {
         AptrgangrAxeBladeDamage = buildDouble(builder, "AptrgangrAxeBladeDamage", "all", 8, 0D, 1000000D, "Axe Blade's Damage");
 
         builder.pop();
+
+        builder.push("Clawdian");
+        ClawdianHealthMultiplier = buildDouble(builder, "ClawdianHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Clawdian's Health Multiplier");
+        ClawdianDamageMultiplier = buildDouble(builder, "ClawdianDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Clawdian's Damage Multiplier");
+        builder.pop();
+
+        builder.push("Scylla");
+        ScyllaHealthMultiplier = buildDouble(builder, "ScyllaHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Health Multiplier");
+        ScyllaDamageMultiplier = buildDouble(builder, "ScyllaDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Damage Multiplier");
+        builder.pop();
+
 
         builder.push("Maledictus");
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");

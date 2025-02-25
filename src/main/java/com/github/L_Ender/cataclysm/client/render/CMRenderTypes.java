@@ -78,7 +78,8 @@ public class CMRenderTypes extends RenderType {
                 .setTextureState(renderstate$texturestate)
                 .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
                 .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL).setOverlayState(OVERLAY)
+                .setCullState(NO_CULL)
+                .setOverlayState(OVERLAY)
                 .setWriteMaskState(COLOR_WRITE)
                 .createCompositeState(false));
     }

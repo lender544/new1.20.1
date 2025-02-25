@@ -592,7 +592,7 @@
   "death.attack.cataclysm.maledictio": "%s was cursed by %s",
   "death.attack.cataclysm.maledictio_anima": "%s was cursed by %s",
   "death.attack.cataclysm.penetrate": "%s was penetrated by %s",
-
+  "death.attack.cataclysm.lightning": "%s was electrocuted by %s",
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",

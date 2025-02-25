@@ -64,7 +64,6 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         this.xpReward = 35;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.WadjetHealthMultiplier, CMConfig.WadjetDamageMultiplier);
     }
 
 

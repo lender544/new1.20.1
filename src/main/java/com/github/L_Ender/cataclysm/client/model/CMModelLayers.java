@@ -51,7 +51,7 @@ public class CMModelLayers {
 
     public static final ModelLayerLocation HIPPOCAMTUS_MODEL = createLocation("hippocamtus_model", "main");
     public static final ModelLayerLocation URCHINKIN_MODEL = createLocation("urchinkin_model", "main");
-    public static final ModelLayerLocation WATER_SPEAR_MODEL = createLocation("water_spear_model", "main");
+    public static final ModelLayerLocation ELEMENTAL_SPEAR_MODEL = createLocation("elemental_spear_model", "main");
     public static final ModelLayerLocation CINDARIA_MODEL = createLocation("cindaria_model", "main");
     public static final ModelLayerLocation SCYLLA_MODEL = createLocation("scylla_model", "main");
     public static final ModelLayerLocation STORM_BRINGER_MODEL = createLocation("storm_bringer_model", "main");
@@ -91,7 +91,7 @@ public class CMModelLayers {
 
         event.registerLayerDefinition(HIPPOCAMTUS_MODEL, Hippocamtus_Model::createBodyLayer);
         event.registerLayerDefinition(URCHINKIN_MODEL, Urchinkin_Model::createBodyLayer);
-        event.registerLayerDefinition(WATER_SPEAR_MODEL, Water_Spear_Model::createBodyLayer);
+        event.registerLayerDefinition(ELEMENTAL_SPEAR_MODEL, Elemental_Spear_Model::createBodyLayer);
         event.registerLayerDefinition(CINDARIA_MODEL, Cindaria_Model::createBodyLayer);
         event.registerLayerDefinition(SCYLLA_MODEL, Scylla_Model::createBodyLayer);
         event.registerLayerDefinition(STORM_BRINGER_MODEL, Storm_Bringer_Model::createBodyLayer);

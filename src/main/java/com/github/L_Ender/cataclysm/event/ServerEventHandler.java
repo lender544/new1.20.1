@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Attachment.ChargeAttachment;
 import com.github.L_Ender.cataclysm.Attachment.ParryAttachment;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.event.ClientSetup;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
@@ -14,10 +15,12 @@ import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -210,9 +213,26 @@ public class ServerEventHandler {
         }
     }
 
+
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent.Pre event) {
         LivingEntity entity = event.getEntity();
+
+        DamageSource source = event.getSource();
+        float damage = event.getOriginalDamage();
+
+        if (source.is(DamageTypeTags.IS_LIGHTNING)) {
+            if (entity.hasEffect(ModEffect.EFFECTWETNESS)) {
+                MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
+                if (effectinstance1 != null) {
+                    float i = (effectinstance1.getAmplifier()+1) * 1.25F;
+                    float f = damage * i;
+                    damage = Math.min(Float.MAX_VALUE, f);
+                    event.setNewDamage(damage);
+                }
+            }
+        }
+
         if (entity.getHealth() <= event.getNewDamage() && entity.hasEffect(ModEffect.EFFECTSTUN)) {
             entity.removeEffect(ModEffect.EFFECTSTUN);
         }

@@ -3,19 +3,18 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.client.renderer.entity.WitherSkullRenderer;
+import net.minecraft.world.entity.Entity;
 
-public class Water_Spear_Model extends HierarchicalModel<Water_Spear_Entity> {
+public class Elemental_Spear_Model<T extends Entity> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 
 	private final ModelPart root;
 
-	public Water_Spear_Model(ModelPart root) {
+	public Elemental_Spear_Model(ModelPart root) {
 		this.root = root.getChild("root");
 	}
 
@@ -31,7 +30,7 @@ public class Water_Spear_Model extends HierarchicalModel<Water_Spear_Entity> {
 	}
 
 	@Override
-	public void setupAnim(Water_Spear_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

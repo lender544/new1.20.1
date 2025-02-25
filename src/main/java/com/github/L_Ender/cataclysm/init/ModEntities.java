@@ -96,6 +96,13 @@ public class ModEntities {
             .fireImmune()
             .build(Cataclysm.MODID + ":flame_jet"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Lightning_Storm_Entity>> LIGHTNING_STORM = ENTITY_TYPE.register("lightning_storm", () -> EntityType.Builder.<Lightning_Storm_Entity>of(Lightning_Storm_Entity::new, MobCategory.MISC)
+            .sized(0.9F, 3.5F)
+            .clientTrackingRange(6)
+            .updateInterval(2)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":lightning_storm"));
+
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Entity>> IGNIS = ENTITY_TYPE.register("ignis", () -> EntityType.Builder.of(Ignis_Entity::new, MobCategory.MONSTER)
             .sized(2.25F, 3.5F)
@@ -616,6 +623,12 @@ public class ModEntities {
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":water_spear"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Lightning_Spear_Entity>> LIGHTNING_SPEAR = ENTITY_TYPE.register("lightning_spear", () -> EntityType.Builder.<Lightning_Spear_Entity>of(Lightning_Spear_Entity::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F)
+            .clientTrackingRange(4)
+            .build(Cataclysm.MODID + ":lightning_spear"));
+
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
         if(entityTag == null){

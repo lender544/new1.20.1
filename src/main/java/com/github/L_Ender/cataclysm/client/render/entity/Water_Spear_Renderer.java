@@ -2,20 +2,15 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.Water_Spear_Model;
-import com.github.L_Ender.cataclysm.client.model.entity.Wither_Missile_Model;
+import com.github.L_Ender.cataclysm.client.model.entity.Elemental_Spear_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
@@ -27,14 +22,14 @@ public class Water_Spear_Renderer extends EntityRenderer<Water_Spear_Entity>
 
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[8];
 
-    public Water_Spear_Model model;
+    public Elemental_Spear_Model model;
 
     public Water_Spear_Renderer(EntityRendererProvider.Context manager)
     {
         super(manager);
-        this.model = new Water_Spear_Model(manager.bakeLayer(CMModelLayers.WATER_SPEAR_MODEL));
+        this.model = new Elemental_Spear_Model<>(manager.bakeLayer(CMModelLayers.ELEMENTAL_SPEAR_MODEL));
         for(int i = 0; i < 6; i++){
-            TEXTURE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/water_spear/water_spear_" + i + ".png");
+            TEXTURE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/spear/water_spear_" + i + ".png");
         }
     }
 

@@ -3,18 +3,16 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
-import com.github.L_Ender.cataclysm.client.animation.Cindaria_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Scylla_Lightning_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Scylla_Normal_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Scylla_Water_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HierarchicalModel;
-import net.minecraft.client.model.WardenModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 
 public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -47,13 +45,14 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	private final ModelPart r_sea_snake_head3;
 	private final ModelPart l_sea_snake_tongue;
 	private final ModelPart l_arm2;
-	private final ModelPart anker;
+	private final ModelPart anchor;
+	private final ModelPart trail2;
 	private final ModelPart chain_main;
 	private final ModelPart chain_4;
 	private final ModelPart chain_3;
 	private final ModelPart chain_2;
 	private final ModelPart chain;
-	private final ModelPart chain_anker;
+	private final ModelPart chain_anchor;
 	private final ModelPart trail;
 	private final ModelPart r_arm;
 	private final ModelPart r_armor;
@@ -98,14 +97,15 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.r_sea_snake_head3 = this.l_sea_snake_head.getChild("r_sea_snake_head3");
 		this.l_sea_snake_tongue = this.l_sea_snake_head.getChild("l_sea_snake_tongue");
 		this.l_arm2 = this.l_arm.getChild("l_arm2");
-		this.anker = this.l_arm2.getChild("anker");
+		this.anchor = this.l_arm2.getChild("anchor");
+		this.trail2 = this.anchor.getChild("trail2");
 		this.chain_main = this.l_arm2.getChild("chain_main");
 		this.chain_4 = this.chain_main.getChild("chain_4");
 		this.chain_3 = this.chain_4.getChild("chain_3");
 		this.chain_2 = this.chain_3.getChild("chain_2");
 		this.chain = this.chain_2.getChild("chain");
-		this.chain_anker = this.chain.getChild("chain_anker");
-		this.trail = this.chain_anker.getChild("trail");
+		this.chain_anchor = this.chain.getChild("chain_anchor");
+		this.trail = this.chain_anchor.getChild("trail");
 		this.r_arm = this.chest.getChild("r_arm");
 		this.r_armor = this.r_arm.getChild("r_armor");
 		this.r_arm2 = this.r_arm.getChild("r_arm2");
@@ -223,41 +223,43 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		PartDefinition l_arm2 = l_arm.addOrReplaceChild("l_arm2", CubeListBuilder.create().texOffs(66, 131).addBox(-0.2389F, -0.9829F, -2.0F, 2.0F, 8.0F, 4.0F, new CubeDeformation(0.3F))
 				.texOffs(51, 123).addBox(-1.5F, 0.0F, -2.0F, 3.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.0F, 0.0F, -1.6849F, -0.1083F, 0.2301F));
 
-		PartDefinition anker = l_arm2.addOrReplaceChild("anker", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+		PartDefinition anchor = l_arm2.addOrReplaceChild("anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
 
-		PartDefinition cube_r17 = anker.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r17 = anchor.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r18 = anker.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 10.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r18 = anchor.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 10.0F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r19 = anker.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -26.3F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r19 = anchor.addOrReplaceChild("cube_r19", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -26.3F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r20 = anker.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(78, 52).addBox(-3.0F, 1.0F, -3.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r20 = anchor.addOrReplaceChild("cube_r20", CubeListBuilder.create().texOffs(78, 52).addBox(-3.0F, 1.0F, -3.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r21 = anker.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(107, 121).addBox(-1.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r21 = anchor.addOrReplaceChild("cube_r21", CubeListBuilder.create().texOffs(107, 121).addBox(-1.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r22 = anker.addOrReplaceChild("cube_r22", CubeListBuilder.create().texOffs(0, 53).addBox(0.0F, -7.0F, -3.0F, 0.0F, 18.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r22 = anchor.addOrReplaceChild("cube_r22", CubeListBuilder.create().texOffs(0, 53).addBox(0.0F, -7.0F, -3.0F, 0.0F, 18.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r23 = anker.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -15.6944F, -21.2732F, 2.3998F, 0.0F, 0.0F));
+		PartDefinition cube_r23 = anchor.addOrReplaceChild("cube_r23", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -15.6944F, -21.2732F, 2.3998F, 0.0F, 0.0F));
 
-		PartDefinition cube_r24 = anker.addOrReplaceChild("cube_r24", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, -26.0F, 3.0107F, 0.0F, 0.0F));
+		PartDefinition cube_r24 = anchor.addOrReplaceChild("cube_r24", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, -26.0F, 3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r25 = anker.addOrReplaceChild("cube_r25", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, 15.6944F, -21.2732F, 2.3998F, 0.0F, 3.1416F));
+		PartDefinition cube_r25 = anchor.addOrReplaceChild("cube_r25", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, 15.6944F, -21.2732F, 2.3998F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r26 = anker.addOrReplaceChild("cube_r26", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -26.0F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r26 = anchor.addOrReplaceChild("cube_r26", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -26.0F, 3.0107F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r27 = anker.addOrReplaceChild("cube_r27", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0963F, -22.4693F, 2.7925F, 0.0F, -3.1416F));
+		PartDefinition cube_r27 = anchor.addOrReplaceChild("cube_r27", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0963F, -22.4693F, 2.7925F, 0.0F, -3.1416F));
 
-		PartDefinition cube_r28 = anker.addOrReplaceChild("cube_r28", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0963F, -22.4693F, 2.7925F, 0.0F, 0.0F));
+		PartDefinition cube_r28 = anchor.addOrReplaceChild("cube_r28", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0963F, -22.4693F, 2.7925F, 0.0F, 0.0F));
 
-		PartDefinition cube_r29 = anker.addOrReplaceChild("cube_r29", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
+		PartDefinition cube_r29 = anchor.addOrReplaceChild("cube_r29", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F))
 				.texOffs(25, 85).addBox(0.0F, -5.0F, -13.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -19.5093F, -14.7353F, 3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r30 = anker.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, -3.0107F, 0.0F, 0.0F));
+		PartDefinition cube_r30 = anchor.addOrReplaceChild("cube_r30", CubeListBuilder.create().texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, -3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r31 = anker.addOrReplaceChild("cube_r31", CubeListBuilder.create().texOffs(25, 85).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.4651F, -6.8037F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r31 = anchor.addOrReplaceChild("cube_r31", CubeListBuilder.create().texOffs(25, 85).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.4651F, -6.8037F, 3.0107F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r32 = anker.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r32 = anchor.addOrReplaceChild("cube_r32", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, 3.0107F, 0.0F, 3.1416F));
+
+		PartDefinition trail2 = anchor.addOrReplaceChild("trail2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, -29.0F));
 
 		PartDefinition chain_main = l_arm2.addOrReplaceChild("chain_main", CubeListBuilder.create().texOffs(134, 13).addBox(-3.0F, 0.0F, -8.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 8.0F, 0.0F));
 
@@ -269,43 +271,43 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition chain = chain_2.addOrReplaceChild("chain", CubeListBuilder.create().texOffs(134, 13).addBox(-3.0F, 0.0F, -8.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -7.0F));
 
-		PartDefinition chain_anker = chain.addOrReplaceChild("chain_anker", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -43.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -7.0F));
+		PartDefinition chain_anchor = chain.addOrReplaceChild("chain_anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -43.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -7.0F));
 
-		PartDefinition cube_r33 = chain_anker.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -46.3F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r33 = chain_anchor.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -46.3F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r34 = chain_anker.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, -13.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r34 = chain_anchor.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, -13.0F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r35 = chain_anker.addOrReplaceChild("cube_r35", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, -10.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r35 = chain_anchor.addOrReplaceChild("cube_r35", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, -10.0F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r36 = chain_anker.addOrReplaceChild("cube_r36", CubeListBuilder.create().texOffs(78, 52).addBox(-3.0F, 1.0F, -3.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r36 = chain_anchor.addOrReplaceChild("cube_r36", CubeListBuilder.create().texOffs(78, 52).addBox(-3.0F, 1.0F, -3.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r37 = chain_anker.addOrReplaceChild("cube_r37", CubeListBuilder.create().texOffs(107, 121).addBox(-1.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r37 = chain_anchor.addOrReplaceChild("cube_r37", CubeListBuilder.create().texOffs(107, 121).addBox(-1.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r38 = chain_anker.addOrReplaceChild("cube_r38", CubeListBuilder.create().texOffs(0, 53).addBox(0.0F, -7.0F, -3.0F, 0.0F, 18.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
+		PartDefinition cube_r38 = chain_anchor.addOrReplaceChild("cube_r38", CubeListBuilder.create().texOffs(0, 53).addBox(0.0F, -7.0F, -3.0F, 0.0F, 18.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -50.0F, 3.1416F, 0.0F, 0.0F));
 
-		PartDefinition cube_r39 = chain_anker.addOrReplaceChild("cube_r39", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -15.6944F, -41.2732F, 2.3998F, 0.0F, 0.0F));
+		PartDefinition cube_r39 = chain_anchor.addOrReplaceChild("cube_r39", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -15.6944F, -41.2732F, 2.3998F, 0.0F, 0.0F));
 
-		PartDefinition cube_r40 = chain_anker.addOrReplaceChild("cube_r40", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, -46.0F, 3.0107F, 0.0F, 0.0F));
+		PartDefinition cube_r40 = chain_anchor.addOrReplaceChild("cube_r40", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, -46.0F, 3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r41 = chain_anker.addOrReplaceChild("cube_r41", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, 15.6944F, -41.2732F, 2.3998F, 0.0F, 3.1416F));
+		PartDefinition cube_r41 = chain_anchor.addOrReplaceChild("cube_r41", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, 15.6944F, -41.2732F, 2.3998F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r42 = chain_anker.addOrReplaceChild("cube_r42", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -46.0F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r42 = chain_anchor.addOrReplaceChild("cube_r42", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -46.0F, 3.0107F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r43 = chain_anker.addOrReplaceChild("cube_r43", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0963F, -42.4693F, 2.7925F, 0.0F, -3.1416F));
+		PartDefinition cube_r43 = chain_anchor.addOrReplaceChild("cube_r43", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0963F, -42.4693F, 2.7925F, 0.0F, -3.1416F));
 
-		PartDefinition cube_r44 = chain_anker.addOrReplaceChild("cube_r44", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0963F, -42.4693F, 2.7925F, 0.0F, 0.0F));
+		PartDefinition cube_r44 = chain_anchor.addOrReplaceChild("cube_r44", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0963F, -42.4693F, 2.7925F, 0.0F, 0.0F));
 
-		PartDefinition cube_r45 = chain_anker.addOrReplaceChild("cube_r45", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
+		PartDefinition cube_r45 = chain_anchor.addOrReplaceChild("cube_r45", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F))
 				.texOffs(25, 85).addBox(0.0F, -5.0F, -13.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -19.5093F, -34.7353F, 3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r46 = chain_anker.addOrReplaceChild("cube_r46", CubeListBuilder.create().texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -34.7353F, -3.0107F, 0.0F, 0.0F));
+		PartDefinition cube_r46 = chain_anchor.addOrReplaceChild("cube_r46", CubeListBuilder.create().texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -34.7353F, -3.0107F, 0.0F, 0.0F));
 
-		PartDefinition cube_r47 = chain_anker.addOrReplaceChild("cube_r47", CubeListBuilder.create().texOffs(25, 85).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.4651F, -26.8037F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r47 = chain_anchor.addOrReplaceChild("cube_r47", CubeListBuilder.create().texOffs(25, 85).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.4651F, -26.8037F, 3.0107F, 0.0F, 3.1416F));
 
-		PartDefinition cube_r48 = chain_anker.addOrReplaceChild("cube_r48", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -34.7353F, 3.0107F, 0.0F, 3.1416F));
+		PartDefinition cube_r48 = chain_anchor.addOrReplaceChild("cube_r48", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -34.7353F, 3.0107F, 0.0F, 3.1416F));
 
-		PartDefinition trail = chain_anker.addOrReplaceChild("trail", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, -49.0F));
+		PartDefinition trail = chain_anchor.addOrReplaceChild("trail", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, -49.0F));
 
 		PartDefinition r_arm = chest.addOrReplaceChild("r_arm", CubeListBuilder.create().texOffs(17, 130).addBox(-1.0F, -2.0F, -2.0F, 3.0F, 7.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-5.5F, -4.0F, 0.0F, 0.0F, 0.0F, 0.1309F));
 
@@ -366,12 +368,19 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();
 		this.chain_main.visible = entity.getChainAnchor();
+
 		this.animate(entity.getAnimationState("idle"), Scylla_Normal_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("cross_swing"), Scylla_Normal_Animation.CROSS_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("cross_swing2"), Scylla_Normal_Animation.CROSS_SWING2, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("smash"), Scylla_Normal_Animation.SMASH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("spin"), Scylla_Normal_Animation.ANCHOR_SPIN_ATTACK, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("wave"), Scylla_Water_Animation.WAVE_SHOOT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("lightning_explosion"), Scylla_Lightning_Animation.LIGHTNING_EXPLOSION, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("lightning_spear_throw"), Scylla_Lightning_Animation.LIGHTNING_SPEAR_THROW, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("water_spear_throw"), Scylla_Water_Animation.WATER_SPEAR_THROW, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {
@@ -401,8 +410,20 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.chain_3.translateAndRotate(matrixStack);
 		this.chain_2.translateAndRotate(matrixStack);
 		this.chain.translateAndRotate(matrixStack);
-		this.chain_anker.translateAndRotate(matrixStack);
+		this.chain_anchor.translateAndRotate(matrixStack);
 		this.trail.translateAndRotate(matrixStack);
+	}
+
+	public void translateNormalAnchor(PoseStack matrixStack) {
+		this.root.translateAndRotate(matrixStack);
+		this.everything.translateAndRotate(matrixStack);
+		this.scylla.translateAndRotate(matrixStack);
+		this.body.translateAndRotate(matrixStack);
+		this.chest.translateAndRotate(matrixStack);
+		this.l_arm.translateAndRotate(matrixStack);
+		this.l_arm2.translateAndRotate(matrixStack);
+		this.anchor.translateAndRotate(matrixStack);
+		this.trail2.translateAndRotate(matrixStack);
 	}
 
 

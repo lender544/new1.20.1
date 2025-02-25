@@ -81,7 +81,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         this.xpReward = 35;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.WadjetHealthMultiplier, CMConfig.WadjetDamageMultiplier);
+        setConfigattribute(this, CMConfig.ClawdianHealthMultiplier, CMConfig.ClawdianDamageMultiplier);
     }
 
 
@@ -138,7 +138,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             }
         });
 
-        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,2,0,75,49,5.5f){
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,2,0,75,48,5.5f){
             @Override
             public boolean canUse() {
                 return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 27f;
@@ -424,7 +424,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                         Wave_Entity WaveEntity = new Wave_Entity(this.level(), this,80,9);
                         WaveEntity.setPos(spawnX, spawnY, spawnZ);
                         WaveEntity.setState(1);
-                        WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (double) (180F / (float) Math.PI)) - 105 + 15 * numberOfSkulls);
+                        WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (double) (180F / (float) Math.PI)));
                         this.level().addFreshEntity(WaveEntity);
                     }
                 }

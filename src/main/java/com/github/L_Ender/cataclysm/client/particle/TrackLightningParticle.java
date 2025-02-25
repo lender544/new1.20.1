@@ -55,6 +55,13 @@ public class TrackLightningParticle extends Particle {
         lightningRender.update(this, bolt, 1.0F);
     }
 
+    // LightningBoltData.BoltRenderInfo boltData = new LightningBoltData.BoltRenderInfo(0.5F, 0.1F, 0.5F, 0.85F, new Vector4f(rCol /255, gCol /255, bCol /255, 0.8F), 0.1F);
+    //  LightningBoltData bolt = new LightningBoltData(boltData, Vec3.ZERO, lightningTo, 5)
+    //        .size(0.05F)
+    //        .lifespan(this.lifetime)
+    //         .spawn(LightningBoltData.SpawnFunction.CONSECUTIVE);
+    //     lightningRender.update(this, bolt, 1.0F);
+
     public AABB getRenderBoundingBox(float partialTicks) {
         return getBoundingBox().inflate(0.0);
     }

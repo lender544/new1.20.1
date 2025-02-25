@@ -153,6 +153,12 @@ public class CMConfig {
     public static double AptrgangrHealthMultiplier = 1D;
     public static double AptrgangrDamageMultiplier = 1D;
 
+    public static double ClawdianHealthMultiplier = 1D;
+    public static double ClawdianDamageMultiplier = 1D;
+
+    public static double ScyllaHealthMultiplier = 1D;
+    public static double ScyllaDamageMultiplier = 1D;
+
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
     public static double MaledictusNatureHealing = 10D;
@@ -412,6 +418,12 @@ public class CMConfig {
 
             MaledictusHealthMultiplier = ConfigHolder.COMMON.MaledictusHealthMultiplier.get();
             MaledictusDamageMultiplier = ConfigHolder.COMMON.MaledictusDamageMultiplier.get();
+
+            ClawdianHealthMultiplier = ConfigHolder.COMMON.ClawdianHealthMultiplier.get();
+            ClawdianDamageMultiplier = ConfigHolder.COMMON.ClawdianDamageMultiplier.get();
+
+            ScyllaHealthMultiplier = ConfigHolder.COMMON.ScyllaHealthMultiplier.get();
+            ScyllaDamageMultiplier = ConfigHolder.COMMON.ScyllaDamageMultiplier.get();
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

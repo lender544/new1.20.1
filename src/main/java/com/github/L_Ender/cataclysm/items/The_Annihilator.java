@@ -100,7 +100,7 @@ public class The_Annihilator extends Item {
             }
         }
         if (world.isClientSide) {
-            world.addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 30, 1, 1, 1, 1.0f, 85, false, 0), caster.getX() , caster.getY() + 0.03f, caster.getZ(), 0, 0, 0);
+            world.addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 30, 86, 236, 204, 1.0f, 85, false, 0), caster.getX() , caster.getY() + 0.03f, caster.getZ(), 0, 0, 0);
         }
     }
 

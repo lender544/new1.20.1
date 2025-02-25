@@ -1,10 +1,7 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.client.particle.Options.*;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -78,6 +75,16 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<CircleLightningParticleOptions>> CIRCLE_LIGHTNING = PARTICLE.register("circle_lightning", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<CircleLightningParticleOptions> codec() {
+            return CircleLightningParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, CircleLightningParticleOptions> streamCodec() {
+            return CircleLightningParticleOptions.STREAM_CODEC;
+        }
+    });
+
     public static final DeferredHolder<ParticleType<?>, ParticleType<RingParticleOptions>> RING = PARTICLE.register("ring_0", () -> new ParticleType<>(false)  {
         @Override
         public MapCodec<RingParticleOptions> codec() {
@@ -98,6 +105,35 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<LightningStormParticleOptions>> LIGHTNING_STORM = PARTICLE.register("lightning_storm", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<LightningStormParticleOptions> codec() {
+            return LightningStormParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, LightningStormParticleOptions> streamCodec() {
+            return LightningStormParticleOptions.STREAM_CODEC;
+        }
+    });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<GatheringWaterParticleOptions>> GATHERING_WATER = PARTICLE.register("gathering_water", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<GatheringWaterParticleOptions> codec() {
+            return GatheringWaterParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, GatheringWaterParticleOptions> streamCodec() {
+            return GatheringWaterParticleOptions.STREAM_CODEC;
+        }
+    });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<SpinTrailParticleOptions>> SPIN_TRAIL_PARTICLE = PARTICLE.register("spin_trail", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<SpinTrailParticleOptions> codec() {
+            return SpinTrailParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, SpinTrailParticleOptions> streamCodec() {
+            return SpinTrailParticleOptions.STREAM_CODEC;
+        }
+    });
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
 

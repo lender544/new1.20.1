@@ -54,7 +54,6 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
         this.xpReward = 35;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.WadjetHealthMultiplier, CMConfig.WadjetDamageMultiplier);
     }
 
 
@@ -416,8 +415,6 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
                 entity.setYRot(entity.yRotO);
             }
             if (entity.attackTicks == attackseetick) {
-                float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
-                float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
                 if (target != null) {
                     double d0 = entity.getX();
                     double d1 = entity.getY() + entity.getBbHeight() * 0.5F;

@@ -34,4 +34,6 @@ public class ModEffect {
     public static final DeferredHolder<MobEffect, MobEffect> EFFECTGHOST_FORM = EFFECTS.register("ghost_form", EffectGhostForm::new);
 
     public static final DeferredHolder<MobEffect, MobEffect> EFFECTGHOST_SICKNESS = EFFECTS.register("ghost_sickness", EffectGhost_Sickness::new);
+
+    public static final DeferredHolder<MobEffect, MobEffect> EFFECTWETNESS = EFFECTS.register("wetness", EffectWetness::new);
 }

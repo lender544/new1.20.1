@@ -56,7 +56,6 @@ public class Wave_Entity extends Entity {
     private double lxd;
     private double lyd;
     private double lzd;
-    public int activeWaveTicks;
 
     public Wave_Entity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -94,7 +93,7 @@ public class Wave_Entity extends Entity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
-        p_326229_.define(LIFESPAN, 10);
+        p_326229_.define(LIFESPAN, 0);
         p_326229_.define(MAX_TICKS, 0);
         p_326229_.define(Y_ROT, 0F);
         p_326229_.define(STATE, 0);
@@ -167,7 +166,7 @@ public class Wave_Entity extends Entity {
             this.setLifespan(tag.getInt("Lifespan"));
         }
         if (tag.contains("Maxticks")) {
-            this.setLifespan(tag.getInt("Maxticks"));
+            this.setMaxTicks(tag.getInt("Maxticks"));
         }
     }
 
@@ -262,12 +261,11 @@ public class Wave_Entity extends Entity {
         Vec3 vec3 = this.getDeltaMovement().scale(0.9F).add(directionVec);
         this.move(MoverType.SELF, vec3);
         this.setDeltaMovement(vec3.multiply((double) 0.99F, (double) 0.98F, (double) 0.99F));
-        activeWaveTicks++;
     }
 
 
     private void attackEntities(double strength,double x,double z) {
-        AABB bashBox = this.getBoundingBox().inflate(0.25f);
+        AABB bashBox = this.getBoundingBox().inflate(0.01f);
         DamageSource source = damageSources().mobProjectile(this, owner);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
