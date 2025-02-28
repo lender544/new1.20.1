@@ -28,6 +28,8 @@ public class Storm_Bringer_Renderer extends EntityRenderer<Storm_Bringer_Entity>
 
 	private final Storm_Bringer_Model model;
 
+
+
 	private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath( Cataclysm.MODID,"textures/entity/scylla/storm_bringer.png");
 	private static final ResourceLocation CHAIN_TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/chain.png");
 	private static final RenderType CHAIN_LAYER = RenderType.entitySmoothCutout(CHAIN_TEXTURE);

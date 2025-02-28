@@ -13,6 +13,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -367,20 +369,9 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		}
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();
-		this.chain_main.visible = entity.getChainAnchor();
 
-		this.animate(entity.getAnimationState("idle"), Scylla_Normal_Animation.IDLE, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("cross_swing"), Scylla_Normal_Animation.CROSS_SWING, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("cross_swing2"), Scylla_Normal_Animation.CROSS_SWING2, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("smash"), Scylla_Normal_Animation.SMASH, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("spin"), Scylla_Normal_Animation.ANCHOR_SPIN_ATTACK, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("wave"), Scylla_Water_Animation.WAVE_SHOOT, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("lightning_explosion"), Scylla_Lightning_Animation.LIGHTNING_EXPLOSION, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("lightning_spear_throw"), Scylla_Lightning_Animation.LIGHTNING_SPEAR_THROW, ageInTicks, 1.0F);
 
-		this.animate(entity.getAnimationState("water_spear_throw"), Scylla_Water_Animation.WATER_SPEAR_THROW, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {
@@ -395,6 +386,23 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		}else{
 			this.l_eye.translateAndRotate(matrixStack);
 		}
+	}
+
+	public Vec3 getChainPosition(Vec3 offsetIn) {
+		PoseStack armStack = new PoseStack();
+		armStack.pushPose();
+		this.root.translateAndRotate(armStack);
+		this.everything.translateAndRotate(armStack);
+		this.scylla.translateAndRotate(armStack);
+		this.body.translateAndRotate(armStack);
+		this.chest.translateAndRotate(armStack);
+		this.l_arm.translateAndRotate(armStack);
+		this.l_arm2.translateAndRotate(armStack);
+		Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+		armOffsetVec.mul(armStack.last().pose());
+		Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());
+		armStack.popPose();
+		return vec3.add(0, 0, 0);
 	}
 
 	public void translateChainAnchor(PoseStack matrixStack) {
@@ -414,7 +422,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.trail.translateAndRotate(matrixStack);
 	}
 
-	public void translateNormalAnchor(PoseStack matrixStack) {
+	public void translateHand(PoseStack matrixStack) {
 		this.root.translateAndRotate(matrixStack);
 		this.everything.translateAndRotate(matrixStack);
 		this.scylla.translateAndRotate(matrixStack);
@@ -423,8 +431,8 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.l_arm.translateAndRotate(matrixStack);
 		this.l_arm2.translateAndRotate(matrixStack);
 		this.anchor.translateAndRotate(matrixStack);
-		this.trail2.translateAndRotate(matrixStack);
 	}
+
 
 
 	private void animateHeadLookTarget(float yRot, float xRot) {

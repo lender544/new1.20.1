@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.client.particle.Options.TrackLightningPartic
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -151,36 +152,17 @@ public class Lightning_Spear_Entity extends Projectile {
             Entity entity = p_37626_.getEntity();
             boolean flag;
             if (this.getOwner() instanceof LivingEntity livingentity) {
-                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                DamageSource damagesource = CMDamageTypes.causeLightningDamage(this, livingentity);
                 flag = entity.hurt(damagesource, this.getDamage());
                 if (flag) {
                     if (entity.isAlive()) {
                         EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
-                    } else {
-                        livingentity.heal(5.0F);
-                        if(livingentity instanceof The_Harbinger_Entity) {
-                            livingentity.heal(5.0F * (float) CMConfig.HarbingerHealingMultiplier);
-                        }else{
-                            livingentity.heal(5.0F);
-                        }
                     }
                 }
             } else {
                 flag = entity.hurt(this.damageSources().magic(), 5.0F);
             }
 
-            if (flag && entity instanceof LivingEntity livingentity1) {
-                int i = 0;
-                if (this.level().getDifficulty() == Difficulty.NORMAL) {
-                    i = 10;
-                } else if (this.level().getDifficulty() == Difficulty.HARD) {
-                    i = 15;
-                }
-
-                if (i > 0) {
-                    livingentity1.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
-                }
-            }
         }
     }
 

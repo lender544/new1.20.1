@@ -143,6 +143,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
 		event.registerEntityRenderer(ModEntities.STORM_BRINGER.get(), Storm_Bringer_Renderer::new);
+		event.registerEntityRenderer(ModEntities.SCYLLA_STORM_BRINGER.get(), Scylla_Storm_Bringer_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);

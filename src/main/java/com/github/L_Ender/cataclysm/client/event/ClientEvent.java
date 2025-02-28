@@ -17,11 +17,12 @@ import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.lionfishapi.client.event.EventGetFluidRenderType;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,6 +31,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -53,6 +56,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import org.joml.Matrix4f;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
@@ -66,6 +70,7 @@ public class ClientEvent {
     private static LiquidBlockRenderer previousFluidRenderer;
     private static final ResourceLocation SANDSTORM_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/sandstorm_icons.png");
     private static final ResourceLocation EFFECT_HEART = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/effect_heart.png");
+    private static final ResourceLocation FLASH_OUT = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/flash_out.png");
     private static final ResourceLocation SANDSTORM_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/ancient_remnant/sandstorm.png");
     private static final PlayerSandstorm_Model SANDSTORM_MODEL = new PlayerSandstorm_Model();
     private final Random random = new Random();
@@ -170,6 +175,7 @@ public class ClientEvent {
     }
 
 
+
     public static void onPreRenderHUD(RenderGuiLayerEvent.Pre event) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
@@ -187,16 +193,46 @@ public class ClientEvent {
 
 
 
-
     public static void onPostRenderHUD(RenderGuiLayerEvent.Post event) {
         Player player = Minecraft.getInstance().player;
+        float delta = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+        float screenEffectIntensity = Minecraft.getInstance().options.screenEffectScale().get().floatValue();
+        float ticksExistedDelta = player.tickCount + delta;
+        Minecraft mc = Minecraft.getInstance();
         if (player != null) {
-            Minecraft mc = Minecraft.getInstance();
             if (VanillaGuiLayers.AIR_LEVEL == event.getName() && !mc.options.hideGui && shouldDrawSurvivalElements()) {
 
             }
         }
+
+        /*
+        if (CMConfig.ScreenShake && !Minecraft.getInstance().isPaused()) {
+            if (player != null) {
+
+                float shakeAmplitude = 0;
+                for (ScreenShake_Entity ScreenShake : player.level().getEntitiesOfClass(ScreenShake_Entity.class, player.getBoundingBox().inflate(20, 20, 20))) {
+                    if (ScreenShake.distanceTo(player) < ScreenShake.getRadius()) {
+                        shakeAmplitude += ScreenShake.getShakeAmount(player, delta);
+                    }
+                }
+                if (shakeAmplitude > 1.0f) shakeAmplitude = 1.0f;
+
+                Window window = mc.getWindow();
+                GuiGraphics graphics = new GuiGraphics(mc, mc.renderBuffers().bufferSource());
+
+                int prog = (int) (255 * shakeAmplitude);
+                int white = (prog << 24) | 0xFFFFFF;
+                graphics.fill(0, 0, window.getScreenWidth(), window.getScreenHeight(),  white);
+
+
+            }
+
+
+        }
+
+         */
     }
+
 
     private static boolean shouldDrawSurvivalElements() {
         Minecraft mc = Minecraft.getInstance();

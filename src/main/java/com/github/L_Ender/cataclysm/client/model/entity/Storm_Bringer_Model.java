@@ -6,16 +6,18 @@ import com.github.L_Ender.cataclysm.entity.projectile.Storm_Bringer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.SpiderModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Storm_Bringer_Model extends EntityModel<Storm_Bringer_Entity> {
+public class Storm_Bringer_Model<T extends Entity> extends EntityModel<T> {
     private final ModelPart root;
     private final ModelPart anchor;
     private final ModelPart chain;
@@ -79,7 +81,7 @@ public class Storm_Bringer_Model extends EntityModel<Storm_Bringer_Entity> {
         this.chain.translateAndRotate(matrixStack);
     }
 
-    public void setupAnim(Storm_Bringer_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
 
     public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {

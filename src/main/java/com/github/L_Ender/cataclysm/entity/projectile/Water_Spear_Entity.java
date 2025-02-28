@@ -2,7 +2,9 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +18,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -164,11 +167,6 @@ public class Water_Spear_Entity extends Projectile {
                         EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
                     } else {
                         livingentity.heal(5.0F);
-                        if(livingentity instanceof The_Harbinger_Entity) {
-                            livingentity.heal(5.0F * (float) CMConfig.HarbingerHealingMultiplier);
-                        }else{
-                            livingentity.heal(5.0F);
-                        }
                     }
                 }
             } else {
@@ -176,16 +174,19 @@ public class Water_Spear_Entity extends Projectile {
             }
 
             if (flag && entity instanceof LivingEntity livingentity1) {
-                int i = 0;
-                if (this.level().getDifficulty() == Difficulty.NORMAL) {
-                    i = 10;
-                } else if (this.level().getDifficulty() == Difficulty.HARD) {
-                    i = 15;
+                MobEffectInstance effectinstance1 = livingentity1.getEffect(ModEffect.EFFECTWETNESS);
+                int i = 1;
+                if (effectinstance1 != null) {
+                    i += effectinstance1.getAmplifier();
+                    livingentity1.removeEffectNoUpdate(ModEffect.EFFECTWETNESS);
+                } else {
+                    --i;
                 }
 
-                if (i > 0) {
-                    livingentity1.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
-                }
+                i = Mth.clamp(i, 0, 4);
+                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS, 200, i, false, true, true);
+                livingentity1.addEffect(effectinstance);
+
             }
         }
     }
