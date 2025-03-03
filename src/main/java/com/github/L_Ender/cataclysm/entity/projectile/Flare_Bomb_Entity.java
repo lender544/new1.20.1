@@ -1,33 +1,24 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.LightTrailParticle;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightTrailParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
-
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.entity.projectile.WitherSkull;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -103,7 +94,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
 
 
-    private void PlusStrikeRune(int rune, double time) {
+    protected void PlusStrikeRune(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
@@ -112,14 +103,14 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
+                this.spawnJet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
             }
 
         }
 
     }
 
-    private void XStrikeRune(int rune, double time) {
+    protected void XStrikeRune(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(45 + this.getYRot()));
@@ -128,7 +119,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
+                this.spawnJet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
             }
 
         }
@@ -136,7 +127,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     }
 
 
-    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
+    protected void spawnJet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
         boolean flag = false;
         double d0 = 0.0D;

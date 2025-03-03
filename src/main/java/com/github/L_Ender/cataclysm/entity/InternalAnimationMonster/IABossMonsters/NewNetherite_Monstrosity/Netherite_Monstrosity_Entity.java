@@ -382,6 +382,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (!isAwaken) {
             this.setAttackState(1);
         }
+        this.setHomePos(this.blockPosition());
     }
 
     public boolean getIsAwaken() {

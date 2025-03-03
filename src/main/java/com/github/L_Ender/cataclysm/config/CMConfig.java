@@ -26,7 +26,9 @@ public class CMConfig {
     public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
 
-    public static int Cursed_tombstone_summon_cooldown = 3;
+    public static int Cursed_tombstone_summon_cooldown = 1;
+
+    public static int Return_Home = 20;
 
     public static double Voidrunedamage = 7;
     public static double DimensionalRiftdamage = 10;
@@ -229,6 +231,7 @@ public class CMConfig {
             shadersCompat = ConfigHolder.COMMON.shadersCompat.get();
             custombossbar = ConfigHolder.COMMON.custombossbar.get();
 
+            Return_Home = ConfigHolder.COMMON.Return_Home.get();
 
             GauntletOfBulwarkCooldown = ConfigHolder.COMMON.GauntletOfBulwarkCooldown.get();
             BulwarkOfTheFlameCooldown = ConfigHolder.COMMON.BulwarkOfTheFlameCooldown.get();

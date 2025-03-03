@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.blockentities;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -20,13 +19,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
@@ -73,6 +70,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                     The_Leviathan_Entity leviathan = ModEntities.THE_LEVIATHAN.get().create(level);
                     if (leviathan != null) {
                         leviathan.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
+                        leviathan.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
                             level.addFreshEntity(leviathan);
                         }
@@ -221,7 +219,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput p_338534_) {
+    protected void applyImplicitComponents(DataComponentInput p_338534_) {
         super.applyImplicitComponents(p_338534_);
         p_338534_.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(this.getItems());
     }

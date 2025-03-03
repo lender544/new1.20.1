@@ -5,7 +5,6 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModTag;
-
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -70,6 +69,7 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
                     Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
                     if (ignis != null) {
                         ignis.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
+                        ignis.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
                             level.addFreshEntity(ignis);
                         }
@@ -220,7 +220,7 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
     }
 
     @Override
-    protected void applyImplicitComponents(BlockEntity.DataComponentInput p_338534_) {
+    protected void applyImplicitComponents(DataComponentInput p_338534_) {
         super.applyImplicitComponents(p_338534_);
         p_338534_.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(this.getItems());
     }

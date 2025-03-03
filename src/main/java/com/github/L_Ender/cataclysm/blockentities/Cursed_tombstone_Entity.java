@@ -76,6 +76,7 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                         if (maledictus != null) {
                             ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.1f, 0, 40);
                             maledictus.setPos(pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5);
+                            maledictus.setHomePos(pos);
                             maledictus.setTombstonePos(pos);
                             maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
                             if (!level.isClientSide) {

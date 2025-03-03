@@ -16,7 +16,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-
 import javax.annotation.Nullable;
 import java.util.UUID;
 
@@ -36,7 +35,7 @@ public class Abyss_Mine_Entity extends Entity {
         super(p_i50170_1_, p_i50170_2_);
     }
 
-    public Abyss_Mine_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_ ,LivingEntity casterIn) {
+    public Abyss_Mine_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_ , LivingEntity casterIn) {
         this(ModEntities.ABYSS_MINE.get(), worldIn);
         this.warmupDelayTicks = p_i47276_9_;
 
@@ -151,7 +150,7 @@ public class Abyss_Mine_Entity extends Entity {
         this.entityData.set(ACTIVATE, Activate);
     }
 
-    private void explode(LivingEntity livingentity) {
+    protected void explode(LivingEntity livingentity) {
         LivingEntity Caster = this.getCaster();
         if(livingentity.isAlive()) {
             if (Caster != null) {

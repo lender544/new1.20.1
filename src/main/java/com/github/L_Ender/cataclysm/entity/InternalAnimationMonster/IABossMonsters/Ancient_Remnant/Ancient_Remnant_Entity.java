@@ -314,6 +314,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         if(!necklace){
             this.setAttackState(1);
         }
+        this.setHomePos(this.blockPosition());
     }
 
 

@@ -343,7 +343,6 @@ public class ModEntities {
             .sized(0.3125F, 0.3125F)
             .fireImmune()
             .clientTrackingRange(4)
-            .setUpdateInterval(1)
             .build(Cataclysm.MODID + ":laser_beam"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Wither_Missile_Entity>> WITHER_MISSILE = ENTITY_TYPE.register("wither_missile", () -> EntityType.Builder.<Wither_Missile_Entity>of(Wither_Missile_Entity::new, MobCategory.MISC)
