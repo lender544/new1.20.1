@@ -353,6 +353,7 @@ public class ModEntities {
             .fireImmune()
             .clientTrackingRange(4)
             .updateInterval(10)
+            .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":laser_beam"));
 
     public static final RegistryObject<EntityType<Wither_Missile_Entity>> WITHER_MISSILE = ENTITY_TYPE.register("wither_missile", () -> EntityType.Builder.<Wither_Missile_Entity>of(Wither_Missile_Entity::new, MobCategory.MISC)

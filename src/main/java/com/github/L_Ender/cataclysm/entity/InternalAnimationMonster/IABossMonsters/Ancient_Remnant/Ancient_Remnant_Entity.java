@@ -311,6 +311,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.entityData.set(NECKLACE, necklace);
         this.bossEvent.setVisible(necklace);
         this.bossEvent2.setVisible(necklace);
+        this.setHomePos(this.blockPosition());
         if(!necklace){
             this.setAttackState(1);
         }

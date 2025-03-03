@@ -7,6 +7,7 @@ import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -94,13 +95,22 @@ public class Laser_Gatling extends Item {
         if(isUsable(stack)) {
             setCharged(stack, true);
             if (count % 2 == 0) {
-                Laser_Beam_Entity laser = new Laser_Beam_Entity(worldIn, livingEntityIn);
-                laser.setDamage((float) CMConfig.Laserdamage);
                 Vec3 vector3d = livingEntityIn.getViewVector(1.0F);
+                Vec3 vec3 = vector3d.normalize();
+
+                Laser_Beam_Entity laser = new Laser_Beam_Entity(livingEntityIn, vec3.x,vec3.y,vec3.z,worldIn,(float)CMConfig.Laserdamage);
+
+                float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
+
+
+                float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
+
+                laser.setYRot(yRot);
+                laser.setXRot(xRot);
+                laser.setPosRaw(livingEntityIn.getX(),livingEntityIn.getY() + livingEntityIn.getEyeHeight() * 0.8F,livingEntityIn.getZ());
                 RandomSource rand = worldIn.getRandom();
                 livingEntityIn.gameEvent(GameEvent.ITEM_INTERACT_START);
                 livingEntityIn.playSound(ModSounds.HARBINGER_LASER.get(),0.2F, 1.0F + (rand.nextFloat() - rand.nextFloat()) * 0.2F);
-                laser.shoot((double) vector3d.x(), (double) vector3d.y(), (double) vector3d.z(), 1F, 3);
                 if (!worldIn.isClientSide) {
                     worldIn.addFreshEntity(laser);
                 }

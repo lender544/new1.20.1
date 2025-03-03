@@ -10,6 +10,7 @@ import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
@@ -136,10 +138,14 @@ public class The_Watcher_Entity extends LLibrary_Monster {
                     double d4 = target.getY() + target.getBbHeight() * 1 / 2 - d1;
                     double d5 = target.getZ() - d2;
 
-                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this.level(), this);
-                    laserBeam.shoot(d3, d4, d5, 1F, 1F);
-                    laserBeam.setDamage((float) CMConfig.HarbingerLaserdamage);
+                    Vec3 vec3 = new Vec3(d3, d4, d5);
+                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this, d3,d4,d5,this.level(),(float) CMConfig.HarbingerLaserdamage);
+                    float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
+                    float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
+                    laserBeam.setYRot(yRot);
+                    laserBeam.setXRot(xRot);
                     laserBeam.setPosRaw(d0, d1, d2);
+
                     this.level().addFreshEntity(laserBeam);
                 }
             }

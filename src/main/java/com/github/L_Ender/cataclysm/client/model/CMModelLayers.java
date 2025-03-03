@@ -47,7 +47,7 @@ public class CMModelLayers {
     public static final ModelLayerLocation APTRGANGR_MODEL = createLocation("aptrgangr_model", "main");
     public static final ModelLayerLocation KOBOLEDIATOR_MODEL = createLocation("kobolediator_model", "main");
     public static final ModelLayerLocation PROWLER_MODEL = createLocation("prowler_model", "main");
-
+    public static final ModelLayerLocation LASER_BEAM_MODEL = createLocation("laser_beam_model", "main");
 
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -80,6 +80,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(APTRGANGR_MODEL, Aptrgangr_Model::createBodyLayer);
         event.registerLayerDefinition(KOBOLEDIATOR_MODEL, Kobolediator_Model::createBodyLayer);
         event.registerLayerDefinition(PROWLER_MODEL, The_Prowler_Model::createBodyLayer);
+        event.registerLayerDefinition(LASER_BEAM_MODEL, Laser_Beam_Model::createBodyLayer);
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

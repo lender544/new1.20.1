@@ -17,6 +17,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -166,14 +170,14 @@ public class Wrath_of_the_desert extends Item {
                          double vecZ = Math.sin(theta);
                          double x = player.getX() + vecX;
                          double Z = player.getZ() + vecZ;
-
+                        int p = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
                         if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f, target);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f + (float) CMConfig.CursedSandstormDamage * f * p * 0.05F, target);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);
                         }else{
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f, null);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f + (float) CMConfig.CursedSandstormDamage * f * p * 0.05F, null);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);
@@ -196,6 +200,11 @@ public class Wrath_of_the_desert extends Item {
     @Override
     public int getEnchantmentValue() {
         return 16;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category ==  EnchantmentCategory.BOW && enchantment != Enchantments.INFINITY_ARROWS && enchantment != Enchantments.FLAMING_ARROWS && enchantment != Enchantments.PUNCH_ARROWS;
     }
 
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {

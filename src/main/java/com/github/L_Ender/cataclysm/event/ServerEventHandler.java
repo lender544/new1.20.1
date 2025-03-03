@@ -333,18 +333,18 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void DeathEvent(LivingDeathEvent event) {
         DamageSource source = event.getSource();
-        if (!event.getEntity().level().isClientSide) {
+
             if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                 if(tryCursiumPlateRebirth(event.getEntity())){
                     event.setCanceled(true);
                 }
-            }
+
         }
     }
 
     private boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
-        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
+        if (!living.level().isClientSide &&chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             living.setHealth(5.0F);
             living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
             living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM.get(), 100, 0));

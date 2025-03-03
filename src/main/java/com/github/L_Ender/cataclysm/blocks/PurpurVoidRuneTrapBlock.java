@@ -33,6 +33,7 @@ public class PurpurVoidRuneTrapBlock extends TrapBlock {
             Void_Rune_Entity voidrune = ModEntities.VOID_RUNE.get().create(world);
             if (voidrune != null) {
                 voidrune.moveTo(pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0.0F, 0.0F);
+                voidrune.setDamage(7F);
                 world.addFreshEntity(voidrune);
             }
             ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 50,3));

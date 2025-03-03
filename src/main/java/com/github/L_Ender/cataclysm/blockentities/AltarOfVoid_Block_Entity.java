@@ -51,7 +51,7 @@ public class AltarOfVoid_Block_Entity extends BlockEntity {
 
         enderGuardian.moveTo(worldPosition, world.getLevel().random.nextFloat() * 360F, 0.0F);
         enderGuardian.finalizeSpawn(world, world.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
-
+        enderGuardian.setHomePos(this.getBlockPos());
         enderGuardian.restrictTo(worldPosition, 46);
 
         // spawn it

@@ -8,6 +8,8 @@ public class CommonConfig {
     public final ForgeConfigSpec.BooleanValue shadersCompat;
     public final ForgeConfigSpec.BooleanValue custombossbar;
 
+    public final ForgeConfigSpec.IntValue Return_Home;
+
     public final ForgeConfigSpec.BooleanValue Armor_Infinity_Durability;
     public final ForgeConfigSpec.IntValue BulwarkOfTheFlameCooldown;
     public final ForgeConfigSpec.IntValue GauntletOfBulwarkCooldown;
@@ -216,9 +218,13 @@ public class CommonConfig {
         LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
+        builder.pop();
+
+        builder.push("bosses Common settings");
         custombossbar = buildBoolean(builder, "custombossbar(on/off)", "all", true, "custombossbar(on/off)");
         BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
         BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
+        Return_Home = buildInt(builder, "ReturnHome", "all", CMConfig.Return_Home, 0, 200, "If the boss leaves the summoned location and there is no target, it returns to the summoned location. When set to 0, it does not return");
         builder.pop();
 
         builder.push("Weapon");
@@ -237,7 +243,6 @@ public class CommonConfig {
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
-
         builder.pop();
 
         builder.push("Block");

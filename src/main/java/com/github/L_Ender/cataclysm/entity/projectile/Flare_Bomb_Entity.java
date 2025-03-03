@@ -85,9 +85,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
             this.level().broadcastEntityEvent(this, (byte)4);
             if(random.nextBoolean()){
-                XStrikeRune(10,2);
+                XStrikeJet(10,2);
             }else{
-                PlusStrikeRune(10,2);
+                PlusStrikeJet(10,2);
             }
             discard();
         }
@@ -97,7 +97,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
 
 
-    private void PlusStrikeRune(int rune, double time) {
+    protected void PlusStrikeJet(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
@@ -106,14 +106,15 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
+                this.spawnjet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
             }
 
         }
 
     }
 
-    private void XStrikeRune(int rune, double time) {
+
+    protected void XStrikeJet(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(45 + this.getYRot()));
@@ -122,7 +123,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
+                this.spawnjet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
             }
 
         }
@@ -130,7 +131,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     }
 
 
-    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
+    protected void spawnjet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
         boolean flag = false;
         double d0 = 0.0D;

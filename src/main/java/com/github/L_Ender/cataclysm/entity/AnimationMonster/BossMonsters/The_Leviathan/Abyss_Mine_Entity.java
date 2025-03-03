@@ -153,7 +153,7 @@ public class Abyss_Mine_Entity extends Entity {
         this.entityData.set(ACTIVATE, Activate);
     }
 
-    private void explode(LivingEntity livingentity) {
+    protected void explode(LivingEntity livingentity) {
         LivingEntity Caster = this.getCaster();
         if(livingentity.isAlive()) {
             if (Caster != null) {
