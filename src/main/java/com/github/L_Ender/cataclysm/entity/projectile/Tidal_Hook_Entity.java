@@ -153,7 +153,7 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 		}
 	}
 
-	public boolean canChangeDimensions() {
+	public boolean canUsePortal(boolean allowPassengers) {
 		return false;
 	}
 

@@ -76,6 +76,10 @@ public class CommonConfig {
 
     public final ModConfigSpec.IntValue Lavabombmagazine;
     public final ModConfigSpec.IntValue Lavabombamount;
+
+    public final ModConfigSpec.IntValue LavabombDuration;
+    public final ModConfigSpec.IntValue LavabombDurationRand;
+
     public final ModConfigSpec.DoubleValue MonstrosityHealthMultiplier;
     public final ModConfigSpec.DoubleValue MonstrosityDamageMultiplier;
     public final ModConfigSpec.DoubleValue MonstrosityNatureHealing;
@@ -178,6 +182,12 @@ public class CommonConfig {
 
     public final ModConfigSpec.DoubleValue ScyllaHealthMultiplier;
     public final ModConfigSpec.DoubleValue ScyllaDamageMultiplier;
+    public final ModConfigSpec.DoubleValue ScyllaSpearDamage;
+    public final ModConfigSpec.DoubleValue ScyllaLightningStormDamage;
+    public final ModConfigSpec.DoubleValue ScyllaLightningAreaDamage;
+    public final ModConfigSpec.DoubleValue ScyllaDamageCap;
+    public final ModConfigSpec.DoubleValue ScyllaLongRangelimit;
+    public final ModConfigSpec.IntValue ScyllaDamageTime;
 
     public final ModConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageMultiplier;
@@ -304,6 +314,10 @@ public class CommonConfig {
         builder.push("Netherite Monstrosity");
         Lavabombmagazine = buildInt(builder, "LavabombMagazine", "all", 3, 1, 1000000, "Monstrosity's Lavabomb magazine.");
         Lavabombamount = buildInt(builder, "Lavabombamount", "all", 3, 1, 1000000, "Monstrosity's Lavabomb amount" );
+        LavabombDuration = buildInt(builder, "LavaBombDuration", "all", CMConfig.LavabombDuration, 1, 10000, "Lava Bomb of Monstrosity's Duration");
+        LavabombDurationRand = buildInt(builder, "LavaBombRandomDuration", "all", CMConfig.LavabombDurationRand, 1, 10000, "Lava Bomb of Monstrosity's additional random duration size" );
+
+
         MonstrosityHealthMultiplier = buildDouble(builder, "MonstrosityHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Health Multiplier");
         MonstrosityDamageMultiplier = buildDouble(builder, "MonstrosityDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Damage Multiplier");
         MonstrosityHealingMultiplier = buildDouble(builder, "MonstrosityHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Healing Multiplier");
@@ -441,6 +455,15 @@ public class CommonConfig {
         builder.push("Scylla");
         ScyllaHealthMultiplier = buildDouble(builder, "ScyllaHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Health Multiplier");
         ScyllaDamageMultiplier = buildDouble(builder, "ScyllaDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Damage Multiplier");
+        ScyllaLongRangelimit = buildDouble(builder, "Scylla's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Scylla's Immune to Long distance attack range.");
+        ScyllaSpearDamage = buildDouble(builder, "Scylla's Spear Damage", "all", CMConfig.ScyllaSpearDamage, 0D, 1000000D, "Scylla's Spear Damage");
+        ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
+        ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
+
+
+        ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
+        ScyllaDamageTime = buildInt(builder, "Scylla DamageTime", "all", CMConfig.ScyllaDamageTime, 0, 100, "Scylla's DamageTime");
+
         builder.pop();
 
 

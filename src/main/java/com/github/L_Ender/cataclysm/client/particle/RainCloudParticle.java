@@ -5,20 +5,24 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
 
-public class SandStormParticle extends TextureSheetParticle {
+public class RainCloudParticle extends TextureSheetParticle {
+    private final SpriteSet sprites;
 
-    protected SandStormParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet, double xd, double yd, double zd) {
+    protected RainCloudParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet, double xd, double yd, double zd) {
         super(level, xCoord, yCoord, zCoord, xd, yd, zd);
-        this.xd += xd;
-        this.yd += yd;
-        this.zd += zd;
-        this.quadSize *= 2.5F;
+        this.sprites = spriteSet;
+        this.setSpriteFromAge(this.sprites);
+        this.xd = xd;
+        this.yd = yd;
+        this.zd = zd;
+        this.alpha = 0.6F;
+        this.quadSize *= 8F;
+        this.gravity = 0F;
         this.lifetime = (int)(Math.random() * 2.0D) + 60;
-        this.setSpriteFromAge(spriteSet);
     }
 
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public float getQuadSize(float p_107608_) {
@@ -30,14 +34,14 @@ public class SandStormParticle extends TextureSheetParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
+        this.setSpriteFromAge(this.sprites);
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
-            float f = (float)this.age / (float)this.lifetime;
-            this.x += this.xd * (double)f;
-            this.y += this.yd * (double)f;
-            this.z += this.zd * (double)f;
-            this.setPos(this.x, this.y, this.z); // FORGE: update the particle's bounding box
+            this.move(this.xd, this.yd, this.zd);
+            this.xd *= (double) this.friction;
+            this.yd *= (double) this.friction;
+            this.zd *= (double) this.friction;
         }
     }
 
@@ -51,7 +55,7 @@ public class SandStormParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType particleType, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new SandStormParticle(level, x, y, z, this.sprites, dx, dy, dz);
+            return new RainCloudParticle(level, x, y, z, this.sprites, dx, dy, dz);
         }
     }
 }

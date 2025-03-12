@@ -1547,14 +1547,16 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                         disableShield(player, shieldbreakticks);
                     }
 
-                    if (this.getPassengers().isEmpty()) {
-                        if (entityHit.isShiftKeyDown()) {
-                            entityHit.setShiftKeyDown(false);
+                    if (flag && !entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive()) {
+                        if (this.getPassengers().isEmpty()) {
+                            if (entityHit.isShiftKeyDown()) {
+                                entityHit.setShiftKeyDown(false);
+                            }
+                            if (!this.level().isClientSide) {
+                                entityHit.startRiding(this, true);
+                            }
+                            AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                         }
-                        if (!this.level().isClientSide) {
-                            entityHit.startRiding(this, true);
-                        }
-                        AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                     }
                 }
             }

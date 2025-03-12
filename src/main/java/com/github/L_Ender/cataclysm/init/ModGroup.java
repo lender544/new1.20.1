@@ -68,6 +68,7 @@ public class ModGroup {
                 entries.accept(ModItems.GAUNTLET_OF_MAELSTROM.get());
                 entries.accept(ModItems.THE_INCINERATOR.get());
                 entries.accept(ModItems.BLAZING_GRIPS.get());
+                entries.accept(ModItems.CHITIN_CLAW.get());
                 entries.accept(ModItems.CURSED_BOW.get());
                 entries.accept(ModItems.WRATH_OF_THE_DESERT.get());
                 entries.accept(ModItems.SOUL_RENDER.get());

@@ -103,7 +103,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
 
 
-    private void PlusStrikeRune(int rune, double time) {
+    protected void PlusStrikeRune(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
@@ -112,14 +112,14 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
+                this.spawnJet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() -2, this.getY() + 2, throwAngle, d3);
             }
 
         }
 
     }
 
-    private void XStrikeRune(int rune, double time) {
+    protected void XStrikeRune(int rune, double time) {
         for (int i = 0; i < 4; i++) {
 
             float yawRadians = (float) (Math.toRadians(45 + this.getYRot()));
@@ -128,7 +128,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             for (int k = 0; k < rune; ++k) {
                 double d2 = 0.8D * (double) (k + 1);
                 int d3 = (int) (time * (k + 1));
-                this.spawnFangs(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
+                this.spawnJet(this.getX() + (double) Mth.cos(throwAngle) * 1.25D * d2, this.getZ() + (double) Mth.sin(throwAngle) * 1.25D * d2, this.getY() - 2, this.getY() + 2, throwAngle, d3);
             }
 
         }
@@ -136,7 +136,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     }
 
 
-    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
+    protected void spawnJet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
         boolean flag = false;
         double d0 = 0.0D;

@@ -1161,7 +1161,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     }
 
     public boolean isBerserk() {
-        return this.getHealth() <= this.getMaxHealth() / 3.0F;
+        return this.getHealth() <= this.getMaxHealth() * 0.4F;
     }
 
     @Override
@@ -1356,6 +1356,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                         double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - lava.getY();
                         double d2 = target.getZ() - this.entity.headPart.getZ();
                         double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
+                        lava.setMaxLavaTime(CMConfig.LavabombDuration + this.entity.getRandom().nextInt(CMConfig.LavabombDurationRand));
                         lava.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.0F, 24 - this.entity.level().getDifficulty().getId() * 4);
                         this.entity.level().addFreshEntity(lava);
                     }

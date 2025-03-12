@@ -38,6 +38,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 
@@ -51,6 +52,8 @@ public class Water_Spear_Entity extends Projectile {
         super(type, level);
         this.accelerationPower = 0.1;
     }
+
+
 
     public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
         this(type, level);
@@ -122,7 +125,7 @@ public class Water_Spear_Entity extends Projectile {
             super.tick();
 
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity, this.getClipType());
-            if (hitresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult)) {
                 this.hitTargetOrDeflectSelf(hitresult);
             }
 
@@ -158,15 +161,15 @@ public class Water_Spear_Entity extends Projectile {
         super.onHitEntity(p_37626_);
         if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
-            boolean flag;
+            boolean flag = false;
             if (this.getOwner() instanceof LivingEntity livingentity) {
-                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
-                flag = entity.hurt(damagesource, this.getDamage());
-                if (flag) {
-                    if (entity.isAlive()) {
-                        EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
-                    } else {
-                        livingentity.heal(5.0F);
+                if (!isAlliedTo(entity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
+                    DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                    flag = entity.hurt(damagesource, this.getDamage());
+                    if (flag) {
+                        if (entity.isAlive()) {
+                            EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+                        }
                     }
                 }
             } else {
@@ -220,7 +223,7 @@ public class Water_Spear_Entity extends Projectile {
             Vec3 motion2 = new Vec3(motionX,motionY,motionZ);
 
             this.assignDirectionalMovement(motion2, this.accelerationPower);
-            if (this.tickCount > 500 || this.getTotalBounces() > 15) {
+            if (this.tickCount > 500 || this.getTotalBounces() > 10) {
                 if (!this.level().isClientSide) {
                     this.discard();
                 }
@@ -259,7 +262,7 @@ public class Water_Spear_Entity extends Projectile {
 
 
     protected float getInertia() {
-        return 1.0F;
+        return 0.95F;
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -292,13 +295,6 @@ public class Water_Spear_Entity extends Projectile {
 
     public float getLightLevelDependentMagicValue() {
         return 1.0F;
-    }
-
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity p_entity) {
-        Entity entity = this.getOwner();
-        int i = entity == null ? 0 : entity.getId();
-        Vec3 vec3 = p_entity.getPositionBase();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), vec3.x(), vec3.y(), vec3.z(), p_entity.getLastSentXRot(), p_entity.getLastSentYRot(), this.getType(), i, p_entity.getLastSentMovement(), (double)0.0F);
     }
 
 

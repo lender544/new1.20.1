@@ -1,5 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningZapParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

@@ -51,10 +51,7 @@ public class Void_Vortex_Entity extends Entity {
         }
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
-        return new ClientboundAddEntityPacket(this,entity);
-    }
+    
 
     public void tick() {
         super.tick();
@@ -88,7 +85,7 @@ public class Void_Vortex_Entity extends Entity {
             AABB screamBox = new AABB(this.getX() - 3f, this.getY(), this.getZ() - 3, this.getX() + 3, this.getY() + 15F, this.getZ() + 3F);
 
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, screamBox)) {
-                if(owner != null && entity != owner) {
+                if (!isAlliedTo(entity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                     if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
                         Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
                         diff = diff.normalize().scale(0.075);

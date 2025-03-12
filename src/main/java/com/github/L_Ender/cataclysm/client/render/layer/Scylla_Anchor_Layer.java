@@ -45,7 +45,7 @@ public class Scylla_Anchor_Layer extends RenderLayer<Scylla_Entity, Scylla_Model
         Vec3 ridePos = getAnchorPosition(offset);
         matrixStackIn.translate(ridePos.x, ridePos.y, ridePos.z);
         if (entity.getChainAnchor()) {
-            if (entity.getAttackState() == 5) {
+            if (entity.getAttackState() == 7) {
                 drawLightningAnchor(matrixStackIn, bufferIn, entity, 1.5F, 143, 241, 215, 6, 0.05F, partialtick);
             }
         }

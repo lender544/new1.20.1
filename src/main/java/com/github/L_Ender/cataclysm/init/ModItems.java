@@ -2,7 +2,9 @@ package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.items.*;
+import com.github.L_Ender.cataclysm.items.CuriosItem.AttributeContainer;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
+import com.github.L_Ender.cataclysm.items.CuriosItem.Chitin_Claw;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Sticky_Gloves;
 import com.github.L_Ender.cataclysm.items.Dungeon_Eye.*;
 import net.minecraft.core.BlockPos;
@@ -12,6 +14,8 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
@@ -20,6 +24,8 @@ import net.minecraft.world.level.material.Fluids;
 
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.List;
 
 public class ModItems {
 
@@ -332,6 +338,14 @@ public class ModItems {
     public static final DeferredItem<Item> BLAZING_GRIPS = ITEMS.register("blazing_grips",
             () -> new Blazing_Grips(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final DeferredItem<Item> CHITIN_CLAW = ITEMS.register("chitin_claw",
+            () -> new Chitin_Claw(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("hands",
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 0.5, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.BLOCK_INTERACTION_RANGE, 0.75, AttributeModifier.Operation.ADD_VALUE)
+                    )
+    );
+
     public static final DeferredItem<Item> CURSED_BOW = ITEMS.register("cursed_bow",
             () -> new Cursed_bow(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
@@ -546,8 +560,10 @@ public class ModItems {
     public static final DeferredItem<Item> LIONFISH_SPIKE = ITEMS.register("lionfish_spike",
             () -> new ItemInventoryOnly(new Item.Properties()));
 
-
     public static final DeferredItem<Item> URCHIN_SPIKE = ITEMS.register("urchin_spike",
+            () -> new ItemInventoryOnly(new Item.Properties()));
+
+    public static final DeferredItem<Item> BLOOD_CLOT = ITEMS.register("blood_clot",
             () -> new ItemInventoryOnly(new Item.Properties()));
 
     public static final DeferredItem<Item> THE_BABY_LEVIATHAN_BUCKET = ITEMS.register("the_baby_leviathan_bucket",

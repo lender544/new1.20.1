@@ -7,6 +7,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_En
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Lionfish_Spike_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Urchin_Spike_Entity;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.ChatFormatting;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.AbstractIllager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -193,6 +195,10 @@ public class Urchinkin_Entity extends Monster {
             for (int i = 0; i < shardCount; i++) {
                 float f = ((i + 1) / (float) shardCount) * 360F;
                 Urchin_Spike_Entity shard = new Urchin_Spike_Entity(this.level(), this);
+                if(isMeatBoy()){
+                    ItemStack itemstack = new ItemStack(ModItems.BLOOD_CLOT.get());
+                    shard.setItem(itemstack);
+                }
                 shard.shoot(this.random.nextFloat() * 0.4F * 2.0F - 0.4F, this.random.nextFloat() * 0.25F + 0.1F,this.random.nextFloat() * 0.4F * 2.0F - 0.4F, 0.35F, 1F);
                 level().addFreshEntity(shard);
             }

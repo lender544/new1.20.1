@@ -5,7 +5,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Scylla_Lightning_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Scylla_Normal_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Scylla_Water_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Scylla_Projectile_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HierarchicalModel;
@@ -369,9 +369,31 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		}
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();
+		this.chain_main.visible = entity.getChainAnchor();
 
+		this.animate(entity.getAnimationState("idle"), Scylla_Normal_Animation.IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("cross_swing"), Scylla_Normal_Animation.CROSS_SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("cross_swing2"), Scylla_Normal_Animation.CROSS_SWING2, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("double_swing"), Scylla_Normal_Animation.DOUBLE_CROSS_SWING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("swing_smash"), Scylla_Normal_Animation.SWING_SMASH, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("smash"), Scylla_Normal_Animation.SMASH, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("spin"), Scylla_Normal_Animation.ANCHOR_SPIN_ATTACK, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("wave"), Scylla_Projectile_Animation.WAVE_SHOOT, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("lightning_explosion"), Scylla_Lightning_Animation.LIGHTNING_EXPLOSION, ageInTicks, 1.0F);
 
+		this.animate(entity.getAnimationState("lightning_spear_throw"), Scylla_Lightning_Animation.LIGHTNING_SPEAR_THROW, ageInTicks, 1.0F);
 
+		this.animate(entity.getAnimationState("water_spear_throw"), Scylla_Projectile_Animation.WATER_SPEAR_THROW, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("anchor_shot"), Scylla_Projectile_Animation.ANCHOR_THROW, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("anchor_shot_pull"), Scylla_Projectile_Animation.ANCHOR_THROW_PULL, ageInTicks, 1.1F);
+
+		this.animate(entity.getAnimationState("chain_jump_1"), Scylla_Projectile_Animation.CHAIN_JUMP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("chain_jump_2"), Scylla_Projectile_Animation.LANDING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("chain_jump_3"), Scylla_Lightning_Animation.SUPER_HERO_LANDING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("anchor_explosion"), Scylla_Lightning_Animation.ANCHOR_EXPLOSION, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("death"), Scylla_Normal_Animation.DEATH, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {

@@ -23,6 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.projectile.WitherSkull;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -217,13 +218,6 @@ public class Wither_Missile_Entity extends Projectile {
 
     public float getLightLevelDependentMagicValue() {
         return 1.0F;
-    }
-
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity p_entity) {
-        Entity entity = this.getOwner();
-        int i = entity == null ? 0 : entity.getId();
-        Vec3 vec3 = p_entity.getPositionBase();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), vec3.x(), vec3.y(), vec3.z(), p_entity.getLastSentXRot(), p_entity.getLastSentYRot(), this.getType(), i, p_entity.getLastSentMovement(), (double)0.0F);
     }
 
 

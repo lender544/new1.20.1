@@ -7,6 +7,7 @@ import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.etc.LavaVisionFluidRenderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Chitin_Claw_Renderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
@@ -383,6 +384,10 @@ public class ClientEvent {
                     RendererSticky_Gloves stickyrenderer = RendererSticky_Gloves.getGloveRenderer(stack);
                     if (stickyrenderer != null) {
                         stickyrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
+                    }
+                    Chitin_Claw_Renderer clawrenderer = Chitin_Claw_Renderer.getGloveRenderer(stack);
+                    if (clawrenderer != null) {
+                        clawrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
                     }
                 }
             }

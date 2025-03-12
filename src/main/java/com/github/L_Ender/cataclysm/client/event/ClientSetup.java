@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.render.blockentity.*;
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import com.github.L_Ender.cataclysm.client.render.etc.CurioHeadRenderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Chitin_Claw_Renderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.init.*;
@@ -62,6 +63,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.PHANTOM_ARROW.get(), Phantom_Arrow_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SCREEN_SHAKE.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WITHER_SMOKE_EFFECT.get(), RendererNull::new);
+		event.registerEntityRenderer(ModEntities.LIGHTNING_AREA_EFFECT.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.ASHEN_BREATH.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WALL_WATCHER.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.FLAME_STRIKE.get(), Flame_Strike_Renderer::new);
@@ -173,6 +175,7 @@ public class ClientSetup {
 		registry.registerSpriteSet(ModParticle.SMALL_CURSED_FLAME.get(), CursedFlameParticle.SmallFlameProvider::new);
 		registry.registerSpriteSet(ModParticle.PHANTOM_WING_FLAME.get(), Phantom_Wing_FlameParticle.EmissiveProvider::new);
 		registry.registerSpriteSet(ModParticle.CUSTOM_POOF.get(), Custom_Poof_Particle.Provider::new);
+		registry.registerSpriteSet(ModParticle.LIGHTNING_ZAP.get(), Lightning_Zap_Particle.Provider::new);
 		registry.registerSpecial(ModParticle.EM_PULSE.get(), new EM_PulseParticle.Factory());
 		registry.registerSpecial(ModParticle.SHOCK_WAVE.get(), new Shock_WaveParticle.Factory());
 		registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.Factory());
@@ -183,7 +186,7 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
 		registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
 		registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
-		registry.registerSpriteSet(ModParticle.SANDSTORM.get(), SandStormParticle.Factory::new);
+		registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
 		registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.Factory());
 		registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
@@ -211,7 +214,7 @@ public class ClientSetup {
 		CuriosRendererRegistry.register(ModItems.KOBOLEDIATOR_SKULL.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.APTRGANGR_HEAD.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.DRAUGR_HEAD.get(), CurioHeadRenderer::new);
-		
+		CuriosRendererRegistry.register(ModItems.CHITIN_CLAW.get(), Chitin_Claw_Renderer::new);
 	}
 
 

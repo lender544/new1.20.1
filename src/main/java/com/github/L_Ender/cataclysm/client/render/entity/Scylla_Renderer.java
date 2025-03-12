@@ -145,7 +145,7 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
             VertexConsumer vertexconsumer = bufferIn.getBuffer(rendertype);
             int i = entityIn.isDeadOrDying() ? OverlayTexture.NO_OVERLAY : getOverlayCoords(entityIn, this.getWhiteOverlayProgress(entityIn, partialTicks));
             int alpha;
-            if(entityIn.getAttackState() != 10){
+            if(entityIn.getAttackState() != 12){
                 alpha =255;
             }else{
                 if(entityIn.attackTicks <100){
@@ -182,53 +182,22 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
 
     }
 
-    private Vec3 getPosition(Entity livingEntity, double yOffset, float partialTick) {
-        double d0 = Mth.lerp((double)partialTick, livingEntity.xOld, livingEntity.getX());
-        double d1 = Mth.lerp((double)partialTick, livingEntity.yOld, livingEntity.getY()) + yOffset;
-        double d2 = Mth.lerp((double)partialTick, livingEntity.zOld, livingEntity.getZ());
-        return new Vec3(d0, d1, d2);
-    }
-
-
-
-    private Vec3 getHandPosition2(LivingEntity entity, float partialTick) {
-        double x = Mth.lerp(partialTick, entity.xOld, entity.getX());
-        double y = Mth.lerp(partialTick, entity.yOld, entity.getY()) + entity.getBbHeight() * 0.5; // 중심 높이
-        double z = Mth.lerp(partialTick, entity.zOld, entity.getZ());
-
-        PoseStack poseStack = new PoseStack();
-        poseStack.pushPose();
-
-        model.translateHand(poseStack);
-
-        Vector4f handOffset = new Vector4f(0.0F, 0.0F, 0.0F, 1.0F);
-        handOffset.mul(poseStack.last().pose());
-
-        poseStack.popPose();
-
-        return new Vec3(x + handOffset.x(), y + handOffset.y(), z + handOffset.z());
-    }
-
 
     public void renderChain(Scylla_Entity entity, float partialTicks, PoseStack poseStack, MultiBufferSource source, int packedLight) {
         float bodyYaw = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
         Vec3 beamEndVec = entity.getClientAnchorEndPosition(partialTicks);
         Entity target = entity.getAnchor();
-        if (target != null && entity.isAlive() && beamEndVec != null) {
+        if (target != null && entity.isAlive() && beamEndVec != null && entity.isAnchorTicks() > 3) {
             Vec3 modelOffset = getHandPosition(new Vec3(0, 0.0F, 0F)).yRot((float) (Math.PI - bodyYaw * ((float) Math.PI / 180F)));
 
             Vec3 rawBeamPosition = beamEndVec.subtract(entity.getPosition(partialTicks).add(modelOffset));
-            float length = (float) rawBeamPosition.length();
-            Vec3 vec3 = rawBeamPosition.normalize();
-            float xRot = (float) Math.acos(vec3.y);
-            float yRot = (float) Math.atan2(vec3.z, vec3.x);
+
+
             poseStack.pushPose();
             poseStack.translate(modelOffset.x, modelOffset.y, modelOffset.z);
-            poseStack.scale(2.3F, 2.3F, 2.3F);
             VertexConsumer chainBuffer = source.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
-            renderChainCube(rawBeamPosition,poseStack,chainBuffer,packedLight,LivingEntityRenderer.getOverlayCoords(entity, 0.0F));
-           // renderBeam2(poseStack, source, 1, packedLight,length);
-            //renderBeam(poseStack, source, 1, packedLight,length);
+            renderChainCube(rawBeamPosition,poseStack,chainBuffer,packedLight, OverlayTexture.NO_OVERLAY);
+
             poseStack.popPose();
         }
     }
@@ -250,88 +219,25 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
         float rotX = (float) (-(Mth.atan2(to.y, d) * (double) (180F / (float) Math.PI))) - 90.0F;
         float chainWidth = 6F / 32F;
         float chainOffset = chainWidth * -0.5F;
-        float chainLength = (float) to.length();
+        float chainLength = (float) to.length()/2.3F;
         poseStack.pushPose();
+        poseStack.scale(2.3F, 2.3F, 2.3F);
         poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
         poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
         poseStack.translate(0, -chainLength, 0);
         PoseStack.Pose posestack$pose = poseStack.last();
         //x links
-        buffer.addVertex(posestack$pose, chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainWidth + chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainWidth + chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, chainWidth + chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, chainWidth + chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
         float pixelSkip = 8F / 32F;
         //z links
-        buffer.addVertex(posestack$pose, 0, pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, 0, pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, 0, pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
         poseStack.popPose();
-    }
-
-
-
-    private void renderBeam( PoseStack poseStack, MultiBufferSource source, float width, int packedLightIn, float length) {
-        poseStack.pushPose();
-        int vertices= 4;
-        VertexConsumer vertexconsumer = source.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
-        float chainWidth = 6F / 16F;  // 사슬의 두께
-        float uvScale = 1F;  // UV 좌표가 일정한 비율로 반복되도록 조정
-
-        float v = 0;
-        float v1 = length * uvScale; // UV 스케일 조정 (사슬이 반복되도록)
-        float f4 = -width;
-        float f5 = 0;
-        PoseStack.Pose posestack$pose = poseStack.last();
-
-        for (int j = 0; j <= vertices; ++j) {
-            float f7 = Mth.cos((float) Math.PI + (float) j * ((float) Math.PI) / (float) 2) * width;
-            float f8 = Mth.sin((float) Math.PI + (float) j * ((float) Math.PI) / (float) 2) * width;
-
-            vertexconsumer.addVertex(posestack$pose, f4 * 0.5F, f5 * 0.5F, 0.0F).setColor(255, 255, 255, 255).setUv(0, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-            vertexconsumer.addVertex(posestack$pose, f4, f5, length).setColor(255, 255, 255, 255).setUv(0, v1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-            vertexconsumer.addVertex(posestack$pose,f7, f8, length).setColor(255, 255, 255, 255).setUv(width, v1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-            vertexconsumer.addVertex(posestack$pose, f7 * 0.5F, f8 * 0.5F, 0.0F).setColor(255, 255, 255, 255).setUv(width, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-
-            f4 = f7;
-            f5 = f8;
-
-        }
-        poseStack.popPose();
-    }
-
-    private void renderBeam2(PoseStack poseStack, MultiBufferSource source, float width, int packedLightIn,float length) {
-        float chainWidth = 6F / 16F;  // 사슬의 두께
-        float uvScale = 1F;  // UV 좌표가 일정한 비율로 반복되도록 조정
-
-        poseStack.pushPose();
-        VertexConsumer vertexconsumer = source.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
-
-        float v = 0;
-        float v1 = length * uvScale; // UV 스케일 조정 (사슬이 반복되도록)
-
-        float x1 =  (-chainWidth / 2F); // 왼쪽 끝 (중앙 정렬)
-        float x2 = chainWidth / 2F;  // 오른쪽 끝
-        float z1 = 0.0F;             // 시작점
-        float z2 = length ;           // 끝점
-
-        PoseStack.Pose posestack$pose = poseStack.last();
-
-        // 정점 설정 (사슬을 중앙에 정렬)
-        vertexconsumer.addVertex(posestack$pose, x1, 0, z1).setColor(255, 255, 255, 255).setUv(0, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-        vertexconsumer.addVertex(posestack$pose, x1, 0, z2).setColor(255, 255, 255, 255).setUv(0, v1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-        vertexconsumer.addVertex(posestack$pose, x2, width, z2).setColor(255, 255, 255, 255).setUv(width, v1).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-        vertexconsumer.addVertex(posestack$pose, x2, width, z1).setColor(255, 255, 255, 255).setUv(width, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 0.0F, -1.0F);
-
-
-        poseStack.popPose();
-    }
-
-
-
-    private static void vertex(VertexConsumer consumer, PoseStack.Pose pose, float x, float y, float z, int red, int green, int blue, float u, float v) {
-        consumer.addVertex(pose, x, y, z).setColor(red, green, blue, 255).setUv(u, v).setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose, 0.0F, 1.0F, 0.0F);
     }
 
     public boolean shouldRender(Scylla_Entity livingentity, Frustum camera, double camX, double camY, double camZ) {

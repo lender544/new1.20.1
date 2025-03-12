@@ -75,6 +75,12 @@ public class CustomBossBar {
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_rage_bar_overlay.png"),
                 5, 16, 69,-3, -6,  -8, 256, 16, 15, 48,ChatFormatting.DARK_PURPLE));
 
+        //scylla
+        customBossBars.put(12, new CustomBossBar(
+                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/scylla_bar_base.png"),
+                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/scylla_bar_overlay.png"),
+                5, 16, 1,7, -6, -8, 256, 32, 25,182, ChatFormatting.BLUE));
+
     }
 
     private final ResourceLocation baseTexture;

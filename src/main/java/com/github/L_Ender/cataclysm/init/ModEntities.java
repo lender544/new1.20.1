@@ -310,6 +310,12 @@ public class ModEntities {
             .clientTrackingRange(10).updateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":wither_smoke_effect"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Lightning_Area_Effect_Entity>> LIGHTNING_AREA_EFFECT = ENTITY_TYPE.register("lightning_area_effect", () -> EntityType.Builder.<Lightning_Area_Effect_Entity>of(Lightning_Area_Effect_Entity::new, MobCategory.MISC)
+            .sized(6.0F, 0.5F)
+            .fireImmune()
+            .clientTrackingRange(10).updateInterval(Integer.MAX_VALUE)
+            .build(Cataclysm.MODID + ":lightning_area_effect"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Flame_Strike_Entity>> FLAME_STRIKE = ENTITY_TYPE.register("flame_strike", () -> EntityType.Builder.<Flame_Strike_Entity>of(Flame_Strike_Entity::new, MobCategory.MISC)
             .sized(6.0F, 0.5F)
             .fireImmune()
@@ -439,6 +445,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Storm_Bringer_Entity>> SCYLLA_STORM_BRINGER = ENTITY_TYPE.register("scylla_storm_bringer", () -> EntityType.Builder.<Scylla_Storm_Bringer_Entity>of(Scylla_Storm_Bringer_Entity::new, MobCategory.MISC)
             .sized(1.5F, 1.5F)
             .clientTrackingRange(4)
+            .passengerAttachments(0.5F)
             .updateInterval(20)
             .build(Cataclysm.MODID + ":scylla_storm_bringer"));
 
@@ -629,11 +636,14 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Water_Spear_Entity>> WATER_SPEAR = ENTITY_TYPE.register("water_spear", () -> EntityType.Builder.<Water_Spear_Entity>of(Water_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
+            .updateInterval(5)
             .build(Cataclysm.MODID + ":water_spear"));
+
 
     public static final DeferredHolder<EntityType<?>,EntityType<Lightning_Spear_Entity>> LIGHTNING_SPEAR = ENTITY_TYPE.register("lightning_spear", () -> EntityType.Builder.<Lightning_Spear_Entity>of(Lightning_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
+            .updateInterval(5)
             .build(Cataclysm.MODID + ":lightning_spear"));
 
 

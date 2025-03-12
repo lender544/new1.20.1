@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Lightning_Zap_Particle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Lightning_Area_Effect_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wither_Smoke_Effect_Entity;
 import net.minecraft.core.particles.ParticleTypes;
@@ -99,12 +101,12 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
         super.onHit(p_37628_);
         if (!this.level().isClientSide) {
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2.0F, false, Level.ExplosionInteraction.NONE);
-            Wither_Smoke_Effect_Entity areaeffectcloud = new Wither_Smoke_Effect_Entity(this.level(), this.getX(), this.getY(), this.getZ());
+            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), this.getX(), this.getY(), this.getZ());
             areaeffectcloud.setRadius(this.getRadius());
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
             areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
+            areaeffectcloud.setWaitTime(5);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);

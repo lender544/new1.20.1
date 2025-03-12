@@ -225,8 +225,8 @@ public class ServerEventHandler {
             if (entity.hasEffect(ModEffect.EFFECTWETNESS)) {
                 MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
                 if (effectinstance1 != null) {
-                    float i = (effectinstance1.getAmplifier()+1) * 1.25F;
-                    float f = damage * i;
+                    float i = (effectinstance1.getAmplifier()+1) * 0.25F;
+                    float f =  damage * i;
                     damage = Math.min(Float.MAX_VALUE, f);
                     event.setNewDamage(damage);
                 }
@@ -302,18 +302,18 @@ public class ServerEventHandler {
     @SubscribeEvent
     public static void DeathEvent(LivingDeathEvent event) {
         DamageSource source = event.getSource();
-        if (!event.getEntity().level().isClientSide) {
-            if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                if(tryCursiumPlateRebirth(event.getEntity())){
-                    event.setCanceled(true);
-                }
+
+        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            if(tryCursiumPlateRebirth(event.getEntity())){
+                event.setCanceled(true);
             }
+
         }
     }
 
     private static boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
-        if (chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM)) {
+        if (!living.level().isClientSide&& chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM)) {
             living.setHealth(5.0F);
             living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
             living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM, 100, 0));

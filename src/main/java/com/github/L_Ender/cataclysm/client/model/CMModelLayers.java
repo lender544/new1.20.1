@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.github.L_Ender.cataclysm.client.model.entity.*;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Blazing_Grips_Model;
+import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Chitin_Claw_Model;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -31,6 +32,9 @@ public class CMModelLayers {
     public static final ModelLayerLocation STICKY_GLOVES_SLIM_MODEL = createLocation("sticky_gloves_slim_model", "main");
     public static final ModelLayerLocation BLAZING_GRIPS_MODEL = createLocation("blazing_grips_model", "main");
     public static final ModelLayerLocation BLAZING_GRIPS_SLIM_MODEL = createLocation("blazing_grips_slim_model", "main");
+    public static final ModelLayerLocation CHITIN_CLAW_MODEL = createLocation("chitin_claw_model", "main");
+    public static final ModelLayerLocation CHITIN_CLAW_SLIM_MODEL = createLocation("chitin_claw_slim_model", "main");
+
     public static final ModelLayerLocation KOBOLEDIATOR_HEAD_MODEL = createLocation("kobolediator_head_model", "main");
     public static final ModelLayerLocation APTRGANGR_HEAD_MODEL = createLocation("aptrgangr_head_model", "main");
     public static final ModelLayerLocation DRAUGR_HEAD_MODEL = createLocation("draugr_head_model", "main");
@@ -71,6 +75,9 @@ public class CMModelLayers {
         event.registerLayerDefinition(STICKY_GLOVES_SLIM_MODEL, () -> Sticky_Gloves_Model.createLayer(true,new CubeDeformation(0.2F)));
         event.registerLayerDefinition(BLAZING_GRIPS_MODEL, () -> Blazing_Grips_Model.createLayer(false,new CubeDeformation(0.0F)));
         event.registerLayerDefinition(BLAZING_GRIPS_SLIM_MODEL, () -> Blazing_Grips_Model.createLayer(true,new CubeDeformation(0.0F)));
+        event.registerLayerDefinition(CHITIN_CLAW_MODEL, () -> Chitin_Claw_Model.createLayer(false,new CubeDeformation(0.0F)));
+        event.registerLayerDefinition(CHITIN_CLAW_SLIM_MODEL, () -> Chitin_Claw_Model.createLayer(true,new CubeDeformation(0.0F)));
+
         event.registerLayerDefinition(KOBOLEDIATOR_HEAD_MODEL, KobolediatorHeadModel::createHeadLayer);
         event.registerLayerDefinition(APTRGANGR_HEAD_MODEL, AptrgangrHeadModel::createHeadLayer);
         event.registerLayerDefinition(DRAUGR_HEAD_MODEL, DraugrHeadModel::createHeadLayer);

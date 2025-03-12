@@ -20,7 +20,7 @@ public class ModParticle {
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SOUL_LAVA = PARTICLE.register("soul_lava", ()-> new SimpleParticleType(false));
 
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SANDSTORM = PARTICLE.register("sandstorm", ()-> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAIN_CLOUD = PARTICLE.register("rain_cloud", ()-> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<LightningParticleOptions>> LIGHTNING = PARTICLE.register("lightning", () -> new ParticleType<>(false)  {
         @Override
@@ -104,6 +104,17 @@ public class ModParticle {
             return CustomPoofParticleOptions.STREAM_CODEC;
         }
     });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<LightningZapParticleOptions>> LIGHTNING_ZAP = PARTICLE.register("lightning_zap", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<LightningZapParticleOptions> codec() {
+            return LightningZapParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, LightningZapParticleOptions> streamCodec() {
+            return LightningZapParticleOptions.STREAM_CODEC;
+        }
+    });
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<LightningStormParticleOptions>> LIGHTNING_STORM = PARTICLE.register("lightning_storm", () -> new ParticleType<>(false)  {
         @Override

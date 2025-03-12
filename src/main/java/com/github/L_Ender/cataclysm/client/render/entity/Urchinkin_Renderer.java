@@ -6,6 +6,8 @@ import com.github.L_Ender.cataclysm.client.model.entity.The_Prowler_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Urchinkin_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.Urchinkin_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.Wadjet_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
@@ -23,13 +25,12 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Urchinkin_Renderer extends MobRenderer<Urchinkin_Entity, Urchinkin_Model> {
     private static final ResourceLocation URCHIN_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/urchinkin.png");
-    private static final ResourceLocation URCHIN_LAYER_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/urchinkin_layer.png");
     private static final ResourceLocation MEAT_BOY = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/meat_boy.png");
 
 
     public Urchinkin_Renderer(Context renderManagerIn) {
         super(renderManagerIn, new Urchinkin_Model(renderManagerIn.bakeLayer(CMModelLayers.URCHINKIN_MODEL)), 0.25F);
-        this.addLayer(new LayerGenericGlowing(this, URCHIN_LAYER_TEXTURES));
+        this.addLayer(new Urchinkin_Layer(this));
 
     }
 

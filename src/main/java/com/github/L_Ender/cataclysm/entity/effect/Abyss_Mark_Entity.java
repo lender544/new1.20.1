@@ -57,10 +57,7 @@ public class Abyss_Mark_Entity extends Entity {
         this.setPos(x, y, z);
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
-        return new ClientboundAddEntityPacket(this,entity);
-    }
+    
 
     public void tick() {
         super.tick();

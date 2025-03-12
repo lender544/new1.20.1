@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.config;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 
 public class CMConfig {
@@ -64,6 +65,7 @@ public class CMConfig {
     public static double LeviathanDamageCap = 20;
     public static double AncientRemnantDamageCap = 21;
     public static double MaledictusDamageCap = 20;
+    public static double ScyllaDamageCap = 22;
 
     public static int EnderguardianDamageTime = 30;
     public static int MonstrosityDamageTime = 10;
@@ -72,9 +74,12 @@ public class CMConfig {
     public static int LeviathanDamageTime = 15;
     public static int AncientRemnantDamageTime = 12;
     public static int MaledictusDamageTime = 30;
+    public static int ScyllaDamageTime = 25;
 
     public static int Lavabombmagazine = 3;
     public static int Lavabombamount = 3;
+    public static int LavabombDuration = 350;
+    public static int LavabombDurationRand = 150;
 
     public static int EnderguardianBlockBreakingX = 15;
     public static int EnderguardianBlockBreakingY = 2;
@@ -158,6 +163,9 @@ public class CMConfig {
 
     public static double ScyllaHealthMultiplier = 1D;
     public static double ScyllaDamageMultiplier = 1D;
+    public static double ScyllaSpearDamage = 11;
+    public static double ScyllaLightningStormDamage = 11;
+    public static double ScyllaLightningAreaDamage = 11;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
@@ -173,6 +181,7 @@ public class CMConfig {
     public static double AncientRemnantLongRangelimit = 14D;
     public static double ProwlerLongRangelimit = 12D;
     public static double MaledictusLongRangelimit = 12D;
+    public static double ScyllaLongRangelimit = 14D;
 
     public static int BossMusicVolume = 1;
 
@@ -290,7 +299,7 @@ public class CMConfig {
             LeviathanDamageCap = ConfigHolder.COMMON.LeviathanDamageCap.get();
             AncientRemnantDamageCap = ConfigHolder.COMMON.AncientRemnantDamageCap.get();
             MaledictusDamageCap = ConfigHolder.COMMON.MaledictusDamageCap.get();
-
+            ScyllaDamageCap = ConfigHolder.COMMON.ScyllaDamageCap.get();
 
             EnderguardianDamageTime = ConfigHolder.COMMON.EnderguardianDamageTime.get();
             MonstrosityDamageTime = ConfigHolder.COMMON.MonstrosityDamageTime.get();
@@ -299,9 +308,13 @@ public class CMConfig {
             LeviathanDamageTime = ConfigHolder.COMMON.LeviathanDamageTime.get();
             AncientRemnantDamageTime = ConfigHolder.COMMON.AncientRemnantDamageTime.get();
             MaledictusDamageTime = ConfigHolder.COMMON.MaledictusDamageTime.get();
+            ScyllaDamageTime = ConfigHolder.COMMON.ScyllaDamageTime.get();
 
             Lavabombmagazine = ConfigHolder.COMMON.Lavabombmagazine.get();
             Lavabombamount = ConfigHolder.COMMON.Lavabombamount.get();
+            LavabombDuration = ConfigHolder.COMMON.LavabombDuration.get();
+            LavabombDurationRand = ConfigHolder.COMMON.LavabombDurationRand.get();
+
             EnderguardianBlockBreakingX = ConfigHolder.COMMON.EnderguardianBlockBreakingX.get();
             EnderguardianBlockBreakingY = ConfigHolder.COMMON.EnderguardianBlockBreakingY.get();
             EnderguardianBlockBreakingZ = ConfigHolder.COMMON.EnderguardianBlockBreakingZ.get();
@@ -353,6 +366,8 @@ public class CMConfig {
             AncientRemnantLongRangelimit = ConfigHolder.COMMON.AncientRemnantLongRangelimit.get();
             ProwlerLongRangelimit = ConfigHolder.COMMON.ProwlerLongRangelimit.get();
             MaledictusLongRangelimit = ConfigHolder.COMMON.MaledictusLongRangelimit.get();
+            ScyllaLongRangelimit  = ConfigHolder.COMMON.ScyllaLongRangelimit.get();
+
 
             MonstrositysHpdamage = ConfigHolder.COMMON.MonstrositysHpdamage.get();
             EnderguardianTeleportAttackHpdamage = ConfigHolder.COMMON.EnderguardianTeleportAttackHpdamage.get();
@@ -424,6 +439,10 @@ public class CMConfig {
 
             ScyllaHealthMultiplier = ConfigHolder.COMMON.ScyllaHealthMultiplier.get();
             ScyllaDamageMultiplier = ConfigHolder.COMMON.ScyllaDamageMultiplier.get();
+            ScyllaSpearDamage = ConfigHolder.COMMON.ScyllaSpearDamage.get();
+            ScyllaLightningStormDamage = ConfigHolder.COMMON.ScyllaLightningStormDamage.get();
+            ScyllaLightningAreaDamage = ConfigHolder.COMMON.ScyllaLightningAreaDamage.get();
+
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

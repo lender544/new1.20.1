@@ -2,6 +2,8 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
+import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
+import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
@@ -19,6 +21,7 @@ import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Evoker;
@@ -264,12 +267,28 @@ public class Wave_Entity extends Entity {
     }
 
 
-    private void attackEntities(double strength,double x,double z) {
+    protected void attackEntities(double strength,double x,double z) {
         AABB bashBox = this.getBoundingBox().inflate(0.01f);
         DamageSource source = damageSources().mobProjectile(this, owner);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
-                entity.hurt(source, this.getDamage());
+                boolean flag = entity.hurt(source, this.getDamage());
+
+                if(flag) {
+                    MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
+                    int i = 1;
+                    if (effectinstance1 != null) {
+                        i += effectinstance1.getAmplifier();
+                        entity.removeEffectNoUpdate(ModEffect.EFFECTWETNESS);
+                    } else {
+                        --i;
+                    }
+
+                    i = Mth.clamp(i, 0, 4);
+                    MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS, 200, i, false, true, true);
+                    entity.addEffect(effectinstance);
+                }
+
                 entity.hasImpulse = true;
                 Vec3 vec3;
                 for(vec3 = entity.getDeltaMovement(); x * x + z * z < (double)1.0E-5F; z = (Math.random() - Math.random()) * 0.01) {

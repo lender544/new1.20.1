@@ -58,10 +58,7 @@ public class Sandstorm_Entity extends Entity {
         }
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
-        return new ClientboundAddEntityPacket(this,entity);
-    }
+    
 
     public void tick() {
         super.tick();

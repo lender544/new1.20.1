@@ -154,7 +154,7 @@ public class Lightning_Storm_Entity extends Entity {
         if (this.level().isClientSide) {
             if (this.clientSideAttackStarted) {
                 ++this.lifeTicks;
-                if (this.lifeTicks < 12 && this.lifeTicks > 1) {
+                if (this.lifeTicks < 8 && this.lifeTicks > 1) {
                     smolder(3);
                 }
                 if (this.lifeTicks == 1){
@@ -172,7 +172,7 @@ public class Lightning_Storm_Entity extends Entity {
             if (--this.warmupDelayTicks < 0) {
                 if (this.warmupDelayTicks == -1 || this.warmupDelayTicks == -2 || this.warmupDelayTicks == -3 || this.warmupDelayTicks == -4) {
                     this.damageEntityLivingBaseNearby(0.1D);
-                    ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 10);
+                   // ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 10);
                 }
 
                 if (!this.sentSpikeEvent) {

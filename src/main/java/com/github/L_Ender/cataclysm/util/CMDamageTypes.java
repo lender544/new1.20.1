@@ -26,6 +26,7 @@ public class CMDamageTypes {
     public static final ResourceKey<DamageType> PENETRATE = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"penetrate"));
     public static final ResourceKey<DamageType> MALEDICTIO_ANIMA = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictio_anima"));
     public static final ResourceKey<DamageType> LIGHTNING = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"lightning"));
+    public static final ResourceKey<DamageType> STORM_BRINGER = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"storm_bringer"));
 
 
     public static DamageSource causeLaserDamage(Entity attacker, Entity caster) {
@@ -78,6 +79,10 @@ public class CMDamageTypes {
 
     public static DamageSource causeLightningDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LIGHTNING), attacker,caster);
+    }
+
+    public static DamageSource causeStormBringerDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(STORM_BRINGER), attacker,caster);
     }
 
 }

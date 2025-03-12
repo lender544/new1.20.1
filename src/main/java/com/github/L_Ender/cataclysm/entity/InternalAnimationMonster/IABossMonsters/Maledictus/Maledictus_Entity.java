@@ -1602,7 +1602,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     }
 
     private void Grab(double inflateXZ,double inflateY,  double range, float damage, float hpdamage, int shieldbreakticks, boolean maledictio) {
-        double yaw = Math.toRadians(this.getYRot() + 90);
+        double yaw = (yBodyRot) * (Math.PI / 180);
+        yaw += Math.PI / 2;
+
         double xExpand = range * Math.cos(yaw);
         double zExpand = range * Math.sin(yaw);
         AABB attackRange = this.getBoundingBox().inflate(inflateXZ,inflateY,inflateXZ).expandTowards(xExpand, 0, zExpand);
@@ -1735,7 +1737,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     }
 
     private void Rushattack(double inflateXZ,double inflateY,  double range, float damage, float hpdamage, int shieldbreakticks, boolean maledictio) {
-        double yaw = Math.toRadians(this.getYRot() + 90);
+        double yaw = (yBodyRot) * (Math.PI / 180);
+        yaw += Math.PI / 2;
+
         double xExpand = range * Math.cos(yaw);
         double zExpand = range * Math.sin(yaw);
         AABB attackRange = this.getBoundingBox().inflate(inflateXZ,inflateY,inflateXZ).expandTowards(xExpand, 0, zExpand);
@@ -1758,7 +1762,8 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     }
 
     private void uppercut(double inflate, double range, float damage, float hpdamage, int shieldbreakticks, boolean airborne) {
-        double yaw = Math.toRadians(this.getYRot() + 90);
+        double yaw = (yBodyRot) * (Math.PI / 180);
+        yaw += Math.PI / 2;
         double xExpand = range * Math.cos(yaw);
         double zExpand = range * Math.sin(yaw);
         AABB attackRange = this.getBoundingBox().inflate(inflate).expandTowards(xExpand, 0, zExpand);
