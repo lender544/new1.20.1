@@ -58,7 +58,7 @@ public class Cursium_Armor_Model extends HumanoidModel {
 
         PartDefinition right_horn = head.addOrReplaceChild("right_horn", CubeListBuilder.create(), PartPose.offsetAndRotation(-6.2F, -10.0F, 0.0F, -0.2618F, 0.0F, -0.6545F));
 
-        PartDefinition cube_r1 = right_horn.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 103).addBox(-5.811F, -19.4301F, 0.1321F, 12.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
+        PartDefinition cube_r1 = right_horn.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(97, 122).addBox(-5.811F, -19.4301F, 0.1321F, 12.0F, 6.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 118).addBox(-9.811F, -17.4301F, 0.1321F, 5.0F, 10.0F, 0.0F, new CubeDeformation(0.0F))
                 .texOffs(18, 115).addBox(-4.811F, -17.4301F, -1.8679F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(5.0F, 12.0F, 2.0F, 0.1309F, 0.0F, -0.3054F));
 
@@ -66,15 +66,12 @@ public class Cursium_Armor_Model extends HumanoidModel {
 
         PartDefinition left_horn = head.addOrReplaceChild("left_horn", CubeListBuilder.create(), PartPose.offsetAndRotation(6.2F, -10.0F, 0.0F, -0.2618F, 0.0F, 0.6545F));
 
-        PartDefinition cube_r3 = left_horn.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 103).mirror().addBox(-6.189F, -19.4301F, 0.1321F, 12.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
+        PartDefinition cube_r3 = left_horn.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(97, 122).mirror().addBox(-6.189F, -19.4301F, 0.1321F, 12.0F, 6.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(0, 118).mirror().addBox(4.811F, -17.4301F, 0.1321F, 5.0F, 10.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false)
                 .texOffs(18, 115).mirror().addBox(0.811F, -17.4301F, -1.8679F, 4.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0F, 12.0F, 2.0F, 0.1309F, 0.0F, 0.3054F));
 
         PartDefinition cube_r4 = left_horn.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(1, 110).mirror().addBox(-6.189F, -17.4301F, -1.3679F, 7.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-5.0196F, 12.0622F, 1.5043F, 0.1309F, 0.0F, 0.3054F));
 
-        PartDefinition right_plate = head.addOrReplaceChild("right_plate", CubeListBuilder.create().texOffs(35, 114).addBox(-6.5F, -5.5F, -5.0F, 4.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition left_plate = head.addOrReplaceChild("left_plate", CubeListBuilder.create().texOffs(35, 114).mirror().addBox(2.5F, -5.5F, -5.0F, 4.0F, 6.0F, 8.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(0.0F, 0.0F, 0.0F));
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 

@@ -152,7 +152,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
-
+        this.setDamage(compound.getFloat("damage"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
@@ -160,7 +160,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
-
+        compound.putFloat("damage", this.getDamage());
     }
 
     /**
@@ -212,7 +212,7 @@ public class Phantom_Halberd_Entity extends Entity {
     }
 
 
-    private void damage(LivingEntity Hitentity) {
+    protected void damage(LivingEntity Hitentity) {
         LivingEntity livingentity = this.getCaster();
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 5 == 0) {

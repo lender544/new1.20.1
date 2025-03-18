@@ -159,7 +159,7 @@ public class Sandstorm_Entity extends Entity {
         return null;
     }
 
-    private void updateMotion() {
+    protected void updateMotion() {
         Entity owner = getCreatorEntity();
         if(owner !=null) {
             if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {

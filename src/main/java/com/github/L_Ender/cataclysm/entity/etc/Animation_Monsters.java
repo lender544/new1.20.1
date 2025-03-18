@@ -112,7 +112,7 @@ public class Animation_Monsters extends Monster implements Enemy {
     }
 
     protected boolean canPlayMusic() {
-        return !isSilent() && getTarget() instanceof Player && getTarget() !=null;
+        return !isSilent() && getTarget() instanceof Player && getTarget() !=null && this.getTarget().isAlive();
     }
 
     @Override

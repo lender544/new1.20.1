@@ -74,6 +74,8 @@ public class CMConfig {
 
     public static int Lavabombmagazine = 3;
     public static int Lavabombamount = 3;
+    public static int LavabombDuration = 350;
+    public static int LavabombDurationRand = 150;
 
     public static int EnderguardianBlockBreakingX = 15;
     public static int EnderguardianBlockBreakingY = 2;
@@ -295,6 +297,8 @@ public class CMConfig {
 
             Lavabombmagazine = ConfigHolder.COMMON.Lavabombmagazine.get();
             Lavabombamount = ConfigHolder.COMMON.Lavabombamount.get();
+            LavabombDuration = ConfigHolder.COMMON.LavabombDuration.get();
+            LavabombDurationRand = ConfigHolder.COMMON.LavabombDurationRand.get();
             EnderguardianBlockBreakingX = ConfigHolder.COMMON.EnderguardianBlockBreakingX.get();
             EnderguardianBlockBreakingY = ConfigHolder.COMMON.EnderguardianBlockBreakingY.get();
             EnderguardianBlockBreakingZ = ConfigHolder.COMMON.EnderguardianBlockBreakingZ.get();

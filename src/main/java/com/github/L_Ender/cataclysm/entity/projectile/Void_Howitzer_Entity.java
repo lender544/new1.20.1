@@ -92,7 +92,7 @@ public class Void_Howitzer_Entity extends ThrowableProjectile {
         }
     }
 
-    private void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
+    protected void spawnFangs(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
         boolean flag = false;
         double d0 = 0.0D;

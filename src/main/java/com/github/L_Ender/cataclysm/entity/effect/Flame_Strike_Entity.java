@@ -209,7 +209,7 @@ public class Flame_Strike_Entity extends Entity {
         }
     }
 
-    private void damage(LivingEntity Hitentity) {
+    protected void damage(LivingEntity Hitentity) {
         LivingEntity caster = this.getOwner();
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != caster) {
             if (this.tickCount % 2 == 0) {
