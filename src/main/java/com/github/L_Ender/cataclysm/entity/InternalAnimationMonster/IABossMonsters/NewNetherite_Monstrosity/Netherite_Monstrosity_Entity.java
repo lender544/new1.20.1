@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -133,7 +134,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
@@ -743,8 +744,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
                 Makeparticle(-0.3f, 3.4f);
                 Makeparticle(-0.3F, -3.4f);
-                CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
-                CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                if(!this.level().isClientSide) {
+                    CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                    CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                }
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1, 0.7F);
             }
             if (this.attackTicks == 26) {
@@ -796,6 +799,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         }
 
     }
+
 
     private void spawnJet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
@@ -1154,7 +1158,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     }
 
     public boolean isBerserk() {
-        return this.getHealth() <= this.getMaxHealth() / 3.0F;
+        return this.getHealth() <= this.getMaxHealth() * 0.4F;
     }
 
     @Override
@@ -1349,6 +1353,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                         double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - lava.getY();
                         double d2 = target.getZ() - this.entity.headPart.getZ();
                         double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
+                        lava.setMaxLavaTime(CMConfig.LavabombDuration + this.entity.getRandom().nextInt(CMConfig.LavabombDurationRand));
                         lava.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.0F, 24 - this.entity.level().getDifficulty().getId() * 4);
                         this.entity.level().addFreshEntity(lava);
                     }

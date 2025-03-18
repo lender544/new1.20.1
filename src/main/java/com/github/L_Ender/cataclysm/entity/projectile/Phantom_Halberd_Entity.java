@@ -211,7 +211,7 @@ public class Phantom_Halberd_Entity extends Entity {
     }
 
 
-    private void damage(LivingEntity Hitentity) {
+    protected void damage(LivingEntity Hitentity) {
         LivingEntity livingentity = this.getCaster();
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 5 == 0) {
