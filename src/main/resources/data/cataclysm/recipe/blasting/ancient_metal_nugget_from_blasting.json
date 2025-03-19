@@ -11,5 +11,7 @@
       "item": "cataclysm:ancient_spear"
     }
   ],
-  "result": "cataclysm:ancient_metal_nugget"
+  "result": {
+    "id": "cataclysm:ancient_metal_nugget"
+  }
 }

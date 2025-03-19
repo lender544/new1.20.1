@@ -1,6 +1,5 @@
 {
   "type": "minecraft:stonecutting",
-  "count": 1,
   "ingredient": [
     {
       "item": "minecraft:stone_bricks"
@@ -9,5 +8,8 @@
       "item": "minecraft:stone"
     }
   ],
-  "result": "cataclysm:stone_tiles"
+  "result": {
+    "id": "cataclysm:stone_tiles",
+    "count": 1
+  }
 }
