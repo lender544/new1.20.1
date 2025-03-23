@@ -3,8 +3,8 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -13,32 +13,27 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Evoker;
-import net.minecraft.world.entity.projectile.EvokerFangs;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.UUID;
 
 public class Lightning_Storm_Entity extends Entity {
-    private int warmupDelayTicks;
-    private boolean sentSpikeEvent;
-    public int lifeTicks;
-    private boolean clientSideAttackStarted;
-
-
+    public static final int STRIKE = 10;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
 
     private static final EntityDataAccessor<Integer> R = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> G = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> B = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
+
+    private static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DELAY = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
+
 
 
     @Nullable
@@ -48,12 +43,11 @@ public class Lightning_Storm_Entity extends Entity {
 
     public Lightning_Storm_Entity(EntityType<? extends Lightning_Storm_Entity> entityType, Level level) {
         super(entityType, level);
-        this.warmupDelayTicks = 34;
     }
 
-    public Lightning_Storm_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage,float Hpdamage, LivingEntity casterIn,int r, int g, int b) {
+    public Lightning_Storm_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage,float Hpdamage, LivingEntity casterIn,int r, int g, int b,float size) {
         this(ModEntities.LIGHTNING_STORM.get(), worldIn);
-        this.warmupDelayTicks = p_i47276_9_;
+        this.setDelay(p_i47276_9_);
         this.setCaster(casterIn);
         this.setDamage(damage);
         this.setHpDamage(Hpdamage);
@@ -62,6 +56,7 @@ public class Lightning_Storm_Entity extends Entity {
         this.setR(r);
         this.setG(g);
         this.setB(b);
+        this.setSize(size);
     }
 
 
@@ -70,6 +65,9 @@ public class Lightning_Storm_Entity extends Entity {
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(DAMAGE, 0F);
         p_326229_.define(HPDAMAGE, 0F);
+        p_326229_.define(SIZE, 0F);
+        p_326229_.define(LIFESPAN, 0);
+        p_326229_.define(DELAY, 0);
         p_326229_.define(R, 0);
         p_326229_.define(G, 0);
         p_326229_.define(B, 0);
@@ -97,6 +95,26 @@ public class Lightning_Storm_Entity extends Entity {
     }
 
 
+    public int getLifespan()
+    {
+        return this.entityData.get(LIFESPAN);
+    }
+
+    public void setLifespan(int lifespan)
+    {
+        this.entityData.set(LIFESPAN, lifespan);
+    }
+
+    public int getDelay()
+    {
+        return this.entityData.get(DELAY);
+    }
+
+    public void setDelay(int delay)
+    {
+        this.entityData.set(DELAY, delay);
+    }
+
     public int getB()
     {
         return this.entityData.get(B);
@@ -105,6 +123,17 @@ public class Lightning_Storm_Entity extends Entity {
     public void setB(int b)
     {
         this.entityData.set(B, b);
+    }
+
+    public float getSize()
+    {
+        return this.entityData.get(SIZE);
+    }
+
+    public void setSize(float size) {
+        if (!this.level().isClientSide) {
+            this.getEntityData().set(SIZE, Mth.clamp(size, 1.0F, 5.0F));
+        }
     }
 
     public void setCaster(@Nullable LivingEntity p_190549_1_) {
@@ -147,44 +176,64 @@ public class Lightning_Storm_Entity extends Entity {
     }
 
 
+    public void onSyncedDataUpdated(EntityDataAccessor<?> p_19729_) {
+        if (SIZE.equals(p_19729_)) {
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(p_19729_);
+    }
+
+    public void refreshDimensions() {
+        double d0 = this.getX();
+        double d1 = this.getY();
+        double d2 = this.getZ();
+        super.refreshDimensions();
+        this.setPos(d0, d1, d2);
+    }
+
+    public PushReaction getPistonPushReaction() {
+        return PushReaction.IGNORE;
+    }
+
+
+    public EntityDimensions getDimensions(Pose p_19721_) {
+        return EntityDimensions.scalable(this.getSize() * 0.5F, this.getSize() * 1.75F);
+    }
+
     public void tick() {
         super.tick();
 
+        setLifespan(this.getLifespan()+ 1);
+        int adjustedLifespan = this.getLifespan() - this.getDelay();
 
         if (this.level().isClientSide) {
-            if (this.clientSideAttackStarted) {
-                ++this.lifeTicks;
-                if (this.lifeTicks < 8 && this.lifeTicks > 1) {
-                    smolder(3);
-                }
-                if (this.lifeTicks == 1){
-                    if (!this.isSilent()) {
-                        this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.EMP_ACTIVATED.get(), this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.2F + 0.85F, false);
-                    }
-                    double d0 = this.getX();
-                    double d1 = this.getY() + 2.0D;
-                    double d2 = this.getZ();
-                    this.level().addAlwaysVisibleParticle(new LightningStormParticleOptions(this.getR(),this.getG(),this.getB()), d0, d1, d2, 0, 0, 0);
-                }
-
+            if (adjustedLifespan == 2){
+                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 20, this.getR(),this.getG(),this.getB(), 1f, this.getSize() * 6, false, 1), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
             }
+            if (adjustedLifespan < 30  && adjustedLifespan > STRIKE) {
+                smolder(3);
+            }
+            if (adjustedLifespan == STRIKE){
+                if (!this.isSilent()) {
+                    this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ModSounds.EMP_ACTIVATED.get(), this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.2F + 0.85F, false);
+                }
+                double d0 = this.getX();
+                double d1 = this.getY() + this.getSize() + 0.03D;
+                double d2 = this.getZ();
+                this.level().addAlwaysVisibleParticle(new LightningStormParticleOptions(this.getR(),this.getG(),this.getB(),this.getSize()), d0, d1, d2, 0, 0, 0);
+            }
+
+
         } else {
-            if (--this.warmupDelayTicks < 0) {
-                if (this.warmupDelayTicks == -1 || this.warmupDelayTicks == -2 || this.warmupDelayTicks == -3 || this.warmupDelayTicks == -4) {
-                    this.damageEntityLivingBaseNearby(0.1D);
-                   // ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 10);
-                }
-
-                if (!this.sentSpikeEvent) {
-                    this.level().broadcastEntityEvent(this, (byte)4);
-                    this.sentSpikeEvent = true;
-                }
-
-                if (++this.lifeTicks > 22) {
-                    this.discard();
-                }
+            if (adjustedLifespan == 11 || adjustedLifespan == 12 || adjustedLifespan == 13 || adjustedLifespan == 14){
+                this.damageEntityLivingBaseNearby(0.1D);
             }
+            if (adjustedLifespan > 20) {
+                this.discard();
+            }
+
         }
+
     }
 
 
@@ -215,10 +264,6 @@ public class Lightning_Storm_Entity extends Entity {
 
     public void handleEntityEvent(byte p_36935_) {
         super.handleEntityEvent(p_36935_);
-        if (p_36935_ == 4) {
-            this.clientSideAttackStarted = true;
-        }
-
     }
 
 
@@ -240,6 +285,8 @@ public class Lightning_Storm_Entity extends Entity {
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
+        compound.putInt("lifespan", this.getLifespan());
+        compound.putInt("delay", this.getDelay());
         if (this.ownerUUID != null) {
             compound.putUUID("Owner", this.ownerUUID);
         }
@@ -248,9 +295,12 @@ public class Lightning_Storm_Entity extends Entity {
         compound.putInt("g", this.getG());
         compound.putInt("b", this.getB());
         compound.putFloat("Hpdamage", this.getHpDamage());
+        compound.putFloat("size", this.getSize());
     }
 
     protected void readAdditionalSaveData(CompoundTag compound) {
+        this.setLifespan(compound.getInt("lifespan"));
+        this.setDelay(compound.getInt("delay"));
         if (compound.hasUUID("Owner")) {
             this.ownerUUID = compound.getUUID("Owner");
         }
@@ -259,6 +309,7 @@ public class Lightning_Storm_Entity extends Entity {
         this.setR(compound.getInt("r"));
         this.setG(compound.getInt("g"));
         this.setB(compound.getInt("b"));
+        this.setSize(compound.getFloat("size"));
     }
 
 

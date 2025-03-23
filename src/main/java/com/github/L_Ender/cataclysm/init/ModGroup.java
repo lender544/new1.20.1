@@ -228,6 +228,54 @@ public class ModGroup {
                 entries.accept(ModItems.AZURE_SEASTONE_BRICK_SLAB.get());
                 entries.accept(ModItems.AZURE_SEASTONE_BRICK_STAIRS.get());
                 entries.accept(ModItems.AZURE_SEASTONE_BRICK_WALL.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_EMPTY.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_URCHINKIN.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_CINDARIA.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_HIPPOCAMTUS.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_CLAWDIAN.get());
+
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_THUNDER.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_SEA.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_UNDERWORLD.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_HARVEST.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_WISDOM.get());
+                entries.accept(ModItems.AZURE_SEASTONE_MURAL_SMITHING.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_7.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_8.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_9.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_CLAWDIAN_3.get());
+                entries.accept(ModItems.CURVED_SEASTONE_CLAWDIAN_4.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_HIPPOCAMTUS_3.get());
+                entries.accept(ModItems.CURVED_SEASTONE_HIPPOCAMTUS_4.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_CINDARIA_3.get());
+                entries.accept(ModItems.CURVED_SEASTONE_CINDARIA_4.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_4.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_5.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_6.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_CLAWDIAN_1.get());
+                entries.accept(ModItems.CURVED_SEASTONE_CLAWDIAN_2.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_HIPPOCAMTUS_1.get());
+                entries.accept(ModItems.CURVED_SEASTONE_HIPPOCAMTUS_2.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_CINDARIA_1.get());
+                entries.accept(ModItems.CURVED_SEASTONE_CINDARIA_2.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_1.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_2.get());
+                entries.accept(ModItems.CURVED_SEASTONE_SCYLLA_3.get());
+
+                entries.accept(ModItems.CURVED_SEASTONE_URCHINKIN.get());
+
+
+
+
                 entries.accept(ModItems.POLISHED_AZURE_SEASTONE.get());
                 entries.accept(ModItems.POLISHED_AZURE_SEASTONE_SLAB.get());
                 entries.accept(ModItems.POLISHED_AZURE_SEASTONE_STAIRS.get());

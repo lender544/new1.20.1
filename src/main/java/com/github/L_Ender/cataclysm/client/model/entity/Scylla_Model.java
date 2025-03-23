@@ -391,9 +391,11 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		this.animate(entity.getAnimationState("chain_jump_1"), Scylla_Projectile_Animation.CHAIN_JUMP, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("chain_jump_2"), Scylla_Projectile_Animation.LANDING, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("chain_jump_3"), Scylla_Lightning_Animation.SUPER_HERO_LANDING, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("chain_jump_3"), Scylla_Projectile_Animation.SUPER_HERO_LANDING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("anchor_explosion"), Scylla_Lightning_Animation.ANCHOR_EXPLOSION, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("death"), Scylla_Normal_Animation.DEATH, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("parry"), Scylla_Projectile_Animation.PARRY, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("electric_whip"), Scylla_Lightning_Animation.ELECTRIC_WHIP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("death"), Scylla_Lightning_Animation.DEATH, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {

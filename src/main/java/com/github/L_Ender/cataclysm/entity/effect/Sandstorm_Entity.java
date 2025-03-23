@@ -4,7 +4,6 @@ import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
@@ -27,8 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
 
 public class Sandstorm_Entity extends Entity {
 
@@ -58,7 +54,10 @@ public class Sandstorm_Entity extends Entity {
         }
     }
 
-    
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket(ServerEntity entity) {
+        return new ClientboundAddEntityPacket(this,entity);
+    }
 
     public void tick() {
         super.tick();
@@ -78,15 +77,15 @@ public class Sandstorm_Entity extends Entity {
             this.level().addParticle((new StormParticleOptions(r, g, b,1.25f + random.nextFloat() * 0.45f,1.25f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
 
 
-        }
-        if(this.getState() == 1) {
-            if (this.getLifespan() < 295) {
-                this.setState(0);
+            if(this.getState() == 1) {
+                if (this.getLifespan() < 295) {
+                    this.setState(0);
+                }
             }
-        }
-        if(this.getState() == 0) {
-            if(this.getLifespan() < 10) {
-                this.setState(2);
+            if(this.getState() == 0) {
+                if(this.getLifespan() < 10) {
+                    this.setState(2);
+                }
             }
         }
 
@@ -172,7 +171,7 @@ public class Sandstorm_Entity extends Entity {
     }
 
 
-    private void updateMotion() {
+    protected void updateMotion() {
         Entity owner = getOwner();
         if(owner !=null) {
             if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {
@@ -215,7 +214,8 @@ public class Sandstorm_Entity extends Entity {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-                            switch (this.getState()) {
+            if (this.level().isClientSide)
+                switch (this.getState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         stopAllAnimationStates();

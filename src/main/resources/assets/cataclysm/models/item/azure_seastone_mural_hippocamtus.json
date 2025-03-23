@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cataclysm:block/azure_seastone_ink_mural/hippocamtus"
+  }
+}

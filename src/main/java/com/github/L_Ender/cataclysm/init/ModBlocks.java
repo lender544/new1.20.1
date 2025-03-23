@@ -390,6 +390,105 @@ public class ModBlocks {
     public static final DeferredBlock<Block> AZURE_SEASTONE_BRICK_WALL = BLOCKS.register("azure_seastone_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE_BRICKS.get())));
 
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_EMPTY = BLOCKS.register("azure_seastone_mural_empty",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_CLAWDIAN = BLOCKS.register("azure_seastone_mural_clawdian",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_CINDARIA = BLOCKS.register("azure_seastone_mural_cindaria",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_HIPPOCAMTUS = BLOCKS.register("azure_seastone_mural_hippocamtus",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_URCHINKIN = BLOCKS.register("azure_seastone_mural_urchinkin",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_THUNDER = BLOCKS.register("azure_seastone_mural_thunder",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_SEA = BLOCKS.register("azure_seastone_mural_sea",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_UNDERWORLD = BLOCKS.register("azure_seastone_mural_underworld",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_HARVEST = BLOCKS.register("azure_seastone_mural_harvest",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_SMITHING = BLOCKS.register("azure_seastone_mural_smithing",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> AZURE_SEASTONE_MURAL_WISDOM = BLOCKS.register("azure_seastone_mural_wisdom",
+            () -> new Ink_Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_URCHINKIN = BLOCKS.register("curved_azure_seastone_urchinkin",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CINDARIA_1 = BLOCKS.register("curved_azure_seastone_cindaria_1",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CINDARIA_2 = BLOCKS.register("curved_azure_seastone_cindaria_2",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CINDARIA_3 = BLOCKS.register("curved_azure_seastone_cindaria_3",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CINDARIA_4 = BLOCKS.register("curved_azure_seastone_cindaria_4",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_HIPPOCAMTUS_1 = BLOCKS.register("curved_azure_seastone_hippocamtus_1",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_HIPPOCAMTUS_2 = BLOCKS.register("curved_azure_seastone_hippocamtus_2",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_HIPPOCAMTUS_3 = BLOCKS.register("curved_azure_seastone_hippocamtus_3",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_HIPPOCAMTUS_4 = BLOCKS.register("curved_azure_seastone_hippocamtus_4",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CLAWDIAN_1 = BLOCKS.register("curved_azure_seastone_clawdian_1",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CLAWDIAN_2 = BLOCKS.register("curved_azure_seastone_clawdian_2",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CLAWDIAN_3 = BLOCKS.register("curved_azure_seastone_clawdian_3",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_CLAWDIAN_4 = BLOCKS.register("curved_azure_seastone_clawdian_4",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_1 = BLOCKS.register("curved_azure_seastone_scylla_1",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_2 = BLOCKS.register("curved_azure_seastone_scylla_2",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_3 = BLOCKS.register("curved_azure_seastone_scylla_3",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_4 = BLOCKS.register("curved_azure_seastone_scylla_4",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_5 = BLOCKS.register("curved_azure_seastone_scylla_5",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_6 = BLOCKS.register("curved_azure_seastone_scylla_6",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_7 = BLOCKS.register("curved_azure_seastone_scylla_7",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_8 = BLOCKS.register("curved_azure_seastone_scylla_8",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
+    public static final DeferredBlock<Block> CURVED_SEASTONE_SCYLLA_9 = BLOCKS.register("curved_azure_seastone_scylla_9",
+            () -> new Mural_Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
+
     public static final DeferredBlock<Block> POLISHED_AZURE_SEASTONE = BLOCKS.register("polished_azure_seastone",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(AZURE_SEASTONE.get())));
 

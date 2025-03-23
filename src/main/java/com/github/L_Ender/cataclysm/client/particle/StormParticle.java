@@ -39,7 +39,7 @@ public class StormParticle extends AbstractTrailParticle {
         this.zd = 0;
     }
 
-    public Vec3 getDinosaurPosition(){
+    public Vec3 getEntityPosition(){
         Entity from = this.getFromEntity();
         if(from != null){
             return from.position();
@@ -53,7 +53,7 @@ public class StormParticle extends AbstractTrailParticle {
     }
 
     public Vec3 getOrbitPosition(){
-        Vec3 dinoPos = getDinosaurPosition();
+        Vec3 dinoPos = getEntityPosition();
         Vec3 vec3 = new Vec3(0, height, width).yRot((float)Math.toRadians(initialYRot + rotateByAge * age));
         return dinoPos.add(vec3);
     }

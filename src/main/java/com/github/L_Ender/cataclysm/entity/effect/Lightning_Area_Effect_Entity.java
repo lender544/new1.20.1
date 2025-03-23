@@ -100,23 +100,14 @@ public class Lightning_Area_Effect_Entity extends Entity {
         boolean flag = this.isWaiting();
         float f = this.getRadius();
         if (this.level().isClientSide) {
-            if (flag && this.random.nextBoolean()) {
+            if (flag) {
                 return;
             }
 
-            int i;
-            float f1;
-            if (flag) {
-                i = 2;
-                f1 = 0.2F;
-            } else {
-                i = Mth.ceil((float)Math.PI * f * f);
-                f1 = f;
-            }
 
-            for(int j = 0; j < 7 + random.nextInt(1); ++j) {
+            for(int j = 0; j < 2 + random.nextInt(1); ++j) {
                 float f2 = this.random.nextFloat() * ((float)Math.PI * 2F);
-                float f3 = Mth.sqrt(this.random.nextFloat()) * f1;
+                float f3 = Mth.sqrt(this.random.nextFloat()) * f;
                 double d0 = this.getX() + (double)(Mth.cos(f2) * f3);
                 double d2 = this.getY();
                 double d4 = this.getZ() + (double)(Mth.sin(f2) * f3);

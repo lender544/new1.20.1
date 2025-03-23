@@ -105,6 +105,8 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":lightning_storm"));
 
 
+
+
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Entity>> IGNIS = ENTITY_TYPE.register("ignis", () -> EntityType.Builder.of(Ignis_Entity::new, MobCategory.MONSTER)
             .sized(2.25F, 3.5F)
             .fireImmune()
@@ -276,6 +278,12 @@ public class ModEntities {
             .updateInterval(20)
             .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":urchin_spike"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Spark_Entity>> SPARK = ENTITY_TYPE.register("spark", () -> EntityType.Builder.<Spark_Entity>of(Spark_Entity::new, MobCategory.MISC)
+            .sized(0.5f, 0.5f)
+            .updateInterval(20)
+            .clientTrackingRange(4)
+            .build(Cataclysm.MODID + ":spark"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<ScreenShake_Entity>> SCREEN_SHAKE = ENTITY_TYPE.register("screen_shake", () -> EntityType.Builder.<ScreenShake_Entity>of(ScreenShake_Entity::new, MobCategory.MISC)
             .noSummon()

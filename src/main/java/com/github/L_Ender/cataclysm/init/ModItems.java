@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.blocks.Mural_Block;
 import com.github.L_Ender.cataclysm.items.*;
 import com.github.L_Ender.cataclysm.items.CuriosItem.AttributeContainer;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
@@ -19,9 +20,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
 
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -201,6 +205,108 @@ public class ModItems {
     public static final DeferredItem<BlockItem> AZURE_SEASTONE_BRICK_WALL = ITEMS.register("azure_seastone_brick_wall",
             () -> new BlockItem(ModBlocks.AZURE_SEASTONE_BRICK_WALL.get(), new Item.Properties()));
 
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_EMPTY = ITEMS.register("azure_seastone_mural_empty",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_EMPTY.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_URCHINKIN = ITEMS.register("azure_seastone_mural_urchinkin",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_URCHINKIN.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_CINDARIA = ITEMS.register("azure_seastone_mural_cindaria",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_CINDARIA.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_HIPPOCAMTUS = ITEMS.register("azure_seastone_mural_hippocamtus",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_HIPPOCAMTUS.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_CLAWDIAN = ITEMS.register("azure_seastone_mural_clawdian",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_CLAWDIAN.get(), new Item.Properties()));
+
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_THUNDER = ITEMS.register("azure_seastone_mural_thunder",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_THUNDER.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_SEA = ITEMS.register("azure_seastone_mural_sea",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_SEA.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_UNDERWORLD = ITEMS.register("azure_seastone_mural_underworld",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_UNDERWORLD.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_HARVEST = ITEMS.register("azure_seastone_mural_harvest",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_HARVEST.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_SMITHING = ITEMS.register("azure_seastone_mural_smithing",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_SMITHING.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> AZURE_SEASTONE_MURAL_WISDOM = ITEMS.register("azure_seastone_mural_wisdom",
+            () -> new BlockItem(ModBlocks.AZURE_SEASTONE_MURAL_WISDOM.get(), new Item.Properties()));
+
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_URCHINKIN = ITEMS.register("curved_azure_seastone_urchinkin",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_URCHINKIN.get(), new Item.Properties()));
+
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CINDARIA_1 = ITEMS.register("curved_azure_seastone_cindaria_1",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CINDARIA_1.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CINDARIA_2 = ITEMS.register("curved_azure_seastone_cindaria_2",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CINDARIA_2.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CINDARIA_3 = ITEMS.register("curved_azure_seastone_cindaria_3",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CINDARIA_3.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CINDARIA_4 = ITEMS.register("curved_azure_seastone_cindaria_4",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CINDARIA_4.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_HIPPOCAMTUS_1 = ITEMS.register("curved_azure_seastone_hippocamtus_1",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_HIPPOCAMTUS_1.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_HIPPOCAMTUS_2 = ITEMS.register("curved_azure_seastone_hippocamtus_2",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_HIPPOCAMTUS_2.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_HIPPOCAMTUS_3 = ITEMS.register("curved_azure_seastone_hippocamtus_3",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_HIPPOCAMTUS_3.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_HIPPOCAMTUS_4 = ITEMS.register("curved_azure_seastone_hippocamtus_4",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_HIPPOCAMTUS_4.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CLAWDIAN_1 = ITEMS.register("curved_azure_seastone_clawdian_1",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CLAWDIAN_1.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CLAWDIAN_2 = ITEMS.register("curved_azure_seastone_clawdian_2",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CLAWDIAN_2.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CLAWDIAN_3 = ITEMS.register("curved_azure_seastone_clawdian_3",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CLAWDIAN_3.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_CLAWDIAN_4 = ITEMS.register("curved_azure_seastone_clawdian_4",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_CLAWDIAN_4.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_1 = ITEMS.register("curved_azure_seastone_scylla_1",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_1.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_2 = ITEMS.register("curved_azure_seastone_scylla_2",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_2.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_3 = ITEMS.register("curved_azure_seastone_scylla_3",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_3.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_4 = ITEMS.register("curved_azure_seastone_scylla_4",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_4.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_5 = ITEMS.register("curved_azure_seastone_scylla_5",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_5.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_6 = ITEMS.register("curved_azure_seastone_scylla_6",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_6.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_7 = ITEMS.register("curved_azure_seastone_scylla_7",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_7.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_8 = ITEMS.register("curved_azure_seastone_scylla_8",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_8.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CURVED_SEASTONE_SCYLLA_9 = ITEMS.register("curved_azure_seastone_scylla_9",
+            () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_9.get(), new Item.Properties()));
+    
     public static final DeferredItem<BlockItem> POLISHED_AZURE_SEASTONE = ITEMS.register("polished_azure_seastone",
             () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE.get(), new Item.Properties()));
 
@@ -537,9 +643,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F)
-                    .effect(new MobEffectInstance(MobEffects.POISON, 140, 0), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.CONFUSION, 140, 0), 1.0F)
-                    .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 120 * 20, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.POISON, 60, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.CONFUSION, 60, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 240 * 20, 0), 1.0F)
                     .build())));
 
     public static final DeferredItem<Item> AMETHYST_CRAB_MEAT = ITEMS.register("amethyst_crab_meat",

@@ -168,6 +168,8 @@
   "item.cataclysm.blazing_grips": "타오르는 손길",
   "item.cataclysm.wrath_of_the_desert": "사막의 분노",
   "item.cataclysm.the_immolator": "임모레이터",
+  "item.cataclysm.chitin_claw": "키틴 클로",
+
 
   "item.cataclysm.endermaptera_spawn_egg": "엔더마프테라 생성 알",
   "item.cataclysm.ender_golem_spawn_egg": "엔더 골렘 생성 알",
@@ -202,6 +204,12 @@
   "item.cataclysm.royal_draugr_spawn_egg": "로얄 드라우그 생성 알",
   "item.cataclysm.aptrgangr_spawn_egg": "아프트강그 생성 알",
   "item.cataclysm.elite_draugr_spawn_egg": "엘리트 드라우그 생성 알",
+
+  "item.cataclysm.scylla_spawn_egg": "스킬라 생성 알",
+  "item.cataclysm.clawdian_spawn_egg": "클로디언 생성 알",
+  "item.cataclysm.hippocamtus_spawn_egg": "히포캄투스 생성 알",
+  "item.cataclysm.cindaria_spawn_egg": "신다리아 생성 알",
+  "item.cataclysm.urchinkin_spawn_egg": "성게족 생성 알",
 
   "itemGroup.cataclysm.item": "대격변 아이템",
   "itemGroup.cataclysm.block": "대격변 블록",
@@ -260,6 +268,42 @@
   "block.cataclysm.azure_seastone_slab": "청해석 반 블록",
   "block.cataclysm.azure_seastone_stairs": "청해석 계단",
   "block.cataclysm.azure_seastone_wall": "청해석 담장",
+
+  "block.cataclysm.azure_seastone_mural_empty": "청해석 벽화(억제된 자연스러운 창의성)",
+  "block.cataclysm.azure_seastone_mural_clawdian": "청해석 벽화(클로디언)",
+  "block.cataclysm.azure_seastone_mural_cindaria": "청해석 벽화(신다리아)",
+  "block.cataclysm.azure_seastone_mural_hippocamtus": "청해석 벽화(히포캄투스)",
+  "block.cataclysm.azure_seastone_mural_urchinkin": "청해석 벽화(성게족)",
+
+  "block.cataclysm.azure_seastone_mural_thunder": "청해석 벽화(번개)",
+  "block.cataclysm.azure_seastone_mural_sea": "청해석 벽화(바다)",
+  "block.cataclysm.azure_seastone_mural_underworld": "청해석 벽화(명계)",
+  "block.cataclysm.azure_seastone_mural_harvest": "청해석 벽화(수확)",
+  "block.cataclysm.azure_seastone_mural_wisdom": "청해석 벽화(지혜)",
+  "block.cataclysm.azure_seastone_mural_smithing": "청해석 벽화(단조)",
+
+  "block.cataclysm.curved_azure_seastone_urchinkin": "조각된 청해석(성게족)",
+  "block.cataclysm.curved_azure_seastone_cindaria_1": "조각된 청해석(신다리아 1)",
+  "block.cataclysm.curved_azure_seastone_cindaria_2": "조각된 청해석(신다리아 2)",
+  "block.cataclysm.curved_azure_seastone_cindaria_3": "조각된 청해석(신다리아 3)",
+  "block.cataclysm.curved_azure_seastone_cindaria_4": "조각된 청해석(신다리아 4)",
+  "block.cataclysm.curved_azure_seastone_hippocamtus_1": "조각된 청해석(히포캄투스 1)",
+  "block.cataclysm.curved_azure_seastone_hippocamtus_2": "조각된 청해석(히포캄투스 2)",
+  "block.cataclysm.curved_azure_seastone_hippocamtus_3": "조각된 청해석(히포캄투스 3)",
+  "block.cataclysm.curved_azure_seastone_hippocamtus_4": "조각된 청해석(히포캄투스 4)",
+  "block.cataclysm.curved_azure_seastone_clawdian_1": "조각된 청해석(클로디언 1)",
+  "block.cataclysm.curved_azure_seastone_clawdian_2": "조각된 청해석(클로디언 2)",
+  "block.cataclysm.curved_azure_seastone_clawdian_3": "조각된 청해석(클로디언 3)",
+  "block.cataclysm.curved_azure_seastone_clawdian_4": "조각된 청해석(클로디언 4)",
+  "block.cataclysm.curved_azure_seastone_scylla_1": "조각된 청해석(스킬라 1)",
+  "block.cataclysm.curved_azure_seastone_scylla_2": "조각된 청해석(스킬라 2)",
+  "block.cataclysm.curved_azure_seastone_scylla_3": "조각된 청해석(스킬라 3)",
+  "block.cataclysm.curved_azure_seastone_scylla_4": "조각된 청해석(스킬라 4)",
+  "block.cataclysm.curved_azure_seastone_scylla_5": "조각된 청해석(스킬라 5)",
+  "block.cataclysm.curved_azure_seastone_scylla_6": "조각된 청해석(스킬라 6)",
+  "block.cataclysm.curved_azure_seastone_scylla_7": "조각된 청해석(스킬라 7)",
+  "block.cataclysm.curved_azure_seastone_scylla_8": "조각된 청해석(스킬라 8)",
+  "block.cataclysm.curved_azure_seastone_scylla_9": "조각된 청해석(스킬라 9)",
 
   "block.cataclysm.azure_seastone_tiles": "청해석 타일",
   "block.cataclysm.chiseled_azure_seastone": "조각된 청해석",
@@ -378,6 +422,20 @@
   "entity.cataclysm.all.command_2": "%s 이(가) 대기중",
   "entity.cataclysm.flare_bomb": "플레어 폭탄",
   "entity.cataclysm.flame_jet": "화염 분출",
+
+  "entity.cataclysm.hippocamtus": "히포캄투스",
+  "entity.cataclysm.cindaria": "신다리아",
+  "entity.cataclysm.clawdian": "클로디언",
+  "entity.cataclysm.scylla": "스킬라",
+  "entity.cataclysm.urchinkin": "성게족",
+  "entity.cataclysm.water_spear": "물의 창",
+  "entity.cataclysm.lightning_spear": "벼락의 창",
+  "entity.cataclysm.storm_bringer": "폭풍 인도자",
+  "entity.cataclysm.scylla_storm_bringer": "폭풍 인도자",
+  "entity.cataclysm.wave": "파도",
+  "entity.cataclysm.bolt_strike": "뇌격",
+  "entity.cataclysm.lightning_storm": "번개 폭풍",
+  "entity.cataclysm.lightning_area_effect": "번개 장판",
 
   "effect.cataclysm.monstrous": "괴력",
   "effect.cataclysm.blazing_brand": "불타는 낙인",
@@ -560,6 +618,7 @@
   "death.attack.cataclysm.maledictio": "%s 가 %s에게 저주받았습니다.",
   "death.attack.cataclysm.maledictio_anima": "%s 가 %s에게 저주받았습니다.",
   "death.attack.cataclysm.lightning": "%s 가 %s에게 감전당했습니다.",
+  "death.attack.cataclysm.penetrate": "%s 가 %s에게 관통당했습니다.",
 
   "cataclysm.gui.altar_of_amethyst_blessing": "축복",
   "key.categories.cataclysm": "대격변 키",
@@ -598,5 +657,6 @@
   "axe_swing.sub": "Axe swings",
   "maledictus_spear.sub": "Phantom Halberds appears",
   "maledictus_bow_pull.sub": "Maledictus pulls bow",
-  "maledictus_leap.sub": "Maledictus leaps"
+  "maledictus_leap.sub": "Maledictus leaps",
+  "ministrosityhurt.sub": "Netherite Ministrosity hurts"
 }

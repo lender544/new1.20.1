@@ -21,14 +21,15 @@ public class LightningStormParticle extends TextureSheetParticle {
     private int getG;
     private int getB;
 
-    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed,int r,int g, int b, SpriteSet spriteSet) {
+    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed,int r,int g, int b, float size,SpriteSet spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);
         this.xd = xSpeed;
         this.yd = ySpeed;
         this.zd = zSpeed;
-        this.quadSize = 2F;
+        this.quadSize = size;
+
         this.lifetime = 8;
         this.rCol = r / 255F;
         this.gCol = g / 255F;
@@ -36,7 +37,7 @@ public class LightningStormParticle extends TextureSheetParticle {
         this.getR = r ;
         this.getG = g;
         this.getB = b;
-        this.setSize(3.0F, 3.0F);
+        this.setSize(size * 1.5F, size * 1.5F);
     }
 
     public void tick() {
@@ -123,7 +124,7 @@ public class LightningStormParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(LightningStormParticleOptions typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, typeIn.r(),typeIn.g(),typeIn.b(), spriteSet);
+            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, typeIn.r(),typeIn.g(),typeIn.b(),typeIn.size(), spriteSet);
             return particle;
         }
     }

@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-
 import javax.annotation.Nullable;
 import java.util.UUID;
 
@@ -75,7 +74,8 @@ public class Phantom_Halberd_Entity extends Entity {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-                            switch (this.getState()) {
+            if (this.level().isClientSide)
+                switch (this.getState()) {
                     case 0 -> this.stopAllAnimationStates();
                     case 1 -> {
                         stopAllAnimationStates();
@@ -210,7 +210,7 @@ public class Phantom_Halberd_Entity extends Entity {
     }
 
 
-    private void damage(LivingEntity Hitentity) {
+    protected void damage(LivingEntity Hitentity) {
         LivingEntity livingentity = this.getCaster();
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 5 == 0) {

@@ -81,6 +81,11 @@ public class CMDamageTypes {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LIGHTNING), attacker,caster);
     }
 
+    public static DamageSource causeLightningMobDamage(LivingEntity attacker) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LIGHTNING), attacker);
+    }
+
+
     public static DamageSource causeStormBringerDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(STORM_BRINGER), attacker,caster);
     }

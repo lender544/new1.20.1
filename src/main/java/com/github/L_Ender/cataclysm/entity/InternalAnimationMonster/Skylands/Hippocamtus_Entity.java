@@ -203,22 +203,6 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     }
 
 
-
-    private boolean canBlockDamageSource(DamageSource damageSourceIn) {
-        boolean flag = false;
-        if (!this.isNoAi() && !flag && this.getAttackState() == 4) {
-            Vec3 vector3d2 = damageSourceIn.getSourcePosition();
-            if (vector3d2 != null) {
-                Vec3 vector3d = this.getViewVector(1.0F);
-                Vec3 vector3d1 = vector3d2.vectorTo(this.position()).normalize();
-                vector3d1 = new Vec3(vector3d1.x, 0.0D, vector3d1.z);
-                //막기 가능
-                return vector3d1.dot(vector3d) < 0.0D && this.attackTicks >= 7 && this.attackTicks <= 43;
-            }
-        }
-        return false;
-    }
-
     protected int decreaseAirSupply(int air) {
         return air;
     }

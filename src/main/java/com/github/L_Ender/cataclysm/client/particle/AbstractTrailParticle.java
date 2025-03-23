@@ -81,34 +81,44 @@ public abstract class AbstractTrailParticle extends Particle {
             PoseStack posestack = new PoseStack();
             posestack.pushPose();
             posestack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-            int samples = 0;
-            Vec3 drawFrom = new Vec3(x, y, z);
+
+            int light = getLightColor(partialTick);
             float zRot = getTrailRot(camera);
             Vec3 topAngleVec = new Vec3(0, getTrailHeight() / 2F, 0).zRot(zRot);
-            Vec3 bottomAngleVec = new Vec3(0, getTrailHeight() / -2F, 0).zRot(zRot);
-            int j = getLightColor(partialTick);
-            while (samples < sampleCount()) {
+            Vec3 bottomAngleVec = new Vec3(0, -getTrailHeight() / 2F, 0).zRot(zRot);
+
+            Vec3 drawFrom = new Vec3(x, y, z);
+            PoseStack.Pose lastPose = posestack.last();
+            Matrix4f matrix = lastPose.pose();
+
+            for (int samples = 0; samples < sampleCount(); samples++) {
                 Vec3 sample = getTrailPosition(samples * sampleStep(), partialTick);
                 float u1 = samples / (float) sampleCount();
-                float u2 = u1 + 1 / (float) sampleCount();
+                float u2 = (samples + 1) / (float) sampleCount();
 
-                Vec3 draw1 = drawFrom;
-                Vec3 draw2 = sample;
+                addVertex(vertexconsumer, matrix, drawFrom, bottomAngleVec, u1, 1F, light);
+                addVertex(vertexconsumer, matrix, sample, bottomAngleVec, u2, 1F, light);
+                addVertex(vertexconsumer, matrix, sample, topAngleVec, u2, 0F, light);
+                addVertex(vertexconsumer, matrix, drawFrom, topAngleVec, u1, 0F, light);
 
-                PoseStack.Pose posestack$pose = posestack.last();
-                Matrix4f matrix4f = posestack$pose.pose();
-                vertexconsumer.addVertex(matrix4f,(float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex(matrix4f,(float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 1F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex(matrix4f,(float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u2, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-                vertexconsumer.addVertex(matrix4f,(float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).setColor(r, g, b, trailA).setUv(u1, 0).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-
-
-                samples++;
                 drawFrom = sample;
             }
-            multibuffersource$buffersource.endBatch();
+
             posestack.popPose();
+          //  multibuffersource$buffersource.endBatch();
         }
+    }
+
+    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Vec3 pos, Vec3 offset, float u, float v, int light) {
+        consumer.addVertex(matrix,
+                        (float) (pos.x + offset.x),
+                        (float) (pos.y + offset.y),
+                        (float) (pos.z + offset.z))
+                .setColor(r, g, b, trailA)
+                .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(light)
+                .setNormal(0.0F, 1.0F, 0.0F);
     }
 
     protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {

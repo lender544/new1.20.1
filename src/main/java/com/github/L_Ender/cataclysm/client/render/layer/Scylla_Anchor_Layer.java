@@ -48,6 +48,11 @@ public class Scylla_Anchor_Layer extends RenderLayer<Scylla_Entity, Scylla_Model
             if (entity.getAttackState() == 7) {
                 drawLightningAnchor(matrixStackIn, bufferIn, entity, 1.5F, 143, 241, 215, 6, 0.05F, partialtick);
             }
+            if (entity.getAttackState() == 20) {
+                if (entity.attackTicks > 6 && entity.attackTicks < 29) {
+                    drawLightningAnchor(matrixStackIn, bufferIn, entity, 4F, 143, 241, 215, 4, 0.1F, partialtick);
+                }
+            }
         }
         matrixStackIn.popPose();
     }

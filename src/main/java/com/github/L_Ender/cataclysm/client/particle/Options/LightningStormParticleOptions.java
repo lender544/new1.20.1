@@ -10,16 +10,17 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
-public record LightningStormParticleOptions(int r, int g, int b) implements ParticleOptions {
+public record LightningStormParticleOptions(int r, int g, int b, float size) implements ParticleOptions {
     //For networking. Encoder/Decoder functions very intuitive
     public static StreamCodec<? super ByteBuf, LightningStormParticleOptions> STREAM_CODEC = StreamCodec.of(
             (buf, option) -> {
                 buf.writeInt(option.r);
                 buf.writeInt(option.g);
                 buf.writeInt(option.b);
+                buf.writeFloat(option.size);
             },
             (buf) -> {
-                return new LightningStormParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());
+                return new LightningStormParticleOptions(buf.readInt(), buf.readInt(), buf.readInt(), buf.readFloat());
             }
     );
 
@@ -28,7 +29,8 @@ public record LightningStormParticleOptions(int r, int g, int b) implements Part
             object.group(
                     Codec.INT.fieldOf("r").forGetter(p -> ((LightningStormParticleOptions) p).r),
                     Codec.INT.fieldOf("g").forGetter(p -> ((LightningStormParticleOptions) p).g),
-                    Codec.INT.fieldOf("b").forGetter(p -> ((LightningStormParticleOptions) p).b)
+                    Codec.INT.fieldOf("b").forGetter(p -> ((LightningStormParticleOptions) p).b),
+                    Codec.FLOAT.fieldOf("size").forGetter(p -> ((LightningStormParticleOptions) p).size)
             ).apply(object, LightningStormParticleOptions::new
             ));
 
