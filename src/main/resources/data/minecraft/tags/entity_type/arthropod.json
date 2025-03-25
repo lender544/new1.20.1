@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "cataclysm:amethyst_crab"
+    "cataclysm:amethyst_crab",
+    "cataclysm:clawdian"
   ]
 }

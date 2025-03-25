@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.entity.effect;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -210,8 +211,10 @@ public class Lightning_Storm_Entity extends Entity {
             if (adjustedLifespan == 2){
                 this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 20, this.getR(),this.getG(),this.getB(), 1f, this.getSize() * 6, false, 1), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
             }
-            if (adjustedLifespan < 30  && adjustedLifespan > STRIKE) {
-                smolder(3);
+            for (int i = STRIKE +1; i < 30; i = i + 2) {
+                if (adjustedLifespan == i) {
+                    smolder(1);
+                }
             }
             if (adjustedLifespan == STRIKE){
                 if (!this.isSilent()) {
@@ -269,7 +272,7 @@ public class Lightning_Storm_Entity extends Entity {
 
     private void smolder(int amount) {
         for (int i = 0; i < amount; i++) {
-            final float velocity = 0.5F;
+            final float velocity = 0.25F * this.getSize();
             float yaw = (float) (random.nextFloat() * 2 * Math.PI);
 
             float r = random.nextFloat() * 0.7F;

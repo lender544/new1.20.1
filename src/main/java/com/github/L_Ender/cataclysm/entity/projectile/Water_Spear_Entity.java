@@ -223,12 +223,12 @@ public class Water_Spear_Entity extends Projectile {
             Vec3 motion2 = new Vec3(motionX,motionY,motionZ);
 
             this.assignDirectionalMovement(motion2, this.accelerationPower);
-            if (this.tickCount > 500 || this.getTotalBounces() > 10) {
+            if ( this.getTotalBounces() <= 0) {
                 if (!this.level().isClientSide) {
                     this.discard();
                 }
             } else {
-                this.setTotalBounces(this.getTotalBounces() + 1);
+                this.setTotalBounces(this.getTotalBounces() - 1);
             }
         }
 

@@ -128,6 +128,8 @@ public class Ignis_Fireball_Entity extends CMAbstractHurtingProjectile {
             } else {
                 flag = entity.hurt(this.damageSources().magic(), 5.0F);
             }
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, true, Level.ExplosionInteraction.NONE);
+            this.discard();
             if (flag && entity instanceof LivingEntity) {
                 MobEffectInstance effectinstance1 = ((LivingEntity)entity).getEffect(ModEffect.EFFECTBLAZING_BRAND);
                 int i = 2;

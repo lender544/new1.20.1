@@ -1,8 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataAttachments;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -50,7 +52,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 	private static final EntityDataAccessor<Float> Y_ROT_OLD = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.FLOAT);
 	private static final EntityDataAccessor<Float> X_ROT_OLD = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.FLOAT);
 	private static final EntityDataAccessor<Boolean> HOOK_MODE = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.BOOLEAN);
-
+	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.INT);
 	public Scylla_Storm_Bringer_Entity(EntityType type, Level worldIn) {
 		super(type, worldIn);
 	}
@@ -77,6 +79,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 		p_326229_.define(HOOK_MODE, false);
 		p_326229_.define(Y_ROT_OLD, 0F);
 		p_326229_.define(X_ROT_OLD, 0F);
+		p_326229_.define(PHASE, 0);
 	}
 
 	@Nullable
@@ -130,6 +133,14 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 		this.entityData.set(X_ROT_OLD, rot);
 	}
 
+	public int getPhase() {
+		return this.entityData.get(PHASE);
+	}
+
+	public void setPhase(int phase) {
+		this.entityData.set(PHASE, phase);
+	}
+
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
 
@@ -138,6 +149,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 		}
 		this.setHookMode(tag.getBoolean("Hook"));
 		this.setGrab(tag.getBoolean("Grab"));
+		this.setPhase(tag.getInt("Phase"));
 	}
 
 	public void addAdditionalSaveData(CompoundTag tag) {
@@ -147,6 +159,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 		}
 		tag.putBoolean("Hook", this.getHookMode());
 		tag.putBoolean("Grab", this.getGrab());
+		tag.putInt("Phase", this.getPhase());
 	}
 
 	@Override
@@ -254,6 +267,10 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}
+
+		int sparkAmount = 0;
+
+
 
 	}
 

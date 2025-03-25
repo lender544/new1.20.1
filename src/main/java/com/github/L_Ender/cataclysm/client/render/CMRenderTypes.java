@@ -163,6 +163,10 @@ public class CMRenderTypes extends RenderType {
     );
 
 
+    public static RenderType lightTrailEffect(ResourceLocation location) {
+        return LIGHT_TRAIL_EFFECT.apply(location);
+    }
+
     public static RenderType CMEyes(ResourceLocation locationIn) {
         TextureStateShard renderstateshard$texturestateshard = new TextureStateShard(locationIn, false, false);
         return create("cm_eyes", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, false, true, CompositeState.builder()

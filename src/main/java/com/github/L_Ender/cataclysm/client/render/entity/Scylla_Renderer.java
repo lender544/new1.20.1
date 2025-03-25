@@ -56,7 +56,7 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
         this.addLayer(new Scylla_Snake_Layer(this));
         this.addLayer(new Scylla_Eye_Spark_Layer(this, renderManagerIn));;
         this.addLayer(new LayerGenericGlowing(this, SCYLLA_EYE_TEXTURES));
-        this.addLayer(new Scylla_Anchor_Layer(this, renderManagerIn));;
+        //this.addLayer(new Scylla_Anchor_Layer(this, renderManagerIn));;
     }
     @Override
     public ResourceLocation getTextureLocation(Scylla_Entity entity) {

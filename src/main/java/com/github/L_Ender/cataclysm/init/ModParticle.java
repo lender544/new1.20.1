@@ -95,6 +95,17 @@ public class ModParticle {
         }
     });
 
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ScyllaSwingParticleOptions>> SCYLLA_SWING = PARTICLE.register("scylla_swing", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<ScyllaSwingParticleOptions> codec() {
+            return ScyllaSwingParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, ScyllaSwingParticleOptions> streamCodec() {
+            return ScyllaSwingParticleOptions.STREAM_CODEC;
+        }
+    });
+
     public static final DeferredHolder<ParticleType<?>, ParticleType<CustomPoofParticleOptions>> CUSTOM_POOF = PARTICLE.register("custom_poof", () -> new ParticleType<>(false)  {
         @Override
         public MapCodec<CustomPoofParticleOptions> codec() {

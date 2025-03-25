@@ -423,18 +423,18 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
                     double d4 = target.getY() - d1;
                     double d5 = target.getZ() - d2;
                     Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
-                    Water_Spear_Entity witherskull = new Water_Spear_Entity(entity, vec3,entity.level(),(float) CMConfig.HarbingerWitherMissiledamage);
+                    Water_Spear_Entity waterSpear = new Water_Spear_Entity(entity, vec3,entity.level(),(float) CMConfig.HarbingerWitherMissiledamage);
 
                     float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
 
                     float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
 
-                    witherskull.setYRot(yRot);
-                    witherskull.setXRot(xRot);
-                    witherskull.setPosRaw(d0, d1, d2);
+                    waterSpear.setYRot(yRot);
+                    waterSpear.setXRot(xRot);
+                    waterSpear.setPosRaw(d0, d1, d2);
+                    waterSpear.setTotalBounces(10);
 
-
-                    entity.level().addFreshEntity(witherskull);
+                    entity.level().addFreshEntity(waterSpear);
                 }
             }
         }

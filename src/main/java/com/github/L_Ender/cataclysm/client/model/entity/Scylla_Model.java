@@ -364,7 +364,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	public void setupAnim(Scylla_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
-		if(entity.getAttackState() ==0) {
+		if(entity.getAttackState() !=7) {
 			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 1.5F, 4.0F);
 		}
 		this.l_eye.visible = entity.getEye();
@@ -396,6 +396,10 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.animate(entity.getAnimationState("parry"), Scylla_Projectile_Animation.PARRY, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("electric_whip"), Scylla_Lightning_Animation.ELECTRIC_WHIP, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Scylla_Lightning_Animation.DEATH, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("enchant_1"), Scylla_Lightning_Animation.WEAPON_ENCHANT, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("enchant_2"), Scylla_Lightning_Animation.WEAPON_ENCHANT2, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {

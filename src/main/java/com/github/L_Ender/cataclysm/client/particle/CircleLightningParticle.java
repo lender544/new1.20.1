@@ -80,7 +80,7 @@ public class CircleLightningParticle extends Particle {
         posestack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
         posestack.translate(x, y, z);
         lightningRender.render(partialTick, posestack, multibuffersource$buffersource);
-        multibuffersource$buffersource.endBatch();
+        //multibuffersource$buffersource.endBatch();
         posestack.popPose();
     }
 
