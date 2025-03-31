@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
-import com.github.L_Ender.cataclysm.client.render.entity.Flare_Bomb_Renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -75,58 +74,45 @@ public abstract class AbstractLightTrailParticle extends Particle {
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            VertexConsumer vertexconsumer = getVetrexConsumer(multibuffersource$buffersource);
+            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(CMRenderTypes.LIGHT_TRAIL_EFFECT.apply(getTrailTexture()));;
+
             Vec3 cameraPos = camera.getPosition();
-            float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
-            float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
-            float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
+            double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
+            double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
+            double z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
 
             PoseStack posestack = new PoseStack();
             posestack.pushPose();
             posestack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-
-            int light = getLightColor(partialTick);
+            int samples = 0;
+            Vec3 drawFrom = new Vec3(x, y, z);
             float zRot = getTrailRot(camera);
             Vec3 topAngleVec = new Vec3(0, getTrailHeight() / 2F, 0).zRot(zRot);
-            Vec3 bottomAngleVec = new Vec3(0, -getTrailHeight() / 2F, 0).zRot(zRot);
-
-            Vec3 drawFrom = new Vec3(x, y, z);
-            PoseStack.Pose posestack$pose = posestack.last();
-            Matrix4f matrix4f = posestack$pose.pose();
-            Matrix3f matrix3f = posestack$pose.normal();
-            for (int samples = 0; samples < sampleCount(); samples++) {
+            Vec3 bottomAngleVec = new Vec3(0, getTrailHeight() / -2F, 0).zRot(zRot);
+            int j = getLightColor(partialTick);
+            while (samples < sampleCount()) {
                 Vec3 sample = getTrailPosition(samples * sampleStep(), partialTick);
                 float u1 = samples / (float) sampleCount();
-                float u2 = (samples + 1) / (float) sampleCount();
+                float u2 = u1 + 1 / (float) sampleCount();
 
-                addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom, bottomAngleVec, u1, 1F, light);
-                addVertex(vertexconsumer, matrix4f,matrix3f, sample, bottomAngleVec, u2, 1F, light);
-                addVertex(vertexconsumer, matrix4f,matrix3f, sample, topAngleVec, u2, 0F, light);
-                addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom, topAngleVec, u1, 0F, light);
+                Vec3 draw1 = drawFrom;
+                Vec3 draw2 = sample;
 
+                PoseStack.Pose posestack$pose = posestack.last();
+                Matrix4f matrix4f = posestack$pose.pose();
+                Matrix3f matrix3f = posestack$pose.normal();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).color(r, g, b, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).color(r, g, b, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).color(r, g, b, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).color(r, g, b, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                samples++;
                 drawFrom = sample;
             }
+            multibuffersource$buffersource.endBatch();
             posestack.popPose();
-            // multibuffersource$buffersource.endBatch();
         }
     }
 
-    private void addVertex(VertexConsumer consumer, Matrix4f matrix,Matrix3f matrix3f, Vec3 pos, Vec3 offset, float u, float v, int light) {
-        consumer.vertex(matrix,
-                        (float) (pos.x + offset.x),
-                        (float) (pos.y + offset.y),
-                        (float) (pos.z + offset.z))
-                .color(r, g, b, trailA)
-                .uv(u, v)
-                .overlayCoords(OverlayTexture.NO_OVERLAY)
-                .uv2(light)
-                .normal(matrix3f,0.0F, 1.0F, 0.0F)
-                .endVertex();
-    }
-
-    protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
-        return multibuffersource$buffersource.getBuffer(CMRenderTypes.LIGHT_TRAIL_EFFECT.apply(getTrailTexture()));
-    }
 
     public float getTrailRot(Camera camera) {
         return -0.017453292F * camera.getXRot();

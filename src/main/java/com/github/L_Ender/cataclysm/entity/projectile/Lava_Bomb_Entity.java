@@ -158,6 +158,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     }
 
 
+
     public int getLavaTime() {
         return this.entityData.get(LAVA_TIME);
     }
