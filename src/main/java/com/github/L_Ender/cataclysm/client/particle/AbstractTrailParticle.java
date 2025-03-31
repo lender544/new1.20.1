@@ -102,7 +102,7 @@ public abstract class AbstractTrailParticle extends Particle {
             }
 
             posestack.popPose();
-          //  multibuffersource$buffersource.endBatch();
+          //  //multibuffersource$buffersource.endBatch();
         }
     }
 

@@ -97,16 +97,16 @@ public class CMConfig {
     public static double MonstrosityHealthMultiplier = 1D;
     public static double MonstrosityDamageMultiplier = 1D;
     public static double MonstrosityHealingMultiplier = 1D;
-    public static double MonstrosityNatureHealing = 10D;
+    public static double MonstrosityNatureHealing = 20D;
     public static boolean NetheritemonstrosityBodyBloking = true;
 
     public static double EnderguardianHealthMultiplier = 1D;
     public static double EnderguardianDamageMultiplier = 1D;
-    public static double EnderguardianNatureHealing = 10D;
+    public static double EnderguardianNatureHealing = 20D;
 
     public static double IgnisHealthMultiplier = 1D;
     public static double IgnisHealingMultiplier = 1D;
-    public static double IgnisNatureHealing = 10D;
+    public static double IgnisNatureHealing = 20D;
     public static double IgnisDamageMultiplier = 1D;
 
     public static double EnderGolemHealthMultiplier = 1D;
@@ -125,7 +125,7 @@ public class CMConfig {
     public static double HarbingerLaserdamage = 5;
 
     public static double LeviathanHealthMultiplier = 1D;
-    public static double LeviathanNatureHealing = 10D;
+    public static double LeviathanNatureHealing = 20D;
     public static double LeviathanDamageMultiplier = 1D;
 
     public static double BabyLeviathanHealthMultiplier = 1D;
@@ -137,7 +137,7 @@ public class CMConfig {
 
     public static double AncientRemnantHealthMultiplier = 1D;
     public static double AncientRemnantDamageMultiplier = 1D;
-    public static double AncientRemnantNatureHealing = 10D;
+    public static double AncientRemnantNatureHealing = 20D;
     public static double AncientRemnantEarthQuakeDamage = 8D;
 
     public static double ModernRemnantHealthMultiplier = 1D;
@@ -158,7 +158,7 @@ public class CMConfig {
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
-    public static double MaledictusNatureHealing = 10D;
+    public static double MaledictusNatureHealing = 20D;
     public static double MaledictusPhantomHalberddamage = 10;
 
     public static double MonstrosityLongRangelimit = 18D;

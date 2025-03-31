@@ -8,31 +8,34 @@ import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Amethyst_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider.Context;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
+import net.neoforged.neoforge.items.IItemHandler;
 
-public class RendererAltar_of_Amethyst<T extends AltarOfAmethyst_Block_Entity> implements BlockEntityRenderer<T> {
+import java.util.Random;
+
+public class RendererAltar_of_Amethyst implements BlockEntityRenderer<AltarOfAmethyst_Block_Entity> {
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/altar_of_amethyst.png");
     public static final ResourceLocation BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/entity/beacon_beam.png");
     private static final Altar_of_Amethyst_Model MODEL = new Altar_of_Amethyst_Model();
-
+    private final ItemRenderer itemRenderer;
+    private final Random random = new Random();
     public RendererAltar_of_Amethyst(Context rendererDispatcherIn) {
+        this.itemRenderer = rendererDispatcherIn.getItemRenderer();
     }
 
     public boolean shouldRenderOffScreen(AltarOfAmethyst_Block_Entity p_112138_) {
@@ -47,8 +50,13 @@ public class RendererAltar_of_Amethyst<T extends AltarOfAmethyst_Block_Entity> i
         return Vec3.atCenterOf(p_173531_.getBlockPos()).multiply(1.0D, 0.0D, 1.0D).closerThan(p_173532_.multiply(1.0D, 0.0D, 1.0D), (double)this.getViewDistance());
     }
 
+    public AABB getRenderBoundingBox(AltarOfAmethyst_Block_Entity blockEntity) {
+        BlockPos pos = blockEntity.getBlockPos();
+        return new AABB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)pos.getX() + (double)1.0F, (double)1024.0F, (double)pos.getZ() + (double)1.0F);
+    }
+
     @Override
-    public void render(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
+    public void render(AltarOfAmethyst_Block_Entity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         matrixStackIn.pushPose();
         Direction dir = tileEntityIn.getBlockState().getValue(Altar_Of_Amethyst_Block.FACING);
         if(dir == Direction.NORTH){
@@ -62,40 +70,64 @@ public class RendererAltar_of_Amethyst<T extends AltarOfAmethyst_Block_Entity> i
         }
         matrixStackIn.mulPose(dir.getOpposite().getRotation());
         matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F));
-        matrixStackIn.pushPose();
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn);
-        matrixStackIn.popPose();
+
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);
     }
 
-    public void renderItem(T tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {
-        ItemStack stack = tileEntityIn.getItem(0);
-        float f2 = (float) tileEntityIn.tickCounts + partialTicks;
-        if (!stack.isEmpty()) {
-            matrixStackIn.pushPose();
-            matrixStackIn.translate(0.5F, 1.15F, 0.5F);
+    public void renderItem(AltarOfAmethyst_Block_Entity tileEntityIn, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int combinedLightIn) {
 
-            matrixStackIn.mulPose(Axis.YP.rotationDegrees(f2));
-            BakedModel ibakedmodel = Minecraft.getInstance().getItemRenderer().getModel(stack, tileEntityIn.getLevel(), (LivingEntity) null, 0);
-            boolean flag = ibakedmodel.isGui3d();
-            if (!flag) {
-                matrixStackIn.translate(0.0F, 0.0F, 0.0F);
+
+
+        IItemHandler inventory = tileEntityIn.getInventory();
+        int posLong = (int) tileEntityIn.getBlockPos().asLong();
+        ItemStack stack = inventory.getStackInSlot(0);
+        int seed = stack.isEmpty() ? 187 : Item.getId(stack.getItem()) + stack.getDamageValue();
+        this.random.setSeed(seed);
+        if (stack != ItemStack.EMPTY) {
+            int itemRenderCount = this.getCount(stack);
+            for (int i = 0; i < itemRenderCount; i++) {
+                matrixStackIn.pushPose();
+
+
+                float xOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                float zOffset = (this.random.nextFloat() * 2.0F - 1.0F) * 0.15F * 0.5F;
+                matrixStackIn.translate(0.5D + xOffset, 1.15F + 0.03 * (i + 1), 0.5D + zOffset);
+                matrixStackIn.scale(0.5F, 0.5F, 0.5F);
+                if (tileEntityIn.getLevel() != null) {
+                    long time = tileEntityIn.getLevel().getGameTime();
+                    matrixStackIn.mulPose(Axis.YP.rotationDegrees(time));
+                    this.itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, combinedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn, tileEntityIn.getLevel(), posLong);
+                }
+                matrixStackIn.popPose();
+
             }
+            if (tileEntityIn.getLevel() != null) {
+                long time = tileEntityIn.getLevel().getGameTime();
+                int j2 = 0;
 
-            Minecraft.getInstance().getItemRenderer().render(stack, ItemDisplayContext.GROUND, false, matrixStackIn, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
-            matrixStackIn.popPose();
-
-            if(tileEntityIn.brightThisTick && tileEntityIn.getLevel() != null){
-                long i = tileEntityIn.getLevel().getGameTime();
-                int j = 0;
-
-                for(int k = 0; k < 6; ++k) {
-                    renderBeaconBeam(matrixStackIn, bufferIn, partialTicks, i, j, 10);
+                for (int k = 0; k < 6; ++k) {
+                    renderBeaconBeam(matrixStackIn, bufferIn, partialTicks, time, j2, 10);
                 }
             }
 
         }
+        
+
+    }
+
+    protected int getCount(ItemStack stack) {
+        if (stack.getCount() > 48) {
+            return 5;
+        } else if (stack.getCount() > 32) {
+            return 4;
+        } else if (stack.getCount() > 16) {
+            return 3;
+        } else if (stack.getCount() > 1) {
+            return 2;
+        }
+        return 1;
     }
 
 

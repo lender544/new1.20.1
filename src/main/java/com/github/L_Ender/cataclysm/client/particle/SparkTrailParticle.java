@@ -68,7 +68,7 @@ public class SparkTrailParticle extends Particle {
         lightningRender.update(this, bolt, partialTick);
         lightningRender.render(partialTick, posestack, multibuffersource$buffersource);
 
-        multibuffersource$buffersource.endBatch();
+        //multibuffersource$buffersource.endBatch();
         posestack.popPose();
     }
 

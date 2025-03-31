@@ -85,7 +85,7 @@ public class EM_PulseParticle extends Particle {
         portalStatic.addVertex((float) avector3f[2].x(), (float)avector3f[2].y(), (float)avector3f[2].z()).setColor(this.rCol, this.gCol, this.bCol, alphaLerp).setUv(f7, f5).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
         portalStatic.addVertex((float) avector3f[3].x(), (float)avector3f[3].y(), (float)avector3f[3].z()).setColor(this.rCol, this.gCol, this.bCol, alphaLerp).setUv(f7, f6).setOverlay(OverlayTexture.NO_OVERLAY).setLight(j).setNormal(posestack$pose, 0.0F, -1.0F, 0.0F);
 
-        multibuffersource$buffersource.endBatch();
+        //multibuffersource$buffersource.endBatch();
     }
     @Override
     public ParticleRenderType getRenderType() {

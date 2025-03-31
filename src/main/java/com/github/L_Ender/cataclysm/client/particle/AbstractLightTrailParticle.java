@@ -104,7 +104,7 @@ public abstract class AbstractLightTrailParticle extends Particle {
                 samples++;
                 drawFrom = sample;
             }
-            multibuffersource$buffersource.endBatch();
+            //multibuffersource$buffersource.endBatch();
             posestack.popPose();
         }
     }
