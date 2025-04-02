@@ -1959,7 +1959,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             super.tick();
             if (this.entity.attackTicks == attackshot) {
                 if (target != null) {
-                    double arrowcount = 4;
+                    int arrowcount = 4;
                     double offsetangle = Math.toRadians(6);
 
                     //update target pos
@@ -1968,7 +1968,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                     double d3 = target.getZ() - this.entity.getZ();
 
                     for (int i = 0; i <= (arrowcount - 1); ++i) {
-                        double angle = (i - ((arrowcount - 1) / 2)) * offsetangle;
+                        double angle = (i - ((arrowcount - 1) / 2.0)) * offsetangle;
                         double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
                         double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
                         double distance = Math.sqrt(x * x + z * z);

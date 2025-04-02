@@ -259,7 +259,7 @@ public class Lightning_Storm_Entity extends Entity {
                 if (livingentity.isAlliedTo(Hitentity)) {
                     return;
                 }
-                Hitentity.hurt(CMDamageTypes.causeLightningDamage(this, livingentity), this.getDamage() + Hitentity.getMaxHealth() * this.getHpDamage() * 0.01F);
+                Hitentity.hurt(CMDamageTypes.causeLightningDamage(this, livingentity), this.getDamage() + Hitentity.getMaxHealth() * this.getHpDamage());
             }
         }
     }

@@ -171,6 +171,8 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
        // renderStromBringer(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 
         renderChain(entityIn, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+
+        this.shadowRadius = entityIn.getAct() ? 0.75F : 0F ;
     }
 
     private void renderetc(Scylla_Entity p_entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {

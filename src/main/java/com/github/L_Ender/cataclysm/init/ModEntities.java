@@ -298,6 +298,9 @@ public class ModEntities {
             .updateInterval(20)
             .build(Cataclysm.MODID + ":cm_falling_block"));
 
+
+
+
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Fireball_Entity>> IGNIS_FIREBALL = ENTITY_TYPE.register("ignis_fireball", () -> EntityType.Builder.<Ignis_Fireball_Entity>of(Ignis_Fireball_Entity::new, MobCategory.MISC)
             .sized(0.6F, 0.6F)
             .setUpdateInterval(1)
@@ -403,6 +406,12 @@ public class ModEntities {
             .setShouldReceiveVelocityUpdates(true)
             .setUpdateInterval(1)
             .build(Cataclysm.MODID + ":wither_howitzer"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Accretion_Entity>> ACCRETION = ENTITY_TYPE.register("accretion", () -> EntityType.Builder.<Accretion_Entity>of(Accretion_Entity::new, MobCategory.MISC)
+            .sized(0.98F, 0.98f)
+            .updateInterval(20)
+            .clientTrackingRange(4)
+            .build(Cataclysm.MODID + ":accretion"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Abyss_Orb_Entity>> ABYSS_ORB = ENTITY_TYPE.register("abyss_orb", () -> EntityType.Builder.<Abyss_Orb_Entity>of(Abyss_Orb_Entity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f)

@@ -9,12 +9,12 @@ import java.util.EnumSet;
 
 public class InternalAttackGoal extends Goal {
     protected final Internal_Animation_Monster entity;
-    private final int getattackstate;
-    private final int attackstate;
-    private final int attackendstate;
-    private final int attackMaxtick;
-    private final int attackseetick;
-    private final float attackrange;
+    protected final int getattackstate;
+    protected final int attackstate;
+    protected final int attackendstate;
+    protected final int attackMaxtick;
+    protected final int attackseetick;
+    protected final float attackrange;
 
     public InternalAttackGoal(Internal_Animation_Monster entity, int getattackstate, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,float attackrange) {
         this.entity = entity;

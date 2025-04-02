@@ -68,10 +68,12 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	private final ModelPart l_leg;
 	private final ModelPart l_leg_armor;
 	private final ModelPart l_leg2;
+	private final ModelPart anchor2;
 
 	public Scylla_Model(ModelPart root) {
 		this.root = root;
 		this.everything = this.root.getChild("everything");
+		this.anchor2 = this.root.getChild("anchor2");
 		this.scylla = this.everything.getChild("scylla");
 		this.r_leg = this.scylla.getChild("r_leg");
 		this.r_leg_armor = this.r_leg.getChild("r_leg_armor");
@@ -356,6 +358,42 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition cube_r56 = l_leg2.addOrReplaceChild("cube_r56", CubeListBuilder.create().texOffs(78, 62).addBox(-1.5F, -1.5F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.5F, 0.0F, 0.0F, -0.7854F));
 
+		PartDefinition anchor2 = partdefinition.addOrReplaceChild("anchor2", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+
+		PartDefinition cube_r57 = anchor2.addOrReplaceChild("cube_r57", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
+
+		PartDefinition cube_r58 = anchor2.addOrReplaceChild("cube_r58", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 10.0F, -2.3562F, 0.0F, 0.0F));
+
+		PartDefinition cube_r59 = anchor2.addOrReplaceChild("cube_r59", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -26.3F, -2.3562F, 0.0F, 0.0F));
+
+		PartDefinition cube_r60 = anchor2.addOrReplaceChild("cube_r60", CubeListBuilder.create().texOffs(78, 52).addBox(-3.0F, 1.0F, -3.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+
+		PartDefinition cube_r61 = anchor2.addOrReplaceChild("cube_r61", CubeListBuilder.create().texOffs(107, 121).addBox(-1.0F, -3.0F, -3.0F, 2.0F, 6.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+
+		PartDefinition cube_r62 = anchor2.addOrReplaceChild("cube_r62", CubeListBuilder.create().texOffs(0, 53).addBox(0.0F, -7.0F, -3.0F, 0.0F, 18.0F, 11.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -30.0F, 3.1416F, 0.0F, 0.0F));
+
+		PartDefinition cube_r63 = anchor2.addOrReplaceChild("cube_r63", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -15.6944F, -21.2732F, 2.3998F, 0.0F, 0.0F));
+
+		PartDefinition cube_r64 = anchor2.addOrReplaceChild("cube_r64", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -2.0F, -26.0F, 3.0107F, 0.0F, 0.0F));
+
+		PartDefinition cube_r65 = anchor2.addOrReplaceChild("cube_r65", CubeListBuilder.create().texOffs(73, 104).addBox(-1.0F, -6.0F, -3.0F, 2.0F, 12.0F, 6.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, 15.6944F, -21.2732F, 2.3998F, 0.0F, 3.1416F));
+
+		PartDefinition cube_r66 = anchor2.addOrReplaceChild("cube_r66", CubeListBuilder.create().texOffs(77, 85).addBox(-2.0F, -1.0F, -3.0F, 4.0F, 12.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0F, -26.0F, 3.0107F, 0.0F, 3.1416F));
+
+		PartDefinition cube_r67 = anchor2.addOrReplaceChild("cube_r67", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -3.0963F, -22.4693F, 2.7925F, 0.0F, -3.1416F));
+
+		PartDefinition cube_r68 = anchor2.addOrReplaceChild("cube_r68", CubeListBuilder.create().texOffs(125, 91).addBox(-1.0F, -5.0F, -2.0F, 2.0F, 10.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 3.0963F, -22.4693F, 2.7925F, 0.0F, 0.0F));
+
+		PartDefinition cube_r69 = anchor2.addOrReplaceChild("cube_r69", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(25, 85).addBox(0.0F, -5.0F, -13.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -19.5093F, -14.7353F, 3.0107F, 0.0F, 0.0F));
+
+		PartDefinition cube_r70 = anchor2.addOrReplaceChild("cube_r70", CubeListBuilder.create().texOffs(0, 131).addBox(-1.0F, -1.0F, -11.0F, 2.0F, 2.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, -3.0107F, 0.0F, 0.0F));
+
+		PartDefinition cube_r71 = anchor2.addOrReplaceChild("cube_r71", CubeListBuilder.create().texOffs(25, 85).addBox(0.0F, -5.0F, -5.0F, 0.0F, 10.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 18.4651F, -6.8037F, 3.0107F, 0.0F, 3.1416F));
+
+		PartDefinition cube_r72 = anchor2.addOrReplaceChild("cube_r72", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, 3.0107F, 0.0F, 3.1416F));
+
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
 
@@ -370,6 +408,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();
 		this.chain_main.visible = entity.getChainAnchor();
+		this.anchor2.visible = entity.isSleep();
 
 		this.animate(entity.getAnimationState("idle"), Scylla_Normal_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("cross_swing"), Scylla_Normal_Animation.CROSS_SWING, ageInTicks, 1.0F);
@@ -395,11 +434,17 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.animate(entity.getAnimationState("anchor_explosion"), Scylla_Lightning_Animation.ANCHOR_EXPLOSION, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("parry"), Scylla_Projectile_Animation.PARRY, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("electric_whip"), Scylla_Lightning_Animation.ELECTRIC_WHIP, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("whip_and_spear"), Scylla_Projectile_Animation.WHIP_AND_SPEAR, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("death"), Scylla_Lightning_Animation.DEATH, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("enchant_1"), Scylla_Lightning_Animation.WEAPON_ENCHANT, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("enchant_2"), Scylla_Lightning_Animation.WEAPON_ENCHANT2, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("spawn"), Scylla_Lightning_Animation.SPAWN, ageInTicks, 1.0F);
+
+		this.animate(entity.getAnimationState("spawn_idle"), Scylla_Lightning_Animation.SPAWN_IDLE, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {

@@ -79,6 +79,8 @@ public class ModTag {
 
     public static final TagKey<Block> MALEDICTUS_IMMUNE = registerBlockTag("maledictus_immune");
 
+    public static final TagKey<Block> SCYLLA_IMMUNE = registerBlockTag("scylla_immune");
+
     public static final TagKey<Block> FROSTED_PRISON_CHANDELIER = registerBlockTag("frosted_prison_chandelier");
 
     public static final TagKey<Block> CORALSSUS_BREAK = registerBlockTag("coralssus_break");

@@ -42,7 +42,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class Spark_Entity extends ThrowableProjectile {
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> AREA_RADIUS = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
-
+    private static final EntityDataAccessor<Float> HP_DAMAGE = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
     public Spark_Entity(EntityType<? extends Spark_Entity> type, Level world) {
         super(type, world);
     }
@@ -55,17 +55,24 @@ public class Spark_Entity extends ThrowableProjectile {
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+        tag.putFloat("Damage", getDamage());
+        tag.putFloat("HpDamage", getHpDamage());
+        tag.putFloat("Area_Radius", getAreaRadius());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+        setDamage(tag.getFloat("Damage"));
+        setHpDamage(tag.getFloat("HpDamage"));
+        setAreaRadius(tag.getFloat("Area_Radius"));
     }
 
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(DAMAGE,0f);
         p_326229_.define(AREA_RADIUS,0f);
+        p_326229_.define(HP_DAMAGE,0f);
     }
 
 
@@ -75,6 +82,14 @@ public class Spark_Entity extends ThrowableProjectile {
 
     public void setDamage(float damage) {
         entityData.set(DAMAGE, damage);
+    }
+
+    public float getHpDamage() {
+        return entityData.get(HP_DAMAGE);
+    }
+
+    public void setHpDamage(float damage) {
+        entityData.set(HP_DAMAGE, damage);
     }
 
     public float getAreaRadius() {
@@ -116,7 +131,7 @@ public class Spark_Entity extends ThrowableProjectile {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() * 2 / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -9, this.getDamage(), 5f, entity1, 99, 194, 201,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -9, this.getDamage(), this.getHpDamage(), entity1, 99, 194, 201,2.0F));
             this.discard();
         }
 

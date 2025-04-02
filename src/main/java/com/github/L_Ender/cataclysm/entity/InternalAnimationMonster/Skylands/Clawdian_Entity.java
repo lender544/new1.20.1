@@ -8,6 +8,9 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalA
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Storm_Bringer_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -15,9 +18,12 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Axe_Blade_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -25,8 +31,11 @@ import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
@@ -47,16 +56,22 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 
 
 public class Clawdian_Entity extends Internal_Animation_Monster {
@@ -70,11 +85,19 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
     public AnimationState chargeEndAnimationState = new AnimationState();
     public AnimationState waveStompAnimationState = new AnimationState();
     public AnimationState ClawPunchAnimationState = new AnimationState();
+    public AnimationState GrabAndThrowAnimationState = new AnimationState();
+    public AnimationState BackstepAnimationState = new AnimationState();
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(-0.1F, 0.45F, 1.4F, 1.4F, 1);
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 200;
     private int wave_cooldown = 0;
     public static final int WAVE_COOLDOWN = 250;
+    private int accretion_cooldown = 0;
+    public static final int ACCRETION_COOLDOWN = 120;
+    private int backstep_cooldown = 0;
+    public static final int BACKSTEP_COOLDOWN = 200;
+    private static final EntityDataAccessor<Optional<BlockState>> HOLD_STATE = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.OPTIONAL_BLOCK_STATE);
+    private static final EntityDataAccessor<Integer> BACKSTEP_METER = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.INT);
 
 
     public Clawdian_Entity(EntityType entity, Level world) {
@@ -96,7 +119,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
-        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,8,0,47,19,3.0f){
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,8,0,47,19,3.3f){
             @Override
             public boolean canUse() {
                 return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 35;
@@ -176,8 +199,42 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             }
 
         });
+        this.goalSelector.addGoal(2, new Clawdian_Accretion(this,0,9,0,70,30,8.5f,16));
 
 
+
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,10,0,40,40,6f){
+            @Override
+            public boolean canUse() {
+                return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 7 * Clawdian_Entity.this.getBackstep() && Clawdian_Entity.this.backstep_cooldown <= 0;
+            }
+
+            @Override
+            public void tick() {
+
+                LivingEntity target = entity.getTarget();
+                if (entity.attackTicks < attackseetick && target != null) {
+                    entity.getLookControl().setLookAt(target, 2.0F, 30.0F);
+                    entity.lookAt(target, 2.0F, 30.0F);
+                } else {
+                    entity.setYRot(entity.yRotO);
+                }
+                if(this.entity.onGround() && entity.attackTicks < 28){
+                    Vec3 vector3d = entity.getDeltaMovement();
+                    float f = entity.getYRot() * ((float)Math.PI / 180F);
+                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(-0.5D).add(vector3d.scale(0.4D));
+                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                }
+            }
+
+            @Override
+            public void stop() {
+                super.stop();
+                Clawdian_Entity.this.backstep_cooldown = BACKSTEP_COOLDOWN;
+                Clawdian_Entity.this.setBackstep(0);
+            }
+
+        });
 
     }
 
@@ -188,7 +245,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 .add(Attributes.FOLLOW_RANGE, 30.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.28F)
                 .add(Attributes.ATTACK_DAMAGE, 16)
-                .add(Attributes.MAX_HEALTH, 200)
+                .add(Attributes.MAX_HEALTH, 225)
                 .add(Attributes.ARMOR, 12)
                 .add(Attributes.ARMOR_TOUGHNESS, 3)
                 .add(Attributes.STEP_HEIGHT, 2.5F)
@@ -197,7 +254,17 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
 
 
 
+    protected void blockedByShield(LivingEntity entity) {
+        if (this.getAttackState() == 8) {
+            double d0 = entity.getX() - this.getX();
+            double d1 = entity.getZ() - this.getZ();
+            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001);
+            entity.push(d0 / d2 * (double)9.0F, 0.2, d1 / d2 * (double)9.0F);
 
+            entity.hurtMarked = true;
+        }
+
+    }
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
@@ -206,7 +273,14 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             this.playSound(ModSounds.PARRY.get(),0.8F,1.4F);
             return false;
         }
-        return super.hurt(source, damage);
+        boolean flag = super.hurt(source, damage);
+        if(flag) {
+            if (this.getBackstep() < 10) {
+                this.setBackstep(this.getBackstep() + 1);
+            }
+        }
+
+        return flag;
     }
 
 
@@ -231,6 +305,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
     }
 
 
+
     public AnimationState getAnimationState(String input) {
         if (input == "idle") {
             return this.idleAnimationState;
@@ -250,6 +325,10 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             return this.waveStompAnimationState;
         }else if (input == "claw_punch") {
             return this.ClawPunchAnimationState;
+        }else if (input == "grab_and_throw") {
+            return this.GrabAndThrowAnimationState;
+        }else if (input == "backstep") {
+            return this.BackstepAnimationState;
         } else {
             return new AnimationState();
         }
@@ -258,8 +337,26 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         super.defineSynchedData(p_326229_);
+        p_326229_.define(HOLD_STATE, Optional.empty());
+        p_326229_.define(BACKSTEP_METER, 0);
     }
 
+    public void setHoldBlock(@Nullable BlockState state) {
+        this.entityData.set(HOLD_STATE, Optional.ofNullable(state));
+    }
+
+    @Nullable
+    public BlockState getHoldBlock() {
+        return (BlockState)((Optional)this.entityData.get(HOLD_STATE)).orElse((Object)null);
+    }
+
+    public int getBackstep() {
+        return this.entityData.get(BACKSTEP_METER);
+    }
+
+    public void setBackstep(int hurt) {
+        this.entityData.set(BACKSTEP_METER, hurt);
+    }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
@@ -297,6 +394,14 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                     this.stopAllAnimationStates();
                     this.ClawPunchAnimationState.startIfStopped(this.tickCount);
                 }
+                case 9 -> {
+                    this.stopAllAnimationStates();
+                    this.GrabAndThrowAnimationState.startIfStopped(this.tickCount);
+                }
+                case 10 -> {
+                    this.stopAllAnimationStates();
+                    this.BackstepAnimationState.startIfStopped(this.tickCount);
+                }
             }
         }
         super.onSyncedDataUpdated(p_21104_);
@@ -311,6 +416,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         this.chargeEndAnimationState.stop();
         this.waveStompAnimationState.stop();
         this.ClawPunchAnimationState.stop();
+        this.GrabAndThrowAnimationState.stop();
+        this.BackstepAnimationState.stop();
     }
 
 
@@ -325,19 +432,37 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        BlockState blockstate = this.getHoldBlock();
+        if (blockstate != null) {
+            compound.put("holdBlockState", NbtUtils.writeBlockState(blockstate));
+        }
+        compound.putInt("backstep", getBackstep());
     }
+
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        BlockState blockstate = null;
+        if (compound.contains("holdBlockState", 10)) {
+            blockstate = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), compound.getCompound("holdBlockState"));
+            if (blockstate.isAir()) {
+                blockstate = null;
+            }
+        }
+
+        this.setHoldBlock(blockstate);
+        setBackstep(compound.getInt("backstep"));
     }
 
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(this.getAttackState() != 7 , this.tickCount);
+            this.idleAnimationState.animateWhen(true, this.tickCount);
         }
         if (charge_cooldown > 0) charge_cooldown--;
         if (wave_cooldown > 0) wave_cooldown--;
+        if (accretion_cooldown > 0) accretion_cooldown--;
+        if (backstep_cooldown > 0) backstep_cooldown--;
         this.legSolver.update(this, this.yBodyRot, this.getScale());
         float dis = this.getBbWidth() * 0.75F;
         if(this.getAttackState() != 5) {
@@ -354,8 +479,17 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 this.playSound(ModSounds.EXPLOSION.get(), 2.0f, 0.95F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(8.5f,8.5f,50,1,140,false,2.25);
-                Makeparticle(0.75f, 7.3f, 0.35f);
+                Makeparticle(2f, 7.3f, 0.35f);
             }
+
+            if (this.attackTicks == 22) {
+                BlockSmashDamage(2.0F, 1, 2.5F, 7.3f, 160, 1.0F, 0.15f);
+
+            }
+            if (this.attackTicks == 25) {
+                BlockSmashDamage(2.0F, 2, 2.5F, 7.3f, 160, 1.0F, 0.15f);
+            }
+
         }
 
         if(this.getAttackState() == 2) {
@@ -368,7 +502,13 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 this.playSound(ModSounds.EXPLOSION.get(), 2.0f, 0.95F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(8.5f,8.5f,50,1.15F,160,false,2.25);
-                Makeparticle(0.75f, 7.3f, 0.35f);
+                Makeparticle(2f, 7.3f, 0.35f);
+            }
+            if (this.attackTicks == 50) {
+                BlockSmashDamage(2.0F, 1, 2.5F, 7.3f, 160, 1.0F, 0.15f);
+            }
+            if (this.attackTicks == 53) {
+                BlockSmashDamage(2.0F, 2, 2.5F, 7.3f, 160, 1.0F, 0.15f);
             }
         }
         if(this.getAttackState() == 5) {
@@ -399,11 +539,12 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             }
 
         }
+
         if(this.getAttackState() == 7) {
             if (this.attackTicks == 27) {
                 AreaAttack(3.5f, 3.5f, 120, 1.35F, 200, false,2.25);
-                Makeparticle(1.5f, 0.9f, 0.0f);
-                ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.25f, 0, 20);
+                Makeparticle(2f, 0.9f, 0.0f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.25f, 0, 20);
                 this.playSound(ModSounds.EXPLOSION.get(), 2.0f, 0.95F + this.getRandom().nextFloat() * 0.1F);
                 if (!this.level().isClientSide()) {
                     double theta = (yBodyRot) * (Math.PI / 180);
@@ -411,21 +552,59 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                     theta += Math.PI / 2;
                     double vecX = Math.cos(theta);
                     double vecZ = Math.sin(theta);
-                    int numberOfSkulls = 7;
-                    float angleStep = 20.0f;
+                    int numberOfSkulls = 6;
+                    float angleStep = 35.0f;
 
+                    double firstAngleOffset = (numberOfSkulls - 1) / 2.0 * angleStep;
                     for (int i = 0; i < numberOfSkulls; i++) {
-                        float angle = yBodyRot + (i - (numberOfSkulls / 2)) * angleStep;
-                        float rad = (float) Math.toRadians(angle);
+                        double angle = yBodyRot - firstAngleOffset + (i * angleStep);
+                        double rad = Math.toRadians(angle);
                         double dx = -Math.sin(rad);
                         double dz = Math.cos(rad);
                         double spawnX = this.getX() + vecX * 2;
                         double spawnY = this.getY();
                         double spawnZ = this.getZ() + vecZ * 2;
-                        Wave_Entity WaveEntity = new Wave_Entity(this.level(), this,80,9);
+                        Wave_Entity WaveEntity = new Wave_Entity(this.level(), this, 80, 9);
                         WaveEntity.setPos(spawnX, spawnY, spawnZ);
                         WaveEntity.setState(1);
-                        WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (double) (180F / (float) Math.PI)));
+                        WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
+                        this.level().addFreshEntity(WaveEntity);
+                    }
+                }
+
+            }
+            for (int l = 26; l <= 28; l = l + 2) {
+                if (this.attackTicks == l) {
+                    int d = l - 24;
+                    int d2 = l - 25;
+                    BlockSmashDamage(0.6F, d, 2.5F, 2F, 160, 1.0F, 0.15f);
+                    BlockSmashDamage(0.6F, d2, 2.5F, 2F, 160, 1.0F, 0.15f);
+                }
+            }
+
+            if (this.attackTicks == 31) {
+                if (!this.level().isClientSide()) {
+                    double theta = (yBodyRot) * (Math.PI / 180);
+
+                    theta += Math.PI / 2;
+                    double vecX = Math.cos(theta);
+                    double vecZ = Math.sin(theta);
+                    int numberOfSkulls = 5;
+                    float angleStep = 35.0f;
+
+                    double firstAngleOffset = (numberOfSkulls - 1) / 2.0 * angleStep;
+                    for (int i = 0; i < numberOfSkulls; i++) {
+                        double angle = yBodyRot - firstAngleOffset + (i * angleStep);
+                        double rad = Math.toRadians(angle);
+                        double dx = -Math.sin(rad);
+                        double dz = Math.cos(rad);
+                        double spawnX = this.getX() + vecX * 2;
+                        double spawnY = this.getY();
+                        double spawnZ = this.getZ() + vecZ * 2;
+                        Wave_Entity WaveEntity = new Wave_Entity(this.level(), this, 80, 9);
+                        WaveEntity.setPos(spawnX, spawnY, spawnZ);
+                        WaveEntity.setState(1);
+                        WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
                         this.level().addFreshEntity(WaveEntity);
                     }
                 }
@@ -437,6 +616,14 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             }
             if (this.attackTicks == 21) {
                 AreaAttack(4.5f, 4.5f, 140, 1.0F, 200, true,2.25);
+            }
+        }
+
+        if(this.getAttackState() == 9) {
+            if (this.attackTicks == 16) {
+                this.playSound(SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
+                Makeparticle(0.6f, 2.5F, -0.5f);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.25f, 0, 20);
             }
         }
     }
@@ -463,7 +650,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = this.level().getBlockState(hit.below());
                 if (block.getRenderShape() != RenderShape.INVISIBLE) {
-                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                    this.level().addParticle(new BlockParticleOption(ParticleTypes.DUST_PILLAR, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
             }
             this.level().addParticle(new RingParticleOptions(0f, (float)Math.PI/2f, 30, 255, 255,  255, 1.0f, 20f, false, 2), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
@@ -471,6 +658,59 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         }
     }
 
+    private void BlockSmashDamage(float spreadarc, int distance, float mxy, float vec, int shieldbreakticks, float damage, float airborne) {
+        double perpFacing = this.yBodyRot * (Math.PI / 180);
+        double facingAngle = perpFacing + Math.PI / 2;
+        int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
+        double spread = Math.PI * spreadarc;
+        int arcLen = Mth.ceil(distance * spread);
+        double minY = this.getY() - 1;
+        double maxY = this.getY() + mxy;
+        for (int i = 0; i < arcLen; i++) {
+            double theta = (i / (arcLen - 1.0) - 0.5) * spread + facingAngle;
+            double vx = Math.cos(theta);
+            double vz = Math.sin(theta);
+            double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180);
+            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180);
+            int hitX = Mth.floor(px);
+            int hitZ = Mth.floor(pz);
+            BlockPos pos = new BlockPos(hitX, hitY, hitZ);
+            BlockState block = level().getBlockState(pos);
+
+            int maxDepth = 256;
+            for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
+                if (block.getRenderShape() == RenderShape.MODEL) {
+                    break;
+                }
+                pos = pos.below();
+                block = level().getBlockState(pos);
+            }
+
+            if (block.getRenderShape() != RenderShape.MODEL) {
+                block = Blocks.AIR.defaultBlockState();
+            }
+            Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
+            fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
+            level().addFreshEntity(fallingBlockEntity);
+
+            AABB selection = new AABB(px - 0.5, minY, pz - 0.5, px + 0.5, maxY, pz + 0.5);
+            List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
+            for (LivingEntity entity : hit) {
+                if (!isAlliedTo(entity) && !(entity instanceof Clawdian_Entity) && entity != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
+                    }
+
+                    if (flag) {
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, airborne + level().random.nextDouble() * 0.15, 0.0D));
+                    }
+
+                }
+            }
+        }
+    }
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback,double xz) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
@@ -561,6 +801,140 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         return false;
     }
 
+
+    static class Clawdian_Accretion extends InternalAttackGoal {
+        private final Clawdian_Entity entity;
+        private final float random;
+        private final int getattackstate;
+        private final int attackseetick;
+        private final float attackrange;
+
+        public Clawdian_Accretion(Clawdian_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+            super(entity, getAttackState, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
+            this.entity = entity;
+            this.random = random;
+            this.getattackstate = getAttackState;
+            this.attackseetick = attackseetick;
+            this.attackrange = attackrange;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && target.isAlive() && entity.accretion_cooldown <= 0 && this.entity.distanceTo(target) > attackrange && this.entity.getAttackState() == getattackstate  && this.entity.getRandom().nextFloat() * 100.0F < random;
+
+       // return true;
+        }
+
+        @Override
+        public void start() {
+            super.start();
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            entity.accretion_cooldown = ACCRETION_COOLDOWN;
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            if (entity.attackTicks > attackseetick && target != null) {
+                entity.getLookControl().setLookAt(target, 30.0F, 90.0F);
+                entity.lookAt(target, 30.0F, 90.0F);
+            } else {
+                entity.setYRot(entity.yRotO);
+            }
+            double theta = (entity.yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+            if (this.entity.attackTicks == 29) {
+
+                double vec = 2.0;
+                int hitX = Mth.floor(entity.getX() + vec * vecX);
+                int hitY = Mth.floor(entity.getY());
+                int hitZ = Mth.floor(entity.getZ() + vec * vecZ);
+                BlockPos hit = new BlockPos(hitX, hitY, hitZ);
+                BlockState block = entity.level().getBlockState(hit.below());
+                if (block.getRenderShape() == RenderShape.MODEL) {
+                    entity.setHoldBlock(block.getBlock().defaultBlockState());
+                }else{
+                    entity.setHoldBlock(Blocks.STONE.defaultBlockState());
+                }
+            }
+
+            if (this.entity.attackTicks == 45) {
+
+
+                int count = 4;
+
+                if (target != null) {
+                    //update target pos
+                    double d1 = target.getX() - this.entity.getX();
+
+                    double d3 = target.getZ() - this.entity.getZ();
+                    double offsetangle = Math.toRadians(4 +entity.random.nextInt(5));
+                    for (int i = 0; i <= (count - 1); ++i) {
+
+                        double vec = 2.5;
+                        Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
+                        double angle = (i - ((count - 1) / 2.0)) * offsetangle;
+                        double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
+                        double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
+                        double distance = Math.sqrt(x * x + z * z);
+                        double d2 = target.getY(0.2D) - acc.getY() + (entity.random.nextFloat() -0.5) * i;
+                        double PosX = entity.getX() + vecX * vec;
+                        double PosY = entity.getY() + entity.getBbHeight() * 0.8D;
+                        double PosZ = entity.getZ() + vecZ * vec;
+                        acc.setPosRaw(PosX, PosY, PosZ);
+                        acc.shoot(x, d2 + distance * (double) 0.2F, z, 1.4F, 4);
+                        acc.setDamage(15);
+                        acc.setBlockState(entity.getHoldBlock());
+                        acc.level().addFreshEntity(acc);
+
+                    }
+
+
+                }else {
+                    double tempvec = 12;
+
+                    double d1 = entity.getX() + vecX * tempvec - this.entity.getX();
+                    double d3 = entity.getZ() + vecZ * tempvec - this.entity.getZ();
+                    double offsetangle = Math.toRadians(4 +entity.random.nextInt(5));
+                    for (int i = 0; i <= (count - 1); ++i) {
+
+                        double vec = 2.5;
+                        Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
+                        double angle = (i - ((count - 1) / 2.0)) * offsetangle;
+                        double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
+                        double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
+                        double distance = Math.sqrt(x * x + z * z);
+                        double d2 = entity.getY(0.2D) - acc.getY() + (entity.random.nextFloat() -0.5) * i;
+                        double PosX = entity.getX() + vecX * vec;
+                        double PosY = entity.getY() + entity.getBbHeight() * 0.8D;
+                        double PosZ = entity.getZ() + vecZ * vec;
+                        acc.setPosRaw(PosX, PosY, PosZ);
+                        acc.shoot(x, d2 + distance * (double) 0.2F, z, 1.4F, 4);
+                        acc.setDamage(15);
+                        acc.setBlockState(entity.getHoldBlock());
+                        acc.level().addFreshEntity(acc);
+
+                    }
+                }
+            }
+            if (this.entity.attackTicks == 46) {
+                entity.setHoldBlock((BlockState)null);
+            }
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+    }
 
 }
 

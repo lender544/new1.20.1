@@ -389,6 +389,15 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
+    public static void preventEffectRemoval(MobEffectEvent.Remove event) {
+        MobEffectInstance effectInstance = event.getEffectInstance();
+
+        if (effectInstance != null && effectInstance.getEffect() == ModEffect.EFFECTGHOST_SICKNESS.get()) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
     public static void onLivingFall(LivingFallEvent event) {
         if (!event.getEntity().getItemBySlot(EquipmentSlot.FEET).isEmpty() && event.getEntity().getItemBySlot(EquipmentSlot.FEET).getItem() == ModItems.CURSIUM_BOOTS.get()) {
             event.setDistance(event.getDistance() * 0.3F);

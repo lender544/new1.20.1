@@ -269,6 +269,7 @@ public class Water_Spear_Entity extends Projectile {
         super.addAdditionalSaveData(compound);
         compound.putDouble("acceleration_power", this.accelerationPower);
         compound.putInt("totalBounces", this.getTotalBounces());
+        compound.putFloat("Damage", this.getDamage());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -277,7 +278,7 @@ public class Water_Spear_Entity extends Projectile {
             this.accelerationPower = compound.getDouble("acceleration_power");
         }
         this.setTotalBounces(compound.getInt("totalBounces"));
-
+        this.setDamage(compound.getFloat("Damage"));
     }
 
 

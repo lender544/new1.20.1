@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.effects;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.common.EffectCure;
 
@@ -26,8 +27,9 @@ public class EffectGhost_Sickness extends MobEffect {
         }
     }
 
-    public Set<EffectCure> getCures() {
-        return null;
+    @Override
+    public void fillEffectCures(Set<EffectCure> cures, MobEffectInstance effectInstance) {
+
     }
 
 }

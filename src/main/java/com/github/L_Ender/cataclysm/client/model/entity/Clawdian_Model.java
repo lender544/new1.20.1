@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.animation.Hippocamtus_Animation;
 
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -32,6 +33,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	private final ModelPart left_front_arm_rotator;
 	private final ModelPart left_front_arm;
 	private final ModelPart left_claw;
+	private final ModelPart block;
 	private final ModelPart right_arm;
 	private final ModelPart right_front_arm_rotator;
 	private final ModelPart right_front_arm;
@@ -61,6 +63,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	private final ModelPart left_b_fore_leg;
 	private final ModelPart left_b_fore_leg_solver;
 
+
 	public Clawdian_Model(ModelPart root) {
 		this.root = root;
 		this.everything = this.root.getChild("everything");
@@ -77,6 +80,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 		this.left_front_arm_rotator = this.left_arm.getChild("left_front_arm_rotator");
 		this.left_front_arm = this.left_front_arm_rotator.getChild("left_front_arm");
 		this.left_claw = this.left_front_arm.getChild("left_claw");
+		this.block = this.left_front_arm.getChild("block");
 		this.right_arm = this.body.getChild("right_arm");
 		this.right_front_arm_rotator = this.right_arm.getChild("right_front_arm_rotator");
 		this.right_front_arm = this.right_front_arm_rotator.getChild("right_front_arm");
@@ -155,6 +159,8 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 
 		PartDefinition left_claw = left_front_arm.addOrReplaceChild("left_claw", CubeListBuilder.create().texOffs(236, 26).addBox(-2.8527F, -2.559F, -4.89F, 6.0F, 17.0F, 6.0F, new CubeDeformation(-0.1F)), PartPose.offsetAndRotation(-2.3F, 15.1F, 4.3F, 0.5236F, 0.0F, 0.0F));
 
+		PartDefinition block = left_front_arm.addOrReplaceChild("block", CubeListBuilder.create(), PartPose.offset(-2.3F, 23.1F, 1.3F));
+
 		PartDefinition right_arm = body.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(87, 228).addBox(-4.7973F, -3.0687F, -3.1026F, 6.0F, 18.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-8.2027F, -13.2342F, 0.6065F, -0.4334F, 0.9184F, 0.2283F));
 
 		PartDefinition right_front_arm_rotator = right_arm.addOrReplaceChild("right_front_arm_rotator", CubeListBuilder.create(), PartPose.offset(-1.95F, 15.3903F, 0.5874F));
@@ -232,7 +238,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
-		if(entity.getAttackState() != 5 && entity.getAttackState() != 2) {
+		if(entity.getAttackState() != 5 && entity.getAttackState() != 2 && entity.getAttackState() != 10) {
 			this.animateWalk(Clawdian_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 1.5F);
 		}
 		this.animate(entity.getAnimationState("idle"), Clawdian_Animation.IDLE, ageInTicks, 1.0F);
@@ -245,9 +251,29 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 		this.animate(entity.getAnimationState("charge_end"), Clawdian_Skill_Animation.CHARGE_END, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("wave_stomp"), Clawdian_Skill_Animation.WAVE_STOMP, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("claw_punch"), Clawdian_Animation.CLAW_PUNCH, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("grab_and_throw"), Clawdian_Animation.GRAB_AND_THROW, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("backstep"), Clawdian_Animation.BACKSTEP, ageInTicks, 1.0F);
 		float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
 
 		articulateLegs(entity.legSolver, partialTick);
+	}
+
+	public void translateToHand(PoseStack matrixStack) {
+		this.root.translateAndRotate(matrixStack);
+		this.everything.translateAndRotate(matrixStack);
+		this.mid_root.translateAndRotate(matrixStack);
+		this.lower_body.translateAndRotate(matrixStack);
+		this.pelvis.translateAndRotate(matrixStack);
+		this.body.translateAndRotate(matrixStack);
+		this.left_arm.translateAndRotate(matrixStack);
+		this.left_front_arm_rotator.translateAndRotate(matrixStack);
+		this.left_front_arm.translateAndRotate(matrixStack);
+		this.block.translateAndRotate(matrixStack);
+
+
+
+
+
 	}
 
 	private void articulateLegs(LegSolverQuadruped legs, float partialTick) {

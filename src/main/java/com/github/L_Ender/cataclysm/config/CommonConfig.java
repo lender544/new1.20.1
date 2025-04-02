@@ -204,6 +204,10 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue MaledictusPhantomArrowdamage;
     public final ModConfigSpec.BooleanValue MaledictusBlockBreaking;
 
+    public final ModConfigSpec.DoubleValue ScyllaHpDamage;
+    public final ModConfigSpec.DoubleValue ScyllaSpinHpDamage;
+    public final ModConfigSpec.DoubleValue ScyllaLightningStormHpDamage;
+
     public final ModConfigSpec.IntValue DeeplingSpawnWeight;
     public final ModConfigSpec.IntValue DeeplingSpawnRolls;
     public final ModConfigSpec.IntValue DeeplingBruteSpawnWeight;
@@ -297,7 +301,7 @@ public class CommonConfig {
         EnderguardianDamageMultiplier = buildDouble(builder, "EnderGuardianDamageMultiplier", "all", 1.0D, 0D, 1000000D, "EnderGuardian's Damage Multiplier");
         EnderguardianDamageCap = buildDouble(builder, "EnderGuardianDamageCap", "all", 22D, 0D, 1000000D, "EnderGuardian's DamageCap");
         EnderguardianDamageTime = buildInt(builder, "EnderGuardianDamageTime", "all", CMConfig.EnderguardianDamageTime, 0, 100, "EnderGuardian's DamageTime");
-        EnderguardianNatureHealing = buildDouble(builder, "EnderGuardianNatureHealing", "all", 10D, 0D, 1000000D, "EnderGuardian's Healing with out target");
+        EnderguardianNatureHealing = buildDouble(builder, "EnderGuardianNatureHealing", "all", CMConfig.EnderguardianNatureHealing, 0D, 1000000D, "EnderGuardian's Healing with out target");
         EnderguardianBlockBreaking = buildBoolean(builder, "EnderguardianBlockBreaking", "all", true, "Ender guardian's block breaking ignore the MobGriefing");
         EnderguardianLongRangelimit = buildDouble(builder, "Guardian's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Guardian's Immune to Long distance attack range.");
         EnderguardianGravityPunchHpdamage = buildDouble(builder, "Guardian's gravity Punch Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Guardian's gravity Punch Hp Damage");
@@ -321,7 +325,7 @@ public class CommonConfig {
         MonstrosityHealthMultiplier = buildDouble(builder, "MonstrosityHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Health Multiplier");
         MonstrosityDamageMultiplier = buildDouble(builder, "MonstrosityDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Damage Multiplier");
         MonstrosityHealingMultiplier = buildDouble(builder, "MonstrosityHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Monstrosity's Healing Multiplier");
-        MonstrosityNatureHealing = buildDouble(builder, "MonstrosityNatureHealing", "all", 10D, 0D, 1000000D, " Monstrosity's Healing with out target");
+        MonstrosityNatureHealing = buildDouble(builder, "MonstrosityNatureHealing", "all", CMConfig.MonstrosityNatureHealing, 0D, 1000000D, " Monstrosity's Healing with out target");
         MonstrosityDamageCap = buildDouble(builder, "MonstrosityDamageCap", "all", 22D, 0D, 1000000D, "Monstrosity's DamageCap");
         MonstrosityDamageTime = buildInt(builder, "MonstrosityDamageTime", "all", CMConfig.MonstrosityDamageTime, 0, 100, "Monstrosity's DamageTime");
         NetheritemonstrosityBodyBloking = buildBoolean(builder, "NetheritemonstrosityBodyBloking", "all", true, "Monstrosity's bodyBlocking verdict");
@@ -342,7 +346,7 @@ public class CommonConfig {
         builder.push("Ignis");
         IgnisHealthMultiplier = buildDouble(builder, "IgnisHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Ignis's Health Multiplier");
         IgnisDamageMultiplier = buildDouble(builder, "IgnisDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Ignis's Damage Multiplier");
-        IgnisNatureHealing = buildDouble(builder, "IgnisNatureHealing", "all", 10D, 0D, 1000000D, "Ignis's Healing with out target");
+        IgnisNatureHealing = buildDouble(builder, "IgnisNatureHealing", "all", CMConfig.IgnisNatureHealing, 0D, 1000000D, "Ignis's Healing with out target");
         IgnisHealingMultiplier = buildDouble(builder, "IgnisHealingMultiplier", "all", 1.0D, 0D, 1000000D, "Ignis's Healing Multiplier");
         IgnisLongRangelimit = buildDouble(builder, "Ignis's prevent attacks from far away Range", "all", 15.0D, 1D, 1000000D, "Ignis's Immune to Long distance attack range.");
         IgnisDamageCap = buildDouble(builder, "IgnisDamageCap", "all", 20D, 0D, 1000000D, "Ignis's DamageCap");
@@ -377,7 +381,7 @@ public class CommonConfig {
         builder.push("The Leviathan");
         LeviathanHealthMultiplier = buildDouble(builder, "LeviathanHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Leviathan's Health Multiplier");
         LeviathanDamageMultiplier = buildDouble(builder, "LeviathanDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Leviathan's Damage Multiplier");
-        LeviathanNatureHealing = buildDouble(builder, "LeviathanNatureHealing", "all", 10D, 0D, 1000000D, "Leviathan's Healing with out target");
+        LeviathanNatureHealing = buildDouble(builder, "LeviathanNatureHealing", "all", CMConfig.LeviathanNatureHealing, 0D, 1000000D, "Leviathan's Healing with out target");
         LeviathanLongRangelimit = buildDouble(builder, "Leviathan's prevent attacks from far away Range", "all", 38.0D, 1D, 1000000D, "Leviathan's Immune to Long distance attack range.");
         LeviathanbiteHpdamage = buildDouble(builder, "Leviathan's Bite Hp Damage", "all", 0.1D, 0.0D, 1.0D, "Leviathan's Bite Hp Damage");
         LeviathanRushHpdamage = buildDouble(builder, "Leviathan's Rush Hp Damage", "all", 0.05D, 0.0D, 1.0D, "Leviathan's Rush Hp Damage");
@@ -414,7 +418,7 @@ public class CommonConfig {
         builder.push("Ancient Remnant");
         AncientRemnantHealthMultiplier = buildDouble(builder, "AncientRemnantHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Health Multiplier");
         AncientRemnantDamageMultiplier  = buildDouble(builder, "AncientRemnantDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Ancient Remnant's Damage Multiplier");
-        AncientRemnantNatureHealing = buildDouble(builder, "AncientRemnantNatureHealing", "all", 10D, 0D, 1000000D, "AncientRemnant's Healing with out target");
+        AncientRemnantNatureHealing = buildDouble(builder, "AncientRemnantNatureHealing", "all", CMConfig.AncientRemnantNatureHealing, 0D, 1000000D, "AncientRemnant's Healing with out target");
         AncientRemnantLongRangelimit = buildDouble(builder, "Ancient Remnant's prevent attacks from far away Range", "all", 14.0D, 1D, 1000000D, "Ancient Remnant's Immune to Long distance attack range.");
         AncientRemnantDamageCap = buildDouble(builder, "AncientRemnantCap", "all", 21.0D, 0D, 1000000D, "Ancient Remnant's DamageCap");
         AncientRemnantDamageTime = buildInt(builder, "Ancient Remnant DamageTime", "all", CMConfig.AncientRemnantDamageTime, 0, 100, "Ancient Remnant's DamageTime");
@@ -459,10 +463,11 @@ public class CommonConfig {
         ScyllaSpearDamage = buildDouble(builder, "Scylla's Spear Damage", "all", CMConfig.ScyllaSpearDamage, 0D, 1000000D, "Scylla's Spear Damage");
         ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
         ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
-
-
         ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
         ScyllaDamageTime = buildInt(builder, "Scylla DamageTime", "all", CMConfig.ScyllaDamageTime, 0, 100, "Scylla's DamageTime");
+        ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");
+        ScyllaSpinHpDamage = buildDouble(builder, "Scylla's Spin Hp Damage", "all", CMConfig.ScyllaSpinHpDamage, 0, 1000000, "Scylla's Spin HP Damage");
+        ScyllaLightningStormHpDamage = buildDouble(builder, "Scylla's Lightning Storm HP Damage", "all", CMConfig.ScyllaLightningStormHpDamage, 0, 1000000, "Scylla's Lightning Storm HP Damage");
 
         builder.pop();
 
@@ -471,7 +476,7 @@ public class CommonConfig {
         MaledictusHealthMultiplier = buildDouble(builder, "MaledictusHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Health Multiplier");
         MaledictusDamageMultiplier = buildDouble(builder, "MaledictusDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Maledictus's Damage Multiplier");
         MaledictusLongRangelimit = buildDouble(builder, "Maledictus's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Maledictus's Immune to Long distance attack range.");
-        MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", 10D, 0D, 1000000D, "Maledictus's Healing with out target");
+        MaledictusNatureHealing = buildDouble(builder, "MaledictusNatureHealing", "all", CMConfig.MaledictusNatureHealing, 0D, 1000000D, "Maledictus's Healing with out target");
         MaledictusPhantomHalberddamage = buildDouble(builder, "Maledictus' Phantom Halberd Damage'", "all", 10D, 0D, 1000000D, "Maledictus's Phantom Halberd Damage");
         MaledictusDamageCap = buildDouble(builder, "MaledictusDamageCap", "all", 20.0D, 0D, 1000000D, "Maledictus's DamageCap");
         MaledictusDamageTime = buildInt(builder, "Maledictus DamageTime", "all", CMConfig.MaledictusDamageTime, 0, 100, "Maledictus's DamageTime");

@@ -15,21 +15,20 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 public class AltarOfAmethystRecipe implements Recipe<SingleRecipeInput> {
-    protected final String group;
-    private final Ingredient ingredients;
+
+    private final Ingredient ingredient;
     private ItemStack result;
     private int time;
 
-    public AltarOfAmethystRecipe(String p_249518_, Ingredient ingredients, ItemStack result, int time) {
-        this.ingredients = ingredients;
-        this.group = p_249518_;
+    public AltarOfAmethystRecipe(Ingredient ingredients, ItemStack result, int time) {
+        this.ingredient = ingredients;
         this.result = result;
         this.time = time;
     }
 
 
     public boolean matches(SingleRecipeInput p_344849_, Level p_345973_) {
-        return this.ingredients.test(p_344849_.item());
+        return this.ingredient.test(p_344849_.item());
     }
 
     public ItemStack assemble(SingleRecipeInput p_344838_, HolderLookup.Provider p_336115_) {
@@ -44,7 +43,7 @@ public class AltarOfAmethystRecipe implements Recipe<SingleRecipeInput> {
     @Override
     public NonNullList<Ingredient> getIngredients() {
         NonNullList<Ingredient> nonnulllist = NonNullList.create();
-        nonnulllist.add(this.ingredients);
+        nonnulllist.add(this.ingredient);
         return nonnulllist;
     }
 
@@ -53,10 +52,6 @@ public class AltarOfAmethystRecipe implements Recipe<SingleRecipeInput> {
         return this.result;
     }
 
-    @Override
-    public String getGroup() {
-        return this.group;
-    }
 
     public int getTime() {
         return this.time;
@@ -72,13 +67,10 @@ public class AltarOfAmethystRecipe implements Recipe<SingleRecipeInput> {
         return ModRecipeSerializers.AMETHYST_BLESS.get();
     }
 
-
-
     public static class Serializer implements RecipeSerializer<AltarOfAmethystRecipe> {
         private static final MapCodec<AltarOfAmethystRecipe> CODEC = RecordCodecBuilder.mapCodec(
                 p_340782_ -> p_340782_.group(
-                                Codec.STRING.optionalFieldOf("group", "").forGetter(AltarOfAmethystRecipe::getGroup),
-                                Ingredient.CODEC_NONEMPTY.fieldOf("ingredients").forGetter(p_300833_ -> p_300833_.ingredients),
+                                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(p_300833_ -> p_300833_.ingredient),
                                 ItemStack.CODEC.fieldOf("result").forGetter(p_300827_ -> p_300827_.result),
                                 Codec.INT.fieldOf("time").orElse(200).forGetter(p_300834_ -> p_300834_.time)
                         )
@@ -101,18 +93,17 @@ public class AltarOfAmethystRecipe implements Recipe<SingleRecipeInput> {
         }
 
         private static AltarOfAmethystRecipe fromNetwork(RegistryFriendlyByteBuf p_320375_) {
-            String groupIn = p_320375_.readUtf();
+
             Ingredient ingredient1 = Ingredient.CONTENTS_STREAM_CODEC.decode(p_320375_);
             ItemStack itemstack = ItemStack.STREAM_CODEC.decode(p_320375_);
             int i = p_320375_.readVarInt();
-            return new AltarOfAmethystRecipe(groupIn,ingredient1, itemstack,i);
+            return new AltarOfAmethystRecipe(ingredient1, itemstack,i);
         }
 
         private static void toNetwork(RegistryFriendlyByteBuf p_320743_, AltarOfAmethystRecipe p_319840_) {
-            p_320743_.writeUtf(p_319840_.group);
-            Ingredient.CONTENTS_STREAM_CODEC.encode(p_320743_, p_319840_.ingredients);
-            p_320743_.writeVarInt(p_319840_.time);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(p_320743_, p_319840_.ingredient);
             ItemStack.STREAM_CODEC.encode(p_320743_, p_319840_.result);
+            p_320743_.writeVarInt(p_319840_.time);
         }
     }
 }

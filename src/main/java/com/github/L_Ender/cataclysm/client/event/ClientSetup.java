@@ -23,6 +23,8 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
+import javax.accessibility.AccessibilityProvider;
+
 public class ClientSetup {
 
 
@@ -123,6 +125,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.AXE_BLADE.get(), Axe_Blade_Renderer::new);
 		event.registerEntityRenderer(ModEntities.PHANTOM_HALBERD.get(), Phantom_Halberd_Renderer::new);
 		event.registerEntityRenderer(ModEntities.EARTHQUAKE.get(), RendererNull::new);
+		event.registerEntityRenderer(ModEntities.ACCRETION.get(), Accretion_Renderer::new);
 		event.registerEntityRenderer(ModEntities.ANCIENT_DESERT_STELE.get(), Ancient_Desert_Stele_Renderer::new);
 		event.registerEntityRenderer(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), Amethyst_Cluster_Projectile_Renderer::new);
 		event.registerEntityRenderer(ModEntities.THE_LEVIATHAN_TONGUE.get(), RendererNull::new);
