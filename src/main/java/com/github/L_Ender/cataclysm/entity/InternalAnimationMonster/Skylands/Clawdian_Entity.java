@@ -1,51 +1,45 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.AdvancedHurtByTargetGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Storm_Bringer_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
+import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Axe_Blade_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
-import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.message.MessageMovePlayer;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -53,12 +47,12 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -67,6 +61,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -74,7 +69,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class Clawdian_Entity extends Internal_Animation_Monster {
+public class Clawdian_Entity extends Internal_Animation_Monster implements IHoldEntity {
 
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState verticalswingAnimationState = new AnimationState();
@@ -98,6 +93,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
     public static final int BACKSTEP_COOLDOWN = 200;
     private static final EntityDataAccessor<Optional<BlockState>> HOLD_STATE = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.OPTIONAL_BLOCK_STATE);
     private static final EntityDataAccessor<Integer> BACKSTEP_METER = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.INT);
+
 
 
     public Clawdian_Entity(EntityType entity, Level world) {
@@ -203,7 +199,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
 
 
 
-        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,10,0,40,40,6f){
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,10,0,34,33,6f){
             @Override
             public boolean canUse() {
                 return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 7 * Clawdian_Entity.this.getBackstep() && Clawdian_Entity.this.backstep_cooldown <= 0;
@@ -219,7 +215,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 } else {
                     entity.setYRot(entity.yRotO);
                 }
-                if(this.entity.onGround() && entity.attackTicks < 28){
+                if(this.entity.onGround() && entity.attackTicks < 24){
                     Vec3 vector3d = entity.getDeltaMovement();
                     float f = entity.getYRot() * ((float)Math.PI / 180F);
                     Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(-0.5D).add(vector3d.scale(0.4D));
@@ -272,6 +268,12 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         if (this.canBlockDamageSource(source)) {
             this.playSound(ModSounds.PARRY.get(),0.8F,1.4F);
             return false;
+        }
+        if (!this.getPassengers().isEmpty()) {
+            Entity rider = this.getPassengers().get(0);
+            if (rider.equals(entity)) {
+                return false;
+            }
         }
         boolean flag = super.hurt(source, damage);
         if(flag) {
@@ -341,6 +343,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         p_326229_.define(BACKSTEP_METER, 0);
     }
 
+
     public void setHoldBlock(@Nullable BlockState state) {
         this.entityData.set(HOLD_STATE, Optional.ofNullable(state));
     }
@@ -357,6 +360,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
     public void setBackstep(int hurt) {
         this.entityData.set(BACKSTEP_METER, hurt);
     }
+
+
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
@@ -451,7 +456,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         }
 
         this.setHoldBlock(blockstate);
-        setBackstep(compound.getInt("backstep"));
+        this.setBackstep(compound.getInt("backstep"));
     }
 
     public void tick() {
@@ -624,6 +629,10 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                 this.playSound(SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
                 Makeparticle(0.6f, 2.5F, -0.5f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.25f, 0, 20);
+                HoldAttack(4.5F,4.5F,60,1,120);
+            }
+            if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown()) {
+                this.getPassengers().get(0).setShiftKeyDown(false);
             }
         }
     }
@@ -744,6 +753,42 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         }
     }
 
+
+    private void HoldAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
+        List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        for (LivingEntity entityHit : entitiesHit) {
+            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+            float entityAttackingAngle = this.yBodyRot % 360;
+            if (entityHitAngle < 0) {
+                entityHitAngle += 360;
+            }
+            if (entityAttackingAngle < 0) {
+                entityAttackingAngle += 360;
+            }
+            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                if (!(entityHit instanceof Clawdian_Entity) && entityHit != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                     if (!entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive() && this.getPassengers().isEmpty()) {
+                        if (entityHit.isShiftKeyDown()) {
+                            entityHit.setShiftKeyDown(false);
+                        }
+
+                        if(entityHit.hurt(damagesource, 1)){
+                                if (!this.level().isClientSide) {
+                                    entityHit.startRiding(this, true);
+
+                            }
+                        }
+                    }else if (!isAlliedTo(entityHit)){
+                        entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    }
+                }
+            }
+        }
+    }
+
     private void ChargeBlockBreaking(){
         boolean flag = false;
         AABB aabb = this.getBoundingBox().inflate(0.5D, 0.2D, 0.5D);
@@ -774,6 +819,38 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         }
     }
 
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        return null;
+    }
+
+    @Override
+    public boolean canRiderInteract() {
+        return true;
+    }
+
+    public void positionRider(Entity passenger, MoveFunction moveFunc) {
+        double theta = (yBodyRot) * (Math.PI / 180);
+        theta += Math.PI / 2;
+        double vecX = Math.cos(theta);
+        double vecZ = Math.sin(theta);
+        Vec3 vec3 = this.getPassengerRidingPosition(passenger);
+        Vec3 vec31 = passenger.getVehicleAttachmentPoint(this);
+
+
+        double px = vec3.x - vec31.x + 2.5F * vecX;
+        double pz = vec3.z - vec31.z + 2.5F * vecZ;
+
+        double PosY = this.getY() + this.getBbHeight() * 0.8D;
+        if (hasPassenger(passenger)) {
+            moveFunc.accept(passenger, px, PosY, pz);
+        }
+    }
+
+
+    public boolean shouldRiderSit() {
+        return false;
+    }
 
     @Override
     protected BodyRotationControl createBodyControl() {
@@ -823,8 +900,6 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
             return target != null && target.isAlive() && entity.accretion_cooldown <= 0 && this.entity.distanceTo(target) > attackrange && this.entity.getAttackState() == getattackstate  && this.entity.getRandom().nextFloat() * 100.0F < random;
-
-       // return true;
         }
 
         @Override
@@ -867,25 +942,20 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
             }
 
             if (this.entity.attackTicks == 45) {
-
-
                 int count = 4;
-
                 if (target != null) {
-                    //update target pos
-                    double d1 = target.getX() - this.entity.getX();
-
-                    double d3 = target.getZ() - this.entity.getZ();
-                    double offsetangle = Math.toRadians(4 +entity.random.nextInt(5));
+                    double vec = 2.5;
+                    double offsetangle = Math.toRadians(4 + entity.random.nextInt(5));
                     for (int i = 0; i <= (count - 1); ++i) {
-
-                        double vec = 2.5;
                         Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
                         double angle = (i - ((count - 1) / 2.0)) * offsetangle;
+                        double d1 = target.getX() - this.entity.getX();
+
+                        double d3 = target.getZ() - this.entity.getZ();
                         double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
                         double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
                         double distance = Math.sqrt(x * x + z * z);
-                        double d2 = target.getY(0.2D) - acc.getY() + (entity.random.nextFloat() -0.5) * i;
+                        double d2 = target.getY(0.2D) - acc.getY() + (entity.random.nextFloat() - 0.5) * i;
                         double PosX = entity.getX() + vecX * vec;
                         double PosY = entity.getY() + entity.getBbHeight() * 0.8D;
                         double PosZ = entity.getZ() + vecZ * vec;
@@ -894,19 +964,15 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                         acc.setDamage(15);
                         acc.setBlockState(entity.getHoldBlock());
                         acc.level().addFreshEntity(acc);
-
                     }
-
-
                 }else {
                     double tempvec = 12;
-
+                    double vec = 2.5;
                     double d1 = entity.getX() + vecX * tempvec - this.entity.getX();
                     double d3 = entity.getZ() + vecZ * tempvec - this.entity.getZ();
                     double offsetangle = Math.toRadians(4 +entity.random.nextInt(5));
                     for (int i = 0; i <= (count - 1); ++i) {
 
-                        double vec = 2.5;
                         Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
                         double angle = (i - ((count - 1) / 2.0)) * offsetangle;
                         double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
@@ -921,8 +987,46 @@ public class Clawdian_Entity extends Internal_Animation_Monster {
                         acc.setDamage(15);
                         acc.setBlockState(entity.getHoldBlock());
                         acc.level().addFreshEntity(acc);
-
                     }
+                }
+                if (!entity.getPassengers().isEmpty()) {
+                    Entity rider = entity.getPassengers().get(0);
+                    double vec = 2.5;
+                    if (rider.equals(target) || target == null) {
+                        double tempvec = 12;
+                        double d1 = entity.getX() + vecX * tempvec - this.entity.getX();
+                        double d2 = entity.getY(0.2D) - rider.getY();
+                        double d3 = entity.getZ() + vecZ * tempvec - this.entity.getZ();
+                        double distance = Mth.sqrt((float) (d1 * d1 + d3 * d3));
+                        double PosX = entity.getX() + vecX * vec;
+                        double PosY = entity.getY() + entity.getBbHeight() * 0.8D;
+                        double PosZ = entity.getZ() + vecZ * vec;
+                        Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
+                        acc.setPosRaw(PosX, PosY, PosZ);
+                        acc.shoot(d1, d2 + distance * (double) 0.2F, d3, 1.4F, 4);
+                        acc.setDamage(15);
+                        acc.setBlockState(entity.getHoldBlock());
+                        rider.startRiding(acc);
+                        acc.level().addFreshEntity(acc);
+                    } else {
+                        double d1 = target.getX() - entity.getX();
+                        double d3 = target.getZ() - entity.getZ();
+
+                        double d2 = target.getY(0.2D) - rider.getY();
+                        double distance = Mth.sqrt((float) (d1 * d1 + d3 * d3));
+                        double PosX = entity.getX() + vecX * vec;
+                        double PosY = entity.getY() + entity.getBbHeight() * 0.8D;
+                        double PosZ = entity.getZ() + vecZ * vec;
+                        Accretion_Entity acc = new Accretion_Entity(ModEntities.ACCRETION.get(), entity.level(), entity);
+                        acc.setPosRaw(PosX, PosY, PosZ);
+                        acc.shoot(d1, d2 + distance * (double) 0.2F, d3, 1.4F, 4);
+                        acc.setDamage(15);
+                        acc.setBlockState(entity.getHoldBlock());
+                        rider.startRiding(acc);
+                        acc.level().addFreshEntity(acc);
+                    }
+
+
                 }
             }
             if (this.entity.attackTicks == 46) {

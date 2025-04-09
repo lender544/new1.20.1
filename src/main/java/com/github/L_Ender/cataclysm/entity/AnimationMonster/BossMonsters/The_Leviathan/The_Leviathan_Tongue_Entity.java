@@ -162,10 +162,6 @@ public class The_Leviathan_Tongue_Entity extends Entity {
         return false;
     }
 
-    public double getPassengersRidingOffset() {
-        return -0.5D;
-    }
-
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.hasUUID("ControllerUUID")) {

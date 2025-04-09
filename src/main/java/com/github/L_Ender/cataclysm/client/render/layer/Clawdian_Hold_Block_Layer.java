@@ -13,10 +13,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class Clawdian_Hold_Layer extends RenderLayer<Clawdian_Entity, Clawdian_Model> {
+public class Clawdian_Hold_Block_Layer extends RenderLayer<Clawdian_Entity, Clawdian_Model> {
     private final BlockRenderDispatcher blockRenderer;
 
-    public Clawdian_Hold_Layer(RenderLayerParent<Clawdian_Entity, Clawdian_Model> renderer, BlockRenderDispatcher blockRenderer) {
+    public Clawdian_Hold_Block_Layer(RenderLayerParent<Clawdian_Entity, Clawdian_Model> renderer, BlockRenderDispatcher blockRenderer) {
         super(renderer);
         this.blockRenderer = blockRenderer;
     }

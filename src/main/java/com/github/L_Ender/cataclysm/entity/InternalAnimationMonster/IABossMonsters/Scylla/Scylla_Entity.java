@@ -126,7 +126,7 @@ public class Scylla_Entity extends IABoss_monster {
     public static final int MAX_PARRY_COUNT = 16;
     public static final int CAN_PARRY = 25;
     private int destroyBlocksTick;
-    private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.BLUE,false,12);
+    private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.BLUE,true,12);
 
     public Scylla_Entity(EntityType entity, Level world) {
         super(entity, world);

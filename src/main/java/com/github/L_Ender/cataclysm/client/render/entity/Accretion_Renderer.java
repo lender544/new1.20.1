@@ -1,16 +1,20 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.event.ClientHooks;
 import com.github.L_Ender.cataclysm.client.model.entity.Wither_Howitzer_Model;
+import com.github.L_Ender.cataclysm.client.render.layer.Clawdian_Hold_Entity_Layer;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Howitzer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -20,6 +24,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -33,12 +38,13 @@ import java.util.Iterator;
 @OnlyIn(Dist.CLIENT)
 public class Accretion_Renderer extends EntityRenderer<Accretion_Entity> {
     private final BlockRenderDispatcher blockRenderer;
+    private final EntityRenderDispatcher entityRenderer;
     private final RandomSource rnd = RandomSource.create();
     public Accretion_Renderer(Context renderManagerIn) {
         super(renderManagerIn);
         this.blockRenderer  = renderManagerIn.getBlockRenderDispatcher();
+        this.entityRenderer  = renderManagerIn.getEntityRenderDispatcher();
     }
-
 
 
     @Override
@@ -55,7 +61,18 @@ public class Accretion_Renderer extends EntityRenderer<Accretion_Entity> {
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.getYRot()) - 90.0F));
                 matrixStackIn.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot()) + 90.0F));
                 matrixStackIn.translate(-0.5, -0.5F, -0.5);
-                matrixStackIn.scale(1.0F, 1.0F, 1.0F);
+                float scale =0F;
+                if (entityIn.isVehicle()) {
+                    for (Entity passenger : entityIn.getPassengers()) {
+                        if (passenger == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+                            continue;
+                        }
+                        renderEntityInClaw(partialTicks, matrixStackIn, bufferIn, packedLightIn, passenger, this.entityRenderer);
+                    }
+                }else{
+                    scale =1F;
+                }
+                matrixStackIn.scale(scale, scale, scale);
                 this.blockRenderer.renderSingleBlock(blockstate, matrixStackIn, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
                 matrixStackIn.popPose();
                 super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
@@ -64,20 +81,15 @@ public class Accretion_Renderer extends EntityRenderer<Accretion_Entity> {
 
     }
 
-    private float rotLerp(float prevRotation, float rotation, float partialTicks)
-    {
-        float f;
-        for(f = rotation - prevRotation; f < -180.0F; f += 360.0F)
-        {
-            ;
-        }
+    public void renderEntityInClaw(float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity, EntityRenderDispatcher entityRenderer) {
+        ClientHooks.releaseRenderingEntity(entity.getUUID());
+        poseStack.pushPose();
+        poseStack.translate(0.5F, -0.5F , 0.5F);
 
-        while(f >= 180.0F)
-        {
-            f -= 360.0F;
-        }
-
-        return prevRotation + partialTicks * f;
+        poseStack.scale(1, 1, 1);
+        entityRenderer.render(entity, (double)0.0F, (double)0.0F, (double)0.0F, 0.0F, partialTick, poseStack, buffer, packedLight);
+        poseStack.popPose();
+        ClientHooks.blockRenderingEntity(entity.getUUID());
     }
 
     public ResourceLocation getTextureLocation(Accretion_Entity p_114632_) {

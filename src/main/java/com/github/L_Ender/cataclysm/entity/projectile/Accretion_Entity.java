@@ -18,6 +18,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
@@ -26,6 +27,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.ProjectileDeflection;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -35,6 +38,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -83,19 +88,33 @@ public class Accretion_Entity extends ThrowableProjectile {
     }
 
 
+    public boolean shouldRiderSit() {
+        return false;
+    }
+
+
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
         if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
             Entity entity1 = this.getOwner();
-            boolean flag;
+            boolean flag = false;
             if (entity1 instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity) entity1;
-                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
-                flag = entity.hurt(damagesource, this.getDamage());
-                if (flag) {
-                    if (entity.isAlive()) {
-                        EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+                if (!((entity == entity1) || (entity1.isAlliedTo(entity)))) {
+                    LivingEntity livingentity = (LivingEntity) entity1;
+                    DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                    flag = entity.hurt(damagesource, this.getDamage());
+                    if (flag) {
+                        if (entity.isAlive()) {
+                            EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+                        }
+                        BlockState blockstate = this.getBlockState();
+                        if (blockstate != null) {
+                            this.level().levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, new BlockPos(this.blockPosition()), Block.getId(getBlockState()));
+                        }
+                        ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
+                        // EarthQuakeSummon(8);
+                        this.discard();
                     }
                 }
             } else {
@@ -111,36 +130,39 @@ public class Accretion_Entity extends ThrowableProjectile {
         }
     }
 
-    protected void onHit(HitResult result) {
-        super.onHit(result);
+
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
         if (!this.level().isClientSide) {
             BlockState blockstate = this.getBlockState();
-            if (blockstate != null) {
+            if (blockstate != null && !this.isVehicle()) {
                 this.level().levelEvent(LevelEvent.PARTICLES_DESTROY_BLOCK, new BlockPos(this.blockPosition()), Block.getId(getBlockState()));
             }
             ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 0, 20);
-           // EarthQuakeSummon(8);
+            // EarthQuakeSummon(8);
             this.discard();
         }
     }
 
 
-    protected void EarthQuakeSummon(int quakeCount) {
-        float angle = 360.0F / quakeCount;
-        Entity entity1 = this.getOwner();
-        if (entity1 instanceof LivingEntity living) {
-            for (int i = 0; i < quakeCount; i++) {
-                EarthQuake_Entity peq = new EarthQuake_Entity(this.level(), living);
-                peq.setDamage(this.getDamage()/2);
-                peq.shootFromRotation(this, 0, angle * i, 0.0F, 0.25F, 0.0F);
-                peq.setPos(this.getX(), this.getY(), this.getZ());
-                this.level().addFreshEntity(peq);
-
+    protected void onHit(HitResult result) {
+        HitResult.Type hitresult$type = result.getType();
+        if (hitresult$type == HitResult.Type.ENTITY) {
+            EntityHitResult entityhitresult = (EntityHitResult)result;
+            Entity entity = entityhitresult.getEntity();
+            if (entity.getType().is(EntityTypeTags.REDIRECTABLE_PROJECTILE) && entity instanceof Projectile) {
+                Projectile projectile = (Projectile)entity;
+                projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
             }
+            this.onHitEntity(entityhitresult);
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, result.getLocation(), GameEvent.Context.of(this, (BlockState)null));
+        } else if (hitresult$type == HitResult.Type.BLOCK) {
+            BlockHitResult blockhitresult = (BlockHitResult)result;
+            this.onHitBlock(blockhitresult);
+            BlockPos blockpos = blockhitresult.getBlockPos();
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
         }
-
     }
-
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);

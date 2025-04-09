@@ -124,7 +124,7 @@ public class Spark_Entity extends ThrowableProjectile {
             areaeffectcloud.setRadius(this.getAreaRadius());
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
+            areaeffectcloud.setRadiusOnUse(-1.0F);
             areaeffectcloud.setDamage(this.getDamage());
             areaeffectcloud.setWaitTime(5);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);

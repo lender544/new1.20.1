@@ -108,6 +108,9 @@ public class Cataclysm {
         registrar.playToClient(MessageMusic.TYPE, MessageMusic.STREAM_CODEC, MessageMusic::handle);
         registrar.playToClient(MessageMeatShredder.TYPE, MessageMeatShredder.STREAM_CODEC, MessageMeatShredder::handle);
         registrar.playToClient(MessageSandstormSound.TYPE, MessageSandstormSound.STREAM_CODEC, MessageSandstormSound::handle);
+
+        registrar.playToClient(MessageMovePlayer.TYPE, MessageMovePlayer.STREAM_CODEC, MessageMovePlayer::handle);
+
     }
 
 }

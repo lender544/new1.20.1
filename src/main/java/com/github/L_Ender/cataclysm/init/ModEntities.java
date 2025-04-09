@@ -410,6 +410,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Accretion_Entity>> ACCRETION = ENTITY_TYPE.register("accretion", () -> EntityType.Builder.<Accretion_Entity>of(Accretion_Entity::new, MobCategory.MISC)
             .sized(0.98F, 0.98f)
             .updateInterval(20)
+            .passengerAttachments(0.49F)
             .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":accretion"));
 

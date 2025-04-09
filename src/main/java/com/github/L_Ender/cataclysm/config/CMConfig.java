@@ -65,6 +65,7 @@ public class CMConfig {
     public static double LeviathanDamageCap = 20;
     public static double AncientRemnantDamageCap = 21;
     public static double MaledictusDamageCap = 20;
+    public static double ClawdianDamageCap = 35;
     public static double ScyllaDamageCap = 22;
 
     public static int EnderguardianDamageTime = 30;
@@ -74,6 +75,7 @@ public class CMConfig {
     public static int LeviathanDamageTime = 15;
     public static int AncientRemnantDamageTime = 12;
     public static int MaledictusDamageTime = 30;
+    public static int ClawdianDamageTime = 7;
     public static int ScyllaDamageTime = 15;
 
     public static int Lavabombmagazine = 3;

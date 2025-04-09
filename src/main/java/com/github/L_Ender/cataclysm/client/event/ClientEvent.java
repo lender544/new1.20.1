@@ -13,8 +13,10 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
+import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.lionfishapi.client.event.EventGetFluidRenderType;
@@ -57,6 +59,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import org.checkerframework.checker.units.qual.Acceleration;
 import org.joml.Matrix4f;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
@@ -139,7 +142,9 @@ public class ClientEvent {
         if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Aptrgangr_Entity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(3F), 0, 0);
         }
-
+        if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Clawdian_Entity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(6F), 0, 0);
+        }
     }
 
 
@@ -185,6 +190,11 @@ public class ClientEvent {
                 if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof IHoldEntity) {
                     if (VanillaGuiLayers.VEHICLE_HEALTH == event.getName()) {
                         Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("entity.cataclysm.you_cant_escape"), false);
+                    }
+                }
+                if (player.getVehicle() instanceof Accretion_Entity) {
+                    if (VanillaGuiLayers.VEHICLE_HEALTH == event.getName()) {
+                        Minecraft.getInstance().gui.setOverlayMessage(Component.translatable("entity.cataclysm.accretion_ride"), false);
                     }
                 }
             }

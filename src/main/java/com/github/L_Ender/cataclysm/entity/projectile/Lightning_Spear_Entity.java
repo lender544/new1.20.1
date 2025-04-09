@@ -191,7 +191,7 @@ public class Lightning_Spear_Entity extends Projectile {
             areaeffectcloud.setRadius(this.getAreaRadius());
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
-            areaeffectcloud.setRadiusOnUse(-0.5F);
+            areaeffectcloud.setRadiusOnUse(-1.0F);
             areaeffectcloud.setDamage(this.getAreaDamage());
             areaeffectcloud.setWaitTime(12);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
