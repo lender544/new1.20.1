@@ -15,6 +15,7 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,6 +65,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -557,6 +559,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                             }
                             if (!this.level().isClientSide) {
                                 entity.startRiding(this, true);
+                                PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new MessageEntityCameraSwitch.ThridPerson(entity.getId()));
                             }
                         }
 
@@ -642,14 +645,23 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                             this.playSound(SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.9f);
                         }
                     }
-                    passenger.stopRiding();
+                    if (!this.level().isClientSide) {
+                        PacketDistributor.sendToPlayersTrackingEntityAndSelf(passenger, new MessageEntityCameraSwitch.FirstPerson(passenger.getId()));
+                        passenger.stopRiding();
+                    }
                 }
             }else if(this.getAttackState() == 5){
                 if(this.attackTicks == 1) {
-                    passenger.stopRiding();
+                    if (!this.level().isClientSide) {
+                        PacketDistributor.sendToPlayersTrackingEntityAndSelf(passenger, new MessageEntityCameraSwitch.FirstPerson(passenger.getId()));
+                        passenger.stopRiding();
+                    }
                 }
             }else if (this.getAttackState() != 4){
-                passenger.stopRiding();
+                if (!this.level().isClientSide) {
+                    PacketDistributor.sendToPlayersTrackingEntityAndSelf(passenger, new MessageEntityCameraSwitch.FirstPerson(passenger.getId()));
+                    passenger.stopRiding();
+                }
             }
             moveFunc.accept(passenger, px, y, pz);
         }

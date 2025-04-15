@@ -35,6 +35,7 @@ public class Mural_Block extends FaceAttachedHorizontalDirectionalBlock implemen
     }
 
 
+
     public Mural_Block(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(FACE, AttachFace.WALL).setValue(WATERLOGGED, Boolean.FALSE));

@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AI.AdvancedHurtByTargetGoal;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -175,7 +175,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
 

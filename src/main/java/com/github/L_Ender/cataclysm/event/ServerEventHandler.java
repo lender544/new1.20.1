@@ -225,7 +225,7 @@ public class ServerEventHandler {
             if (entity.hasEffect(ModEffect.EFFECTWETNESS)) {
                 MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
                 if (effectinstance1 != null) {
-                    float i = (effectinstance1.getAmplifier()+1) * 0.25F;
+                    float i = (effectinstance1.getAmplifier()+1) * 0.15F;
                     float f =  damage * i;
                     damage = Math.min(Float.MAX_VALUE, f);
                     event.setNewDamage(damage);

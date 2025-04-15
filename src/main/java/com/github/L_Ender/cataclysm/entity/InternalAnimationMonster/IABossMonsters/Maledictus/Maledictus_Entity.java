@@ -3,8 +3,8 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AI.AdvancedHurtByTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -21,6 +21,7 @@ import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -45,7 +46,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
@@ -60,6 +60,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -150,7 +151,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, true));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
 
@@ -598,6 +599,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             if(this.getAttackState() == 33){
                 y = this.getY() - 0.2F * Mth.clamp(0, 0, 23);
                 if(this.attackTicks == 23) {
+                    if (!this.level().isClientSide) {
+                        PacketDistributor.sendToPlayersTrackingEntityAndSelf(passenger, new MessageEntityCameraSwitch.FirstPerson(passenger.getId()));
+                    }
                     passenger.stopRiding();
                 }
             }
@@ -881,15 +885,14 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
         if (grab_cooldown > 0) grab_cooldown--;
 
-
+        if (this.isFlying()) {
+            this.setNoGravity(!this.onGround());
+        } else {
+            this.setNoGravity(false);
+        }
 
         LivingEntity target = this.getTarget();
         if (!this.level().isClientSide) {
-            if (this.isFlying()) {
-                this.setNoGravity(!this.onGround());
-            } else {
-                this.setNoGravity(false);
-            }
 
             if (timeWithoutTarget > 0) timeWithoutTarget--;
             if (target != null) {
@@ -1625,6 +1628,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                         if(this.getPassengers().isEmpty()) {
                             if (!this.level().isClientSide) {
                                 entity.startRiding(this, true);
+                                PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new MessageEntityCameraSwitch.ThridPerson(entity.getId()));
                             }
                         }
                     }

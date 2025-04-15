@@ -11,6 +11,7 @@ import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.items.Tidal_Claws;
+import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.message.MessageHookFalling;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -189,7 +190,13 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 						levi.hurtMarked = true;
 						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
 							if (entity.equals(controller)) {
+
+								if (!this.getPassengers().isEmpty()) {
+									this.getPassengers().get(0).setShiftKeyDown(false);
+								}
 								this.discard();
+
+
 							}
 						}
 					}
@@ -206,9 +213,13 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 						//this.setXRot(getXrotOld());
 						if (this.level().isClientSide) {
 							this.yOld = this.getY();
-						}
-						if (!this.getPassengers().isEmpty() && this.getPassengers().getFirst().isShiftKeyDown()) {
-							this.getPassengers().getFirst().setShiftKeyDown(false);
+						}else {
+							if (!this.getPassengers().isEmpty()) {
+								PacketDistributor.sendToPlayersTrackingEntityAndSelf(this.getPassengers().get(0), new MessageEntityCameraSwitch.FirstPerson(this.getPassengers().get(0).getId()));
+								if (this.getPassengers().get(0).isShiftKeyDown()) {
+									this.getPassengers().get(0).setShiftKeyDown(false);
+								}
+							}
 						}
 						double d0 = 0.2;
 						this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d0)));
@@ -249,6 +260,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 				if (this.getPassengers().isEmpty()) {
 					if (!this.level().isClientSide) {
 						entity.startRiding(this);
+						PacketDistributor.sendToPlayersTrackingEntityAndSelf(entity, new MessageEntityCameraSwitch.ThridPerson(entity.getId()));
 					}
 				}
 			}
@@ -267,11 +279,6 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}
-
-		int sparkAmount = 0;
-
-
-
 	}
 
 	public ItemStack getWeaponItem() {

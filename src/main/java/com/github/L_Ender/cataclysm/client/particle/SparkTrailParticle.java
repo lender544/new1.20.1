@@ -54,8 +54,6 @@ public class SparkTrailParticle extends Particle {
         float f = (float)(Mth.lerp((double)partialTick, this.xo, this.x) - vec3.x());
         float f1 = (float)(Mth.lerp((double)partialTick, this.yo, this.y) - vec3.y());
         float f2 = (float)(Mth.lerp((double)partialTick, this.zo, this.z) - vec3.z());
-        float lerpAge = this.age + partialTick;
-        float ageProgress = lerpAge / (float) this.lifetime;
         float scale = 1.85F;
         posestack.pushPose();
         posestack.translate(f, f1, f2);

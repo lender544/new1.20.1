@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AI.AdvancedHurtByTargetGoal;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
@@ -217,7 +217,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         this.goalSelector.addGoal(0, new LeviathanTentacleHoldAttackGoal(this,LEVIATHAN_TENTACLE_HOLD));
         this.goalSelector.addGoal(0, new LeviathanTentacleHoldBlastAttackGoal(this,LEVIATHAN_TENTACLE_HOLD_BLAST));
         this.goalSelector.addGoal(0, new LeviathanMineAttackGoal(this,LEVIATHAN_MINE));
-        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, false,true));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D<>(this, LivingEntity.class, 160, false, true, ModEntities.buildPredicateFromTag(ModTag.LEVIATHAN_TARGET)));
 

@@ -26,10 +26,10 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 
+
 public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
     private static final EntityDataAccessor<Byte> ID_LOYALTY = SynchedEntityData.defineId(ThrownCoral_Bardiche_Entity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> ID_FOIL = SynchedEntityData.defineId(ThrownCoral_Bardiche_Entity.class, EntityDataSerializers.BOOLEAN);
-    private ItemStack tridentItem = new ItemStack(ModItems.CORAL_BARDICHE.get());
     private boolean dealtDamage;
     public int clientSideReturnTridentTickCount;
 
@@ -48,6 +48,7 @@ public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
         this.entityData.set(ID_LOYALTY, this.getLoyaltyFromItem(p_338255_));
         this.entityData.set(ID_FOIL, p_338255_.hasFoil());
     }
+
 
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
@@ -73,18 +74,18 @@ public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
             } else {
                 this.setNoPhysics(true);
                 Vec3 vec3 = entity.getEyePosition().subtract(this.position());
-                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015D * (double)i, this.getZ());
+                this.setPosRaw(this.getX(), this.getY() + vec3.y * 0.015 * (double)i, this.getZ());
                 if (this.level().isClientSide) {
                     this.yOld = this.getY();
                 }
 
-                double d0 = 0.05D * (double)i;
-                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3.normalize().scale(d0)));
+                double d0 = 0.05 * (double)i;
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d0)));
                 if (this.clientSideReturnTridentTickCount == 0) {
                     this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
 
-                ++this.clientSideReturnTridentTickCount;
+                this.clientSideReturnTridentTickCount++;
             }
         }
 
@@ -93,15 +94,7 @@ public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
 
     private boolean isAcceptibleReturnOwner() {
         Entity entity = this.getOwner();
-        if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayer) || !entity.isSpectator();
-        } else {
-            return false;
-        }
-    }
-
-    protected ItemStack getPickupItem() {
-        return this.tridentItem.copy();
+        return entity == null || !entity.isAlive() ? false : !(entity instanceof ServerPlayer) || !entity.isSpectator();
     }
 
     public boolean isFoil() {
@@ -113,9 +106,10 @@ public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
         return this.dealtDamage ? null : super.findHitEntity(p_37575_, p_37576_);
     }
 
+    @Override
     protected void onHitEntity(EntityHitResult p_37573_) {
         Entity entity = p_37573_.getEntity();
-        float f = 10F;
+        float f = 6.5F;
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, (Entity)(entity1 == null ? this : entity1));
         if (this.level() instanceof ServerLevel serverlevel) {
@@ -207,7 +201,7 @@ public class ThrownCoral_Bardiche_Entity extends AbstractArrow {
     @Override
     public void tickDespawn() {
         int i = this.entityData.get(ID_LOYALTY);
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED || i <= 0) {
+        if (this.pickup != Pickup.ALLOWED || i <= 0) {
             super.tickDespawn();
         }
     }

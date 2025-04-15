@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AI.AdvancedHurtByTargetGoal;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
@@ -19,6 +19,7 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.message.MessageMovePlayer;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
@@ -111,7 +112,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
 
@@ -776,9 +777,9 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                         }
 
                         if(entityHit.hurt(damagesource, 1)){
-                                if (!this.level().isClientSide) {
-                                    entityHit.startRiding(this, true);
-
+                            if (!this.level().isClientSide) {
+                                entityHit.startRiding(this, true);
+                                PacketDistributor.sendToPlayersTrackingEntityAndSelf(entityHit, new MessageEntityCameraSwitch.ThridPerson(entityHit.getId()));
                             }
                         }
                     }else if (!isAlliedTo(entityHit)){
@@ -1006,7 +1007,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                         acc.shoot(d1, d2 + distance * (double) 0.2F, d3, 1.4F, 4);
                         acc.setDamage(15);
                         acc.setBlockState(entity.getHoldBlock());
-                        rider.startRiding(acc);
+                        rider.startRiding(acc,true);
                         acc.level().addFreshEntity(acc);
                     } else {
                         double d1 = target.getX() - entity.getX();
@@ -1022,7 +1023,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                         acc.shoot(d1, d2 + distance * (double) 0.2F, d3, 1.4F, 4);
                         acc.setDamage(15);
                         acc.setBlockState(entity.getHoldBlock());
-                        rider.startRiding(acc);
+                        rider.startRiding(acc,true);
                         acc.level().addFreshEntity(acc);
                     }
 

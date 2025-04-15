@@ -10,7 +10,8 @@ public class CMConfig {
     public static double LavaVisionOpacity = 0.5F;
     public static boolean shadersCompat = false;
     public static boolean custombossbar = true;
-
+    public static boolean setThirdPerson = false;
+    public static boolean setFirstPerson = false;
 
     public static int GauntletOfBulwarkCooldown = 80;
     public static int BulwarkOfTheFlameCooldown = 80;
@@ -165,9 +166,9 @@ public class CMConfig {
 
     public static double ScyllaHealthMultiplier = 1D;
     public static double ScyllaDamageMultiplier = 1D;
-    public static double ScyllaSpearDamage = 11;
-    public static double ScyllaLightningStormDamage = 11;
-    public static double ScyllaLightningAreaDamage = 5;
+    public static double ScyllaSpearDamage = 14;
+    public static double ScyllaLightningStormDamage = 10;
+    public static double ScyllaLightningAreaDamage = 4;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
