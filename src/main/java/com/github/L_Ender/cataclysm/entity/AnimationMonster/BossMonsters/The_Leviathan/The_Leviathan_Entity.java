@@ -5,7 +5,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
@@ -70,6 +70,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -217,7 +218,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         this.goalSelector.addGoal(0, new LeviathanTentacleHoldAttackGoal(this,LEVIATHAN_TENTACLE_HOLD));
         this.goalSelector.addGoal(0, new LeviathanTentacleHoldBlastAttackGoal(this,LEVIATHAN_TENTACLE_HOLD_BLAST));
         this.goalSelector.addGoal(0, new LeviathanMineAttackGoal(this,LEVIATHAN_MINE));
-        this.targetSelector.addGoal(1, new AdvancedHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D<>(this, Player.class, false,true));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D<>(this, LivingEntity.class, 160, false, true, ModEntities.buildPredicateFromTag(ModTag.LEVIATHAN_TARGET)));
 
@@ -782,7 +783,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         if(this.getAnimation() == LEVIATHAN_PHASE2){
             if (this.getAnimationTick() == 1) {
                 if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), false));
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
                 }
             }
 
@@ -792,7 +793,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     setMeltDown(true);
                 }
                 if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), true));
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
                 }
                 for(int i = 0; i < 3; ++i) {
                     motion = new Vec3(0.5, -1.25, 0.5).yRot(-(float)(120 * i) * 0.01745329251F);

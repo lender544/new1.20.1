@@ -27,6 +27,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -60,9 +61,9 @@ public class Animation_Monsters extends Monster implements Enemy {
         super.tick();
         if (!level().isClientSide && getBossMusic() != null) {
             if (canPlayMusic() && this.getBossMusic() != null) {
-                Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), true));
+                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
             } else {
-                Cataclysm.sendMSGToAll(new MessageMusic(this.getId(), false));
+                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
             }
         }
     }
