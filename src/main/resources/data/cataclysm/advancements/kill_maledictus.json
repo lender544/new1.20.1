@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:cursed_tombstone"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_maledictus.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_maledictus.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "cataclysm:find_frosted_prison",
+  "criteria": {
+    "ignis": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:maledictus"
+        }
+      }
+    }
+  }
+}

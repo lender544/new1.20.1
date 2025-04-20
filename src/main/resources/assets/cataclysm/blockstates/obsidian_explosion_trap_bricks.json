@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "cataclysm:block/obsidian_explosion_trap_bricks_off"
+    },
+    "lit=true": {
+      "model": "cataclysm:block/obsidian_explosion_trap_bricks_on"
+    }
+  }
+}

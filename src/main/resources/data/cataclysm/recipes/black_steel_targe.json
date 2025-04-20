@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "cataclysm:black_steel_nugget"
+    },
+    "X": {
+      "item": "cataclysm:black_steel_ingot"
+    },
+    "Z": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "#Z#",
+    "ZXZ",
+    "#Z#"
+  ],
+  "result": {
+    "item": "cataclysm:black_steel_targe"
+  },
+  "show_notification": true
+}

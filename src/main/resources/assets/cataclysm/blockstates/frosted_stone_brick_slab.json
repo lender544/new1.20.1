@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "cataclysm:block/frosted_stone_brick_slab" },
+    "type=top": { "model": "cataclysm:block/frosted_stone_brick_slab_top" },
+    "type=double": { "model": "cataclysm:block/frosted_stone_bricks" }
+  }
+}

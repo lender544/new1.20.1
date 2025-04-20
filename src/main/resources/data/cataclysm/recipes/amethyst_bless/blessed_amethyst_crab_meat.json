@@ -1,0 +1,10 @@
+{
+  "type": "cataclysm:amethyst_bless",
+  "ingredients": {
+    "item": "cataclysm:amethyst_crab_meat"
+  },
+  "result": {
+    "item": "cataclysm:blessed_amethyst_crab_meat"
+  },
+  "time": 120
+}

@@ -1,0 +1,38 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "gCE",
+        "DOG",
+        "RCB"
+    ],
+    "key": {
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "C": {
+            "item": "minecraft:chiseled_sandstone"
+        },
+        "E": {
+            "item": "minecraft:emerald"
+        },
+        "D": {
+            "item": "minecraft:dead_bush"
+        },
+        "O": {
+            "item": "minecraft:ender_eye"
+        },
+        "G": {
+            "item": "minecraft:cactus"
+        },
+        "R": {
+            "item": "minecraft:rotten_flesh"
+        },
+        "B": {
+            "item": "minecraft:bone"
+        }
+    },
+    "result": {
+        "item": "cataclysm:desert_eye",
+        "count": 1
+    }
+}

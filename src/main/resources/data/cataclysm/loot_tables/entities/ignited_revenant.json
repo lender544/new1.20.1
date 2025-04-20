@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "ignited_revenant",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:burning_ashes",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

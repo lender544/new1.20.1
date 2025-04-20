@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y":    { "model": "cataclysm:block/blackstone_pillar" },
+    "axis=z":    { "model": "cataclysm:block/blackstone_pillar", "x": 90 },
+    "axis=x":    { "model": "cataclysm:block/blackstone_pillar", "x": 90, "y": 90 }
+  }
+}

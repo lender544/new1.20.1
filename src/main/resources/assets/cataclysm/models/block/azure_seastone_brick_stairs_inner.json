@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom":  "cataclysm:block/azure_seastone_bricks",
+    "top": "cataclysm:block/azure_seastone_bricks",
+    "side": "cataclysm:block/azure_seastone_bricks"
+  }
+}
