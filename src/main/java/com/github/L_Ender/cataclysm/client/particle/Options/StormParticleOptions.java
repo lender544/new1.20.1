@@ -25,7 +25,7 @@ public record StormParticleOptions(float r,float g,float b,float width,float hei
                 buf.writeInt(option.entityid);
             },
             (buf) -> {
-                return new StormParticleOptions(buf.readInt(), buf.readInt(), buf.readInt(),buf.readFloat(), buf.readFloat(),buf.readInt());
+                return new StormParticleOptions(buf.readFloat(), buf.readFloat(), buf.readFloat(),buf.readFloat(), buf.readFloat(),buf.readInt());
             }
     );
 

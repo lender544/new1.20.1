@@ -19,7 +19,7 @@ public record SpinTrailParticleOptions(float r, float g, float b) implements Par
                 buf.writeFloat(option.b);
             },
             (buf) -> {
-                return new SpinTrailParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());
+                return new SpinTrailParticleOptions(buf.readFloat(), buf.readFloat(), buf.readFloat());
             }
     );
 

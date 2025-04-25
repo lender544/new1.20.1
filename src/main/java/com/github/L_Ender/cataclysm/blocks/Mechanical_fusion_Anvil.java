@@ -40,15 +40,24 @@ public class Mechanical_fusion_Anvil extends BaseEntityBlock {
     public static final MapCodec<Mechanical_fusion_Anvil> CODEC = simpleCodec(Mechanical_fusion_Anvil::new);
     private static final Component CONTAINER_TITLE = Component.translatable("cataclysm.container.weapon_fusion");
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    private static final VoxelShape BASE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 4.0D, 14.0D);
-    private static final VoxelShape X_LEG1 = Block.box(3.0D, 4.0D, 4.0D, 13.0D, 5.0D, 12.0D);
-    private static final VoxelShape X_LEG2 = Block.box(4.0D, 5.0D, 6.0D, 12.0D, 10.0D, 10.0D);
-    private static final VoxelShape X_TOP = Block.box(0.0D, 10.0D, 3.0D, 16.0D, 16.0D, 13.0D);
-    private static final VoxelShape Z_LEG1 = Block.box(4.0D, 4.0D, 3.0D, 12.0D, 5.0D, 13.0D);
-    private static final VoxelShape Z_LEG2 = Block.box(6.0D, 5.0D, 4.0D, 10.0D, 10.0D, 12.0D);
-    private static final VoxelShape Z_TOP = Block.box(3.0D, 10.0D, 0.0D, 13.0D, 16.0D, 16.0D);
-    private static final VoxelShape X_AXIS_AABB = Shapes.or(BASE, X_LEG1, X_LEG2, X_TOP);
-    private static final VoxelShape Z_AXIS_AABB = Shapes.or(BASE, Z_LEG1, Z_LEG2, Z_TOP);
+    private static final VoxelShape X_BASE = Block.box(1.0D, 0.0D, 3.0D, 15.0D, 3.0D, 13.0D);
+
+    private static final VoxelShape Z_BASE = Block.box(3.0D, 0.0D, 1.0D, 13.0D, 3.0D, 15.0D);
+
+    private static final VoxelShape X_LEG1 = Block.box(3.0D, 3.0D, 5.0D, 13.0D, 8.0D, 11.0D);
+
+
+   // private static final VoxelShape X_LEG2 = Block.box(4.0D, 5.0D, 6.0D, 12.0D, 10.0D, 10.0D);
+    private static final VoxelShape X_TOP = Block.box(1.0D, 8.0D, 0.0D, 15.0D, 13.0D, 16.0D);
+
+    private static final VoxelShape Z_LEG1 = Block.box(5.0D, 3.0D, 3.0D, 11.0D, 8.0D, 13.0D);
+
+    //private static final VoxelShape Z_LEG2 = Block.box(6.0D, 5.0D, 4.0D, 10.0D, 10.0D, 12.0D);
+    private static final VoxelShape Z_TOP = Block.box(0.0D, 8.0D, 1.0D, 16.0D, 13.0D, 15.0D);
+
+    private static final VoxelShape X_AXIS_AABB = Shapes.or(X_BASE, X_LEG1, X_TOP);
+
+    private static final VoxelShape Z_AXIS_AABB = Shapes.or(Z_BASE, Z_LEG1, Z_TOP);
 
     @Override
     public MapCodec<Mechanical_fusion_Anvil> codec() {
@@ -95,7 +104,7 @@ public class Mechanical_fusion_Anvil extends BaseEntityBlock {
         p_48814_.add(FACING);
     }
 
-    public boolean isPathfindable(BlockState p_48799_, BlockGetter p_48800_, BlockPos p_48801_, PathComputationType p_48802_) {
+    protected boolean isPathfindable(BlockState p_51023_, PathComputationType p_51026_) {
         return false;
     }
 

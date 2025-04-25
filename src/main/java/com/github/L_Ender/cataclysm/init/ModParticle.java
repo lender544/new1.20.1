@@ -157,6 +157,16 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NotSpinTrailParticleOptions>> NOT_SPIN_PARTICLE = PARTICLE.register("not_spin_particle", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<NotSpinTrailParticleOptions> codec() {
+            return NotSpinTrailParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, NotSpinTrailParticleOptions> streamCodec() {
+            return NotSpinTrailParticleOptions.STREAM_CODEC;
+        }
+    });
+
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SMALL_CURSED_FLAME = PARTICLE.register("small_cursed_flame", () -> new SimpleParticleType(false));

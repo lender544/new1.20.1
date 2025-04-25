@@ -821,6 +821,9 @@ public class ModItems {
     public static final DeferredItem<BlockItem> DOOR_OF_SEAL = ITEMS.register("door_of_seal",
             () -> new BlockItem(ModBlocks.DOOR_OF_SEAL.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+    public static final DeferredItem<BlockItem> GODDESS_STATUE = ITEMS.register("goddess_statue",
+            () -> new BlockItem(ModBlocks.GODDESS_STATUE.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
 
     public static void initDispenser(){
         DispenserBlock.registerProjectileBehavior(ModItems.VOID_SCATTER_ARROW.get());

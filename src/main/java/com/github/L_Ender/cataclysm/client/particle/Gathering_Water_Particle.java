@@ -16,9 +16,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 public class Gathering_Water_Particle extends SpinTrailParticle {
 
-    private static final ResourceLocation MAIN_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/gathering_lightning.png");
-    private static final ResourceLocation NULL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/lightning_storm_7.png");
-    private static final ResourceLocation PROTON_TRAIL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/gathering_lightning.png");
+
+    private static final ResourceLocation TRAIL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/gathering_lightning.png");
 
     protected Gathering_Water_Particle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float r, float g, float b) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed,r,g,b);
@@ -87,7 +86,7 @@ public class Gathering_Water_Particle extends SpinTrailParticle {
 
     @Override
     public ResourceLocation getTrailTexture() {
-        return PROTON_TRAIL_TEXTURE;
+        return TRAIL_TEXTURE;
     }
 
     @Override

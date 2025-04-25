@@ -152,6 +152,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SPARK.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WAVE.get(), Wave_Renderer::new);
+		event.registerEntityRenderer(ModEntities.STORM_SERPENT.get(), Storm_Serpent_Renderer::new);
 		// Block Entities
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_FIRE.get(), RendererAltar_of_Fire::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_VOID.get(), RendererAltar_of_Void::new);
@@ -163,7 +164,8 @@ public class ClientSetup {
 		event.registerBlockEntityRenderer(ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_Block_Renderer::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
 		event.registerBlockEntityRenderer(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
-		
+
+		event.registerBlockEntityRenderer(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);
 	}
 
 	private static void registerCuriosRenderer() {
@@ -192,6 +194,7 @@ public class ClientSetup {
 		registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
 		registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.Factory());
+		registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
 		registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
@@ -237,7 +240,7 @@ public class ClientSetup {
 				ModItems.WRATH_OF_THE_DESERT.get(), ModItems.SOUL_RENDER.get(), ModItems.THE_ANNIHILATOR.get(), ModItems.THE_IMMOLATOR.get(), ModItems.ALTAR_OF_FIRE.get(), ModItems.ALTAR_OF_VOID.get(),
 
 				ModItems.ALTAR_OF_AMETHYST.get(), ModItems.ALTAR_OF_ABYSS.get(), ModItems.EMP.get(), ModItems.MECHANICAL_FUSION_ANVIL.get(), ModItems.ABYSSAL_EGG.get(),
-				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get()
+				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get()
 		);
 
 	}

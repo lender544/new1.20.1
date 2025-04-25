@@ -19,7 +19,7 @@ public record GatheringWaterParticleOptions(float r, float g, float b) implement
                 buf.writeFloat(option.b);
             },
             (buf) -> {
-                return new GatheringWaterParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());
+                return new GatheringWaterParticleOptions(buf.readFloat(), buf.readFloat(), buf.readFloat());
             }
     );
 

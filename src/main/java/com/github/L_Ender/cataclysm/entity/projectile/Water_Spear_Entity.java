@@ -42,9 +42,7 @@ import net.neoforged.neoforge.event.EventHooks;
 
 import javax.annotation.Nullable;
 
-public class Water_Spear_Entity extends Projectile {
-    public double accelerationPower;
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Water_Spear_Entity.class, EntityDataSerializers.FLOAT);
+public class Water_Spear_Entity extends Elemental_Spear_Entity {
     private static final EntityDataAccessor<Integer> BOUNCES = SynchedEntityData.defineId(Water_Spear_Entity.class, EntityDataSerializers.INT);
 
 
@@ -59,6 +57,7 @@ public class Water_Spear_Entity extends Projectile {
         this(type, level);
         this.setPosRaw(getX, gety, getz);
         this.setOldPosAndRot();
+        this.setState(1);
         this.reapplyPosition();
         this.assignDirectionalMovement(vec3, this.accelerationPower);
 
@@ -82,18 +81,10 @@ public class Water_Spear_Entity extends Projectile {
 
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
-        p_326229_.define(DAMAGE,0f);
+        super.defineSynchedData(p_326229_);
         p_326229_.define(BOUNCES,0);
     }
 
-
-    public float getDamage() {
-        return entityData.get(DAMAGE);
-    }
-
-    public void setDamage(float damage) {
-        entityData.set(DAMAGE, damage);
-    }
 
     public int getTotalBounces()
     {
@@ -105,56 +96,7 @@ public class Water_Spear_Entity extends Projectile {
         this.entityData.set(BOUNCES, bounces);
     }
 
-    public boolean shouldRenderAtSqrDistance(double p_36837_) {
-        double d0 = this.getBoundingBox().getSize() * 4.0D;
-        if (Double.isNaN(d0)) {
-            d0 = 4.0D;
-        }
 
-        d0 *= 64.0D;
-        return p_36837_ < d0 * d0;
-    }
-
-    protected ClipContext.Block getClipType() {
-        return ClipContext.Block.COLLIDER;
-    }
-
-    public void tick() {
-        Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-            super.tick();
-
-            HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity, this.getClipType());
-            if (hitresult.getType() != HitResult.Type.MISS && !EventHooks.onProjectileImpact(this, hitresult)) {
-                this.hitTargetOrDeflectSelf(hitresult);
-            }
-
-            this.checkInsideBlocks();
-            Vec3 vec3 = this.getDeltaMovement();
-            double d0 = this.getX() + vec3.x;
-            double d1 = this.getY() + vec3.y;
-            double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 1.0F);
-            float f = this.getInertia();
-
-
-
-            double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-            double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-            double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
-            float ran = 0.04f;
-            float r = (89 + random.nextInt(35)) /255F ;
-            float g = (180 + random.nextInt(35)) /255F ;
-            float b = (180 + random.nextInt(35)) /255F ;
-            this.level().addParticle((new StormParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
-
-
-            this.setDeltaMovement(vec3.add(vec3.normalize().scale(this.accelerationPower)).scale((double)f));
-            this.setPos(d0, d1, d2);
-        } else {
-            this.discard();
-        }
-    }
 
     @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
@@ -234,30 +176,16 @@ public class Water_Spear_Entity extends Projectile {
 
     }
 
-    protected void onHit(HitResult result) {
-        HitResult.Type hitresult$type = result.getType();
-        if (hitresult$type == HitResult.Type.ENTITY) {
-            EntityHitResult entityhitresult = (EntityHitResult)result;
-            Entity entity = entityhitresult.getEntity();
-            if (entity.getType().is(EntityTypeTags.REDIRECTABLE_PROJECTILE) && entity instanceof Projectile) {
-                Projectile projectile = (Projectile)entity;
-                projectile.deflect(ProjectileDeflection.AIM_DEFLECT, this.getOwner(), this.getOwner(), true);
-            }
 
-            this.onHitEntity(entityhitresult);
-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, result.getLocation(), GameEvent.Context.of(this, (BlockState)null));
-        } else if (hitresult$type == HitResult.Type.BLOCK) {
-            BlockHitResult blockhitresult = (BlockHitResult)result;
-            this.onHitBlock(blockhitresult);
-            BlockPos blockpos = blockhitresult.getBlockPos();
-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
-        }
+    protected void SpawnParticle() {
+        double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
+        double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
+        double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
 
-    }
-
-
-    protected boolean canHitEntity(Entity p_36842_) {
-        return super.canHitEntity(p_36842_) && !p_36842_.noPhysics;
+        float r = (89 + random.nextInt(35)) /255F ;
+        float g = (180 + random.nextInt(35)) /255F ;
+        float b = (180 + random.nextInt(35)) /255F ;
+        this.level().addParticle((new StormParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
     }
 
 
@@ -269,7 +197,6 @@ public class Water_Spear_Entity extends Projectile {
         super.addAdditionalSaveData(compound);
         compound.putDouble("acceleration_power", this.accelerationPower);
         compound.putInt("totalBounces", this.getTotalBounces());
-        compound.putFloat("Damage", this.getDamage());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -278,48 +205,8 @@ public class Water_Spear_Entity extends Projectile {
             this.accelerationPower = compound.getDouble("acceleration_power");
         }
         this.setTotalBounces(compound.getInt("totalBounces"));
-        this.setDamage(compound.getFloat("Damage"));
     }
 
-
-    public boolean isPickable() {
-        return false;
-    }
-
-    public float getPickRadius() {
-        return 1.0F;
-    }
-
-    public boolean hurt(DamageSource p_37616_, float p_37617_) {
-        return false;
-    }
-
-    public float getLightLevelDependentMagicValue() {
-        return 1.0F;
-    }
-
-
-    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
-        super.recreateFromPacket(packet);
-        this.xRotO = this.getXRot();
-        this.yRotO = this.getYRot();
-
-    }
-
-    private void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
-        this.setDeltaMovement(movement.normalize().scale(accelerationPower));
-        this.hasImpulse = true;
-    }
-
-    protected void onDeflection(@Nullable Entity entity, boolean deflectedByPlayer) {
-        super.onDeflection(entity, deflectedByPlayer);
-        if (deflectedByPlayer) {
-            this.accelerationPower = 0.1;
-        } else {
-            this.accelerationPower *= (double)0.5F;
-        }
-
-    }
 }
 
 

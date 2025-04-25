@@ -49,5 +49,7 @@ public class ModTileentites {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<Door_Of_Seal_BlockEntity>> DOOR_OF_SEAL = TILE_ENTITY_TYPES.register("door_of_seal", () ->
             BlockEntityType.Builder.of(Door_Of_Seal_BlockEntity::new, ModBlocks.DOOR_OF_SEAL.get()).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<Statue_Block_Entity>> GODDESS_STATUE = TILE_ENTITY_TYPES.register("goddess_statue", () ->
+            BlockEntityType.Builder.of(Statue_Block_Entity::new, ModBlocks.GODDESS_STATUE.get()).build(null));
 
 }

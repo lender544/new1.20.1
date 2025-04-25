@@ -187,7 +187,7 @@ public class Phantom_Halberd_Entity extends Entity {
         } else if (--this.warmupDelayTicks < 0) {
             if (this.warmupDelayTicks == -10) {
                 if(getState() == 0) {
-                    this.setState(1 + random.nextInt(3));
+                    this.setState(1 + random.nextInt(4));
                 }
             }
             if (this.warmupDelayTicks < -12 && this.warmupDelayTicks > -34) {

@@ -300,6 +300,7 @@ public class ModGroup {
                 entries.accept(ModItems.EMP.get());
                 entries.accept(ModItems.MECHANICAL_FUSION_ANVIL.get());
                 entries.accept(ModItems.DOOR_OF_SEAL.get());
+                entries.accept(ModItems.GODDESS_STATUE.get());
                 entries.accept(ModItems.ABYSSAL_EGG.get());
                 entries.accept(ModItems.APTRGANGR_HEAD.get());
                 entries.accept(ModItems.DRAUGR_HEAD.get());

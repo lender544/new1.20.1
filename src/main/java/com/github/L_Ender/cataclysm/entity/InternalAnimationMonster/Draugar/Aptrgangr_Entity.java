@@ -391,7 +391,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                 float angleStep = 30.0f;
 
                 for (int i = 0; i < numberOfSkulls; i++) {
-                    float angle = yBodyRot + (i - (numberOfSkulls / 2)) * angleStep;
+                    float angle = yBodyRot + (i - (numberOfSkulls / 2.0F)) * angleStep;
 
                     float rad = (float) Math.toRadians(angle);
                     double dx = -Math.sin(rad);

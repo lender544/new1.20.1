@@ -19,6 +19,7 @@ import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -37,15 +38,18 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 	public Tidal_Hook_Entity(EntityType<? extends Tidal_Hook_Entity> p_37561_, Level p_37562_) {
 		super(p_37561_, p_37562_);
 		this.setNoGravity(true);
+		this.pickup = Pickup.DISALLOWED;
 		this.setBaseDamage(0);
 	}
 
 	public Tidal_Hook_Entity(Level p_37569_, LivingEntity p_37570_, ItemStack p_37571_) {
 		super(ModEntities.TIDAL_HOOK.get(), p_37570_, p_37569_, p_37571_, null);
 		this.setNoGravity(true);
+		this.pickup = Pickup.DISALLOWED;
 		this.setBaseDamage(0);
 
 	}
+
 
 	public Tidal_Hook_Entity(Level p_338686_, double p_338771_, double p_338674_, double p_338477_, ItemStack p_338255_) {
 		super(ModEntities.TIDAL_HOOK.get(), p_338771_, p_338674_, p_338477_, p_338686_, p_338255_, p_338255_);
@@ -135,12 +139,12 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 
 	@Override
 	protected ItemStack getPickupItem() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.ARROW);
 	}
 
 	@Override
 	protected ItemStack getDefaultPickupItem() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.ARROW);
 	}
 
 	@Override

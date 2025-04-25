@@ -60,6 +60,8 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Altar_of_Amethyst_Model ALTAR_OF_AMETHYST_MODEL = new Altar_of_Amethyst_Model();
     private static final Altar_of_Abyss_Model ALTAR_OF_ABYSS_MODEL = new Altar_of_Abyss_Model();
     private static final Abyssal_Egg_Model ABYSSAL_MODEL = new Abyssal_Egg_Model();
+    private static final Goddess_Statue_Model GODDESS_STATUE_MODEL = new Goddess_Statue_Model();
+
     private static final Wither_Assault_SHoulder_Weapon_Model WASW_MODEL = new Wither_Assault_SHoulder_Weapon_Model();
     private static final Void_Forge_Model VOID_FORGE_MODEL = new Void_Forge_Model();
     private static final Tidal_Claws_Model TIDAL_CLAWS_MODEL = new Tidal_Claws_Model();
@@ -117,6 +119,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation VASW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon.png");
     private static final ResourceLocation VASW_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation EMP_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/emp.png");
+    private static final ResourceLocation STATUE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/goddess_statue.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/coral_spear.png");
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
@@ -446,6 +449,15 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getghost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
+        if(itemStackIn.getItem() == ModItems.GODDESS_STATUE.get()){
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 1.50F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            GODDESS_STATUE_MODEL.resetToDefaultPose();
+            GODDESS_STATUE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(STATUE_TEXTURE)), combinedLightIn, combinedOverlayIn);
+            matrixStackIn.popPose();
+        }
+
     }
     
 

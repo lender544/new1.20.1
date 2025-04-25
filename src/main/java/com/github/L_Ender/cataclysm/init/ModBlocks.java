@@ -3,8 +3,6 @@ package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.*;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -222,6 +220,14 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.ANVIL)));
 
+    public static final DeferredBlock<Block> GODDESS_STATUE = BLOCKS.register("goddess_statue",
+            () -> new Statue_Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.QUARTZ)
+                    .noOcclusion()
+                    .strength(-1.0F, 3600000.0F)
+                    .noLootTable()
+                    .sound(SoundType.STONE)));
+
     public static final DeferredBlock<Block> DOOR_OF_SEAL = BLOCKS.register("door_of_seal",
             () -> new Door_of_Seal_Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
@@ -231,7 +237,6 @@ public class ModBlocks {
                     .noLootTable()
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)));
-
 
     public static final DeferredBlock<Block> DOOR_OF_SEAL_PART = BLOCKS.register("door_of_seal_part", () -> new
             Door_of_Seal_Block.Door_Of_Seal_Part_Block(BlockBehaviour.Properties.ofFullCopy(ModBlocks.DOOR_OF_SEAL.get())));

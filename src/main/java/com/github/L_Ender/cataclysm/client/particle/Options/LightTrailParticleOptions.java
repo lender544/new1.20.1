@@ -23,7 +23,7 @@ public record LightTrailParticleOptions(float r, float g, float b, float width, 
                 buf.writeInt(option.entityid);
             },
             (buf) -> {
-                return new LightTrailParticleOptions(buf.readInt(), buf.readInt(), buf.readInt(),buf.readFloat(), buf.readFloat(),buf.readInt());
+                return new LightTrailParticleOptions(buf.readFloat(), buf.readFloat(), buf.readFloat(),buf.readFloat(), buf.readFloat(),buf.readInt());
             }
     );
 
