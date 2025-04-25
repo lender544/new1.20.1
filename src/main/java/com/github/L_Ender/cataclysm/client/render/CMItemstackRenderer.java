@@ -62,6 +62,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Altar_of_Amethyst_Model ALTAR_OF_AMETHYST_MODEL = new Altar_of_Amethyst_Model();
     private static final Altar_of_Abyss_Model ALTAR_OF_ABYSS_MODEL = new Altar_of_Abyss_Model();
     private static final Abyssal_Egg_Model ABYSSAL_MODEL = new Abyssal_Egg_Model();
+    private static final Goddess_Statue_Model GODDESS_STATUE_MODEL = new Goddess_Statue_Model();
     private static final Wither_Assault_SHoulder_Weapon_Model WASW_MODEL = new Wither_Assault_SHoulder_Weapon_Model();
     private static final Void_Forge_Model VOID_FORGE_MODEL = new Void_Forge_Model();
     private static final Tidal_Claws_Model TIDAL_CLAWS_MODEL = new Tidal_Claws_Model();
@@ -113,6 +114,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation ALTAR_OF_ABYSS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_abyss.png");
     private static final ResourceLocation ABYSSAL_EGG_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg.png");
     private static final ResourceLocation ABYSSAL_EGG_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg_layer.png");
+    private static final ResourceLocation STATUE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/goddess_statue.png");
+
+
     private static final ResourceLocation MIF_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
     private static final ResourceLocation WASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon.png");
     private static final ResourceLocation WASW_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon_layer.png");
@@ -440,6 +444,14 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             ABYSSAL_MODEL.resetToDefaultPose();
             ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ABYSSAL_EGG_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getghost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+        if(itemStackIn.getItem() == ModBlocks.GODDESS_STATUE.get().asItem()){
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 1.50F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            GODDESS_STATUE_MODEL.resetToDefaultPose();
+            GODDESS_STATUE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(STATUE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
     }

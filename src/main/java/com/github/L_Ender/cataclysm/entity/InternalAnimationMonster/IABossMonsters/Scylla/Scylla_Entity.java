@@ -1,9 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
+
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.config.CMConfig;
-
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.HurtByNearestTargetGoal;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -17,8 +17,8 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Lightning_Spear_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Storm_Serpent_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
-import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
@@ -56,6 +56,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -96,6 +97,7 @@ public class Scylla_Entity extends IABoss_monster {
     public AnimationState WhipAndSpearAnimationState = new AnimationState();
     public AnimationState SpawnIdleAnimationState = new AnimationState();
     public AnimationState SpawnAnimationState = new AnimationState();
+    public AnimationState SummonSnakeAnimationState = new AnimationState();
     public AnimationState DeathAnimationState = new AnimationState();
     public static final EntityDataAccessor<Boolean> EYE = SynchedEntityData.defineId(Scylla_Entity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> CHAIN_ANCHOR = SynchedEntityData.defineId(Scylla_Entity.class, EntityDataSerializers.BOOLEAN);
@@ -122,6 +124,10 @@ public class Scylla_Entity extends IABoss_monster {
     public static final int SPEAR_COOLDOWN = 80;
     private int thundercloud_cooldown = 0;
     public static final int THUNDER_CLOUD_COOLDOWN = 350;
+
+    private int summon_snake_cooldown = 0;
+    public static final int SUMMON_SNAKE_COOLDOWN = 350;
+
     private int back_step_cooldown = 0;
     public static final int BACK_STEP_COOLDOWN = 150;
     private int explosion_cooldown = 0;
@@ -138,7 +144,7 @@ public class Scylla_Entity extends IABoss_monster {
     public Scylla_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 500;
-        this.setMaxUpStep(2.0F);
+        this.setMaxUpStep(1.75F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         setConfigattribute(this, CMConfig.ScyllaHealthMultiplier, CMConfig.ScyllaDamageMultiplier);
@@ -159,6 +165,7 @@ public class Scylla_Entity extends IABoss_monster {
         this.goalSelector.addGoal(0, new Scylla_EntityPhaseChangeGoal(this,0,21,0,55,1,2/3F));
         this.goalSelector.addGoal(0, new Scylla_EntityPhaseChangeGoal(this,0,22,0,68,2,1/3F));
 
+
         this.goalSelector.addGoal(3, new HorizontalSwingGoal(this,0,6,30));
 
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,5,0,44,14,3.75F){
@@ -167,6 +174,9 @@ public class Scylla_Entity extends IABoss_monster {
                 return super.canUse() && Scylla_Entity.this.getRandom().nextFloat() * 100.0F < 14f;
             }
         });
+
+        // snake
+        this.goalSelector.addGoal(3, new SummonSnake(this,0,26,0,75,5,6.0F,45F));
 
         this.goalSelector.addGoal(3, new SpearThrowGoal(this,0,5F,25F,28,16));
 
@@ -197,8 +207,6 @@ public class Scylla_Entity extends IABoss_monster {
                 Scylla_Entity.this.setEye(false);
             }
         });
-
-
 
         this.goalSelector.addGoal(2, new InternalStateGoal(this,14,14,0,23,10){
             @Override
@@ -304,7 +312,7 @@ public class Scylla_Entity extends IABoss_monster {
         this.goalSelector.addGoal(3, new ScyllafallingState(this, 16, 16,17,44, 43));
 
         //fall_end
-        this.goalSelector.addGoal(2, new InternalStateGoal(this, 17, 17, 0, 23,0,EnumSet.of(Goal.Flag.LOOK)));
+        this.goalSelector.addGoal(2, new InternalStateGoal(this, 17, 17, 0, 23,0));
 
 
         this.goalSelector.addGoal(3, new Scylla_Lightning_Explosion(this,0,18,0,85,16,16F,26,54,13,20));
@@ -454,10 +462,9 @@ public class Scylla_Entity extends IABoss_monster {
     }
 
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType,@Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag p_21438_) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
         this.setAct(true);
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData,p_21438_);
+        return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_, p_29682_);
     }
 
     @Nullable
@@ -522,12 +529,13 @@ public class Scylla_Entity extends IABoss_monster {
             return this.SpawnIdleAnimationState;
         }else if (input == "spawn") {
             return this.SpawnAnimationState;
+        }else if (input == "summon_snake") {
+            return this.SummonSnakeAnimationState;
         } else {
             return new AnimationState();
         }
     }
 
-    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(EYE, false);
@@ -737,6 +745,10 @@ public class Scylla_Entity extends IABoss_monster {
                     this.stopAllAnimationStates();
                     this.WhipAndSpearAnimationState.startIfStopped(this.tickCount);
                 }
+                case 26 -> {
+                    this.stopAllAnimationStates();
+                    this.SummonSnakeAnimationState.startIfStopped(this.tickCount);
+                }
             }
         }
         super.onSyncedDataUpdated(p_21104_);
@@ -779,6 +791,7 @@ public class Scylla_Entity extends IABoss_monster {
         this.SpawnIdleAnimationState.stop();
         this.SpawnAnimationState.stop();
         this.WhipAndSpearAnimationState.stop();
+        this.SummonSnakeAnimationState.stop();
     }
 
 
@@ -838,11 +851,11 @@ public class Scylla_Entity extends IABoss_monster {
             }
         }
 
-            if (this.isFlying()) {
-                this.setNoGravity(!this.onGround());
-            } else {
-               this.setNoGravity(false);
-            }
+        if (this.isFlying()) {
+            this.setNoGravity(!verticalCollisionBelow);
+        } else {
+            this.setNoGravity(false);
+        }
 
         if (spin_cooldown > 0) spin_cooldown--;
 
@@ -856,6 +869,7 @@ public class Scylla_Entity extends IABoss_monster {
         if (wave_cooldown > 0) wave_cooldown--;
         if (spear_cooldown > 0) spear_cooldown--;
         if (parry_cooldown > 0) parry_cooldown--;
+        if (summon_snake_cooldown > 0) summon_snake_cooldown--;
         blockbreak();
     }
 
@@ -865,7 +879,7 @@ public class Scylla_Entity extends IABoss_monster {
                 if (!this.level().isClientSide) {
                     if (this.destroyBlocksTick > 0) {
                         --this.destroyBlocksTick;
-                        if (this.destroyBlocksTick == 0 && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                        if (this.destroyBlocksTick == 0 &&  net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
                             boolean flag = false;
                             AABB aabb = this.getBoundingBox().inflate(0.2D);
                             for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX), Mth.floor(this.getY()), Mth.floor(aabb.minZ), Mth.floor(aabb.maxX), Mth.floor(aabb.maxY), Mth.floor(aabb.maxZ))) {
@@ -892,10 +906,11 @@ public class Scylla_Entity extends IABoss_monster {
         theta += Math.PI / 2;
         double vecX = Math.cos(theta);
         double vecZ = Math.sin(theta);
+
         if(this.getAttackState() == 1) {
             if (this.attackTicks == 15) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.0f,6.0f,90,1.0F,80,true);
+                AreaAttack(4.0f,6.0f,95,1.0F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
@@ -905,7 +920,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 2) {
             if (this.attackTicks == 15) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.0f,6.0f,90,1.0F,80,true);
+                AreaAttack(4.0f,6.0f,95,1.0F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,true,0.95F);
 
@@ -915,13 +930,13 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 3) {
             if (this.attackTicks == 16) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.0f,6.0f,90,1.0F,20,true);
+                AreaAttack(4.0f,6.0f,95,1.0F,20,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
             if (this.attackTicks == 30) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.0f,6.0f,90,1.0F,80,true);
+                AreaAttack(4.0f,6.0f,95,1.0F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,true,0.95F);
             }
@@ -930,7 +945,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 4) {
             if (this.attackTicks == 16) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.0f,6.0f,90,1.0F,0,true);
+                AreaAttack(4.0f,6.0f,95,1.0F,0,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
@@ -984,12 +999,9 @@ public class Scylla_Entity extends IABoss_monster {
                     this.level().addParticle((new StormParticle.OrbData(r, g, b, 4f + random.nextFloat() * 1.2f, 1.0F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
                     this.level().addParticle((new StormParticle.OrbData(r, g, b, 2f + random.nextFloat() * 0.7f, 0.35F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-
-
                 }
-
-
             }
+
             if(this.attackTicks == 29 || this.attackTicks == 40 || this.attackTicks == 51) {
                 SpinDamage(2.0f,5.0D,3,1.5,1.0F,0.05F,0,120);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.2f, 0, 20);
@@ -1043,6 +1055,7 @@ public class Scylla_Entity extends IABoss_monster {
             }
         }
         if(this.getAttackState() == 9) {
+
             if (this.attackTicks < 115 && this.attackTicks > 55) {
 
                 CircleLighning(0.2F,0.2F,(random.nextFloat() - 0.5F) * 12, 9 ,3,1);
@@ -1062,9 +1075,11 @@ public class Scylla_Entity extends IABoss_monster {
                     this.level().addParticle((new StormParticle.OrbData(r, g, b, 2f + random.nextFloat() * 0.7f, 0.35F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
                 }
+
             }
             if (this.attackTicks < 140 && this.attackTicks > 55) {
                 Nimbo(0.2F,0.2F,5,9.5D,5,2);
+
             }
             if (this.attackTicks == 55) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.02f, 20, 10);
@@ -1139,6 +1154,17 @@ public class Scylla_Entity extends IABoss_monster {
             }
         }
 
+        if(this.getAttackState() == 15) {
+            if (this.attackTicks == 25) {
+                this.setFlying(true);
+                this.setDeltaMovement(Vec3.ZERO);
+            }
+        }
+        if(this.getAttackState() == 16) {
+            if (this.isFlying()) {
+                this.setFlying(false);
+            }
+        }
 
         if(this.getAttackState() == 17) {
             if (this.attackTicks == 1) {
@@ -1182,7 +1208,6 @@ public class Scylla_Entity extends IABoss_monster {
                     for (int i = 0; i < 2; i++) {
                         this.level().addParticle(new CircleLightningParticle.CircleData(143, 241, 215), d0, d1, d2, d0 + (random.nextFloat() - 0.5F) * 6, d1 + random.nextFloat() - 0.25F, d2 + (random.nextFloat() - 0.5F) * 6);
                     }
-
                     BlockParticleOption blockparticleoption = new BlockParticleOption(ModParticle.DUST_PILLAR.get(), level().getBlockState(blockPosition()));
                     for (int i = 0; (float) i < (float) 30 / 3.0F; i++) {
                         double p0 = this.getX() + this.getRandom().nextGaussian() / 2.0;
@@ -1224,7 +1249,7 @@ public class Scylla_Entity extends IABoss_monster {
 
                 if (this.level().isClientSide) {
                     float vec = 1.0f;
-                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.SHRINK), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
                 }
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
@@ -1239,7 +1264,7 @@ public class Scylla_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.05f, 25, 10);
                 if (this.level().isClientSide) {
                     float vec = 1.0f;
-                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.SHRINK), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
                 }
 
                 for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
@@ -1259,11 +1284,11 @@ public class Scylla_Entity extends IABoss_monster {
             double d1 = this.getY() + 0.1;
             double d2 = this.getZ() + vecZ * 6.0;
             if (this.attackTicks == 21) {
-                ScreenShake_Entity.ScreenShake(level(), this.position(), 35, 0.3f, 0, 50);
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 35, 0.1f, 0, 50);
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(6.75f, 6.75f, 40, 1.35F, 150, false);
                 if (level().isClientSide) {
-                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.SHRINK), d0, d1, d2, 0, 0, 0);
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.GROW), d0, d1, d2, 0, 0, 0);
                     for (int i1 = 0; i1 < 40 + random.nextInt(8); i1++) {
                         double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                         double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
@@ -1397,7 +1422,6 @@ public class Scylla_Entity extends IABoss_monster {
             }
         }
 
-
         if(this.getAttackState() == 24) {
             if (this.attackTicks == 1) {
                 if (!this.level().isClientSide) {
@@ -1453,8 +1477,8 @@ public class Scylla_Entity extends IABoss_monster {
                         BlockPos hit = BlockPos.containing(hitX, hitY, hitZ);
                         BlockState block = level().getBlockState(hit.below());
 
-                       BlockParticleOption blockparticleoption = new BlockParticleOption(ModParticle.DUST_PILLAR.get(), block);
-                      this.level().addParticle(blockparticleoption, d0 + extraX, this.getY() + extraY, d2 + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                        BlockParticleOption blockparticleoption = new BlockParticleOption(ModParticle.DUST_PILLAR.get(), block);
+                        this.level().addParticle(blockparticleoption, d0 + extraX, this.getY() + extraY, d2 + extraZ, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                     }
                 }
             }
@@ -1468,7 +1492,7 @@ public class Scylla_Entity extends IABoss_monster {
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(6.75f, 6.75f, 40, 1.35F, 150, false);
                 if (level().isClientSide) {
-                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.SHRINK), d0, d1, d2, 0, 0, 0);
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.GROW), d0, d1, d2, 0, 0, 0);
                     for (int i1 = 0; i1 < 40 + random.nextInt(8); i1++) {
                         double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                         double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
@@ -1511,7 +1535,7 @@ public class Scylla_Entity extends IABoss_monster {
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(6.75f, 6.75f, 40, 1.35F, 150, false);
                 if (level().isClientSide) {
-                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.SHRINK), d0, d1, d2, 0, 0, 0);
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 30, false, RingParticle.EnumRingBehavior.GROW), d0, d1, d2, 0, 0, 0);
                     for (int i1 = 0; i1 < 40 + random.nextInt(8); i1++) {
                         double DeltaMovementX = getRandom().nextGaussian() * 0.07D;
                         double DeltaMovementY = getRandom().nextGaussian() * 0.07D;
@@ -1563,6 +1587,45 @@ public class Scylla_Entity extends IABoss_monster {
                     this.level().addParticle(new Gathering_Water_Particle.GatheringData(r, g, b), p0 + (random.nextFloat() - 0.5F) * 7, p1 + random.nextFloat() -0.25F, p2 + (random.nextFloat() - 0.5F) * 7, p0, p1, p2);
 
                 }
+            }
+        }
+        if(this.getAttackState() == 26) {
+            if (level().isClientSide) {
+                if (this.attackTicks < 20 && this.attackTicks > 1) {
+                    for (int i = 0; i < 2; i++) {
+                        float r = 94 / 255F;
+                        float g = 150 / 255F;
+                        float b = 226 / 255F;
+                        double p0 = this.getX();
+                        double p1 = this.getY() + 0.1;
+                        double p2 = this.getZ();
+                        this.level().addParticle(new Gathering_Water_Particle.GatheringData(r, g, b), p0 + (random.nextFloat() - 0.5F) * 12, p1 + (random.nextFloat() - 0.5F) * 2, p2 + (random.nextFloat() - 0.5F) * 12, p0, p1, p2);
+                    }
+
+                }
+                if (this.attackTicks == 30) {
+
+                    this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 94/255F, 150/255F, 226/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.GROW), getX(), getY() + 0.02f, getZ(), 0, 0, 0);
+
+                }
+
+                if (this.attackTicks < 40 && this.attackTicks > 30) {
+                    float r = 143 / 255F;
+                    float g = 241 / 255F;
+                    float b = 215 / 255F;
+
+                    this.level().addParticle((new StormParticle.OrbData(99/255F, 194/255F, 224/255F, 6f + random.nextFloat() * 0.25f, 1.5F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
+                    this.level().addParticle((new StormParticle.OrbData(r, g, b, 4f + random.nextFloat() * 1.2f, 1.0F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
+                    this.level().addParticle((new StormParticle.OrbData(r, g, b, 2f + random.nextFloat() * 0.7f, 0.35F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
+
+
+                }
+            }
+            if (this.attackTicks == 1) {
+                ScreenShake_Entity.ScreenShake(level(), this.position(), 35, 0.1f, 0, 120);
             }
         }
     }
@@ -1804,7 +1867,7 @@ public class Scylla_Entity extends IABoss_monster {
             float f = Mth.cos(this.yBodyRot * ((float) Math.PI / 180F));
             float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
 
-            double theta = (yBodyRot) * (Math.PI / 180);
+            double theta = (yBodyRot) * (Math.PI / 180);  // 엔티티의 Y축 회전
             double vecX = Math.cos(theta);
             double vecZ = Math.sin(theta);
 
@@ -1977,9 +2040,9 @@ public class Scylla_Entity extends IABoss_monster {
     protected PathNavigation createNavigation(Level worldIn) {
         return new CMPathNavigateGround(this, worldIn);
     }
-
+    
     public boolean canBeAffected(MobEffectInstance p_34192_) {
-        return p_34192_.getEffect() != ModEffect.EFFECTSTUN.get() && p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
+        return ModTag.EFFECTIVE_FOR_BOSSES_LOOKUP.contains(p_34192_.getEffect()) && super.canBeAffected(p_34192_);
     }
 
 
@@ -2057,7 +2120,7 @@ public class Scylla_Entity extends IABoss_monster {
                     entity.setYRot(entity.yRotO);
                 }
 
-                if (entity.attackTicks == 11) {
+                if (entity.attackTicks == 13) {
                     if (target != null) {
                         float r = entity.distanceTo(target);
                         r = Mth.clamp(r, 1.5F, 4F);
@@ -2355,8 +2418,8 @@ public class Scylla_Entity extends IABoss_monster {
                         p2 = target.getZ() - entity.getZ();
                         p3 = Math.sqrt(p0 * p0 + p2 * p2);
                     }
-                    throwntrident.shoot(p0, p1 + p3 * (double) 0.2F, p2, 2F, 0);
                     throwntrident.setBaseDamage(15);
+                    throwntrident.shoot(p0, p1 + p3 * (double) 0.2F, p2, 2F, 0);
                     throwntrident.setControllerUUID(entity.getUUID());
                     entity.setAnchorUUID(throwntrident.getUUID());
                     entity.level().addFreshEntity(throwntrident);
@@ -2449,7 +2512,7 @@ public class Scylla_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.thundercloud_cooldown <= 0 && this.entity.getHealth() < this.entity.getMaxHealth() * 2/3;
+            return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.thundercloud_cooldown <= 0 && this.entity.isPhase() >0;
         }
 
         @Override
@@ -2569,10 +2632,7 @@ public class Scylla_Entity extends IABoss_monster {
                     this.entity.setDeltaMovement(0, 1.7, 0);
                 }
             }
-            if (this.entity.attackTicks == 25) {
-                entity.setFlying(true);
-                this.entity.setDeltaMovement(Vec3.ZERO);
-            }
+
             if (this.entity.attackTicks == attackshot) {
                 if (entity.getAnchor() == null) {
                     if (target != null) {
@@ -2582,10 +2642,9 @@ public class Scylla_Entity extends IABoss_monster {
                         double p1 = target.getY(0.3333333333333333D) - throwntrident.getY();
                         double p2 = target.getZ() - entity.getZ();
                         double p3 = Math.sqrt(p0 * p0 + p2 * p2);
-
+                        throwntrident.setBaseDamage(15);
                         throwntrident.shoot(p0, p1 + p3 * (double) 0.2F, p2, 2F, 0);
                         throwntrident.setControllerUUID(entity.getUUID());
-                        throwntrident.setBaseDamage(15);
                         throwntrident.setHookMode(true);
                         entity.setAnchorUUID(throwntrident.getUUID());
                         entity.level().addFreshEntity(throwntrident);
@@ -2623,21 +2682,18 @@ public class Scylla_Entity extends IABoss_monster {
         @Override
         public void start() {
             super.start();
-            if (entity.isFlying()) {
-                entity.setFlying(false);
-            }
         }
 
         @Override
         public void tick() {
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 0);
-                entity.lookAt(target, 30.0F, 0);
+                entity.getLookControl().setLookAt(target, 30.0F, 0F);
+                entity.lookAt(target, 30.0F, 0F);
             } else {
                 entity.setYRot(entity.yRotO);
             }
-            if(entity.attackTicks > 5 && entity.onGround()){
+            if(entity.attackTicks > 5 && entity.verticalCollisionBelow){
                 stop();
             }
         }
@@ -2888,6 +2944,95 @@ public class Scylla_Entity extends IABoss_monster {
             entity.setEye(false);
             entity.setChainAnchor(false);
             this.entity.whip_cooldown = WHIP_COOLDOWN;
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+    }
+
+    static class SummonSnake extends InternalAttackGoal {
+        private final float random;
+        private final Scylla_Entity entity;
+
+        public SummonSnake(Scylla_Entity entity, int attackstate, int attackgetstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+            super(entity,attackstate,attackgetstate,attackendstate,attackMaxtick,attackseetick,attackrange);
+            this.random = random;
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.summon_snake_cooldown <= 0 && this.entity.isPhase() >0;
+
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            entity.setEye(true);
+        }
+
+        @Override
+        public void tick() {
+            LivingEntity target = entity.getTarget();
+            super.tick();
+
+            if (target != null) {
+                if (entity.attackTicks == 28) {
+                    for (int i = 0; i < 2; ++i) {
+                        float f = Mth.cos(entity.yBodyRot * ((float) Math.PI / 180F));
+                        float f1 = Mth.sin(entity.yBodyRot * ((float) Math.PI / 180F));
+                        double dis = 8;
+                        double firstAngleOffset = (2 - 1) / 2.0 * dis;
+                        double math = 0 - firstAngleOffset + (i * dis);
+                        double d0 = entity.getX() + f * math;
+                        double d1 = entity.getY() + entity.getBbHeight() * 0.7F;
+                        double d2 = entity.getZ() + f1 * math;
+                        double d3 = target.getX() - d0;
+                        double d4 = target.getY(0.35) - d1;
+                        double d5 = target.getZ() - d2;
+                        Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
+
+                        entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity, (float) CMConfig.ScyllaLightningStormHpDamage, target, i == 0));
+
+                    }
+                }
+                if (this.entity.isPhase() > 1) {
+                    if (entity.attackTicks == 40) {
+                        for (int i = 0; i < 2; ++i) {
+                            float f = Mth.cos(entity.yBodyRot * ((float) Math.PI / 180F));
+                            float f1 = Mth.sin(entity.yBodyRot * ((float) Math.PI / 180F));
+                            double dis = 12;
+                            double firstAngleOffset = (2 - 1) / 2.0 * dis;
+                            double math = 0 - firstAngleOffset + (i * dis);
+                            double d0 = entity.getX() + f * math;
+                            double d1 = entity.getY() + entity.getBbHeight() * 0.7F;
+                            double d2 = entity.getZ() + f1 * math;
+                            double d3 = target.getX() - d0;
+                            double d4 = target.getY(0.35) - d1;
+                            double d5 = target.getZ() - d2;
+                            Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
+
+
+                            entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity, (float) CMConfig.ScyllaLightningStormHpDamage, target, i == 0));
+
+
+                        }
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            entity.setEye(false);
+            this.entity.summon_snake_cooldown = SUMMON_SNAKE_COOLDOWN;
         }
 
         @Override

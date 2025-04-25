@@ -183,6 +183,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> MECHANICAL_FUSION_ANVIL = registerBlockAndItem("mechanical_fusion_anvil",
             Mechanical_fusion_Anvil::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
+    public static final RegistryObject<Block> GODDESS_STATUE = registerBlockAndItem("goddess_statue",
+            Statue_Block::new, new Item.Properties().rarity(Rarity.EPIC), true);
+
     public static final RegistryObject<Block> DOOR_OF_SEAL = registerBlockAndItem("door_of_seal",
             Door_of_Seal_Block::new, new Item.Properties().rarity(Rarity.EPIC), true);
 

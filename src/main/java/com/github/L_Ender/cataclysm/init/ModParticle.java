@@ -119,6 +119,12 @@ public class ModParticle {
         }
     });
 
+    public static final RegistryObject<ParticleType<Not_Spin_TrailParticle.NSTData>> NOT_SPIN_PARTICLE = PARTICLE.register("not_spin_particle", () -> new ParticleType<Not_Spin_TrailParticle.NSTData>(false, Not_Spin_TrailParticle.NSTData.DESERIALIZER) {
+        @Override
+        public Codec<Not_Spin_TrailParticle.NSTData> codec() {
+            return Not_Spin_TrailParticle.NSTData.CODEC(NOT_SPIN_PARTICLE.get());
+        }
+    });
 
     public static final RegistryObject<SimpleParticleType> SPARK = PARTICLE.register("spark", () -> new SimpleParticleType(false));
 

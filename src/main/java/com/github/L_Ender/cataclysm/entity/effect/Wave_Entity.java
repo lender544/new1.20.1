@@ -239,11 +239,12 @@ public class Wave_Entity extends Entity {
             } else {
                 this.reapplyPosition();
             }
-            for(int particleCount = 0; particleCount < 3; particleCount++){
-                for (int i = 0; i <= 3; i++) {
-                    float xOffset = (float) i / 3F - 0.5F + (random.nextFloat() - 0.5F) * 0.2F;
+            for(int particleCount = 0; particleCount < 2; particleCount++){
+                for (int i = 0; i < 2; i++) {
+                    float xOffset = (float) (i -1) / 2.0F + 0.25F + (random.nextFloat() - 0.5F) * 0.2F;
                     int rand = this.random.nextInt(20);
-                    spawnParticleAt((0.1F + random.nextFloat() * 0.2F) , 0.9F, xOffset * 1.6F , new Custom_Poof_Particle.PoofData(100 +rand,194+rand,202+rand,0.1F));
+
+                    spawnParticleAt((0.1F + random.nextFloat() * 0.2F) , 0.7F, xOffset * 3.5F , new Custom_Poof_Particle.PoofData(65 +rand,114+rand,145+rand,0.1F));
                 }
             }
         } else {

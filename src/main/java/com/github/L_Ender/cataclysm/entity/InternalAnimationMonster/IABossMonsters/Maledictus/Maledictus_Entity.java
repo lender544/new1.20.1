@@ -953,7 +953,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         }
 
         if (this.getAttackState() == 4) {
-            if (this.onGround() || !this.getFeetBlockState().getFluidState().isEmpty()) {
+            if (this.verticalCollisionBelow  || !this.getFeetBlockState().getFluidState().isEmpty()) {
                 this.setAttackState(5);
             }
         }

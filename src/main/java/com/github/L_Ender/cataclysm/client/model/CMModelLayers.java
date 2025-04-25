@@ -63,6 +63,7 @@ public class CMModelLayers {
     public static final ModelLayerLocation CLAWDIAN_MODEL = createLocation("clawdian_model", "main");
     public static final ModelLayerLocation LASER_BEAM_MODEL = createLocation("laser_beam_model", "main");
     public static final ModelLayerLocation WAVE_MODEL = createLocation("wave_model", "main");
+    public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
@@ -107,6 +108,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(LASER_BEAM_MODEL, Laser_Beam_Model::createBodyLayer);
 
         event.registerLayerDefinition(WAVE_MODEL, Wave_Model::createBodyLayer);
+        event.registerLayerDefinition(STORM_SERPENT_MODEL, Storm_Serpent_Model::createBodyLayer);
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

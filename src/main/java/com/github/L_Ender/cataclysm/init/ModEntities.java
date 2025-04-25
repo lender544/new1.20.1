@@ -350,6 +350,13 @@ public class ModEntities {
             .setUpdateInterval(1)
             .build(Cataclysm.MODID + ":wave"));
 
+    public static final RegistryObject<EntityType<Storm_Serpent_Entity>> STORM_SERPENT = ENTITY_TYPE.register("storm_serpent", () -> EntityType.Builder.<Storm_Serpent_Entity>of(Storm_Serpent_Entity::new, MobCategory.MISC)
+            .sized(2.0F, 9.0F)
+            .clientTrackingRange(6)
+            .updateInterval(2)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":storm_serpent"));
+
     public static final RegistryObject<EntityType<Ashen_Breath_Entity>> ASHEN_BREATH = ENTITY_TYPE.register("ashen_breath", () -> EntityType.Builder.<Ashen_Breath_Entity>of(Ashen_Breath_Entity::new, MobCategory.MISC)
             .sized(0.0f, 0.0f)
             .fireImmune()

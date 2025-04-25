@@ -91,6 +91,7 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
         registry.registerSpecial(ModParticle.DUST_PILLAR.get(), new Dust_Pillar_Particle.DustPillarProvider());
+        registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
     }
 
 
@@ -183,8 +184,6 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), Amethyst_Cluster_Projectile_Renderer::new);
         EntityRenderers.register(ModEntities.THE_LEVIATHAN_TONGUE.get(), RendererNull::new);
 
-
-
         EntityRenderers.register(ModEntities.ACCRETION.get(), Accretion_Renderer::new);
         EntityRenderers.register(ModEntities.HIPPOCAMTUS.get(), Hippocamtus_Renderer::new);
         EntityRenderers.register(ModEntities.SCYLLA.get(), Scylla_Renderer::new);
@@ -197,7 +196,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
         EntityRenderers.register(ModEntities.SPARK.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.WAVE.get(), Wave_Renderer::new);
-
+        EntityRenderers.register(ModEntities.STORM_SERPENT.get(), Storm_Serpent_Renderer::new);
         EntityRenderers.register(ModEntities.VOID_SHARD.get(), (render) -> {
             return new ThrownItemRenderer<>(render, 0.75F, true);
         });
@@ -231,6 +230,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_Block_Renderer::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
         BlockEntityRenderers.register(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
+        BlockEntityRenderers.register(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);
         MenuScreens.register(ModMenu.WEAPON_FUSION.get(), GUIWeponfusion::new);
         CuriosRendererRegistry.register(ModItems.SANDSTORM_IN_A_BOTTLE.get(), RendererSandstorm_In_A_Bottle::new);
         CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), RendererSticky_Gloves::new);

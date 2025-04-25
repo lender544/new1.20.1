@@ -445,6 +445,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.animate(entity.getAnimationState("spawn"), Scylla_Lightning_Animation.SPAWN, ageInTicks, 1.0F);
 
 		this.animate(entity.getAnimationState("spawn_idle"), Scylla_Lightning_Animation.SPAWN_IDLE, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("summon_snake"), Scylla_Lightning_Animation.SUMMON_SNAKE, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {
