@@ -169,6 +169,7 @@ public class CMConfig {
     public static double ScyllaSpearDamage = 14;
     public static double ScyllaLightningStormDamage = 10;
     public static double ScyllaLightningAreaDamage = 4;
+    public static double ScyllaSnakeDamage = 16;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
@@ -454,7 +455,7 @@ public class CMConfig {
             ScyllaSpearDamage = ConfigHolder.COMMON.ScyllaSpearDamage.get();
             ScyllaLightningStormDamage = ConfigHolder.COMMON.ScyllaLightningStormDamage.get();
             ScyllaLightningAreaDamage = ConfigHolder.COMMON.ScyllaLightningAreaDamage.get();
-
+            ScyllaSnakeDamage = ConfigHolder.COMMON.ScyllaSnakeDamage.get();
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

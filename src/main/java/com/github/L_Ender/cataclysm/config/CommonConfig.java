@@ -185,6 +185,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue ScyllaSpearDamage;
     public final ModConfigSpec.DoubleValue ScyllaLightningStormDamage;
     public final ModConfigSpec.DoubleValue ScyllaLightningAreaDamage;
+    public final ModConfigSpec.DoubleValue ScyllaSnakeDamage;
     public final ModConfigSpec.DoubleValue ScyllaDamageCap;
     public final ModConfigSpec.DoubleValue ScyllaLongRangelimit;
     public final ModConfigSpec.IntValue ScyllaDamageTime;
@@ -463,6 +464,8 @@ public class CommonConfig {
         ScyllaSpearDamage = buildDouble(builder, "Scylla's Spear Damage", "all", CMConfig.ScyllaSpearDamage, 0D, 1000000D, "Scylla's Spear Damage");
         ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
         ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
+        ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
+
         ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
         ScyllaDamageTime = buildInt(builder, "Scylla DamageTime", "all", CMConfig.ScyllaDamageTime, 0, 100, "Scylla's DamageTime");
         ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");

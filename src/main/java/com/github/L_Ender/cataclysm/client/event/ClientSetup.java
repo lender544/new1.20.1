@@ -211,6 +211,7 @@ public class ClientSetup {
 		//	ItemProperties.register(Items.CROSSBOW, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "void_scatter_arrow"), (stack, world, entity, j) -> entity != null && CrossbowItem.isCharged(stack) && CrossbowItem.containsChargedProjectile(stack, ModItems.VOID_SCATTER_ARROW.get()) ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.CORAL_CHUNK.get(), ResourceLocation.parse("chunk"), (stack, level, living, j) -> (stack.getCount() % 3 == 0) ? 0.0F : (stack.getCount() % 3 == 1) ? 0.5F : 1.0F);
 			ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
+			ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 
 		} catch (Exception e) {
 			Cataclysm.LOGGER.warn("Could not load item models for weapons");
@@ -238,7 +239,7 @@ public class ClientSetup {
 				ModItems.THE_INCINERATOR.get(), ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get(), ModItems.VOID_ASSULT_SHOULDER_WEAPON.get(), ModItems.CORAL_SPEAR.get(), ModItems.CORAL_BARDICHE.get(),
 				ModItems.VOID_FORGE.get(), ModItems.TIDAL_CLAWS.get(), ModItems.MEAT_SHREDDER.get(), ModItems.LASER_GATLING.get(), ModItems.ANCIENT_SPEAR.get() , ModItems.CURSED_BOW.get(),
 				ModItems.WRATH_OF_THE_DESERT.get(), ModItems.SOUL_RENDER.get(), ModItems.THE_ANNIHILATOR.get(), ModItems.THE_IMMOLATOR.get(), ModItems.ALTAR_OF_FIRE.get(), ModItems.ALTAR_OF_VOID.get(),
-
+				ModItems.AZURE_SEA_SHIELD.get(),
 				ModItems.ALTAR_OF_AMETHYST.get(), ModItems.ALTAR_OF_ABYSS.get(), ModItems.EMP.get(), ModItems.MECHANICAL_FUSION_ANVIL.get(), ModItems.ABYSSAL_EGG.get(),
 				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get()
 		);

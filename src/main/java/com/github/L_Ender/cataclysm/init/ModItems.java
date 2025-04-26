@@ -425,6 +425,9 @@ public class ModItems {
     public static final DeferredItem<Item> BLACK_STEEL_TARGE = ITEMS.register("black_steel_targe",
             () -> new Black_Steel_Targe(new Item.Properties().durability(840)));
 
+    public static final DeferredItem<Item> AZURE_SEA_SHIELD = ITEMS.register("azure_sea_shield",
+            () -> new Azure_sea_Shield(new Item.Properties().durability(514)));
+
     public static final DeferredItem<Item> BULWARK_OF_THE_FLAME = ITEMS.register("bulwark_of_the_flame",
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 

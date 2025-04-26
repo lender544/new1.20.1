@@ -175,19 +175,6 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 			if (this.getHookMode()) {
 				if (this.getGrab()) {
 					if (!level().isClientSide) {
-						double maxSpeed = 18;
-						double brakeZone = (6D * (maxSpeed / 10));
-						double pullSpeed = maxSpeed / 6D;
-						Vec3 distance = this.position().subtract(levi.position().add(0, levi.getBbHeight() / 2, 0));
-						Vec3 motion = distance.normalize().scale( pullSpeed);
-
-						if (Math.abs(distance.y) < 0.1D)
-							motion = new Vec3(motion.x, 0, motion.z);
-						if (new Vec3(distance.x, 0, distance.z).length() < new Vec3(levi.getBbWidth() / 2, 0, levi.getBbWidth() / 2).length() / 1.4)
-							motion = new Vec3(0, motion.y, 0);
-
-						levi.setDeltaMovement(motion);
-						levi.hurtMarked = true;
 						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
 							if (entity.equals(controller)) {
 
