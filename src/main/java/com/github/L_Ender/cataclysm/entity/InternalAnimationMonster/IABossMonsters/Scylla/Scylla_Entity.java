@@ -613,7 +613,6 @@ public class Scylla_Entity extends IABoss_monster {
         if(!necklace){
             this.setAttackState(23);
         }
-        this.setHomePos(this.blockPosition());
     }
 
 
@@ -2002,6 +2001,7 @@ public class Scylla_Entity extends IABoss_monster {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
 
         if (!this.getAct()) {
+            this.setHomePos(this.blockPosition());
             this.setAct(true);
             return InteractionResult.SUCCESS;
         }
@@ -2611,6 +2611,9 @@ public class Scylla_Entity extends IABoss_monster {
         @Override
         public void stop() {
             super.stop();
+            if (entity.isFlying()) {
+                entity.setFlying(false);
+            }
         }
 
         @Override
@@ -2682,6 +2685,9 @@ public class Scylla_Entity extends IABoss_monster {
         @Override
         public void start() {
             super.start();
+            if (entity.isFlying()) {
+                entity.setFlying(false);
+            }
         }
 
         @Override
@@ -2693,9 +2699,26 @@ public class Scylla_Entity extends IABoss_monster {
             } else {
                 entity.setYRot(entity.yRotO);
             }
+
+            Entity weapon = entity.getAnchor();
+            if (weapon instanceof Scylla_Storm_Bringer_Entity anchor) {
+                double maxSpeed = 18;
+                double pullSpeed = maxSpeed / 6D;
+                Vec3 distance = anchor.position().subtract(entity.position().add(0, entity.getBbHeight() / 2, 0));
+                Vec3 motion = distance.normalize().scale( pullSpeed);
+
+                if (Math.abs(distance.y) < 0.1D)
+                    motion = new Vec3(motion.x, 0, motion.z);
+                if (new Vec3(distance.x, 0, distance.z).length() < new Vec3(entity.getBbWidth() / 2, 0, entity.getBbWidth() / 2).length() / 1.4)
+                    motion = new Vec3(0, motion.y, 0);
+
+                entity.setDeltaMovement(motion);
+                entity.hurtMarked = true;
+            }
             if(entity.attackTicks > 5 && entity.verticalCollisionBelow){
                 stop();
             }
+
         }
 
         @Override
@@ -2915,7 +2938,7 @@ public class Scylla_Entity extends IABoss_monster {
                     double d5 = target.getZ() - d2;
 
                     for (int i = 0; i <= (spearAmount - 1); ++i) {
-                        double angle = (i - ((spearAmount - 1) / 2)) * offsetangle;
+                        double angle = (i - ((spearAmount - 1) / 2.0)) * offsetangle;
                         double x = d3 * cos(angle) + d5 * sin(angle);
                         double y = d4;
                         double z = -d3 * sin(angle) + d5 * cos(angle);
@@ -2997,7 +3020,7 @@ public class Scylla_Entity extends IABoss_monster {
                         double d5 = target.getZ() - d2;
                         Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
 
-                        entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity, (float) CMConfig.ScyllaLightningStormHpDamage, target, i == 0));
+                        entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity,(float) CMConfig.ScyllaSnakeDamage, target, i == 0));
 
                     }
                 }
@@ -3018,7 +3041,7 @@ public class Scylla_Entity extends IABoss_monster {
                             Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
 
 
-                            entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity, (float) CMConfig.ScyllaLightningStormHpDamage, target, i == 0));
+                            entity.level().addFreshEntity(new Storm_Serpent_Entity(entity.level(), d0, entity.getY(), d2, (float) (Mth.atan2(vec3.z, vec3.x)), i * 8, entity, (float) CMConfig.ScyllaSnakeDamage, target, i == 0));
 
 
                         }

@@ -208,6 +208,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue ScyllaHpDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaSpinHpDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaLightningStormHpDamage;
+    public final ForgeConfigSpec.DoubleValue ScyllaSnakeDamage;
 
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
@@ -469,6 +470,7 @@ public class CommonConfig {
         ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");
         ScyllaSpinHpDamage = buildDouble(builder, "Scylla's Spin Hp Damage", "all", CMConfig.ScyllaSpinHpDamage, 0, 1000000, "Scylla's Spin HP Damage");
         ScyllaLightningStormHpDamage = buildDouble(builder, "Scylla's Lightning Storm HP Damage", "all", CMConfig.ScyllaLightningStormHpDamage, 0, 1000000, "Scylla's Lightning Storm HP Damage");
+        ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
 
         builder.pop();
 

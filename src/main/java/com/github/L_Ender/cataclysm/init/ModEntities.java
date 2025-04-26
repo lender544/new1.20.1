@@ -643,7 +643,8 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<Scylla_Entity>> SCYLLA = ENTITY_TYPE.register("scylla", () -> EntityType.Builder.of(Scylla_Entity::new, MobCategory.MONSTER)
             .sized(1.5F, 3.0F)
-            .clientTrackingRange(8)
+            .fireImmune()
+            .clientTrackingRange(10)
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":scylla"));
 

@@ -167,6 +167,7 @@ public class CMConfig {
     public static double ScyllaSpearDamage = 14;
     public static double ScyllaLightningStormDamage = 10;
     public static double ScyllaLightningAreaDamage = 4;
+    public static double ScyllaSnakeDamage = 16;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
@@ -403,7 +404,7 @@ public class CMConfig {
             ScyllaHpDamage = ConfigHolder.COMMON.ScyllaHpDamage.get();
             ScyllaSpinHpDamage = ConfigHolder.COMMON.ScyllaSpinHpDamage.get();
             ScyllaLightningStormHpDamage = ConfigHolder.COMMON.ScyllaLightningStormHpDamage.get();
-
+            ScyllaSnakeDamage = ConfigHolder.COMMON.ScyllaSnakeDamage.get();
 
             LeviathanHealthMultiplier = ConfigHolder.COMMON.LeviathanHealthMultiplier.get();
             LeviathanDamageMultiplier = ConfigHolder.COMMON.LeviathanDamageMultiplier.get();

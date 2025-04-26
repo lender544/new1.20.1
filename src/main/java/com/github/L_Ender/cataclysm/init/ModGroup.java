@@ -53,6 +53,7 @@ public class ModGroup {
                 entries.accept(ModItems.BLACK_STEEL_AXE.get());
                 entries.accept(ModItems.BLACK_STEEL_HOE.get());
                 entries.accept(ModItems.BLACK_STEEL_TARGE.get());
+                entries.accept(ModItems.AZURE_SEA_SHIELD.get());
                 entries.accept(ModItems.BULWARK_OF_THE_FLAME.get());
                 entries.accept(ModItems.GAUNTLET_OF_GUARD.get());
                 entries.accept(ModItems.GAUNTLET_OF_BULWARK.get());

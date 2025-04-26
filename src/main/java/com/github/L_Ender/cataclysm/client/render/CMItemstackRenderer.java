@@ -49,6 +49,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final Bulwark_of_the_flame_Model BULWARK_OF_THE_FLAME_MODEL = new Bulwark_of_the_flame_Model();
     private static final Black_Steel_Targe_Model BLACK_STEEL_TARGE_MODEL = new Black_Steel_Targe_Model();
+    private static final Azure_Sea_Shield_Model AZURE_SEA_SHIELD_MODEL = new Azure_Sea_Shield_Model();
     private static final EMP_Model EMP_MODEL = new EMP_Model();
     private static final Mechanical_Anvil_Model MF_MODEL = new Mechanical_Anvil_Model();
     private static final Gauntlet_of_Guard_Model GAUNTLET_OF_GUARD_MODEL = new Gauntlet_of_Guard_Model();
@@ -92,6 +93,8 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation BLACK_STEEL_TARGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/black_steel_targe.png");
+    private static final ResourceLocation AZURE_SEA_SHIELD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/azure_sea_shield.png");
+
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom.png");
 
@@ -191,6 +194,13 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BLACK_STEEL_TARGE_TEXTURE), false, itemStackIn.hasFoil());
             BLACK_STEEL_TARGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+        if (itemStackIn.getItem() == ModItems.AZURE_SEA_SHIELD.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(AZURE_SEA_SHIELD_TEXTURE), false, itemStackIn.hasFoil());
+            AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_GUARD.get()) {
