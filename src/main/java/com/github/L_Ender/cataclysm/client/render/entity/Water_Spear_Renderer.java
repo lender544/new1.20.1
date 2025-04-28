@@ -20,7 +20,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class Water_Spear_Renderer extends EntityRenderer<Water_Spear_Entity>
 {
 
-    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[8];
+    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[6];
 
     public Elemental_Spear_Model model;
 

@@ -157,7 +157,6 @@ public class ModBlocks {
             () -> new Altar_Of_Fire_Block(BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .lightLevel((block) -> 7)
-                    .emissiveRendering((block, world, pos) -> true)
                     .strength(-1.0F, 3600000.0F)
                     .noLootTable()
                     .sound(SoundType.METAL)));
@@ -167,7 +166,6 @@ public class ModBlocks {
             () -> new Altar_Of_Void_Block(BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .lightLevel((block) -> 7)
-                    .emissiveRendering((block, world, pos) -> true)
                     .strength(-1.0F, 3600000.0F)
                     .noLootTable()
                     .sound(SoundType.METAL)));
@@ -176,7 +174,6 @@ public class ModBlocks {
             () -> new Altar_Of_Amethyst_Block(BlockBehaviour.Properties.of()
                     .noOcclusion()
                     .lightLevel((block) -> 7)
-                    .emissiveRendering((block, world, pos) -> true)
                     .strength(-1.0F, 3600000.0F)
                     .noLootTable()
                     .sound(SoundType.STONE)));
@@ -207,7 +204,6 @@ public class ModBlocks {
                     .noOcclusion()
                     .lightLevel((block) -> 7)
                     .noLootTable()
-                    .emissiveRendering((block, world, pos) -> true)
                     .strength(-1.0F, 3600000.0F)
                     .sound(SoundType.METAL)));
 
@@ -215,7 +211,6 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MECHANICAL_FUSION_ANVIL = BLOCKS.register("mechanical_fusion_anvil",
             () -> new Mechanical_fusion_Anvil(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
-                    .emissiveRendering((block, world, pos) -> true)
                     .strength(50.0F, 1200.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.ANVIL)));

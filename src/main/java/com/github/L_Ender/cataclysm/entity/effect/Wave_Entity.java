@@ -1,8 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,6 +18,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -34,7 +38,8 @@ public class Wave_Entity extends Entity {
     private LivingEntity owner;
     @Nullable
     private UUID ownerUUID;
-
+    private boolean sentEvent;
+    private boolean clientSideAttackEnded;
     private int lSteps;
     private double lx;
     private double ly;
@@ -207,10 +212,18 @@ public class Wave_Entity extends Entity {
             }
         }
         if(this.getState() == 2) {
+            if(this.getLifespan() >= this.getMaxTicks() - 30) {
+                if (!this.sentEvent) {
+                    this.level().broadcastEntityEvent(this, (byte)4);
+                    this.sentEvent = true;
+                }
+            }
             if(this.getLifespan() >= this.getMaxTicks() - 10) {
                 this.setState(3);
             }
         }
+
+
         this.setLifespan(this.getLifespan() + 1);
 
         if (this.getLifespan() >= this.getMaxTicks()) {
@@ -231,12 +244,13 @@ public class Wave_Entity extends Entity {
             } else {
                 this.reapplyPosition();
             }
-            for(int particleCount = 0; particleCount < 2; particleCount++){
-                for (int i = 0; i < 2; i++) {
-                    float xOffset = (float) (i -1) / 2.0F + 0.25F + (random.nextFloat() - 0.5F) * 0.2F;
-                    int rand = this.random.nextInt(20);
-
-                    spawnParticleAt((0.1F + random.nextFloat() * 0.2F) , 0.7F, xOffset * 3.5F , new CustomPoofParticleOptions(65 +rand,114+rand,145+rand,0.1F));
+            if (!this.clientSideAttackEnded) {
+                for (int particleCount = 0; particleCount < 2; particleCount++) {
+                    for (int i = 0; i < 2; i++) {
+                        float xOffset = (float) (i - 1) / 2.0F + 0.25F + (random.nextFloat() - 0.5F) * 0.2F;
+                        int rand = this.random.nextInt(20);
+                        spawnParticleAt((0.1F + random.nextFloat() * 0.2F), 0.7F, xOffset * 3.5F, new CustomPoofParticleOptions(76 + rand, 147 + rand, 173 + rand, 0.1F));
+                    }
                 }
             }
         } else {
@@ -286,6 +300,15 @@ public class Wave_Entity extends Entity {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public void handleEntityEvent(byte id) {
+        super.handleEntityEvent(id);
+        if (id == 4) {
+            this.clientSideAttackEnded = true;
+
+        }
+
+    }
 
     @Override
     public void lerpTo(double x, double y, double z, float yr, float xr, int steps) {

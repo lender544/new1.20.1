@@ -160,7 +160,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), 5f, entity1, 99, 194, 201,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), 5f, entity1,2.0F));
 
             this.discard();
         }

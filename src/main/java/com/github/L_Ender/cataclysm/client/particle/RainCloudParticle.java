@@ -34,10 +34,10 @@ public class RainCloudParticle extends TextureSheetParticle {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        this.setSpriteFromAge(this.sprites);
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
+            this.setSpriteFromAge(this.sprites);
             this.move(this.xd, this.yd, this.zd);
             this.xd *= (double) this.friction;
             this.yd *= (double) this.friction;

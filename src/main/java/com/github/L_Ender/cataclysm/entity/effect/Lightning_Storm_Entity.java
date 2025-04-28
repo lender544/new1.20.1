@@ -27,9 +27,6 @@ public class Lightning_Storm_Entity extends Entity {
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> HPDAMAGE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
 
-    private static final EntityDataAccessor<Integer> R = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> G = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> B = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.FLOAT);
 
     private static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Lightning_Storm_Entity.class, EntityDataSerializers.INT);
@@ -46,7 +43,7 @@ public class Lightning_Storm_Entity extends Entity {
         super(entityType, level);
     }
 
-    public Lightning_Storm_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage,float Hpdamage, LivingEntity casterIn,int r, int g, int b,float size) {
+    public Lightning_Storm_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage,float Hpdamage, LivingEntity casterIn,float size) {
         this(ModEntities.LIGHTNING_STORM.get(), worldIn);
         this.setDelay(p_i47276_9_);
         this.setCaster(casterIn);
@@ -54,9 +51,6 @@ public class Lightning_Storm_Entity extends Entity {
         this.setHpDamage(Hpdamage);
         this.setYRot(p_i47276_8_ * (180F / (float)Math.PI));
         this.setPos(x, y, z);
-        this.setR(r);
-        this.setG(g);
-        this.setB(b);
         this.setSize(size);
     }
 
@@ -69,31 +63,8 @@ public class Lightning_Storm_Entity extends Entity {
         p_326229_.define(SIZE, 0F);
         p_326229_.define(LIFESPAN, 0);
         p_326229_.define(DELAY, 0);
-        p_326229_.define(R, 0);
-        p_326229_.define(G, 0);
-        p_326229_.define(B, 0);
     }
 
-
-    public int getR()
-    {
-        return this.entityData.get(R);
-    }
-
-    public void setR(int r)
-    {
-        this.entityData.set(R, r);
-    }
-
-    public int getG()
-    {
-        return this.entityData.get(G);
-    }
-
-    public void setG(int g)
-    {
-        this.entityData.set(G, g);
-    }
 
 
     public int getLifespan()
@@ -116,15 +87,6 @@ public class Lightning_Storm_Entity extends Entity {
         this.entityData.set(DELAY, delay);
     }
 
-    public int getB()
-    {
-        return this.entityData.get(B);
-    }
-
-    public void setB(int b)
-    {
-        this.entityData.set(B, b);
-    }
 
     public float getSize()
     {
@@ -209,7 +171,7 @@ public class Lightning_Storm_Entity extends Entity {
 
         if (this.level().isClientSide) {
             if (adjustedLifespan == 2){
-                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 20, this.getR(),this.getG(),this.getB(), 1f, this.getSize() * 6, false, 1), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 20,99,194,201, 1f, this.getSize() * 6, false, 1), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
             }
             for (int i = STRIKE +1; i < 30; i = i + 2) {
                 if (adjustedLifespan == i) {
@@ -223,7 +185,7 @@ public class Lightning_Storm_Entity extends Entity {
                 double d0 = this.getX();
                 double d1 = this.getY() + this.getSize() + 0.03D;
                 double d2 = this.getZ();
-                this.level().addAlwaysVisibleParticle(new LightningStormParticleOptions(this.getR(),this.getG(),this.getB(),this.getSize()), d0, d1, d2, 0, 0, 0);
+                this.level().addAlwaysVisibleParticle(new LightningStormParticleOptions(this.getSize()), d0, d1, d2, 0, 0, 0);
             }
 
 
@@ -282,7 +244,7 @@ public class Lightning_Storm_Entity extends Entity {
             float motionY = random.nextFloat() * 0.8F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticleOptions(this.getR(), this.getG(), this.getB())), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticleOptions(99,194,201)), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
         }
 
     }
@@ -294,9 +256,7 @@ public class Lightning_Storm_Entity extends Entity {
             compound.putUUID("Owner", this.ownerUUID);
         }
         compound.putFloat("damage", this.getDamage());
-        compound.putInt("r", this.getR());
-        compound.putInt("g", this.getG());
-        compound.putInt("b", this.getB());
+
         compound.putFloat("Hpdamage", this.getHpDamage());
         compound.putFloat("size", this.getSize());
     }
@@ -309,9 +269,6 @@ public class Lightning_Storm_Entity extends Entity {
         }
         this.setDamage(compound.getFloat("damage"));
         this.setHpDamage(compound.getFloat("Hpdamage"));
-        this.setR(compound.getInt("r"));
-        this.setG(compound.getInt("g"));
-        this.setB(compound.getInt("b"));
         this.setSize(compound.getFloat("size"));
     }
 

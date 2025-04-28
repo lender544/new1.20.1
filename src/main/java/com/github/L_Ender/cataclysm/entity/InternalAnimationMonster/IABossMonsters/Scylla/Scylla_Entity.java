@@ -1136,7 +1136,7 @@ public class Scylla_Entity extends IABoss_monster {
                     double d2 = this.getZ() + vecZ * 0.5 + f1 * -0.5;
 
 
-                    this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), d0, d1, d2, (float)theta, -9, (float)CMConfig.ScyllaLightningStormDamage,(float)CMConfig.ScyllaLightningStormHpDamage,this,99,194,201,2.0F));
+                    this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), d0, d1, d2, (float)theta, -9, (float)CMConfig.ScyllaLightningStormDamage,(float)CMConfig.ScyllaLightningStormHpDamage,this,2.0F));
 
                 }
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
@@ -1376,7 +1376,7 @@ public class Scylla_Entity extends IABoss_monster {
                 double d1 = this.getY() + this.getBbHeight() * 2 ;
                 double d2 = this.getZ() + vecZ * vec + f1 * math;
                 if (this.attackTicks == 48) {
-                    this.level().addParticle(new LightningStormParticleOptions(143, 241, 215,3), d0, d1 + 2.0, d2, 0, 0, 0);
+                    this.level().addParticle(new LightningStormParticleOptions(3), d0, d1 + 2.0, d2, 0, 0, 0);
                 }
                 if (this.attackTicks < 48 && this.attackTicks > 39 ) {
                     CircleLighning(vec,math,(random.nextFloat() - 0.5F) * 7,this.getBbHeight() * 2 -1,2,0);
@@ -1426,7 +1426,7 @@ public class Scylla_Entity extends IABoss_monster {
                     double d0 = this.getX() + vecX * 1.2 + f * 0.65;
                     double d1 = this.getY() + 0.03;
                     double d2 = this.getZ() + vecZ * 1.2 + f1 * 0.65;
-                    this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), d0, d1, d2, (float) theta, -9, (float) CMConfig.ScyllaLightningStormDamage, (float)CMConfig.ScyllaLightningStormHpDamage, this, 99, 194, 201, 3.0F));
+                    this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), d0, d1, d2, (float) theta, -9, (float) CMConfig.ScyllaLightningStormDamage, (float)CMConfig.ScyllaLightningStormHpDamage, this, 3.0F));
                 }
             }
             if (this.attackTicks == 11) {
@@ -1829,7 +1829,7 @@ public class Scylla_Entity extends IABoss_monster {
         } while (blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float)CMConfig.ScyllaLightningStormDamage,(float)CMConfig.ScyllaLightningStormHpDamage,this,99,194,201,size));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float)CMConfig.ScyllaLightningStormDamage,(float)CMConfig.ScyllaLightningStormHpDamage,this,size));
         }
     }
 
@@ -2790,7 +2790,7 @@ public class Scylla_Entity extends IABoss_monster {
                 newX = x + vx * lifeticks;
                 newZ = z + vz * lifeticks;
                 for (int k = -4; k <= 4; ++k) {
-                    double d2 = 1.15D * (double) (k);
+                    double d2 = 1.25D * (double) (k);
                     float yaw = target.getYRot() * (float) Math.PI / 180F;
                     this.entity.spawnLightning(newX + Mth.cos(yaw) * d2, newZ + Mth.sin(yaw) * d2, entity.getY() - 2, entity.getY() + 5, yaw, 0,3.0F);
                 }
@@ -2806,7 +2806,7 @@ public class Scylla_Entity extends IABoss_monster {
                 newX = x + vx * lifeticks;
                 newZ = z + vz * lifeticks;
                 for (int k = -4; k <= 4; ++k) {
-                    double d2 = 1.15D * (double) (k);
+                    double d2 = 1.25D * (double) (k);
                     float yaw = target.getYRot() * (float) Math.PI / 180F;
                     this.entity.spawnLightning(newX + Mth.cos(yaw) * d2, newZ + Mth.sin(yaw) * d2, entity.getY() - 2, entity.getY() + 5, yaw, 0,3.0F);
                 }

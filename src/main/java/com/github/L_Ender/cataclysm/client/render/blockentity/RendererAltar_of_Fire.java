@@ -43,7 +43,7 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
         MODEL.animate(tileEntityIn, partialTicks);
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY);
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);
         renderSigil(tileEntityIn,partialTicks,matrixStackIn,bufferIn);
@@ -76,7 +76,7 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
             float f2 = (float) tileEntityIn.tickCount + delta;
             float f3 = Mth.clamp(tileEntityIn.summoningticks, 0, 25);
             matrixStackIn.pushPose();
-            VertexConsumer ivertexbuilder = bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(FLAME_STRIKE));
+            VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucentEmissive(FLAME_STRIKE));
             matrixStackIn.translate(0.5D, 0.001D, 0.5D);
             matrixStackIn.scale(f3 * 0.1f, f3 * 0.1f, f3 * 0.1f);
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F + f2));

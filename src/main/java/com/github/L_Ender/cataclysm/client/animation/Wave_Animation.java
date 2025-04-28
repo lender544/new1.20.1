@@ -60,5 +60,4 @@ public class Wave_Animation {
 					new Keyframe(0.5F, KeyframeAnimations.scaleVec(1.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM)
 			))
 			.build();
-
 }

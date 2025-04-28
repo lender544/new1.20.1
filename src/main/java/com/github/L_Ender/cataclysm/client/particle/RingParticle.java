@@ -73,11 +73,11 @@ public class RingParticle extends TextureSheetParticle {
     @Override
     public void tick() {
         super.tick();
-        this.setSpriteFromAge(this.sprites);
-        if (age >= lifetime) {
-            remove();
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+        }else{
+            this.setSpriteFromAge(this.sprites);
         }
-        age++;
     }
 
     @Override
