@@ -35,13 +35,14 @@ public class FlameJetParticle extends TextureSheetParticle {
     }
 
     public void tick() {
-        this.setSpriteFromAge(this.sprites);
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
 
         if (this.age++ >= this.lifetime) {
             this.remove();
+        }else{
+            this.setSpriteFromAge(this.sprites);
         }
 
     }

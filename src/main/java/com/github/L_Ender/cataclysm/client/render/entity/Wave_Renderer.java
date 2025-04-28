@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -20,13 +21,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
 
-    private static final ResourceLocation WAVE_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/wave.png");
+    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[5];
     public Wave_Model model;
 
     public Wave_Renderer(EntityRendererProvider.Context manager)
     {
         super(manager);
         this.model = new Wave_Model(manager.bakeLayer(CMModelLayers.WAVE_MODEL));
+        for(int i = 0; i < 5; i++){
+            TEXTURE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/wave/wave_" + i + ".png");
+        }
     }
 
 
@@ -37,8 +41,10 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         model.setupAnim(entity, 0, 0, entity.tickCount + partialTicks, 0, 0);
         VertexConsumer vertexconsumer = buffer.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entity)));
-      //  this.model.setupAnim(f, f1);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
+        float alpha = 0.7F;
+        int i1 = FastColor.ARGB32.color((int) (alpha * 255),255, 255, 255);
+        //  this.model.setupAnim(f, f1);
+        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,0.7F,1.0f,1.0f,1.0F);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
@@ -48,6 +54,11 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
     @Override
     public ResourceLocation getTextureLocation(Wave_Entity entity)
     {
-        return WAVE_TEXTURES;
+        return getGrowingTexture((int) ((entity.tickCount * 1.5F) % 5));
     }
+
+    public ResourceLocation getGrowingTexture(int age) {
+        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
+    }
+
 }

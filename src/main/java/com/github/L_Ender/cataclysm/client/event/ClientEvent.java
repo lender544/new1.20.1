@@ -191,7 +191,7 @@ public class ClientEvent {
             PoseStack matrixStackIn = event.getPoseStack();
             float f3 = Mth.clamp(i, 1, 60);
             matrixStackIn.pushPose();
-            VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),CMRenderTypes.getGlowingEffect(FLAME_STRIKE),false, true);
+            VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),RenderType.entityTranslucentEmissive(FLAME_STRIKE),false, true);
             matrixStackIn.translate(0.0D, 0.001, 0.0D);
             matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
@@ -212,7 +212,7 @@ public class ClientEvent {
             PoseStack matrixStackIn = event.getPoseStack();
             float f3 = Mth.clamp(i, 1, 45);
             matrixStackIn.pushPose();
-            VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),CMRenderTypes.getGlowingEffect(NORMAL_FLAME_STRIKE),false, true);
+            VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),RenderType.entityTranslucentEmissive(NORMAL_FLAME_STRIKE),false, true);
             matrixStackIn.translate(0.0D, 0.001, 0.0D);
             matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));

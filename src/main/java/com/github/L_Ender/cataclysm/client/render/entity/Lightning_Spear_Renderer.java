@@ -21,7 +21,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Entity>
 {
 
-    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[8];
+    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[6];
 
     public Elemental_Spear_Model model;
 

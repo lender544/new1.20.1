@@ -403,7 +403,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
 		if(entity.getAttackState() !=7) {
-			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 1.5F, 4.0F);
+			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 4.0F);
 		}
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();

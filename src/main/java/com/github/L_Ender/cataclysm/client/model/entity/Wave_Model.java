@@ -31,7 +31,7 @@ public class Wave_Model extends HierarchicalModel<Wave_Entity> {
 		PartDefinition root = partdefinition.addOrReplaceChild("everything", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition projectile = root.addOrReplaceChild("projectile", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -44.5F, -9.0F, 32.0F, 45.0F, 15.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 61).addBox(-16.0F, -44.5F, 6.0F, 32.0F, 13.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.5F, 1.0F, 0.3927F, 0.0F, 0.0F));
+				.texOffs(1, 61).addBox(-16.0F, -44.5F, 6.0F, 32.0F, 27.0F, 24.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.5F, 1.0F, 0.3927F, 0.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}

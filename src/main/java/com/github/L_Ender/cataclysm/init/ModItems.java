@@ -633,25 +633,25 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> MECH_EYE = ITEMS.register("mech_eye",
-            () -> new MechEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MECH_LOCATED,255,51,0));
 
     public static final RegistryObject<Item> FLAME_EYE = ITEMS.register("flame_eye",
-            () -> new FlameEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_FLAME_LOCATED,252,149,0));
 
     public static final RegistryObject<Item> VOID_EYE = ITEMS.register("void_eye",
-            () -> new VoidEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_FLAME_LOCATED,186,149,186));
 
     public static final RegistryObject<Item> MONSTROUS_EYE = ITEMS.register("monstrous_eye",
-            () -> new MonstrousEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MONSTROUS_LOCATED,90,87,90));
 
     public static final RegistryObject<Item> ABYSS_EYE = ITEMS.register("abyss_eye",
-            () -> new AbyssEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_ABYSS_LOCATED,33,22,43));
 
     public static final RegistryObject<Item> DESERT_EYE = ITEMS.register("desert_eye",
-            () -> new DesertEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_DESERT_LOCATED,247,168,64));
 
     public static final RegistryObject<Item> CURSED_EYE = ITEMS.register("cursed_eye",
-            () -> new CursedEyeItem(new Item.Properties().fireResistant()));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_CURSE_LOCATED,26,107,89));
 
     public static final RegistryObject<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F)

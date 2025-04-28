@@ -66,7 +66,8 @@ public class ModGroup {
                 entries.accept(ModItems.SOUL_RENDER.get());
                 entries.accept(ModItems.THE_ANNIHILATOR.get());
                 entries.accept(ModItems.THE_IMMOLATOR.get());
-                entries.accept(ModItems.MEAT_SHREDDER.get());;
+                entries.accept(ModItems.MEAT_SHREDDER.get());
+                entries.accept(ModItems.LASER_GATLING.get());
                 entries.accept(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get());
                 entries.accept(ModItems.VOID_ASSULT_SHOULDER_WEAPON.get());
                 entries.accept(ModItems.VOID_FORGE.get());

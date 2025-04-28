@@ -127,7 +127,7 @@ public class Spark_Entity extends ThrowableProjectile {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() * 2 / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -9, this.getDamage(), this.getHpDamage(), entity1, 99, 194, 201,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -9, this.getDamage(), this.getHpDamage(), entity1,2.0F));
             this.discard();
         }
 

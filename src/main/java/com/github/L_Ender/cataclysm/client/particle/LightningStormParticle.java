@@ -26,11 +26,8 @@ public class LightningStormParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
-    private int getR;
-    private int getG;
-    private int getB;
 
-    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, int r, int g, int b, float size, SpriteSet spriteSet) {
+    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float size, SpriteSet spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);
@@ -40,33 +37,19 @@ public class LightningStormParticle extends TextureSheetParticle {
         this.quadSize = size;
 
         this.lifetime = 8;
-        this.rCol = r / 255F;
-        this.gCol = g / 255F;
-        this.bCol = b / 255F;
-        this.getR = r ;
-        this.getG = g;
-        this.getB = b;
         this.setSize(size * 1.5F, size * 1.5F);
     }
 
     public void tick() {
-        this.setSpriteFromAge(this.sprites);
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
 
-        if(this.age == 1){
-            this.rCol = 1f;
-            this.gCol = 1f;
-            this.bCol = 1f;
-        }else{
-            this.rCol = this.getR /255F;
-            this.gCol = this.getG /255F;
-            this.bCol = this.getB /255F;
-        }
 
         if (this.age++ >= this.lifetime) {
             this.remove();
+        }else{
+            this.setSpriteFromAge(this.sprites);
         }
 
     }
@@ -133,7 +116,7 @@ public class LightningStormParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(LightningStormParticle.StormData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, typeIn.getR(),typeIn.getG(),typeIn.getB(),typeIn.getSize(), spriteSet);
+            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,typeIn.getSize(), spriteSet);
             return particle;
         }
     }
@@ -142,46 +125,31 @@ public class LightningStormParticle extends TextureSheetParticle {
         public static final Deserializer<LightningStormParticle.StormData> DESERIALIZER = new Deserializer<LightningStormParticle.StormData>() {
             public LightningStormParticle.StormData fromCommand(ParticleType<LightningStormParticle.StormData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
                 reader.expect(' ');
-                int r = reader.readInt();
-                reader.expect(' ');
-                int g = reader.readInt();
-                reader.expect(' ');
-                int b = reader.readInt();
-                reader.expect(' ');
                 float size = reader.readFloat();
 
-                return new LightningStormParticle.StormData(r, g, b,size);
+                return new LightningStormParticle.StormData(size);
             }
 
             public LightningStormParticle.StormData fromNetwork(ParticleType<LightningStormParticle.StormData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new LightningStormParticle.StormData(buffer.readInt(), buffer.readInt(),buffer.readInt(),buffer.readFloat());
+                return new LightningStormParticle.StormData(buffer.readFloat());
             }
         };
 
-        private final int r;
-        private final int g;
-        private final int b;
         private final float size;
 
-        public StormData(int r, int g, int b,float size) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
+        public StormData(float size) {
             this.size = size;
         }
 
         @Override
         public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeInt(this.r);
-            buffer.writeInt(this.g);
-            buffer.writeInt(this.b);
             buffer.writeFloat(this.size);
         }
 
         @Override
         public String writeToString() {
-            return String.format(Locale.ROOT, "%s %d %d %d %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b,this.size);
+            return String.format(Locale.ROOT, "%s %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+                    this.size);
         }
 
         @Override
@@ -189,20 +157,7 @@ public class LightningStormParticle extends TextureSheetParticle {
             return ModParticle.LIGHTNING_STORM.get();
         }
 
-        @OnlyIn(Dist.CLIENT)
-        public int getR() {
-            return this.r;
-        }
 
-        @OnlyIn(Dist.CLIENT)
-        public int getG() {
-            return this.g;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getB() {
-            return this.b;
-        }
 
         @OnlyIn(Dist.CLIENT)
         public float getSize() {
@@ -212,9 +167,6 @@ public class LightningStormParticle extends TextureSheetParticle {
 
         public static Codec<LightningStormParticle.StormData> CODEC(ParticleType<LightningStormParticle.StormData> particleType) {
             return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.INT.fieldOf("r").forGetter(LightningStormParticle.StormData::getR),
-                            Codec.INT.fieldOf("g").forGetter(LightningStormParticle.StormData::getG),
-                            Codec.INT.fieldOf("b").forGetter(LightningStormParticle.StormData::getB),
                             Codec.FLOAT.fieldOf("size").forGetter(LightningStormParticle.StormData::getSize)
                     ).apply(codecBuilder, LightningStormParticle.StormData::new)
             );
