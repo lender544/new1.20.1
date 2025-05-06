@@ -81,7 +81,6 @@ public class Coral_Bardiche extends Item implements ProjectileItem,RangeTool {
         return 72000;
     }
 
-
     @Override
     public void releaseUsing(ItemStack p_43394_, Level p_43395_, LivingEntity p_43396_, int p_43397_) {
         if (p_43396_ instanceof Player player) {

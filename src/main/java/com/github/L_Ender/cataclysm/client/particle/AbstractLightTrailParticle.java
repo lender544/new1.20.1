@@ -110,7 +110,7 @@ public abstract class AbstractLightTrailParticle extends Particle {
     }
 
     protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
-        return multibuffersource$buffersource.getBuffer(CMRenderTypes.LIGHT_TRAIL_EFFECT.apply(getTrailTexture()));
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.getLightTrailEffect(getTrailTexture()));
     }
 
     public float getTrailRot(Camera camera) {

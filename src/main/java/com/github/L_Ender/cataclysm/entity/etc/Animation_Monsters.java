@@ -61,9 +61,9 @@ public class Animation_Monsters extends Monster implements Enemy {
         super.tick();
         if (!level().isClientSide && getBossMusic() != null) {
             if (canPlayMusic()) {
-                PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(this,new MessageMusic(this.getId(), true));
             } else {
-                PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                PacketDistributor.sendToPlayersTrackingEntityAndSelf(this,new MessageMusic(this.getId(), false));
             }
         }
     }
