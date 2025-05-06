@@ -8,6 +8,8 @@
             "item": "minecraft:end_stone_bricks"
         }
     ],
-    "result": "cataclysm:chiseled_end_stone_bricks",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:chiseled_end_stone_bricks"
+    }
 }

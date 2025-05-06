@@ -5,6 +5,8 @@
             "item": "minecraft:end_stone"
         }
     ],
-    "result": "cataclysm:polished_end_stone",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:polished_end_stone"
+    }
 }

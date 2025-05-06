@@ -89,7 +89,7 @@ public class LightTrailParticle extends AbstractTrailParticle {
     }
 
     protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
-        return multibuffersource$buffersource.getBuffer(CMRenderTypes.LIGHT_TRAIL_EFFECT.apply(getTrailTexture()));
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.getLightTrailEffect(getTrailTexture()));
     }
 
 

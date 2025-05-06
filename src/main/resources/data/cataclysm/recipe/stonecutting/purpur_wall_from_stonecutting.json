@@ -5,6 +5,8 @@
             "item": "minecraft:purpur_block"
         }
     ],
-    "result": "cataclysm:purpur_wall",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:purpur_wall"
+    }
 }

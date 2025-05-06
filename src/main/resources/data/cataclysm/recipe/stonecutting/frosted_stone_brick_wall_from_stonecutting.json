@@ -5,6 +5,8 @@
             "item": "cataclysm:frosted_stone_bricks"
         }
     ],
-    "result": "cataclysm:frosted_stone_brick_wall",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:frosted_stone_brick_wall"
+    }
 }

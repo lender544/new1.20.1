@@ -6,5 +6,8 @@
       "item": "minecraft:stone"
     }
   ],
-  "result": "cataclysm:stone_pillar"
+  "result": {
+    "count": 1,
+    "id": "cataclysm:stone_pillar"
+  }
 }

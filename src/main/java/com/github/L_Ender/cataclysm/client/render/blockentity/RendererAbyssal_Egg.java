@@ -27,7 +27,7 @@ public class RendererAbyssal_Egg implements BlockEntityRenderer<Abyssal_Egg_Bloc
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
         MODEL.animate(tileEntityIn, partialTicks);
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getghost(LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGhost(LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn);
         matrixStackIn.popPose();
     }
 

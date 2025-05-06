@@ -1,13 +1,11 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Cursed_Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataComponents;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.L_Ender.cataclysm.items.Components.CursedBowComponent;
+import com.github.L_Ender.cataclysm.items.Components.ChargeAnimationComponent;
 import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,7 +16,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -28,7 +25,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,10 +50,10 @@ public class Wrath_of_the_desert extends Item {
         super.inventoryTick(stack, level, entity, i, held);
         boolean using = entity instanceof LivingEntity living && living.getUseItem().equals(stack);
         int useTime = getUseTime(stack);
-        CursedBowComponent flaskContents = stack.getOrDefault(ModDataComponents.CURSED_BOW, CursedBowComponent.EMPTY);
+        ChargeAnimationComponent flaskContents = stack.getOrDefault(ModDataComponents.CHARGE_ANIMATION, ChargeAnimationComponent.EMPTY);
 
         if (flaskContents.PrevUseTime() != flaskContents.UseTime()) {
-            stack.update(ModDataComponents.CURSED_BOW, flaskContents, component -> component.tryAddDose(useTime,getUseTime(stack)));
+            stack.update(ModDataComponents.CHARGE_ANIMATION, flaskContents, component -> component.tryAddDose(useTime,getUseTime(stack)));
         }
 
 
@@ -79,17 +75,17 @@ public class Wrath_of_the_desert extends Item {
     }
 
     public static int getUseTime(ItemStack stack) {
-        CursedBowComponent flaskContents = stack.getOrDefault(ModDataComponents.CURSED_BOW, CursedBowComponent.EMPTY);
+        ChargeAnimationComponent flaskContents = stack.getOrDefault(ModDataComponents.CHARGE_ANIMATION, ChargeAnimationComponent.EMPTY);
         return flaskContents.UseTime();
     }
 
     public static void setUseTime(ItemStack stack, int useTime) {
-        CursedBowComponent flaskContents = stack.getOrDefault(ModDataComponents.CURSED_BOW, CursedBowComponent.EMPTY);
-        stack.update(ModDataComponents.CURSED_BOW, flaskContents, component -> component.tryAddDose(useTime,getUseTime(stack)));
+        ChargeAnimationComponent flaskContents = stack.getOrDefault(ModDataComponents.CHARGE_ANIMATION, ChargeAnimationComponent.EMPTY);
+        stack.update(ModDataComponents.CHARGE_ANIMATION, flaskContents, component -> component.tryAddDose(useTime,getUseTime(stack)));
     }
 
     public static float getLerpedUseTime(ItemStack stack, float f) {
-        CursedBowComponent flaskContents = stack.getOrDefault(ModDataComponents.CURSED_BOW, CursedBowComponent.EMPTY);
+        ChargeAnimationComponent flaskContents = stack.getOrDefault(ModDataComponents.CHARGE_ANIMATION, ChargeAnimationComponent.EMPTY);
         float prev = flaskContents.PrevUseTime();
         float current = flaskContents.UseTime();
         return prev + f * (current - prev);

@@ -5,6 +5,9 @@
             "item": "minecraft:purpur_block"
         }
     ],
-    "result": "cataclysm:chiseled_purpur_block",
-    "count": 1
+
+    "result": {
+        "count": 1,
+        "id": "cataclysm:chiseled_purpur_block"
+    }
 }

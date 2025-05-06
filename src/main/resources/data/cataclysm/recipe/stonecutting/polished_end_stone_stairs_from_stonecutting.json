@@ -8,6 +8,8 @@
             "item": "cataclysm:polished_end_stone"
         }
     ],
-    "result": "cataclysm:polished_end_stone_stairs",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:polished_end_stone_stairs"
+    }
 }

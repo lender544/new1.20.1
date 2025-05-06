@@ -8,6 +8,8 @@
             "item": "cataclysm:obsidian_bricks"
         }
     ],
-    "result": "cataclysm:chiseled_obsidian_bricks",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:chiseled_obsidian_bricks"
+    }
 }

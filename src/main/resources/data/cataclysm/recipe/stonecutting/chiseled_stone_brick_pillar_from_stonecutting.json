@@ -13,5 +13,8 @@
     }
   ],
 
-  "result": "cataclysm:chiseled_stone_brick_pillar"
+  "result": {
+    "count": 1,
+    "id": "cataclysm:chiseled_stone_brick_pillar"
+  }
 }

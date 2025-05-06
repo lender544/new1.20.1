@@ -9,5 +9,8 @@
       "item": "minecraft:stone"
     }
   ],
-  "result": "cataclysm:stone_tiles"
+  "result": {
+    "count": 1,
+    "id": "cataclysm:stone_tiles"
+  }
 }

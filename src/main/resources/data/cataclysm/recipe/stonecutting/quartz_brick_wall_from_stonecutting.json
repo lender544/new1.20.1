@@ -5,6 +5,8 @@
             "item": "minecraft:quartz_bricks"
         }
     ],
-    "result": "cataclysm:quartz_brick_wall",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:quartz_brick_wall"
+    }
 }

@@ -8,6 +8,8 @@
             "item": "cataclysm:stone_tiles"
         }
     ],
-    "result": "cataclysm:stone_tile_slab",
-    "count": 2
+    "result": {
+        "count": 2,
+        "id": "cataclysm:stone_tile_slab"
+    }
 }

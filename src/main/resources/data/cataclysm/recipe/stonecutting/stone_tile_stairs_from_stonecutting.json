@@ -8,6 +8,8 @@
             "item": "cataclysm:stone_tiles"
         }
     ],
-    "result": "cataclysm:stone_tile_stairs",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:stone_tile_stairs"
+    }
 }

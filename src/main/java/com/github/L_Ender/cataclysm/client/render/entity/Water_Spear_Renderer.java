@@ -52,11 +52,11 @@ public class Water_Spear_Renderer extends EntityRenderer<Water_Spear_Entity>
     @Override
     public ResourceLocation getTextureLocation(Water_Spear_Entity entity)
     {
-        return getGrowingTexture((int) ((entity.tickCount * 0.75F) % 6));
+        return getGrowingTexture((int) ((entity.tickCount * 0.5F) % 5));
     }
 
     public ResourceLocation getGrowingTexture(int age) {
-        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 6)];
+        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
     }
 
 }

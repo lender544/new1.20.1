@@ -5,6 +5,8 @@
             "item": "minecraft:obsidian"
         }
     ],
-    "result": "cataclysm:obsidian_bricks",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:obsidian_bricks"
+    }
 }
