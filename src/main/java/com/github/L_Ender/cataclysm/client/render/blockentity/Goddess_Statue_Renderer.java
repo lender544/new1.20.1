@@ -19,7 +19,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class Goddess_Statue_Renderer implements BlockEntityRenderer<Statue_Block_Entity> {
 
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/goddess_statue.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/goddess_statue.png");
     private static final Goddess_Statue_Model MODEL = new Goddess_Statue_Model();
 
     public Goddess_Statue_Renderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {

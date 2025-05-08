@@ -171,6 +171,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> ALTAR_OF_ABYSS = registerBlockAndItem("altar_of_abyss",
             Altar_Of_Abyss_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 
+    public static final RegistryObject<Block> BOSS_RESPAWNER = registerBlockAndItem("boss_respawner",
+            Boss_Respawn_Spawner_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
+
     public static final RegistryObject<Block> CURSED_TOMBSTONE = registerBlockAndItem("cursed_tombstone",
             Cursed_Tombstone_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
 

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:out_of_world",
+    "minecraft:generic_kill",
+    "minecraft:player_attack",
+    "minecraft:mob_attack"
+  ]
+}

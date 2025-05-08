@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant;
 
+import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
@@ -106,8 +107,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
     public static final int STOMP_COOLDOWN = 110;
     private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.WHITE,false,7);
     private final CMBossInfoServer bossEvent2 = new CMBossInfoServer(Component.translatable("entity.cataclysm.rage_meter"), BossEvent.BossBarColor.WHITE,false,8);
-    public static final int NATURE_HEAL_COOLDOWN = 200;
-    private int timeWithoutTarget;
+
     public int frame;
 
     
@@ -545,26 +545,10 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
 
         if (hunting_cooldown > 0) hunting_cooldown--;
-
         if (roar_cooldown > 0) roar_cooldown--;
         if (monoltih_cooldown > 0) monoltih_cooldown--;
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (stomp_cooldown > 0) stomp_cooldown--;
-        LivingEntity target = this.getTarget();
-        if (!this.level().isClientSide) {
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
-
-            if (this.getAttackState() == 0 && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.AncientRemnantNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.AncientRemnantNatureHealing);
-                    }
-                }
-            }
-        }
         if (!this.level().isClientSide) {
             if(CMConfig.AncientRemnantBlockBreaking) {
                 ChargeBlockBreaking(0.5D);
@@ -1151,6 +1135,25 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
     protected void onDeathAIUpdate() {
         super.onDeathAIUpdate();
 
+    }
+
+
+    @Override
+    protected void AfterDefeatBoss(@Nullable LivingEntity living) {
+        if (!this.level().isClientSide) {
+            if (this.getHomePos() != BlockPos.ZERO) {
+                int newX = Mth.floor(this.getHomePos().getX());
+                int newY = Mth.floor(this.getHomePos().getY());
+                int newZ = Mth.floor(this.getHomePos().getZ());
+                BlockPos pos = new BlockPos(newX,newY,newZ);
+                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                this.level().setBlock(pos, block, 2);
+                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                    spawnerblockentity.setEntityId(ModEntities.ANCIENT_REMNANT.get());
+                    spawnerblockentity.setItem(0,ModItems.DESERT_EYE.get().getDefaultInstance());
+                }
+            }
+        }
     }
 
     public void startSeenByPlayer(ServerPlayer player) {

@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
@@ -10,9 +11,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
-import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
@@ -679,6 +678,23 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
 
     }
 
+    @Override
+    protected void AfterDefeatBoss(@Nullable LivingEntity living) {
+        if (!this.level().isClientSide) {
+            if (this.getHomePos() != BlockPos.ZERO) {
+                int newX = Mth.floor(this.getHomePos().getX());
+                int newY = Mth.floor(this.getHomePos().getY());
+                int newZ = Mth.floor(this.getHomePos().getZ());
+                BlockPos pos = new BlockPos(newX,newY,newZ);
+                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                this.level().setBlock(pos, block, 2);
+                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                    spawnerblockentity.setEntityId(ModEntities.THE_HARBINGER.get());
+                    spawnerblockentity.setItem(0,ModItems.MECH_EYE.get().getDefaultInstance());
+                }
+            }
+        }
+    }
 
     private double getHeadX(int head) {
         if (head <= 0) {

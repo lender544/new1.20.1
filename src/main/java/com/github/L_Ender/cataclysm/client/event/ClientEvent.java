@@ -194,7 +194,6 @@ public class ClientEvent {
             VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),RenderType.entityTranslucentEmissive(FLAME_STRIKE),false, true);
             matrixStackIn.translate(0.0D, 0.001, 0.0D);
             matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
-            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F + f2));
             PoseStack.Pose lvt_19_1_ = matrixStackIn.last();
             Matrix4f lvt_20_1_ = lvt_19_1_.pose();
@@ -215,7 +214,6 @@ public class ClientEvent {
             VertexConsumer ivertexbuilder = ItemRenderer.getArmorFoilBuffer(event.getMultiBufferSource(),RenderType.entityTranslucentEmissive(NORMAL_FLAME_STRIKE),false, true);
             matrixStackIn.translate(0.0D, 0.001, 0.0D);
             matrixStackIn.scale(f3 * 0.05f, f3 * 0.05f, f3 * 0.05f);
-            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180.0F));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F + f2));
             PoseStack.Pose lvt_19_1_ = matrixStackIn.last();
             Matrix4f lvt_20_1_ = lvt_19_1_.pose();

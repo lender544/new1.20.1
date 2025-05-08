@@ -52,11 +52,11 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
     @Override
     public ResourceLocation getTextureLocation(Lightning_Spear_Entity entity)
     {
-        return getGrowingTexture((int) ((entity.tickCount * 0.75F) % 6));
+        return getGrowingTexture((int) ((entity.tickCount * 0.5F) % 5));
     }
 
     public ResourceLocation getGrowingTexture(int age) {
-        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 6)];
+        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
     }
 
 }

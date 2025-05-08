@@ -53,4 +53,7 @@ public class ModTileentites {
 
     public static final RegistryObject<BlockEntityType<Statue_Block_Entity>> GODDESS_STATUE = TILE_ENTITY_TYPES.register("goddess_statue", () ->
             BlockEntityType.Builder.of(Statue_Block_Entity::new, ModBlocks.GODDESS_STATUE.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<Boss_Respawn_Spawner_Block_Entity>> BOSS_RESPAWNER = TILE_ENTITY_TYPES.register("boss_respawner", () ->
+            BlockEntityType.Builder.of(Boss_Respawn_Spawner_Block_Entity::new, ModBlocks.BOSS_RESPAWNER.get()).build(null));
 }

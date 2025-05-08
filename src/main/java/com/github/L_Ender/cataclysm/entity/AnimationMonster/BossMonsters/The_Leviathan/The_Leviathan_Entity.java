@@ -139,8 +139,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public static final int BITE_COOLDOWN = 100;
     public static final int MELEE_COOLDOWN = 40;
     public static final int MINE_COOLDOWN = 100;
-    public static final int NATURE_HEAL_COOLDOWN = 200;
-    private int timeWithoutTarget;
     private AttackMode mode = AttackMode.CIRCLE;
     private int hunting_cooldown = 160;
     private int makePortalCooldown = 0;
@@ -332,6 +330,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return (float) CMConfig.LeviathanDamageCap;
     }
 
+    public float NatureRegen() {
+        return (float) CMConfig.LeviathanNatureHealing;
+    }
+
     public int DamageTime() {
         return CMConfig.LeviathanDamageTime;
     }
@@ -402,19 +404,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             }else{
                 this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
                 this.bossInfo.setRenderType(6);
-            }
-
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
-
-            if (this.getAnimation() == NO_ANIMATION && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.LeviathanNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.LeviathanNatureHealing);
-                    }
-                }
             }
         }
 

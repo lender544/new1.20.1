@@ -31,7 +31,9 @@ import java.util.Optional;
 public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimatedEntity, Enemy {
     private int reducedDamageTicks;
     private int homeTicks;
-    public static final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
+    protected final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
+    protected final int NATURE_HEAL_COOLDOWN = 200;
+    private int self_regen;
     private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(LLibrary_Boss_Monster.class, EntityDataSerializers.BLOCK_POS);
     public LLibrary_Boss_Monster(EntityType entity, Level world) {
         super(entity, world);
@@ -87,6 +89,9 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
                 damage *= reductionFactor;
             }
         }
+        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+            self_regen = NATURE_HEAL_COOLDOWN;
+        }
         boolean flag = super.hurt(source, damage);
         if (ReducedDamage(source)) {
             if (flag) {
@@ -104,6 +109,10 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         return Float.MAX_VALUE;
     }
 
+    public float NatureRegen() {
+        return 0;
+    }
+
     public int DamageTime() {
         return 0;
     }
@@ -112,14 +121,22 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         super.tick();
         if (!this.level().isClientSide()) {
             if (reducedDamageTicks > 0) reducedDamageTicks--;
+            if (self_regen > 0) self_regen--;
             LivingEntity target = this.getTarget();
-            if(CMConfig.Return_Home > 0) {
-                if (homeTicks > 0) homeTicks--;
-                if (!isNoAi() ) {
+
+            if (!isNoAi() ) {
+                if (self_regen <= 0) {
+                    if (!isNoAi() && this.NatureRegen() > 0) {
+                        if (this.tickCount % 20 == 0) {
+                            this.heal(this.NatureRegen());
+                        }
+                    }
+                }
+                if (CMConfig.Return_Home > 0) {
+                    if (homeTicks > 0) homeTicks--;
                     if (target != null) {
                         homeTicks = HOME_COOLDOWN;
                     }
-
                     if (homeTicks <= 0) {
                         if (this.getHomePos() != BlockPos.ZERO) {
                             if (!this.getHomePos().closerToCenterThan(this.position(), (double) 16.0F)) {

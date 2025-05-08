@@ -114,7 +114,7 @@ public abstract class AbstractTrailParticle extends Particle {
     }
 
     protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
-        return multibuffersource$buffersource.getBuffer(CMRenderTypes.NEW_TRAIL_EFFECT.apply(getTrailTexture()));
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.getTrailEffect(getTrailTexture()));
     }
 
 

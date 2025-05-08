@@ -115,7 +115,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
     public static final Animation SHIELD_BREAK_COUNTER = Animation.create(53);
     public static final Animation SHIELD_BREAK_STRIKE = Animation.create(64);
     public static final Animation ULTIMATE_ATTACK = Animation.create(114);
-    public static final int NATURE_HEAL_COOLDOWN = 200;
+    public static final int UNARMED_COOLDOWN = 200;
     public static final int AIR_SMASH_COOLDOWN = 240;
     public static final int BODY_CHECK_COOLDOWN = 200;
     public static final int POKE_COOLDOWN = 240;
@@ -367,6 +367,10 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         return (float) CMConfig.IgnisDamageCap;
     }
 
+    public float NatureRegen() {
+        return (float) CMConfig.IgnisNatureHealing;
+    }
+
     public int DamageTime() {
         return CMConfig.IgnisDamageTime;
     }
@@ -616,9 +620,8 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
 
         } else {
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
             if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
+                timeWithoutTarget = UNARMED_COOLDOWN;
                 if (this.getIsShieldBreak()) {
                     this.setIsSword(true);
                 } else {
@@ -627,11 +630,6 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
 
             if (this.getAnimation() == NO_ANIMATION && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.IgnisNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.IgnisNatureHealing);
-                    }
-                }
                 if (this.getIsBlocking() || this.getIsSword() && target == null) {
                     this.setIsSword(false);
                     this.setIsBlocking(false);

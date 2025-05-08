@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
@@ -9,6 +11,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,7 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.Locale;
 
-public class LightTrailParticle extends AbstractLightTrailParticle {
+public class LightTrailParticle extends AbstractTrailParticle {
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/particle/storm.png");
 
     private final int EntityId;
@@ -81,6 +84,10 @@ public class LightTrailParticle extends AbstractLightTrailParticle {
             remove();
         }
 
+    }
+
+    protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
+        return multibuffersource$buffersource.getBuffer(CMRenderTypes.getLightTrailEffect(getTrailTexture()));
     }
 
     public int sampleCount() {

@@ -119,11 +119,9 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     public static final int CHARGE_COOLDOWN = 80;
     public static final int UPPERCUT_COOLDOWN = 80;
     public static final int SPIN_COOLDOWN = 100;
-    public static final int NATURE_HEAL_COOLDOWN = 200;
     public static final int RADAGON_COOLDOWN = 250;
     public static final int SPEAR_SWING_COOLDOWN = 100;
     public static final int GRAB_COOLDOWN = 300;
-    private int timeWithoutTarget;
     private int destroyBlocksTick;
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(Maledictus_Entity.class, EntityDataSerializers.BOOLEAN);
 
@@ -817,11 +815,15 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
         if (!this.level().isClientSide) {
             if(this.getTombstonePos() != BlockPos.ZERO) {
+                int newX = Mth.floor(this.getTombstonePos().getX());
+                int newY = Mth.floor(this.getTombstonePos().getY());
+                int newZ = Mth.floor(this.getTombstonePos().getZ());
+                BlockPos pos = new BlockPos(newX,newY,newZ);
                 BlockState block = ModBlocks.CURSED_TOMBSTONE.get().defaultBlockState();
                 if (this.getTombstoneDirection() == Direction.UP || this.getTombstoneDirection() == Direction.DOWN) {
-                    this.level().setBlockAndUpdate(this.getTombstonePos(), block.setValue(Cursed_Tombstone_Block.FACING, Direction.NORTH));
+                    this.level().setBlockAndUpdate(pos, block.setValue(Cursed_Tombstone_Block.FACING, Direction.NORTH));
                 } else {
-                    this.level().setBlockAndUpdate(this.getTombstonePos(), block.setValue(Cursed_Tombstone_Block.FACING, this.getTombstoneDirection()));
+                    this.level().setBlockAndUpdate(pos, block.setValue(Cursed_Tombstone_Block.FACING, this.getTombstoneDirection()));
                 }
             }
         }
@@ -890,21 +892,8 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         } else {
             this.setNoGravity(false);
         }
-        LivingEntity target = this.getTarget();
-        if (!this.level().isClientSide) {
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
 
-            if (this.getAttackState() == 0 && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.MaledictusNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.MaledictusNatureHealing);
-                    }
-                }
-            }
-        }
+
         blockbreak();
     }
 

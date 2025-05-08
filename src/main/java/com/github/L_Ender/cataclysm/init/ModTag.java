@@ -55,6 +55,8 @@ public class ModTag {
 
     public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
 
+    public static final TagKey<DamageType> BLOCK_SELF_REGEN = registerDamageTypeTag("block_self_regen");
+
     public static final TagKey<EntityType<?>> DIMENSIONAL_LIFT_IMMUNE = registerEntityTag("dimensional_lift_immune");
 
     public static final TagKey<EntityType<?>> TEAM_MALEDICTUS = registerEntityTag("team_maledictus");

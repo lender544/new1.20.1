@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
@@ -11,9 +12,7 @@ import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ender_Guardian_Bullet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
-import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.core.BlockPos;
@@ -103,10 +102,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     public static final int TELEPORT_COOLDOWN = 280;
     public static final int TELEPORT_SMASH_COOLDOWN = 600;
     public static final int VORTEX_COOLDOWN = 280;
-    public static final int NATURE_HEAL_COOLDOWN = 200;
     public boolean Breaking = CMConfig.EnderguardianBlockBreaking;
 
-    private int timeWithoutTarget;
     private int stomp_cooldown = 0;
     private int teleport_cooldown = 0;
     private int teleport_smash_cooldown = 0;
@@ -296,7 +293,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             return false;
         }
         if (entity instanceof AbstractGolem) {
-            damage *= 0.5;
+            damage *= 0.5F;
         }
 
         boolean attack = super.hurt(source, damage);
@@ -311,6 +308,10 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     
     public float DamageCap() {
         return (float) CMConfig.EnderguardianDamageCap;
+    }
+
+    public float NatureRegen() {
+        return (float) CMConfig.EnderguardianNatureHealing;
     }
 
     public int DamageTime() {
@@ -334,20 +335,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 
         LivingEntity target = this.getTarget();
-        if (!this.level().isClientSide) {
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
 
-            if (this.getAnimation() == NO_ANIMATION && timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.EnderguardianNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.EnderguardianNatureHealing);
-                    }
-                }
-            }
-        }
         Animation animation = getRandomAttack(random);
         Animation animation2 = this.getIsHelmetless() ? GUARDIAN_RAGE_UPPERCUT : GUARDIAN_UPPERCUT_AND_BULLET;
         if (this.isAlive()) {
@@ -607,6 +595,56 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         }
         if (this.deathTime == 100) {
             this.playSound(SoundEvents.SHULKER_TELEPORT, 1, 1);
+        }
+
+    }
+
+
+    @Override
+    protected void AfterDefeatBoss(@Nullable LivingEntity living) {
+        if (!this.level().isClientSide) {
+            if (this.getHomePos() != BlockPos.ZERO) {
+                int newX = Mth.floor(this.getHomePos().getX());
+                int newY = Mth.floor(this.getHomePos().getY());
+                int newZ = Mth.floor(this.getHomePos().getZ());
+                Respawner(newX,newZ,newY -10,newY);
+            }
+        }
+    }
+
+
+    private void Respawner(int x, int z, int minY, int maxY) {
+        //  BlockPos blockpos = BlockPos.containing(x, maxY, z);
+        BlockPos blockpos = new BlockPos(x,maxY,z);
+        boolean flag = false;
+        double d0 = 0.0D;
+
+        do {
+            BlockPos blockpos1 = blockpos.below();
+            BlockState blockstate = this.level().getBlockState(blockpos1);
+            if (blockstate.isFaceSturdy(this.level(), blockpos1, Direction.UP)) {
+                if (!this.level().isEmptyBlock(blockpos)) {
+                    BlockState blockstate1 = this.level().getBlockState(blockpos);
+                    VoxelShape voxelshape = blockstate1.getCollisionShape(this.level(), blockpos);
+                    if (!voxelshape.isEmpty()) {
+                        d0 = voxelshape.max(Direction.Axis.Y);
+                    }
+                }
+
+                flag = true;
+                break;
+            }
+
+            blockpos = blockpos.below();
+        } while(blockpos.getY() >= Mth.floor(minY) - 1);
+
+        BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+        int newY = Mth.floor((double)blockpos.getY() + d0);
+        BlockPos pos = new BlockPos(x,flag ?newY :maxY,z);
+        this.level().setBlock(pos, block, 2);
+        if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+            spawnerblockentity.setEntityId(ModEntities.ENDER_GUARDIAN.get());
+            spawnerblockentity.setItem(0,ModItems.VOID_EYE.get().getDefaultInstance());
         }
 
     }

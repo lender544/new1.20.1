@@ -467,6 +467,14 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> DOOR_OF_SEAL_OPEN = SOUNDS.register("door_of_seal_open",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"door_of_seal_open")));
 
-    public static final RegistryObject<SoundEvent> BOLT_STRIKE = SOUNDS.register("bolt_strike",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"bolt_strike")));
+    public static final RegistryObject<SoundEvent> PARRY = SOUNDS.register("parry",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"parry")));
+
+    public static final RegistryObject<SoundEvent> HEAVY_SMASH = SOUNDS.register("heavy_smash",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"heavy_smash")));
+
+    public static final RegistryObject<SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"super_lightning")));
+
+
 }

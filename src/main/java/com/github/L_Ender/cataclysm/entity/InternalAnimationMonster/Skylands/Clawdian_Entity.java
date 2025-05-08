@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.particle.Not_Spin_TrailParticle;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 
@@ -259,7 +260,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
     public boolean hurt(DamageSource source, float damage) {
         Entity entity = source.getDirectEntity();
         if (this.canBlockDamageSource(source)) {
-            //this.playSound(ModSounds.PARRY.get(),0.8F,1.4F);
+            this.playSound(ModSounds.PARRY.get(),0.2F,1.4F);
             return false;
         }
         if (!this.getPassengers().isEmpty()) {
@@ -544,29 +545,49 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                 Makeparticle(2f, 0.9f, 0.0f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.25f, 0, 20);
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.95F + this.getRandom().nextFloat() * 0.1F);
-                if (!this.level().isClientSide()) {
-                    double theta = (yBodyRot) * (Math.PI / 180);
+                double theta = (yBodyRot) * (Math.PI / 180);
 
-                    theta += Math.PI / 2;
-                    double vecX = Math.cos(theta);
-                    double vecZ = Math.sin(theta);
-                    int numberOfSkulls = 6;
+                theta += Math.PI / 2;
+                double vecX = Math.cos(theta);
+                double vecZ = Math.sin(theta);
+                double vec = 2.0D;
+                if (!this.level().isClientSide()) {
+                    int numberOfWaves = 6;
                     float angleStep = 35.0f;
 
-                    double firstAngleOffset = (numberOfSkulls - 1) / 2.0 * angleStep;
-                    for (int i = 0; i < numberOfSkulls; i++) {
+                    double firstAngleOffset = (numberOfWaves - 1) / 2.0 * angleStep;
+                    for (int i = 0; i < numberOfWaves; i++) {
                         double angle = yBodyRot - firstAngleOffset + (i * angleStep);
                         double rad = Math.toRadians(angle);
                         double dx = -Math.sin(rad);
                         double dz = Math.cos(rad);
-                        double spawnX = this.getX() + vecX * 2;
+                        double spawnX = this.getX() + vecX * vec;
                         double spawnY = this.getY();
-                        double spawnZ = this.getZ() + vecZ * 2;
+                        double spawnZ = this.getZ() + vecZ * vec;
                         Wave_Entity WaveEntity = new Wave_Entity(this.level(), this, 80, 9);
                         WaveEntity.setPos(spawnX, spawnY, spawnZ);
                         WaveEntity.setState(1);
                         WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
                         this.level().addFreshEntity(WaveEntity);
+                    }
+                }else{
+                    int numberOfWaves = 14;
+                    float angleStep = 15.0f;
+
+                    double firstAngleOffset = (numberOfWaves - 1) / 2.0 * angleStep;
+                    for (int i = 0; i < numberOfWaves; i++) {
+                        double angle = yBodyRot - firstAngleOffset + (i * angleStep);
+                        double rad = Math.toRadians(angle);
+                        double dx = -Math.sin(rad);
+                        double dz = Math.cos(rad);
+                        double spawnX = this.getX() + vecX * vec;
+                        double spawnY = this.getY();
+                        double spawnZ = this.getZ() + vecZ * vec;
+                        double extraX = spawnX + dx * (1 + random.nextDouble() /2);
+                        double extraY = spawnY + 0.9d + random.nextDouble() * 0.5;
+                        double extraZ = spawnZ + dz * (1 + random.nextDouble()/2);
+                        this.level().addParticle(new Not_Spin_TrailParticle.NSTData(113 / 255F, 194 / 255F, 240 / 255F, 0.05F, 0.5F + random.nextFloat() * 0.3F, 0.4F + random.nextFloat() * 0.2F, 0, 120), spawnX, spawnY, spawnZ, extraX, extraY, extraZ);
+
                     }
                 }
 

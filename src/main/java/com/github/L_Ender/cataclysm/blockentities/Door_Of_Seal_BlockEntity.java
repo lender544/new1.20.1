@@ -23,8 +23,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -67,48 +69,51 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
             if (blockState.getValue(Door_of_Seal_Block.LIT)) {
                 ++entity.Animaitonticks;
 
-                    if (!blockState.getValue(Door_of_Seal_Block.OPEN)) {
-                        if (entity.Animaitonticks == 1) {
-                            ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.05f, 0, 120);
-                        }
+                if (!blockState.getValue(Door_of_Seal_Block.OPEN)) {
+                    if (entity.Animaitonticks == 1) {
+                        ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.05f, 0, 120);
+                    }
 
-                        if (entity.Animaitonticks == 28) {
-                            level.playSound((Player)null, pos, ModSounds.DOOR_OF_SEAL_OPEN.get(), SoundSource.BLOCKS, 4F, level.random.nextFloat() * 0.2F + 1.0F);
+                    if (entity.Animaitonticks == 28) {
+                        level.playSound((Player)null, pos, ModSounds.DOOR_OF_SEAL_OPEN.get(), SoundSource.BLOCKS, 4F, level.random.nextFloat() * 0.2F + 1.0F);
 
-                            float x = pos.getX() + 0.5F;
-                            float y = pos.getY();
-                            float z = pos.getZ() + 0.5F;
-                            if (!level.isClientSide) {
-                                level.explode(null, x, y + 1, z, 2.0F, Level.ExplosionInteraction.NONE);
-                            }
+                        float x = pos.getX() + 0.5F;
+                        float y = pos.getY();
+                        float z = pos.getZ() + 0.5F;
+                        if (!level.isClientSide) {
+                            level.explode(null, x, y + 1, z, 2.0F, Level.ExplosionInteraction.NONE);
                         }
-                        if (entity.Animaitonticks >= 145) {
-                            if (!level.isClientSide) {
-                                level.setBlock(pos, blockState.setValue(Door_of_Seal_Block.OPEN, Boolean.valueOf(true)), 2);
-                                for (int i = 0; i <= 7; i++) {
-                                    BlockPos abovePos = pos.above(i);
-                                    BlockPos blockpos1 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getClockWise());
-                                    BlockPos blockpos2 = abovePos;
-                                    BlockPos blockpos3 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getCounterClockWise());
-                                    BlockPos blockpos4 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getClockWise(), 2);
-                                    BlockPos blockpos5 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getCounterClockWise(), 2);
-                                    BlockPos[] toBreakPoses = {blockpos1, blockpos2, blockpos3, blockpos4, blockpos5};
-                                    for (BlockPos toBreakPos : toBreakPoses) {
-                                        BlockState blockstate = level.getBlockState(toBreakPos);
-                                        if (blockstate.is(ModBlocks.DOOR_OF_SEAL_PART.get())) {
-                                            level.setBlock(toBreakPos, blockstate.setValue(Door_of_Seal_Block.Door_Of_Seal_Part_Block.OPEN, Boolean.valueOf(true)), 2);
-                                        }
+                    }
+                    if (entity.Animaitonticks >= 145) {
+                        if (!level.isClientSide) {
+                            level.setBlock(pos, blockState.setValue(Door_of_Seal_Block.OPEN, Boolean.valueOf(true)), 2);
+                            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
+
+                            for (int i = 0; i <= 7; i++) {
+                                BlockPos abovePos = pos.above(i);
+                                BlockPos blockpos1 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getClockWise());
+                                BlockPos blockpos2 = abovePos;
+                                BlockPos blockpos3 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getCounterClockWise());
+                                BlockPos blockpos4 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getClockWise(), 2);
+                                BlockPos blockpos5 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getCounterClockWise(), 2);
+                                BlockPos[] toBreakPoses = {blockpos1, blockpos2, blockpos3, blockpos4, blockpos5};
+                                for (BlockPos toBreakPos : toBreakPoses) {
+                                    BlockState state = level.getBlockState(toBreakPos);
+                                    if (state.is(ModBlocks.DOOR_OF_SEAL_PART.get())) {
+                                        level.setBlock(toBreakPos, state.setValue(Door_of_Seal_Block.Door_Of_Seal_Part_Block.OPEN, Boolean.valueOf(true)), 2);
+                                        level.gameEvent(GameEvent.BLOCK_CHANGE, toBreakPos, GameEvent.Context.of(null, state));
                                     }
                                 }
                             }
                         }
-                    }else{
-                        entity.Animaitonticks = 0;
-                        if (level.isClientSide) {
-                            entity.openingAnimationState.stop();
-                            entity.openAnimationState.startIfStopped(entity.tickCount);
-                        }
                     }
+                }else{
+                    entity.Animaitonticks = 0;
+                    if (level.isClientSide) {
+                        entity.openingAnimationState.stop();
+                        entity.openAnimationState.startIfStopped(entity.tickCount);
+                    }
+                }
 
             }
         }
@@ -119,7 +124,7 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
         BlockState state = this.getBlockState();
         if (!state.getValue(Door_of_Seal_Block.LIT)) {
             level.setBlock(blockpos, state.setValue(Door_of_Seal_Block.LIT, Boolean.valueOf(true)), 2);
-            this.level.blockEvent(blockpos, this.getBlockState().getBlock(), 1, 0);
+            level.blockEvent(blockpos, this.getBlockState().getBlock(), 1, 0);
         }
     }
 

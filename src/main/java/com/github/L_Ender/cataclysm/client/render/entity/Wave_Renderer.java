@@ -29,7 +29,7 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
         super(manager);
         this.model = new Wave_Model(manager.bakeLayer(CMModelLayers.WAVE_MODEL));
         for(int i = 0; i < 5; i++){
-            TEXTURE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/wave/wave_" + i + ".png");
+            TEXTURE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/wave/wave_" + i + ".png");
         }
     }
 
@@ -44,7 +44,7 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
         float alpha = 0.7F;
         int i1 = FastColor.ARGB32.color((int) (alpha * 255),255, 255, 255);
         //  this.model.setupAnim(f, f1);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,0.7F,1.0f,1.0f,1.0F);
+        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1.0F,1.0f,1.0f,alpha);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
