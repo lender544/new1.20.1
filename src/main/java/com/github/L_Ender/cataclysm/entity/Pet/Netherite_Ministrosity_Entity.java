@@ -328,6 +328,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
                 }
 
             }
+
         }
 
         super.onSyncedDataUpdated(p_21104_);

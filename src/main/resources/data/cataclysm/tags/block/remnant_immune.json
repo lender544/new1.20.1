@@ -28,6 +28,7 @@
     "cataclysm:dungeon_block",
     "cataclysm:door_of_seal",
     "cataclysm:door_of_seal_part",
-    "cataclysm:cursed_tombstone"
+    "cataclysm:cursed_tombstone",
+    "cataclysm:boss_respawner"
   ]
 }

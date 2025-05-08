@@ -1,0 +1,68 @@
+{
+    "parent": "builtin/entity",
+    "gui_light": "front",
+    "textures": {
+        "particle": "cataclysm:item/coral_spear"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ 90, 0, 180 ],
+            "translation": [ -7, -22, -2 ],
+            "scale": [ 0.8, 0.8, 0.8 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ 90, 0, 180 ],
+            "translation": [ 6, -22, -2 ],
+            "scale": [ 0.8, 0.8, 0.8 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ -110, 0, -45 ],
+            "translation": [ 11, 6, -5 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ -110, 0, 45 ],
+            "translation": [ 6, 11, -7 ],
+            "scale": [ 0.5, 0.5, 0.5 ]
+        },
+        "gui": {
+            "rotation": [
+                0,
+                0,
+                -45
+            ],
+            "translation": [
+                12,
+                5,
+                0
+            ],
+            "scale": [
+                0.7,
+                0.7,
+                0.7
+            ]
+        },
+        "fixed": {
+            "rotation": [
+                0,
+                0,
+                45
+            ],
+            "translation": [
+                -5,
+                14,
+                7
+            ],
+            "scale": [
+                0.8,
+                0.8,
+                0.8
+            ]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 8, 30, 8],
+            "scale":[ 1.0, 1.0, 1.0]
+        }
+    }
+}

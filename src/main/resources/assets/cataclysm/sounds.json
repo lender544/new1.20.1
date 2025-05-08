@@ -1460,7 +1460,27 @@
     "subtitle": "parry.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/elden_parry",
+        "name": "cataclysm:entity/parry",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "heavy_smash": {
+    "subtitle": "heavy_smash.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/heavy_smash",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "super_lightning": {
+    "subtitle": "super_lightning.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/super_lightning_strike",
         "volume": 1.0,
         "pitch": 1.0
       }

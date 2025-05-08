@@ -164,7 +164,7 @@ public class ClientSetup {
 		event.registerBlockEntityRenderer(ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_Block_Renderer::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
 		event.registerBlockEntityRenderer(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
-
+		event.registerBlockEntityRenderer(ModTileentites.BOSS_RESPAWNER.get(), Boss_Respawn_Spawn_Renderer::new);
 		event.registerBlockEntityRenderer(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);
 	}
 
@@ -189,6 +189,7 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.CIRCLE_LIGHTNING.get(), new CircleLightningParticle.Factory());
 		registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
 		registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
+		registry.registerSpecial(ModParticle.RISING_TRAIL.get(), new Rising_Trail_Particle.Factory());
 		registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
 		registry.registerSpriteSet(ModParticle.SCYLLA_SWING.get(), Scylla_Swing_Particle.Provider::new);
 		registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
@@ -212,6 +213,7 @@ public class ClientSetup {
 			ItemProperties.register(ModItems.CORAL_CHUNK.get(), ResourceLocation.parse("chunk"), (stack, level, living, j) -> (stack.getCount() % 3 == 0) ? 0.0F : (stack.getCount() % 3 == 1) ? 0.5F : 1.0F);
 			ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
+			ItemProperties.register(ModItems.LIGHTNING_SPEAR.get(), ResourceLocation.parse("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 
 		} catch (Exception e) {
 			Cataclysm.LOGGER.warn("Could not load item models for weapons");
@@ -239,9 +241,9 @@ public class ClientSetup {
 				ModItems.THE_INCINERATOR.get(), ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get(), ModItems.VOID_ASSULT_SHOULDER_WEAPON.get(), ModItems.CORAL_SPEAR.get(), ModItems.CORAL_BARDICHE.get(),
 				ModItems.VOID_FORGE.get(), ModItems.TIDAL_CLAWS.get(), ModItems.MEAT_SHREDDER.get(), ModItems.LASER_GATLING.get(), ModItems.ANCIENT_SPEAR.get() , ModItems.CURSED_BOW.get(),
 				ModItems.WRATH_OF_THE_DESERT.get(), ModItems.SOUL_RENDER.get(), ModItems.THE_ANNIHILATOR.get(), ModItems.THE_IMMOLATOR.get(), ModItems.ALTAR_OF_FIRE.get(), ModItems.ALTAR_OF_VOID.get(),
-				ModItems.AZURE_SEA_SHIELD.get(),
+				ModItems.AZURE_SEA_SHIELD.get(),ModItems.LIGHTNING_SPEAR.get(),
 				ModItems.ALTAR_OF_AMETHYST.get(), ModItems.ALTAR_OF_ABYSS.get(), ModItems.EMP.get(), ModItems.MECHANICAL_FUSION_ANVIL.get(), ModItems.ABYSSAL_EGG.get(),
-				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get()
+				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get(), ModItems.BOSS_RESPAWNER.get()
 		);
 
 	}

@@ -187,11 +187,19 @@ public class ModBlocks {
                    .noLootTable()
                    .sound(SoundType.STONE)));
 
+    public static final DeferredBlock<Block> BOSS_RESPAWNER = BLOCKS.register("boss_respawner",
+            () -> new Boss_Respawn_Spawner_Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.METAL)
+                    .noOcclusion()
+                    .strength(-1.0F, 3600000.0F)
+                    .noLootTable()
+                    .sound(SoundType.STONE)));
+
+
     public static final DeferredBlock<Block> CURSED_TOMBSTONE = BLOCKS.register("cursed_tombstone",
             () -> new Cursed_Tombstone_Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.METAL)
                     .noOcclusion()
-                    .dynamicShape()
                     .strength(-1.0F, 3600000.0F)
                     .noLootTable()
                     .sound(SoundType.STONE)));

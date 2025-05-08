@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI;
 
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
+import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -49,11 +50,20 @@ public class InternalAttackGoal extends Goal {
     @Override
     public void start() {
         this.entity.setAttackState(attackstate);
+        this.entity.getNavigation().stop();
     }
 
     @Override
     public void stop() {
         this.entity.setAttackState(attackendstate);
+        LivingEntity target = entity.getTarget();
+        if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) {
+            this.entity.setTarget((LivingEntity)null);
+        }
+        if (this.entity.getTarget() == null) {
+            this.entity.setAggressive(false);
+            this.entity.getNavigation().stop();
+        }
     }
 
     @Override

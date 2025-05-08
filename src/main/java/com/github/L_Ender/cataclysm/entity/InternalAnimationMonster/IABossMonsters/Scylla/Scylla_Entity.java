@@ -952,7 +952,7 @@ public class Scylla_Entity extends IABoss_monster {
             }
             if (this.attackTicks == 28) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.2f, 0, 20);
-                this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.HEAVY_SMASH.get(), 0.8f, 1.0F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(4.75f,6.75f,55,1.15F,120,false);
                 if (!this.level().isClientSide) {
                     spawnLightning(this.getX() + vecX * 3.25F, this.getZ() + vecZ * 3.25F, this.getY() -2, this.getY() + 5, (float) theta, -9,2.0F);
@@ -973,7 +973,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 5) {
             if (this.attackTicks == 17) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.2f, 0, 20);
-                this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.HEAVY_SMASH.get(), 0.8f, 1.0F + this.getRandom().nextFloat() * 0.1F);
                 AreaAttack(4.75f,4.75f,55,1.15F,120,false);
                 if (!this.level().isClientSide) {
                     spawnLightning(this.getX() + vecX * 3.25F, this.getZ() + vecZ * 3.25F, this.getY() -2, this.getY() + 5, (float) theta, -9,2.0F);
@@ -1034,11 +1034,8 @@ public class Scylla_Entity extends IABoss_monster {
                 AreaAttack(3.5f, 3.5f, 120, 1.35F, 200, false);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.25f, 0, 20);
                 this.playSound(ModSounds.EXPLOSION.get(), 2.0f, 0.95F + this.getRandom().nextFloat() * 0.1F);
-                if (!this.level().isClientSide()) {
-                    SummonWave(5,25F,2.4D);
-                   // SummonWave(4,22.5F,2.4D);
-                   // SummonWave(2,67.5F,1.4D);
-                }else{
+                SummonWave(5,25F,2.4D);
+                if (this.level().isClientSide()) {
                     double vec = 1.5;
 
                     double d0 = this.getX() + vecX * vec;
@@ -1048,6 +1045,7 @@ public class Scylla_Entity extends IABoss_monster {
                     float yaw = (float) Math.toRadians(-yBodyRot -90);
                     this.level().addParticle(new ScyllaSwingParticleOptions(this.getScale() * 0.95F,yaw, 0), d0, d1, d2, 0, 0, 0);
                 }
+
             }
             if (this.attackTicks == 41) {
                 if (!this.level().isClientSide()) {
@@ -1833,25 +1831,46 @@ public class Scylla_Entity extends IABoss_monster {
         }
     }
 
-    private void SummonWave(int number, float anglestep,double vec){
+    private void SummonWave(int number, float anglestep,double vec) {
         double theta = (yBodyRot) * (Math.PI / 180);
         theta += Math.PI / 2;
         double vecX = Math.cos(theta);
         double vecZ = Math.sin(theta);
-        double firstAngleOffset = (number - 1) / 2.0 * anglestep;
-        for (int i = 0; i < number; i++) {
-            double angle = yBodyRot - firstAngleOffset + (i * anglestep);
-            double rad = Math.toRadians(angle);
-            double dx = -Math.sin(rad);
-            double dz = Math.cos(rad);
-            double spawnX = this.getX() + vecX * vec;
-            double spawnY = this.getY();
-            double spawnZ = this.getZ() + vecZ * vec;
-            Wave_Entity WaveEntity = new Wave_Entity(this.level(), this, 80, 9);
-            WaveEntity.setPos(spawnX, spawnY, spawnZ);
-            WaveEntity.setState(1);
-            WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
-            this.level().addFreshEntity(WaveEntity);
+        if (!this.level().isClientSide()) {
+            double firstAngleOffset = (number - 1) / 2.0 * anglestep;
+            for (int i = 0; i < number; i++) {
+                double angle = yBodyRot - firstAngleOffset + (i * anglestep);
+                double rad = Math.toRadians(angle);
+                double dx = -Math.sin(rad);
+                double dz = Math.cos(rad);
+                double spawnX = this.getX() + vecX * vec;
+                double spawnY = this.getY();
+                double spawnZ = this.getZ() + vecZ * vec;
+                Wave_Entity WaveEntity = new Wave_Entity(this.level(), this, 80, 9);
+                WaveEntity.setPos(spawnX, spawnY, spawnZ);
+                WaveEntity.setState(1);
+                WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
+                this.level().addFreshEntity(WaveEntity);
+            }
+        }else{
+            int numberOfWaves = number * 3;
+            float angleStep = anglestep/3F;
+
+            double firstAngleOffset = (numberOfWaves - 1) / 2.0 * angleStep;
+            for (int i = 0; i < numberOfWaves; i++) {
+                double angle = yBodyRot - firstAngleOffset + (i * angleStep);
+                double rad = Math.toRadians(angle);
+                double dx = -Math.sin(rad);
+                double dz = Math.cos(rad);
+                double spawnX = this.getX() + vecX * vec;
+                double spawnY = this.getY();
+                double spawnZ = this.getZ() + vecZ * vec;
+                double extraX = spawnX + dx * (2 + random.nextDouble() /2);
+                double extraY = spawnY + 0.9d + random.nextDouble() * 0.5;
+                double extraZ = spawnZ + dz * (2 + random.nextDouble()/2);
+                this.level().addParticle(new NotSpinTrailParticleOptions(113 / 255F, 194 / 255F, 240 / 255F, 0.05F, 0.5F + random.nextFloat() * 0.3F, 0.4F + random.nextFloat() * 0.2F, 0, 80), spawnX, spawnY, spawnZ, extraX, extraY, extraZ);
+
+            }
         }
     }
 
@@ -2278,8 +2297,6 @@ public class Scylla_Entity extends IABoss_monster {
                         water.setTotalBounces(8);
                         entity.level().addFreshEntity(water);
                     }
-
-
                     if (entity.getAttackState() == 10) {
                         Lightning_Spear_Entity lightning = new Lightning_Spear_Entity(entity, vec3, entity.level(), (float) CMConfig.ScyllaSpearDamage);
                         lightning.accelerationPower = 0.2D;
@@ -2288,7 +2305,6 @@ public class Scylla_Entity extends IABoss_monster {
                         lightning.setPosRaw(d0, d1, d2);
                         lightning.setAreaDamage(6);
                         lightning.setAreaRadius(2);
-
                         entity.level().addFreshEntity(lightning);
                     }
                 }

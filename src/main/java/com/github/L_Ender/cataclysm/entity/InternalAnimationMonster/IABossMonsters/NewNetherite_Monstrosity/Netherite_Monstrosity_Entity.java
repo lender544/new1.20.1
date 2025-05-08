@@ -1,9 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity;
 
+import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -18,10 +20,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Flame_Jet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
-import com.github.L_Ender.cataclysm.init.ModEffect;
-import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,6 +39,7 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.BossEvent;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -63,6 +63,7 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -105,8 +106,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     public boolean Blocking = CMConfig.NetheritemonstrosityBodyBloking;
     private int blockBreakCounter;
-    public static final int NATURE_HEAL_COOLDOWN = 200;
-    private int timeWithoutTarget;
 
     private int shoot_cooldown = 0;
     public static final int SHOOT_COOLDOWN = 240;
@@ -161,8 +160,8 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         this.goalSelector.addGoal(2, new InternalStateGoal(this, 1, 1, 2, 0, 0) {
 
             @Override
-            public boolean canUse() {
-                return super.canUse() && !Netherite_Monstrosity_Entity.this.getIsAwaken();
+            public boolean canContinueToUse() {
+                return super.canContinueToUse() && !Netherite_Monstrosity_Entity.this.getIsAwaken();
             }
 
             @Override
@@ -306,6 +305,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     public float DamageCap() {
         return (float) CMConfig.MonstrosityDamageCap;
+    }
+
+    public float NatureRegen() {
+        return (float) CMConfig.MonstrosityNatureHealing;
     }
 
     public int DamageTime() {
@@ -482,6 +485,25 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return 60;
     }
 
+
+    @Override
+    protected void AfterDefeatBoss(@Nullable LivingEntity living) {
+        if (!this.level().isClientSide) {
+            if (this.getHomePos() != BlockPos.ZERO) {
+                int newX = Mth.floor(this.getHomePos().getX());
+                int newY = Mth.floor(this.getHomePos().getY());
+                int newZ = Mth.floor(this.getHomePos().getZ());
+                BlockPos pos = new BlockPos(newX,newY,newZ);
+                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                this.level().setBlock(pos, block, 2);
+                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                    spawnerblockentity.setEntityId(ModEntities.NETHERITE_MONSTROSITY.get());
+                    spawnerblockentity.setTheItem(ModItems.MONSTROUS_EYE.get().getDefaultInstance());
+                }
+            }
+        }
+    }
+
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("is_Berserk", getIsBerserk());
@@ -545,28 +567,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (overpower_cooldown > 0) overpower_cooldown--;
         if (check_cooldown > 0) check_cooldown--;
         if (flare_shoot_cooldown > 0) flare_shoot_cooldown--;
-        LivingEntity target = this.getTarget();
-        if (!this.level().isClientSide) {
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
-
-            if (timeWithoutTarget <= 0) {
-                if (!isNoAi() && CMConfig.MonstrosityNatureHealing > 0) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal((float) CMConfig.MonstrosityNatureHealing);
-                    }
-                }
-            }
-        }
-
-        if (!isNoAi() && !getIsAwaken()) {
-            if (this.tickCount % 4 == 0) {
-                this.heal((float) CMConfig.MonstrosityNatureHealing);
-            }
-        }
-
 
         setHeadPart();
 
@@ -630,6 +630,11 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             }
         }
 
+    }
+
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_) {
+        this.setIsAwaken(true);
+        return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_);
     }
 
 
@@ -974,7 +979,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
         for (int k2 = -x; k2 <= x; ++k2) {
             for (int l2 = -z; l2 <= z; ++l2) {
-                for (int j = -y; j <= y; ++j) {
+                for (int j = 0; j <= y; ++j) {
                     int i3 = MthX + k2;
                     int k = MthY + j;
                     int l = MthZ + l2;
@@ -983,6 +988,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 }
             }
         }
+
     }
 
     private void doAbsorptionEffect(BlockPos pos) {
@@ -1477,12 +1483,12 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
             if (this.entity.attackTicks > attackshot && this.entity.attackTicks < attackendshot) {
                 if (this.entity.onGround() || this.entity.getOnLava()) {
-                    if (this.entity.notLavaCliff(2)) {
-                        Vec3 vector3d = entity.getDeltaMovement();
-                        float f = entity.getYRot() * ((float) Math.PI / 180F);
-                        Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(0.5D).add(vector3d.scale(0.5D));
-                        entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
-                    }
+
+                    Vec3 vector3d = entity.getDeltaMovement();
+                    float f = entity.getYRot() * ((float) Math.PI / 180F);
+                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(0.5D).add(vector3d.scale(0.5D));
+                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+
                 }
             }
         }

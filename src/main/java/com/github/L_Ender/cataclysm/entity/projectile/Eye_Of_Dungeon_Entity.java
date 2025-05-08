@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOpt
 import com.github.L_Ender.cataclysm.client.particle.Options.NotSpinTrailParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.Util;

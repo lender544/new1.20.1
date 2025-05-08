@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Howitzer_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Missile_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -69,8 +70,12 @@ public class Wither_Assault_SHoulder_Weapon extends Item {
                         double vecZ = Math.sin(theta);
                         double x = p_43396_.getX() + vecX;
                         double Z = p_43396_.getZ() + vecZ;
-                        Vec3 vec3 = new Vec3(d1, d2, d3);
+                        Vec3 vec3 = new Vec3(d1, d2, d3).normalize();
+                        float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
+                        float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
                         Wither_Missile_Entity witherskull = new Wither_Missile_Entity(player, vec3.normalize(),p_43395_,(float) CMConfig.WASWMissileDamage);
+                        witherskull.setYRot(yRot);
+                        witherskull.setXRot(xRot);
                         witherskull.setPosRaw(x, p_43396_.getEyeY(), Z);
                         p_43395_.addFreshEntity(witherskull);
 

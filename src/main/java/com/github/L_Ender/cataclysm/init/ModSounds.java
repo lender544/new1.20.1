@@ -473,4 +473,10 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> PARRY = SOUNDS.register("parry",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"parry")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_SMASH = SOUNDS.register("heavy_smash",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"heavy_smash")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"super_lightning")));
 }

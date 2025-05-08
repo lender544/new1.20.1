@@ -53,6 +53,16 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<Rising_Trail_Options>> RISING_TRAIL = PARTICLE.register("rising_trail", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<Rising_Trail_Options> codec() {
+            return Rising_Trail_Options.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, Rising_Trail_Options> streamCodec() {
+            return Rising_Trail_Options.STREAM_CODEC;
+        }
+    });
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<LightTrailParticleOptions>> LIGHT_TRAIL = PARTICLE.register("light_trail", () -> new ParticleType<>(false) {
         @Override

@@ -59,6 +59,8 @@ public class ModTag {
 
     public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
 
+    public static final TagKey<DamageType> BLOCK_SELF_REGEN = registerDamageTypeTag("block_self_regen");
+
     public static final TagKey<Block> ENDER_GOLEM_CAN_DESTROY = registerBlockTag("ender_golem_can_destroy");
 
     public static final TagKey<Block> CM_GLASS = registerBlockTag("cm_glass");

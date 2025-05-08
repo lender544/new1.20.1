@@ -1,13 +1,11 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.blocks.Mural_Block;
 import com.github.L_Ender.cataclysm.items.*;
 import com.github.L_Ender.cataclysm.items.CuriosItem.AttributeContainer;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Chitin_Claw;
 import com.github.L_Ender.cataclysm.items.CuriosItem.Sticky_Gloves;
-import com.github.L_Ender.cataclysm.items.Dungeon_Eye.*;
 import net.minecraft.core.BlockPos;
 
 import net.minecraft.core.dispenser.BlockSource;
@@ -20,16 +18,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
 
-import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.List;
 
 public class ModItems {
 
@@ -467,6 +460,9 @@ public class ModItems {
     public static final DeferredItem<Item> THE_ANNIHILATOR = ITEMS.register("the_annihilator",
             () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Annihilator.createAttributes())));
 
+    public static final DeferredItem<Item> LIGHTNING_SPEAR = ITEMS.register("lightning_spear",
+            () -> new Lightning_Spear_Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
     public static final DeferredItem<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
             () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Immolator.createAttributes())));
 
@@ -826,6 +822,10 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> GODDESS_STATUE = ITEMS.register("goddess_statue",
             () -> new BlockItem(ModBlocks.GODDESS_STATUE.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
+    public static final DeferredItem<BlockItem> BOSS_RESPAWNER = ITEMS.register("boss_respawner",
+            () -> new BlockItem(ModBlocks.BOSS_RESPAWNER.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
 
 
     public static void initDispenser(){

@@ -21,7 +21,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Entity>
 {
 
-    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[8];
+    private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[6];
 
     public Elemental_Spear_Model model;
 
@@ -33,7 +33,6 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
             TEXTURE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/spear/lightning_spear_" + i + ".png");
         }
     }
-
 
     @Override
     public void render(Lightning_Spear_Entity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
@@ -48,14 +47,14 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
+
     @Override
     public ResourceLocation getTextureLocation(Lightning_Spear_Entity entity)
     {
-        return getGrowingTexture((int) ((entity.tickCount * 0.75F) % 6));
+        return getGrowingTexture((int) ((entity.tickCount * 0.5F) % 5));
     }
 
     public ResourceLocation getGrowingTexture(int age) {
-        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 6)];
+        return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
     }
-
 }

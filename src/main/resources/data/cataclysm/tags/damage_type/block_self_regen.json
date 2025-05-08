@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:bypasses_invulnerability",
+    "minecraft:player_attack",
+    "minecraft:mob_attack"
+  ]
+}

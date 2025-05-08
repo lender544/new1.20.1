@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -87,6 +88,7 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
                         if (entity.Animaitonticks >= 145) {
                             if (!level.isClientSide) {
                                 level.setBlock(pos, blockState.setValue(Door_of_Seal_Block.OPEN, Boolean.valueOf(true)), 2);
+                                level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
                                 for (int i = 0; i <= 7; i++) {
                                     BlockPos abovePos = pos.above(i);
                                     BlockPos blockpos1 = abovePos.relative(blockState.getValue(Door_of_Seal_Block.FACING).getClockWise());
@@ -99,6 +101,7 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
                                         BlockState blockstate = level.getBlockState(toBreakPos);
                                         if (blockstate.is(ModBlocks.DOOR_OF_SEAL_PART.get())) {
                                             level.setBlock(toBreakPos, blockstate.setValue(Door_of_Seal_Block.Door_Of_Seal_Part_Block.OPEN, Boolean.valueOf(true)), 2);
+                                            level.gameEvent(GameEvent.BLOCK_CHANGE, toBreakPos, GameEvent.Context.of(null, blockstate));
                                         }
                                     }
                                 }

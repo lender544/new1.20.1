@@ -216,13 +216,12 @@ public class Elemental_Spear_Entity extends Projectile {
         return 1.0F;
     }
 
-
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
         this.xRotO = this.getXRot();
         this.yRotO = this.getYRot();
-
     }
+
 
     protected void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
         this.setDeltaMovement(movement.normalize().scale(accelerationPower));

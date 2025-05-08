@@ -17,6 +17,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 
@@ -25,7 +26,9 @@ import javax.annotation.Nullable;
 public class IABoss_monster extends Internal_Animation_Monster implements Enemy {
     private int reducedDamageTicks;
     private int homeTicks;
-    public static final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
+    protected final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
+    protected final int NATURE_HEAL_COOLDOWN = 200;
+    private int self_regen;
     private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(IABoss_monster.class, EntityDataSerializers.BLOCK_POS);
 
     public IABoss_monster(EntityType entity, Level world) {
@@ -37,7 +40,7 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
     }
 
 
-    BlockPos getHomePos() {
+    public BlockPos getHomePos() {
         return (BlockPos)this.entityData.get(HOME_POS);
     }
 
@@ -45,6 +48,7 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
         super.defineSynchedData(builder);
         builder.define(HOME_POS, BlockPos.ZERO);
     }
+
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -81,6 +85,10 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
                 damage *= reductionFactor;
             }
         }
+        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+            self_regen = NATURE_HEAL_COOLDOWN;
+        }
+
         boolean flag = super.hurt(source, damage);
         if (ReducedDamage(source)) {
             if (flag) {
@@ -97,20 +105,28 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
 
 
 
+
+
     public void tick() {
         super.tick();
         if (!this.level().isClientSide()) {
             if (reducedDamageTicks > 0) reducedDamageTicks--;
-            if (homeTicks > 0) homeTicks--;
+            if (self_regen > 0) self_regen--;
             LivingEntity target = this.getTarget();
 
-            if(CMConfig.Return_Home > 0) {
-                if (homeTicks > 0) homeTicks--;
-                if (!isNoAi() ) {
+            if (!isNoAi() ) {
+                if (self_regen <= 0) {
+                    if (!isNoAi() && this.NatureRegen() > 0) {
+                        if (this.tickCount % 20 == 0) {
+                            this.heal(this.NatureRegen());
+                        }
+                    }
+                }
+                if (CMConfig.Return_Home > 0) {
+                    if (homeTicks > 0) homeTicks--;
                     if (target != null) {
                         homeTicks = HOME_COOLDOWN;
                     }
-
                     if (homeTicks <= 0) {
                         if (this.getHomePos() != BlockPos.ZERO) {
                             if (!this.getHomePos().closerToCenterThan(this.position(), (double) 16.0F)) {
@@ -121,12 +137,17 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
                     }
                 }
             }
+
         }
 
     }
 
     public float DamageCap() {
         return Float.MAX_VALUE;
+    }
+
+    public float NatureRegen() {
+        return 0;
     }
 
     public int DamageTime() {

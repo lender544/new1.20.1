@@ -181,7 +181,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                             if (!this.level().isClientSide ) {
                                 living.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 50));
                             }
-                            this.playSound(ModSounds.PARRY.get(),2.0F,1.0F);
+                            this.playSound(ModSounds.PARRY.get(),0.8F,1.0F);
                         }
                         return false;
 

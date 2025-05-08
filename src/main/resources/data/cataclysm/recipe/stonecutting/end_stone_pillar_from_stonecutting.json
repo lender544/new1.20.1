@@ -8,6 +8,8 @@
             "item": "minecraft:end_stone_bricks"
         }
     ],
-    "result": "cataclysm:end_stone_pillar",
-    "count": 1
+    "result": {
+        "count": 1,
+        "id": "cataclysm:end_stone_pillar"
+    }
 }

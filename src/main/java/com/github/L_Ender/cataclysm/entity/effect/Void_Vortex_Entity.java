@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.Rising_Trail_Options;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -74,13 +75,11 @@ public class Void_Vortex_Entity extends Entity {
                 float r = 0.4F;
                 float g = 0.1f;
                 float b = 0.8f;
-                this.level().addParticle((new StormParticleOptions(r, g, b,2.5F + random.nextFloat() * 0.9f,5 + random.nextFloat() * 0.9f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,2.25f + random.nextFloat() * 0.6f,4.25F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,2f + random.nextFloat() * 0.45f,3.5F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,1.5f + random.nextFloat() * 0.25f,2.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,1.25f + random.nextFloat() * 0.25f,2.0F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,1.0f + random.nextFloat() * 0.25f,1.25F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticleOptions(r, g, b,0.75f + random.nextFloat() * 0.25f,0.5F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+
+                this.level().addParticle((new Rising_Trail_Options(r, g, b,2.5f + random.nextFloat() * 0.25f,0.08F)), this.getX(), this.getY() +5, this.getZ() , 0, -0.3, 0);
+
+
+
             }
             AABB screamBox = new AABB(this.getX() - 3f, this.getY(), this.getZ() - 3, this.getX() + 3, this.getY() + 15F, this.getZ() + 3F);
 

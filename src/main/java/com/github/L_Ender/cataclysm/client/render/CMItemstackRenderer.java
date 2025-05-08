@@ -8,10 +8,12 @@ import com.github.L_Ender.cataclysm.client.model.entity.Coral_Bardiche_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Coral_Spear_Model;
 import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
+import com.github.L_Ender.cataclysm.client.render.entity.Lightning_Spear_Renderer;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
+import com.github.L_Ender.cataclysm.items.Lightning_Spear_Item;
 import com.github.L_Ender.cataclysm.items.Wrath_of_the_desert;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Maps;
@@ -53,6 +55,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Gauntlet_of_Guard_Model GAUNTLET_OF_GUARD_MODEL = new Gauntlet_of_Guard_Model();
     private static final Gauntlet_of_Bulwark_Model GAUNTLET_OF_BULWARK_MODEL = new Gauntlet_of_Bulwark_Model();
     private static final Gauntlet_of_Maelstrom_Model GAUNTLET_OF_MAELSTROM_MODEL = new Gauntlet_of_Maelstrom_Model();
+    private static final Lightning_Spear_Model LIGHTNING_SPEAR = new Lightning_Spear_Model();
     private static final Incinerator_Model THE_INCINERATOR_MODEL = new Incinerator_Model();
     private static final Coral_Spear_Model CORAL_SPEAR_MODEL = new Coral_Spear_Model();
     private static final Coral_Bardiche_Model CORAL_BARDICHE_MODEL = new Coral_Bardiche_Model();
@@ -62,6 +65,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Altar_of_Abyss_Model ALTAR_OF_ABYSS_MODEL = new Altar_of_Abyss_Model();
     private static final Abyssal_Egg_Model ABYSSAL_MODEL = new Abyssal_Egg_Model();
     private static final Goddess_Statue_Model GODDESS_STATUE_MODEL = new Goddess_Statue_Model();
+    private static final Boss_Respawn_Spawner_Model SPAWNER_MODEL = new Boss_Respawn_Spawner_Model();
 
     private static final Wither_Assault_SHoulder_Weapon_Model WASW_MODEL = new Wither_Assault_SHoulder_Weapon_Model();
     private static final Void_Forge_Model VOID_FORGE_MODEL = new Void_Forge_Model();
@@ -123,7 +127,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation VASW_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation EMP_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/emp.png");
     private static final ResourceLocation STATUE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/goddess_statue.png");
+    private static final ResourceLocation SPAWNER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/boss_respawner.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
+    private static final ResourceLocation[] TEXTURE_LIGHTNING_PROGRESS = new ResourceLocation[6];
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/coral_spear.png");
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
     private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/ancient_spear.png");
@@ -149,7 +155,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         for(int i = 0; i < 8; i++){
             TEXTURE_FIRE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
         }
-
+        for(int i = 0; i < 6; i++){
+            TEXTURE_LIGHTNING_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/spear/lightning_spear_" + i + ".png");
+        }
     }
 
     @Override
@@ -209,6 +217,15 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
+        if (itemStackIn.getItem() == ModItems.LIGHTNING_SPEAR.get()) {
+            matrixStackIn.pushPose();
+            
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.CMEyes(getSpearTexture((int) ((tick * 0.75F) % 6))), itemStackIn.hasFoil());
+            LIGHTNING_SPEAR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
+            matrixStackIn.popPose();
+        }
+
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_GUARD.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
@@ -349,7 +366,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             CURSED_BOW_MODEL.setupAnim(null, pullAmount, ageInTicks,  0, 0, 0);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CURSED_BOW_TEXTURE), itemStackIn.hasFoil());
             CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(CURSED_BOW_GHOST_TEXTURE), itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(CURSED_BOW_GHOST_TEXTURE), itemStackIn.hasFoil());
             CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
 
             matrixStackIn.popPose();
@@ -365,7 +382,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             WRATH_OF_DESERT_MODEL.setupAnim(null, pullAmount, ageInTicks,  ageInTicks, 0, 0);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(WRATH_OF_DESERT_TEXTURE), itemStackIn.hasFoil());
             WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(WRATH_OF_DESERT_GHOST_TEXTURE), itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(WRATH_OF_DESERT_GHOST_TEXTURE), itemStackIn.hasFoil());
             WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
@@ -376,7 +393,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(SOUL_RENDER_TEXTURE), itemStackIn.hasFoil());
             SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(SOUL_RENDER_GHOST_TEXTURE), itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(SOUL_RENDER_GHOST_TEXTURE), itemStackIn.hasFoil());
             SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
@@ -387,7 +404,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_ANNIHILATOR_TEXTURE), itemStackIn.hasFoil());
             THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(THE_ANNIHILATOR_GHOST_TEXTURE), itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_ANNIHILATOR_GHOST_TEXTURE), itemStackIn.hasFoil());
             THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
@@ -397,7 +414,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_IMMOLATOR_TEXTURE), itemStackIn.hasFoil());
             THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getghost(THE_IMMOLATOR_GHOST_TEXTURE), itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_IMMOLATOR_GHOST_TEXTURE), itemStackIn.hasFoil());
             THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
@@ -407,7 +424,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ALTAR_OF_FIRE_MODEL.resetToDefaultPose();
             ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_FIRE_TEXTURE)), combinedLightIn, combinedOverlayIn);
-            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getIdleTexture((int) ((tick * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY);
+            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((tick * 0.5F) % 7)))), combinedLightIn, OverlayTexture.NO_OVERLAY);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModItems.ALTAR_OF_VOID.get()){
@@ -456,7 +473,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ABYSSAL_MODEL.resetToDefaultPose();
             ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ABYSSAL_EGG_TEXTURE)), combinedLightIn, combinedOverlayIn);
-            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getghost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn);
+            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGhost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModItems.GODDESS_STATUE.get()){
@@ -467,13 +484,24 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             GODDESS_STATUE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(STATUE_TEXTURE)), combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
-
+        if(itemStackIn.getItem() == ModItems.BOSS_RESPAWNER.get()){
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 1.50F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            SPAWNER_MODEL.resetToDefaultPose();
+            SPAWNER_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(SPAWNER_TEXTURE)), combinedLightIn, combinedOverlayIn);
+            matrixStackIn.popPose();
+        }
     }
     
 
 
     private ResourceLocation getIdleTexture(int age) {
         return TEXTURE_FIRE_PROGRESS[Mth.clamp(age, 0, 7)];
+    }
+
+    private ResourceLocation getSpearTexture(int age) {
+        return TEXTURE_LIGHTNING_PROGRESS[Mth.clamp(age, 0, 7)];
     }
 
 }

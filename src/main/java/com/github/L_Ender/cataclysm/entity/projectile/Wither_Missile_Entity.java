@@ -220,12 +220,12 @@ public class Wither_Missile_Entity extends Projectile {
         return 1.0F;
     }
 
-
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
         Vec3 vec3 = new Vec3(packet.getXa(), packet.getYa(), packet.getZa());
         this.setDeltaMovement(vec3);
-
+        this.xRotO = this.getXRot();
+        this.yRotO = this.getYRot();
     }
 
     private void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
@@ -240,7 +240,6 @@ public class Wither_Missile_Entity extends Projectile {
         } else {
             this.accelerationPower *= (double)0.5F;
         }
-
     }
 }
 
