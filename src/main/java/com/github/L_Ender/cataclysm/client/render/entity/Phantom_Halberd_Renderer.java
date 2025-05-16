@@ -38,7 +38,7 @@ public class Phantom_Halberd_Renderer extends EntityRenderer<Phantom_Halberd_Ent
         model.setupAnim(entityIn, 0, 0, entityIn.tickCount + partialTicks, 0, 0);
         if (entityIn.lifeTicks > 0) {
             float f2 = (float)entityIn.lifeTicks / 70F;
-            VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.DragonDeath(PHANTOM_HALBERD_DISCARD));
+            VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.dragonExplosionAlpha(PHANTOM_HALBERD_DISCARD));
             this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, f2);
             VertexConsumer vertexconsumer1 = bufferIn.getBuffer(DECAL);
             this.model.renderToBuffer(matrixStackIn, vertexconsumer1, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

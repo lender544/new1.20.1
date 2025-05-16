@@ -172,8 +172,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.level().isClientSide) {
             if (this.clientSideAttackStarted) {
                 ++this.lifeTicks;
-                if (this.lifeTicks < 70 && this.lifeTicks > 22) {
-                    if(this.tickCount % 6 == 0) {
+                if (this.lifeTicks == 61  || this.lifeTicks == 57|| this.lifeTicks == 65) {
                         double d0 = this.getX();
                         double d1 = this.getY() + 0.5D + this.random.nextDouble();
                         double d2 = this.getZ();
@@ -183,7 +182,7 @@ public class Phantom_Halberd_Entity extends Entity {
                         this.level().addParticle(ModParticle.CURSED_FLAME.get(), d0, d1 + 0.35D, d2, d3, d4, d5);
 
                     }
-                }
+
 
             }
         } else if (--this.warmupDelayTicks < 0) {

@@ -214,17 +214,18 @@ public class CMRenderTypes extends RenderType {
     );
 
 
-
     public static final Function<ResourceLocation, RenderType> DRAGON_DEATH = Util.memoize(
             p_286169_ -> {
                 CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                        .setShaderState(RENDERTYPE_ENTITY_ALPHA_SHADER)
                         .setCullState(NO_CULL)
+                        .setTextureState(new TextureStateShard(p_286169_, false, false))
                         .createCompositeState(true);
-                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+
+                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,false,false, rendertype$compositestate);
             }
     );
+
 
     public static final Function<ResourceLocation, RenderType> SHOCK_WAVE = Util.memoize(
             p_286169_ -> {

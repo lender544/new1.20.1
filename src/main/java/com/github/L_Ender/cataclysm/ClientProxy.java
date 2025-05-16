@@ -83,6 +83,7 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
         registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.OrbFactory());
         registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
+        registry.registerSpriteSet(ModParticle.ROAR.get(), RoarParticle.RoarFactory::new);
         registry.registerSpriteSet(ModParticle.SCYLLA_SWING.get(), Scylla_Swing_Particle.Provider::new);
         registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
@@ -200,9 +201,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.VOID_SHARD.get(), (render) -> {
             return new ThrownItemRenderer<>(render, 0.75F, true);
         });
-        EntityRenderers.register(ModEntities.EYE_OF_DUNGEON.get(), (render) -> {
-            return new ThrownItemRenderer<>(render, 1.0F, true);
-        });
+        EntityRenderers.register(ModEntities.EYE_OF_DUNGEON.get(), Eye_Of_Dungeon_Renderer::new);
         EntityRenderers.register(ModEntities.BLAZING_BONE.get(), Blazing_Bone_Renderer::new);
         EntityRenderers.register(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
         EntityRenderers.register(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);

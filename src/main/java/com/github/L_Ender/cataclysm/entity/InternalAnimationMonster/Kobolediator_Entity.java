@@ -73,7 +73,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     public Kobolediator_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 35;
+        this.xpReward = 80;
         this.setMaxUpStep(1.25F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);

@@ -631,6 +631,9 @@ public class ModItems {
     public static final RegistryObject<Item> MUSIC_DISC_MALEDICTUS = ITEMS.register("music_disc_maledictus",
             () -> new RecordItem(14, ModSounds.MALEDICTUS_MUSIC_DISC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 201 * 20));
 
+    public static final RegistryObject<Item> MUSIC_DISC_SCYLLA = ITEMS.register("music_disc_scylla",
+            () -> new RecordItem(14, ModSounds.SCYLLA_MUSIC_DISC,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(), 220 * 20));
+
 
     public static final RegistryObject<Item> MECH_EYE = ITEMS.register("mech_eye",
             () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MECH_LOCATED,255,51,0));

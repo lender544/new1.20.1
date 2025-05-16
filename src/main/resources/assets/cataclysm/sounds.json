@@ -416,6 +416,22 @@
       }
     ]
   },
+  "scylla_music": {
+    "subtitle": "scylla_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/scylla_theme"
+      }
+    ]
+  },
+  "scylla_music_disc": {
+    "subtitle": "scylla_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/scylla_theme_disc"
+      }
+    ]
+  },
   "revenant_breath": {
     "subtitle": "revenant_breath.sub",
     "sounds": [

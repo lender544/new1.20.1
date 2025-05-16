@@ -92,7 +92,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     public Clawdian_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 180;
+        this.xpReward = 100;
+        this.moveControl = new ClawdianMoveController(this);
         this.setMaxUpStep(2.5F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
@@ -210,11 +211,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                 } else {
                     entity.setYRot(entity.yRotO);
                 }
-                if(this.entity.onGround() && entity.attackTicks < 24){
-                    Vec3 vector3d = entity.getDeltaMovement();
-                    float f = entity.getYRot() * ((float)Math.PI / 180F);
-                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(-0.5D).add(vector3d.scale(0.4D));
-                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                if(entity.attackTicks < 24){
+                    entity.getMoveControl().strafe(-2.0F, 0.0F);
                 }
             }
 

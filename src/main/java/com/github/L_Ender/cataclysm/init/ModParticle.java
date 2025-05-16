@@ -51,6 +51,14 @@ public class ModParticle {
         }
     });
 
+    public static final RegistryObject<ParticleType<RoarParticle.RoarData>> ROAR = PARTICLE.register("roar", () -> new ParticleType<RoarParticle.RoarData>(false, RoarParticle.RoarData.DESERIALIZER) {
+        @Override
+        public Codec<RoarParticle.RoarData> codec() {
+            return RoarParticle.RoarData.CODEC(ROAR.get());
+        }
+    });
+
+
     public static final RegistryObject<ParticleType<CircleLightningParticle.CircleData>> CIRCLE_LIGHTNING = PARTICLE.register("circle_lightning", () -> new ParticleType<CircleLightningParticle.CircleData>(false, CircleLightningParticle.CircleData.DESERIALIZER) {
         @Override
         public Codec<CircleLightningParticle.CircleData> codec() {

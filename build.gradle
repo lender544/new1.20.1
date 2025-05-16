@@ -182,5 +182,9 @@ publishing {
     }
 }
 
+tasks.withType(JavaCompile) {
+    options.debug = true
+}
+
 
 

@@ -2040,6 +2040,17 @@ public class Scylla_Entity extends IABoss_monster {
         }
     }
 
+    @Override
+    public SoundEvent getBossMusic() {
+        return ModSounds.SCYLLA_MUSIC.get();
+    }
+
+    @Override
+    protected boolean canPlayMusic() {
+        return super.canPlayMusic() && !isSleep();
+    }
+
+
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
         this.bossEvent.addPlayer(player);

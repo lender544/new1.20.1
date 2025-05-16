@@ -35,6 +35,9 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
     private double ty;
     private double tz;
     private int life;
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
+
 
     public Eye_Of_Dungeon_Entity(EntityType<? extends Eye_Of_Dungeon_Entity> p_36957_, Level p_36958_) {
         super(p_36957_, p_36958_);
@@ -168,11 +171,20 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
                 for (int i = 0; i < 4; ++i) {
                     this.level().addParticle(ParticleTypes.BUBBLE, d0 - vec3.x * 0.25D, d1 - vec3.y * 0.25D, d2 - vec3.z * 0.25D, vec3.x, vec3.y, vec3.z);
                 }
-            } else {
-
-                this.level().addParticle((new StormParticle.OrbData(this.getR()/255F, this.getG()/255F,  this.getB()/255F,0.1f,0.1F,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-
             }
+
+            Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+            if (trailPointer == -1) {
+                Vec3 backAt = trailAt;
+                for (int i = 0; i < trailPositions.length; i++) {
+                    trailPositions[i] = backAt;
+                }
+            }
+            if (++this.trailPointer == this.trailPositions.length) {
+                this.trailPointer = 0;
+            }
+            this.trailPositions[this.trailPointer] = trailAt;
+
 
             if (!this.level().isClientSide) {
                 this.setPos(d0, d1, d2);
@@ -228,6 +240,21 @@ public class Eye_Of_Dungeon_Entity extends Entity implements ItemSupplier {
 
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return new ClientboundAddEntityPacket(this);
+    }
+
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
+        }
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
+    }
+
+    public boolean hasTrail() {
+        return trailPointer != -1;
     }
 
 }

@@ -41,6 +41,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
     public double prevDeltaMovementX, prevDeltaMovementY, prevDeltaMovementZ;
 
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
+
     public Flare_Bomb_Entity(EntityType<Flare_Bomb_Entity> type, Level world) {
         super(type, world);
     }
@@ -174,17 +177,17 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
         setYRot(-((float) Mth.atan2(getDeltaMovement().x, getDeltaMovement().z)) * (180F / (float)Math.PI)) ;
 
-        if (this.level().isClientSide){
-            double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-            double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-            double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
-            float ran = 0.04f;
-            float r = 195/255F + random.nextFloat() * ran * 1.5F;
-            float g = 95/255F + random.nextFloat() * ran;
-            float b = 3/255F + random.nextFloat() * ran;
-            this.level().addParticle((new LightTrailParticle.OrbData(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
-
+        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+        if (trailPointer == -1) {
+            Vec3 backAt = trailAt;
+            for (int i = 0; i < trailPositions.length; i++) {
+                trailPositions[i] = backAt;
+            }
         }
+        if (++this.trailPointer == this.trailPositions.length) {
+            this.trailPointer = 0;
+        }
+        this.trailPositions[this.trailPointer] = trailAt;
 
 
 
@@ -193,17 +196,17 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
     }
 
-    public void makeTrail() {
-        if (this.level().isClientSide){
-            for (int i = 0; i < 5; i++) {
-                double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-                double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-                double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
-
-                level().addParticle(ParticleTypes.FLAME, dx, dy, dz, -getDeltaMovement().x(), -getDeltaMovement().y(), -getDeltaMovement().z());
-            }
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
         }
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
     }
+
 
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
@@ -217,6 +220,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
     }
 
+    public boolean hasTrail() {
+        return trailPointer != -1;
+    }
 
     public float getLightLevelDependentMagicValue() {
         return 1.0F;
