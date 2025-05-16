@@ -91,7 +91,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     private int timeWithoutTarget;
     public Aptrgangr_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 35;
+        this.xpReward = 60;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         setConfigattribute(this, CMConfig.AptrgangrHealthMultiplier, CMConfig.AptrgangrDamageMultiplier);

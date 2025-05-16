@@ -109,14 +109,13 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
 
     public void tick() {
         super.tick();
+        if (reducedDamageTicks > 0) reducedDamageTicks--;
+        if (self_regen > 0) self_regen--;
         if (!this.level().isClientSide()) {
-            if (reducedDamageTicks > 0) reducedDamageTicks--;
-            if (self_regen > 0) self_regen--;
             LivingEntity target = this.getTarget();
-
             if (!isNoAi() ) {
                 if (self_regen <= 0) {
-                    if (!isNoAi() && this.NatureRegen() > 0) {
+                    if (!isNoAi() && this.NatureRegen() > 0 && target == null) {
                         if (this.tickCount % 20 == 0) {
                             this.heal(this.NatureRegen());
                         }

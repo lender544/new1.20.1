@@ -42,7 +42,7 @@ public class Phantom_Halberd_Renderer extends EntityRenderer<Phantom_Halberd_Ent
         if (entityIn.lifeTicks > 0) {
             float f2 = (float)entityIn.lifeTicks / 70F;
             int i = FastColor.ARGB32.color(Mth.floor(f2 * 255.0F), -1);
-            VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.DragonDeath(PHANTOM_HALBERD_DISCARD));
+            VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.dragonExplosionAlpha(PHANTOM_HALBERD_DISCARD));
             this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,i);
             VertexConsumer vertexconsumer1 = bufferIn.getBuffer(DECAL);
             this.model.renderToBuffer(matrixStackIn, vertexconsumer1, packedLightIn, OverlayTexture.NO_OVERLAY);

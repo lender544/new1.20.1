@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
@@ -975,7 +976,14 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
             }
             if (this.attackTicks == 30) {
                 this.playSound(ModSounds.MALEDICTUS_BATTLE_CRY.get(), 1F, 1.0f);
+                Roarparticle(1.5f, 0,1.8F, 20,26,158,130, 0.4F, 0.4f,0.5F,2.5F);
             }
+
+            if (this.attackTicks == 33 || this.attackTicks == 36) {
+                Roarparticle(1.5f, 0,1.8F, 20,26,158,130, 0.4F, 0.4f,0.5F,2.5F);
+            }
+
+
             if (this.attackTicks == 32) {
                 this.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1F, 1.0f);
             }
@@ -1728,6 +1736,19 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                 this.level().addParticle(ModParticle.PHANTOM_WING_FLAME.get(), extraX, extraY, extraZ, 0.0D, this.random.nextGaussian() * 0.04D, 0.0D);
             }
+        }
+    }
+
+    private void Roarparticle(float vec,float math, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
+        if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX + f * math, this.getY() + y, this.getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
     }
 

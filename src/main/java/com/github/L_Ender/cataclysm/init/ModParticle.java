@@ -105,6 +105,16 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<RoarParticleOptions>> ROAR = PARTICLE.register("roar", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<RoarParticleOptions> codec() {
+            return RoarParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, RoarParticleOptions> streamCodec() {
+            return RoarParticleOptions.STREAM_CODEC;
+        }
+    });
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<ScyllaSwingParticleOptions>> SCYLLA_SWING = PARTICLE.register("scylla_swing", () -> new ParticleType<>(false) {
         @Override

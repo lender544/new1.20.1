@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
@@ -837,6 +838,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         }
 
         if (this.getAnimation() == BREAK_THE_SHIELD) {
+            int r = this.getBossPhase() > 0 ? 2: 255;
+            int g = this.getBossPhase() > 0 ? 199: 215;
+            int b = this.getBossPhase() > 0 ? 203: 63;
             if (this.getAnimationTick() == 25) {
                 this.setShowShield(false);
                 ShieldExplode(-2.75f, 1.5f, 2);
@@ -848,12 +852,22 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 50);
                 List<LivingEntity> entities = getEntityLivingBaseNearby(12, 12, 12, 12);
                 this.playSound(ModSounds.FLAME_BURST.get(), 1.0f, 0.8F);
+                Roarparticle(1.5f, 0,3.1F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
                 for (LivingEntity inRange : entities) {
                     if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
                     if (isAlliedTo(inRange)) continue;
                     inRange.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 60));
                 }
             }
+
+            if (this.getAnimationTick() == 58) {
+                Roarparticle(1.5f, 0,3.1F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
+            }
+
+            if (this.getAnimationTick() == 61) {
+                Roarparticle(1.5f, 0,3.1F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
+            }
+
         }
         if (this.getAnimation() == PHASE_2) {
             if (this.getAnimationTick() == 29) {
@@ -1117,10 +1131,27 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
         }
 
+
         if (this.getAnimation() == SHIELD_BREAK_STRIKE) {
+
+            int r = this.getBossPhase() > 0 ? 2: 255;
+            int g = this.getBossPhase() > 0 ? 199: 215;
+            int b = this.getBossPhase() > 0 ? 203: 63;
+
             if (this.getAnimationTick() == 15) {
                 this.playSound(ModSounds.FLAME_BURST.get(), 1.0f, 0.8F);
+                Roarparticle(1.5f, 0,3.3F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
             }
+
+            if (this.getAnimationTick() == 18) {
+                Roarparticle(1.5f, 0,3.3F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
+            }
+
+            if (this.getAnimationTick() == 21) {
+                Roarparticle(1.5f, 0,3.3F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
+            }
+
+
 
             if (this.getAnimationTick() == 17) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 50);
@@ -1406,6 +1437,20 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                     earthquakesound((j + j + 1) / 2);
                 }
             }
+        }
+    }
+
+
+    private void Roarparticle(float vec,float math, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
+        if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX + f * math, this.getY() + y, this.getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
     }
 
@@ -1766,7 +1811,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
             double extraX = radius * Mth.sin((float) (Math.PI + angle));
             double extraZ = radius * Mth.cos(angle);
-            this.level().explode(this, this.getX() + extraX + f * math, this.getY() + y, this.getZ() + extraZ + f1 * math, 2.0F, Level.ExplosionInteraction.NONE);
+            this.level().explode(this, this.getX() + extraX + f * math, this.getY() + y, this.getZ() + extraZ + f1 * math, 2.0F, Level.ExplosionInteraction.TRIGGER);
         }
     }
 

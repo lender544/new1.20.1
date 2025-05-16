@@ -1,7 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.LightTrailParticle;
-import com.github.L_Ender.cataclysm.client.particle.Options.LightTrailParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
@@ -11,35 +9,31 @@ import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.entity.projectile.WitherSkull;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 
 public class Flare_Bomb_Entity extends ThrowableProjectile {
-
-
     public double prevDeltaMovementX, prevDeltaMovementY, prevDeltaMovementZ;
+
+
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
 
     public Flare_Bomb_Entity(EntityType<Flare_Bomb_Entity> type, Level world) {
         super(type, world);
@@ -173,42 +167,40 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     @Override
     public void tick() {
         super.tick();
+
         prevDeltaMovementX = getDeltaMovement().x;
         prevDeltaMovementY = getDeltaMovement().y;
         prevDeltaMovementZ = getDeltaMovement().z;
-
         setYRot(-((float) Mth.atan2(getDeltaMovement().x, getDeltaMovement().z)) * (180F / (float)Math.PI)) ;
 
-        if (this.level().isClientSide){
-            double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-            double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-            double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
-            float ran = 0.04f;
-            float r = 195/255F + random.nextFloat() * ran * 1.5F;
-            float g = 95/255F + random.nextFloat() * ran;
-            float b = 3/255F + random.nextFloat() * ran;
-            this.level().addParticle((new LightTrailParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
-
+        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+        if (trailPointer == -1) {
+            Vec3 backAt = trailAt;
+            for (int i = 0; i < trailPositions.length; i++) {
+                trailPositions[i] = backAt;
+            }
         }
-
-
+        if (++this.trailPointer == this.trailPositions.length) {
+            this.trailPointer = 0;
+        }
+        this.trailPositions[this.trailPointer] = trailAt;
 
      //   makeTrail();
 
 
     }
 
-    public void makeTrail() {
-        if (this.level().isClientSide){
-            for (int i = 0; i < 5; i++) {
-                double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-                double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-                double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
-
-                level().addParticle(ParticleTypes.FLAME, dx, dy, dz, -getDeltaMovement().x(), -getDeltaMovement().y(), -getDeltaMovement().z());
-            }
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
         }
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
     }
+
 
     public void handleEntityEvent(byte id) {
         super.handleEntityEvent(id);
@@ -230,5 +222,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     protected double getDefaultGravity() {
         return 0.025D;
     }
-
+    public boolean hasTrail() {
+        return trailPointer != -1;
+    }
 }

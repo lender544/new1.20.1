@@ -121,7 +121,7 @@ public class ModGroup {
                 entries.accept(ModItems.MUSIC_DISC_THE_LEVIATHAN.get());
                 entries.accept(ModItems.MUSIC_DISC_ANCIENT_REMNANT.get());
                 entries.accept(ModItems.MUSIC_DISC_MALEDICTUS.get());
-
+                entries.accept(ModItems.MUSIC_DISC_SCYLLA.get());
                 entries.accept(ModItems.LIONFISH.get());
                 entries.accept(ModItems.AMETHYST_CRAB_MEAT.get());
                 entries.accept(ModItems.BLESSED_AMETHYST_CRAB_MEAT.get());

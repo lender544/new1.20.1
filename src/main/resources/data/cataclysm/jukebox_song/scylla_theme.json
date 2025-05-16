@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.cataclysm.music_disc_scylla.desc"
+  },
+  "length_in_seconds": 220.0,
+  "sound_event": "cataclysm:scylla_music_disc"
+}

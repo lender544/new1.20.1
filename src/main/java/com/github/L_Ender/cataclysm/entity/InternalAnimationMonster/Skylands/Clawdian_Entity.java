@@ -1,20 +1,15 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.NotSpinTrailParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Guardian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
@@ -22,21 +17,16 @@ import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
-import com.github.L_Ender.cataclysm.message.MessageMovePlayer;
-import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -52,15 +42,12 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -101,7 +88,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     public Clawdian_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 35;
+        this.xpReward = 100;
+        this.moveControl = new ClawdianMoveController(this);
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         setConfigattribute(this, CMConfig.ClawdianHealthMultiplier, CMConfig.ClawdianDamageMultiplier);
@@ -219,11 +207,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                 } else {
                     entity.setYRot(entity.yRotO);
                 }
-                if(this.entity.onGround() && entity.attackTicks < 24){
-                    Vec3 vector3d = entity.getDeltaMovement();
-                    float f = entity.getYRot() * ((float)Math.PI / 180F);
-                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(-0.5D).add(vector3d.scale(0.4D));
-                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                if(entity.attackTicks < 24){
+                    entity.getMoveControl().strafe(-2.0F, 0.0F);
                 }
             }
 

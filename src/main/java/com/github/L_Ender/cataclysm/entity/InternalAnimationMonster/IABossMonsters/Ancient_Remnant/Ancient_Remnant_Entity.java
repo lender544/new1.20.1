@@ -4,10 +4,12 @@ import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Ent
 import com.github.L_Ender.cataclysm.blocks.Boss_Respawn_Spawner_Block;
 import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.PredictiveChargeAttackAnimationGoal;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -123,14 +125,14 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 120, true, true, ModEntities.buildPredicateFromTag(ModTag.ANCIENT_REMNANT_TARGET)));
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-        this.goalSelector.addGoal(4, new RemnantAttackModeGoal(this));
+        this.goalSelector.addGoal(5, new RemnantAttackModeGoal(this));
         //right bite
         this.goalSelector.addGoal(3, new RemnantAttackGoal(this, 0, 4, 0, 70, 29, 6, 10));
 
@@ -152,11 +154,11 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.goalSelector.addGoal(3, new RemnantStompGoal(this,0, 8,9, 13, 14,0,50,66, 26, 20, 36));
 
         //sandstorm_roar
-        this.goalSelector.addGoal(3, new RemnantStormAttackGoal(this,0, 6, 0, 60, 11, 32D, 18){
+        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 6, 0, 60, 11, 32F, 18){
+
             @Override
             public boolean canUse() {
-                LivingEntity target = entity.getTarget();
-                return super.canUse() && target !=null  && this.entity.roar_cooldown <= 0;
+                return super.canUse() && this.entity.roar_cooldown <= 0;
             }
             @Override
             public void stop() {
@@ -170,7 +172,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.goalSelector.addGoal(3, new RemnantMonolithAttackGoal(this,0, 17, 0, 70, 20));
 
         //charge_prepare
-        this.goalSelector.addGoal(3, new RemnantChargeGoal(this,0, 10, 11, 70, 66, 32D, 60));
+        this.goalSelector.addGoal(3, new RemnantChargeGoal(this,0, 10, 11, 70, 66, 32F, 60));
 
         //charge
         this.goalSelector.addGoal(2, new InternalStateGoal(this,11,11,12,60,0){
@@ -189,7 +191,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         this.goalSelector.addGoal(1, new InternalStateGoal(this,12,12,0,120,0));
 
         //ground_tail
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 15, 0, 110, 85, 12, 10){
+        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 15, 0, 110, 85, 12, 10){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -203,7 +205,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         });
 
         //tail_swing
-        this.goalSelector.addGoal(1, new RemnantAttackGoal(this,0, 16, 0, 58, 13, 7.5D, 10){
+        this.goalSelector.addGoal(3, new RemnantAttackGoal(this,0, 16, 0, 58, 13, 7.5f, 10){
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
@@ -650,7 +652,26 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if(this.attackTicks == 14){
                 this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.1f, 0, 60);
+                Roarparticle(4f, 1.0f,8F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
             }
+            if(this.attackTicks == 17){
+                Roarparticle(4f, 2.5f,7.0F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+            }
+            if(this.attackTicks == 20){
+                Roarparticle(4f, 2.5f,7F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+
+            }
+            if(this.attackTicks == 23){
+                Roarparticle(4f, 2.5f,7F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+            }
+            if(this.attackTicks == 26){
+                Roarparticle(4f, 1.25F,8F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+            }
+
+            if(this.attackTicks == 29){
+                Roarparticle(4f, 0,9F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+            }
+
             if(this.attackTicks == 55) {
                 for (int i = 0; i < 3; i++) {
                     float angle = i * Mth.PI / 1.5F;
@@ -670,6 +691,34 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 80);
                 this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
                 setIsPower(true);
+                Roarparticle(5.5f, 0,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 17) {
+                Roarparticle(5.5f, 0.4F,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 20) {
+                Roarparticle(5.5f, 0.8F,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 23) {
+                Roarparticle(5.5f, 1.2F,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 26) {
+                Roarparticle(5.5f, 1.6F,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 29) {
+                Roarparticle(5.5f, 1.6F,4.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 32) {
+                Roarparticle(5.5f, 1.4F,4.3F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 35) {
+                Roarparticle(5.5f, 1.2F,3.8F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 38) {
+                Roarparticle(5.5f, 1.0F,3.3F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
+            }
+            if (this.attackTicks == 41) {
+                Roarparticle(5.5f, 0,3.1F, 10,255,255,255, 0.2F, 1.0f,0.8F,5F);
             }
         }
 
@@ -726,7 +775,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
             if(this.attackTicks == 66){
                 this.level().playSound((Player) null, this, ModSounds.REMNANT_CHARGE_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.0f);
+                Roarparticle(6f, 0.0f,4.0F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
             }
+            if(this.attackTicks == 69){
+                Roarparticle(6f, 0.0f,4.0F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+            }
+
+
         }
 
         if(this.getAttackState() == 11) {
@@ -734,6 +789,12 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if (this.horizontalCollision) {
                 this.setAttackState(12);
             }
+            for (int l = 1; l <= 58; l = l + 3) {
+                if (this.attackTicks == l) {
+                    Roarparticle(6f, 0.0f,3.3F, 10,255,255,255, 0.4F, 1.0f,0.8F,3.5F);
+                }
+            }
+
         }
         if(this.getAttackState() == 12) {
             if(this.attackTicks == 1){
@@ -848,9 +909,22 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             }
         }
         if(this.getAttackState() == 17) {
-            if(this.attackTicks == 16) {
+            if (this.attackTicks == 16) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 80);
-               this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.1f);
+                this.level().playSound((Player) null, this, ModSounds.REMNANT_ROAR.get(), SoundSource.HOSTILE, 3.0f, 1.1f);
+            }
+            if (this.attackTicks == 18) {
+                Roarparticle(4f, -1.0f, 8F, 10, 255, 255, 255, 0.4F, 1.0f, 0.8F, 3.5F);
+            }
+            if (this.attackTicks == 21) {
+                Roarparticle(4f, -1.4f, 7.5F, 10, 255, 255, 255, 0.4F, 1.0f, 0.8F, 3.5F);
+
+            }
+            if (this.attackTicks == 24) {
+                Roarparticle(4f, -1.4f, 8F, 10, 255, 255, 255, 0.4F, 1.0f, 0.8F, 3.5F);
+            }
+            if (this.attackTicks == 27) {
+                Roarparticle(4f, -1.0f, 7.5F, 10, 255, 255, 255, 0.4F, 1.0f, 0.8F, 3.5F);
             }
         }
     }
@@ -1033,6 +1107,18 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
     }
 
+    private void Roarparticle(float vec,float math, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
+        if (this.level().isClientSide) {
+            float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX + f * math, this.getY() + y, this.getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+        }
+    }
 
     private void Stompsound(float distance,float math) {
         double theta = (yBodyRot) * (Math.PI / 180);
@@ -1387,69 +1473,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
     }
 
-    static class RemnantStormAttackGoal extends Goal {
-        protected final Ancient_Remnant_Entity entity;
-        private final int getattackstate;
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
-        private final double attackrange;
-        private final float random;
-
-
-        public RemnantStormAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
-            this.entity = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-            this.getattackstate = getattackstate;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
-            this.attackrange = attackrange;
-            this.random = random;
-
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == AttackMode.MELEE;
-        }
-
-
-        @Override
-        public void start() {
-            this.entity.setAttackState(attackstate);
-            this.entity.hit = false;
-            LivingEntity target = entity.getTarget();
-            if (target != null) {
-                this.entity.lookAt(target, 30.0F, 30.0F);
-                entity.getLookControl().setLookAt(target, 30, 30);
-            }
-        }
-
-        @Override
-        public void stop() {
-            this.entity.setAttackState(attackendstate);
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
-        }
-
-        public void tick() {
-            LivingEntity target = entity.getTarget();
-            if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.lookAt(target, 30.0F, 30.0F);
-            } else {
-                entity.setYRot(entity.yRotO);
-            }
-        }
-    }
-
     static class RemnantMonolithAttackGoal extends Goal {
         protected final Ancient_Remnant_Entity entity;
         private final int getattackstate;
@@ -1473,16 +1496,18 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-
             return target !=null && target.isAlive() && (this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && target.getY() >= this.entity.getY() + 8
-                    ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) > 12.0D ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) < 10.0D) && this.entity.getAttackState() == getattackstate && this.entity.mode == AttackMode.MELEE;
-
+                   ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) > 12.0D ||this.entity.monoltih_cooldown <= 0 && this.entity.getRandom().nextFloat() * 100.0F < 12f && this.entity.distanceTo(target) < 10.0D) && this.entity.getAttackState() == getattackstate && this.entity.mode == AttackMode.MELEE;
         }
-
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
 
         @Override
         public void start() {
             this.entity.setAttackState(attackstate);
+            this.entity.getNavigation().stop();
             this.entity.hit = false;
             LivingEntity target = entity.getTarget();
             if (target != null) {
@@ -1495,6 +1520,14 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         public void stop() {
             this.entity.setAttackState(attackendstate);
             this.entity.monoltih_cooldown = MONOLITH2_COOLDOWN;
+            LivingEntity target = entity.getTarget();
+            if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) {
+                this.entity.setTarget((LivingEntity)null);
+            }
+            if (this.entity.getTarget() == null) {
+                this.entity.setAggressive(false);
+                this.entity.getNavigation().stop();
+            }
         }
 
         @Override
@@ -1514,14 +1547,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 float f = (float) Mth.atan2(target.getZ() - this.entity.getZ(), target.getX() - this.entity.getX());
                 int l;
 
-
                 StrikeWindmillMonolith(8, 16, 2.0, 0.75, 0.6, d1,1);
 
 
                 for (l = 0; l < 16; ++l) {
                     double d2 = 1.25 * (double) (l + 1);
                     int j = (int) ( 5 + 1.5f * l);
-                    this.spawnSpikeLine(this.entity.getX() + (double) Mth.cos(f) * d2, this.entity.getZ() + (double) Mth.sin(f) * d2, d1, f, j);
+                  this.spawnSpikeLine(this.entity.getX() + (double) Mth.cos(f) * d2, this.entity.getZ() + (double) Mth.sin(f) * d2, d1, f, j);
                 }
             }
 
@@ -1573,40 +1605,28 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
     }
 
-    static class RemnantAttackGoal extends Goal {
+    static class RemnantAttackGoal extends InternalAttackGoal {
         protected final Ancient_Remnant_Entity entity;
-        private final int getattackstate;
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
-        private final double attackrange;
         private final float random;
 
 
-        public RemnantAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
+        public RemnantAttackGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+            super(entity, getattackstate, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-            this.getattackstate = getattackstate;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
-            this.attackrange = attackrange;
             this.random = random;
 
         }
 
         @Override
         public boolean canUse() {
-            LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == AttackMode.MELEE;
+            return super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == AttackMode.MELEE;
         }
 
 
         @Override
         public void start() {
-            this.entity.setAttackState(attackstate);
+            super.start();
             this.entity.hit = false;
             LivingEntity target = entity.getTarget();
             if (target != null) {
@@ -1617,7 +1637,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
         @Override
         public void stop() {
-            this.entity.setAttackState(attackendstate);
+            super.stop();
             if(this.entity.hit) {
                 if (this.entity.getRage() > 0) {
                     this.entity.setRage(this.entity.getRage() - 1);
@@ -1629,11 +1649,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                     this.entity.hit = false;
                 }
             }
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
         }
 
         public void tick() {
@@ -1647,26 +1662,16 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
     }
 
-    static class RemnantChargeGoal extends Goal {
+    static class RemnantChargeGoal extends InternalAttackGoal {
         protected final Ancient_Remnant_Entity entity;
-        private final int getattackstate;
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
-        private final double attackrange;
+
         private final float random;
 
 
-        public RemnantChargeGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, double attackrange, float random) {
+        public RemnantChargeGoal(Ancient_Remnant_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+            super(entity, getattackstate, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-            this.getattackstate = getattackstate;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
-            this.attackrange = attackrange;
             this.random = random;
 
         }
@@ -1674,13 +1679,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && this.entity.getRage() >= 5 && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == AttackMode.MELEE;
+            return super.canUse() && this.entity.getRage() >= 5 && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.mode == AttackMode.MELEE;
         }
 
 
         @Override
         public void start() {
-            this.entity.setAttackState(attackstate);
+            super.start();
             entity.setRage(0);
             LivingEntity target = entity.getTarget();
             if (target != null) {
@@ -1691,7 +1696,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
         @Override
         public void stop() {
-            this.entity.setAttackState(attackendstate);
+            super.stop();
             if(this.entity.hit) {
                 if (this.entity.getRage() > 0) {
                     this.entity.setRage(this.entity.getRage() - 1);
@@ -1701,25 +1706,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 if (this.entity.getRage() < 5) {
                     this.entity.setRage(this.entity.getRage() + 1);
                 }
-            }
-        }
-
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks <= attackMaxtick && this.entity.getAttackState() == attackstate;
-        }
-
-        public void tick() {
-            LivingEntity target = entity.getTarget();
-            if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.lookAt(target, 30.0F, 30.0F);
-            } else {
-                entity.setYRot(entity.yRotO);
             }
         }
     }

@@ -2,10 +2,9 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonst
 
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -18,7 +17,6 @@ import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.partentity.Cm_Part_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flame_Jet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
@@ -50,13 +48,10 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.boss.EnderDragonPart;
-import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
@@ -134,18 +129,18 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
-        this.goalSelector.addGoal(4, new InternalMoveGoal(this, false, 1.0D) {
+        this.goalSelector.addGoal(5, new InternalMoveGoal(this, false, 1.0D) {
 
             @Override
             public boolean canUse() {
-                return super.canUse() && Netherite_Monstrosity_Entity.this.getAttackState() == 0;
+                return super.canUse();
             }
         });
 
@@ -660,6 +655,9 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             if (this.attackTicks == 10) {
                 this.playSound(ModSounds.MONSTROSITYGROWL.get(), 3, 1);
             }
+            if (this.attackTicks == 16) {
+                Roarparticle(3.5f, 2.7F, 10,255,255,255, 0.4F, 1.0f,0.8F,8F);
+            }
             if (this.attackTicks == 17) {
                 berserkBlockBreaking(8, 8, 8);
                 EarthQuake(6.25D);
@@ -667,6 +665,13 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 Makeparticle(4.4f, 2.0f);
                 Makeparticle(4.4f, -2.0f);
             }
+            if (this.attackTicks == 18) {
+                Roarparticle(3.5f, 2.7F, 10,255,255,255, 0.4F, 1.0f,0.8F,9F);
+            }
+            if (this.attackTicks == 20) {
+                Roarparticle(3.5f, 2.7F, 10,255,255,255, 0.4F, 1.0f,0.8F,9F);
+            }
+
         }
         if (this.getAttackState() == 5) {
             if (this.attackTicks == 26) {
@@ -761,7 +766,17 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             }
             if (this.attackTicks == 26) {
                 this.playSound(ModSounds.MONSTROSITYGROWL.get(), 3, 1);
+              //  Roarparticle(3f, 4F, 40,204, 78, 5, 0.8F, 0.9f,1,7);
 
+            }
+            if (this.attackTicks == 32) {
+                Roarparticle(2f, 4.5F, 10,255, 255, 255, 0.4F, 1.0f,0.6F,4.5F);
+            }
+            if (this.attackTicks == 34) {
+                Roarparticle(2f, 4.5F, 10,255, 255, 255, 0.4F, 1.0f,0.6F,5.0F);
+            }
+            if (this.attackTicks == 36) {
+                Roarparticle(2f, 4.5F, 10,255, 255, 255, 0.4F, 1.0f,0.6F,5.5F);
             }
 
             for (int l = 31; l <= 41; l = l + 2) {
@@ -1070,6 +1085,17 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         }
     }
 
+    private void Roarparticle(float vec, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
+        if (this.level().isClientSide) {
+            double theta = (yBodyRot) * (Math.PI / 180);
+            theta += Math.PI / 2;
+            double vecX = Math.cos(theta);
+            double vecZ = Math.sin(theta);
+
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX, this.getY() + y, this.getZ() + vec * vecZ, 0, 0, 0);
+        }
+    }
+
 
     private void launch(Entity e, double XZpower,double Ypower) {
         double d0 = e.getX() - this.getX();
@@ -1207,20 +1233,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         super.recreateFromPacket(packet);
         Cm_Part_Entity.assignPartIDs(this);
     }
-
-
-
-    public void travel(Vec3 travelVector) {
-        this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * (isInLava() ? 0.2F : 1F));
-        if (this.isEffectiveAi() && this.isInLava()) {
-            this.moveRelative(this.getSpeed(), travelVector);
-            this.move(MoverType.SELF, this.getDeltaMovement());
-            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-        } else {
-            super.travel(travelVector);
-        }
-    }
-
 
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {

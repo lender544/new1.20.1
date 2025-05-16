@@ -59,7 +59,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     private int timeWithoutTarget;
     public The_Prowler_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 20;
+        this.xpReward = 70;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         setConfigattribute(this, CMConfig.ProwlerHealthMultiplier, CMConfig.ProwlerDamageMultiplier);

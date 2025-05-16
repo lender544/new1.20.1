@@ -441,6 +441,13 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> MALEDICTUS_MUSIC_DISC = SOUNDS.register("maledictus_music_disc",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictus_music_disc")));
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_MUSIC = SOUNDS.register("scylla_music",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_music")));
+
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_MUSIC_DISC = SOUNDS.register("scylla_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_music_disc")));
+
     public static final DeferredHolder<SoundEvent, SoundEvent> PHANTOM_SPEAR = SOUNDS.register("maledictus_spear",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictus_spear")));
 

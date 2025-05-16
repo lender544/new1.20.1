@@ -75,7 +75,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public Wadjet_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 35;
+        this.xpReward = 60;
         if (world.isClientSide) {
             dc = new DynamicChain(this);
         }

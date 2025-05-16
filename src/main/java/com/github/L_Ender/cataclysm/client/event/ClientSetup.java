@@ -23,8 +23,6 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
-import javax.accessibility.AccessibilityProvider;
-
 public class ClientSetup {
 
 
@@ -132,9 +130,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.VOID_SHARD.get(), (render) -> {
 			return new ThrownItemRenderer<>(render, 0.75F, true);
 		});
-		event.registerEntityRenderer(ModEntities.EYE_OF_DUNGEON.get(), (render) -> {
-			return new ThrownItemRenderer<>(render, 1.0F, true);
-		});
+		event.registerEntityRenderer(ModEntities.EYE_OF_DUNGEON.get(), Eye_Of_Dungeon_Renderer::new);
 		event.registerEntityRenderer(ModEntities.BLAZING_BONE.get(), Blazing_Bone_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
@@ -191,6 +187,7 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
 		registry.registerSpecial(ModParticle.RISING_TRAIL.get(), new Rising_Trail_Particle.Factory());
 		registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
+		registry.registerSpriteSet(ModParticle.ROAR.get(), RoarParticle.RoarFactory::new);
 		registry.registerSpriteSet(ModParticle.SCYLLA_SWING.get(), Scylla_Swing_Particle.Provider::new);
 		registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);

@@ -221,7 +221,7 @@ public class CMRenderTypes extends RenderType {
                         .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setCullState(NO_CULL)
                         .createCompositeState(true);
-                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536,false,false, rendertype$compositestate);
             }
     );
 

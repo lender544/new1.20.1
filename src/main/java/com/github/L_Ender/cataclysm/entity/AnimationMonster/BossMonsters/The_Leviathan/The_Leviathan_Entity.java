@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
@@ -53,7 +54,6 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -529,6 +529,13 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public void aiStep() {
         super.aiStep();
         Vec3 motion;
+
+        final float yaw = this.getYRot() * (float) Math.PI / 180.0F;
+        final float pitch = this.getXRot() * (float) Math.PI / 180.0F;
+        final float fx = Mth.sin(yaw) * (1 - Math.abs(this.getXRot() / 90F));
+        final float fz = Mth.cos(yaw) * (1 - Math.abs(this.getXRot() / 90F));
+
+
         if(this.getAnimation() == LEVIATHAN_ABYSS_BLAST){
             if(this.getAnimationTick() < 30){
                 if (this.level().isClientSide) {
@@ -621,25 +628,23 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             }
         }
 
-        if(this.getAnimation() == LEVIATHAN_RUSH){
-            if (this.getAnimationTick() > 54 && this.getAnimationTick() < 137) {
-                chargeDamage();
-                if (!this.level().isClientSide) {
-                    if(CMConfig.LeviathanBlockBreaking) {
-                        chargeblockbreaking();
-                    }else{
-                        if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
-                            chargeblockbreaking();
-                        }
-                    }
-                }
 
-            }
+        //RoarParticle(2.5f, 0.0f, 70, 255, 255, 255, 1.0f, 20f);
+        if(this.getAnimation() == LEVIATHAN_RUSH){
+
 
             if (this.getAnimationTick() == 54) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,13);
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 60, 10);
                 roarDarkness(48,48,48,48,20);
+            }
+            if (this.getAnimationTick() == 57) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,14);
+            }
+
+            if (this.getAnimationTick() == 60) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,15);
             }
         }
         if(this.getAnimation() == LEVIATHAN_GRAB_BITE){
@@ -667,6 +672,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         if(this.getAnimation() == LEVIATHAN_STUN){
             if (this.getAnimationTick() == 52) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_STUN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 0.8f);
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,8);
+
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 40, 10);
                 if(this.getMeltDown()) {
                     for (int i = 0; i < 3; ++i) {
@@ -684,13 +691,26 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     }
                 }
             }
+            if (this.getAnimationTick() == 55) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,9);
+
+            }
         }
 
         if(this.getAnimation() == LEVIATHAN_ABYSS_BLAST_PORTAL){
             if (this.getAnimationTick() == 56) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 60, 10);
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,13);
+
                 roarDarkness(48,48,48,48,80);
+            }
+            if (this.getAnimationTick() == 59) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,14);
+
+            }
+            if (this.getAnimationTick() == 62) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,15);
             }
             for (int i = 16, j = 0; i <= 56; i++, j++) {
                 float l = j * 0.025f;
@@ -807,6 +827,14 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_STUN_ROAR.get(), SoundSource.HOSTILE, 3.0f, 0.8f);
                 ScreenShake_Entity.ScreenShake(this.level(), this.position(), 30, 0.1f, 40, 10);
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,13);
+
+            }
+            if (this.getAnimationTick() == 93) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,14);
+            }
+            if (this.getAnimationTick() == 96) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,15);
             }
             if (this.getAnimationTick() >= 70 && this.getAnimationTick() <= 80)
                 Sphereparticle(this.getEyeHeight(), 0, 8);
@@ -833,13 +861,22 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
 
         if(this.getAnimation() == LEVIATHAN_MINE){
+            if (this.getAnimationTick() == 28) {
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,0.9F,8);
+            }
             if (this.getAnimationTick() == 31) {
                 // charge();
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_STUN_ROAR.get(), SoundSource.HOSTILE, 3.0f, 0.8f);
+                RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,0.9F,9);
             }
         }
     }
 
+    private void RoarParticle(double x,double y,double z,int duration, int r, int g, int b, float a,float start,float inc,float end) {
+        if (this.level().isClientSide) {
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), x, y, z, 0, 0, 0);
+        }
+    }
 
     private void roarDarkness(double x, double y,double z, double radius,int time) {
         List<LivingEntity> entities = getEntityLivingBaseNearby(x, y, z, radius);
