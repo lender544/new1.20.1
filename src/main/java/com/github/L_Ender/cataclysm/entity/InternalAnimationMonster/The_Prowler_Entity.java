@@ -37,6 +37,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -385,10 +386,11 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         double d0 = this.getX() + 0.5f * vecX + f * math;
         double d1 = this.getY() + y;
         double d2 = this.getZ() + 0.5f * vecZ + f1 * math;
-
-
-
-        Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this.level(),this,target);
+        double d3 = target.getX() - d0;
+        double d4 = target.getY() - d1;
+        double d5 = target.getZ() - d2;
+        Vec3 vec3 = new Vec3(d3, d4, d5);
+        Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.WitherHomingMissiledamage,target);
         laserBeam.setPosRaw(d0, d1, d2);
         this.level().addFreshEntity(laserBeam);
     }

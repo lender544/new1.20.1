@@ -18,10 +18,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Storm_Bringer_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Cindaria_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Hippocamtus_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.*;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -33,6 +30,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.projectile.LlamaSpit;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -659,6 +657,29 @@ public class ModEntities {
             .eyeHeight(0.35F)
             .build(Cataclysm.MODID + ":urchinkin"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Drowned_Host_Entity>> DROWNED_HOST = ENTITY_TYPE.register("drowned_host", () -> EntityType.Builder.of(Drowned_Host_Entity::new, MobCategory.MONSTER)
+            .sized(0.6F, 1.95F)
+            .eyeHeight(1.74F)
+            .passengerAttachments(2.0125F)
+            .ridingOffset(-0.7F)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":drowned_host"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Symbiocto_Entity>> SYMBIOCTO = ENTITY_TYPE.register("symbiocto", () -> EntityType.Builder.of(Symbiocto_Entity::new, MobCategory.MONSTER)
+            .sized(1.1F, 0.95F)
+            .eyeHeight(0.5F)
+            .passengerAttachments(2.0125F)
+            .ridingOffset(-0.4F)
+            .clientTrackingRange(8)
+            .build(Cataclysm.MODID + ":symbiocto"));
+
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Octo_Ink_Entity>> OCTO_INK = ENTITY_TYPE.register("octo_ink", () -> EntityType.Builder.<Octo_Ink_Entity>of(Octo_Ink_Entity::new, MobCategory.MISC)
+            .sized(0.25F, 0.25F)
+            .clientTrackingRange(4)
+            .updateInterval(10)
+            .build(Cataclysm.MODID + ":octo_ink"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Water_Spear_Entity>> WATER_SPEAR = ENTITY_TYPE.register("water_spear", () -> EntityType.Builder.<Water_Spear_Entity>of(Water_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
@@ -743,5 +764,7 @@ public class ModEntities {
         event.put(CINDARIA.get(), Cindaria_Entity.cindaria().build());
         event.put(SCYLLA.get(), Scylla_Entity.scylla().build());
         event.put(CLAWDIAN.get(), Clawdian_Entity.clawdian().build());
+        event.put(DROWNED_HOST.get(), Drowned_Host_Entity.createAttributes().build());
+        event.put(SYMBIOCTO.get(), Symbiocto_Entity.octo().build());
     }
 }

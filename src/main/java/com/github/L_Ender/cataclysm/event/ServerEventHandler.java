@@ -286,7 +286,7 @@ public class ServerEventHandler {
         ParryAttachment charge = entity.getData(ModDataAttachments.PARRY_ATTACHMENT);
         if(item == ModItems.BULWARK_OF_THE_FLAME.get()) {
             if(event.getBlocked()) {
-                if (charge.getParryFrame() < 15) {
+                if (charge.getParryFrame() < 13) {
                     if (directEntity instanceof LivingEntity livingEntity) {
                         livingEntity.igniteForSeconds(3);
                         livingEntity.playSound(SoundEvents.ANVIL_LAND, 0.8f, 1.3F);
@@ -295,6 +295,20 @@ public class ServerEventHandler {
                         livingEntity.addEffect(effectinstance);
                     }
 
+                }
+            }
+        }
+        if(item == ModItems.AZURE_SEA_SHIELD.get()) {
+            if(event.getBlocked()) {
+                if (charge.getParryFrame() < 10) {
+                    event.setShieldDamage(0);
+                    if (directEntity instanceof LivingEntity livingEntity) {
+                        livingEntity.playSound(ModSounds.PARRY.get(), 0.4f, 1.0F);
+                        entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 40, 1));
+                        MobEffectInstance effectinstance = new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1);
+                        livingEntity.knockback(0.5F, entity.getX() - livingEntity.getX(), entity.getZ() - livingEntity.getZ());
+                        livingEntity.addEffect(effectinstance);
+                    }
                 }
             }
         }
@@ -414,7 +428,7 @@ public class ServerEventHandler {
     @SubscribeEvent
     public static void onStartUsing(LivingEntityUseItemEvent.Start event) {
         Item item = event.getItem().getItem();
-        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player player && !player.getCooldowns().isOnCooldown(item)) {
+        if ((item == ModItems.AZURE_SEA_SHIELD.get()||item == ModItems.BULWARK_OF_THE_FLAME.get()) && event.getEntity() instanceof Player player && !player.getCooldowns().isOnCooldown(item)) {
             ParryAttachment charge = player.getData(ModDataAttachments.PARRY_ATTACHMENT);
             charge.setParryFrame(0);
 
@@ -425,7 +439,7 @@ public class ServerEventHandler {
     @SubscribeEvent
     public static void onUseTick(LivingEntityUseItemEvent.Tick event) {
         Item item = event.getItem().getItem();
-        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player player) {
+        if ((item == ModItems.AZURE_SEA_SHIELD.get()||item == ModItems.BULWARK_OF_THE_FLAME.get()) && event.getEntity() instanceof Player player) {
             ParryAttachment charge = player.getData(ModDataAttachments.PARRY_ATTACHMENT);
             charge.setParryFrame(charge.getParryFrame() + 1);
 
@@ -435,7 +449,7 @@ public class ServerEventHandler {
     @SubscribeEvent
     public static void onStopUsing(LivingEntityUseItemEvent.Stop event) {
         Item item = event.getItem().getItem();
-        if (item == ModItems.BULWARK_OF_THE_FLAME.get() && event.getEntity() instanceof Player player) {
+        if ((item == ModItems.AZURE_SEA_SHIELD.get()||item == ModItems.BULWARK_OF_THE_FLAME.get()) && event.getEntity() instanceof Player player) {
             ParryAttachment charge = player.getData(ModDataAttachments.PARRY_ATTACHMENT);
             charge.setParryFrame(0);
         }

@@ -144,6 +144,7 @@
   "item.cataclysm.black_steel_pickaxe": "Black Steel Pickaxe",
   "item.cataclysm.black_steel_hoe": "Black Steel Hoe",
   "item.cataclysm.black_steel_targe": "Black Steel Targe",
+  "item.cataclysm.azure_sea_shield": "Azure Sea Shield",
   "item.cataclysm.tidal_claws": "Tidal Claws",
   "item.cataclysm.crystallized_coral_fragments": "Crystallized Coral Fragments",
   "item.cataclysm.crystallized_coral": "Crystallized Coral",
@@ -212,6 +213,9 @@
   "item.cataclysm.hippocamtus_spawn_egg": "Hippocamtus Spawn Egg",
   "item.cataclysm.cindaria_spawn_egg": "Cindaria Spawn Egg",
   "item.cataclysm.urchinkin_spawn_egg": "Urchinkin Spawn Egg",
+  "item.cataclysm.octohost_spawn_egg": "Octohost Spawn Egg",
+  "item.cataclysm.symbiocto_spawn_egg": "Symbiocto Spawn Egg",
+
 
   "itemGroup.cataclysm.item": "Cataclysm Items",
   "itemGroup.cataclysm.block": "Cataclysm Blocks",
@@ -343,6 +347,7 @@
   "block.cataclysm.azure_seastone_fence": "Azure Seastone Fence",
   "block.cataclysm.prismarine_brick_fence": "Prismarine Brick Fence",
   "block.cataclysm.prismarine_brick_wall": "Prismarine Brick Wall",
+  "block.cataclysm.boss_respawner": "Boss Respawner",
 
   "entity.cataclysm.ender_golem": "Ender Golem",
   "entity.cataclysm.ender_guardian": "Ender Guardian",
@@ -422,12 +427,16 @@
   "entity.cataclysm.phantom_halberd": "Phantom Halberd",
   "entity.cataclysm.flare_bomb": "Flare Bomb",
   "entity.cataclysm.flame_jet": "Flame Jet",
+  "entity.cataclysm.storm_serpent": "Storm Serpent",
+  "entity.cataclysm.octo_ink": "Octo Ink",
 
   "entity.cataclysm.hippocamtus": "Hippocamtus",
   "entity.cataclysm.cindaria": "Cindaria",
   "entity.cataclysm.clawdian": "Clawdian",
   "entity.cataclysm.scylla": "Scylla",
   "entity.cataclysm.urchinkin": "Urchinkin",
+  "entity.cataclysm.drowned_host": "Drowned Host",
+  "entity.cataclysm.symbiocto": "Symbiocto",
   "entity.cataclysm.water_spear": "Water Spear",
   "entity.cataclysm.lightning_spear": "Lightning Spear",
   "entity.cataclysm.storm_bringer": "Storm Bringer",

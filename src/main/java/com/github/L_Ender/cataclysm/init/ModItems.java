@@ -370,6 +370,9 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
 
 
+    public static final DeferredItem<Item> LACRIMA = ITEMS.register("lacrima",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
     public static final DeferredItem<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
@@ -790,6 +793,12 @@ public class ModItems {
 
     public static final DeferredItem<SpawnEggItem> CINDARIA_SPAWN_EGG = ITEMS.register("cindaria_spawn_egg",
             () -> new SpawnEggItem(ModEntities.CINDARIA.get(),0xcf95ff, 0x62eaad, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> OCTOHOST_SPAWN_EGG = ITEMS.register("octohost_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.DROWNED_HOST.get(),9433559, 0x733523, new Item.Properties()));
+
+    public static final DeferredItem<SpawnEggItem> SYMBIOCTO_SPAWN_EGG = ITEMS.register("symbiocto_spawn_egg",
+            () -> new SpawnEggItem(ModEntities.SYMBIOCTO.get(),0x733523, 0xeaa961, new Item.Properties()));
 
     public static final DeferredItem<SpawnEggItem> URCHINKIN_SPAWN_EGG = ITEMS.register("urchinkin_spawn_egg",
             () -> new SpawnEggItem(ModEntities.URCHINKIN.get(),0x000000, 0x2b1052, new Item.Properties()));

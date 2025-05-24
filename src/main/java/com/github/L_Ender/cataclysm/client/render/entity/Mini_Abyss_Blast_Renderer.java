@@ -66,7 +66,7 @@ public class Mini_Abyss_Blast_Renderer extends EntityRenderer<Mini_Abyss_Blast_E
         if (frame < 0) {
             frame = 6;
         }
-        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(solarBeam)));
+        VertexConsumer ivertexbuilder = bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getTextureLocation(solarBeam)));
 
         renderBeam(length, 180f / (float) Math.PI * yaw, 180f / (float) Math.PI * pitch, frame, matrixStackIn, ivertexbuilder, packedLightIn);
 

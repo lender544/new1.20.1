@@ -36,6 +36,7 @@ public class ModGroup {
                 entries.accept(ModItems.ANCIENT_METAL_NUGGET.get());
                 entries.accept(ModItems.BLACK_STEEL_INGOT.get());
                 entries.accept(ModItems.BLACK_STEEL_NUGGET.get());
+                entries.accept(ModItems.LACRIMA.get());
                 entries.accept(ModItems.IGNITIUM_INGOT.get());
                 entries.accept(ModItems.CURSIUM_INGOT.get());
                 entries.accept(ModItems.IGNITIUM_UPGARDE_SMITHING_TEMPLATE.get());
@@ -164,7 +165,8 @@ public class ModGroup {
                 entries.accept(ModItems.HIPPOCAMTUS_SPAWN_EGG.get());
                 entries.accept(ModItems.CINDARIA_SPAWN_EGG.get());
                 entries.accept(ModItems.URCHINKIN_SPAWN_EGG.get());
-
+                entries.accept(ModItems.OCTOHOST_SPAWN_EGG.get());
+                entries.accept(ModItems.SYMBIOCTO_SPAWN_EGG.get());
             })
             .build());
 

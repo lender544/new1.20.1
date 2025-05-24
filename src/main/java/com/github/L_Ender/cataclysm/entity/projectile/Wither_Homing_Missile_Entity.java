@@ -9,6 +9,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -19,9 +21,12 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.PrimedTnt;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -32,50 +37,59 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class Wither_Homing_Missile_Entity extends Projectile {
-    public double xPower;
-    public double yPower;
-    public double zPower;
+    public double accelerationPower;
     @Nullable
     private Entity finalTarget;
     @Nullable
     private UUID targetId;
+    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Wither_Homing_Missile_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> FUSE = SynchedEntityData.defineId(Wither_Homing_Missile_Entity.class, EntityDataSerializers.INT);
 
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
 
-    public Wither_Homing_Missile_Entity(EntityType<? extends Wither_Homing_Missile_Entity> p_36833_, Level p_36834_) {
-        super(p_36833_, p_36834_);
+    public Wither_Homing_Missile_Entity(EntityType<? extends Wither_Homing_Missile_Entity> type, Level level) {
+        super(type, level);
+        this.accelerationPower = 0.1;
     }
 
-    public Wither_Homing_Missile_Entity(Level worldIn, LivingEntity entity) {
-        this(ModEntities.WITHER_HOMING_MISSILE.get(), worldIn);
-        this.setOwner(entity);
-    }
-
-    public Wither_Homing_Missile_Entity(EntityType<? extends Wither_Homing_Missile_Entity> p_36817_, double p_36818_, double p_36819_, double p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
-        this(p_36817_, p_36824_);
-        this.moveTo(p_36818_, p_36819_, p_36820_, this.getYRot(), this.getXRot());
+    public Wither_Homing_Missile_Entity(EntityType<? extends Wither_Homing_Missile_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
+        this(type, level);
+        this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
         this.reapplyPosition();
-        double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
-        if (d0 != 0.0D) {
-            this.xPower = p_36821_ / d0 * 0.1D;
-            this.yPower = p_36822_ / d0 * 0.1D;
-            this.zPower = p_36823_ / d0 * 0.1D;
-        }
+        this.assignDirectionalMovement(vec3, this.accelerationPower);
 
     }
 
-    public Wither_Homing_Missile_Entity(LivingEntity p_36827_, double p_36828_, double p_36829_, double p_36830_, Level p_36831_, LivingEntity finalTarget) {
-        this(ModEntities.WITHER_HOMING_MISSILE.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), p_36828_, p_36829_, p_36830_, p_36831_);
+    public Wither_Homing_Missile_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_,float damage,LivingEntity target) {
+        this(ModEntities.WITHER_HOMING_MISSILE.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
         this.setOwner(p_36827_);
-        this.finalTarget = finalTarget;
+        this.setDamage(damage);
         this.setRot(p_36827_.getYRot(), p_36827_.getXRot());
-    }
-    public Wither_Homing_Missile_Entity(Level worldIn, LivingEntity entity, LivingEntity finalTarget) {
-        this(ModEntities.WITHER_HOMING_MISSILE.get(), worldIn);
-        this.setOwner(entity);
-        this.finalTarget = finalTarget;
+        this.setFuse(80);
+        this.finalTarget = target;
     }
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
+        p_326229_.define(DAMAGE,0f);
+        p_326229_.define(FUSE, 80);
+    }
+
+
+    public float getDamage() {
+        return entityData.get(DAMAGE);
+    }
+
+    public void setDamage(float damage) {
+        entityData.set(DAMAGE, damage);
+    }
+
+    public void setFuse(int life) {
+        this.entityData.set(FUSE, life);
+    }
+
+    public int getFuse() {
+        return this.entityData.get(FUSE);
     }
 
     public boolean shouldRenderAtSqrDistance(double p_36837_) {
@@ -95,23 +109,19 @@ public class Wither_Homing_Missile_Entity extends Projectile {
         if (this.finalTarget != null) {
             p_37357_.putUUID("Target", this.finalTarget.getUUID());
         }
-        p_37357_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
+        p_37357_.putDouble("acceleration_power", this.accelerationPower);
+        p_37357_.putShort("fuse", (short)this.getFuse());
     }
 
     public void readAdditionalSaveData(CompoundTag p_37353_) {
         super.readAdditionalSaveData(p_37353_);
+        this.setFuse(p_37353_.getShort("fuse"));
         if (p_37353_.hasUUID("Target")) {
             this.targetId = p_37353_.getUUID("Target");
         }
-        if (p_37353_.contains("power", 9)) {
-            ListTag listtag = p_37353_.getList("power", 6);
-            if (listtag.size() == 3) {
-                this.xPower = listtag.getDouble(0);
-                this.yPower = listtag.getDouble(1);
-                this.zPower = listtag.getDouble(2);
-            }
+        if (p_37353_.contains("acceleration_power", 6)) {
+            this.accelerationPower = p_37353_.getDouble("acceleration_power");
         }
-
     }
 
 
@@ -122,7 +132,7 @@ public class Wither_Homing_Missile_Entity extends Projectile {
 
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
             if (hitresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, hitresult)) {
-                this.onHit(hitresult);
+                this.hitTargetOrDeflectSelf(hitresult);
             }
 
             this.checkInsideBlocks();
@@ -130,7 +140,7 @@ public class Wither_Homing_Missile_Entity extends Projectile {
             double d0 = this.getX() + vec3.x;
             double d1 = this.getY() + vec3.y;
             double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 0.2F);
+            ProjectileUtil.rotateTowardsMovement(this, 1.0F);
             float f = this.getInertia();
             if (this.isInWater()) {
                 for(int i = 0; i < 4; ++i) {
@@ -141,11 +151,13 @@ public class Wither_Homing_Missile_Entity extends Projectile {
             }
             this.level().addParticle(ParticleTypes.SMOKE, this.getX() - vec3.x, this.getY() - vec3.y + 0.15D, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
           //  this.level.addParticle(ParticleTypes.FLAME, this.getX() - vec3.x, this.getY() - vec3.y + 0.15D, this.getZ() - vec3.z, 0.0D, 0.0D, 0.0D);
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
+            this.setDeltaMovement(vec3.add(vec3.normalize().scale(this.accelerationPower)).scale((double)f));
             this.setPos(d0, d1, d2);
         } else {
             this.discard();
         }
+        int f = this.getFuse() - 1;
+        this.setFuse(f);
         if (!this.level().isClientSide) {
             if (this.finalTarget == null && this.targetId != null) {
                 this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
@@ -155,42 +167,64 @@ public class Wither_Homing_Missile_Entity extends Projectile {
             }
 
             if (this.finalTarget == null || !this.finalTarget.isAlive() || (this.finalTarget instanceof Player && this.finalTarget.isSpectator())) {
-                this.yPower = -0.175;
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
+                this.discard();
             } else {
-                double d = this.distanceToSqr(finalTarget);
-                double dx = finalTarget.getX() - this.getX();
-                double dy = finalTarget.getY() + finalTarget.getBbHeight() * 1.2F - this.getY();
-                double dz = finalTarget.getZ() - this.getZ();
-                double d13 = 3;
-                dx /= d;
-                dy /= d;
-                dz /= d;
-                this.xPower += dx * d13;
-                this.yPower += dy * d13;
-                this.zPower += dz * d13;
-                this.xPower = (double) Mth.clamp((float) this.xPower, -0.175, 0.175);
-                this.yPower = (double) Mth.clamp((float) this.yPower, -0.175, 0.175);
-                this.zPower = (double) Mth.clamp((float) this.zPower, -0.175, 0.175);
+                Vec3 target = new Vec3(finalTarget.getX(),finalTarget.getY(0.5),finalTarget.getZ());
+                Vec3 currentVelocity = this.getDeltaMovement();
+                Vec3 toTarget = target.subtract(this.position());
+                double distance = toTarget.length();
+
+                if (distance > 0.1) {
+                    Vec3 desiredDirection = toTarget.normalize();
+
+                    double homingStrength = Mth.clamp((distance - 1.0) / 10.0, 0.1, 1.0);
+
+                    Vec3 newDirection = currentVelocity.normalize().scale(1.0 - homingStrength)
+                            .add(desiredDirection.scale(homingStrength))
+                            .normalize()
+                            .scale(currentVelocity.length());
+
+                    this.assignDirectionalMovement(newDirection, this.getInertia());
+                }
+            }
+
+            if (f <= 0) {
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
+                this.discard();
+            }
+
+        }
+        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+        if (trailPointer == -1) {
+            Vec3 backAt = trailAt;
+            for (int i = 0; i < trailPositions.length; i++) {
+                trailPositions[i] = backAt;
             }
         }
+        if (++this.trailPointer == this.trailPositions.length) {
+            this.trailPointer = 0;
+        }
+        this.trailPositions[this.trailPointer] = trailAt;
 
     }
 
 
+    @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
-        if (!this.level().isClientSide && !(p_37626_.getEntity() instanceof The_Harbinger_Entity)) {
+        if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
-            Entity entity1 = this.getOwner();
             boolean flag;
-            if (entity1 instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity)entity1;
-                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) CMConfig.WitherHomingMissiledamage);
+            if (this.getOwner() instanceof LivingEntity livingentity) {
+                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                flag = entity.hurt(damagesource, this.getDamage());
                 if (flag) {
                     if (entity.isAlive()) {
-                      //  this.doEnchantDamageEffects(livingentity, entity);
+                        EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
                     } else {
-                        if(entity1 instanceof The_Harbinger_Entity) {
+                        livingentity.heal(5.0F);
+                        if(livingentity instanceof The_Harbinger_Entity) {
                             livingentity.heal(5.0F * (float) CMConfig.HarbingerHealingMultiplier);
                         }else{
                             livingentity.heal(5.0F);
@@ -201,21 +235,23 @@ public class Wither_Homing_Missile_Entity extends Projectile {
                 flag = entity.hurt(this.damageSources().magic(), 3.0F);
             }
 
-            if (flag && entity instanceof LivingEntity) {
-                int i = 5;
+            if (flag && entity instanceof LivingEntity livingentity1) {
+                int i = 0;
                 if (this.level().getDifficulty() == Difficulty.NORMAL) {
                     i = 10;
                 } else if (this.level().getDifficulty() == Difficulty.HARD) {
                     i = 15;
                 }
 
-                ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 5 * i, 0), this.getEffectSource());
+                if (i > 0) {
+                    livingentity1.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
+                }
             }
             this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.NONE);
             this.discard();
-
         }
     }
+
 
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
@@ -259,27 +295,41 @@ public class Wither_Homing_Missile_Entity extends Projectile {
         return 1.0F;
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        Entity entity = this.getOwner();
-        int i = entity == null ? 0 : entity.getId();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.getType(), i, new Vec3(this.xPower, this.yPower, this.zPower), 0.0D);
-    }
-
-    public void recreateFromPacket(ClientboundAddEntityPacket p_150128_) {
-        super.recreateFromPacket(p_150128_);
-        double d0 = p_150128_.getXa();
-        double d1 = p_150128_.getYa();
-        double d2 = p_150128_.getZa();
-        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        if (d3 != 0.0D) {
-            this.xPower = d0 / d3 * 0.1D;
-            this.yPower = d1 / d3 * 0.1D;
-            this.zPower = d2 / d3 * 0.1D;
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
         }
-
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
     }
-    protected boolean shouldBurn() {
-        return false;
+
+    public boolean hasTrail() {
+        return trailPointer != -1;
+    }
+
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        Vec3 vec3 = new Vec3(packet.getXa(), packet.getYa(), packet.getZa());
+        this.setDeltaMovement(vec3);
+        this.xRotO = this.getXRot();
+        this.yRotO = this.getYRot();
+    }
+
+    private void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
+        this.setDeltaMovement(movement.normalize().scale(accelerationPower));
+        this.hasImpulse = true;
+    }
+
+    protected void onDeflection(@Nullable Entity entity, boolean deflectedByPlayer) {
+        super.onDeflection(entity, deflectedByPlayer);
+        if (deflectedByPlayer) {
+            this.accelerationPower = 0.1;
+        } else {
+            this.accelerationPower *= (double)0.5F;
+        }
     }
 }
 

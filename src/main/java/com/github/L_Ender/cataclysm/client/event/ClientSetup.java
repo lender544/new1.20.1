@@ -139,6 +139,9 @@ public class ClientSetup {
 
 		event.registerEntityRenderer(ModEntities.SCYLLA.get(), Scylla_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CLAWDIAN.get(), Clawdian_Renderer::new);
+		event.registerEntityRenderer(ModEntities.DROWNED_HOST.get(), Drowned_Host_Renderer::new);
+		event.registerEntityRenderer(ModEntities.SYMBIOCTO.get(), Symbiocto_Renderer::new);
+		event.registerEntityRenderer(ModEntities.OCTO_INK.get(), Octo_Ink_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHINKIN.get(), Urchinkin_Renderer::new);
 		event.registerEntityRenderer(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
