@@ -56,6 +56,7 @@ public class CMModelLayers {
 
     public static final ModelLayerLocation HIPPOCAMTUS_MODEL = createLocation("hippocamtus_model", "main");
     public static final ModelLayerLocation URCHINKIN_MODEL = createLocation("urchinkin_model", "main");
+    public static final ModelLayerLocation OCTOSITE_MODEL = createLocation("octosite_model", "main");
     public static final ModelLayerLocation ELEMENTAL_SPEAR_MODEL = createLocation("elemental_spear_model", "main");
     public static final ModelLayerLocation CINDARIA_MODEL = createLocation("cindaria_model", "main");
     public static final ModelLayerLocation SCYLLA_MODEL = createLocation("scylla_model", "main");
@@ -63,6 +64,12 @@ public class CMModelLayers {
     public static final ModelLayerLocation CLAWDIAN_MODEL = createLocation("clawdian_model", "main");
     public static final ModelLayerLocation LASER_BEAM_MODEL = createLocation("laser_beam_model", "main");
     public static final ModelLayerLocation WAVE_MODEL = createLocation("wave_model", "main");
+
+    public static final ModelLayerLocation DROWNED_HOST = createLocation("drowned_host","main");
+    public static final ModelLayerLocation DROWNED_HOST_INNER_ARMOR = createLocation("drowned_host","inner_armor");
+    public static final ModelLayerLocation DROWNED_HOST_OUTER_ARMOR = createLocation("drowned_host","outer_armor");
+    public static final ModelLayerLocation DROWNED_HOST_OUTER_LAYER = createLocation("drowned_host", "outer");
+
     public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -109,6 +116,14 @@ public class CMModelLayers {
 
         event.registerLayerDefinition(WAVE_MODEL, Wave_Model::createBodyLayer);
         event.registerLayerDefinition(STORM_SERPENT_MODEL, Storm_Serpent_Model::createBodyLayer);
+
+        event.registerLayerDefinition(OCTOSITE_MODEL, Symbiocto_Model::createBodyLayer);
+
+        event.registerLayerDefinition(DROWNED_HOST, () -> Drowned_Host_Model.createBodyLayer(CubeDeformation.NONE));
+        event.registerLayerDefinition(DROWNED_HOST_INNER_ARMOR,() -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(DROWNED_HOST_OUTER_ARMOR, () -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(DROWNED_HOST_OUTER_LAYER, () -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.25F)));
+
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

@@ -201,6 +201,10 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.VOID_SHARD.get(), (render) -> {
             return new ThrownItemRenderer<>(render, 0.75F, true);
         });
+
+        EntityRenderers.register(ModEntities.DROWNED_HOST.get(), Drowned_Host_Renderer::new);
+        EntityRenderers.register(ModEntities.SYMBIOCTO.get(), Symbiocto_Renderer::new);
+        EntityRenderers.register(ModEntities.OCTO_INK.get(), Octo_Ink_Renderer::new);
         EntityRenderers.register(ModEntities.EYE_OF_DUNGEON.get(), Eye_Of_Dungeon_Renderer::new);
         EntityRenderers.register(ModEntities.BLAZING_BONE.get(), Blazing_Bone_Renderer::new);
         EntityRenderers.register(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);

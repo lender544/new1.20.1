@@ -571,6 +571,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             if (!player.isCreative()) {
                 itemstack.shrink(1);
             }
+            this.setHomePos(this.blockPosition());
             this.setIsAct(true);
             return InteractionResult.SUCCESS;
         }
@@ -808,7 +809,6 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     public void setIsAct(boolean isAct) {
         this.entityData.set(IS_ACT, isAct);
         this.bossEvent.setVisible(isAct);
-        this.setHomePos(this.blockPosition());
     }
 
     public boolean getIsAct() {
@@ -1048,8 +1048,14 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             double d1 = this.getLauncherY(head);
             double d2 = this.getLauncherZ(head);
 
-            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity.level(),entity,target);
+
+            double d3 = target.getX() - d0;
+            double d4 = target.getY() - d1;
+            double d5 = target.getZ() - d2;
+            Vec3 vec3 = new Vec3(d3, d4, d5);
+            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this.entity, vec3.normalize(),entity.level(),(float) CMConfig.HarbingerWitherMissiledamage,target);
             laserBeam.setPosRaw(d0, d1, d2);
+
             entity.level().addFreshEntity(laserBeam);
         }
 
@@ -1139,8 +1145,13 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             double d1 = this.getLauncherY(head);
             double d2 = this.getLauncherZ(head);
 
-            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity.level(), entity, target);
+            double d3 = target.getX() - d0;
+            double d4 = target.getY() - d1;
+            double d5 = target.getZ() - d2;
+            Vec3 vec3 = new Vec3(d3, d4, d5);
+            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this.entity, vec3.normalize(),entity.level(),(float) CMConfig.HarbingerWitherMissiledamage,target);
             laserBeam.setPosRaw(d0, d1, d2);
+
             entity.level().addFreshEntity(laserBeam);
         }
 

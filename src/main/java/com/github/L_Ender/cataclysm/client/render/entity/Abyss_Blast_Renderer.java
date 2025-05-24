@@ -66,7 +66,7 @@ public class Abyss_Blast_Renderer extends EntityRenderer<Abyss_Blast_Entity> {
         if (frame < 0) {
             frame = 6;
         }
-        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getTextureLocation(solarBeam)));
+      VertexConsumer ivertexbuilder = bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getTextureLocation(solarBeam)));
 
         renderBeam(length, 180f / (float) Math.PI * yaw, 180f / (float) Math.PI * pitch, frame, matrixStackIn, ivertexbuilder, packedLightIn);
 

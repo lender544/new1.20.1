@@ -375,6 +375,8 @@ public class ModItems {
     public static final RegistryObject<Item> BLACK_STEEL_NUGGET = ITEMS.register("black_steel_nugget",
             () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> LACRIMA = ITEMS.register("lacrima",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -806,6 +808,12 @@ public class ModItems {
 
     public static final RegistryObject<SpawnEggItem> CINDARIA_SPAWN_EGG = ITEMS.register("cindaria_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.CINDARIA,0xcf95ff, 0x62eaad, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> OCTOHOST_SPAWN_EGG = ITEMS.register("octohost_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DROWNED_HOST,9433559, 0x733523, new Item.Properties()));
+
+    public static final RegistryObject<SpawnEggItem> SYMBIOCTO_SPAWN_EGG = ITEMS.register("symbiocto_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SYMBIOCTO,0x733523, 0xeaa961, new Item.Properties()));
 
     public static final RegistryObject<SpawnEggItem> URCHINKIN_SPAWN_EGG = ITEMS.register("urchinkin_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.URCHINKIN,0x000000, 0x2b1052, new Item.Properties()));

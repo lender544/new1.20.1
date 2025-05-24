@@ -321,7 +321,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         if(!necklace){
             this.setAttackState(1);
         }
-        this.setHomePos(this.blockPosition());
     }
 
 
@@ -940,6 +939,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if (!player.isCreative()) {
                 itemstack.shrink(1);
             }
+            this.setHomePos(this.blockPosition());
             this.setNecklace(true);
             return InteractionResult.SUCCESS;
         }

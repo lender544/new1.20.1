@@ -168,6 +168,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             @Override
             public void stop() {
                 super.stop();
+                Netherite_Monstrosity_Entity.this.setHomePos(Netherite_Monstrosity_Entity.this.blockPosition());
                 Netherite_Monstrosity_Entity.this.setIsAwaken(true);
             }
 
@@ -199,6 +200,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             public void start() {
                 super.start();
                 Netherite_Monstrosity_Entity.this.setIsAwaken(true);
+                Netherite_Monstrosity_Entity.this.setHomePos(Netherite_Monstrosity_Entity.this.blockPosition());
             }
         });
 
@@ -278,6 +280,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         boolean attack = super.hurt(source, damage);
 
         if (attack && !this.getIsAwaken() && this.isAlive()) {
+            this.setHomePos(this.blockPosition());
             this.setIsAwaken(true);
         }
         return attack;
@@ -371,7 +374,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (!isAwaken) {
             this.setAttackState(1);
         }
-        this.setHomePos(this.blockPosition());
     }
 
     public boolean getIsAwaken() {
