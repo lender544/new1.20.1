@@ -210,6 +210,8 @@
 "item.cataclysm.elite_draugr_spawn_egg": "精英魂尸刷怪蛋",
 
 "itemGroup.cataclysm": "灾变",
+"itemGroup.cataclysm.item": "灾变物品",
+"itemGroup.cataclysm.block": "灾变方块",
 "block.cataclysm.witherite_block": "凋灵合金块",
 "block.cataclysm.enderite_block": "末影合金块",
 "block.cataclysm.ignitium_block": "腾炎块",
@@ -260,6 +262,29 @@
 "block.cataclysm.mechanical_fusion_anvil": "机械融合砧",
 "block.cataclysm.abyssal_egg": "深渊之卵",
 "block.cataclysm.blackstone_pillar": "黑石柱",
+
+"block.cataclysm.azure_seastone": "蔚蓝石",
+"block.cataclysm.azure_seastone_slab": "蔚蓝石台阶",
+"block.cataclysm.azure_seastone_stairs": "蔚蓝石楼梯",
+"block.cataclysm.azure_seastone_wall": "蔚蓝石墙",
+
+"block.cataclysm.azure_seastone_tiles": "蔚蓝石瓦",
+"block.cataclysm.chiseled_azure_seastone": "雕纹蔚蓝石",
+"block.cataclysm.azure_seastone_bricks": "蔚蓝石砖块",
+"block.cataclysm.azure_seastone_brick_slab": "蔚蓝石砖台阶",
+"block.cataclysm.azure_seastone_brick_stairs": "蔚蓝石砖楼梯",
+"block.cataclysm.azure_seastone_brick_wall": "蔚蓝石砖墙",
+
+"block.cataclysm.polished_azure_seastone": "磨制蔚蓝石",
+"block.cataclysm.polished_azure_seastone_slab": "磨制蔚蓝石台阶",
+"block.cataclysm.polished_azure_seastone_stairs": "磨制蔚蓝石楼梯",
+"block.cataclysm.polished_azure_seastone_wall": "磨制蔚蓝石墙",
+
+"block.cataclysm.azure_seastone_pillar": "蔚蓝石柱",
+"block.cataclysm.azure_seastone_pillar_wall": "蔚蓝石柱墙",
+"block.cataclysm.chiseled_azure_seastone_pillar": "雕纹蔚蓝石柱",
+"block.cataclysm.chiseled_azure_seastone_pillar_wall": "雕纹蔚蓝石柱墙",
+
 "block.cataclysm.kobolediator_skull": "骸龙斗士头颅",
 "block.cataclysm.draugr_head": "魂尸的头",
 "block.cataclysm.aptrgangr_head": "武弁的头",
@@ -275,6 +300,9 @@
 "block.cataclysm.door_of_seal_part": "封印之门的一部分",
 "block.cataclysm.cursed_tombstone": "被诅咒的墓碑",
 "block.cataclysm.cursed_tombstone.message": "它的力量仍然很微弱...",
+"block.cataclysm.azure_seastone_fence": "蔚蓝石栅栏",
+"block.cataclysm.prismarine_brick_fence": "海晶石栅栏",
+"block.cataclysm.prismarine_brick_wall": "海晶石墙",
 
 "entity.cataclysm.ender_golem": "末影傀儡",
 "entity.cataclysm.ender_guardian": "末影守卫",
@@ -440,9 +468,6 @@
 "leviathan_roar.sub": "利维坦：咆哮",
 "portal_abyss_blast.sub": "深渊冲击波：自传送门迸出",
 "leviathan_tentacle_strike.sub": "利维坦：触手攻击",
-"leviathan_defeat.sub": "利维坦：死亡",
-"leviathan_bite.sub": "利维坦：撕咬",
-"tidal_tentacle.sub": "触手：发射",
 "leviathan_defeat.sub": "利维坦：死亡",
 "leviathan_bite.sub": "利维坦：撕咬",
 "tidal_tentacle.sub": "潮汐抓钩：发射",
