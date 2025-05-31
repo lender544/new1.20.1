@@ -703,6 +703,14 @@
       }
     ]
   },
+  "heavy_smash": {
+    "subtitle": "heavy_smash.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/heavy_smash"
+      }
+    ]
+  },
   "black_hole_opening": {
     "subtitle": "black_hole_opening.sub",
     "sounds": [
@@ -1462,11 +1470,99 @@
       }
     ]
   },
+  "hippocamtus_death": {
+    "subtitle": "hippocamtus_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/hippocamtus_death"
+     }
+    ]
+  },
+  "hippocamtus_hurt": {
+    "subtitle": "hippocamtus_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/hippocamtus_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/hippocamtus_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/hippocamtus_hurt3"
+      }
+    ]
+  },
+  "hippocamtus_idle": {
+    "subtitle": "hippocamtus_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/hippocamtus_idle1"
+      },
+      {
+        "name": "cataclysm:entity/hippocamtus_idle2"
+      },
+      {
+        "name": "cataclysm:entity/hippocamtus_idle3"
+      }
+    ]
+  },
+  "cindaria_death": {
+    "subtitle": "cindaria_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/cindaria_death"
+      }
+    ]
+  },
+  "cindaria_hurt": {
+    "subtitle": "cindaria_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/cindaria_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/cindaria_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/cindaria_hurt3"
+      }
+    ]
+  },
+  "scylla_death": {
+    "subtitle": "scylla_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/scylla_death"
+      }
+    ]
+  },
+  "scylla_roar": {
+    "subtitle": "scylla_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/scylla_roar"
+      }
+    ]
+  },
+  "scylla_hurt": {
+    "subtitle": "scylla_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/scylla_hurt1"
+      },
+      {
+        "name": "cataclysm:entity/scylla_hurt2"
+      },
+      {
+        "name": "cataclysm:entity/scylla_hurt3"
+      }
+    ]
+  },
   "bolt_strike": {
     "subtitle": "bolt_strike.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/bolt_strike",
+        "name": "cataclysm:entity/emp_activated",
         "volume": 2.0,
         "pitch": 1.0
       }
@@ -1482,18 +1578,8 @@
       }
     ]
   },
-  "heavy_smash": {
-    "subtitle": "heavy_smash.sub",
-    "sounds": [
-      {
-        "name": "cataclysm:entity/heavy_smash",
-        "volume": 1.0,
-        "pitch": 1.0
-      }
-    ]
-  },
-  "super_lightning": {
-    "subtitle": "super_lightning.sub",
+  "super_lightning_strike": {
+    "subtitle": "super_lightning_strike.sub",
     "sounds": [
       {
         "name": "cataclysm:entity/super_lightning_strike",

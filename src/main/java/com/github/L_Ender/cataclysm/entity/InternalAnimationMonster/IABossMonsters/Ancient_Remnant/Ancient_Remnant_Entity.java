@@ -1729,8 +1729,16 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public boolean canContinueToUse() {
-            this.target = this.mob.getTarget();
-            return this.target != null;
+            LivingEntity target = this.mob.getTarget();
+            if (target == null) {
+                return false;
+            } else if (!target.isAlive()) {
+                return false;
+            } else if (!this.mob.isWithinRestriction(target.blockPosition())) {
+                return false;
+            } else {
+                return !(target instanceof Player) || !target.isSpectator() && !((Player) target).isCreative();
+            }
         }
 
         public void start() {
