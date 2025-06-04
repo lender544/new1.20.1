@@ -2,8 +2,10 @@ package com.github.L_Ender.cataclysm.client.particle;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningZapParticleOptions;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -53,7 +55,6 @@ public class Lightning_Zap_Particle extends TextureSheetParticle {
             this.gCol = this.getG /255F;
             this.bCol = this.getB /255F;
         }
-
         this.setSpriteFromAge(this.sprites);
     }
 

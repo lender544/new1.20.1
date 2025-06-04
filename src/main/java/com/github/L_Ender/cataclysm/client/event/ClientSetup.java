@@ -146,8 +146,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
-		event.registerEntityRenderer(ModEntities.STORM_BRINGER.get(), Storm_Bringer_Renderer::new);
-		event.registerEntityRenderer(ModEntities.SCYLLA_STORM_BRINGER.get(), Scylla_Storm_Bringer_Renderer::new);
+		event.registerEntityRenderer(ModEntities.SCYLLA_CERAUNUS.get(), Scylla_Ceraunus_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SPARK.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WAVE.get(), Wave_Renderer::new);
@@ -198,7 +197,9 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
 		registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
+		registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
 		registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
+		registry.registerSpriteSet(ModParticle.LIGHTNING_EXPLODE.get(), LightningExplodeParticle.FlareFactory::new);
 	}
 
 
@@ -213,7 +214,7 @@ public class ClientSetup {
 			ItemProperties.register(ModItems.CORAL_CHUNK.get(), ResourceLocation.parse("chunk"), (stack, level, living, j) -> (stack.getCount() % 3 == 0) ? 0.0F : (stack.getCount() % 3 == 1) ? 0.5F : 1.0F);
 			ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
-			ItemProperties.register(ModItems.LIGHTNING_SPEAR.get(), ResourceLocation.parse("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
+			ItemProperties.register(ModItems.ASTRAPE.get(), ResourceLocation.parse("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 
 		} catch (Exception e) {
 			Cataclysm.LOGGER.warn("Could not load item models for weapons");
@@ -241,7 +242,7 @@ public class ClientSetup {
 				ModItems.THE_INCINERATOR.get(), ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get(), ModItems.VOID_ASSULT_SHOULDER_WEAPON.get(), ModItems.CORAL_SPEAR.get(), ModItems.CORAL_BARDICHE.get(),
 				ModItems.VOID_FORGE.get(), ModItems.TIDAL_CLAWS.get(), ModItems.MEAT_SHREDDER.get(), ModItems.LASER_GATLING.get(), ModItems.ANCIENT_SPEAR.get() , ModItems.CURSED_BOW.get(),
 				ModItems.WRATH_OF_THE_DESERT.get(), ModItems.SOUL_RENDER.get(), ModItems.THE_ANNIHILATOR.get(), ModItems.THE_IMMOLATOR.get(), ModItems.ALTAR_OF_FIRE.get(), ModItems.ALTAR_OF_VOID.get(),
-				ModItems.AZURE_SEA_SHIELD.get(),ModItems.LIGHTNING_SPEAR.get(),
+				ModItems.AZURE_SEA_SHIELD.get(),ModItems.ASTRAPE.get(),ModItems.CERAUNUS.get(),
 				ModItems.ALTAR_OF_AMETHYST.get(), ModItems.ALTAR_OF_ABYSS.get(), ModItems.EMP.get(), ModItems.MECHANICAL_FUSION_ANVIL.get(), ModItems.ABYSSAL_EGG.get(),
 				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get(), ModItems.BOSS_RESPAWNER.get()
 		);

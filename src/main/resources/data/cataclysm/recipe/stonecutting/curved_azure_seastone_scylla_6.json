@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": [
+    {
+      "item": "cataclysm:azure_seastone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "cataclysm:curved_azure_seastone_scylla_6"
+  }
+}

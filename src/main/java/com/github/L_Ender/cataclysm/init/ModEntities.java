@@ -16,8 +16,8 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Roya
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Storm_Bringer_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.*;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
@@ -30,7 +30,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.projectile.LlamaSpit;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -459,19 +458,13 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Tidal_Hook_Entity>> TIDAL_HOOK = ENTITY_TYPE.register("tidal_hook", () -> EntityType.Builder.<Tidal_Hook_Entity>of(Tidal_Hook_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .build(Cataclysm.MODID + ":tidal_hook"));
-
-    public static final DeferredHolder<EntityType<?>,EntityType<Storm_Bringer_Entity>> STORM_BRINGER = ENTITY_TYPE.register("storm_bringer", () -> EntityType.Builder.<Storm_Bringer_Entity>of(Storm_Bringer_Entity::new, MobCategory.MISC)
-            .sized(1.5F, 1.5F)
-            .clientTrackingRange(4)
-            .updateInterval(20)
-            .build(Cataclysm.MODID + ":storm_bringer"));
-
-    public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Storm_Bringer_Entity>> SCYLLA_STORM_BRINGER = ENTITY_TYPE.register("scylla_storm_bringer", () -> EntityType.Builder.<Scylla_Storm_Bringer_Entity>of(Scylla_Storm_Bringer_Entity::new, MobCategory.MISC)
+    
+    public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Ceraunus_Entity>> SCYLLA_CERAUNUS = ENTITY_TYPE.register("scylla_ceraunus", () -> EntityType.Builder.<Scylla_Ceraunus_Entity>of(Scylla_Ceraunus_Entity::new, MobCategory.MISC)
             .sized(1.5F, 1.5F)
             .clientTrackingRange(4)
             .passengerAttachments(0.5F)
             .updateInterval(20)
-            .build(Cataclysm.MODID + ":scylla_storm_bringer"));
+            .build(Cataclysm.MODID + ":scylla_ceraunus"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Abyss_Portal_Entity>> ABYSS_PORTAL = ENTITY_TYPE.register("abyss_portal", () -> EntityType.Builder.<Abyss_Portal_Entity>of(Abyss_Portal_Entity::new, MobCategory.MISC)
             .fireImmune()

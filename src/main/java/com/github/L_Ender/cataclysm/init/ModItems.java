@@ -369,9 +369,11 @@ public class ModItems {
     public static final DeferredItem<Item> BLACK_STEEL_NUGGET = ITEMS.register("black_steel_nugget",
             () -> new Item(new Item.Properties()));
 
-
     public static final DeferredItem<Item> LACRIMA = ITEMS.register("lacrima",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+    public static final DeferredItem<Item> ESSENCE_OF_THE_STORM = ITEMS.register("essence_of_the_storm",
+            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final DeferredItem<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -463,8 +465,11 @@ public class ModItems {
     public static final DeferredItem<Item> THE_ANNIHILATOR = ITEMS.register("the_annihilator",
             () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Annihilator.createAttributes())));
 
-    public static final DeferredItem<Item> LIGHTNING_SPEAR = ITEMS.register("lightning_spear",
-            () -> new Lightning_Spear_Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+    public static final DeferredItem<Item> ASTRAPE = ITEMS.register("astrape",
+            () -> new Astrape(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Astrape.createAttributes())));
+
+    public static final DeferredItem<Item> CERAUNUS = ITEMS.register("ceraunus",
+            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Coral_Bardiche.createAttributes())));
 
     public static final DeferredItem<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
             () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Immolator.createAttributes())));
@@ -486,7 +491,6 @@ public class ModItems {
 
     public static final DeferredItem<Item> TIDAL_CLAWS = ITEMS.register("tidal_claws",
             () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Tidal_Claws.createAttributes())));
-
 
     public static final DeferredItem<Item> INFERNAL_FORGE = ITEMS.register("infernal_forge",
             () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));

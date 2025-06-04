@@ -441,6 +441,31 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> MALEDICTUS_MUSIC_DISC = SOUNDS.register("maledictus_music_disc",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"maledictus_music_disc")));
 
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> CINDARIA_HURT = SOUNDS.register("cindaria_hurt",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"cindaria_hurt")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> CINDARIA_DEATH = SOUNDS.register("cindaria_death",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"cindaria_death")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> HIPPOCAMTUS_HURT = SOUNDS.register("hippocamtus_hurt",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"hippocamtus_hurt")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> HIPPOCAMTUS_DEATH = SOUNDS.register("hippocamtus_death",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"hippocamtus_death")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> HIPPOCAMTUS_IDLE = SOUNDS.register("hippocamtus_idle",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"hippocamtus_idle")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_HURT = SOUNDS.register("scylla_hurt",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_hurt")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_DEATH = SOUNDS.register("scylla_death",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_death")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_ROAR = SOUNDS.register("scylla_roar",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_roar")));
+
     public static final DeferredHolder<SoundEvent, SoundEvent> SCYLLA_MUSIC = SOUNDS.register("scylla_music",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"scylla_music")));
 
@@ -484,6 +509,6 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> HEAVY_SMASH = SOUNDS.register("heavy_smash",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"heavy_smash")));
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning",
-            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"super_lightning")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning_strike",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"super_lightning_strike")));
 }

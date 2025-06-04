@@ -1,14 +1,12 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Attachment.TidalTentacleAttachment;
-import com.github.L_Ender.cataclysm.entity.projectile.Storm_Bringer_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
 import com.github.L_Ender.cataclysm.entity.util.TidalTentacleUtil;
 import com.github.L_Ender.cataclysm.init.ModDataAttachments;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.L_Ender.cataclysm.message.MessageHookFalling;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -27,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 
 import java.util.List;

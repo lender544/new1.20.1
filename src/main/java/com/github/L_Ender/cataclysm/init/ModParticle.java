@@ -157,6 +157,16 @@ public class ModParticle {
         }
     });
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<RainFogParticleOptions>> RAIN_FOG = PARTICLE.register("rain_fog", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<RainFogParticleOptions> codec() {
+            return RainFogParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, RainFogParticleOptions> streamCodec() {
+            return RainFogParticleOptions.STREAM_CODEC;
+        }
+    });
+
     public static final DeferredHolder<ParticleType<?>, ParticleType<GatheringWaterParticleOptions>> GATHERING_WATER = PARTICLE.register("gathering_water", () -> new ParticleType<>(false) {
         @Override
         public MapCodec<GatheringWaterParticleOptions> codec() {
@@ -203,5 +213,8 @@ public class ModParticle {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLAME_JET = PARTICLE.register("flame_jet", () -> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLARE_EXPLODE = PARTICLE.register("flare_explode", () -> new SimpleParticleType(false));
+
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> LIGHTNING_EXPLODE = PARTICLE.register("lightning_explode", () -> new SimpleParticleType(false));
 
 }

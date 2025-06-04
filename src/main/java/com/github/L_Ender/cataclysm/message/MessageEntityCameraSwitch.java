@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.message;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.event.ClientHooks;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
@@ -50,7 +51,9 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
                 if (entity instanceof Player) {
-                    Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+                    if (CMConfig.setFirstPerson) {
+                        Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+                    }
                 }
             });
         }
@@ -80,7 +83,9 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
                 if (entity instanceof Player) {
-                    Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                    if (CMConfig.setThirdPerson) {
+                        Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                    }
                 }
             });
         }

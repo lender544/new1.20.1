@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:prismarine_shard"
+    },
+    "W": {
+      "item": "minecraft:prismarine_bricks"
+    }
+  },
+  "pattern": [
+    "W#W",
+    "W#W"
+  ],
+  "result": {
+    "count": 6,
+    "id": "cataclysm:prismarine_brick_fence"
+  }
+}

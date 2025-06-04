@@ -142,6 +142,13 @@ public class RingParticle extends TextureSheetParticle {
         buffer.addVertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).setUv(f8, f5).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
         buffer.addVertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).setUv(f7, f5).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
         buffer.addVertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).setUv(f7, f6).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
+
+        buffer.addVertex(avector3f[3].x(), avector3f[3].y(), avector3f[3].z()).setUv(f7, f6).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
+        buffer.addVertex(avector3f[2].x(), avector3f[2].y(), avector3f[2].z()).setUv(f7, f5).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
+        buffer.addVertex(avector3f[1].x(), avector3f[1].y(), avector3f[1].z()).setUv(f8, f5).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
+        buffer.addVertex(avector3f[0].x(), avector3f[0].y(), avector3f[0].z()).setUv(f8, f6).setColor(this.rCol/255F, this.gCol/255F, this.bCol/255F, this.alpha).setLight(j);
+
+
     }
 
     @Override

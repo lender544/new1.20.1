@@ -1101,6 +1101,10 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         }
     }
 
+    @Override
+    protected boolean isAffectedByFluids() {
+        return false;
+    }
 
     @Override
     public boolean isPushedByFluid() {

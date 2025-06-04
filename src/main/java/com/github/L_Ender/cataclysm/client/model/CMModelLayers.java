@@ -59,7 +59,7 @@ public class CMModelLayers {
     public static final ModelLayerLocation ELEMENTAL_SPEAR_MODEL = createLocation("elemental_spear_model", "main");
     public static final ModelLayerLocation CINDARIA_MODEL = createLocation("cindaria_model", "main");
     public static final ModelLayerLocation SCYLLA_MODEL = createLocation("scylla_model", "main");
-    public static final ModelLayerLocation STORM_BRINGER_MODEL = createLocation("storm_bringer_model", "main");
+    public static final ModelLayerLocation CERAUNUS_MODEL = createLocation("ceraunus_model", "main");
     public static final ModelLayerLocation CLAWDIAN_MODEL = createLocation("clawdian_model", "main");
     public static final ModelLayerLocation LASER_BEAM_MODEL = createLocation("laser_beam_model", "main");
     public static final ModelLayerLocation WAVE_MODEL = createLocation("wave_model", "main");
@@ -110,7 +110,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(ELEMENTAL_SPEAR_MODEL, Elemental_Spear_Model::createBodyLayer);
         event.registerLayerDefinition(CINDARIA_MODEL, Cindaria_Model::createBodyLayer);
         event.registerLayerDefinition(SCYLLA_MODEL, Scylla_Model::createBodyLayer);
-        event.registerLayerDefinition(STORM_BRINGER_MODEL, Storm_Bringer_Model::createBodyLayer);
+        event.registerLayerDefinition(CERAUNUS_MODEL, Ceraunus_Model::createBodyLayer);
         event.registerLayerDefinition(CLAWDIAN_MODEL, Clawdian_Model::createBodyLayer);
         event.registerLayerDefinition(LASER_BEAM_MODEL, Laser_Beam_Model::createBodyLayer);
 

@@ -53,7 +53,7 @@ public class Urchinkin_Entity extends Monster {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+
         this.goalSelector.addGoal(2, new Roll(this,0,1,0,40,12,5,13,30,50));
         this.goalSelector.addGoal(3, new MeleeAttackGoal(this, (double)1.0F, true));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));

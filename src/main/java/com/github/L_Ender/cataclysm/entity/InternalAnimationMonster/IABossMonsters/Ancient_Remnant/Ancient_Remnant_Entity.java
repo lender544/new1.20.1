@@ -12,6 +12,8 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.PredictiveChargeA
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -556,11 +558,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (stomp_cooldown > 0) stomp_cooldown--;
         if (!this.level().isClientSide) {
-            if(CMConfig.AncientRemnantBlockBreaking) {
-                ChargeBlockBreaking(0.5D);
-            }else{
-                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+            if (this.getAttackState() == 0) {
+                if (CMConfig.AncientRemnantBlockBreaking) {
                     ChargeBlockBreaking(0.5D);
+                } else {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        ChargeBlockBreaking(0.5D);
+                    }
                 }
             }
         }
@@ -1457,7 +1461,10 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 this.entity.setAttackState(attackstate);
             }
         }
-
+        @Override
+        public void tick() {
+            this.entity.getNavigation().stop();
+        }
         @Override
         public void stop() {
             this.entity.setAttackState(attackendstate);
@@ -1472,6 +1479,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             return false;
         }
     }
+
 
     static class RemnantMonolithAttackGoal extends Goal {
         protected final Ancient_Remnant_Entity entity;
@@ -1516,6 +1524,8 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             }
         }
 
+
+
         @Override
         public void stop() {
             this.entity.setAttackState(attackendstate);
@@ -1536,6 +1546,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public void tick() {
+            this.entity.getNavigation().stop();
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
@@ -1652,6 +1663,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public void tick() {
+            this.entity.getNavigation().stop();
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
@@ -1692,6 +1704,11 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 this.entity.lookAt(target, 30.0F, 30.0F);
                 entity.getLookControl().setLookAt(target, 30, 30);
             }
+        }
+
+        public void tick() {
+            super.tick();
+            this.entity.getNavigation().stop();
         }
 
         @Override

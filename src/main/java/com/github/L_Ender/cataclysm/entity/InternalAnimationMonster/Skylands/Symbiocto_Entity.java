@@ -38,7 +38,7 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+
 
         this.goalSelector.addGoal(2, new CrossBowShootGoal(this,0,1,0,34,19,16F));
 

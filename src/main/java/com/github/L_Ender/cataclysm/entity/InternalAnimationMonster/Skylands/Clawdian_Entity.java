@@ -98,7 +98,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     protected void registerGoals() {
 
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -158,12 +158,12 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
             @Override
             public void tick() {
                 LivingEntity target = entity.getTarget();
-                if(target !=null && this.entity.attackTicks < 45 && this.entity.attackTicks >= 22) {
-                    this.entity.getNavigation().moveTo(target, 1.0F);
-                }else{
-                    this.entity.getNavigation().stop();
+                if (entity.attackTicks < attackseetick && target != null) {
+                    entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
+                    entity.lookAt(target, 30.0F, 30.0F);
+                } else {
+                    entity.setYRot(entity.yRotO);
                 }
-                super.tick();
             }
 
         });
@@ -889,6 +889,15 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         return false;
     }
 
+    @Override
+    protected boolean isAffectedByFluids() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
 
     static class Clawdian_Accretion extends InternalAttackGoal {
         private final Clawdian_Entity entity;

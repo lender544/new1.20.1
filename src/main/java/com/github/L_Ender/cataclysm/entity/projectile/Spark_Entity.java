@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -35,12 +36,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 
 public class Spark_Entity extends ThrowableProjectile {
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> AREA_DAMAGE = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> AREA_RADIUS = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> HP_DAMAGE = SynchedEntityData.defineId(Spark_Entity.class, EntityDataSerializers.FLOAT);
     public Spark_Entity(EntityType<? extends Spark_Entity> type, Level world) {
@@ -56,6 +59,7 @@ public class Spark_Entity extends ThrowableProjectile {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("Damage", getDamage());
+        tag.putFloat("AreaDamage", getAreaDamage());
         tag.putFloat("HpDamage", getHpDamage());
         tag.putFloat("Area_Radius", getAreaRadius());
     }
@@ -65,6 +69,7 @@ public class Spark_Entity extends ThrowableProjectile {
         super.readAdditionalSaveData(tag);
         setDamage(tag.getFloat("Damage"));
         setHpDamage(tag.getFloat("HpDamage"));
+        setAreaDamage(tag.getFloat("HpDamage"));
         setAreaRadius(tag.getFloat("Area_Radius"));
     }
 
@@ -73,6 +78,7 @@ public class Spark_Entity extends ThrowableProjectile {
         p_326229_.define(DAMAGE,0f);
         p_326229_.define(AREA_RADIUS,0f);
         p_326229_.define(HP_DAMAGE,0f);
+        p_326229_.define(AREA_DAMAGE,0f);
     }
 
 
@@ -82,6 +88,14 @@ public class Spark_Entity extends ThrowableProjectile {
 
     public void setDamage(float damage) {
         entityData.set(DAMAGE, damage);
+    }
+
+    public float getAreaDamage() {
+        return entityData.get(AREA_DAMAGE);
+    }
+
+    public void setAreaDamage(float damage) {
+        entityData.set(AREA_DAMAGE, damage);
     }
 
     public float getHpDamage() {
@@ -120,21 +134,59 @@ public class Spark_Entity extends ThrowableProjectile {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         if (!this.level().isClientSide) {
-            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), this.getX(), this.getY(), this.getZ());
-            areaeffectcloud.setRadius(this.getAreaRadius());
-            LivingEntity entity1 = (LivingEntity) this.getOwner();
-            areaeffectcloud.setOwner(entity1);
-            areaeffectcloud.setRadiusOnUse(-1.0F);
-            areaeffectcloud.setDamage(this.getDamage());
-            areaeffectcloud.setWaitTime(5);
-            areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
-            areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() * 2 / (float)areaeffectcloud.getDuration());
-            this.level().addFreshEntity(areaeffectcloud);
+            int standingOnY = Mth.floor(this.getY()) - 3;
+            this.spawnArea(this.getX(), this.getZ(),standingOnY, this.getY() + 1);
 
+            LivingEntity entity1 = (LivingEntity) this.getOwner();
             this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -9, this.getDamage(), this.getHpDamage(), entity1,2.0F));
             this.discard();
         }
 
+    }
+
+
+    protected void spawnArea(double x, double z, double minY, double maxY) {
+        BlockPos blockpos = BlockPos.containing(x, maxY, z);
+        boolean foundGround = false;
+        double spawnY = minY;
+
+        do {
+            BlockPos below = blockpos.below();
+            BlockState groundState = this.level().getBlockState(below);
+
+            if (groundState.isFaceSturdy(this.level(), below, Direction.UP)) {
+                if (!this.level().isEmptyBlock(blockpos)) {
+                    VoxelShape shape = this.level().getBlockState(blockpos).getCollisionShape(this.level(), blockpos);
+                    if (!shape.isEmpty()) {
+                        spawnY = blockpos.getY() + shape.max(Direction.Axis.Y);
+                    } else {
+                        spawnY = blockpos.getY();
+                    }
+                } else {
+                    spawnY = blockpos.getY();
+                }
+
+                foundGround = true;
+                break;
+            }
+
+            blockpos = below;
+        } while (blockpos.getY() >= Mth.floor(minY) - 1);
+
+        if (!foundGround) {
+            spawnY = minY;
+        }
+
+        Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), x, spawnY, z);
+        areaeffectcloud.setRadius(this.getAreaRadius());
+        LivingEntity entity1 = (LivingEntity) this.getOwner();
+        areaeffectcloud.setOwner(entity1);
+        areaeffectcloud.setRadiusOnUse(-1.0F);
+        areaeffectcloud.setDamage(this.getAreaDamage());
+        areaeffectcloud.setWaitTime(5);
+        areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
+        areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() * 2 / (float)areaeffectcloud.getDuration());
+        this.level().addFreshEntity(areaeffectcloud);
     }
 
     protected double getDefaultGravity() {

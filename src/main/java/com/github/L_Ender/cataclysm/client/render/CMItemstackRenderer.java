@@ -8,12 +8,9 @@ import com.github.L_Ender.cataclysm.client.model.entity.Coral_Bardiche_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Coral_Spear_Model;
 import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
-import com.github.L_Ender.cataclysm.client.render.entity.Lightning_Spear_Renderer;
-import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
-import com.github.L_Ender.cataclysm.items.Lightning_Spear_Item;
 import com.github.L_Ender.cataclysm.items.Wrath_of_the_desert;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Maps;
@@ -55,7 +52,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Gauntlet_of_Guard_Model GAUNTLET_OF_GUARD_MODEL = new Gauntlet_of_Guard_Model();
     private static final Gauntlet_of_Bulwark_Model GAUNTLET_OF_BULWARK_MODEL = new Gauntlet_of_Bulwark_Model();
     private static final Gauntlet_of_Maelstrom_Model GAUNTLET_OF_MAELSTROM_MODEL = new Gauntlet_of_Maelstrom_Model();
-    private static final Lightning_Spear_Model LIGHTNING_SPEAR = new Lightning_Spear_Model();
+    private static final Astrape_Model ASTRAPE_MODEL = new Astrape_Model();
+    private static final Ceraunus_Item_Model CERAUNUS_MODEL = new Ceraunus_Item_Model();
+
     private static final Incinerator_Model THE_INCINERATOR_MODEL = new Incinerator_Model();
     private static final Coral_Spear_Model CORAL_SPEAR_MODEL = new Coral_Spear_Model();
     private static final Coral_Bardiche_Model CORAL_BARDICHE_MODEL = new Coral_Bardiche_Model();
@@ -97,6 +96,10 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation BLACK_STEEL_TARGE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/black_steel_targe.png");
     private static final ResourceLocation AZURE_SEA_SHIELD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/azure_sea_shield.png");
+    private static final ResourceLocation ASTRAPE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/astrape.png");
+
+    private static final ResourceLocation CERAUNUS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/ceraunus.png");
+
 
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom.png");
@@ -154,9 +157,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
         for(int i = 0; i < 8; i++){
             TEXTURE_FIRE_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
-        }
-        for(int i = 0; i < 6; i++){
-            TEXTURE_LIGHTNING_PROGRESS[i] = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/sea/spear/lightning_spear_" + i + ".png");
         }
     }
 
@@ -217,12 +217,21 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
-        if (itemStackIn.getItem() == ModItems.LIGHTNING_SPEAR.get()) {
+        if (itemStackIn.getItem() == ModItems.ASTRAPE.get()) {
             matrixStackIn.pushPose();
-            
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.CMEyes(getSpearTexture((int) ((tick * 0.75F) % 6))), itemStackIn.hasFoil());
-            LIGHTNING_SPEAR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(ASTRAPE_TEXTURE), itemStackIn.hasFoil());
+            ASTRAPE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.getItem() == ModItems.CERAUNUS.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.entityCutoutNoCull(CERAUNUS_TEXTURE), itemStackIn.hasFoil());
+            CERAUNUS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
             matrixStackIn.popPose();
         }
 
@@ -498,10 +507,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private ResourceLocation getIdleTexture(int age) {
         return TEXTURE_FIRE_PROGRESS[Mth.clamp(age, 0, 7)];
-    }
-
-    private ResourceLocation getSpearTexture(int age) {
-        return TEXTURE_LIGHTNING_PROGRESS[Mth.clamp(age, 0, 7)];
     }
 
 }

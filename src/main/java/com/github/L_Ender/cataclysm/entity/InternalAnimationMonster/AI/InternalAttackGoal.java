@@ -60,9 +60,9 @@ public class InternalAttackGoal extends Goal {
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) {
             this.entity.setTarget((LivingEntity)null);
         }
+        this.entity.getNavigation().stop();
         if (this.entity.getTarget() == null) {
             this.entity.setAggressive(false);
-            this.entity.getNavigation().stop();
         }
     }
 
@@ -80,6 +80,7 @@ public class InternalAttackGoal extends Goal {
         } else {
             entity.setYRot(entity.yRotO);
         }
+        this.entity.getNavigation().stop();
     }
 
     @Override

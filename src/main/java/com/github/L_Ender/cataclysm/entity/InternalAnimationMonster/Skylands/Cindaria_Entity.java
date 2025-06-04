@@ -16,6 +16,7 @@ import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -58,7 +59,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
 
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -151,6 +152,14 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     public void die(DamageSource p_21014_) {
         super.die(p_21014_);
         this.setAttackState(3);
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.CINDARIA_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ModSounds.CINDARIA_DEATH.get();
     }
 
     public int deathtimer() {

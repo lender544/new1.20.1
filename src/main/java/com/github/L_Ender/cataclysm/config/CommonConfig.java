@@ -9,6 +9,9 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue shadersCompat;
     public final ModConfigSpec.BooleanValue custombossbar;
 
+    public final ModConfigSpec.BooleanValue setThirdPerson;
+    public final ModConfigSpec.BooleanValue setFirstPerson;
+
     public final ModConfigSpec.IntValue Return_Home;
 
     public final ModConfigSpec.BooleanValue Armor_Infinity_Durability;
@@ -23,6 +26,10 @@ public class CommonConfig {
     public final ModConfigSpec.IntValue VASWCooldown;
     public final ModConfigSpec.IntValue VoidCoreCooldown;
     public final ModConfigSpec.IntValue SandstormInABottleCooldown;
+    public final ModConfigSpec.DoubleValue CeraunusLightningStormDamage;
+    public final ModConfigSpec.DoubleValue CeraunusWaveDamage;
+    public final ModConfigSpec.IntValue StormBringerCooldown;
+
 
     public final ModConfigSpec.IntValue SoulRenderCooldown;
     public final ModConfigSpec.IntValue GauntletOfMaelstromCooldown;
@@ -182,12 +189,14 @@ public class CommonConfig {
 
     public final ModConfigSpec.DoubleValue ScyllaHealthMultiplier;
     public final ModConfigSpec.DoubleValue ScyllaDamageMultiplier;
+    public final ModConfigSpec.DoubleValue ScyllaNatureHealing;
     public final ModConfigSpec.DoubleValue ScyllaSpearDamage;
     public final ModConfigSpec.DoubleValue ScyllaLightningStormDamage;
     public final ModConfigSpec.DoubleValue ScyllaLightningAreaDamage;
     public final ModConfigSpec.DoubleValue ScyllaSnakeDamage;
     public final ModConfigSpec.DoubleValue ScyllaDamageCap;
     public final ModConfigSpec.DoubleValue ScyllaLongRangelimit;
+    public final ModConfigSpec.DoubleValue ScyllaAnchordamage;
     public final ModConfigSpec.IntValue ScyllaDamageTime;
 
     public final ModConfigSpec.DoubleValue MaledictusHealthMultiplier;
@@ -240,6 +249,8 @@ public class CommonConfig {
         LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
+        setThirdPerson = buildBoolean(builder, "setThirdPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
+        setFirstPerson = buildBoolean(builder, "setFirstPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
         builder.pop();
 
         builder.push("bosses Common settings");
@@ -265,8 +276,11 @@ public class CommonConfig {
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
-
+        CeraunusLightningStormDamage = buildDouble(builder, "Storm Bringer's Lightning Storm Damage", "all", CMConfig.CeraunusLightningStormDamage, 0D, 1000000D, "Storm Bringer's LightningStorm Damage");
+        CeraunusWaveDamage = buildDouble(builder, "Storm Bringer's Wave Damage'", "all", CMConfig.CeraunusWaveDamage, 0, 1000000, "Storm Bringer's Wave Damage");
+        StormBringerCooldown = buildInt(builder, "Storm Bringer Cooldown", "all", CMConfig.StormBringerCooldown, 0, 1000000, "Storm Bringer's Cooldown");
         builder.pop();
+
 
         builder.push("Block");
         Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 1, 1, 300, "Cursed Tombstone Summon cooldown Minute");
@@ -465,13 +479,16 @@ public class CommonConfig {
         ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
         ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
         ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
+        ScyllaAnchordamage = buildDouble(builder, "Scylla's Anchor Damage", "all", CMConfig.ScyllaAnchordamage, 0, 1000000, "Scylla's Anchor Damage");
+        ScyllaNatureHealing = buildDouble(builder, "Scylla NatureHealing", "all", CMConfig.ScyllaNatureHealing, 0D, 1000000D, "Scylla's Healing with out target");
+
+
 
         ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
         ScyllaDamageTime = buildInt(builder, "Scylla DamageTime", "all", CMConfig.ScyllaDamageTime, 0, 100, "Scylla's DamageTime");
         ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");
         ScyllaSpinHpDamage = buildDouble(builder, "Scylla's Spin Hp Damage", "all", CMConfig.ScyllaSpinHpDamage, 0, 1000000, "Scylla's Spin HP Damage");
         ScyllaLightningStormHpDamage = buildDouble(builder, "Scylla's Lightning Storm HP Damage", "all", CMConfig.ScyllaLightningStormHpDamage, 0, 1000000, "Scylla's Lightning Storm HP Damage");
-
         builder.pop();
 
 

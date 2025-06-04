@@ -65,83 +65,42 @@ public class CMPathNavigateGround extends GroundPathNavigation {
     }
 
     private boolean tryShortcut(Path path, Vec3 entityPos, int pathLength, Vec3 base, Vec3 max) {
-        for (int i = pathLength; --i > path.getNextNodeIndex(); ) {
-            final Vec3 vec = path.getEntityPosAtNode(this.mob, i).subtract(entityPos);
-            if (this.sweep(vec, base, max)) {
-                path.setNextNodeIndex(i);
-                return false;
+        for (int i = pathLength - 1; i > path.getNextNodeIndex(); i--) {
+            Vec3 target = path.getEntityPosAtNode(this.mob, i);
+            if (sweep(target.subtract(entityPos), base, max)) {
+                continue;
             }
+            path.setNextNodeIndex(i);
+            return false;
         }
         return true;
     }
 
     static final float EPSILON = 1.0E-8F;
 
-    // Based off of https://github.com/andyhall/voxel-aabb-sweep/blob/d3ef85b19c10e4c9d2395c186f9661b052c50dc7/index.js
     private boolean sweep(Vec3 vec, Vec3 base, Vec3 max) {
-        float t = 0.0F;
-        float max_t = (float) vec.length();
-        if (max_t < EPSILON) return true;
-        final float[] tr = new float[3];
-        final int[] ldi = new int[3];
-        final int[] tri = new int[3];
-        final int[] step = new int[3];
-        final float[] tDelta = new float[3];
-        final float[] tNext = new float[3];
-        final float[] normed = new float[3];
+        float length = (float) vec.length();
+        if (length < EPSILON) return true;
+
+        float[] normed = {(float) vec.x / length, (float) vec.y / length, (float) vec.z / length};
+        int[] step = new int[3];
+        float[] tDelta = new float[3];
+        float[] tNext = new float[3];
+        float[] lead = { (float) base.x, (float) base.y, (float) base.z };
+        float[] trail = { (float) max.x, (float) max.y, (float) max.z };
+        int[] ldi = new int[3];
+
         for (int i = 0; i < 3; i++) {
-            float value = element(vec, i);
-            boolean dir = value >= 0.0F;
-            step[i] = dir ? 1 : -1;
-            float lead = element(dir ? max : base, i);
-            tr[i] = element(dir ? base : max, i);
-            ldi[i] = leadEdgeToInt(lead, step[i]);
-            tri[i] = trailEdgeToInt(tr[i], step[i]);
-            normed[i] = value / max_t;
-            tDelta[i] = Mth.abs(max_t / value);
-            float dist = dir ? (ldi[i] + 1 - lead) : (lead - ldi[i]);
+            float v = normed[i] * length;
+            step[i] = v >= 0 ? 1 : -1;
+            float leadCoord = step[i] > 0 ? trail[i] : lead[i];
+            float trailCoord = step[i] > 0 ? lead[i] : trail[i];
+            ldi[i] = leadEdgeToInt(leadCoord, step[i]);
+            tDelta[i] = v != 0.0F ? Mth.abs(length / v) : Float.POSITIVE_INFINITY;
+            float dist = step[i] > 0 ? (ldi[i] + 1 - leadCoord) : (leadCoord - ldi[i]);
             tNext[i] = tDelta[i] < Float.POSITIVE_INFINITY ? tDelta[i] * dist : Float.POSITIVE_INFINITY;
         }
-        /*final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        do {
-            // stepForward
-            int axis = (tNext[0] < tNext[1]) ?
-                    ((tNext[0] < tNext[2]) ? 0 : 2) :
-                    ((tNext[1] < tNext[2]) ? 1 : 2);
-            float dt = tNext[axis] - t;
-            t = tNext[axis];
-            ldi[axis] += step[axis];
-            tNext[axis] += tDelta[axis];
-            for (int i = 0; i < 3; i++) {
-                tr[i] += dt * normed[i];
-                tri[i] = trailEdgeToInt(tr[i], step[i]);
-            }
-            // checkCollision
-            int stepx = step[0];
-            int x0 = (axis == 0) ? ldi[0] : tri[0];
-            int x1 = ldi[0] + stepx;
-            int stepy = step[1];
-            int y0 = (axis == 1) ? ldi[1] : tri[1];
-            int y1 = ldi[1] + stepy;
-            int stepz = step[2];
-            int z0 = (axis == 2) ? ldi[2] : tri[2];
-            int z1 = ldi[2] + stepz;
-            for (int x = x0; x != x1; x += stepx) {
-                for (int z = z0; z != z1; z += stepz) {
-                    for (int y = y0; y != y1; y += stepy) {
-                        BlockState block = this.level.getBlockState(pos.set(x, y, z));
-                        if (!block.isPathfindable(this.level, pos, PathComputationType.LAND)) return false;
-                    }
-                    PathType below = this.nodeEvaluator.getBlockPathType(this.level, x, y0 - 1, z, this.mob, 1, 1, 1, true, true);
-                    if (below == PathType.OPEN) return false;
-                    PathType in = this.nodeEvaluator.getBlockPathType(this.level, x, y0, z, this.mob, 1, y1 - y0, 1, true, true);
-                    float priority = this.mob.getPathfindingMalus(in);
-                    if (priority < 0.0F || priority >= 8.0F) return false;
-                   // if (in == PathType.DAMAGE_FIRE || in == PathType.DANGER_FIRE || in == PathType.DAMAGE_OTHER) return false;
-                }
-            }
-        } while (t <= max_t);
-         *****/
+
         return true;
     }
 

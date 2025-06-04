@@ -51,6 +51,9 @@ import javax.annotation.Nullable;
 public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
     private static final EntityDataAccessor<Float> AREA_RADIUS = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> AREA_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> HP_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
+
+
     public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, Level level) {
         super(type, level);
         this.accelerationPower = 0.1;
@@ -87,6 +90,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         super.defineSynchedData(p_326229_);
         p_326229_.define(AREA_RADIUS,0f);
         p_326229_.define(AREA_DAMAGE,0f);
+        p_326229_.define(HP_DAMAGE,0f);
     }
 
 
@@ -107,7 +111,13 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         entityData.set(AREA_DAMAGE, damage);
     }
 
+    public float getHpDamage() {
+        return entityData.get(HP_DAMAGE);
+    }
 
+    public void setHpDamage(float damage) {
+        entityData.set(HP_DAMAGE, damage);
+    }
 
     protected void SpawnParticle() {
         Vec3 vec3 = this.getDeltaMovement();
@@ -160,7 +170,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), 5f, entity1,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), this.getHpDamage(), entity1,2.0F));
 
             this.discard();
         }
@@ -176,6 +186,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         super.addAdditionalSaveData(compound);
         compound.putDouble("acceleration_power", this.accelerationPower);
         compound.putFloat("area_damage", this.getAreaDamage());
+        compound.putFloat("hp_damage", this.getAreaRadius());
         compound.putFloat("area_radius", this.getAreaRadius());
     }
 
@@ -184,8 +195,9 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         if (compound.contains("acceleration_power", 6)) {
             this.accelerationPower = compound.getDouble("acceleration_power");
         }
-        this.setAreaDamage(compound.getInt("area_damage"));
-        this.setAreaRadius(compound.getInt("area_radius"));
+        this.setAreaDamage(compound.getFloat("area_damage"));
+        this.setHpDamage(compound.getFloat("hp_damage"));
+        this.setAreaRadius(compound.getFloat("area_radius"));
     }
 }
 
