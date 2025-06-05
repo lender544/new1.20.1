@@ -111,8 +111,11 @@ public class Lightning_Area_Effect_Entity extends Entity {
                 double d2 = this.getY() + 0.2;
                 double d4 = this.getZ() + (double)(Mth.sin(f2) * f3);
 
-                this.level().addAlwaysVisibleParticle(new LightningZapParticleOptions(99 + random.nextInt(50),194 + random.nextInt(50),201 + random.nextInt(50),0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
-                this.level().addAlwaysVisibleParticle(new RainFogParticleOptions(f ), this.getX(), this.getY() + 0.01, this.getZ(), this.random.nextGaussian() * 0.01D, 0.0D, this.random.nextGaussian() * 0.01D);
+                this.level().addAlwaysVisibleParticle(new LightningZapParticleOptions(99,194,201,0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
+
+            }
+            if (this.tickCount % 10 == 0) {
+                this.level().addAlwaysVisibleParticle(new RainFogParticleOptions(f), this.getX(), this.getY() + 0.01, this.getZ(), this.random.nextGaussian() * 0.01D, 0.0D, this.random.nextGaussian() * 0.01D);
 
             }
         } else {

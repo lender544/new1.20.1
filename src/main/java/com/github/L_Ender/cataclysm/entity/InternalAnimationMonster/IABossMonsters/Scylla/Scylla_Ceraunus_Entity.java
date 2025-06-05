@@ -303,7 +303,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 	}
 
 	protected float getWaterInertia() {
-		return 1.0F;
+		return 0.95F;
 	}
 
 	protected void doKnockback(LivingEntity entity, DamageSource damageSource) {

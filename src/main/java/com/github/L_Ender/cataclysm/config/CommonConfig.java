@@ -28,8 +28,10 @@ public class CommonConfig {
     public final ModConfigSpec.IntValue SandstormInABottleCooldown;
     public final ModConfigSpec.DoubleValue CeraunusLightningStormDamage;
     public final ModConfigSpec.DoubleValue CeraunusWaveDamage;
-    public final ModConfigSpec.IntValue StormBringerCooldown;
-
+    public final ModConfigSpec.IntValue CeraunusCooldown;
+    public final ModConfigSpec.IntValue AstrapeCooldown;
+    public final ModConfigSpec.DoubleValue AstrapeDamage;
+    public final ModConfigSpec.DoubleValue AstrapeAreaDamage;
 
     public final ModConfigSpec.IntValue SoulRenderCooldown;
     public final ModConfigSpec.IntValue GauntletOfMaelstromCooldown;
@@ -276,11 +278,13 @@ public class CommonConfig {
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
-        CeraunusLightningStormDamage = buildDouble(builder, "Storm Bringer's Lightning Storm Damage", "all", CMConfig.CeraunusLightningStormDamage, 0D, 1000000D, "Storm Bringer's LightningStorm Damage");
-        CeraunusWaveDamage = buildDouble(builder, "Storm Bringer's Wave Damage'", "all", CMConfig.CeraunusWaveDamage, 0, 1000000, "Storm Bringer's Wave Damage");
-        StormBringerCooldown = buildInt(builder, "Storm Bringer Cooldown", "all", CMConfig.StormBringerCooldown, 0, 1000000, "Storm Bringer's Cooldown");
+        CeraunusLightningStormDamage = buildDouble(builder, "Ceraunus 's Lightning Storm Damage", "all", CMConfig.CeraunusLightningStormDamage, 0D, 1000000D, "Storm Bringer's LightningStorm Damage");
+        CeraunusWaveDamage = buildDouble(builder, "Ceraunus's Wave Damage'", "all", CMConfig.CeraunusWaveDamage, 0, 1000000, "Ceraunus's Wave Damage");
+        CeraunusCooldown = buildInt(builder, "Ceraunus Cooldown", "all", CMConfig.CeraunusCooldown, 0, 1000000, "Ceraunus's Cooldown");
+        AstrapeDamage = buildDouble(builder, "Astrape's Lightning Spear Damage", "all", CMConfig.AstrapeDamage, 0D, 1000000D, "Astrape's LightningStorm Damage");
+        AstrapeAreaDamage = buildDouble(builder, "Astrape's Area Damage'", "all", CMConfig.AstrapeAreaDamage, 0, 1000000, "Astrape's Wave Damage");
+        AstrapeCooldown = buildInt(builder, "Astrape Cooldown", "all", CMConfig.AstrapeCooldown, 0, 1000000, "Astrape's Cooldown");
         builder.pop();
-
 
         builder.push("Block");
         Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 1, 1, 300, "Cursed Tombstone Summon cooldown Minute");

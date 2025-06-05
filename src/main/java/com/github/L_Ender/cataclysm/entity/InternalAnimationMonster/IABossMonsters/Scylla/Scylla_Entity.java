@@ -1057,7 +1057,7 @@ public class Scylla_Entity extends IABoss_monster {
 
             if (this.attackTicks < 115 && this.attackTicks > 55) {
 
-                CircleLighning(0.2F,0.2F,(random.nextFloat() - 0.5F) * 12, 9 ,3,1);
+                CircleLighning(0.2F, 0.2F, (random.nextFloat() - 0.5F) * 12, 9, 3, 1);
                 Stormknockback(0.7F, 5.5D);
 
                 //Nimbo(0.2F,0.2F,5,9.5D,5,2);
@@ -1067,7 +1067,7 @@ public class Scylla_Entity extends IABoss_monster {
                     float g = 241 / 255F;
                     float b = 215 / 255F;
 
-                    this.level().addParticle((new StormParticleOptions(99/255F, 194/255F, 224/255F, 6f + random.nextFloat() * 0.25f, 1.5F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+                    this.level().addParticle((new StormParticleOptions(99 / 255F, 194 / 255F, 224 / 255F, 6f + random.nextFloat() * 0.25f, 1.5F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
                     this.level().addParticle((new StormParticleOptions(r, g, b, 4f + random.nextFloat() * 1.2f, 1.0F + random.nextFloat() * 0.45f, this.getId())), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
@@ -1077,9 +1077,10 @@ public class Scylla_Entity extends IABoss_monster {
 
             }
             if (this.attackTicks < 140 && this.attackTicks > 55) {
-                Nimbo(0.2F,0.2F,5,9.5D,5,2);
+                Nimbo(0.2F, 0.2F, 5, 9.5D, 5, 2);
 
             }
+
             if (this.attackTicks == 55) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.02f, 20, 10);
             }
@@ -1088,6 +1089,15 @@ public class Scylla_Entity extends IABoss_monster {
             }
             if (this.attackTicks == 95) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 25, 0.04f, 20, 10);
+            }
+            if (this.attackTicks == 114) {
+                this.playSound(ModSounds.SUPER_LIGHTNING.get(), 0.4f, 1.0F + this.getRandom().nextFloat() * 0.1F);
+                if (this.level().isClientSide) {
+                    double d0 = this.getX() + vecX * 0.2F + f * 0.2F;
+                    double d1 = this.getY() + 9;
+                    double d2 = this.getZ() + vecZ * 0.2F + f1 * 0.2F;
+                    this.level().addParticle(ModParticle.LIGHTNING_EXPLODE.get(), d0,d1,d2, 0, 0, 0);
+                }
             }
         }
 

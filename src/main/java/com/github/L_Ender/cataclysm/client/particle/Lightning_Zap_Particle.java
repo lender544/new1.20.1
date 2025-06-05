@@ -31,7 +31,7 @@ public class Lightning_Zap_Particle extends TextureSheetParticle {
         this.getG = g;
         this.getB = b;
         this.quadSize = 0.25F + level.random.nextFloat() * 0.15F;
-        this.lifetime = 8;
+        this.lifetime = 6;
         this.setSpriteFromAge(sprites);
     }
 
@@ -55,7 +55,11 @@ public class Lightning_Zap_Particle extends TextureSheetParticle {
             this.gCol = this.getG /255F;
             this.bCol = this.getB /255F;
         }
-        this.setSpriteFromAge(this.sprites);
+        if (this.age++ >= this.lifetime) {
+            this.remove();
+        }else{
+            this.setSpriteFromAge(this.sprites);
+        }
     }
 
 

@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "cataclysm:azure_seastone_bricks"
+        },
+        {
+            "item": "cataclysm:azure_seastone"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "cataclysm:azure_seastone_brick_stairs"
+    }
+}

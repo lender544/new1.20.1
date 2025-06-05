@@ -110,7 +110,7 @@ public class Rain_Fog_Particle extends TextureSheetParticle {
 
     private void makeCornerVertex(VertexConsumer pConsumer, Vector3f pVec3f, float p_233996_, float p_233997_, int p_233998_) {
         Vec3 wiggle = new Vec3(noise((float) (age + this.x)), noise((float) (age - this.x)), noise((float) (age + this.z))).scale(0.02f);
-        pConsumer.addVertex(pVec3f.x() + (float) wiggle.x, pVec3f.y() + 0.08f + alpha * 0.125f, pVec3f.z() + (float) wiggle.z).setUv(p_233996_, p_233997_).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(p_233998_);
+        pConsumer.addVertex(pVec3f.x() + (float) wiggle.x, pVec3f.y(), pVec3f.z() + (float) wiggle.z).setUv(p_233996_, p_233997_).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(p_233998_);
     }
 
     @OnlyIn(Dist.CLIENT)

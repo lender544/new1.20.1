@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:black_steel_ingot"
+        }
+    },
+    "result": {
+        "id": "cataclysm:black_steel_block",
+        "count": 1
+    }
+}

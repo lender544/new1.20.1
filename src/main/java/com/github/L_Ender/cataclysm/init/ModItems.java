@@ -469,7 +469,7 @@ public class ModItems {
             () -> new Astrape(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Astrape.createAttributes())));
 
     public static final DeferredItem<Item> CERAUNUS = ITEMS.register("ceraunus",
-            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Coral_Bardiche.createAttributes())));
+            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Ceraunus.createAttributes())));
 
     public static final DeferredItem<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
             () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Immolator.createAttributes())));

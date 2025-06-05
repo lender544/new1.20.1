@@ -1,16 +1,17 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "##",
-        "##"
+        "#  ",
+        "## ",
+        "###"
     ],
     "key": {
         "#": {
-            "item": "cataclysm:polished_azure_seastone"
+            "item": "cataclysm:frosted_stone_bricks"
         }
     },
     "result": {
-        "id": "cataclysm:azure_seastone_bricks",
+        "id": "cataclysm:frosted_stone_brick_stairs",
         "count": 4
     }
 }

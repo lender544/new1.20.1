@@ -15,7 +15,7 @@ public class EffectWetness extends MobEffect {
 
     public EffectWetness() {
         super(MobEffectCategory.BENEFICIAL, 0X5a76ce);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, WETNESS_SPEED, -0.08D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, WETNESS_SPEED, -0.05D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 
     public boolean applyEffectTick(LivingEntity LivingEntityIn, int amplifier) {

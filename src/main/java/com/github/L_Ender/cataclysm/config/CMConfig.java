@@ -27,9 +27,13 @@ public class CMConfig {
     public static int SandstormInABottleCOOLDOWN = 300;
     public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
-    public static int StormBringerCooldown = 150;
+    public static int CeraunusCooldown = 150;
     public static double CeraunusLightningStormDamage = 6;
     public static double CeraunusWaveDamage = 6;
+    public static int AstrapeCooldown = 80;
+    public static double AstrapeDamage = 11;
+    public static double AstrapeAreaDamage = 2;
+
 
     public static int Cursed_tombstone_summon_cooldown = 1;
 
@@ -275,9 +279,13 @@ public class CMConfig {
             SoulRenderCooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
             GauntletOfMaelstromCooldown = ConfigHolder.COMMON.GauntletOfMaelstromCooldown.get();
             ImmolatorCooldown = ConfigHolder.COMMON.ImmolatorCooldown.get();
-            StormBringerCooldown = ConfigHolder.COMMON.StormBringerCooldown.get();
+            CeraunusCooldown = ConfigHolder.COMMON.CeraunusCooldown.get();
             CeraunusLightningStormDamage = ConfigHolder.COMMON.CeraunusLightningStormDamage.get();
             CeraunusWaveDamage = ConfigHolder.COMMON.CeraunusWaveDamage.get();
+
+            AstrapeCooldown = ConfigHolder.COMMON.AstrapeCooldown.get();
+            AstrapeDamage = ConfigHolder.COMMON.AstrapeDamage.get();
+            AstrapeAreaDamage = ConfigHolder.COMMON.AstrapeAreaDamage.get();
 
             Cursed_tombstone_summon_cooldown = ConfigHolder.COMMON.Cursed_tombstone_summon_cooldown.get();
 

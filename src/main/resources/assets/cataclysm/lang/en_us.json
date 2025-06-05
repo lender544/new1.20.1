@@ -72,6 +72,7 @@
   "item.cataclysm.black_steel_ingot": "Black Steel Ingot",
   "item.cataclysm.black_steel_nugget": "Black Steel Nugget",
   "item.cataclysm.lacrima": "Lacrima",
+  "item.cataclysm.essence_of_the_storm": "Essence Of The Storm",
   "item.cataclysm.ignitium_ingot": "Ignitium Ingot",
   "item.cataclysm.cursium_ingot": "Cursium Ingot",
   "item.cataclysm.ignitium_upgrade_smithing_template": "Smithing Template",
@@ -666,6 +667,7 @@
   "death.attack.cataclysm.maledictio_anima": "%s was cursed by %s",
   "death.attack.cataclysm.penetrate": "%s was penetrated by %s",
   "death.attack.cataclysm.lightning": "%s was electrocuted by %s",
+  "death.attack.cataclysm.flame_strike": "%s was consumed by the flames",
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",

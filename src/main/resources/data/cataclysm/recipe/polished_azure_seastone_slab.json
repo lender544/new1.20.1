@@ -1,8 +1,7 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "##",
-        "##"
+        "###"
     ],
     "key": {
         "#": {
@@ -10,7 +9,7 @@
         }
     },
     "result": {
-        "id": "cataclysm:azure_seastone_bricks",
-        "count": 4
+        "id": "cataclysm:polished_azure_seastone_slab",
+        "count": 6
     }
 }

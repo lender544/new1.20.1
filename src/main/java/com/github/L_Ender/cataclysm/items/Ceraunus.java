@@ -65,7 +65,7 @@ public class Ceraunus extends Item implements RangeTool  {
             float f = getPowerForTime(i);
             if (!((double) f < 0.5D)) {
                 p_43395_.playSound((Player) null, player.getX(), player.getY(), player.getZ(), ModSounds.HEAVY_SMASH.get(), SoundSource.PLAYERS, 0.6F, 1.0F);
-                player.getCooldowns().addCooldown(this, CMConfig.StormBringerCooldown);
+                player.getCooldowns().addCooldown(this, CMConfig.CeraunusCooldown);
                 if (!p_43395_.isClientSide) {
                     float yawRadians = (float) (Math.toRadians(90 + player.getYRot()));
                     double vecX = Math.cos(yawRadians);

@@ -87,6 +87,7 @@ public class ModGroup {
                 entries.accept(ModItems.SANDSTORM_IN_A_BOTTLE.get());
                 entries.accept(ModItems.ANCIENT_SPEAR.get());
                 entries.accept(ModItems.ASTRAPE.get());
+                entries.accept(ModItems.CERAUNUS.get());
                 entries.accept(ModItems.STICKY_GLOVES.get());
                 entries.accept(ModItems.VOID_CORE.get());
                 entries.accept(ModItems.VOID_SCATTER_ARROW.get());
