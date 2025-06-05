@@ -3,12 +3,14 @@ package com.github.L_Ender.cataclysm.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-
 public class CommonConfig {
 
     public final ForgeConfigSpec.DoubleValue LavaVisionOpacity;
     public final ForgeConfigSpec.BooleanValue shadersCompat;
     public final ForgeConfigSpec.BooleanValue custombossbar;
+
+    public final ForgeConfigSpec.BooleanValue setThirdPerson;
+    public final ForgeConfigSpec.BooleanValue setFirstPerson;
 
     public final ForgeConfigSpec.IntValue Return_Home;
 
@@ -24,6 +26,12 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue VASWCooldown;
     public final ForgeConfigSpec.IntValue VoidCoreCooldown;
     public final ForgeConfigSpec.IntValue SandstormInABottleCooldown;
+    public final ForgeConfigSpec.DoubleValue CeraunusLightningStormDamage;
+    public final ForgeConfigSpec.DoubleValue CeraunusWaveDamage;
+    public final ForgeConfigSpec.IntValue CeraunusCooldown;
+    public final ForgeConfigSpec.IntValue AstrapeCooldown;
+    public final ForgeConfigSpec.DoubleValue AstrapeDamage;
+    public final ForgeConfigSpec.DoubleValue AstrapeAreaDamage;
 
     public final ForgeConfigSpec.IntValue SoulRenderCooldown;
     public final ForgeConfigSpec.IntValue GauntletOfMaelstromCooldown;
@@ -183,11 +191,14 @@ public class CommonConfig {
 
     public final ForgeConfigSpec.DoubleValue ScyllaHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue ScyllaDamageMultiplier;
+    public final ForgeConfigSpec.DoubleValue ScyllaNatureHealing;
     public final ForgeConfigSpec.DoubleValue ScyllaSpearDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaLightningStormDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaLightningAreaDamage;
+    public final ForgeConfigSpec.DoubleValue ScyllaSnakeDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaDamageCap;
     public final ForgeConfigSpec.DoubleValue ScyllaLongRangelimit;
+    public final ForgeConfigSpec.DoubleValue ScyllaAnchordamage;
     public final ForgeConfigSpec.IntValue ScyllaDamageTime;
 
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
@@ -208,7 +219,6 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue ScyllaHpDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaSpinHpDamage;
     public final ForgeConfigSpec.DoubleValue ScyllaLightningStormHpDamage;
-    public final ForgeConfigSpec.DoubleValue ScyllaSnakeDamage;
 
     public final ForgeConfigSpec.IntValue DeeplingSpawnWeight;
     public final ForgeConfigSpec.IntValue DeeplingSpawnRolls;
@@ -241,6 +251,8 @@ public class CommonConfig {
         LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
         shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
+        setThirdPerson = buildBoolean(builder, "setThirdPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
+        setFirstPerson = buildBoolean(builder, "setFirstPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
         builder.pop();
 
         builder.push("bosses Common settings");
@@ -266,8 +278,15 @@ public class CommonConfig {
         SoulRenderCooldown = buildInt(builder, "SoulRenderCooldown", "all", 100, 0, 1000000, "Soul Render's Timer");
         GauntletOfMaelstromCooldown = buildInt(builder, "gauntletofMaelstromCooldown", "all", 180, 0, 1000000, "Gauntlet of Maelstrom's Timer");
         ImmolatorCooldown = buildInt(builder, "immolatorCooldown", "all", 300, 0, 1000000, "The Immolator's Timer");
+        CeraunusLightningStormDamage = buildDouble(builder, "Ceraunus 's Lightning Storm Damage", "all", CMConfig.CeraunusLightningStormDamage, 0D, 1000000D, "Storm Bringer's LightningStorm Damage");
+        CeraunusWaveDamage = buildDouble(builder, "Ceraunus's Wave Damage'", "all", CMConfig.CeraunusWaveDamage, 0, 1000000, "Ceraunus's Wave Damage");
+        CeraunusCooldown = buildInt(builder, "Ceraunus Cooldown", "all", CMConfig.CeraunusCooldown, 0, 1000000, "Ceraunus's Cooldown");
+        AstrapeDamage = buildDouble(builder, "Astrape's Lightning Spear Damage", "all", CMConfig.AstrapeDamage, 0D, 1000000D, "Astrape's LightningStorm Damage");
+        AstrapeAreaDamage = buildDouble(builder, "Astrape's Area Damage'", "all", CMConfig.AstrapeAreaDamage, 0, 1000000, "Astrape's Wave Damage");
+        AstrapeCooldown = buildInt(builder, "Astrape Cooldown", "all", CMConfig.AstrapeCooldown, 0, 1000000, "Astrape's Cooldown");
 
         builder.pop();
+
 
         builder.push("Block");
         Cursed_tombstone_summon_cooldown = buildInt(builder, "Cursed Tombstone Summon cooldown Minute", "all", 1, 1, 300, "Cursed Tombstone Summon cooldown Minute");
@@ -465,13 +484,16 @@ public class CommonConfig {
         ScyllaSpearDamage = buildDouble(builder, "Scylla's Spear Damage", "all", CMConfig.ScyllaSpearDamage, 0D, 1000000D, "Scylla's Spear Damage");
         ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
         ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
+        ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
+        ScyllaAnchordamage = buildDouble(builder, "Scylla's Anchor Damage", "all", CMConfig.ScyllaAnchordamage, 0, 1000000, "Scylla's Anchor Damage");
+        ScyllaNatureHealing = buildDouble(builder, "Scylla NatureHealing", "all", CMConfig.ScyllaNatureHealing, 0D, 1000000D, "Scylla's Healing with out target");
+
+
         ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
         ScyllaDamageTime = buildInt(builder, "Scylla DamageTime", "all", CMConfig.ScyllaDamageTime, 0, 100, "Scylla's DamageTime");
         ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");
         ScyllaSpinHpDamage = buildDouble(builder, "Scylla's Spin Hp Damage", "all", CMConfig.ScyllaSpinHpDamage, 0, 1000000, "Scylla's Spin HP Damage");
         ScyllaLightningStormHpDamage = buildDouble(builder, "Scylla's Lightning Storm HP Damage", "all", CMConfig.ScyllaLightningStormHpDamage, 0, 1000000, "Scylla's Lightning Storm HP Damage");
-        ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
-
         builder.pop();
 
 

@@ -21,7 +21,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.particle.TerrainParticle;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -29,7 +28,6 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -91,6 +89,8 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
+        registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
+        registry.registerSpriteSet(ModParticle.LIGHTNING_EXPLODE.get(), LightningExplodeParticle.FlareFactory::new);
         registry.registerSpecial(ModParticle.DUST_PILLAR.get(), new Dust_Pillar_Particle.DustPillarProvider());
         registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
     }
@@ -193,7 +193,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
         EntityRenderers.register(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
         EntityRenderers.register(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
-        EntityRenderers.register(ModEntities.SCYLLA_STORM_BRINGER.get(), Scylla_Storm_Bringer_Renderer::new);
+        EntityRenderers.register(ModEntities.SCYLLA_CERAUNUS.get(), Ceraunus_Renderer::new);
         EntityRenderers.register(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
         EntityRenderers.register(ModEntities.SPARK.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.WAVE.get(), Wave_Renderer::new);

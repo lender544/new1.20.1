@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -233,7 +234,7 @@ public class Flame_Strike_Entity extends Entity {
                     if (caster.isAlliedTo(Hitentity)) {
                         return;
                     }
-                    boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
+                    boolean flag = Hitentity.hurt(CMDamageTypes.causeFlameStrikeDamage(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
                     if (flag) {
                         MobEffectInstance effectinstance1 = Hitentity.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
                         int i = 1;

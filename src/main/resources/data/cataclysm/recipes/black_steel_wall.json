@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "   ",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:black_steel_block"
+        }
+    },
+    "result": {
+        "item": "cataclysm:black_steel_wall",
+        "count": 6
+    }
+}

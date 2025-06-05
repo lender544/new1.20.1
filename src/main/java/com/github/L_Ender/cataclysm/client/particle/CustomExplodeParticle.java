@@ -17,7 +17,7 @@ public class CustomExplodeParticle extends TextureSheetParticle {
         this.yd = ySpeed;
         this.zd = zSpeed;
         this.setSize(0.5F, 0.5F);
-        this.quadSize = 1.0F;
+        this.quadSize = 2.0F;
         this.lifetime = 10;
         this.sprites = sprites;
     }

@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.client.particle.Lightning_Zap_Particle;
 
+import com.github.L_Ender.cataclysm.client.particle.Rain_Fog_Particle;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -115,7 +116,11 @@ public class Lightning_Area_Effect_Entity extends Entity {
                 double d2 = this.getY();
                 double d4 = this.getZ() + (double)(Mth.sin(f2) * f3);
 
-                this.level().addAlwaysVisibleParticle(new Lightning_Zap_Particle.ZapData(99 + random.nextInt(50),194 + random.nextInt(50),201 + random.nextInt(50),0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
+                this.level().addAlwaysVisibleParticle(new Lightning_Zap_Particle.ZapData(99,194,201,0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
+            }
+            if (this.tickCount % 10 == 0) {
+                this.level().addAlwaysVisibleParticle(new Rain_Fog_Particle.FogData(f), this.getX(), this.getY() + 0.01, this.getZ(), this.random.nextGaussian() * 0.01D, 0.0D, this.random.nextGaussian() * 0.01D);
+
             }
         } else {
             if (this.tickCount >= this.waitTime + this.duration) {

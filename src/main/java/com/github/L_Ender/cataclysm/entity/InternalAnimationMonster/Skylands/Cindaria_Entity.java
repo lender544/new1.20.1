@@ -7,10 +7,12 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -52,7 +54,6 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
 
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -147,6 +148,20 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
         super.die(p_21014_);
         this.setAttackState(3);
     }
+
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.CINDARIA_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ModSounds.CINDARIA_DEATH.get();
+    }
+
+    public MobType getMobType() {
+        return MobType.WATER;
+
+    }
+
 
     public int deathtimer() {
         return 40;

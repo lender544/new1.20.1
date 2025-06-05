@@ -367,6 +367,11 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
     }
 
     @Override
+    protected boolean isAffectedByFluids() {
+        return false;
+    }
+
+    @Override
     public boolean isPushedByFluid() {
         return false;
     }
@@ -559,11 +564,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (stomp_cooldown > 0) stomp_cooldown--;
         if (!this.level().isClientSide) {
-            if(CMConfig.AncientRemnantBlockBreaking) {
-                ChargeBlockBreaking(0.5D);
-            }else{
-                if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+            if (this.getAttackState() == 0) {
+                if (CMConfig.AncientRemnantBlockBreaking) {
                     ChargeBlockBreaking(0.5D);
+                } else {
+                    if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                        ChargeBlockBreaking(0.5D);
+                    }
                 }
             }
         }
@@ -1378,6 +1385,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
         public void tick() {
             LivingEntity target = entity.getTarget();
+            this.entity.getNavigation().stop();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
                 entity.lookAt(target, 30.0F, 30.0F);
@@ -1461,6 +1469,11 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         @Override
+        public void tick() {
+            this.entity.getNavigation().stop();
+        }
+
+        @Override
         public void stop() {
             this.entity.setAttackState(attackendstate);
         }
@@ -1538,6 +1551,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public void tick() {
+            this.entity.getNavigation().stop();
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
@@ -1654,6 +1668,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public void tick() {
+            this.entity.getNavigation().stop();
             LivingEntity target = entity.getTarget();
             if (entity.attackTicks < attackseetick && target != null) {
                 entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
@@ -1695,6 +1710,11 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 entity.getLookControl().setLookAt(target, 30, 30);
             }
         }
+        @Override
+        public void tick() {
+            super.tick();
+            this.entity.getNavigation().stop();
+        }
 
         @Override
         public void stop() {
@@ -1731,8 +1751,16 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         }
 
         public boolean canContinueToUse() {
-            this.target = this.mob.getTarget();
-            return this.target != null;
+            LivingEntity target = this.mob.getTarget();
+            if (target == null) {
+                return false;
+            } else if (!target.isAlive()) {
+                return false;
+            } else if (!this.mob.isWithinRestriction(target.blockPosition())) {
+                return false;
+            } else {
+                return !(target instanceof Player) || !target.isSpectator() && !((Player) target).isCreative();
+            }
         }
 
         public void start() {
@@ -1756,7 +1784,6 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             this.mob.getNavigation().stop();
             if (this.mob.getTarget() == null) {
                 this.mob.setAggressive(false);
-                this.mob.getNavigation().stop();
             }
         }
 

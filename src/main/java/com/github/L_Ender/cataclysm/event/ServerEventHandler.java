@@ -106,9 +106,6 @@ public class ServerEventHandler {
                 }
 
             }
-        }
-
-        if (event.getSource().getDirectEntity() instanceof LivingEntity living) {
             List<SlotResult> slot = CuriosApi.getCuriosHelper().findCurios(living, stack -> stack.is(ModItems.BLAZING_GRIPS.get()));
             if (!slot.isEmpty()) {
                 if (event.getEntity().getRandom().nextFloat() < 0.15F * slot.size()) {
@@ -117,6 +114,7 @@ public class ServerEventHandler {
                 }
             }
         }
+
 
     }
 

@@ -13,7 +13,7 @@ public class EffectWetness extends MobEffect {
 
     public EffectWetness() {
         super(MobEffectCategory.BENEFICIAL, 0X5a76ce);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "720B6A7D-41DF-4063-BB4B-6900CB132840", -0.08D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "720B6A7D-41DF-4063-BB4B-6900CB132840", -0.05D, AttributeModifier.Operation.MULTIPLY_TOTAL);
     }
 
     public void applyEffectTick(LivingEntity LivingEntityIn, int amplifier) {

@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.Abstract_Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.block.*;
+import com.github.L_Ender.cataclysm.client.model.entity.Ceraunus_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Coral_Bardiche_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Coral_Spear_Model;
 import com.github.L_Ender.cataclysm.client.model.item.*;
@@ -55,6 +56,10 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Gauntlet_of_Guard_Model GAUNTLET_OF_GUARD_MODEL = new Gauntlet_of_Guard_Model();
     private static final Gauntlet_of_Bulwark_Model GAUNTLET_OF_BULWARK_MODEL = new Gauntlet_of_Bulwark_Model();
     private static final Gauntlet_of_Maelstrom_Model GAUNTLET_OF_MAELSTROM_MODEL = new Gauntlet_of_Maelstrom_Model();
+
+    private static final Astrape_Model ASTRAPE_MODEL = new Astrape_Model();
+    private static final Ceraunus_Item_Model CERAUNUS_MODEL = new Ceraunus_Item_Model();
+
     private static final Incinerator_Model THE_INCINERATOR_MODEL = new Incinerator_Model();
     private static final Coral_Spear_Model CORAL_SPEAR_MODEL = new Coral_Spear_Model();
     private static final Coral_Bardiche_Model CORAL_BARDICHE_MODEL = new Coral_Bardiche_Model();
@@ -95,6 +100,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation BULWARK_OF_THE_FLAME_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/bulwark_of_the_flame.png");
     private static final ResourceLocation BLACK_STEEL_TARGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/black_steel_targe.png");
     private static final ResourceLocation AZURE_SEA_SHIELD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/azure_sea_shield.png");
+    private static final ResourceLocation ASTRAPE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/astrape.png");
+
+    private static final ResourceLocation CERAUNUS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/ceraunus.png");
 
     private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom.png");
@@ -103,6 +111,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation GAUNTLET_OF_GUARD_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard_layer.png");
     private static final ResourceLocation GAUNTLET_OF_BULWARK_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark_layer.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom_layer.png");
+
 
     private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_incinerator.png");
     private static final ResourceLocation VOID_FORGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge.png");
@@ -205,6 +214,25 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
+
+        if (itemStackIn.getItem() == ModItems.ASTRAPE.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(ASTRAPE_TEXTURE), false,itemStackIn.hasFoil());
+            ASTRAPE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.getItem() == ModItems.CERAUNUS.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(CERAUNUS_TEXTURE),false, itemStackIn.hasFoil());
+            CERAUNUS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
+        }
+
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_GUARD.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);

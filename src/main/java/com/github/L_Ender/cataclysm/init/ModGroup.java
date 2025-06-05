@@ -28,6 +28,7 @@ public class ModGroup {
                 entries.accept(ModItems.BLACK_STEEL_INGOT.get());
                 entries.accept(ModItems.BLACK_STEEL_NUGGET.get());
                 entries.accept(ModItems.LACRIMA.get());
+                entries.accept(ModItems.ESSENCE_OF_THE_STORM.get());
                 entries.accept(ModItems.IGNITIUM_INGOT.get());
                 entries.accept(ModItems.CURSIUM_INGOT.get());
                 entries.accept(ModItems.IGNITIUM_UPGARDE_SMITHING_TEMPLATE.get());
@@ -72,6 +73,8 @@ public class ModGroup {
                 entries.accept(ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get());
                 entries.accept(ModItems.VOID_ASSULT_SHOULDER_WEAPON.get());
                 entries.accept(ModItems.VOID_FORGE.get());
+                entries.accept(ModItems.ASTRAPE.get());
+                entries.accept(ModItems.CERAUNUS.get());
                 entries.accept(ModItems.TIDAL_CLAWS.get());
                 entries.accept(ModItems.INFERNAL_FORGE.get());
                 entries.accept(ModItems.SANDSTORM_IN_A_BOTTLE.get());

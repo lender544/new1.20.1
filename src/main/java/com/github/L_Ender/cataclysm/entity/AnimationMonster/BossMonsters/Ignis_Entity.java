@@ -2116,6 +2116,16 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         return false;
     }
 
+    @Override
+    protected boolean isAffectedByFluids() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
         return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_, p_29682_);
     }

@@ -10,7 +10,7 @@ public class EffectStun extends MobEffect {
 
     public EffectStun() {
         super(MobEffectCategory.HARMFUL, 0xFF8C00);
-        this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "57F1BADC-F545-4D89-B218-751C2FF8053D", -0.5D, AttributeModifier.Operation.ADDITION);
+        //this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "57F1BADC-F545-4D89-B218-751C2FF8053D", -0.5D, AttributeModifier.Operation.ADDITION);
 
     }
 

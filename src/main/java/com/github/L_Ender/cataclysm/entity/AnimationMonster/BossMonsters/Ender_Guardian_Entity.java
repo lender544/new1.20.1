@@ -1104,10 +1104,14 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
 
     @Override
-    public boolean isPushedByFluid() {
+    protected boolean isAffectedByFluids() {
         return false;
     }
 
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = this.spawnAtLocation(stack,0.0f);

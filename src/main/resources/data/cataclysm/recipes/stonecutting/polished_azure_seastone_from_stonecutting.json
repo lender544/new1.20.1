@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "cataclysm:azure_seastone"
+        }
+    ],
+    "count": 1,
+    "result": "cataclysm:polished_azure_seastone"
+}

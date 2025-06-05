@@ -1,7 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.message.MessageEntityCamera;
@@ -33,26 +35,26 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
+public class Scylla_Ceraunus_Entity extends AbstractArrow {
 
-	private static final EntityDataAccessor<Optional<UUID>> CONTROLLER_UUID = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
-	private static final EntityDataAccessor<Integer> CONTROLLER_ID = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.INT);
-	private static final EntityDataAccessor<Boolean> GRAB = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Float> Y_ROT_OLD = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<Float> X_ROT_OLD = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.FLOAT);
-	private static final EntityDataAccessor<Boolean> HOOK_MODE = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.BOOLEAN);
-	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(Scylla_Storm_Bringer_Entity.class, EntityDataSerializers.INT);
-	public Scylla_Storm_Bringer_Entity(EntityType type, Level worldIn) {
+	private static final EntityDataAccessor<Optional<UUID>> CONTROLLER_UUID = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final EntityDataAccessor<Integer> CONTROLLER_ID = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.INT);
+	private static final EntityDataAccessor<Boolean> GRAB = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Float> Y_ROT_OLD = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Float> X_ROT_OLD = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.FLOAT);
+	private static final EntityDataAccessor<Boolean> HOOK_MODE = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.BOOLEAN);
+	private static final EntityDataAccessor<Integer> PHASE = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.INT);
+	public Scylla_Ceraunus_Entity(EntityType type, Level worldIn) {
 		super(type, worldIn);
 	}
 
-	public Scylla_Storm_Bringer_Entity(EntityType type, double x, double y, double z, Level worldIn) {
+	public Scylla_Ceraunus_Entity(EntityType type, double x, double y, double z, Level worldIn) {
 		this(type, worldIn);
 		this.setPos(x, y, z);
 	}
 
-	public Scylla_Storm_Bringer_Entity(Level worldIn, LivingEntity shooter) {
-		this(ModEntities.SCYLLA_STORM_BRINGER.get(), shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), worldIn);
+	public Scylla_Ceraunus_Entity(Level worldIn, LivingEntity shooter) {
+		this(ModEntities.SCYLLA_CERAUNUS.get(), shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), worldIn);
 		this.setOwner(shooter);
 		if (shooter instanceof Player) {
 			this.pickup = Pickup.ALLOWED;
@@ -184,24 +186,22 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 							this.yOld = this.getY();
 						}else {
 							if (!this.getPassengers().isEmpty()) {
-
-								Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.getPassengers().get(0)), new MessageEntityCamera(this.getPassengers().get(0).getId(), false));
-
 								if (this.getPassengers().get(0).isShiftKeyDown()) {
 									this.getPassengers().get(0).setShiftKeyDown(false);
 								}
 							}
+							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
+								if (entity.equals(controller)) {
+									if (!this.getPassengers().isEmpty()) {
+										Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.getPassengers().get(0)), new MessageEntityCamera(this.getPassengers().get(0).getId(), false));
+									}
+									this.discard();
+								}
+							}
 						}
-
-
 
 						double d0 = 0.2;
 						this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d0)));
-						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
-							if (entity.equals(controller)) {
-								this.discard();
-							}
-						}
 					}
 				}
 
@@ -252,9 +252,24 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 			for (int i1 = 0; i1 < 5 + random.nextInt(2); i1++) {
 				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
-		}
+		}else{
+			Entity entity1 = this.getController();
 
-		int sparkAmount = 0;
+			if(entity1 instanceof LivingEntity living) {
+				if(this.getPhase() > 0) {
+					for (int i = 0; i < this.getPhase(); i++) {
+						Spark_Entity peq = new Spark_Entity(this.level(), living);
+						peq.setDamage((float) CMConfig.ScyllaLightningStormDamage);
+						peq.setAreaDamage((float) CMConfig.ScyllaLightningAreaDamage);
+						peq.setAreaRadius(1.0F);
+						peq.setHpDamage((float) CMConfig.ScyllaLightningStormHpDamage);
+						peq.shoot((this.random.nextFloat() - 0.5) * 0.5F, this.random.nextFloat() * 0.4F + 0.01F, (this.random.nextFloat() - 0.5) * 0.5F, 1.0F, 1F);
+						peq.setPos(this.getX(), this.getY() + 0.03, this.getZ());
+						this.level().addFreshEntity(peq);
+					}
+				}
+			}
+		}
 
 
 
@@ -285,7 +300,7 @@ public class Scylla_Storm_Bringer_Entity extends AbstractArrow {
 	}
 
 	protected float getWaterInertia() {
-		return 1.0F;
+		return 0.95F;
 	}
 
 	protected void doKnockback(LivingEntity entity, DamageSource damageSource) {

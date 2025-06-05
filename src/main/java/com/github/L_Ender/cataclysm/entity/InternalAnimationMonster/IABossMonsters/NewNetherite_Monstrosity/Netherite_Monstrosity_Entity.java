@@ -71,6 +71,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -294,6 +295,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return (float) CMConfig.MonstrosityDamageCap;
     }
 
+    public float NatureRegen() {
+        return (float) CMConfig.MonstrosityNatureHealing;
+    }
+
     public int DamageTime() {
         return CMConfig.MonstrosityDamageTime;
     }
@@ -512,7 +517,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (this.isInLava()) {
             CollisionContext lvt_1_1_ = CollisionContext.of(this);
             if (lvt_1_1_.isAbove(LiquidBlock.STABLE_SHAPE, this.blockPosition().below(), true) && !this.level().getFluidState(this.blockPosition().above()).is(FluidTags.LAVA)) {
-                this.setOnLava(true);
+                this.setOnGround(true);
             }
 
         }
@@ -547,22 +552,18 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.08f, 0, 5);
         }
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
-        BlockBreaking();
+        if (this.getAttackState() == 0) {
+            BlockBreaking();
+        }
         if (this.blockBreakCounter > 0) this.blockBreakCounter--;
         if (shoot_cooldown > 0) shoot_cooldown--;
         if (overpower_cooldown > 0) overpower_cooldown--;
         if (check_cooldown > 0) check_cooldown--;
         if (flare_shoot_cooldown > 0) flare_shoot_cooldown--;
-        if (!isNoAi() && !getIsAwaken()) {
-            if (this.tickCount % 4 == 0) {
-                this.heal((float) CMConfig.MonstrosityNatureHealing);
-            }
-        }
-
-
         setHeadPart();
 
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide){
+            this.oLayerBrightness = this.LayerBrightness;
             ++LayerTicks;
             this.LayerBrightness += (0.0F - this.LayerBrightness) * 0.8F;
         }
@@ -1184,10 +1185,14 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     }
 
     @Override
-    public boolean isPushedByFluid() {
+    protected boolean isAffectedByFluids() {
         return false;
     }
 
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = this.spawnAtLocation(stack,0.0f);
@@ -1480,15 +1485,42 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             super.tick();
 
             if (this.entity.attackTicks > attackshot && this.entity.attackTicks < attackendshot) {
-                if (this.entity.onGround() || this.entity.getOnLava()) {
+                BlockPos currentPos = entity.blockPosition();
+                float yaw = entity.getYRot() * ((float) Math.PI / 180F);
+                float dx = -Mth.sin(yaw) * 2;
+                float dz = Mth.cos(yaw) * 2;
 
-                    Vec3 vector3d = entity.getDeltaMovement();
-                    float f = entity.getYRot() * ((float) Math.PI / 180F);
-                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(0.5D).add(vector3d.scale(0.5D));
-                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                BlockPos targetPos = currentPos.offset((int) dx, 0, (int) dz);
 
+                if (!isDangerousFallZone(entity, targetPos)) {
+                    Vec3 motion = entity.getDeltaMovement();
+                    Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
+                    entity.setDeltaMovement(push.x, motion.y, push.z);
                 }
             }
+        }
+
+        private boolean isDangerousFallZone(PathfinderMob mob, BlockPos pos) {
+            PathNavigation navigation = mob.getNavigation();
+            NodeEvaluator evaluator = navigation.getNodeEvaluator();
+
+            if (evaluator == null) return false;
+
+            BlockPathTypes type = evaluator.getBlockPathType(mob.level(), Mth.floor(pos.getX()),Mth.floor(pos.getY()),Mth.floor(pos.getZ()),mob);
+
+            int safeDrop = 2;
+            BlockPos.MutableBlockPos checkPos = pos.mutable();
+
+            for (int i = 1; i <= safeDrop; i++) {
+                checkPos.move(Direction.DOWN);
+                if (!mob.level().getBlockState(checkPos).isAir()) {
+                    return false;
+                }
+            }
+
+            return type == BlockPathTypes.DAMAGE_OTHER
+                    || type == BlockPathTypes.OPEN
+                    || type == BlockPathTypes.DANGER_OTHER;
         }
 
         @Override

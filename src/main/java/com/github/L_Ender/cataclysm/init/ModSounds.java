@@ -434,6 +434,30 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MALEDICTUS_DEATH = SOUNDS.register("maledictus_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_death")));
 
+    public static final RegistryObject<SoundEvent> CINDARIA_HURT = SOUNDS.register("cindaria_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"cindaria_hurt")));
+
+    public static final RegistryObject<SoundEvent> CINDARIA_DEATH = SOUNDS.register("cindaria_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"cindaria_death")));
+
+    public static final RegistryObject<SoundEvent> HIPPOCAMTUS_HURT = SOUNDS.register("hippocamtus_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"hippocamtus_hurt")));
+
+    public static final RegistryObject<SoundEvent> HIPPOCAMTUS_DEATH = SOUNDS.register("hippocamtus_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"hippocamtus_death")));
+
+    public static final RegistryObject<SoundEvent> HIPPOCAMTUS_IDLE = SOUNDS.register("hippocamtus_idle",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"hippocamtus_idle")));
+
+    public static final RegistryObject<SoundEvent> SCYLLA_HURT = SOUNDS.register("scylla_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_hurt")));
+
+    public static final RegistryObject<SoundEvent> SCYLLA_DEATH = SOUNDS.register("scylla_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_death")));
+
+    public static final RegistryObject<SoundEvent> SCYLLA_ROAR = SOUNDS.register("scylla_roar",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_roar")));
+
     public static final RegistryObject<SoundEvent> MALEDICTUS_MUSIC = SOUNDS.register("maledictus_music",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_music")));
 

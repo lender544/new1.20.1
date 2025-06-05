@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:stone"
+    },
+    "E": {
+      "item": "cataclysm:lacrima"
+    }
+  },
+  "pattern": [
+    "###",
+    "#E#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "item": "cataclysm:azure_seastone"
+  }
+}

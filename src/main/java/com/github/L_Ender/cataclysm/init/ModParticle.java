@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.init;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -71,6 +72,13 @@ public class ModParticle {
         @Override
         public Codec<Custom_Poof_Particle.PoofData> codec() {
             return Custom_Poof_Particle.PoofData.CODEC(CUSTOM_POOF.get());
+        }
+    });
+
+    public static final RegistryObject<ParticleType<Rain_Fog_Particle.FogData>> RAIN_FOG = PARTICLE.register("rain_fog", () -> new ParticleType<>(false, Rain_Fog_Particle.FogData.DESERIALIZER) {
+        @Override
+        public Codec<Rain_Fog_Particle.FogData> codec() {
+            return Rain_Fog_Particle.FogData.CODEC(RAIN_FOG.get());
         }
     });
 
@@ -158,6 +166,6 @@ public class ModParticle {
 
     public static final RegistryObject<SimpleParticleType> FLARE_EXPLODE = PARTICLE.register("flare_explode", () -> new SimpleParticleType(false));
 
-
+    public static final RegistryObject<SimpleParticleType> LIGHTNING_EXPLODE = PARTICLE.register("lightning_explode", () -> new SimpleParticleType(false));
 
 }

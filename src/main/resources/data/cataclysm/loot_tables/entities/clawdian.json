@@ -1,0 +1,36 @@
+{
+  "pools": [
+    {
+      "name": "claw",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:chitin_claw"
+
+        }
+      ]
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 6.0,
+                "min": 4.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "cataclysm:lacrima"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

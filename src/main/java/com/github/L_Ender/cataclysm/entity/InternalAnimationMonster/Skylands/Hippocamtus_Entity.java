@@ -15,14 +15,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AnimationState;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -71,7 +70,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
 
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
@@ -306,7 +305,22 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         return 60;
     }
 
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.HIPPOCAMTUS_HURT.get();
+    }
 
+    protected SoundEvent getDeathSound() {
+        return ModSounds.HIPPOCAMTUS_DEATH.get();
+    }
+
+    public MobType getMobType() {
+        return MobType.WATER;
+
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ModSounds.HIPPOCAMTUS_IDLE.get();
+    }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);

@@ -9,7 +9,8 @@ public class CMConfig {
     public static double LavaVisionOpacity = 0.5F;
     public static boolean shadersCompat = false;
     public static boolean custombossbar = true;
-
+    public static boolean setThirdPerson = true;
+    public static boolean setFirstPerson = true;
 
     public static int GauntletOfBulwarkCooldown = 80;
     public static int BulwarkOfTheFlameCooldown = 80;
@@ -25,6 +26,13 @@ public class CMConfig {
     public static int SandstormInABottleCOOLDOWN = 300;
     public static int GauntletOfMaelstromCooldown = 180;
     public static int ImmolatorCooldown = 300;
+    public static int CeraunusCooldown = 150;
+    public static double CeraunusLightningStormDamage = 6;
+    public static double CeraunusWaveDamage = 6;
+    public static int AstrapeCooldown = 80;
+    public static double AstrapeDamage = 11;
+    public static double AstrapeAreaDamage = 2;
+
 
     public static int Cursed_tombstone_summon_cooldown = 1;
 
@@ -164,10 +172,12 @@ public class CMConfig {
 
     public static double ScyllaHealthMultiplier = 1D;
     public static double ScyllaDamageMultiplier = 1D;
+    public static double ScyllaNatureHealing = 25D;
     public static double ScyllaSpearDamage = 14;
     public static double ScyllaLightningStormDamage = 10;
     public static double ScyllaLightningAreaDamage = 4;
     public static double ScyllaSnakeDamage = 16;
+    public static double ScyllaAnchordamage = 16;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
@@ -268,7 +278,13 @@ public class CMConfig {
             SoulRenderCooldown = ConfigHolder.COMMON.SoulRenderCooldown.get();
             GauntletOfMaelstromCooldown = ConfigHolder.COMMON.GauntletOfMaelstromCooldown.get();
             ImmolatorCooldown = ConfigHolder.COMMON.ImmolatorCooldown.get();
+            CeraunusCooldown = ConfigHolder.COMMON.CeraunusCooldown.get();
+            CeraunusLightningStormDamage = ConfigHolder.COMMON.CeraunusLightningStormDamage.get();
+            CeraunusWaveDamage = ConfigHolder.COMMON.CeraunusWaveDamage.get();
 
+            AstrapeCooldown = ConfigHolder.COMMON.AstrapeCooldown.get();
+            AstrapeDamage = ConfigHolder.COMMON.AstrapeDamage.get();
+            AstrapeAreaDamage = ConfigHolder.COMMON.AstrapeAreaDamage.get();
 
             Cursed_tombstone_summon_cooldown = ConfigHolder.COMMON.Cursed_tombstone_summon_cooldown.get();
 
@@ -404,7 +420,7 @@ public class CMConfig {
             ScyllaHpDamage = ConfigHolder.COMMON.ScyllaHpDamage.get();
             ScyllaSpinHpDamage = ConfigHolder.COMMON.ScyllaSpinHpDamage.get();
             ScyllaLightningStormHpDamage = ConfigHolder.COMMON.ScyllaLightningStormHpDamage.get();
-            ScyllaSnakeDamage = ConfigHolder.COMMON.ScyllaSnakeDamage.get();
+
 
             LeviathanHealthMultiplier = ConfigHolder.COMMON.LeviathanHealthMultiplier.get();
             LeviathanDamageMultiplier = ConfigHolder.COMMON.LeviathanDamageMultiplier.get();
@@ -450,10 +466,12 @@ public class CMConfig {
 
             ScyllaHealthMultiplier = ConfigHolder.COMMON.ScyllaHealthMultiplier.get();
             ScyllaDamageMultiplier = ConfigHolder.COMMON.ScyllaDamageMultiplier.get();
+            ScyllaNatureHealing = ConfigHolder.COMMON.ScyllaNatureHealing.get();
             ScyllaSpearDamage = ConfigHolder.COMMON.ScyllaSpearDamage.get();
             ScyllaLightningStormDamage = ConfigHolder.COMMON.ScyllaLightningStormDamage.get();
             ScyllaLightningAreaDamage = ConfigHolder.COMMON.ScyllaLightningAreaDamage.get();
-
+            ScyllaSnakeDamage = ConfigHolder.COMMON.ScyllaSnakeDamage.get();
+            ScyllaAnchordamage = ConfigHolder.COMMON.ScyllaAnchordamage.get();
 
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 

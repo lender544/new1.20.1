@@ -166,7 +166,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition cube_r3 = chest.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(78, 39).addBox(-4.0F, -2.0995F, -2.9822F, 8.0F, 5.0F, 7.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, -2.7005F, -2.1178F, -0.3054F, 0.0F, 0.0F));
 
-		PartDefinition cube_r4 = chest.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(46, 85).addBox(-4.0F, -2.0995F, -2.9822F, 8.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0482F, -0.2347F, 0.1309F, 0.0F, 0.0F));
+		PartDefinition cube_r4 = chest.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(46, 85).addBox(-4.0F, -2.0995F, -2.9822F, 8.0F, 2.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 2.0481F, -0.2347F, 0.1309F, 0.0F, 0.0F));
 
 		PartDefinition cube_r5 = chest.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(90, 107).addBox(-4.0F, -2.5F, -2.0F, 8.0F, 5.0F, 4.0F, new CubeDeformation(0.001F)), PartPose.offsetAndRotation(0.0F, -2.6071F, -3.0929F, -0.3054F, 0.0F, 0.0F));
 
@@ -227,9 +227,9 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		PartDefinition l_arm2 = l_arm.addOrReplaceChild("l_arm2", CubeListBuilder.create().texOffs(66, 131).addBox(-0.2389F, -0.9829F, -2.0F, 2.0F, 8.0F, 4.0F, new CubeDeformation(0.3F))
 				.texOffs(51, 123).addBox(-1.5F, 0.0F, -2.0F, 3.0F, 9.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 5.0F, 0.0F, -1.6849F, -0.1083F, 0.2301F));
 
-		PartDefinition anchor = l_arm2.addOrReplaceChild("anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.5F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+		PartDefinition anchor = l_arm2.addOrReplaceChild("anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(-0.01F)), PartPose.offsetAndRotation(-1.5F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
 
-		PartDefinition cube_r17 = anchor.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r17 = anchor.addOrReplaceChild("cube_r17", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
 
 		PartDefinition cube_r18 = anchor.addOrReplaceChild("cube_r18", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 10.0F, -2.3562F, 0.0F, 0.0F));
 
@@ -275,11 +275,11 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition chain = chain_2.addOrReplaceChild("chain", CubeListBuilder.create().texOffs(134, 13).addBox(-3.0F, 0.0F, -8.0F, 6.0F, 0.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -7.0F));
 
-		PartDefinition chain_anchor = chain.addOrReplaceChild("chain_anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -43.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, -7.0F));
+		PartDefinition chain_anchor = chain.addOrReplaceChild("chain_anchor", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -43.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(-0.01F)), PartPose.offset(0.0F, 0.0F, -7.0F));
 
 		PartDefinition cube_r33 = chain_anchor.addOrReplaceChild("cube_r33", CubeListBuilder.create().texOffs(0, 102).addBox(-3.0F, -3.0F, -3.0F, 6.0F, 6.0F, 6.0F, new CubeDeformation(0.1F)), PartPose.offsetAndRotation(0.0F, 0.0F, -46.3F, -2.3562F, 0.0F, 0.0F));
 
-		PartDefinition cube_r34 = chain_anchor.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, -13.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r34 = chain_anchor.addOrReplaceChild("cube_r34", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -13.0F, -2.3562F, 0.0F, 0.0F));
 
 		PartDefinition cube_r35 = chain_anchor.addOrReplaceChild("cube_r35", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, -10.0F, -2.3562F, 0.0F, 0.0F));
 
@@ -358,9 +358,9 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		PartDefinition cube_r56 = l_leg2.addOrReplaceChild("cube_r56", CubeListBuilder.create().texOffs(78, 62).addBox(-1.5F, -1.5F, -0.5F, 3.0F, 3.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, -2.5F, 0.0F, 0.0F, -0.7854F));
 
-		PartDefinition anchor2 = partdefinition.addOrReplaceChild("anchor2", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(4.0F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
+		PartDefinition anchor2 = partdefinition.addOrReplaceChild("anchor2", CubeListBuilder.create().texOffs(0, 0).addBox(-2.0F, -3.0F, -23.0F, 4.0F, 6.0F, 32.0F, new CubeDeformation(-0.01F)), PartPose.offsetAndRotation(4.0F, 8.0F, 0.0F, -0.4363F, 0.0F, 0.0F));
 
-		PartDefinition cube_r57 = anchor2.addOrReplaceChild("cube_r57", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
+		PartDefinition cube_r57 = anchor2.addOrReplaceChild("cube_r57", CubeListBuilder.create().texOffs(0, 85).addBox(-2.0F, -4.0F, -4.0F, 4.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 7.0F, -2.3562F, 0.0F, 0.0F));
 
 		PartDefinition cube_r58 = anchor2.addOrReplaceChild("cube_r58", CubeListBuilder.create().texOffs(49, 39).addBox(1.0F, -10.0F, -10.0F, 0.0F, 14.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-1.0F, 0.0F, 10.0F, -2.3562F, 0.0F, 0.0F));
 
@@ -395,6 +395,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		PartDefinition cube_r72 = anchor2.addOrReplaceChild("cube_r72", CubeListBuilder.create().texOffs(23, 53).addBox(-1.0F, -2.0F, -5.0F, 2.0F, 4.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 19.5093F, -14.7353F, 3.0107F, 0.0F, 3.1416F));
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
+
 	}
 
 
@@ -403,7 +404,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
 		if(entity.getAttackState() !=7) {
-			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 4.0F);
+			this.animateWalk(Scylla_Normal_Animation.WALK, limbSwing, limbSwingAmount, 1.5F, 4.0F);
 		}
 		this.l_eye.visible = entity.getEye();
 		this.r_eye.visible = entity.getEye();
@@ -446,6 +447,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		this.animate(entity.getAnimationState("spawn_idle"), Scylla_Lightning_Animation.SPAWN_IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("summon_snake"), Scylla_Lightning_Animation.SUMMON_SNAKE, ageInTicks, 1.0F);
+
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {

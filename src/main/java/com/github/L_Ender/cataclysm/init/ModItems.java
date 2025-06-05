@@ -378,6 +378,9 @@ public class ModItems {
     public static final RegistryObject<Item> LACRIMA = ITEMS.register("lacrima",
             () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
+    public static final RegistryObject<Item> ESSENCE_OF_THE_STORM = ITEMS.register("essence_of_the_storm",
+            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
     public static final RegistryObject<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
@@ -472,6 +475,13 @@ public class ModItems {
 
     public static final RegistryObject<Item> THE_ANNIHILATOR = ITEMS.register("the_annihilator",
             () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
+
+    public static final RegistryObject<Item> ASTRAPE = ITEMS.register("astrape",
+            () -> new Astrape(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
+    public static final RegistryObject<Item> CERAUNUS = ITEMS.register("ceraunus",
+            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+
 
     public static final RegistryObject<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
             () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));

@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "cataclysm:item/essence_of_the_storm"
+	}
+}

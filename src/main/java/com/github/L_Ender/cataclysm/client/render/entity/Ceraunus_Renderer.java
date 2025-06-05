@@ -2,8 +2,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.Storm_Bringer_Model;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Storm_Bringer_Entity;
+import com.github.L_Ender.cataclysm.client.model.entity.Ceraunus_Model;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -15,22 +15,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 
-public class Scylla_Storm_Bringer_Renderer extends EntityRenderer<Scylla_Storm_Bringer_Entity> {
+public class Ceraunus_Renderer extends EntityRenderer<Scylla_Ceraunus_Entity> {
 
-	private final Storm_Bringer_Model model;
-
-
-
-	private static final ResourceLocation TEXTURE = new ResourceLocation( Cataclysm.MODID,"textures/entity/scylla/storm_bringer.png");
+	private final Ceraunus_Model model;
 
 
-	public Scylla_Storm_Bringer_Renderer(EntityRendererProvider.Context renderManagerIn) {
+
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/scylla/ceraunus.png");
+
+
+	public Ceraunus_Renderer(EntityRendererProvider.Context renderManagerIn) {
 		super(renderManagerIn);
-		this.model = new Storm_Bringer_Model(renderManagerIn.bakeLayer(CMModelLayers.STORM_BRINGER_MODEL));
+		this.model = new Ceraunus_Model(renderManagerIn.bakeLayer(CMModelLayers.CERAUNUS_MODEL));
 	}
 
 	@Override
-	public void render(Scylla_Storm_Bringer_Entity entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource provider, int light) {
+	public void render(Scylla_Ceraunus_Entity entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource provider, int light) {
 		matrices.pushPose();
 		matrices.mulPose(Axis.YP.rotationDegrees(Mth.lerp(tickDelta, entity.yRotO, entity.getYRot()) - 90.0F));
 		matrices.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(tickDelta, entity.xRotO, entity.getXRot()) + 90.0F));
@@ -43,7 +43,7 @@ public class Scylla_Storm_Bringer_Renderer extends EntityRenderer<Scylla_Storm_B
 
 
 	@Override
-	public ResourceLocation getTextureLocation(Scylla_Storm_Bringer_Entity entity) {
+	public ResourceLocation getTextureLocation(Scylla_Ceraunus_Entity entity) {
 		return TEXTURE;
 	}
 }

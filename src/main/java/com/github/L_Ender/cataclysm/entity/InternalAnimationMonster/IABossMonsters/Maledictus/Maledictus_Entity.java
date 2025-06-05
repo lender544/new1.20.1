@@ -1866,6 +1866,16 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         return ModSounds.MALEDICTUS_MUSIC.get();
     }
 
+    @Override
+    protected boolean isAffectedByFluids() {
+        return false;
+    }
+
+    @Override
+    public boolean isPushedByFluid() {
+        return false;
+    }
+
     public void startSeenByPlayer(ServerPlayer player) {
         super.startSeenByPlayer(player);
         this.bossEvent1.addPlayer(player);
