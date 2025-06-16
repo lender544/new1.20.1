@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands;
 
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.projectile.Urchin_Spike_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -17,9 +18,11 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +34,8 @@ import java.util.EnumSet;
 
 
 public class Urchinkin_Entity extends Monster {
+    private boolean isLandNavigator;
+    boolean searchingForLand;
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState rollAnimationState = new AnimationState();
     public AnimationState attackAnimationState = new AnimationState();
@@ -43,7 +48,8 @@ public class Urchinkin_Entity extends Monster {
     
     public Urchinkin_Entity(EntityType entity, Level world) {
         super(entity, world);
-        this.xpReward = 5;
+        this.xpReward = 4;
+        switchNavigator(true);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
     }
 
@@ -66,6 +72,39 @@ public class Urchinkin_Entity extends Monster {
                 .add(Attributes.MAX_HEALTH, 12);
     }
 
+    public void switchNavigator(boolean onLand) {
+        if (onLand) {
+            this.navigation = new GroundPathNavigation(this, level());
+            this.moveControl = new MoveControl(this);
+            this.isLandNavigator = true;
+        } else {
+            this.navigation = new SemiAquaticPathNavigator(this, level());
+            this.moveControl = new UrchinkinSwimControl(this, 2.0f);
+            this.isLandNavigator = false;
+        }
+    }
+
+
+
+    boolean wantsToSwim() {
+        if (this.searchingForLand) {
+            return true;
+        } else {
+            LivingEntity livingentity = this.getTarget();
+            return livingentity != null && livingentity.isInWater();
+        }
+    }
+
+    public void travel(Vec3 p_32394_) {
+        if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            this.moveRelative(0.01F, p_32394_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+        } else {
+            super.travel(p_32394_);
+        }
+
+    }
 
     public AnimationState getAnimationState(String input) {
         if (input == "roll") {
@@ -146,11 +185,22 @@ public class Urchinkin_Entity extends Monster {
             super.handleEntityEvent(id);
         }
     }
-    
+
+    @Override
+    public float getVoicePitch() {
+        return (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 2.0F;
+    }
+
     public void tick() {
         super.tick();
         if (this.getAttackState() > 0) {
             ++this.attackTicks;
+        }
+        if (isInWater() && this.isLandNavigator) {
+            switchNavigator(false);
+        }
+        if (!isInWater() && !this.isLandNavigator) {
+            switchNavigator(true);
         }
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(true, this.tickCount);
@@ -299,7 +349,50 @@ public class Urchinkin_Entity extends Monster {
             return true;
         }
     }
+    static class UrchinkinSwimControl extends MoveControl {
+        private final Urchinkin_Entity drowned;
+        private final float speedMulti;
 
+        public UrchinkinSwimControl(Urchinkin_Entity p_32433_, float speedMulti) {
+            super(p_32433_);
+            this.drowned = p_32433_;
+            this.speedMulti = speedMulti;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.drowned.getTarget();
+            if (this.drowned.wantsToSwim() && this.drowned.isInWater()) {
+                if (livingentity != null && livingentity.getY() > this.drowned.getY() || this.drowned.searchingForLand) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
+                }
+
+                if (this.operation != Operation.MOVE_TO || this.drowned.getNavigation().isDone()) {
+                    this.drowned.setSpeed(0.0F);
+                    return;
+                }
+
+                double d0 = this.wantedX - this.drowned.getX();
+                double d1 = this.wantedY - this.drowned.getY();
+                double d2 = this.wantedZ - this.drowned.getZ();
+                double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 /= d3;
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                this.drowned.setYRot(this.rotlerp(this.drowned.getYRot(), f, 90.0F));
+                this.drowned.yBodyRot = this.drowned.getYRot();
+                float f1 = (float)(this.speedModifier * speedMulti * this.drowned.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                float f2 = Mth.lerp(0.125F, this.drowned.getSpeed(), f1);
+                this.drowned.setSpeed(f2);
+                this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add((double)f2 * d0 * 0.005D, (double)f2 * d1 * 0.1D, (double)f2 * d2 * 0.005D));
+            } else {
+                if (!this.drowned.onGround()) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
+                }
+
+                super.tick();
+            }
+
+        }
+    }
 }
 
 

@@ -69,12 +69,12 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
     protected void addBehaviourGoals() {
         this.goalSelector.addGoal(1, new Drowned_Host_Entity.DrownedGoToWaterGoal(this, 1.0D));
         this.goalSelector.addGoal(2, new Drowned_Host_Entity.DrownedTridentAttackGoal(this, 1.0D, 40, 10.0F));
-        this.goalSelector.addGoal(2, new Drowned_Host_Entity.DrownedAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(2, new ZombieAttackGoal(this, 1.0, false));
         this.goalSelector.addGoal(5, new Drowned_Host_Entity.DrownedGoToBeachGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new Drowned_Host_Entity.DrownedSwimUpGoal(this, 1.0D, this.level().getSeaLevel()));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Drowned_Host_Entity.class)).setAlertOthers(ZombifiedPiglin.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::okTarget));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Axolotl.class, true, false));
@@ -83,7 +83,7 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
 
     @Override
     protected void updateControlFlags() {
-        boolean flag = (this.getControllingPassenger() instanceof Symbiocto_Entity);
+        boolean flag = !(this.getControllingPassenger() instanceof Mob) || (this.getControllingPassenger() instanceof Symbiocto_Entity);
         boolean flag1 = !(this.getVehicle() instanceof Boat);
         this.goalSelector.setControlFlag(Goal.Flag.MOVE, flag);
         this.goalSelector.setControlFlag(Goal.Flag.JUMP, flag && flag1);
@@ -215,17 +215,15 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
         return false;
     }
 
+    @Override
+    protected boolean isSunSensitive() {
+        return !(this.isVehicle() && this.getPassengers().get(0) instanceof Symbiocto_Entity);
+    }
+
     public boolean checkSpawnObstruction(LevelReader p_32370_) {
         return p_32370_.isUnobstructed(this);
     }
 
-    public boolean okTarget(@Nullable LivingEntity p_32396_) {
-        if (p_32396_ != null) {
-            return !this.level().isDay() || p_32396_.isInWater();
-        } else {
-            return false;
-        }
-    }
 
     public boolean isPushedByFluid() {
         return !this.isSwimming();
@@ -298,22 +296,7 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
         this.searchingForLand = p_32399_;
     }
 
-    static class DrownedAttackGoal extends ZombieAttackGoal {
-        private final Drowned_Host_Entity drowned;
 
-        public DrownedAttackGoal(Drowned_Host_Entity p_32402_, double p_32403_, boolean p_32404_) {
-            super(p_32402_, p_32403_, p_32404_);
-            this.drowned = p_32402_;
-        }
-
-        public boolean canUse() {
-            return super.canUse() && this.drowned.okTarget(this.drowned.getTarget());
-        }
-
-        public boolean canContinueToUse() {
-            return super.canContinueToUse() && this.drowned.okTarget(this.drowned.getTarget());
-        }
-    }
 
     static class DrownedGoToBeachGoal extends MoveToBlockGoal {
         private final Drowned_Host_Entity drowned;

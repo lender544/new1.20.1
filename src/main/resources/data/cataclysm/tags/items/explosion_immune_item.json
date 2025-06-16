@@ -35,6 +35,9 @@
     "cataclysm:music_disc_ignis",
     "cataclysm:music_disc_the_harbinger",
     "cataclysm:music_disc_maledictus",
+    "cataclysm:music_disc_ancient_remnant",
+    "cataclysm:music_disc_scylla",
+    "cataclysm:music_disc_the_leviathan",
     "cataclysm:mechanical_fusion_anvil",
     "cataclysm:abyssal_egg",
     "cataclysm:tidal_claws",
@@ -46,7 +49,10 @@
     "cataclysm:soul_render",
     "cataclysm:the_annihilator",
     "cataclysm:cursed_bow",
+    "cataclysm:astrape",
+    "cataclysm:ceraunus",
     "cataclysm:lava_power_cell",
-    "cataclysm:netherite_ministrosity_bucket"
+    "cataclysm:netherite_ministrosity_bucket",
+    "cataclysm:strange_key"
   ]
 }

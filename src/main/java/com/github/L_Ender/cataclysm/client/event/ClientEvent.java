@@ -119,17 +119,7 @@ public class ClientEvent {
         }
     }
 
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onFogDensity(ViewportEvent.RenderFog event) {
-        FogType fogType = event.getCamera().getFluidInCamera();
-        ItemStack itemstack = Minecraft.getInstance().player.getInventory().getArmor(3);
-        if (itemstack.is(ModItems.IGNITIUM_HELMET.get()) && fogType == FogType.LAVA) {
-            RenderSystem.setShaderFogStart(-8.0F);
-            RenderSystem.setShaderFogEnd(50.0F);
-        }
 
-    }
 
     @SubscribeEvent
     public void MovementInput(MovementInputUpdateEvent event) {
@@ -255,40 +245,6 @@ public class ClientEvent {
             for (int i = 0; i < length; i++) {
                 Minecraft.getInstance().levelRenderer.viewArea.chunks[i].dirty = true;
             }
-        }
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onRenderWorldLastEvent(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
-            if (!CMConfig.shadersCompat) {
-                ItemStack itemstack = Minecraft.getInstance().player.getInventory().getArmor(3);
-                if (itemstack.is(ModItems.IGNITIUM_HELMET.get())) {
-                    if (!previousLavaVision) {
-                        previousFluidRenderer = Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer;
-                        Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer = new LavaVisionFluidRenderer();
-                        updateAllChunks();
-                    }
-                } else {
-                    if (previousLavaVision) {
-                        if (previousFluidRenderer != null) {
-                            Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer = previousFluidRenderer;
-                        }
-                        updateAllChunks();
-                    }
-                }
-                previousLavaVision = itemstack.is(ModItems.IGNITIUM_HELMET.get());
-            }
-        }
-    }
-
-    @SubscribeEvent
-    @OnlyIn(Dist.CLIENT)
-    public void onGetFluidRenderType(EventGetFluidRenderType event) {
-        if (Minecraft.getInstance().player.getInventory().getArmor(3).is(ModItems.IGNITIUM_HELMET.get()) && (event.getFluidState().is(Fluids.LAVA) || event.getFluidState().is(Fluids.FLOWING_LAVA))) {
-            event.setRenderType(RenderType.translucent());
-            event.setResult(Event.Result.ALLOW);
         }
     }
 

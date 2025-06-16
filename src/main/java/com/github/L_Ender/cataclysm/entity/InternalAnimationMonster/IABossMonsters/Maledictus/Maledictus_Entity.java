@@ -836,6 +836,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         compound.putInt("TombstonePosX", this.getTombstonePos().getX());
         compound.putInt("TombstonePosY", this.getTombstonePos().getY());
         compound.putInt("TombstonePosZ", this.getTombstonePos().getZ());
+        compound.putInt("RageMeter", this.getRageMeter());
         compound.putByte("Tombstone_Direction", (byte)this.getTombstoneDirection().get3DDataValue());
     }
 
@@ -846,6 +847,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         int k = compound.getInt("TombstonePosZ");
         this.setTombstoneDirection(Direction.from3DDataValue(compound.getByte("Tombstone_Direction")));
         this.setTombstonePos(new BlockPos(i, j, k));
+        this.setRageMeter(compound.getInt("RageMeter"));
     }
 
     @Nullable

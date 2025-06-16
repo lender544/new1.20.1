@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalS
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
@@ -40,7 +42,8 @@ import java.util.List;
 
 
 public class Hippocamtus_Entity extends Internal_Animation_Monster {
-
+    private boolean isLandNavigator;
+    boolean searchingForLand;
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState swing1AnimationState = new AnimationState();
     public AnimationState swing2AnimationState = new AnimationState();
@@ -63,6 +66,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     public Hippocamtus_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 35;
+        switchNavigator(true);
         this.setMaxUpStep(1.75F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
@@ -162,6 +166,39 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     }
 
 
+    public void switchNavigator(boolean onLand) {
+        if (onLand) {
+            this.navigation = new CMPathNavigateGround(this, level());
+            this.moveControl = new MoveControl(this);
+            this.isLandNavigator = true;
+        } else {
+            this.navigation = new SemiAquaticPathNavigator(this, level());
+            this.moveControl = new HippocamtusSwimControl(this, 2.0f);
+            this.isLandNavigator = false;
+        }
+    }
+
+
+
+    boolean wantsToSwim() {
+        if (this.searchingForLand) {
+            return true;
+        } else {
+            LivingEntity livingentity = this.getTarget();
+            return livingentity != null && livingentity.isInWater();
+        }
+    }
+
+    public void travel(Vec3 p_32394_) {
+        if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            this.moveRelative(0.01F, p_32394_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+        } else {
+            super.travel(p_32394_);
+        }
+
+    }
 
 
 
@@ -335,7 +372,12 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(this.getAttackState() != 7 , this.tickCount);
         }
-
+        if (isInWater() && this.isLandNavigator) {
+            switchNavigator(false);
+        }
+        if (!isInWater() && !this.isLandNavigator) {
+            switchNavigator(true);
+        }
         if (charge_cooldown > 0) charge_cooldown--;
         if (guard_cooldown > 0) guard_cooldown--;
     }
@@ -557,6 +599,50 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                     entity.push(f1 * 2.0, 0, f2 * 2.0);
                 }
             }
+        }
+    }
+    static class HippocamtusSwimControl extends MoveControl {
+        private final Hippocamtus_Entity drowned;
+        private final float speedMulti;
+
+        public HippocamtusSwimControl(Hippocamtus_Entity p_32433_, float speedMulti) {
+            super(p_32433_);
+            this.drowned = p_32433_;
+            this.speedMulti = speedMulti;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.drowned.getTarget();
+            if (this.drowned.wantsToSwim() && this.drowned.isInWater()) {
+                if (livingentity != null && livingentity.getY() > this.drowned.getY() || this.drowned.searchingForLand) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
+                }
+
+                if (this.operation != Operation.MOVE_TO || this.drowned.getNavigation().isDone()) {
+                    this.drowned.setSpeed(0.0F);
+                    return;
+                }
+
+                double d0 = this.wantedX - this.drowned.getX();
+                double d1 = this.wantedY - this.drowned.getY();
+                double d2 = this.wantedZ - this.drowned.getZ();
+                double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 /= d3;
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                this.drowned.setYRot(this.rotlerp(this.drowned.getYRot(), f, 90.0F));
+                this.drowned.yBodyRot = this.drowned.getYRot();
+                float f1 = (float)(this.speedModifier * speedMulti * this.drowned.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                float f2 = Mth.lerp(0.125F, this.drowned.getSpeed(), f1);
+                this.drowned.setSpeed(f2);
+                this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add((double)f2 * d0 * 0.005D, (double)f2 * d1 * 0.1D, (double)f2 * d2 * 0.005D));
+            } else {
+                if (!this.drowned.onGround()) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
+                }
+
+                super.tick();
+            }
+
         }
     }
 }

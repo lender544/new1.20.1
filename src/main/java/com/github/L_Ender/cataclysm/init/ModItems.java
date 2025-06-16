@@ -456,7 +456,7 @@ public class ModItems {
                 map.put(ForgeMod.ENTITY_REACH.get(),
                         new AttributeModifier("entity_reach", 0.5, AttributeModifier.Operation.ADDITION));
                 map.put(ForgeMod.BLOCK_REACH.get(),
-                        new AttributeModifier("blcok_reach", 0.75, AttributeModifier.Operation.ADDITION));
+                        new AttributeModifier("block_reach", 0.75, AttributeModifier.Operation.ADDITION));
                 return new AttributeCurio(
                         new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(),
                         map
@@ -560,6 +560,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> NECKLACE_OF_THE_DESERT = ITEMS.register("necklace_of_the_desert",
             () -> new Necklace_Of_The_Desert(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
+
+    public static final RegistryObject<Item> STRANGE_KEY = ITEMS.register("strange_key",
+            () -> new Strange_Key(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
 
     public static final RegistryObject<Item> APTRGANGR_HEAD = ITEMS.register("aptrgangr_head",
             () -> new CataclysmSkullItem(ModBlocks.APTRGANGR_HEAD.get(), ModBlocks.APTRGANGR_WALL_HEAD.get(), (new Item.Properties()).rarity(Rarity.UNCOMMON)));
@@ -667,6 +670,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> CURSED_EYE = ITEMS.register("cursed_eye",
             () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_CURSE_LOCATED,26,107,89));
+
+    public static final RegistryObject<Item> STORM_EYE = ITEMS.register("storm_eye",
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_STORM_LOCATED,99, 194, 224));
 
     public static final RegistryObject<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F)

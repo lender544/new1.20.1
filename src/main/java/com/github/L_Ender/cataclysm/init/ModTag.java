@@ -107,6 +107,8 @@ public class ModTag {
 
     public static final TagKey<Structure> EYE_OF_DESERT_LOCATED = registerStructureTag("eye_of_desert_located");
 
+    public static final TagKey<Structure> EYE_OF_STORM_LOCATED = registerStructureTag("eye_of_storm_located");
+
     public static final TagKey<Structure> BLOCKED_BASALT = registerStructureTag("blocked_basalt");
 
     public static final TagKey<Structure> BLOCKED_LAKE = registerStructureTag("blocked_lake");

@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.message.MessageEntityCamera;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -190,7 +191,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 									this.getPassengers().get(0).setShiftKeyDown(false);
 								}
 							}
-							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
+							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.3f))) {
 								if (entity.equals(controller)) {
 									if (!this.getPassengers().isEmpty()) {
 										Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.getPassengers().get(0)), new MessageEntityCamera(this.getPassengers().get(0).getId(), false));
@@ -338,6 +339,6 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 	}
 
 	protected SoundEvent getDefaultHitGroundSoundEvent() {
-		return SoundEvents.GENERIC_EXPLODE;
+		return ModSounds.HEAVY_SMASH.get();
 	}
 }

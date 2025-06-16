@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:chitin_claw"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_clawdian.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_clawdian.description"
+    }
+  },
+  "parent": "cataclysm:find_acropolis",
+  "criteria": {
+    "endergolem": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:clawdian"
+        }
+      }
+    }
+  }
+}

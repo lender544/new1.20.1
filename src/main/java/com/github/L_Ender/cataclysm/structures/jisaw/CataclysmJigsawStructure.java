@@ -31,7 +31,7 @@ import java.util.function.Function;
  * Enhanced jigsaw structure that uses the {@link CataclysmJigsawManager} to assemble jigsaw structures.
  */
 public class CataclysmJigsawStructure extends Structure {
-    public static final int MAX_TOTAL_STRUCTURE_RADIUS = 128;
+    public static final int MAX_TOTAL_STRUCTURE_RADIUS = 192;
     public static final Codec<CataclysmJigsawStructure> CODEC = RecordCodecBuilder.<CataclysmJigsawStructure>mapCodec(builder -> builder
             .group(
                     settingsCodec(builder),
@@ -171,8 +171,8 @@ public class CataclysmJigsawStructure extends Structure {
                 case NONE -> 0;
                 case BURY, BEARD_THIN, BEARD_BOX -> 12;
             };
-            if (structure.maxDistanceFromCenter + vanillaEdgeBuffer > 128) {
-                return DataResult.error(() -> "Cataclysm Structure size including terrain adaptation must not exceed 128");
+            if (structure.maxDistanceFromCenter + vanillaEdgeBuffer > MAX_TOTAL_STRUCTURE_RADIUS) {
+                return DataResult.error(() -> "Cataclysm Structure size including terrain adaptation must not exceed 192");
             }
 
             // Enhanced boundary check.
@@ -180,8 +180,8 @@ public class CataclysmJigsawStructure extends Structure {
             // has its own enhanced_terrain_adaptation with an even bigger kernel radius than that of the
             // rest of the structure!
             int enhancedEdgeBuffer = structure.enhancedTerrainAdaptation.getKernelRadius();
-            return structure.maxDistanceFromCenter + enhancedEdgeBuffer > 128
-                    ? DataResult.error(() -> "Cataclysm Structure size including enhanced terrain adaptation must not exceed 128")
+            return structure.maxDistanceFromCenter + enhancedEdgeBuffer > MAX_TOTAL_STRUCTURE_RADIUS
+                    ? DataResult.error(() -> "Cataclysm Structure size including enhanced terrain adaptation must not exceed 192")
                     : DataResult.success(structure);
         };
     }

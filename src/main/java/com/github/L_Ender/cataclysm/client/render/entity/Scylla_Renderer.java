@@ -45,8 +45,6 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
 
     private static final ResourceLocation SCYLLA_EYE_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/scylla/scylla_eye.png");
 
-    private static final ResourceLocation CHAIN_TEXTURE  = new ResourceLocation(Cataclysm.MODID,"textures/entity/scylla/scylla_chain.png");
-
     public Scylla_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Scylla_Model(renderManagerIn.bakeLayer(CMModelLayers.SCYLLA_MODEL)), 0.75F);
         this.addLayer(new Scylla_Snake_Layer(this));
@@ -172,41 +170,11 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
 
        // renderStromBringer(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 
-        renderChain(entityIn, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 
         this.shadowRadius = entityIn.getAct() ? 0.75F : 0F ;
     }
 
 
-    public void renderChain(Scylla_Entity entity, float partialTicks, PoseStack poseStack, MultiBufferSource source, int packedLight) {
-        float bodyYaw = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
-        Vec3 beamEndVec = entity.getClientAnchorEndPosition(partialTicks);
-        Entity target = entity.getAnchor();
-        if (target != null && entity.isAlive() && beamEndVec != null && entity.isAnchorTicks() > 3) {
-            Vec3 modelOffset = getHandPosition(new Vec3(0, 0.0F, 0F)).yRot((float) (Math.PI - bodyYaw * ((float) Math.PI / 180F)));
-
-            Vec3 rawBeamPosition = beamEndVec.subtract(entity.getPosition(partialTicks).add(modelOffset));
-
-
-            poseStack.pushPose();
-            poseStack.translate(modelOffset.x, modelOffset.y, modelOffset.z);
-            VertexConsumer chainBuffer = source.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
-            renderChainCube(rawBeamPosition,poseStack,chainBuffer,packedLight, OverlayTexture.NO_OVERLAY);
-
-            poseStack.popPose();
-        }
-    }
-
-    public Vec3 getHandPosition(Vec3 offsetIn) {
-        PoseStack translationStack = new PoseStack();
-        translationStack.pushPose();
-        model.translateHand(translationStack);
-        Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
-        armOffsetVec.mul(translationStack.last().pose());
-        Vec3 vec3 = new Vec3(-armOffsetVec.x(), -armOffsetVec.y(), armOffsetVec.z());
-        translationStack.popPose();
-        return vec3.add(0, 1.5, 0);
-    }
 
     public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
         double d = to.horizontalDistance();

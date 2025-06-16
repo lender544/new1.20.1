@@ -17,6 +17,7 @@ import com.github.L_Ender.cataclysm.client.sound.MeatShredderSound;
 import com.github.L_Ender.cataclysm.client.sound.SandstormSound;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.items.Ceraunus;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -193,7 +194,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.WATER_SPEAR.get(), Water_Spear_Renderer::new);
         EntityRenderers.register(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
         EntityRenderers.register(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
-        EntityRenderers.register(ModEntities.SCYLLA_CERAUNUS.get(), Ceraunus_Renderer::new);
+        EntityRenderers.register(ModEntities.SCYLLA_CERAUNUS.get(), Scylla_Ceraunus_Renderer::new);
+        EntityRenderers.register(ModEntities.PLAYER_CERAUNUS.get(), Player_Ceraunus_Renderer::new);
         EntityRenderers.register(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
         EntityRenderers.register(ModEntities.SPARK.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.WAVE.get(), Wave_Renderer::new);
@@ -220,6 +222,7 @@ public class ClientProxy extends CommonProxy {
             ItemProperties.register(ModItems.CORAL_CHUNK.get(), new ResourceLocation("chunk"), (stack, level, living, j) -> (stack.getCount() % 3 == 0) ? 0.0F : (stack.getCount() % 3 == 1) ? 0.5F : 1.0F);
             ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
+            ItemProperties.register(ModItems.CERAUNUS.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> Ceraunus.getThrownUuid(stack) != null ? 1 : 0);
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("Could not load item models for weapons");

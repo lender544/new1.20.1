@@ -12,10 +12,8 @@ public class DefaultBiomes {
             .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:deep_ocean", 0)
             .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:deep_lukewarm_ocean", 1)
             .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:deep_cold_ocean", 2)
-            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:ocean", 3)
-            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:lukewarm_ocean", 4)
-            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:warm_ocean", 5)
-            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "alexscaves:abyssal_chasm", 6);
+            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "minecraft:warm_ocean", 3)
+            .addBiomeEntry(BiomeEntryType.REGISTRY_NAME, false, "alexscaves:abyssal_chasm", 4);
 
 
     public static final SpawnBiomeData CRAB = new SpawnBiomeData()

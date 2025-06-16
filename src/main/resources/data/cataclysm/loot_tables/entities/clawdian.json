@@ -1,15 +1,15 @@
 {
+  "type": "minecraft:entity",
   "pools": [
     {
-      "name": "claw",
-      "rolls": 1,
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "name": "cataclysm:chitin_claw"
-
         }
-      ]
+      ],
+      "rolls": 1.0
     },
     {
       "bonus_rolls": 0.0,
@@ -21,8 +21,8 @@
               "add": false,
               "count": {
                 "type": "minecraft:uniform",
-                "max": 6.0,
-                "min": 4.0
+                "max": 8.0,
+                "min": 5.0
               },
               "function": "minecraft:set_count"
             }
@@ -32,5 +32,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "cataclysm:entities/clawdian"
 }

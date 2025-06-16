@@ -295,17 +295,18 @@ public class Cursed_Sandstorm_Entity extends Projectile {
             Entity entity = p_37626_.getEntity();
             Entity entity1 = this.getOwner();
             boolean flag = false;
-            if (entity1 instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity) entity1;
+            if (entity1 instanceof LivingEntity ownerliving) {
+                if (!ownerliving.isAlliedTo(entity)) {
 
-                flag = entity.hurt(CMDamageTypes.causeMaledictioSagittaDamage(this, livingentity), this.getDamage());
-                if (flag) {
-                    if (entity.isAlive()) {
-                        this.doEnchantDamageEffects(livingentity, entity);
+                    flag = entity.hurt(CMDamageTypes.causeMaledictioSagittaDamage(this, ownerliving), this.getDamage());
+                    if (flag) {
+                        if (entity.isAlive()) {
+                            this.doEnchantDamageEffects(ownerliving, entity);
+                        }
                     }
+                } else {
+                    flag = entity.hurt(this.damageSources().magic(), this.getDamage());
                 }
-            } else {
-                flag = entity.hurt(this.damageSources().magic(), this.getDamage());
             }
 
             if (flag && entity instanceof LivingEntity) {

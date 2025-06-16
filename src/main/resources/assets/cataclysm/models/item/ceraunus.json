@@ -104,5 +104,13 @@
         0.7
       ]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "cataclysm:item/ceraunus_throwing"
+    }
+  ]
 }

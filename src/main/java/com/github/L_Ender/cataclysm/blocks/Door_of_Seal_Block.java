@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.blocks;
 
 import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -281,7 +283,8 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
         public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
             BlockPos basePos = getBasePos(state, pos);
             BlockState baseState = level.getBlockState(basePos);
-            if (baseState.is(ModBlocks.DOOR_OF_SEAL.get())) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (stack.is(ModItems.STRANGE_KEY.get()) && baseState.is(ModBlocks.DOOR_OF_SEAL.get())) {
                 BlockHitResult baseHitResult = new BlockHitResult(hitResult.getLocation().add(basePos.getX() - pos.getX(), basePos.getY() - pos.getY(), basePos.getZ() - pos.getZ()), hitResult.getDirection(), basePos, hitResult.isInside());
                 return baseState.getBlock().use(baseState, level, pos, player, hand, baseHitResult);
             }
