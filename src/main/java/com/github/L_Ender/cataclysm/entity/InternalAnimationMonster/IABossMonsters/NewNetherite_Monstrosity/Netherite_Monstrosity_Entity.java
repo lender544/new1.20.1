@@ -635,9 +635,12 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     }
 
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_) {
-        this.setIsAwaken(true);
-        return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType spawnType, @Nullable SpawnGroupData p_29681_) {
+
+        if (spawnType == MobSpawnType.COMMAND || spawnType == MobSpawnType.SPAWN_EGG || MobSpawnType.isSpawner(spawnType) || spawnType == MobSpawnType.DISPENSER) {
+            this.setIsAwaken(true);
+        }
+        return super.finalizeSpawn(p_29678_, p_29679_, spawnType, p_29681_);
     }
 
 
@@ -1515,10 +1518,12 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
                 BlockPos targetPos = currentPos.offset((int) dx, 0, (int) dz);
 
-                if (!isDangerousFallZone(entity, targetPos)) {
-                    Vec3 motion = entity.getDeltaMovement();
-                    Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
-                    entity.setDeltaMovement(push.x, motion.y, push.z);
+                if(this.entity.onGround()) {
+                    if (!isDangerousFallZone(entity, targetPos)) {
+                        Vec3 motion = entity.getDeltaMovement();
+                        Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
+                        entity.setDeltaMovement(push.x, motion.y, push.z);
+                    }
                 }
             }
         }

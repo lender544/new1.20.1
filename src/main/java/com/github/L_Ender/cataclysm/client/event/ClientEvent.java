@@ -71,8 +71,6 @@ import java.util.Random;
 
 public class ClientEvent {
     public static final ResourceLocation FLAME_STRIKE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/soul_flame_strike_sigil.png");
-    private static boolean previousLavaVision = false;
-    private static LiquidBlockRenderer previousFluidRenderer;
     private static final ResourceLocation SANDSTORM_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/sandstorm_icons.png");
     private static final ResourceLocation EFFECT_HEART = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/effect_heart.png");
     private static final ResourceLocation FLASH_OUT = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/flash_out.png");
@@ -91,7 +89,6 @@ public class ClientEvent {
     public static void ClientEvent() {
         NeoForge.EVENT_BUS.addListener(ClientEvent::renderBossOverlay);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onCameraSetup);
-        NeoForge.EVENT_BUS.addListener(ClientEvent::onFogDensity);
         NeoForge.EVENT_BUS.addListener(ClientEvent::MovementInput);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPreRenderHUD);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPostRenderHUD);
@@ -100,8 +97,6 @@ public class ClientEvent {
         NeoForge.EVENT_BUS.addListener(ClientEvent::clientTick);
      //   NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderWorldLastEvent);
 
-
-        NeoForge.EVENT_BUS.addListener(ClientEvent::onGetFluidRenderType);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPoseHand);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderArm);
                 
@@ -150,15 +145,7 @@ public class ClientEvent {
 
 
    
-    public static void onFogDensity(ViewportEvent.RenderFog event) {
-        FogType fogType = event.getCamera().getFluidInCamera();
-        ItemStack itemstack = Minecraft.getInstance().player.getInventory().getArmor(3);
-        if (itemstack.is(ModItems.IGNITIUM_HELMET.get()) && fogType == FogType.LAVA) {
-            RenderSystem.setShaderFogStart(-8.0F);
-            RenderSystem.setShaderFogEnd(50.0F);
-        }
 
-    }
 
 
     public static void MovementInput(MovementInputUpdateEvent event) {
@@ -329,38 +316,9 @@ public class ClientEvent {
     }
 
 
-   
-    public static void onRenderWorldLastEvent(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
-            if (!CMConfig.shadersCompat) {
-                ItemStack itemstack = Minecraft.getInstance().player.getInventory().getArmor(3);
-                if (itemstack.is(ModItems.IGNITIUM_HELMET.get())) {
-                    if (!previousLavaVision) {
-                        previousFluidRenderer = Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer;
-                        Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer = new LavaVisionFluidRenderer();
-                        updateAllChunks();
-                    }
-                } else {
-                    if (previousLavaVision) {
-                        if (previousFluidRenderer != null) {
-                            Minecraft.getInstance().getBlockRenderer().liquidBlockRenderer = previousFluidRenderer;
-                        }
-                        updateAllChunks();
-                    }
-                }
-                previousLavaVision = itemstack.is(ModItems.IGNITIUM_HELMET.get());
-            }
-        }
-    }
 
 
-   
-    public static void onGetFluidRenderType(EventGetFluidRenderType event) {
-        if (Minecraft.getInstance().player.getInventory().getArmor(3).is(ModItems.IGNITIUM_HELMET.get()) && (event.getFluidState().is(Fluids.LAVA) || event.getFluidState().is(Fluids.FLOWING_LAVA))) {
-            event.setRenderType(RenderType.translucent());
-            event.setResult(EventGetFluidRenderType.Result.ALLOW);
-        }
-    }
+
 
 
    

@@ -447,7 +447,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		this.animate(entity.getAnimationState("spawn_idle"), Scylla_Lightning_Animation.SPAWN_IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("summon_snake"), Scylla_Lightning_Animation.SUMMON_SNAKE, ageInTicks, 1.0F);
-
+		this.animate(entity.getAnimationState("grab_smash"), Scylla_Normal_Animation.GRAB_SMASH, ageInTicks, 1.0F);
 	}
 
 	public void translateToEye(PoseStack matrixStack,boolean right) {
@@ -509,7 +509,16 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.anchor.translateAndRotate(matrixStack);
 	}
 
-
+	public Vec3 getHandPosition(Vec3 offsetIn) {
+		PoseStack translationStack = new PoseStack();
+		translationStack.pushPose();
+		this.translateHand(translationStack);
+		Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+		armOffsetVec.mul(translationStack.last().pose());
+		Vec3 vec3 = new Vec3(-armOffsetVec.x(), -armOffsetVec.y(), armOffsetVec.z());
+		translationStack.popPose();
+		return vec3.add(0, 1.5, 0);
+	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot = xRot * ((float) Math.PI / 180F);

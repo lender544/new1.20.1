@@ -28,6 +28,8 @@ public class Drowned_Host_Renderer extends AbstractZombieRenderer<Drowned_Host_E
         this.addLayer(new Drowned_Host_Outer_Layer<>(this, p_173964_.getModelSet()));
     }
 
+
+
     /**
      * Returns the location of an entity's texture.
      */

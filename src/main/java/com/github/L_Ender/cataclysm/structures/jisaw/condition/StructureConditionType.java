@@ -50,7 +50,7 @@ public interface StructureConditionType<C extends StructureCondition> {
     }
 
     /**
-     * Private utility method for registering StructureConditionTypes native to YUNG's API.
+     * Private utility method for registering StructureConditionTypes native to Cataclysm's API.
      */
     private static <C extends StructureCondition> StructureConditionType<C> register(String id, MapCodec<C> codec) {
         return register(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, id), codec);

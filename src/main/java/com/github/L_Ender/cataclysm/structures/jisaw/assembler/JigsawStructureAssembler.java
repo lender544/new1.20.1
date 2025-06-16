@@ -42,7 +42,7 @@ import org.apache.commons.lang3.mutable.MutableObject;
 import java.util.*;
 
 /**
- * Class responsible for assembling a YUNG Jigsaw structure.
+ * Class responsible for assembling a Cataclysm Jigsaw structure.
  * It is originally based on vanilla's Placer class within {@link JigsawPlacement}.
  */
 public class JigsawStructureAssembler {
@@ -80,7 +80,7 @@ public class JigsawStructureAssembler {
     }
 
     /**
-     * Assembles a YUNG Jigsaw structure, populating an internal list of all the pieces that comprise the structure.
+     * Assembles a Cataclysm Jigsaw structure, populating an internal list of all the pieces that comprise the structure.
      *
      * @param startPiece      The starting piece of the structure
      * @param structureBounds The maximum allowed bounds of the structure
@@ -331,7 +331,7 @@ public class JigsawStructureAssembler {
 
                 // Max count pieces must also be named
                 if (yungElement.name.isEmpty()) {
-                    Cataclysm.LOGGER.error("Found YUNG Jigsaw piece with max_count={} missing \"name\" property.", pieceMaxCount);
+                    Cataclysm.LOGGER.error("Found Cataclysm Jigsaw piece with max_count={} missing \"name\" property.", pieceMaxCount);
                     Cataclysm.LOGGER.error("Max count pieces must be named in order to work properly!");
                     Cataclysm.LOGGER.error("Ignoring max_count for this piece...");
                 } else {
@@ -339,7 +339,7 @@ public class JigsawStructureAssembler {
                     // Check if max count of this piece does not match stored max count for this name.
                     // This can happen when the same name is reused across pools, but the max count values are different.
                     if (this.maxPieceCounts.containsKey(pieceName) && this.maxPieceCounts.get(pieceName) != pieceMaxCount) {
-                        Cataclysm.LOGGER.error("YUNG Jigsaw Piece with name {} and max_count {} does not match stored max_count of {}!", pieceName, pieceMaxCount, this.maxPieceCounts.get(pieceName));
+                        Cataclysm.LOGGER.error("Cataclysm Jigsaw Piece with name {} and max_count {} does not match stored max_count of {}!", pieceName, pieceMaxCount, this.maxPieceCounts.get(pieceName));
                         Cataclysm.LOGGER.error("This can happen when multiple pieces across pools use the same name, but have different max_count values.");
                         Cataclysm.LOGGER.error("Please change these max_count values to match. Using max_count={} for now...", pieceMaxCount);
                     }

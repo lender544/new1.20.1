@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.particle.Options.NotSpinTrailParticle
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
+import com.github.L_Ender.cataclysm.entity.Deepling.Coral_Golem_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -14,11 +15,14 @@ import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
+import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -36,6 +40,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -48,6 +53,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -60,7 +66,8 @@ import java.util.Optional;
 
 
 public class Clawdian_Entity extends Internal_Animation_Monster implements IHoldEntity {
-
+    private boolean isLandNavigator;
+    boolean searchingForLand;
     public AnimationState idleAnimationState = new AnimationState();
     public AnimationState verticalswingAnimationState = new AnimationState();
     public AnimationState horizontalswingAnimationState = new AnimationState();
@@ -81,6 +88,8 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
     public static final int ACCRETION_COOLDOWN = 120;
     private int backstep_cooldown = 0;
     public static final int BACKSTEP_COOLDOWN = 200;
+    protected final int NATURE_HEAL_COOLDOWN = 80;
+    private int self_regen;
     private static final EntityDataAccessor<Optional<BlockState>> HOLD_STATE = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.OPTIONAL_BLOCK_STATE);
     private static final EntityDataAccessor<Integer> BACKSTEP_METER = SynchedEntityData.defineId(Clawdian_Entity.class, EntityDataSerializers.INT);
 
@@ -89,7 +98,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
     public Clawdian_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 100;
-        this.moveControl = new ClawdianMoveController(this);
+        switchNavigator(true);
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
         setConfigattribute(this, CMConfig.ClawdianHealthMultiplier, CMConfig.ClawdianDamageMultiplier);
@@ -98,8 +107,6 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     protected void registerGoals() {
 
-
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
@@ -116,7 +123,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,4,5,30,30,18) {
             @Override
             public boolean canUse() {
-                return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 17f && Clawdian_Entity.this.charge_cooldown <= 0;
+                return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 17f && Clawdian_Entity.this.charge_cooldown <= 0 && this.entity.onGround();
             }
         });
 
@@ -131,15 +138,46 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                     entity.setYRot(entity.yRotO);
                 }
 
+                BlockPos currentPos = entity.blockPosition();
+                float yaw = entity.getYRot() * ((float) Math.PI / 180F);
+                float dx = -Mth.sin(yaw) * 2;
+                float dz = Mth.cos(yaw) * 2;
 
-                if(this.entity.onGround()){
-                    Vec3 vector3d = entity.getDeltaMovement();
-                    float f = entity.getYRot() * ((float)Math.PI / 180F);
-                    Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(0.5D).add(vector3d.scale(0.5D));
-                    entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                BlockPos targetPos = currentPos.offset((int) dx, 0, (int) dz);
+                if(this.entity.onGround()) {
+                    if (!isDangerousFallZone(entity, targetPos)) {
+                        Vec3 motion = entity.getDeltaMovement();
+                        Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
+                        entity.setDeltaMovement(push.x, motion.y, push.z);
+                    }
                 }
             }
+
+            private boolean isDangerousFallZone(PathfinderMob mob, BlockPos pos) {
+                PathNavigation navigation = mob.getNavigation();
+                NodeEvaluator evaluator = navigation.getNodeEvaluator();
+
+                if (evaluator == null) return false;
+
+                PathType type = evaluator.getPathType(mob, pos.mutable());
+
+                int safeDrop = 2;
+                BlockPos.MutableBlockPos checkPos = pos.mutable();
+
+                for (int i = 1; i <= safeDrop; i++) {
+                    checkPos.move(Direction.DOWN);
+                    if (!mob.level().getBlockState(checkPos).isAir()) {
+                        return false;
+                    }
+                }
+
+                return type == PathType.DAMAGE_OTHER
+                        || type == PathType.OPEN
+                        || type == PathType.DANGER_OTHER;
+            }
         });
+
+
 
         this.goalSelector.addGoal(1, new InternalStateGoal(this,6,6,0,10,0) {
             @Override
@@ -187,7 +225,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
             }
 
         });
-        this.goalSelector.addGoal(2, new Clawdian_Accretion(this,0,9,0,70,30,8.5f,16));
+        this.goalSelector.addGoal(2, new Clawdian_Accretion(this,0,9,0,70,30,4.0F,8.5f,46,14));
 
 
 
@@ -251,6 +289,38 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     }
 
+    public void switchNavigator(boolean onLand) {
+        if (onLand) {
+            this.navigation = new CMPathNavigateGround(this, level());
+            this.moveControl = new ClawdianMoveController(this);
+            this.isLandNavigator = true;
+        } else {
+            this.navigation = new SemiAquaticPathNavigator(this, level());
+            this.moveControl = new ClawdianSwimControl(this, 2.0f);
+            this.isLandNavigator = false;
+        }
+    }
+
+    boolean wantsToSwim() {
+        if (this.searchingForLand) {
+            return true;
+        } else {
+            LivingEntity livingentity = this.getTarget();
+            return livingentity != null && livingentity.isInWater();
+        }
+    }
+
+    public void travel(Vec3 p_32394_) {
+        if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            this.moveRelative(0.01F, p_32394_);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+        } else {
+            super.travel(p_32394_);
+        }
+
+    }
+
     @Override
     public boolean hurt(DamageSource source, float damage) {
         Entity entity = source.getDirectEntity();
@@ -263,6 +333,9 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
             if (rider.equals(entity)) {
                 return false;
             }
+        }
+        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+            self_regen = NATURE_HEAL_COOLDOWN;
         }
         boolean flag = super.hurt(source, damage);
         if(flag) {
@@ -448,11 +521,34 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         this.setBackstep(compound.getInt("backstep"));
     }
 
+    public float NatureRegen() {
+        return (float) (25F * CMConfig.ClawdianHealthMultiplier);
+    }
+
     public void tick() {
         super.tick();
+        if (isInWater() && this.isLandNavigator) {
+            switchNavigator(false);
+        }
+        if (!isInWater() && !this.isLandNavigator) {
+            switchNavigator(true);
+        }
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(true, this.tickCount);
+        }else {
+            LivingEntity target = this.getTarget();
+            if (!isNoAi()) {
+                if (self_regen <= 0) {
+                    if (!isNoAi() && this.NatureRegen() > 0 && target == null) {
+                        if (this.tickCount % 20 == 0) {
+                            this.heal(this.NatureRegen());
+                        }
+                    }
+                }
+            }
         }
+        if (self_regen > 0) self_regen--;
+
         if (charge_cooldown > 0) charge_cooldown--;
         if (wave_cooldown > 0) wave_cooldown--;
         if (accretion_cooldown > 0) accretion_cooldown--;
@@ -868,10 +964,6 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         return new SmartBodyHelper2(this);
     }
 
-    protected PathNavigation createNavigation(Level worldIn) {
-        return new CMPathNavigateGround(this, worldIn);
-    }
-
     public boolean canBeAffected(MobEffectInstance p_34192_) {
         return p_34192_.getEffect() != ModEffect.EFFECTSTUN && p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
     }
@@ -901,17 +993,21 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
     static class Clawdian_Accretion extends InternalAttackGoal {
         private final Clawdian_Entity entity;
-        private final float random;
+        private final float meleerandom;
+        private final float rangerandom;
         private final int getattackstate;
         private final int attackseetick;
+        private final float Meleeattackrange;
         private final float attackrange;
 
-        public Clawdian_Accretion(Clawdian_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackrange, float random) {
+        public Clawdian_Accretion(Clawdian_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float Meleeattackrange,float attackrange, float meleerandom, float rangerandom) {
             super(entity, getAttackState, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
             this.entity = entity;
-            this.random = random;
+            this.meleerandom = meleerandom;
+            this.rangerandom = rangerandom;
             this.getattackstate = getAttackState;
             this.attackseetick = attackseetick;
+            this.Meleeattackrange = Meleeattackrange;
             this.attackrange = attackrange;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
         }
@@ -919,7 +1015,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && target.isAlive() && entity.accretion_cooldown <= 0 && this.entity.distanceTo(target) > attackrange && this.entity.getAttackState() == getattackstate  && this.entity.getRandom().nextFloat() * 100.0F < random;
+            return target != null && target.isAlive() && entity.accretion_cooldown <= 0 && this.entity.getAttackState() == getattackstate  && (this.entity.distanceTo(target) < Meleeattackrange &&  this.entity.getRandom().nextFloat() * 100.0F < meleerandom||this.entity.distanceTo(target) > attackrange &&  this.entity.getRandom().nextFloat() * 100.0F < rangerandom);
         }
 
         @Override
@@ -1060,6 +1156,50 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         }
     }
 
+    static class ClawdianSwimControl extends MoveControl {
+        private final Clawdian_Entity drowned;
+        private final float speedMulti;
+
+        public ClawdianSwimControl(Clawdian_Entity p_32433_, float speedMulti) {
+            super(p_32433_);
+            this.drowned = p_32433_;
+            this.speedMulti = speedMulti;
+        }
+
+        public void tick() {
+            LivingEntity livingentity = this.drowned.getTarget();
+            if (this.drowned.wantsToSwim() && this.drowned.isInWater()) {
+                if (livingentity != null && livingentity.getY() > this.drowned.getY() || this.drowned.searchingForLand) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, 0.002D, 0.0D));
+                }
+
+                if (this.operation != Operation.MOVE_TO || this.drowned.getNavigation().isDone()) {
+                    this.drowned.setSpeed(0.0F);
+                    return;
+                }
+
+                double d0 = this.wantedX - this.drowned.getX();
+                double d1 = this.wantedY - this.drowned.getY();
+                double d2 = this.wantedZ - this.drowned.getZ();
+                double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+                d1 /= d3;
+                float f = (float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F;
+                this.drowned.setYRot(this.rotlerp(this.drowned.getYRot(), f, 90.0F));
+                this.drowned.yBodyRot = this.drowned.getYRot();
+                float f1 = (float)(this.speedModifier * speedMulti * this.drowned.getAttributeValue(Attributes.MOVEMENT_SPEED));
+                float f2 = Mth.lerp(0.125F, this.drowned.getSpeed(), f1);
+                this.drowned.setSpeed(f2);
+                this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add((double)f2 * d0 * 0.005D, (double)f2 * d1 * 0.1D, (double)f2 * d2 * 0.005D));
+            } else {
+                if (!this.drowned.onGround()) {
+                    this.drowned.setDeltaMovement(this.drowned.getDeltaMovement().add(0.0D, -0.008D, 0.0D));
+                }
+
+                super.tick();
+            }
+
+        }
+    }
 }
 
 

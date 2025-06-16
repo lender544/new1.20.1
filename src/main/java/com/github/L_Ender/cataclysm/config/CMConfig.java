@@ -56,10 +56,10 @@ public class CMConfig {
     public static int Lavabombradius = 2;
     public static double Sandstormdamage = 5;
     public static double AncientDesertSteledamage = 18;
-    public static double PlayerPhantomArrowbasedamage = 5D;
+    public static double PlayerPhantomArrowbasedamage = 8D;
     public static double PhantomHalberddamage = 12;
     public static double AptrgangrAxeBladeDamage = 8;
-    public static double CursedSandstormDamage = 6D;
+    public static double CursedSandstormDamage = 7.5D;
     public static double FlameJetDamage = 7D;
     public static double FlareBombDamage = 7D;
 

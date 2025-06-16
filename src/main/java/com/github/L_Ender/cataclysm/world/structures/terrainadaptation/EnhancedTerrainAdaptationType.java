@@ -50,7 +50,7 @@ public interface EnhancedTerrainAdaptationType<C extends EnhancedTerrainAdaptati
     }
 
     /**
-     * Private utility method for registering EnhancedTerrainAdaptationTypes native to YUNG's API.
+     * Private utility method for registering EnhancedTerrainAdaptationTypes native to Cataclysm's API.
      */
     private static <C extends EnhancedTerrainAdaptation> EnhancedTerrainAdaptationType<C> register(String id, MapCodec<C> codec) {
         return register(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, id), codec);

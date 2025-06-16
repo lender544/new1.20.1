@@ -147,6 +147,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.LIGHTNING_SPEAR.get(), Lightning_Spear_Renderer::new);
 		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SCYLLA_CERAUNUS.get(), Scylla_Ceraunus_Renderer::new);
+		event.registerEntityRenderer(ModEntities.PLAYER_CERAUNUS.get(), Player_Ceraunus_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SPARK.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WAVE.get(), Wave_Renderer::new);
@@ -215,7 +216,7 @@ public class ClientSetup {
 			ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.ASTRAPE.get(), ResourceLocation.parse("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
-
+			ItemProperties.register(ModItems.CERAUNUS.get(), ResourceLocation.parse("throwing"), (stack, level, entity, idk) -> stack.get(ModDataComponents.THROWN_ANCHOR) != null ? 1 : 0);
 		} catch (Exception e) {
 			Cataclysm.LOGGER.warn("Could not load item models for weapons");
 		}

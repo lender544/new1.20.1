@@ -466,6 +466,13 @@ public class ModEntities {
             .updateInterval(20)
             .build(Cataclysm.MODID + ":scylla_ceraunus"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Player_Ceraunus_Entity>> PLAYER_CERAUNUS = ENTITY_TYPE.register("player_ceraunus", () -> EntityType.Builder.<Player_Ceraunus_Entity>of(Player_Ceraunus_Entity::new, MobCategory.MISC)
+            .sized(1.5F, 1.5F)
+            .clientTrackingRange(4)
+            .passengerAttachments(0.5F)
+            .updateInterval(20)
+            .build(Cataclysm.MODID + ":player_ceraunus"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Abyss_Portal_Entity>> ABYSS_PORTAL = ENTITY_TYPE.register("abyss_portal", () -> EntityType.Builder.<Abyss_Portal_Entity>of(Abyss_Portal_Entity::new, MobCategory.MISC)
             .fireImmune()
             .sized(3F, 0.15f)
@@ -640,7 +647,8 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":clawdian"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Entity>> SCYLLA = ENTITY_TYPE.register("scylla", () -> EntityType.Builder.of(Scylla_Entity::new, MobCategory.MONSTER)
-            .sized(1.5F, 3.0F)
+            .sized(1.4F, 3.0F)
+            .fireImmune()
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":scylla"));
 

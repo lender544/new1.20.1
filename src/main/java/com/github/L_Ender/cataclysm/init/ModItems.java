@@ -543,6 +543,9 @@ public class ModItems {
     public static final DeferredItem<Item> NECKLACE_OF_THE_DESERT = ITEMS.register("necklace_of_the_desert",
             () -> new Necklace_Of_The_Desert(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
 
+    public static final DeferredItem<Item> STRANGE_KEY = ITEMS.register("strange_key",
+            () -> new Strange_Key(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
+
     public static final DeferredItem<Item> APTRGANGR_HEAD = ITEMS.register("aptrgangr_head",
             () -> new CataclysmSkullItem(ModBlocks.APTRGANGR_HEAD.get(), ModBlocks.APTRGANGR_WALL_HEAD.get(), (new Item.Properties()).rarity(Rarity.UNCOMMON)));
 
@@ -649,6 +652,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> CURSED_EYE = ITEMS.register("cursed_eye",
             () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_CURSE_LOCATED,26,107,89));
+
+    public static final DeferredItem<Item> STORM_EYE = ITEMS.register("storm_eye",
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_STORM_LOCATED,99, 194, 224));
 
     public static final DeferredItem<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F)

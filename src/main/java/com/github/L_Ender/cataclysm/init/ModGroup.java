@@ -53,7 +53,7 @@ public class ModGroup {
                 entries.accept(ModItems.CORAL_CHUNK.get());
                 entries.accept(ModItems.ABYSSAL_SACRIFICE.get());
                 entries.accept(ModItems.NECKLACE_OF_THE_DESERT.get());
-
+                entries.accept(ModItems.STRANGE_KEY.get());
                 entries.accept(ModItems.CORAL_SPEAR.get());
                 entries.accept(ModItems.CORAL_BARDICHE.get());
                 entries.accept(ModItems.ATHAME.get());
@@ -113,6 +113,7 @@ public class ModGroup {
                 entries.accept(ModItems.ABYSS_EYE.get());
                 entries.accept(ModItems.DESERT_EYE.get());
                 entries.accept(ModItems.CURSED_EYE.get());
+                entries.accept(ModItems.STORM_EYE.get());
                 entries.accept(ModItems.THE_BABY_LEVIATHAN_BUCKET.get());
                 entries.accept(ModItems.MODERN_REMNANT_BUCKET.get());
                 entries.accept(ModItems.NETHERITE_MINISTROSITY_BUCKET.get());

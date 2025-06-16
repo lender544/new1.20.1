@@ -290,17 +290,21 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         super.onHitEntity(p_37626_);
         if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
-            boolean flag;
-            if (this.getOwner() instanceof LivingEntity livingentity) {
-                DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this,livingentity);
-                flag = entity.hurt(damagesource, this.getDamage());
-                if (flag) {
-                    if (entity.isAlive()) {
-                        EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+            Entity entity1 = this.getOwner();
+            boolean flag = false;
+            if (entity1 instanceof LivingEntity ownerliving) {
+                if (!ownerliving.isAlliedTo(entity)) {
+
+                    DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this,ownerliving);
+                    flag = entity.hurt(damagesource, this.getDamage());
+                    if (flag) {
+                        if (entity.isAlive()) {
+                            EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+                        }
                     }
+                } else {
+                    flag = entity.hurt(this.damageSources().magic(), this.getDamage());
                 }
-            } else {
-                flag = entity.hurt(this.damageSources().magic(), this.getDamage());
             }
 
             if (flag && entity instanceof LivingEntity) {

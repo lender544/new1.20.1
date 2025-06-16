@@ -47,7 +47,7 @@ public interface StructureActionType<C extends StructureAction> {
     }
 
     /**
-     * Private utility method for registering StructureActionTypes native to YUNG's API.
+     * Private utility method for registering StructureActionTypes native to Cataclysm's API.
      */
     private static <C extends StructureAction> StructureActionType<C> register(String id, MapCodec<C> codec) {
         return register(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, id), codec);

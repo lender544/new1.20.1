@@ -87,8 +87,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     private boolean chubu = false;
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 160;
-    public static final int NATURE_HEAL_COOLDOWN = 60;
-    private int timeWithoutTarget;
+    protected final int NATURE_HEAL_COOLDOWN = 80;
+    private int self_regen;
     public Aptrgangr_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 60;
@@ -215,6 +215,9 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         if(!this.getPassengers().isEmpty() && this.getAttackState() == 4 && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
+        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+            self_regen = NATURE_HEAL_COOLDOWN;
+        }
 
         return super.hurt(source, damage);
     }
@@ -333,27 +336,28 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         super.readAdditionalSaveData(compound);
     }
 
+    public float NatureRegen() {
+        return (float) (25F * CMConfig.AptrgangrHealthMultiplier);
+    }
 
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
             this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
-        }else{
-            if (timeWithoutTarget > 0) timeWithoutTarget--;
+        } else {
             LivingEntity target = this.getTarget();
-            if (target != null) {
-                timeWithoutTarget = NATURE_HEAL_COOLDOWN;
-            }
-
-            if (timeWithoutTarget <= 0) {
-                if (!isNoAi() ) {
-                    if (this.tickCount % 20 == 0) {
-                        this.heal(this.getMaxHealth()/ 10);
+            if (!isNoAi()) {
+                if (self_regen <= 0) {
+                    if (!isNoAi() && this.NatureRegen() > 0 && target == null) {
+                        if (this.tickCount % 20 == 0) {
+                            this.heal(this.NatureRegen());
+                        }
                     }
                 }
             }
         }
 
+        if (self_regen > 0) self_regen--;
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
 

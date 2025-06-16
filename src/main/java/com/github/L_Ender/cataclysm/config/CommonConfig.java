@@ -308,9 +308,9 @@ public class CommonConfig {
         AmethystClusterdamage = buildDouble(builder, "Amethyst Cluster Damage", "all", 12, 0, 1000000, "Amethyst Cluster's Damage");
         Sandstormdamage = buildDouble(builder, "Sandstorm Damage", "all", 5, 0, 1000000, "Sandstorm's Damage");
         AncientDesertSteledamage = buildDouble(builder, "Ancient Desert Stele Damage", "all", 18, 0, 1000000, "Ancient Desert Stele's Damage");
-        PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", 5D, 0, 1000000, "Player's Phantom Arrow's Damage");
+        PlayerPhantomArrowdamage = buildDouble(builder, "Phantom Arrow Damage", "all", CMConfig.PlayerPhantomArrowbasedamage, 0, 1000000, "Player's Phantom Arrow's Damage");
         PhantomHalberddamage = buildDouble(builder, "Phantom Halberd Damage", "all", 12, 0, 1000000, "Phantom Halberd's Damage");
-        CursedSandstormdamage = buildDouble(builder, "Cursed Sandstorm Damage", "all", 6, 0, 1000000, "Cursed Sandstorm's Damage");
+        CursedSandstormdamage = buildDouble(builder, "Cursed Sandstorm Damage", "all", CMConfig.CursedSandstormDamage, 0, 1000000, "Cursed Sandstorm's Damage");
         FlameJetDamage = buildDouble(builder, "Flame Jet Damage", "all", CMConfig.FlameJetDamage, 0, 1000000, "Flame jet's Damage");
         FlareBombDamage = buildDouble(builder, "Flare Bomb Damage", "all", CMConfig.FlareBombDamage, 0, 1000000, "Flare Bomb's Damage");
         builder.pop();

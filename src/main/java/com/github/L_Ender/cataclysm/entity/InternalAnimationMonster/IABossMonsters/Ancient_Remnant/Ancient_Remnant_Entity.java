@@ -339,6 +339,8 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("has_necklace", this.getNecklace());
+        compound.putInt("Rage", this.getRage());
+        compound.putBoolean("Power", this.getIsPower());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -347,6 +349,8 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
         if (this.hasCustomName()) {
             this.bossEvent.setName(this.getDisplayName());
         }
+        this.setRage(compound.getInt("Rage"));
+        this.setIsPower(compound.getBoolean("Power"));
     }
 
     public void setRage(int isAnger) {

@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#L#",
+        "EVE",
+        "CWC"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:prismarine_shard"
+        },
+        "W": {
+            "item": "minecraft:water_bucket"
+        },
+        "E": {
+            "item": "minecraft:diamond"
+        },
+        "V": {
+            "item": "minecraft:ender_eye"
+        },
+        "C": {
+            "item": "minecraft:prismarine_crystals"
+        },
+        "L": {
+            "item": "minecraft:lightning_rod"
+        }
+    },
+    "result": {
+        "id": "cataclysm:storm_eye",
+        "count": 1
+    }
+}

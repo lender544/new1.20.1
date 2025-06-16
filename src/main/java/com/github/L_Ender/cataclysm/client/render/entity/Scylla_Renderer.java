@@ -40,9 +40,6 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
 
     private static final ResourceLocation SCYLLA_EYE_TEXTURES = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/scylla/scylla_eye.png");
 
-    private static final ResourceLocation CHAIN_TEXTURE  = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/scylla/scylla_chain.png");
-    private static final ResourceLocation GUARDIAN_BEAM_LOCATION = ResourceLocation.withDefaultNamespace("textures/block/chain.png");
-
     public Scylla_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Scylla_Model(renderManagerIn.bakeLayer(CMModelLayers.SCYLLA_MODEL)), 0.75F);
         this.addLayer(new Scylla_Snake_Layer(this));
@@ -160,10 +157,6 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
         renderetc(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
         net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.client.event.RenderLivingEvent.Post<Scylla_Entity, Scylla_Model>(entityIn, this, partialTicks, matrixStackIn, bufferIn, packedLightIn));
 
-       // renderStromBringer(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-
-        renderChain(entityIn, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-
         this.shadowRadius = entityIn.getAct() ? 0.75F : 0F ;
     }
 
@@ -177,62 +170,7 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
     }
 
 
-    public void renderChain(Scylla_Entity entity, float partialTicks, PoseStack poseStack, MultiBufferSource source, int packedLight) {
-        float bodyYaw = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
-        Vec3 beamEndVec = entity.getClientAnchorEndPosition(partialTicks);
-        Entity target = entity.getAnchor();
-        if (target != null && entity.isAlive() && beamEndVec != null && entity.isAnchorTicks() > 3) {
-            Vec3 modelOffset = getHandPosition(new Vec3(0, 0.0F, 0F)).yRot((float) (Math.PI - bodyYaw * ((float) Math.PI / 180F)));
 
-            Vec3 rawBeamPosition = beamEndVec.subtract(entity.getPosition(partialTicks).add(modelOffset));
-
-
-            poseStack.pushPose();
-            poseStack.translate(modelOffset.x, modelOffset.y, modelOffset.z);
-            VertexConsumer chainBuffer = source.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
-            renderChainCube(rawBeamPosition,poseStack,chainBuffer,packedLight, OverlayTexture.NO_OVERLAY);
-
-            poseStack.popPose();
-        }
-    }
-
-    public Vec3 getHandPosition(Vec3 offsetIn) {
-        PoseStack translationStack = new PoseStack();
-        translationStack.pushPose();
-        model.translateHand(translationStack);
-        Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
-        armOffsetVec.mul(translationStack.last().pose());
-        Vec3 vec3 = new Vec3(-armOffsetVec.x(), -armOffsetVec.y(), armOffsetVec.z());
-        translationStack.popPose();
-        return vec3.add(0, 1.5, 0);
-    }
-
-    public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
-        double d = to.horizontalDistance();
-        float rotY = (float) (Mth.atan2(to.x, to.z) * (double) (180F / (float) Math.PI));
-        float rotX = (float) (-(Mth.atan2(to.y, d) * (double) (180F / (float) Math.PI))) - 90.0F;
-        float chainWidth = 6F / 32F;
-        float chainOffset = chainWidth * -0.5F;
-        float chainLength = (float) to.length()/2.3F;
-        poseStack.pushPose();
-        poseStack.scale(2.3F, 2.3F, 2.3F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
-        poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
-        poseStack.translate(0, -chainLength, 0);
-        PoseStack.Pose posestack$pose = poseStack.last();
-        //x links
-        buffer.addVertex(posestack$pose, chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainWidth + chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainWidth + chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        float pixelSkip = 8F / 32F;
-        //z links
-        buffer.addVertex(posestack$pose, 0, pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
-        poseStack.popPose();
-    }
 
     public boolean shouldRender(Scylla_Entity livingentity, Frustum camera, double camX, double camY, double camZ) {
         if (super.shouldRender(livingentity, camera, camX, camY, camZ)) {

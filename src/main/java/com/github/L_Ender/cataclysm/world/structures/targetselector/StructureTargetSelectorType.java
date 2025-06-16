@@ -46,7 +46,7 @@ public interface StructureTargetSelectorType<C extends StructureTargetSelector> 
     }
 
     /**
-     * Private utility method for registering TargetSelectorTypes native to YUNG's API.
+     * Private utility method for registering TargetSelectorTypes native to Cataclysm's API.
      */
     private static <C extends StructureTargetSelector> StructureTargetSelectorType<C> register(String id, MapCodec<C> codec) {
         return register(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, id), codec);

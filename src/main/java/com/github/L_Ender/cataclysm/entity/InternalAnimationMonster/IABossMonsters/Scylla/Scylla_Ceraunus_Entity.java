@@ -166,7 +166,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 			if (this.getHookMode()) {
 				if (this.getGrab()) {
 					if (!level().isClientSide) {
-						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
+						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.3f))) {
 							if (entity.equals(controller)) {
 
 								if (!this.getPassengers().isEmpty()) {
@@ -198,7 +198,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 									this.getPassengers().get(0).setShiftKeyDown(false);
 								}
 							}
-							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
+							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.3f))) {
 								if (entity.equals(controller)) {
 									if (!this.getPassengers().isEmpty()) {
 										PacketDistributor.sendToPlayersTrackingEntityAndSelf(this.getPassengers().get(0), new MessageEntityCameraSwitch.FirstPerson(this.getPassengers().get(0).getId()));

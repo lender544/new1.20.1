@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.client.model.entity.Coral_Spear_Model;
 import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.items.Ceraunus;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
 import com.github.L_Ender.cataclysm.items.Wrath_of_the_desert;
@@ -230,8 +231,11 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            boolean throwing = Ceraunus.getThrowing(itemStackIn);
+
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.entityCutoutNoCull(CERAUNUS_TEXTURE), itemStackIn.hasFoil());
             CERAUNUS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
+
             matrixStackIn.popPose();
         }
 

@@ -9,8 +9,12 @@ import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Blazing_Grips_
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Chitin_Claw_Model;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
 import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
+import net.minecraft.client.model.DrownedModel;
+import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -72,6 +76,8 @@ public class CMModelLayers {
     public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
+
+        LayerDefinition layerdefinition3 = LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(0.5F)), 64, 32);
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
         event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL, () -> Ignitium_Armor_Model.createArmorLayer(new CubeDeformation(0.6F)));
         event.registerLayerDefinition(BLOOM_STONE_PAULDRONS_MODEL, () -> Bloom_Stone_Pauldrons_Model.createArmorLayer(new CubeDeformation(0.5F)));
@@ -118,10 +124,9 @@ public class CMModelLayers {
 
         event.registerLayerDefinition(STORM_SERPENT_MODEL, Storm_Serpent_Model::createBodyLayer);
         event.registerLayerDefinition(DROWNED_HOST, () -> Drowned_Host_Model.createBodyLayer(CubeDeformation.NONE));
-        event.registerLayerDefinition(DROWNED_HOST_INNER_ARMOR,() -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.5F)));
-        event.registerLayerDefinition(DROWNED_HOST_OUTER_ARMOR, () -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.5F)));
+        event.registerLayerDefinition(DROWNED_HOST_INNER_ARMOR,() -> layerdefinition3);
+        event.registerLayerDefinition(DROWNED_HOST_OUTER_ARMOR, () -> layerdefinition3);
         event.registerLayerDefinition(DROWNED_HOST_OUTER_LAYER, () -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.25F)));
-
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

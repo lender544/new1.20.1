@@ -32,7 +32,7 @@ import java.util.Optional;
  * Enhanced jigsaw structure that uses the {@link CataclysmJigsawManager} to assemble jigsaw structures.
  */
 public class CataclysmJigsawStructure extends Structure {
-    public static final int MAX_TOTAL_STRUCTURE_RADIUS = 128;
+    public static final int MAX_TOTAL_STRUCTURE_RADIUS = 192;
     public static final MapCodec<CataclysmJigsawStructure> CODEC = RecordCodecBuilder.<CataclysmJigsawStructure>mapCodec(builder -> builder
                     .group(
                             settingsCodec(builder),
@@ -180,7 +180,7 @@ public class CataclysmJigsawStructure extends Structure {
 
     private static DataResult<CataclysmJigsawStructure> validateRange(CataclysmJigsawStructure structure) {
         if (structure.terrainAdaptation() != TerrainAdjustment.NONE && structure.enhancedTerrainAdaptation != EnhancedTerrainAdaptation.NONE) {
-            return DataResult.error(() -> "YUNG Structure cannot use both vanilla terrain_adaptation and enhanced_terrain_adaptation");
+            return DataResult.error(() -> "Cataclysm Structure cannot use both vanilla terrain_adaptation and enhanced_terrain_adaptation");
         }
 
         // Vanilla boundary check
@@ -188,16 +188,16 @@ public class CataclysmJigsawStructure extends Structure {
             case NONE -> 0;
             case BURY, BEARD_THIN, BEARD_BOX, ENCAPSULATE -> 12;
         };
-        if (structure.maxDistanceFromCenter + vanillaEdgeBuffer > 128) {
-            return DataResult.error(() -> "YUNG Structure's max_distance_from_center must not exceed 116 when using vanilla terrain_adaptation");
+        if (structure.maxDistanceFromCenter + vanillaEdgeBuffer > MAX_TOTAL_STRUCTURE_RADIUS) {
+            return DataResult.error(() -> "Cataclysm Structure's max_distance_from_center must not exceed 116 when using vanilla terrain_adaptation");
         }
 
         // Enhanced boundary check.
         // Note that it's still possible to have structure overflow issues if one of the structure's pieces has its own
         // enhanced_terrain_adaptation with an even bigger kernel radius than that of the rest of the structure!
         int enhancedEdgeBuffer = structure.enhancedTerrainAdaptation.getKernelRadius();
-        if (structure.maxDistanceFromCenter + enhancedEdgeBuffer > 128) {
-            return DataResult.error(() -> "YUNG Structure's max_distance_from_center + kernel radius (equal to half the enhanced_terrain_adaptation's kernel size) must not exceed 128");
+        if (structure.maxDistanceFromCenter + enhancedEdgeBuffer > MAX_TOTAL_STRUCTURE_RADIUS) {
+            return DataResult.error(() -> "Cataclysm Structure's max_distance_from_center + kernel radius (equal to half the enhanced_terrain_adaptation's kernel size) must not exceed 128");
         }
 
         return DataResult.success(structure);

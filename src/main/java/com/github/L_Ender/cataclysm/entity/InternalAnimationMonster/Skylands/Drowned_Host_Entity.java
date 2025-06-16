@@ -89,7 +89,7 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
 
     @Override
     protected void updateControlFlags() {
-        boolean flag = (this.getControllingPassenger() instanceof Symbiocto_Entity);
+        boolean flag = !(this.getControllingPassenger() instanceof Mob) || (this.getControllingPassenger() instanceof Symbiocto_Entity);
         boolean flag1 = !(this.getVehicle() instanceof Boat);
         this.goalSelector.setControlFlag(Goal.Flag.MOVE, flag);
         this.goalSelector.setControlFlag(Goal.Flag.JUMP, flag && flag1);
