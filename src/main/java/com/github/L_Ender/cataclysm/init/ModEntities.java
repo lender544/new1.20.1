@@ -18,7 +18,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.*;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -654,7 +654,7 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Urchinkin_Entity>> URCHINKIN = ENTITY_TYPE.register("urchinkin", () -> EntityType.Builder.of(Urchinkin_Entity::new, MobCategory.MONSTER)
             .sized(0.7F, 0.7F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .eyeHeight(0.35F)
             .build(Cataclysm.MODID + ":urchinkin"));
 
@@ -663,7 +663,7 @@ public class ModEntities {
             .eyeHeight(1.74F)
             .passengerAttachments(2.0125F)
             .ridingOffset(-0.7F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":drowned_host"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Symbiocto_Entity>> SYMBIOCTO = ENTITY_TYPE.register("symbiocto", () -> EntityType.Builder.of(Symbiocto_Entity::new, MobCategory.MONSTER)
@@ -671,7 +671,7 @@ public class ModEntities {
             .eyeHeight(0.5F)
             .passengerAttachments(2.0125F)
             .ridingOffset(-0.4F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":symbiocto"));
 
 

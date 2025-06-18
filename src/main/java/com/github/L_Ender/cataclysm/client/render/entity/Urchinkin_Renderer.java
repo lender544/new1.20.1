@@ -2,23 +2,12 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.The_Prowler_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Urchinkin_Model;
-import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
-import com.github.L_Ender.cataclysm.client.render.layer.The_Prowler_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Urchinkin_Layer;
-import com.github.L_Ender.cataclysm.client.render.layer.Wadjet_Layer;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Urchinkin_Entity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.WalkAnimationState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 

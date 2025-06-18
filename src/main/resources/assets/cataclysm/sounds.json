@@ -1604,5 +1604,13 @@
         "name": "cataclysm:entity/explosion_4"
       }
     ]
+  },
+  "main_theme": {
+    "subtitle": "main_theme.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/main_theme"
+      }
+    ]
   }
 }

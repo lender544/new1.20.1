@@ -880,10 +880,12 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     private void roarDarkness(double x, double y,double z, double radius,int time) {
         List<LivingEntity> entities = getEntityLivingBaseNearby(x, y, z, radius);
-        for (LivingEntity inRange : entities) {
-            if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
-            if (isAlliedTo(inRange)) continue;
-            inRange.addEffect(new MobEffectInstance(MobEffects.DARKNESS, time));
+        if (!this.level().isClientSide) {
+            for (LivingEntity inRange : entities) {
+                if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
+                if (isAlliedTo(inRange)) continue;
+                inRange.addEffect(new MobEffectInstance(MobEffects.DARKNESS, time));
+            }
         }
     }
 
@@ -904,6 +906,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     }
 
     private void TailWhips() {
+        if (!this.level().isClientSide){
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D,7.0D,7.0D))) {
             if (!isAlliedTo(entity) && !(entity instanceof The_Leviathan_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
@@ -920,6 +923,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
                 }
             }
+        }
         }
     }
 
@@ -1065,10 +1069,11 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     private void chargeDamage(){
         if (this.tickCount % 4 == 0) {
+            if (!this.level().isClientSide){
             for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3D))) {
                 if (!isAlliedTo(Lentity) && !(Lentity instanceof The_Leviathan_Entity) && Lentity != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = Lentity.hurt(damagesource,  (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), Lentity.getMaxHealth() * CMConfig.LeviathanRushHpdamage)));
+                    boolean flag = Lentity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), Lentity.getMaxHealth() * CMConfig.LeviathanRushHpdamage)));
                     if (Lentity instanceof Player player && Lentity.isDamageSourceBlocked(damagesource)) {
                         disableShield(player, 120);
                     }
@@ -1084,6 +1089,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                         }
                     }
                 }
+            }
             }
         }
     }

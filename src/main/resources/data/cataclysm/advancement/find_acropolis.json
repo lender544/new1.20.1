@@ -21,7 +21,7 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "advancements.cataclysm.find_acropolis.description"
+      "translate": "advancements.cataclysm.acropolis.description"
     },
     "frame": "task",
     "hidden": false,
@@ -30,7 +30,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "advancements.cataclysm.find_acropolis.title"
+      "translate": "advancements.cataclysm.acropolis.title"
     }
   },
   "requirements": [

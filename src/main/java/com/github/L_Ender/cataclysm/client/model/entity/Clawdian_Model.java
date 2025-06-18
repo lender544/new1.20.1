@@ -4,9 +4,8 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Skill_Animation;
-import com.github.L_Ender.cataclysm.client.animation.Hippocamtus_Animation;
 
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -14,7 +13,6 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
 
 public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

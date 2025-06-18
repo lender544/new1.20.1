@@ -279,14 +279,16 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
         }
         if(this.getAttackState() == 3) {
             if (this.tickCount % 4 == 0) {
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.0D))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Ignited_Berserker_Entity) && entity != this) {
-                        boolean flag = entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                        if (flag) {
-                            double d0 = entity.getX() - this.getX();
-                            double d1 = entity.getZ() - this.getZ();
-                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                            entity.push(d0 / d2 * 0.5D, 0.1D, d1 / d2 * 0.5D);
+                if (!this.level().isClientSide) {
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.0D))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Ignited_Berserker_Entity) && entity != this) {
+                            boolean flag = entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                            if (flag) {
+                                double d0 = entity.getX() - this.getX();
+                                double d1 = entity.getZ() - this.getZ();
+                                double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                                entity.push(d0 / d2 * 0.5D, 0.1D, d1 / d2 * 0.5D);
+                            }
                         }
                     }
                 }
@@ -376,39 +378,41 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignited_Berserker_Entity) && entityHit != this) {
-                    DamageSource damagesource = CMDamageTypes.causeSwordDanceDamage(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
-
-
-                    if (flag) {
-                        MobEffectInstance effectinstance1 = entityHit.getEffect(ModEffect.EFFECTBLAZING_BRAND);
-                        int i = 1;
-                        if (effectinstance1 != null) {
-                            i += effectinstance1.getAmplifier();
-                            entityHit.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND);
-                        } else {
-                            --i;
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignited_Berserker_Entity) && entityHit != this) {
+                        DamageSource damagesource = CMDamageTypes.causeSwordDanceDamage(this);
+                        boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
                         }
-                        i = Mth.clamp(i, 0, 1);
-                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 100, i, false, true, true);
-                        entityHit.addEffect(effectinstance);
-                        this.heal(2F * (i + 1));
+
+
+                        if (flag) {
+                            MobEffectInstance effectinstance1 = entityHit.getEffect(ModEffect.EFFECTBLAZING_BRAND);
+                            int i = 1;
+                            if (effectinstance1 != null) {
+                                i += effectinstance1.getAmplifier();
+                                entityHit.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND);
+                            } else {
+                                --i;
+                            }
+                            i = Mth.clamp(i, 0, 1);
+                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 100, i, false, true, true);
+                            entityHit.addEffect(effectinstance);
+                            this.heal(2F * (i + 1));
+                        }
                     }
                 }
             }

@@ -303,11 +303,13 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
 
     private void EarthQuake(float grow, int damage) {
         this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
-            if (!isAlliedTo(entity) && !(entity instanceof Ender_Golem_Entity) && entity != this) {
-                entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
-                launch(entity, true);
+        if (!this.level().isClientSide) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
+                if (!isAlliedTo(entity) && !(entity instanceof Ender_Golem_Entity) && entity != this) {
+                    entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
+                    launch(entity, true);
 
+                }
             }
         }
     }

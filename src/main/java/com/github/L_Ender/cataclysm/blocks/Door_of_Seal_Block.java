@@ -82,15 +82,15 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
 
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack p_316383_, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand p_316216_, BlockHitResult p_316827_) {
-        return this.onHit(worldIn,state, p_316827_, player, true)  ? ItemInteractionResult.sidedSuccess(worldIn.isClientSide) : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand p_316216_, BlockHitResult p_316827_) {
+        return this.onHit(worldIn,stack,state, p_316827_, player, true)  ? ItemInteractionResult.sidedSuccess(worldIn.isClientSide) : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 
     }
 
-    public boolean onHit(Level p_49702_,BlockState blockState, BlockHitResult p_49704_, @javax.annotation.Nullable Player p_49705_, boolean p_49706_) {
+    public boolean onHit(Level p_49702_,ItemStack stack,BlockState blockState, BlockHitResult p_49704_, @javax.annotation.Nullable Player p_49705_, boolean p_49706_) {
         BlockPos blockpos = p_49704_.getBlockPos();
         if (p_49706_) {
-            this.attemptToRing(p_49705_, p_49702_,blockState, blockpos);
+            this.attemptToRing(p_49705_, stack, p_49702_,blockState, blockpos);
             return true;
         } else {
             return false;
@@ -99,9 +99,9 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
     
 
 
-    public boolean attemptToRing(@javax.annotation.Nullable Entity p_152189_, Level p_152190_,BlockState blockState, BlockPos p_152191_) {
+    public boolean attemptToRing(@javax.annotation.Nullable Entity p_152189_,ItemStack stack, Level p_152190_,BlockState blockState, BlockPos p_152191_) {
         BlockEntity blockentity = p_152190_.getBlockEntity(p_152191_);
-        if (!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity && !blockState.getValue(LIT)) {
+        if (!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity && stack.is(ModItems.STRANGE_KEY.get()) && !blockState.getValue(LIT)) {
             ((Door_Of_Seal_BlockEntity)blockentity).onHit(p_152190_);
             p_152190_.setBlock(p_152191_, blockState.setValue(LIT, Boolean.valueOf(true)), 3);
           //  p_152190_.playSound((Player)null, p_152191_, ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F);

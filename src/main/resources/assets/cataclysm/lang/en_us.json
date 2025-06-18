@@ -119,6 +119,7 @@
   "item.cataclysm.music_disc_ancient_remnant": "Music Disc",
   "item.cataclysm.music_disc_maledictus": "Music Disc",
   "item.cataclysm.music_disc_scylla": "Music Disc",
+  "item.cataclysm.music_disc_main_theme": "Music Disc",
   "item.cataclysm.music_disc_netherite_monstrosity.desc": "LeoDragon1 - Soul Bound Inferno",
   "item.cataclysm.music_disc_ender_guardian.desc": "LeoDragon1 - Guardian of the Abyss",
   "item.cataclysm.music_disc_ignis.desc": "LeoDragon1 - Burning Retribution",
@@ -127,6 +128,7 @@
   "item.cataclysm.music_disc_ancient_remnant.desc": "Yuri_O - The Dryest Beast",
   "item.cataclysm.music_disc_maledictus.desc": "Rotch Gwylt - Maledictus",
   "item.cataclysm.music_disc_scylla.desc": "Rotch Gwylt - Scylla",
+  "item.cataclysm.music_disc_main_theme.desc": "Yuri_O - Main Theme",
   "item.cataclysm.mech_eye": "Eye of Mech",
   "item.cataclysm.monstrous_eye": "Eye of Monstrous",
   "item.cataclysm.void_eye": "Eye of Void",
@@ -658,7 +660,8 @@
   "advancements.cataclysm.kill_clawdian.description": "Kill the Clawdian",
   "advancements.cataclysm.kill_scylla.title": "The Calm After the Storm",
   "advancements.cataclysm.kill_scylla.description": "Defeat the Storm Empress, Scylla",
-
+  "advancements.cataclysm.kill_all_bosses.title": "The Cataclysmfarer",
+  "advancements.cataclysm.kill_all_bosses.description": "You have reached the summit of Cataclysm!",
 
   "trim_material.cataclysm.witherite": "Witherite Material",
   "trim_material.cataclysm.ignitium" : "Ignitium Material",

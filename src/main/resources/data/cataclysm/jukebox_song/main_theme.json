@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.cataclysm.music_disc_main_theme.desc"
+  },
+  "length_in_seconds": 186.0,
+  "sound_event": "cataclysm:main_theme"
+}

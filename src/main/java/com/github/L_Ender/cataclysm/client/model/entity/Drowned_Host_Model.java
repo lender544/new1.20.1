@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.client.model.entity;
 
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Symbiocto_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Symbiocto_Entity;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.ZombieModel;
 import net.minecraft.client.model.geom.ModelPart;

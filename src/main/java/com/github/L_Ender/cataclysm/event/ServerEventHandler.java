@@ -12,6 +12,7 @@ import com.github.L_Ender.cataclysm.message.MessageParticle;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -33,6 +34,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.*;
+import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.CriticalHitEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -226,7 +228,7 @@ public class ServerEventHandler {
                 MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
                 if (effectinstance1 != null) {
                     float i = (effectinstance1.getAmplifier()+1) * 0.15F;
-                    float f =  damage * i;
+                    float f = damage + damage * i;
                     damage = Math.min(Float.MAX_VALUE, f);
                     event.setNewDamage(damage);
                 }
@@ -455,6 +457,20 @@ public class ServerEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public static void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
+        Player player = event.getEntity();
+        ResourceLocation advId = event.getAdvancement().id();
+
+        if (advId.equals(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "kill_all_bosses"))) {
+
+            ItemStack reward = new ItemStack(ModItems.MUSIC_DISC_MAIN_THEME.get());
+            if (!player.getInventory().add(reward)) {
+                player.drop(reward, false);
+            }
+
+        }
+    }
 }
 
 

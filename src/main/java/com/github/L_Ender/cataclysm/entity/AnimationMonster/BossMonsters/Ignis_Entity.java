@@ -853,10 +853,12 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 List<LivingEntity> entities = getEntityLivingBaseNearby(12, 12, 12, 12);
                 this.playSound(ModSounds.FLAME_BURST.get(), 1.0f, 0.8F);
                 Roarparticle(1.5f, 0,3.1F, 10,r,g,b, 0.4F, 1.0f,0.8F,5F);
-                for (LivingEntity inRange : entities) {
-                    if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
-                    if (isAlliedTo(inRange)) continue;
-                    inRange.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 60));
+                if (!this.level().isClientSide) {
+                    for (LivingEntity inRange : entities) {
+                        if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
+                        if (isAlliedTo(inRange)) continue;
+                        inRange.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 60));
+                    }
                 }
             }
 
@@ -938,14 +940,16 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (this.getAnimationTick() == 5) {
                 this.playSound(SoundEvents.TOTEM_USE, 1.5f, 0.8F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.25D))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
-                        entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
-                        if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
-                            disableShield(player, 200);
-                        }
+                if (!this.level().isClientSide) {
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.25D))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
+                            DamageSource damagesource = this.damageSources().mobAttack(this);
+                            entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
+                            if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
+                                disableShield(player, 200);
+                            }
 
+                        }
                     }
                 }
                 ShieldSmashparticle(1.3f, vec, 0.0f);
@@ -1002,12 +1006,14 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (this.getAnimationTick() == 5) {
                 this.playSound(SoundEvents.TOTEM_USE, 1.5f, 0.8F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.25D))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
-                        boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
-                        if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
-                            disableShield(player, 200);
+                if (!this.level().isClientSide) {
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.25D))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
+                            DamageSource damagesource = this.damageSources().mobAttack(this);
+                            boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5F + entity.getMaxHealth() * 0.15F));
+                            if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
+                                disableShield(player, 200);
+                            }
                         }
                     }
                 }
@@ -1156,10 +1162,12 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (this.getAnimationTick() == 17) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 50);
                 List<LivingEntity> entities = getEntityLivingBaseNearby(12, 12, 12, 12);
-                for (LivingEntity inRange : entities) {
-                    if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
-                    if (isAlliedTo(inRange)) continue;
-                    inRange.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 60));
+                if (!this.level().isClientSide) {
+                    for (LivingEntity inRange : entities) {
+                        if (inRange instanceof Player && ((Player) inRange).getAbilities().invulnerable) continue;
+                        if (isAlliedTo(inRange)) continue;
+                        inRange.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, 60));
+                    }
                 }
             }
 
@@ -1484,6 +1492,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
     private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, int firetime, int brandticks, int heal, boolean combo, float airborne) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -1534,38 +1543,41 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 }
             }
         }
+        }
     }
 
 
     private void BodyCheckAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, int slowticks, double airborne) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entityHit.getMaxHealth() * hpdamage));
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
+                        DamageSource damagesource = this.damageSources().mobAttack(this);
+                        boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entityHit.getMaxHealth() * hpdamage));
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
+                        }
 
-                    if (flag) {
-                        this.playSound(SoundEvents.ANVIL_LAND, 1.5f, 0.8F + this.getRandom().nextFloat() * 0.1F);
-                        double d0 = entityHit.getX() - this.getX();
-                        double d1 = entityHit.getZ() - this.getZ();
-                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                        entityHit.push(d0 / d2 * 2.5D, airborne, d1 / d2 * 2.5D);
-                        if (slowticks > 0) {
-                            entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, slowticks));
+                        if (flag) {
+                            this.playSound(SoundEvents.ANVIL_LAND, 1.5f, 0.8F + this.getRandom().nextFloat() * 0.1F);
+                            double d0 = entityHit.getX() - this.getX();
+                            double d1 = entityHit.getZ() - this.getZ();
+                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                            entityHit.push(d0 / d2 * 2.5D, airborne, d1 / d2 * 2.5D);
+                            if (slowticks > 0) {
+                                entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN, slowticks));
+                            }
                         }
                     }
                 }
@@ -1575,33 +1587,35 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
     private void Poke(float range, float arc, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, range, range, range);
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            if (this.distanceTo(entityHit) <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + entityHit.getMaxHealth() * 0.1f);
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                if (this.distanceTo(entityHit) <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity)) {
+                        DamageSource damagesource = this.damageSources().mobAttack(this);
+                        boolean flag = entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + entityHit.getMaxHealth() * 0.1f);
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
+                        }
 
-                    if (flag && !entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive()) {
-                        if (this.getPassengers().isEmpty()) {
-                            if (entityHit.isShiftKeyDown()) {
-                                entityHit.setShiftKeyDown(false);
+                        if (flag && !entityHit.getType().is(ModTag.IGNIS_CANT_POKE) && entityHit.isAlive()) {
+                            if (this.getPassengers().isEmpty()) {
+                                if (entityHit.isShiftKeyDown()) {
+                                    entityHit.setShiftKeyDown(false);
+                                }
+
+                                    entityHit.startRiding(this, true);
+
+                                AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                             }
-                            if (!this.level().isClientSide) {
-                                entityHit.startRiding(this, true);
-                            }
-                            AnimationHandler.INSTANCE.sendAnimationMessage(this, POKED_ATTACK);
                         }
                     }
                 }
@@ -1628,21 +1642,23 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             moveFunc.accept(passenger, this.getX() + extraX, this.getY() + extraY + 1.2F, this.getZ() + extraZ);
             if ((tick - 10) % 4 == 0) {
                 if (passenger instanceof LivingEntity living) {
-                    boolean flag = living.hurt(this.damageSources().mobAttack(this), 4 + living.getMaxHealth() * 0.02f);
-                    if (flag) {
-                        MobEffectInstance effectinstance1 = living.getEffect(ModEffect.EFFECTBLAZING_BRAND);
-                        int i = 1;
-                        if (effectinstance1 != null) {
-                            i += effectinstance1.getAmplifier();
-                            living.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND);
-                        } else {
-                            --i;
-                        }
+                    if (!this.level().isClientSide) {
+                        boolean flag = living.hurt(this.damageSources().mobAttack(this), 4 + living.getMaxHealth() * 0.02f);
+                        if (flag) {
+                            MobEffectInstance effectinstance1 = living.getEffect(ModEffect.EFFECTBLAZING_BRAND);
+                            int i = 1;
+                            if (effectinstance1 != null) {
+                                i += effectinstance1.getAmplifier();
+                                living.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND);
+                            } else {
+                                --i;
+                            }
 
-                        i = Mth.clamp(i, 0, 4);
-                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 240, i, false, true, true);
-                        living.addEffect(effectinstance);
-                        this.heal(2f * (float) CMConfig.IgnisHealingMultiplier * (i + 1));
+                            i = Mth.clamp(i, 0, 4);
+                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 240, i, false, true, true);
+                            living.addEffect(effectinstance);
+                            this.heal(2f * (float) CMConfig.IgnisHealingMultiplier * (i + 1));
+                        }
                     }
                 }
             }
@@ -1848,10 +1864,11 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             if (block.getRenderShape() != RenderShape.MODEL) {
                 block = Blocks.AIR.defaultBlockState();
             }
+            if (!this.level().isClientSide){
             Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
             fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
             level().addFreshEntity(fallingBlockEntity);
-            if (!this.level().isClientSide && block.is(ModTag.IGNIS_CAN_DESTROY_CRACKED_BLOCK)) {
+            if ( block.is(ModTag.IGNIS_CAN_DESTROY_CRACKED_BLOCK)) {
                 if (CMConfig.IgnisBlockBreaking) {
                     this.level().destroyBlock(pos, false, this);
                 } else {
@@ -1889,6 +1906,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
         }
     }
+    }
 
     private void UltimateAttack(int distance, float mxy, float math, int shieldbreakticks, float damage, float hpdamage, float airborne) {
         int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
@@ -1918,33 +1936,35 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         if (block.getRenderShape() != RenderShape.MODEL) {
             block = Blocks.AIR.defaultBlockState();
         }
-        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
-        fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
-        level().addFreshEntity(fallingBlockEntity);
-        if (!this.level().isClientSide && block.is(ModTag.IGNIS_CAN_DESTROY_CRACKED_BLOCK)) {
-            if (CMConfig.IgnisBlockBreaking) {
-                this.level().destroyBlock(pos, false, this);
-            } else {
-                if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+        if (!this.level().isClientSide) {
+            Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, hitY + 1.0D, hitZ + 0.5D, block, 10);
+            fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.15D, 0);
+            level().addFreshEntity(fallingBlockEntity);
+            if (!this.level().isClientSide && block.is(ModTag.IGNIS_CAN_DESTROY_CRACKED_BLOCK)) {
+                if (CMConfig.IgnisBlockBreaking) {
                     this.level().destroyBlock(pos, false, this);
+                } else {
+                    if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
+                        this.level().destroyBlock(pos, false, this);
+                    }
                 }
+
             }
+            AABB selection = new AABB(px - 0.5, minY, pz - 0.5, px + 0.5, maxY, pz + 0.5);
+            List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
+            for (LivingEntity entity : hit) {
+                if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
+                    }
 
-        }
-        AABB selection = new AABB(px - 0.5, minY, pz - 0.5, px + 0.5, maxY, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        for (LivingEntity entity : hit) {
-            if (!isAlliedTo(entity) && !(entity instanceof Ignis_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
+                    if (flag) {
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, airborne + level().random.nextDouble() * 0.15, 0.0D));
+                    }
+
                 }
-
-                if (flag) {
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, airborne + level().random.nextDouble() * 0.15, 0.0D));
-                }
-
             }
         }
 
@@ -2088,6 +2108,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         if (this.getAnimationTick() % 2 == 0) {
             int distance = this.getAnimationTick() / 2 - dist;
             List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(distance, distance, distance, distance);
+            if (!this.level().isClientSide){
             for (LivingEntity entityHit : entitiesHit) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignis_Entity) && entityHit != this) {
                     boolean flag = entityHit.hurt(this.damageSources().indirectMagic(this, this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entityHit.getMaxHealth() * hpdamage));
@@ -2108,6 +2129,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                             entityHit.addEffect(effectinstance);
                         }
                     }
+                }
                 }
             }
         }

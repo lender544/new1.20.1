@@ -85,26 +85,22 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 
 				if (owner.getMainHandItem() == stack || owner.getOffhandItem() == stack) {
 					if (isPulling) {
-						Entity target = owner;
 						Entity origin = this;
 
-						if (owner.isShiftKeyDown() && hookedEntity != null) {
-							target = hookedEntity;
-							origin = owner;
-						}
+
 
 						double brakeZone = (6D * (maxSpeed / 10));
 						double pullSpeed = maxSpeed / 6D;
-						Vec3 distance = origin.position().subtract(target.position().add(0, target.getBbHeight() / 2, 0));
+						Vec3 distance = origin.position().subtract(owner.position().add(0, owner.getBbHeight() / 2, 0));
 						Vec3 motion = distance.normalize().scale(distance.length() < brakeZone ? (pullSpeed * distance.length()) / brakeZone : pullSpeed);
 
 						if (Math.abs(distance.y) < 0.1D)
 							motion = new Vec3(motion.x, 0, motion.z);
-						if (new Vec3(distance.x, 0, distance.z).length() < new Vec3(target.getBbWidth() / 2, 0, target.getBbWidth() / 2).length() / 1.4)
+						if (new Vec3(distance.x, 0, distance.z).length() < new Vec3(owner.getBbWidth() / 2, 0, owner.getBbWidth() / 2).length() / 1.4)
 							motion = new Vec3(0, motion.y, 0);
 
-						target.setDeltaMovement(motion);
-						target.hurtMarked = true;
+						owner.setDeltaMovement(motion);
+						owner.hurtMarked = true;
 
 					}
 				} else {

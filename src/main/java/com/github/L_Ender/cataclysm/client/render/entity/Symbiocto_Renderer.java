@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Symbiocto_Model;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Symbiocto_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Symbiocto_Entity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
