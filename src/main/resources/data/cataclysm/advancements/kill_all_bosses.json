@@ -1,0 +1,162 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "cataclysm:ignis": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:ignis"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:the_leviathan": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:the_leviathan"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:the_harbinger": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:the_harbinger"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:ender_guardian": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:ender_guardian"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:maledictus": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:maledictus"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:ancient_remnant": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:ancient_remnant"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:netherite_monstrosity": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:netherite_monstrosity"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    },
+    "cataclysm:scylla": {
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "type": "cataclysm:scylla"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:player_killed_entity"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.kill_all_bosses.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "cataclysm:music_disc_main_theme"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.kill_all_bosses.title"
+    }
+  },
+  "requirements": [
+    [
+      "cataclysm:ignis"
+    ],
+    [
+      "cataclysm:the_leviathan"
+    ],
+    [
+      "cataclysm:the_harbinger"
+    ],
+    [
+      "cataclysm:ender_guardian"
+    ],
+    [
+      "cataclysm:maledictus"
+    ],
+    [
+      "cataclysm:ancient_remnant"
+    ],
+    [
+      "cataclysm:netherite_monstrosity"
+    ],
+    [
+      "cataclysm:scylla"
+    ]
+  ],
+  "rewards": {
+    "experience": 500
+  },
+  "sends_telemetry_event": true
+}

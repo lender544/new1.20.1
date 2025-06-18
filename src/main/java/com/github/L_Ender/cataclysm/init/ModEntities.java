@@ -18,7 +18,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.*;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -655,17 +655,17 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<Urchinkin_Entity>> URCHINKIN = ENTITY_TYPE.register("urchinkin", () -> EntityType.Builder.of(Urchinkin_Entity::new, MobCategory.MONSTER)
             .sized(0.7F, 0.7F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":urchinkin"));
 
     public static final RegistryObject<EntityType<Drowned_Host_Entity>> DROWNED_HOST = ENTITY_TYPE.register("drowned_host", () -> EntityType.Builder.of(Drowned_Host_Entity::new, MobCategory.MONSTER)
             .sized(0.6F, 1.95F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":drowned_host"));
 
     public static final RegistryObject<EntityType<Symbiocto_Entity>> SYMBIOCTO = ENTITY_TYPE.register("symbiocto", () -> EntityType.Builder.of(Symbiocto_Entity::new, MobCategory.MONSTER)
             .sized(1.1F, 0.95F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":symbiocto"));
 
 

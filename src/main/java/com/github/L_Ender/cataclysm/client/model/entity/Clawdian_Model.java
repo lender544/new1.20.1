@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Skill_Animation;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;

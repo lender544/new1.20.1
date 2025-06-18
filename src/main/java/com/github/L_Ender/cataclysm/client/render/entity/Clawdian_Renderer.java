@@ -7,7 +7,7 @@ import com.github.L_Ender.cataclysm.client.model.entity.Clawdian_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Clawdian_Hold_Block_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Clawdian_Hold_Entity_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Clawdian_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

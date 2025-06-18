@@ -79,13 +79,13 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
 
 
     public InteractionResult use(BlockState p_49722_, Level p_49723_, BlockPos p_49724_, Player p_49725_, InteractionHand p_49726_, BlockHitResult p_49727_) {
-        return this.onHit(p_49723_,p_49722_, p_49727_, p_49725_, true)  ? InteractionResult.sidedSuccess(p_49723_.isClientSide) : InteractionResult.PASS;
+        return this.onHit(p_49723_,p_49722_, p_49727_, p_49725_,p_49726_, true)  ? InteractionResult.sidedSuccess(p_49723_.isClientSide) : InteractionResult.PASS;
     }
 
-    public boolean onHit(Level p_49702_,BlockState blockState, BlockHitResult p_49704_, @javax.annotation.Nullable Player p_49705_, boolean p_49706_) {
+    public boolean onHit(Level p_49702_,BlockState blockState, BlockHitResult p_49704_,Player p_49705_, InteractionHand p_49726_, boolean p_49706_) {
         BlockPos blockpos = p_49704_.getBlockPos();
         if (p_49706_) {
-            this.attemptToRing(p_49705_, p_49702_,blockState, blockpos);
+            this.attemptToRing(p_49705_, p_49702_,p_49726_,blockState, blockpos);
             return true;
         } else {
             return false;
@@ -93,9 +93,10 @@ public class Door_of_Seal_Block extends BaseEntityBlock {
     }
 
 
-    public boolean attemptToRing(@javax.annotation.Nullable Entity p_152189_, Level p_152190_,BlockState blockState, BlockPos p_152191_) {
+    public boolean attemptToRing(Player p_152189_, Level p_152190_, InteractionHand p_49726_,BlockState blockState, BlockPos p_152191_) {
         BlockEntity blockentity = p_152190_.getBlockEntity(p_152191_);
-        if (!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity && !blockState.getValue(LIT)) {
+        ItemStack stack = p_152189_.getItemInHand(p_49726_);
+        if (stack.is(ModItems.STRANGE_KEY.get()) &&!p_152190_.isClientSide && blockentity instanceof Door_Of_Seal_BlockEntity && !blockState.getValue(LIT)) {
             ((Door_Of_Seal_BlockEntity)blockentity).onHit(p_152190_);
             p_152190_.setBlock(p_152191_, blockState.setValue(LIT, Boolean.valueOf(true)), 3);
           //  p_152190_.playSound((Player)null, p_152191_, ModSounds.MALEDICTUS_SHORT_ROAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F);

@@ -1587,5 +1587,13 @@
         "pitch": 1.0
       }
     ]
+  },
+  "main_theme": {
+    "subtitle": "main_theme.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/main_theme"
+      }
+    ]
   }
 }

@@ -283,14 +283,16 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
         }
         if(this.getAttackState() == 3) {
             if (this.tickCount % 4 == 0) {
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.0D))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Ignited_Berserker_Entity) && entity != this) {
-                        boolean flag = entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                        if (flag) {
-                            double d0 = entity.getX() - this.getX();
-                            double d1 = entity.getZ() - this.getZ();
-                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                            entity.push(d0 / d2 * 0.5D, 0.1D, d1 / d2 * 0.5D);
+                if (!this.level().isClientSide) {
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.0D))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Ignited_Berserker_Entity) && entity != this) {
+                            boolean flag = entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                            if (flag) {
+                                double d0 = entity.getX() - this.getX();
+                                double d1 = entity.getZ() - this.getZ();
+                                double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                                entity.push(d0 / d2 * 0.5D, 0.1D, d1 / d2 * 0.5D);
+                            }
                         }
                     }
                 }
@@ -380,6 +382,7 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -416,6 +419,7 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
                     }
                 }
             }
+        }
         }
     }
 

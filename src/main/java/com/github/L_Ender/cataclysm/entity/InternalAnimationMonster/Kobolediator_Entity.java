@@ -402,16 +402,18 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 }
             }
             if (this.tickCount % 4 == 0) {
-                for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5D))) {
-                    if (!isAlliedTo(Lentity) && !(Lentity instanceof Kobolediator_Entity) && Lentity != this) {
-                        boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
-                        if (flag) {
-                            if (Lentity.onGround()) {
-                                double d0 = Lentity.getX() - this.getX();
-                                double d1 = Lentity.getZ() - this.getZ();
-                                double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                                float f = 1.5F;
-                                Lentity.push(d0 / d2 * f, 0.5F, d1 / d2 * f);
+                if (!this.level().isClientSide) {
+                    for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5D))) {
+                        if (!isAlliedTo(Lentity) && !(Lentity instanceof Kobolediator_Entity) && Lentity != this) {
+                            boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
+                            if (flag) {
+                                if (Lentity.onGround()) {
+                                    double d0 = Lentity.getX() - this.getX();
+                                    double d1 = Lentity.getZ() - this.getZ();
+                                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                                    float f = 1.5F;
+                                    Lentity.push(d0 / d2 * f, 0.5F, d1 / d2 * f);
+                                }
                             }
                         }
                     }
@@ -489,6 +491,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -510,6 +513,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
                 }
             }
+        }
         }
     }
 
@@ -574,32 +578,32 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
             blockpos = blockpos.below();
         } while(blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
 
+        if (!this.level().isClientSide) {
+            Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, (double) blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
+            fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.04D, 0);
+            level().addFreshEntity(fallingBlockEntity);
 
-        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, (double)blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
-        fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.04D, 0);
-        level().addFreshEntity(fallingBlockEntity);
 
-
-
-        AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        for (LivingEntity entity : hit) {
-            if (!isAlliedTo(entity) && !(entity instanceof Kobolediator_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
-                }
-
-                if (flag) {
-                    double magnitude = -4;
-                    double x = vx * (1 - factor) * magnitude;
-                    double y = 0;
-                    if (entity.onGround()) {
-                        y += 0.15;
+            AABB selection = new AABB(px - 0.5, (double) blockpos.getY() + d0 - 1, pz - 0.5, px + 0.5, (double) blockpos.getY() + d0 + mxy, pz + 0.5);
+            List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
+            for (LivingEntity entity : hit) {
+                if (!isAlliedTo(entity) && !(entity instanceof Kobolediator_Entity) && entity != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
-                    double z = vz * (1 - factor) * magnitude;
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
+
+                    if (flag) {
+                        double magnitude = -4;
+                        double x = vx * (1 - factor) * magnitude;
+                        double y = 0;
+                        if (entity.onGround()) {
+                            y += 0.15;
+                        }
+                        double z = vz * (1 - factor) * magnitude;
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
+                    }
                 }
             }
         }

@@ -506,5 +506,7 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"super_lightning")));
 
+    public static final RegistryObject<SoundEvent> MAIN_THEME = SOUNDS.register("main_theme",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"main_theme")));
 
 }

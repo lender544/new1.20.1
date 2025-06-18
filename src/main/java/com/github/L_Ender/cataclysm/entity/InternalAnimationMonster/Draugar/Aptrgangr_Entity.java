@@ -483,6 +483,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -497,7 +498,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Aptrgangr_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean hurt =  entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
@@ -511,35 +512,38 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                 }
             }
         }
+        }
     }
 
     private void UpperAreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof Aptrgangr_Entity) && entityHit != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean hurt =  entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
-                    double d0 = entityHit.getX() - this.getX();
-                    double d1 = entityHit.getZ() - this.getZ();
-                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                    if (hurt && knockback) {
-                        entityHit.setDeltaMovement(entityHit.getDeltaMovement().add(0.0D, (double)0.4F * 2, 0.0D));
-                    }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Aptrgangr_Entity) && entityHit != this) {
+                        DamageSource damagesource = this.damageSources().mobAttack(this);
+                        boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
+                        }
+                        double d0 = entityHit.getX() - this.getX();
+                        double d1 = entityHit.getZ() - this.getZ();
+                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                        if (hurt && knockback) {
+                            entityHit.setDeltaMovement(entityHit.getDeltaMovement().add(0.0D, (double) 0.4F * 2, 0.0D));
+                        }
 
+                    }
                 }
             }
         }
@@ -551,28 +555,30 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         double xExpand = range * Math.cos(yaw);
         double zExpand = range * Math.sin(yaw);
         AABB attackRange = this.getBoundingBox().inflate(inflateXZ,inflateY,inflateXZ).expandTowards(xExpand, 0, zExpand);
-        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
-            if (!isAlliedTo(entity) && entity != this) {
-                if(this.getPassengers().isEmpty()) {
-                    DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
-                    boolean flag = entity.hurt(damagesource, damage);
-                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
-                    if (flag) {
-                        if (!entity.getType().is(ModTag.IGNIS_CANT_POKE) && entity.isAlive()) {
-                            if (entity.isShiftKeyDown()) {
-                                entity.setShiftKeyDown(false);
-                            }
-                            if (!this.level().isClientSide) {
-                                entity.startRiding(this, true);
-                                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(),true));
-                            }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
+                if (!isAlliedTo(entity) && entity != this) {
+                    if (this.getPassengers().isEmpty()) {
+                        DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
+                        boolean flag = entity.hurt(damagesource, damage);
+                        if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
                         }
+                        if (flag) {
+                            if (!entity.getType().is(ModTag.IGNIS_CANT_POKE) && entity.isAlive()) {
+                                if (entity.isShiftKeyDown()) {
+                                    entity.setShiftKeyDown(false);
+                                }
 
+                                    entity.startRiding(this, true);
+                                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(), true));
+
+                            }
+
+                        }
                     }
-                }
 
+                }
             }
         }
     }

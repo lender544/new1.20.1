@@ -355,7 +355,7 @@ public class Scylla_Entity extends IABoss_monster {
         return Monster.createMonsterAttributes()
                 .add(Attributes.FOLLOW_RANGE, 50.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.31F)
-                .add(Attributes.ATTACK_DAMAGE, 17)
+                .add(Attributes.ATTACK_DAMAGE, 18)
                 .add(Attributes.MAX_HEALTH, 390)
                 .add(Attributes.ARMOR, 12)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
@@ -910,7 +910,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 1) {
             if (this.attackTicks == 15) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.25f,6.0f,100,1.0F,80,true);
+                AreaAttack(3.25f,6.0f,100,1.0F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.1f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
@@ -920,7 +920,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 2) {
             if (this.attackTicks == 15) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.25f,6.0f,100,1.0F,80,true);
+                AreaAttack(3.25f,6.0f,100,1.0F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.07F, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,true,0.95F);
 
@@ -930,13 +930,13 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 3) {
             if (this.attackTicks == 16) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.25f,6.0f,100,0.9F,20,true);
+                AreaAttack(3.25f,6.0f,100,0.9F,20,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.07f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
             if (this.attackTicks == 30) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.25f,6.0f,100,0.9F,80,true);
+                AreaAttack(3.25f,6.0f,100,0.9F,80,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.07f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,true,0.95F);
             }
@@ -945,7 +945,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(this.getAttackState() == 4) {
             if (this.attackTicks == 16) {
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(4.25f,6.0f,100,1.0F,0,true);
+                AreaAttack(3.25f,6.0f,100,1.0F,0,true);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.07f, 0, 20);
                 SwingParticle(vecX,-5,vecZ,1.5,false,0.95F);
             }
@@ -1003,7 +1003,6 @@ public class Scylla_Entity extends IABoss_monster {
             }
 
             if(this.attackTicks == 29 || this.attackTicks == 40 || this.attackTicks == 51) {
-                SpinDamage(2.0f,5.5D,3,1.5,1.0F,(float)CMConfig.ScyllaSpinHpDamage,0,120);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.1f, 0, 20);
                 this.playSound(ModSounds.STRONGSWING.get(), 2.0f, 1.1F);
                 if (this.level().isClientSide) {
@@ -1015,6 +1014,8 @@ public class Scylla_Entity extends IABoss_monster {
                     double lookZ = -Math.sin(yaw);
                     float pitch = (float) Math.atan2(-5, Math.sqrt(lookX * lookX + lookZ * lookZ)) ;
                     this.level().addParticle(new Scylla_Swing_Particle.SwingData(this.getScale() * 2.0F, yaw , pitch), d0, d1, d2, 0, 0, 0);
+                }else{
+                    SpinDamage(2.0f,5.5D,3,1.5,1.0F,(float)CMConfig.ScyllaSpinHpDamage,0,120);
                 }
 
 
@@ -1173,13 +1174,12 @@ public class Scylla_Entity extends IABoss_monster {
             if (this.attackTicks == 1) {
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 2.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 25, 0.06f, 15, 10);
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5D))) {
-                    if (!isAlliedTo(entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
-                    }
-                }
                 if (!level().isClientSide) {
-
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5D))) {
+                        if (!isAlliedTo(entity) && entity != this) {
+                            entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
+                        }
+                    }
                     int rune = 7;
                     int time = 4;
 
@@ -1265,12 +1265,13 @@ public class Scylla_Entity extends IABoss_monster {
                     float vec = 1.0f;
                     this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
                     this.level().addParticle(ModParticle.LIGHTNING_EXPLODE.get(), d0, d1, d2, 0, 0, 0);
-                }
+                }else {
 
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Scylla_Entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Scylla_Entity) && entity != this) {
+                            entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
 
+                        }
                     }
                 }
 
@@ -1283,12 +1284,13 @@ public class Scylla_Entity extends IABoss_monster {
                     float vec = 1.0f;
                     this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 30, 143/255F, 241/255F, 215/255F, 1.0f, 65, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX, getY() + 0.02f, getZ() + vec * vecZ, 0, 0, 0);
                     this.level().addParticle(ModParticle.LIGHTNING_EXPLODE.get(), d0, d1, d2, 0, 0, 0);
-                }
+                }else {
 
-                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
-                    if (!isAlliedTo(entity) && !(entity instanceof Scylla_Entity) && entity != this) {
-                        entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0))) {
+                        if (!isAlliedTo(entity) && !(entity instanceof Scylla_Entity) && entity != this) {
+                            entity.hurt(CMDamageTypes.causeLightningMobDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.ScyllaHpDamage)));
 
+                        }
                     }
                 }
             }
@@ -1666,7 +1668,7 @@ public class Scylla_Entity extends IABoss_monster {
             if (this.attackTicks == 11) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
                 this.playSound(ModSounds.HEAVY_SMASH.get(), 0.8f, 1.0F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(5.0f,6.75f,65,1.1F,120,false);
+                AreaAttack(4.5f,6.75f,65,1.1F,120,false);
                 if (!this.level().isClientSide) {
                     spawnLightning(this.getX() + vecX * 3.25F, this.getZ() + vecZ * 3.25F, this.getY() -2, this.getY() + 5, (float) theta, -9,2.0F);
                 }else{
@@ -1729,20 +1731,20 @@ public class Scylla_Entity extends IABoss_monster {
                     px + inflateXZ, this.getY() + inflateY, pz + inflateXZ
             ).expandTowards(f1 * range * 0.75, 0, f2 * range * 0.75);
 
-            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
-                if (!isAlliedTo(entity) && entity != this) {
-                    DamageSource damagesource = CMDamageTypes.causeLightningMobDamage(this);
-                    entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min((float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage), entity.getMaxHealth() * hpdamage)));
-
-                }
-            }
-
             if (this.level().isClientSide) {
                 double d0 = px + f1 * range;
                 double d1 = this.getY() + 0.3;
                 double d2 = pz + f2 * range;
                 this.level().addParticle(new CircleLightningParticle.CircleData(143, 241, 215), px, this.getY(), pz, d0+ (random.nextFloat() - 0.5F) * 2, d1, d2+ (random.nextFloat() - 0.5F) * 2);
 
+            }else{
+                for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
+                    if (!isAlliedTo(entity) && entity != this) {
+                        DamageSource damagesource = CMDamageTypes.causeLightningMobDamage(this);
+                        entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min((float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage), entity.getMaxHealth() * hpdamage)));
+
+                    }
+                }
             }
 
         }

@@ -717,31 +717,31 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                             ChargeBlockBreaking();
                         }
                     }
-                }
+                    double yaw = Math.toRadians(this.getYRot() + 90);
+                    double xExpand = 2.0F * Math.cos(yaw);
+                    double zExpand = 2.0F * Math.sin(yaw);
+                    AABB attackRange = this.getBoundingBox().inflate(0.75D, 0.75D, 0.75D).expandTowards(xExpand, 0, zExpand);
+                    for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
+                        if (!isAlliedTo(Lentity) && !(Lentity instanceof Netherite_Monstrosity_Entity) && Lentity != this) {
+                            boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
+                            if (flag) {
+                                double theta = (yBodyRot) * (Math.PI / 180);
+                                theta += Math.PI / 2;
+                                double vec = -2.5D;
+                                double vecX = Math.cos(theta);
+                                double vecZ = Math.sin(theta);
 
-                double yaw = Math.toRadians(this.getYRot() + 90);
-                double xExpand = 2.0F * Math.cos(yaw);
-                double zExpand = 2.0F * Math.sin(yaw);
-                AABB attackRange = this.getBoundingBox().inflate(0.75D, 0.75D, 0.75D).expandTowards(xExpand, 0, zExpand);
-                for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
-                    if (!isAlliedTo(Lentity) && !(Lentity instanceof Netherite_Monstrosity_Entity) && Lentity != this) {
-                        boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
-                        if (flag) {
-                            double theta = (yBodyRot) * (Math.PI / 180);
-                            theta += Math.PI / 2;
-                            double vec = -2.5D;
-                            double vecX = Math.cos(theta);
-                            double vecZ = Math.sin(theta);
-
-                            double d0 = Lentity.getX() - (this.getX() + vec * vecX);
-                            double d1 = Lentity.getZ() - (this.getZ() + vec * vecZ);
-                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.05D);
-                            double vel = 4.0D;
-                            Lentity.push(d0 / d2 * vel, 0.3D, d1 / d2 * vel);
-                            Lentity.addEffect(new MobEffectInstance(ModEffect.EFFECTBONE_FRACTURE.get(), 100));
+                                double d0 = Lentity.getX() - (this.getX() + vec * vecX);
+                                double d1 = Lentity.getZ() - (this.getZ() + vec * vecZ);
+                                double d2 = Math.max(d0 * d0 + d1 * d1, 0.05D);
+                                double vel = 4.0D;
+                                Lentity.push(d0 / d2 * vel, 0.3D, d1 / d2 * vel);
+                                Lentity.addEffect(new MobEffectInstance(ModEffect.EFFECTBONE_FRACTURE.get(), 100));
+                            }
                         }
                     }
                 }
+
 
             }
         }
@@ -954,23 +954,25 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
         AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
         List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        for (LivingEntity entity : hit) {
-            if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
-                }
-
-                if (flag) {
-                    double magnitude = 10;
-                    double x = vx * Math.max(factor, 0.2) * magnitude;
-                    double y = 0;
-                    if (entity.onGround()) {
-                        y += 0.15;
+        if (!this.level().isClientSide) {
+            for (LivingEntity entity : hit) {
+                if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
                     }
-                    double z = vz * Math.max(factor, 0.2) * magnitude;
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
+
+                    if (flag) {
+                        double magnitude = 10;
+                        double x = vx * Math.max(factor, 0.2) * magnitude;
+                        double y = 0;
+                        if (entity.onGround()) {
+                            y += 0.15;
+                        }
+                        double z = vz * Math.max(factor, 0.2) * magnitude;
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
+                    }
                 }
             }
         }
@@ -1010,18 +1012,20 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     private void EarthQuake(double area) {
         this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(area))) {
-            if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
-                    disableShield(player, 120);
-                }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(area))) {
+                if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
+                        disableShield(player, 120);
+                    }
 
-                if (flag) {
-                    launch(entity, 2D,0.6D);
-                    if (getIsBerserk()) {
-                        entity.setSecondsOnFire(6);
+                    if (flag) {
+                        launch(entity, 2D, 0.6D);
+                        if (getIsBerserk()) {
+                            entity.setSecondsOnFire(6);
+                        }
                     }
                 }
             }

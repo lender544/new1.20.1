@@ -4,7 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Drowned_Host_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Drowned_Host_Outer_Layer;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Drowned_Host_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Drowned_Host_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.AbstractZombieRenderer;

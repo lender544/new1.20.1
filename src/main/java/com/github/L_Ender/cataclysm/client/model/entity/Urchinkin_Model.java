@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 // Paste this class into your mod and generate all required imports
 
 import com.github.L_Ender.cataclysm.client.animation.Urchinkin_Animation;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Urchinkin_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;

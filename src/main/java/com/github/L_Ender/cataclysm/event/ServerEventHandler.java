@@ -16,6 +16,7 @@ import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -39,10 +40,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.event.entity.player.CriticalHitEvent;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.*;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -139,7 +137,7 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void onLivingJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.getEffect(ModEffect.EFFECTSTUN.get()) != null){
+        if (entity.getEffect(ModEffect.EFFECTSTUN.get()) != null) {
             entity.setDeltaMovement(entity.getDeltaMovement().x(), 0.0D, entity.getDeltaMovement().z());
         }
     }
@@ -178,8 +176,8 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void KnockbackEvent(LivingKnockBackEvent event) {
         LivingEntity living = event.getEntity();
-        if(living instanceof Royal_Draugr_Entity royalDraugr){
-            if(royalDraugr.isDraugrBlocking()){
+        if (living instanceof Royal_Draugr_Entity royalDraugr) {
+            if (royalDraugr.isDraugrBlocking()) {
                 event.setCanceled(true);
             }
         }
@@ -218,7 +216,7 @@ public class ServerEventHandler {
         boolean flag = false;
         ItemStack leftItem = event.getEntity().getOffhandItem();
         ItemStack rightItem = event.getEntity().getMainHandItem();
-        if(!event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())){
+        if (!event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
             if (leftItem.getItem() instanceof ILeftClick) {
                 ((ILeftClick) leftItem.getItem()).onLeftClick(leftItem, event.getEntity());
                 flag = true;
@@ -276,8 +274,8 @@ public class ServerEventHandler {
             if (entity.hasEffect(ModEffect.EFFECTWETNESS.get())) {
                 MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS.get());
                 if (effectinstance1 != null) {
-                    float i = (effectinstance1.getAmplifier()+1) * 0.15F;
-                    float f =  damage * i;
+                    float i = (effectinstance1.getAmplifier() + 1) * 0.15F;
+                    float f = damage + damage * i;
                     damage = Math.min(Float.MAX_VALUE, f);
                     event.setAmount(damage);
                 }
@@ -287,7 +285,7 @@ public class ServerEventHandler {
             entity.removeEffect(ModEffect.EFFECTSTUN.get());
         }
         if (!event.getEntity().getItemBySlot(EquipmentSlot.LEGS).isEmpty() && event.getSource() != null && event.getSource().getEntity() != null) {
-            if(event.getEntity().getItemBySlot(EquipmentSlot.LEGS).getItem() == ModItems.IGNITIUM_LEGGINGS.get()){
+            if (event.getEntity().getItemBySlot(EquipmentSlot.LEGS).getItem() == ModItems.IGNITIUM_LEGGINGS.get()) {
                 Entity attacker = event.getSource().getEntity();
                 if (attacker instanceof LivingEntity && attacker != event.getEntity()) {
                     if (event.getEntity().getRandom().nextFloat() < 0.5F) {
@@ -327,7 +325,7 @@ public class ServerEventHandler {
 
         ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
 
-        if(item == ModItems.BULWARK_OF_THE_FLAME.get()) {
+        if (item == ModItems.BULWARK_OF_THE_FLAME.get()) {
             if (ParryCapability != null) {
                 if (ParryCapability.getParryFrame() < 13) {
                     if (directEntity instanceof LivingEntity livingEntity) {
@@ -340,7 +338,7 @@ public class ServerEventHandler {
                 }
             }
         }
-        if(item == ModItems.AZURE_SEA_SHIELD.get()) {
+        if (item == ModItems.AZURE_SEA_SHIELD.get()) {
             if (ParryCapability != null) {
                 if (ParryCapability.getParryFrame() < 10) {
                     if (directEntity instanceof LivingEntity livingEntity) {
@@ -355,21 +353,22 @@ public class ServerEventHandler {
         }
 
     }
+
     @SubscribeEvent
     public void DeathEvent(LivingDeathEvent event) {
         DamageSource source = event.getSource();
 
-            if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                if(tryCursiumPlateRebirth(event.getEntity())){
-                    event.setCanceled(true);
-                }
+        if (!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            if (tryCursiumPlateRebirth(event.getEntity())) {
+                event.setCanceled(true);
+            }
 
         }
     }
 
     private boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
-        if (!living.level().isClientSide &&chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
+        if (!living.level().isClientSide && chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             living.setHealth(5.0F);
             living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
             living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM.get(), 100, 0));
@@ -387,7 +386,7 @@ public class ServerEventHandler {
                                 double d4 = (double) i + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
                                 double d5 = (double) k + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
                                 double d6 = (double) Mth.sqrt((float) (d3 * d3 + d4 * d4 + d5 * d5)) / 0.5 + living.getRandom().nextGaussian() * 0.05D;
-                                particlePacket.queueParticle(ModParticle.CURSED_FLAME.get(),false, d0 , d1, d2, d3 / d6, d4 / d6, d5 / d6);
+                                particlePacket.queueParticle(ModParticle.CURSED_FLAME.get(), false, d0, d1, d2, d3 / d6, d4 / d6, d5 / d6);
                                 if (i != -size && i != size && j != -size && j != size) {
                                     k += size * 2 - 1;
                                 }
@@ -424,19 +423,18 @@ public class ServerEventHandler {
     }
 
 
-
     @SubscribeEvent
     public void onLivingAttack(CriticalHitEvent event) {
         ItemStack weapon = event.getEntity().getMainHandItem();
         if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity livingEntity) {
             if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
                 //if(event.isVanillaCritical()){
-                    event.setDamageModifier(2.25F);
-               // }
+                event.setDamageModifier(2.25F);
+                // }
 
             }
             if (weapon.getItem() == ModItems.THE_IMMOLATOR.get()) {
-                if(livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())){
+                if (livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())) {
                     event.setResult(Event.Result.ALLOW);
                 }
                 event.setDamageModifier(2.0F);
@@ -484,10 +482,25 @@ public class ServerEventHandler {
     @SubscribeEvent
     public void onUseTick(LivingEntityUseItemEvent.Tick event) {
         Item item = event.getItem().getItem();
-        if ((item == ModItems.AZURE_SEA_SHIELD.get()||item == ModItems.BULWARK_OF_THE_FLAME.get()) && event.getEntity() instanceof Player player) {
+        if ((item == ModItems.AZURE_SEA_SHIELD.get() || item == ModItems.BULWARK_OF_THE_FLAME.get()) && event.getEntity() instanceof Player player) {
             ParryCapability.IParryCapability ParryCapability = ModCapabilities.getCapability(event.getEntity(), ModCapabilities.PARRY_CAPABILITY);
             if (ParryCapability != null) {
                 ParryCapability.setParryFrame(ParryCapability.getParryFrame() + 1);
+            }
+
+        }
+    }
+
+    @SubscribeEvent
+    public void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
+        Player player = event.getEntity();
+        ResourceLocation advId = event.getAdvancement().getId();
+
+        if (advId.equals(new ResourceLocation(Cataclysm.MODID, "kill_all_bosses"))) {
+
+            ItemStack reward = new ItemStack(ModItems.MUSIC_DISC_MAIN_THEME.get());
+            if (!player.getInventory().add(reward)) {
+                player.drop(reward, false);
             }
 
         }

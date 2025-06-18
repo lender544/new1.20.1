@@ -467,13 +467,15 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     private void EarthQuake(float grow, int damage, int shieldbreakticks) {
         ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.15f, 0, 20);
         this.playSound(SoundEvents.GENERIC_EXPLODE, 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
-            if (!isAlliedTo(entity) && !(entity instanceof Coralssus_Entity) && entity != this) {
-                launch(entity, true);
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
+        if (!this.level().isClientSide) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
+                if (!isAlliedTo(entity) && !(entity instanceof Coralssus_Entity) && entity != this) {
+                    launch(entity, true);
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
+                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                        disableShield(player, shieldbreakticks);
+                    }
                 }
             }
         }

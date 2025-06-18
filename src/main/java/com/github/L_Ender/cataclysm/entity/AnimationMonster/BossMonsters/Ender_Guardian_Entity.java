@@ -487,8 +487,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 Attackparticle(2.75f,2.25f);
                 Attackparticle(2.75f,-2.25f);
                 this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-                MassDestruction(5.0f, 1.1f,150);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.3f, 0, 10);
+                MassDestruction(5.0f, 1.1f,150);
                 if (!this.level().isClientSide) {
                     if (Breaking) {
                         BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
@@ -658,6 +658,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, int stunticks, float airborne, boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -692,20 +693,23 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                     }
                 }
             }
+            }
         }
     }
 
 
     private void MassDestruction(float grow, float damage, int ticks) {
-        for (LivingEntity entityHit : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
-            if (!isAlliedTo(entityHit) && !(entityHit instanceof Ender_Guardian_Entity) && entityHit != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
-                entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage);
-                if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && ticks > 0) {
-                    disableShield(player, ticks);
-                }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
+                if (!isAlliedTo(entityHit) && !(entityHit instanceof Ender_Guardian_Entity) && entityHit != this) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                    entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage);
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && ticks > 0) {
+                        disableShield(player, ticks);
+                    }
 
-                launch(entityHit);
+                    launch(entityHit);
+                }
             }
         }
     }

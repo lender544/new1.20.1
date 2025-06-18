@@ -5,7 +5,7 @@ import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 
 import com.github.L_Ender.cataclysm.client.model.entity.Urchinkin_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Urchinkin_Layer;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Skylands.Urchinkin_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Urchinkin_Entity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider.Context;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

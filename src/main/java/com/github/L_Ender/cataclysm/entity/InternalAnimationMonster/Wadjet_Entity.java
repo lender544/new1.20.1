@@ -378,30 +378,32 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!isAlliedTo(entityHit) && !(entityHit instanceof Wadjet_Entity) && entityHit != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
+        if (!this.level().isClientSide) {
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Wadjet_Entity) && entityHit != this) {
+                        DamageSource damagesource = this.damageSources().mobAttack(this);
+                        boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            disableShield(player, shieldbreakticks);
+                        }
 
-                    double d0 = entityHit.getX() - this.getX();
-                    double d1 = entityHit.getZ() - this.getZ();
-                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                    if (hurt && knockback) {
-                        entityHit.push(d0 / d2 * 2.25D, 0.15D, d1 / d2 * 2.25D);
+                        double d0 = entityHit.getX() - this.getX();
+                        double d1 = entityHit.getZ() - this.getZ();
+                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                        if (hurt && knockback) {
+                            entityHit.push(d0 / d2 * 2.25D, 0.15D, d1 / d2 * 2.25D);
+                        }
                     }
                 }
             }

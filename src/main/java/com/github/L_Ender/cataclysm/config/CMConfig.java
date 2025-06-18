@@ -83,7 +83,7 @@ public class CMConfig {
     public static int AncientRemnantDamageTime = 12;
     public static int MaledictusDamageTime = 30;
     public static int ClawdianDamageTime = 7;
-    public static int ScyllaDamageTime = 15;
+    public static int ScyllaDamageTime = 25;
 
     public static int Lavabombmagazine = 3;
     public static int Lavabombamount = 3;

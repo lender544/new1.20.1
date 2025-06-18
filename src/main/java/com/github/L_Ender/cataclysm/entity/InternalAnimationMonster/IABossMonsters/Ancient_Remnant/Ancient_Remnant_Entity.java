@@ -609,23 +609,24 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                     ChargeBlockBreaking(1.5D);
                 }
             }
-        }
-        if (this.tickCount % 4 == 0) {
-            for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
-                if (!isAlliedTo(Lentity) && !(Lentity instanceof Ancient_Remnant_Entity) && Lentity != this) {
-                    boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f, Lentity.getMaxHealth() * CMConfig.RemnantChargeHpDamage)));
-                    if (flag) {
-                        if (Lentity.onGround()) {
-                            double d0 = Lentity.getX() - this.getX();
-                            double d1 = Lentity.getZ() - this.getZ();
-                            double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                            float f = 1.5F;
-                            Lentity.push(d0 / d2 * f, 0.5F, d1 / d2 * f);
+            if (this.tickCount % 4 == 0) {
+                for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
+                    if (!isAlliedTo(Lentity) && !(Lentity instanceof Ancient_Remnant_Entity) && Lentity != this) {
+                        boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 2.0f, Lentity.getMaxHealth() * CMConfig.RemnantChargeHpDamage)));
+                        if (flag) {
+                            if (Lentity.onGround()) {
+                                double d0 = Lentity.getX() - this.getX();
+                                double d1 = Lentity.getZ() - this.getZ();
+                                double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                                float f = 1.5F;
+                                Lentity.push(d0 / d2 * f, 0.5F, d1 / d2 * f);
+                            }
                         }
                     }
                 }
             }
         }
+
 
     }
     
@@ -959,6 +960,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, int stunticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -973,7 +975,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ancient_Remnant_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
+                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage)));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
@@ -989,11 +991,13 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 }
             }
         }
+        }
     }
 
 
     private void TailAreaAttack(float range, float height, float height2 , float arc, float damage, float hpdamage, int shieldbreakticks, int stunticks) {
         List<LivingEntity> entitiesHit = this.getTailEntityLivingBaseNearby(range, height,height2, range, range);
+        if (!this.level().isClientSide) {
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
             float entityAttackingAngle = this.yBodyRot % 360;
@@ -1008,7 +1012,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ancient_Remnant_Entity) && entityHit != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
+                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage)));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
                         disableShield(player, shieldbreakticks);
                     }
@@ -1025,6 +1029,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                     }
 
                 }
+            }
             }
         }
     }
@@ -1061,8 +1066,9 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
             if (block.getRenderShape() != RenderShape.MODEL) {
                 block = Blocks.AIR.defaultBlockState();
             }
-            spawnBlocks(hitX,hitY + height ,hitZ, (int) (this.getY() - height),block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage, hpdamage);
-
+            if (!this.level().isClientSide) {
+                spawnBlocks(hitX, hitY + height, hitZ, (int) (this.getY() - height), block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage, hpdamage);
+            }
         }
     }
 
@@ -1099,11 +1105,12 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
         AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
         List<LivingEntity> hitbox = level().getEntitiesOfClass(LivingEntity.class, selection);
+
         for (LivingEntity entity : hitbox) {
             if (!isAlliedTo(entity) && !(entity instanceof Ancient_Remnant_Entity) && entity != this) {
                 DamageSource damagesource = this.damageSources().mobAttack(this);
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + entity.getMaxHealth() * hpdamage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
+                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
                     disableShield(player, shieldbreakticks);
                 }
                 if (flag) {
@@ -1119,6 +1126,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                 }
             }
         }
+
     }
 
     private void Roarparticle(float vec,float math, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
