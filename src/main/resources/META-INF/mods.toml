@@ -17,7 +17,7 @@ license="${mod_license}"
 modId = "cataclysm"
 
 # The version number of the mod
-version = "2.95" #mandatory
+version = "3.00" #mandatory
 
 # A display name for the mod
 displayName = "cataclysm" #mandatory
