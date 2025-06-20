@@ -32,6 +32,7 @@ public class DungeonEyeItem extends Item {
         this.Blue = b;
     }
 
+
     public InteractionResultHolder<ItemStack> use(Level p_41184_, Player p_41185_, InteractionHand p_41186_) {
         ItemStack itemstack = p_41185_.getItemInHand(p_41186_);
         p_41185_.startUsingItem(p_41186_);
