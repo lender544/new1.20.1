@@ -389,7 +389,6 @@ public class CMConfig {
             MaledictusLongRangelimit = ConfigHolder.COMMON.MaledictusLongRangelimit.get();
             ScyllaLongRangelimit  = ConfigHolder.COMMON.ScyllaLongRangelimit.get();
 
-
             MonstrositysHpdamage = ConfigHolder.COMMON.MonstrositysHpdamage.get();
             EnderguardianTeleportAttackHpdamage = ConfigHolder.COMMON.EnderguardianTeleportAttackHpdamage.get();
             EnderguardianGravityPunchHpdamage = ConfigHolder.COMMON.EnderguardianGravityPunchHpdamage.get();
