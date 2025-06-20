@@ -21,7 +21,7 @@ public interface ModJukeboxSongs {
     ResourceKey<JukeboxSong> LEVIATHAN_THEME = registerKey("leviathan_theme");
     ResourceKey<JukeboxSong> MALEDICTUS_THEME = registerKey("maledictus_theme");
     ResourceKey<JukeboxSong> SCYLLA_THEME = registerKey("scylla_theme");
-    ResourceKey<JukeboxSong> MAIN_THEME = registerKey("main_theme");
+    ResourceKey<JukeboxSong> THE_CATACLYSM_FARER = registerKey("the_cataclysmfarer");
 
     private static ResourceKey<JukeboxSong> registerKey(String p_350505_) {
         return ResourceKey.create(Registries.JUKEBOX_SONG, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,p_350505_));

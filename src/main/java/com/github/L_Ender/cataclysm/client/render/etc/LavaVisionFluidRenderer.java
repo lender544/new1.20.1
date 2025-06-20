@@ -50,7 +50,7 @@ public class LavaVisionFluidRenderer extends LiquidBlockRenderer {
                 boolean flag = fluidStateIn.is(FluidTags.LAVA);
                 TextureAtlasSprite[] atextureatlassprite = net.neoforged.neoforge.client.textures.FluidSpriteCache.getFluidSprites(lightReaderIn, posIn, fluidStateIn);
                 int i = net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions.of(fluidStateIn).getTintColor(fluidStateIn, lightReaderIn, posIn);
-                float alpha = (float) CMConfig.LavaVisionOpacity;
+                float alpha = (float) 0.5F;
                 float f = (float)(i >> 16 & 255) / 255.0F;
                 float f1 = (float)(i >> 8 & 255) / 255.0F;
                 float f2 = (float)(i & 255) / 255.0F;

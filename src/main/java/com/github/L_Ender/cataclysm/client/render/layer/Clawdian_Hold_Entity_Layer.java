@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.event.ClientHooks;
+
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Clawdian_Model;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -47,7 +48,7 @@ public class Clawdian_Hold_Entity_Layer extends RenderLayer<Clawdian_Entity, Cla
     }
 
     public void renderEntityInClaw(float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity, EntityRenderDispatcher entityRenderer) {
-        ClientHooks.releaseRenderingEntity(entity.getUUID());
+        Cataclysm.PROXY.releaseRenderingEntity(entity.getUUID());
         poseStack.pushPose();
         this.getParentModel().translateToHand(poseStack);
         poseStack.translate(0.0F, -0.25F , 0F);
@@ -55,7 +56,7 @@ public class Clawdian_Hold_Entity_Layer extends RenderLayer<Clawdian_Entity, Cla
         poseStack.scale(1, 1, 1);
         entityRenderer.render(entity, (double)0.0F, (double)0.0F, (double)0.0F, 0.0F, partialTick, poseStack, buffer, packedLight);
         poseStack.popPose();
-        ClientHooks.blockRenderingEntity(entity.getUUID());
+        Cataclysm.PROXY.blockRenderingEntity(entity.getUUID());
     }
 
 

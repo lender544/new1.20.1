@@ -1,5 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.message.MessageMusic;
@@ -90,6 +92,7 @@ public class Meat_Shredder extends Item {
 		List<Entity> possibleList = level.getEntities(living, living.getBoundingBox().expandTowards(lookVec.x() * range, lookVec.y() * range, lookVec.z() * range).inflate(var9, var9, var9));
 
 		boolean flag = false;
+		Cataclysm.PROXY.playWorldSound(living, (byte) 1);
 		for (Entity entity : possibleList) {
 			if (entity instanceof LivingEntity) {
 				float borderSize = 0.5F;
@@ -120,6 +123,7 @@ public class Meat_Shredder extends Item {
 	@Override
 	public void releaseUsing(ItemStack stack, Level world, LivingEntity living, int remainingUseTicks) {
 		world.playSound(null, living.getX(), living.getY(), living.getZ(), ModSounds.SHREDDER_END.get(), SoundSource.PLAYERS, 1.5f, 1F / (living.getRandom().nextFloat() * 0.4F + 0.8F));
+		Cataclysm.PROXY.clearSoundCacheFor(living);
 	}
 
 	public float getDestroySpeed(ItemStack p_41004_, BlockState p_41005_) {

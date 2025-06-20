@@ -631,8 +631,8 @@ public class ModItems {
     public static final DeferredItem<Item> MUSIC_DISC_SCYLLA = ITEMS.register("music_disc_scylla",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().jukeboxPlayable(ModJukeboxSongs.SCYLLA_THEME)));
 
-    public static final DeferredItem<Item> MUSIC_DISC_MAIN_THEME = ITEMS.register("music_disc_main_theme",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().jukeboxPlayable(ModJukeboxSongs.MAIN_THEME)));
+    public static final DeferredItem<Item> MUSIC_DISC_THE_CATACLYSM_FARER = ITEMS.register("music_disc_the_cataclysmfarer",
+            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().jukeboxPlayable(ModJukeboxSongs.THE_CATACLYSM_FARER)));
 
 
     public static final DeferredItem<Item> MECH_EYE = ITEMS.register("mech_eye",

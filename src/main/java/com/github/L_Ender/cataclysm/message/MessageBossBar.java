@@ -1,7 +1,8 @@
 package com.github.L_Ender.cataclysm.message;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.event.ClientHooks;
+
+import com.github.L_Ender.cataclysm.ClientProxy;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -47,7 +48,7 @@ public abstract class MessageBossBar implements CustomPacketPayload {
         }
 
         public static void execute(Display payload, IPayloadContext context) {
-            ClientHooks.bossBarRenderTypes.put(payload.bossEvent, payload.rendertype);
+            ClientProxy.bossBarRenderTypes.put(payload.bossEvent, payload.rendertype);
         }
     }
 
@@ -74,7 +75,7 @@ public abstract class MessageBossBar implements CustomPacketPayload {
         }
 
         public static void execute(Remove payload, IPayloadContext context) {
-            ClientHooks.bossBarRenderTypes.remove(payload.bossEvent);
+            ClientProxy.bossBarRenderTypes.remove(payload.bossEvent);
         }
     }
 

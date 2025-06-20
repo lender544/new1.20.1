@@ -1605,11 +1605,11 @@
       }
     ]
   },
-  "main_theme": {
-    "subtitle": "main_theme.sub",
+  "the_cataclysmfarer": {
+    "subtitle": "the_cataclysmfarer.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/main_theme"
+        "name": "cataclysm:music_disc/the_cataclysmfarer"
       }
     ]
   }

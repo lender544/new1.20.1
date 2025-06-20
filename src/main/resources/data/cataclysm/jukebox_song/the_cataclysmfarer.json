@@ -1,0 +1,8 @@
+{
+  "comparator_output": 15,
+  "description": {
+    "translate": "item.cataclysm.music_disc_the_cataclysmfarer.desc"
+  },
+  "length_in_seconds": 186.0,
+  "sound_event": "cataclysm:the_cataclysmfarer"
+}

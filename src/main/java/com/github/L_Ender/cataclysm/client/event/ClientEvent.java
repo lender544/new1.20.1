@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.PlayerSandstorm_Model;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
@@ -261,13 +262,12 @@ public class ClientEvent {
             drawVertex(lvt_19_1_, ivertexbuilder, 1, 0, -1, 1, 0, 1, 0, 1, 240);
             matrixStackIn.popPose();
         }
-
-        if (ClientHooks.blockedEntityRenders.contains(event.getEntity().getUUID())) {
-            if (!ClientHooks.isFirstPersonPlayer(event.getEntity())) {
+        if (ClientProxy.blockedEntityRenders.contains(event.getEntity().getUUID())) {
+            if (!Cataclysm.PROXY.isFirstPersonPlayer(event.getEntity())) {
                 NeoForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
                 event.setCanceled(true);
             }
-            ClientHooks.blockedEntityRenders.remove(event.getEntity().getUUID());
+            ClientProxy.blockedEntityRenders.remove(event.getEntity().getUUID());
         }
 
     }
@@ -484,8 +484,8 @@ public class ClientEvent {
     private static void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event){
 
         if(CMConfig.custombossbar) {
-            if (ClientHooks.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {
-                int renderTypeFor = ClientHooks.bossBarRenderTypes.get(event.getBossEvent().getId());
+            if (ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {
+                int renderTypeFor = ClientProxy.bossBarRenderTypes.get(event.getBossEvent().getId());
 
                 CustomBossBar customBossBar = CustomBossBar.customBossBars.getOrDefault(renderTypeFor, null);
                 if (customBossBar == null) return;

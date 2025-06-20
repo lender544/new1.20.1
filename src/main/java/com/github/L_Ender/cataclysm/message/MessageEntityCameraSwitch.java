@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.message;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.event.ClientHooks;
+
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;

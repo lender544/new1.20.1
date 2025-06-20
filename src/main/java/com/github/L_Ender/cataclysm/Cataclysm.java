@@ -18,6 +18,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -29,12 +30,13 @@ import org.apache.logging.log4j.Logger;
 public class Cataclysm {
     public static final String MODID = "cataclysm";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
-
+    public static ServerProxy PROXY;
 
     public Cataclysm(IEventBus bus, Dist dist, ModContainer modContainer) {
         bus.addListener(this::setup);
         bus.addListener(this::onModConfigEvent);
         bus.addListener(this::setupPackets);
+        PROXY = FMLLoader.getDist().isClient() ? new ClientProxy() : new ServerProxy();
         ModGroup.DEF_REG.register(bus);
         bus.addListener(this::setupEntityModelLayers);
       //  ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.COMMON, ConfigHolder.COMMON_SPEC, "cataclysm.toml");
@@ -43,7 +45,7 @@ public class Cataclysm {
             ClientSetup.ClientSetupevent(bus);
             ClientEvent.ClientEvent();
         }
-
+        PROXY.init();
        // ServerEventHandler.ServerSetupevent(bus);
 
         ModDataAttachments.ATTACHMENT_TYPES.register(bus);

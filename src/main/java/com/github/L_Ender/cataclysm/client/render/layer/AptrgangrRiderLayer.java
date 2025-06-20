@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
-import com.github.L_Ender.cataclysm.client.event.ClientHooks;
+import com.github.L_Ender.cataclysm.Cataclysm;
+
 import com.github.L_Ender.cataclysm.client.model.entity.Aptrgangr_Model;
 import com.github.L_Ender.cataclysm.client.render.entity.Aptrgangr_Renderer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
@@ -33,14 +34,14 @@ public class AptrgangrRiderLayer extends RenderLayer<Aptrgangr_Entity, Aptrgangr
                 if (passenger == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
                     continue;
                 }
-                ClientHooks.releaseRenderingEntity(passenger.getUUID());
+                Cataclysm.PROXY.releaseRenderingEntity(passenger.getUUID());
                 poseStack.pushPose();
                 poseStack.translate(ridePos.x, ridePos.y - 0.65F + passenger.getBbHeight(), ridePos.z);
                 poseStack.mulPose(Axis.XN.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(360 - bodyYaw));
                 renderPassenger(passenger, 0, 0, 0, 0, partialTicks, poseStack, bufferIn, packedLightIn);
                 poseStack.popPose();
-                ClientHooks.blockRenderingEntity(passenger.getUUID());
+                Cataclysm.PROXY.blockRenderingEntity(passenger.getUUID());
             }
 
         }

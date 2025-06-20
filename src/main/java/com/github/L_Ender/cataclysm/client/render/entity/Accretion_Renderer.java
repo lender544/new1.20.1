@@ -1,10 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.event.ClientHooks;
-import com.github.L_Ender.cataclysm.client.model.entity.Wither_Howitzer_Model;
-import com.github.L_Ender.cataclysm.client.render.layer.Clawdian_Hold_Entity_Layer;
-import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Howitzer_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -82,14 +78,14 @@ public class Accretion_Renderer extends EntityRenderer<Accretion_Entity> {
     }
 
     public void renderEntityInClaw(float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Entity entity, EntityRenderDispatcher entityRenderer) {
-        ClientHooks.releaseRenderingEntity(entity.getUUID());
+        Cataclysm.PROXY.releaseRenderingEntity(entity.getUUID());
         poseStack.pushPose();
         poseStack.translate(0.5F, -0.5F , 0.5F);
 
         poseStack.scale(1, 1, 1);
         entityRenderer.render(entity, (double)0.0F, (double)0.0F, (double)0.0F, 0.0F, partialTick, poseStack, buffer, packedLight);
         poseStack.popPose();
-        ClientHooks.blockRenderingEntity(entity.getUUID());
+        Cataclysm.PROXY.blockRenderingEntity(entity.getUUID());
     }
 
     public ResourceLocation getTextureLocation(Accretion_Entity p_114632_) {

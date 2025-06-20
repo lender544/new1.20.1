@@ -512,6 +512,6 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning_strike",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"super_lightning_strike")));
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> MAIN_THEME = SOUNDS.register("main_theme",
-            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"main_theme")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> THE_CATACLYSM_FARER = SOUNDS.register("the_cataclysmfarer",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"the_cataclysmfarer")));
 }

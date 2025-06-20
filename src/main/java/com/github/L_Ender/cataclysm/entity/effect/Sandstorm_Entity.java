@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
@@ -90,7 +91,7 @@ public class Sandstorm_Entity extends Entity {
         }
 
         if (!this.isSilent() && level().isClientSide) {
-         //   Cataclysm.PROXY.playWorldSound(this, (byte) 2);
+           Cataclysm.PROXY.playWorldSound(this, (byte) 2);
         }
 
         for(LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
@@ -123,7 +124,7 @@ public class Sandstorm_Entity extends Entity {
         this.setLifespan(this.getLifespan() - 1);
 
         if (this.getLifespan() <= 0) {
-            //Cataclysm.PROXY.clearSoundCacheFor(this);
+            Cataclysm.PROXY.clearSoundCacheFor(this);
             this.remove(RemovalReason.DISCARDED);
         }
     }

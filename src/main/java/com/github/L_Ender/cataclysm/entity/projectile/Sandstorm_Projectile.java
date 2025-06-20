@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -188,11 +189,12 @@ public class Sandstorm_Projectile extends Projectile {
             float b = 0.69f + random.nextFloat() * ran * 1.5F;
             this.level().addParticle((new StormParticleOptions(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
             if (!this.isSilent()) {
-          //      Cataclysm.PROXY.playWorldSound(this, (byte) 2);
+               Cataclysm.PROXY.playWorldSound(this, (byte) 2);
             }
             this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
             this.setPos(d0, d1, d2);
         } else {
+            Cataclysm.PROXY.clearSoundCacheFor(this);
             this.discard();
         }
     }

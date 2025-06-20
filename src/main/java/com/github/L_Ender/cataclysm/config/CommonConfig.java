@@ -5,8 +5,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CommonConfig {
 
-    public final ModConfigSpec.DoubleValue LavaVisionOpacity;
-    public final ModConfigSpec.BooleanValue shadersCompat;
     public final ModConfigSpec.BooleanValue custombossbar;
 
     public final ModConfigSpec.BooleanValue setThirdPerson;
@@ -248,8 +246,6 @@ public class CommonConfig {
 
     public CommonConfig(final ModConfigSpec.Builder builder) {
         builder.push("Etc");
-        LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
-        shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
         setThirdPerson = buildBoolean(builder, "setThirdPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
         setFirstPerson = buildBoolean(builder, "setFirstPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
@@ -478,7 +474,7 @@ public class CommonConfig {
         builder.push("Scylla");
         ScyllaHealthMultiplier = buildDouble(builder, "ScyllaHealthMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Health Multiplier");
         ScyllaDamageMultiplier = buildDouble(builder, "ScyllaDamageMultiplier", "all", 1.0D, 0D, 1000000D, "Scylla's Damage Multiplier");
-        ScyllaLongRangelimit = buildDouble(builder, "Scylla's prevent attacks from far away Range", "all", 12.0D, 1D, 1000000D, "Scylla's Immune to Long distance attack range.");
+        ScyllaLongRangelimit = buildDouble(builder, "Scylla's prevent attacks from far away Range", "all", CMConfig.ScyllaLongRangelimit, 1D, 1000000D, "Scylla's Immune to Long distance attack range.");
         ScyllaSpearDamage = buildDouble(builder, "Scylla's Spear Damage", "all", CMConfig.ScyllaSpearDamage, 0D, 1000000D, "Scylla's Spear Damage");
         ScyllaLightningStormDamage = buildDouble(builder, "Scylla's Lightning Storm", "all", CMConfig.ScyllaLightningStormDamage, 0D, 1000000D, "Scylla's Lightning Storm");
         ScyllaLightningAreaDamage = buildDouble(builder, "Scylla's Lightning Area", "all", CMConfig.ScyllaLightningAreaDamage, 0D, 1000000D, "Scylla's Lightning Area");
