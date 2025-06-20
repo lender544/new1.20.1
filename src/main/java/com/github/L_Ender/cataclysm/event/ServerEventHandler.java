@@ -498,7 +498,7 @@ public class ServerEventHandler {
 
         if (advId.equals(new ResourceLocation(Cataclysm.MODID, "kill_all_bosses"))) {
 
-            ItemStack reward = new ItemStack(ModItems.MUSIC_DISC_MAIN_THEME.get());
+            ItemStack reward = new ItemStack(ModItems.MUSIC_DISC_THE_CATACLYSMFARER.get());
             if (!player.getInventory().add(reward)) {
                 player.drop(reward, false);
             }

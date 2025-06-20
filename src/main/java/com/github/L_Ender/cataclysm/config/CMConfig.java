@@ -6,8 +6,6 @@ import net.minecraftforge.fml.config.ModConfig;
 
 public class CMConfig {
 
-    public static double LavaVisionOpacity = 0.5F;
-    public static boolean shadersCompat = false;
     public static boolean custombossbar = true;
     public static boolean setThirdPerson = true;
     public static boolean setFirstPerson = true;
@@ -193,7 +191,7 @@ public class CMConfig {
     public static double AncientRemnantLongRangelimit = 14D;
     public static double ProwlerLongRangelimit = 12D;
     public static double MaledictusLongRangelimit = 12D;
-    public static double ScyllaLongRangelimit = 14D;
+    public static double ScyllaLongRangelimit = 12D;
 
     public static int BossMusicVolume = 1;
 
@@ -258,8 +256,8 @@ public class CMConfig {
 
     public static void bake(ModConfig config) {
         try {
-            LavaVisionOpacity = ConfigHolder.COMMON.LavaVisionOpacity.get();
-            shadersCompat = ConfigHolder.COMMON.shadersCompat.get();
+            setThirdPerson = ConfigHolder.COMMON.setThirdPerson.get();
+            setFirstPerson = ConfigHolder.COMMON.setFirstPerson.get();
             custombossbar = ConfigHolder.COMMON.custombossbar.get();
 
             Return_Home = ConfigHolder.COMMON.Return_Home.get();
