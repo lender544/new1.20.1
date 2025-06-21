@@ -139,7 +139,7 @@ public class Scylla_Entity extends IABoss_monster {
     public static final int WHIP_COOLDOWN = 300;
     private int parry_cooldown = 0;
     public static final int PARRY_COOLDOWN = 100;
-    public static final int MAX_PARRY_COUNT = 16;
+    public static final int MAX_PARRY_COUNT = 18;
     public static final int CAN_PARRY = 25;
     private int destroyBlocksTick;
     private final CMBossInfoServer bossEvent = new CMBossInfoServer(this.getDisplayName(), BossEvent.BossBarColor.BLUE,true,12);
@@ -228,7 +228,7 @@ public class Scylla_Entity extends IABoss_monster {
 
         this.goalSelector.addGoal(2, new InternalStateGoal(this, 27, 27, 0, 35,7));
 
-        this.goalSelector.addGoal(3, new Back_StepGoal(this,0,6,0,20,20,3.0F,28F));
+        this.goalSelector.addGoal(3, new Back_StepGoal(this,0,6,0,16,16,3.0F,28F));
 
         this.goalSelector.addGoal(3, new InternalAttackGoal(this,0,7,0,87,56,4.4f){
             @Override
@@ -381,7 +381,7 @@ public class Scylla_Entity extends IABoss_monster {
                             this.level().broadcastEntityEvent(this, (byte) 11);
                             return false;
                         } else {
-                            if (this.random.nextFloat() * 100.0F < (this.getParryCount() + 1) * 4 && Scylla_Entity.this.parry_cooldown <= 0) {
+                            if (this.random.nextFloat() * 100.0F < (this.getParryCount() + 1) * 5 && Scylla_Entity.this.parry_cooldown <= 0) {
                                 this.setParryCount(CAN_PARRY);
                                 this.playSound(SoundEvents.ZOMBIE_ATTACK_IRON_DOOR, 1.0F, 0.8f);
                                 this.level().broadcastEntityEvent(this, (byte) 11);
@@ -411,7 +411,7 @@ public class Scylla_Entity extends IABoss_monster {
         if(flag) {
             if(canBlockFaceSource(source)) {
                 if (this.getParryCount() < MAX_PARRY_COUNT) {
-                    this.setParryCount(this.getParryCount() + 1);
+                    this.setParryCount(this.getParryCount() + (source.is(DamageTypeTags.IS_PROJECTILE) ? 2 : 1));
                 }
             }
         }

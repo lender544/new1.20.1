@@ -417,7 +417,7 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		this.animate(entity.getAnimationState("double_swing"), Scylla_Normal_Animation.DOUBLE_CROSS_SWING, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("swing_smash"), Scylla_Normal_Animation.SWING_SMASH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("smash"), Scylla_Normal_Animation.SMASH, ageInTicks, 1.0F);
-		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.0F);
+		this.animate(entity.getAnimationState("back_step"), Scylla_Normal_Animation.BACKSTEP, ageInTicks, 1.2F);
 		this.animate(entity.getAnimationState("spin"), Scylla_Normal_Animation.ANCHOR_SPIN_ATTACK, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("wave"), Scylla_Projectile_Animation.WAVE_SHOOT, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("lightning_explosion"), Scylla_Lightning_Animation.LIGHTNING_EXPLOSION, ageInTicks, 1.0F);
