@@ -110,6 +110,16 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
+    public static void onUseItemStart(LivingEntityUseItemEvent.Start event) {
+        LivingEntity living = event.getEntity();
+        if (living.hasEffect(ModEffect.EFFECTSTUN)) {
+            event.setCanceled(true);
+        }
+        if (living.hasEffect(ModEffect.EFFECTGHOST_FORM)) {
+            event.setCanceled(true);
+        }
+    }
+    @SubscribeEvent
     public static void onUseItem(LivingEntityUseItemEvent event) {
         LivingEntity living = event.getEntity();
         if (living.hasEffect(ModEffect.EFFECTSTUN)) {
@@ -217,23 +227,8 @@ public class ServerEventHandler {
 
 
     @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent.Pre event) {
+    public static void onLivingDamage(LivingDamageEvent.Post event) {
         LivingEntity entity = event.getEntity();
-
-        DamageSource source = event.getSource();
-        float damage = event.getOriginalDamage();
-
-        if (source.is(DamageTypeTags.IS_LIGHTNING)) {
-            if (entity.hasEffect(ModEffect.EFFECTWETNESS)) {
-                MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS);
-                if (effectinstance1 != null) {
-                    float i = (effectinstance1.getAmplifier()+1) * 0.15F;
-                    float f = damage + damage * i;
-                    damage = Math.min(Float.MAX_VALUE, f);
-                    event.setNewDamage(damage);
-                }
-            }
-        }
 
         if (entity.getHealth() <= event.getNewDamage() && entity.hasEffect(ModEffect.EFFECTSTUN)) {
             entity.removeEffect(ModEffect.EFFECTSTUN);
@@ -365,6 +360,21 @@ public class ServerEventHandler {
 
     @SubscribeEvent
     public static void onLivingAttack(LivingIncomingDamageEvent event) {
+        DamageSource source = event.getSource();
+        float damage = event.getAmount();
+
+        if (source.is(DamageTypeTags.IS_LIGHTNING)) {
+            if (event.getEntity().hasEffect(ModEffect.EFFECTWETNESS)) {
+                MobEffectInstance effectinstance1 = event.getEntity().getEffect(ModEffect.EFFECTWETNESS);
+                if (effectinstance1 != null) {
+                    float i = (effectinstance1.getAmplifier()+1) * 0.2F;
+                    float f = damage + damage * i;
+                    damage = Math.min(Float.MAX_VALUE, f);
+                    event.setAmount(damage);
+                }
+            }
+        }
+
         if (event.getEntity().hasEffect(ModEffect.EFFECTGHOST_FORM)) {
             if (!event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
                 event.setCanceled(true);

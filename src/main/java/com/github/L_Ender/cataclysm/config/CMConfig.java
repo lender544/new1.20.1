@@ -192,7 +192,7 @@ public class CMConfig {
     public static double AncientRemnantLongRangelimit = 14D;
     public static double ProwlerLongRangelimit = 12D;
     public static double MaledictusLongRangelimit = 12D;
-    public static double ScyllaLongRangelimit = 12D;
+    public static double ScyllaLongRangelimit = 10D;
 
     public static int BossMusicVolume = 1;
 
