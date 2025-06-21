@@ -227,8 +227,7 @@ public class ModBlocks {
             () -> new Statue_Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.QUARTZ)
                     .noOcclusion()
-                    .strength(-1.0F, 3600000.0F)
-                    .noLootTable()
+                    .strength(30.0F, 400.0F)
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> DOOR_OF_SEAL = BLOCKS.register("door_of_seal",

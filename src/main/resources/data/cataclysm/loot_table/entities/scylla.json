@@ -42,6 +42,25 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "name": "disc",
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "unenchanted_chance": 0.1,
+          "enchanted_chance": 0.1,
+          "enchantment": "minecraft:looting"
+        }
+      ],
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:music_disc_scylla",
+          "weight": 1
+        }
+      ]
     }
   ],
   "random_sequence": "cataclysm:entities/scylla"

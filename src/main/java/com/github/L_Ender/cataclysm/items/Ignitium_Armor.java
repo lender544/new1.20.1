@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModKeybind;
+import com.github.L_Ender.cataclysm.message.MessageArmorKey;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -25,8 +26,10 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -53,6 +56,21 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
         return p_41135_.is(ModItems.IGNITIUM_INGOT.get());
     }
 
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+        super.inventoryTick(stack, level, entity, i, held);
+        if (entity instanceof Player living) {
+            if (living.getItemBySlot(EquipmentSlot.HEAD).getItem() == ModItems.IGNITIUM_HELMET.get()) {
+                if (level.isClientSide) {
+                    if (ModKeybind.HELMET_KEY_ABILITY.isDown()) {
+                        PacketDistributor.sendToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), living.getId(), 5));
+                        onKeyPacket(living, stack,5);
+                    }
+                }
+
+            }
+
+        }
+    }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
@@ -89,7 +107,7 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
                         }
 
                         i = Mth.clamp(i, 0, 2);
-                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 160, i, false, false, true);
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND, 160, i, true, true, true);
                         flag = living.addEffect(effectinstance);
                     }
 

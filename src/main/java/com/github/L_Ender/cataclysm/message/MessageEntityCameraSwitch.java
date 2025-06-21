@@ -50,11 +50,15 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
         public static void execute(FirstPerson payload, IPayloadContext context) {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
-                if (entity instanceof Player) {
+                if (entity instanceof Player player) {
                     if (CMConfig.setFirstPerson) {
-                        Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+                        if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
+                            Minecraft.getInstance().setCameraEntity(entity);
+                            Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+                        }
                     }
                 }
+
             });
         }
     }
@@ -82,9 +86,12 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
         public static void execute(ThridPerson payload, IPayloadContext context) {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
-                if (entity instanceof Player) {
+                if (entity instanceof Player player) {
                     if (CMConfig.setThirdPerson) {
-                        Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                        if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
+                            Minecraft.getInstance().setCameraEntity(entity);
+                            Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+                        }
                     }
                 }
             });

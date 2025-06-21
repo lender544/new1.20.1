@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -77,6 +78,24 @@ public class Statue_Block extends BaseEntityBlock {
         return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
+    @Override
+    protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+        DoubleBlockHalf half = state.getValue(HALF);
+
+        if (facing.getAxis() == Direction.Axis.Y) {
+            if (half == DoubleBlockHalf.UPPER && facing == Direction.DOWN) {
+                if (!(facingState.getBlock() instanceof Statue_Block) || facingState.getValue(HALF) != DoubleBlockHalf.LOWER) {
+                    return Blocks.AIR.defaultBlockState();
+                }
+            } else if (half == DoubleBlockHalf.LOWER && facing == Direction.UP) {
+                if (!(facingState.getBlock() instanceof Statue_Block) || facingState.getValue(HALF) != DoubleBlockHalf.UPPER) {
+                    return Blocks.AIR.defaultBlockState();
+                }
+            }
+        }
+
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+    }
 
     @Nullable
     @Override
@@ -92,6 +111,13 @@ public class Statue_Block extends BaseEntityBlock {
         }
     }
 
+    public BlockState rotate(BlockState state, Rotation rot) {
+        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
+    }
+
+    public BlockState mirror(BlockState state, Mirror mirrorIn) {
+        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
+    }
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -127,14 +153,6 @@ public class Statue_Block extends BaseEntityBlock {
             BlockPos blockpos = pos.below();
             BlockState blockstate = level.getBlockState(blockpos);
             if (blockstate.is(state.getBlock()) && blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
-                BlockState blockstate1 = blockstate.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
-                level.setBlock(blockpos, blockstate1, 35);
-                level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
-            }
-        }else{
-            BlockPos blockpos = pos.above();
-            BlockState blockstate = level.getBlockState(blockpos);
-            if (blockstate.is(state.getBlock()) && blockstate.getValue(HALF) == DoubleBlockHalf.UPPER) {
                 BlockState blockstate1 = blockstate.getFluidState().is(Fluids.WATER) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
                 level.setBlock(blockpos, blockstate1, 35);
                 level.levelEvent(player, 2001, blockpos, Block.getId(blockstate));

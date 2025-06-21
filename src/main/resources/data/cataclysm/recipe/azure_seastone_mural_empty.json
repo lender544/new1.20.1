@@ -6,11 +6,12 @@
     }
   },
   "pattern": [
-    "##",
-    "##"
+    " # ",
+    " # ",
+    " # "
   ],
   "result": {
-    "count": 8,
+    "count": 6,
     "id": "cataclysm:azure_seastone_mural_empty"
   }
 }
