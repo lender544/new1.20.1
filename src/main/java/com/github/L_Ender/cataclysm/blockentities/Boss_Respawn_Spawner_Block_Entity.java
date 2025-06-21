@@ -179,7 +179,9 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity implements Cl
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
 
-
+	public boolean canTakeItem(Container p_273497_, int p_273168_, ItemStack p_273785_) {
+		return false;
+	}
 
 	public CompoundTag getUpdateTag() {
 		return this.saveWithoutMetadata();

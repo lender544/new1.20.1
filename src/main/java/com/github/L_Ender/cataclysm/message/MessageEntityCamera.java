@@ -41,14 +41,20 @@ public class MessageEntityCamera {
 		public static boolean onMessage(MessageEntityCamera message, Supplier<NetworkEvent.Context> ctx) {
 			ctx.get().enqueueWork(() -> {
 				Entity entity = Minecraft.getInstance().level.getEntity(message.entityID);
-				if (entity instanceof Player) {
+				if (entity instanceof Player player) {
 					if (message.firstperson) {
-						if(CMConfig.setFirstPerson) {
-							Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+						if (CMConfig.setFirstPerson) {
+							if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
+								Minecraft.getInstance().setCameraEntity(entity);
+								Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+							}
 						}
 					}else {
 						if (CMConfig.setThirdPerson) {
-							Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+							if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
+								Minecraft.getInstance().setCameraEntity(entity);
+								Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);
+							}
 						}
 					}
 				}

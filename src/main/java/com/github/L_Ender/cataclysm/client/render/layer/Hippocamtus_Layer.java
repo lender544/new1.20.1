@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -34,20 +35,19 @@ public class Hippocamtus_Layer extends RenderLayer<Hippocamtus_Entity, Hippocamt
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Hippocamtus_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.getAttackState() == 4) {
 
-            int f;
-            if (entity.attackTicks < 7) {
-                f = entity.attackTicks * 1 / 12;
+            float f;
+            if (entity.attackTicks < 12) {
+                f = Mth.clamp((entity.attackTicks / 12.0f), 0.0f, 1.0f);
             } else if (entity.attackTicks <= 17) {
-                f = 1;
+                f = 1.0f;
             } else {
-                f = Math.max(0, 255 - ((entity.attackTicks - 17) * 1 / (38 - 17)));
+                f = Mth.clamp(1.0f - ((entity.attackTicks - 17) / 21.0f), 0.0f, 1.0f);
             }
-            int i = FastColor.ARGB32.color(255, f, f, f);
 
             RenderType eyes = CMRenderTypes.CMEyes(this.getTextureLocation(entity));
             VertexConsumer vertexConsumer = bufferIn.getBuffer(eyes);
 
-            this.getParentModel().renderToBuffer(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, f,f,f,1);
+            this.getParentModel().renderToBuffer(matrixStackIn, vertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, f,f,f,f);
         }
     }
 }

@@ -57,7 +57,7 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
 
 
     public boolean isValidRepairItem(ItemStack p_41134_, ItemStack p_41135_) {
-        return p_41135_.is(ModItems.IGNITIUM_INGOT.get());
+        return p_41135_.is(ModItems.CURSIUM_INGOT.get());
     }
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {

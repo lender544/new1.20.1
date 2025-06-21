@@ -43,7 +43,7 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
         MODEL.animate(tileEntityIn, partialTicks);
         MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityTranslucentEmissive(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.CMEyes(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);
         renderSigil(tileEntityIn,partialTicks,matrixStackIn,bufferIn);

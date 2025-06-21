@@ -111,6 +111,10 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
         }
     }
 
+    protected int decreaseAirSupply(int air) {
+        return air;
+    }
+
     public AnimationState getAnimationState(String input) {
         if (input == "spit") {
             return this.spitAnimationState;

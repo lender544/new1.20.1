@@ -53,6 +53,7 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_SCYLLA = registerEntityTag("team_scylla");
 
+
     public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
 
     public static final TagKey<DamageType> BLOCK_SELF_REGEN = registerDamageTypeTag("block_self_regen");
@@ -82,6 +83,8 @@ public class ModTag {
     public static final TagKey<Block> MALEDICTUS_IMMUNE = registerBlockTag("maledictus_immune");
 
     public static final TagKey<Block> SCYLLA_IMMUNE = registerBlockTag("scylla_immune");
+
+    public static final TagKey<Block> CLAWDIAN_IMMUNE = registerBlockTag("clawdian_immune");
 
     public static final TagKey<Block> FROSTED_PRISON_CHANDELIER = registerBlockTag("frosted_prison_chandelier");
 

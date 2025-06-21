@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModKeybind;
+import com.github.L_Ender.cataclysm.message.MessageArmorKey;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -56,6 +57,22 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor {
         return p_41135_.is(ModItems.IGNITIUM_INGOT.get());
     }
 
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+        super.inventoryTick(stack, level, entity, i, held);
+        if (entity instanceof Player living) {
+            if (living.getItemBySlot(EquipmentSlot.HEAD).getItem() == ModItems.IGNITIUM_HELMET.get()) {
+                if (level.isClientSide) {
+                    if (Cataclysm.PROXY.getClientSidePlayer() == entity && Cataclysm.PROXY.isKeyDown(5)) {
+                        Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), living.getId(), 5));
+                        onKeyPacket(living, stack,5);
+                    }
+                }
+
+            }
+
+        }
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (this.type == Type.HELMET) {
@@ -92,7 +109,7 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor {
                         }
 
                         i = Mth.clamp(i, 0, 2);
-                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 160, i, false, false, true);
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 160, i, true, true, true);
                         flag = living.addEffect(effectinstance);
                     }
 

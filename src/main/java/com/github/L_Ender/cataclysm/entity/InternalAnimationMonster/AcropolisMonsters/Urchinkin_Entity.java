@@ -114,6 +114,9 @@ public class Urchinkin_Entity extends Monster {
         }
     }
 
+    protected int decreaseAirSupply(int air) {
+        return air;
+    }
 
     public AnimationState getAnimationState(String input) {
         if (input == "roll") {
