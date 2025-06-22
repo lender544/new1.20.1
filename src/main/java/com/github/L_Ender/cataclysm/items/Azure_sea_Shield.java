@@ -15,9 +15,8 @@ public class Azure_sea_Shield extends ShieldItem {
 
 	@Override
 	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-		return repair.is(ModItems.BLACK_STEEL_INGOT.get()) || !repair.is(ItemTags.PLANKS) && super.isValidRepairItem(toRepair, repair);
+		return repair.is(ModItems.LACRIMA.get()) || !repair.is(ItemTags.PLANKS) && super.isValidRepairItem(toRepair, repair);
 	}
-
 
 	@Override
 	public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {

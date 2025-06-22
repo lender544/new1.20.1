@@ -12,7 +12,8 @@
   "item.cataclysm.monstrous_helm2.desc": "ganarás mejoras que fortalecen tu defensa, resistancia al empuje, y regeneración.",
   "item.cataclysm.void_core.desc": "Con clic derecho, puedes invocar runas del vacío.",
   "item.cataclysm.wip.desc": "W.I.P",
-  "item.cataclysm.ignitium_helmet.desc": "Visión de lava",
+  "item.cataclysm.ignitium_helmet.desc": "Mirada calorífica",
+  "item.cataclysm.ignitium_helmet.desc2": "Presiona %s para dar el efecto de marca ardiente a las criaturas cercanas.",
   "item.cataclysm.ignitium_chestplate.desc": "Puede combinarse con élitros",
   "item.cataclysm.ignitium_leggings.desc": "Reflejo de fuego",
   "item.cataclysm.ignitium_boots.desc": "Paso cálido",
@@ -624,6 +625,8 @@
   "advancements.cataclysm.kill_clawdian.description": "Mata al pinzardián",
   "advancements.cataclysm.kill_scylla.title": "La calma después de la tormenta",
   "advancements.cataclysm.kill_scylla.description": "Derrota a la emperatriz de la tormenta, Scylla",
+  "advancements.cataclysm.kill_all_bosses.title": "Un viaje cataclísmico",
+  "advancements.cataclysm.kill_all_bosses.description": "¡Has llegado a la cima de Cataclysm!",
 
   "trim_material.cataclysm.witherite": "Material de witherita",
   "trim_material.cataclysm.ignitium": "Material de ignitio",
