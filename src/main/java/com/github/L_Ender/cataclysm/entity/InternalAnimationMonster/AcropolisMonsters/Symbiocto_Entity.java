@@ -138,6 +138,10 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
         this.entityData.define(ATTACK_STATE, 0);
     }
 
+    public double getMyRidingOffset() {
+        return 0.2D;
+    }
+
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
             switch (this.getAttackState()) {
