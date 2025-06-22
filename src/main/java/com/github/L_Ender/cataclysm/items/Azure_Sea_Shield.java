@@ -20,7 +20,7 @@ public class Azure_Sea_Shield extends ShieldItem {
 
 	@Override
 	public boolean isValidRepairItem(ItemStack toRepair, ItemStack repair) {
-		return repair.is(ModItems.BLACK_STEEL_INGOT.get()) || !repair.is(ItemTags.PLANKS) && super.isValidRepairItem(toRepair, repair);
+		return repair.is(ModItems.LACRIMA.get()) || !repair.is(ItemTags.PLANKS) && super.isValidRepairItem(toRepair, repair);
 	}
 
 	@Override

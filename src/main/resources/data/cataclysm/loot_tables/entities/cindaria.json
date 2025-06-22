@@ -22,8 +22,7 @@
                 "max": 2.0,
                 "min": 1.0
               },
-              "enchantment": "minecraft:looting",
-              "function": "minecraft:enchanted_count_increase"
+              "function": "minecraft:looting_enchant"
             }
           ],
           "name": "cataclysm:lacrima"

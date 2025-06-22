@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -22,6 +23,8 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -180,6 +183,7 @@ public class Flame_Strike_Entity extends Entity {
                         int explosionradius = this.owner instanceof Player ? 1 : 2;
                         this.level().explode(this.owner, this.getX(), this.getY(), this.getZ(), explosionradius, Level.ExplosionInteraction.NONE);
                     }
+                    this.level().broadcastEntityEvent(this, (byte)4);
                     this.discard();
                 }
             }
@@ -315,6 +319,16 @@ public class Flame_Strike_Entity extends Entity {
             this.refreshDimensions();
         }
         super.onSyncedDataUpdated(p_19729_);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleEntityEvent(byte id) {
+        super.handleEntityEvent(id);
+        if (id == 4) {
+            this.level().addParticle(ModParticle.FLARE_EXPLODE.get(), this.getX(), this.getY() + 0.05F, this.getZ(), 0, 0, 0);
+
+        }
+
     }
 
 
