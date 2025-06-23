@@ -106,6 +106,10 @@
     "cataclysm:azure_seastone_fence",
     "cataclysm:prismarine_brick_fence",
     "cataclysm:prismarine_brick_wall",
-    "cataclysm:goddess_statue"
+    "cataclysm:goddess_statue",
+    "cataclysm:purpur_tiles",
+    "cataclysm:void_purpur_tiles",
+    "cataclysm:obsidian_pillar",
+    "cataclysm:purpur_pillar"
   ]
 }

@@ -221,7 +221,7 @@ public class Wither_Homing_Missile_Entity extends Projectile {
             boolean flag;
             if (entity1 instanceof LivingEntity) {
                 LivingEntity livingentity = (LivingEntity)entity1;
-                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) CMConfig.WitherHomingMissiledamage);
+                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), this.getDamage());
                 if (flag) {
                     if (entity.isAlive()) {
                         this.doEnchantDamageEffects(livingentity, entity);
