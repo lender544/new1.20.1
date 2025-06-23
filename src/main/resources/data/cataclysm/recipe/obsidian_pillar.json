@@ -6,11 +6,11 @@
     ],
     "key": {
         "#": {
-            "item": "minecraft:purpur_slab"
+            "item": "cataclysm:obsidian_bricks"
         }
     },
     "result": {
-        "id": "cataclysm:chiseled_purpur_block",
-        "count": 1
+        "id": "cataclysm:obsidian_pillar",
+        "count": 2
     }
 }

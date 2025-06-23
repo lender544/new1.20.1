@@ -96,13 +96,23 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .strength(3f, 9f)));
 
-    
+    public static final DeferredBlock<Block> PURPUR_TILES = BLOCKS.register("purpur_tiles",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+    public static final DeferredBlock<Block> VOID_PURPUR_TILES = BLOCKS.register("void_purpur_tiles",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
+
+    public static final DeferredBlock<Block> PURPUR_PILLAR = BLOCKS.register("purpur_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
     public static final DeferredBlock<Block> CHISELED_PURPUR_BLOCK = BLOCKS.register("chiseled_purpur_block",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
     public static final DeferredBlock<Block> OBSIDIAN_BRICKS = BLOCKS.register("obsidian_bricks",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));
+
+    public static final DeferredBlock<Block> OBSIDIAN_PILLAR = BLOCKS.register("obsidian_pillar",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));
 
     public static final DeferredBlock<Block> POLISHED_OBSIDIAN = BLOCKS.register("polished_obsidian",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));

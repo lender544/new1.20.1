@@ -65,6 +65,16 @@ public class ModItems {
     public static final DeferredItem<BlockItem> END_STONE_PILLAR = ITEMS.register("end_stone_pillar",
             () -> new BlockItem(ModBlocks.END_STONE_PILLAR.get(), new Item.Properties()));
 
+    public static final DeferredItem<BlockItem> PURPUR_TILES = ITEMS.register("purpur_tiles",
+            () -> new BlockItem(ModBlocks.PURPUR_TILES.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> VOID_PURPUR_TILES = ITEMS.register("void_purpur_tiles",
+            () -> new BlockItem(ModBlocks.VOID_PURPUR_TILES.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> PURPUR_PILLAR = ITEMS.register("purpur_pillar",
+            () -> new BlockItem(ModBlocks.PURPUR_PILLAR.get(), new Item.Properties()));
+
+
     public static final DeferredItem<BlockItem> VOID_INFUSED_END_STONE_BRICKS = ITEMS.register("void_infused_end_stone_bricks",
             () -> new BlockItem(ModBlocks.VOID_INFUSED_END_STONE_BRICKS.get(), new Item.Properties()));
 
@@ -82,6 +92,10 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> POLISHED_OBSIDIAN = ITEMS.register("polished_obsidian",
             () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> OBSIDIAN_PILLAR = ITEMS.register("obsidian_pillar",
+            () -> new BlockItem(ModBlocks.OBSIDIAN_PILLAR.get(), new Item.Properties()));
+
 
     public static final DeferredItem<BlockItem> CHISELED_OBSIDIAN_BRICKS = ITEMS.register("chiseled_obsidian_bricks",
             () -> new BlockItem(ModBlocks.CHISELED_OBSIDIAN_BRICKS.get(), new Item.Properties()));

@@ -313,6 +313,11 @@ public class ModGroup {
                 entries.accept(ModItems.APTRGANGR_HEAD.get());
                 entries.accept(ModItems.DRAUGR_HEAD.get());
                 entries.accept(ModItems.KOBOLEDIATOR_SKULL.get());
+                entries.accept(ModItems.PURPUR_TILES.get());
+                entries.accept(ModItems.VOID_PURPUR_TILES.get());
+                entries.accept(ModItems.OBSIDIAN_PILLAR.get());
+                entries.accept(ModItems.PURPUR_PILLAR.get());
+
             })
             .withTabsBefore(ITEM.getKey())
             .build());
