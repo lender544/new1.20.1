@@ -122,7 +122,13 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,4,5,30,30,18) {
             @Override
             public boolean canUse() {
-                return super.canUse() && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 17f && Clawdian_Entity.this.charge_cooldown <= 0 && this.entity.onGround() && !this.entity.isSwimming();
+                BlockPos currentPos = entity.blockPosition();
+                float yaw = entity.getYRot() * ((float) Math.PI / 180F);
+                float dx = -Mth.sin(yaw) * 2;
+                float dz = Mth.cos(yaw) * 2;
+
+                BlockPos targetPos = currentPos.offset((int) dx, 0, (int) dz);
+                return super.canUse() && !isDangerousFallZone(entity, targetPos) && Clawdian_Entity.this.getRandom().nextFloat() * 100.0F < 17f && Clawdian_Entity.this.charge_cooldown <= 0 && this.entity.onGround() && !this.entity.isSwimming();
             }
         });
 
@@ -148,32 +154,12 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                         Vec3 motion = entity.getDeltaMovement();
                         Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
                         entity.setDeltaMovement(push.x, motion.y, push.z);
+                    }else{
+                        entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
                     }
                 }
             }
 
-            private boolean isDangerousFallZone(PathfinderMob mob, BlockPos pos) {
-                PathNavigation navigation = mob.getNavigation();
-                NodeEvaluator evaluator = navigation.getNodeEvaluator();
-
-                if (evaluator == null) return false;
-
-                BlockPathTypes type = evaluator.getBlockPathType(mob.level(), Mth.floor(pos.getX()),Mth.floor(pos.getY()),Mth.floor(pos.getZ()),mob);
-
-                int safeDrop = 2;
-                BlockPos.MutableBlockPos checkPos = pos.mutable();
-
-                for (int i = 1; i <= safeDrop; i++) {
-                    checkPos.move(Direction.DOWN);
-                    if (!mob.level().getBlockState(checkPos).isAir()) {
-                        return false;
-                    }
-                }
-
-                return type == BlockPathTypes.DAMAGE_OTHER
-                        || type == BlockPathTypes.OPEN
-                        || type == BlockPathTypes.DANGER_OTHER;
-            }
         });
 
 
@@ -308,6 +294,29 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         } else {
             super.travel(travelVector);
         }
+    }
+
+    private boolean isDangerousFallZone(PathfinderMob mob, BlockPos pos) {
+        PathNavigation navigation = mob.getNavigation();
+        NodeEvaluator evaluator = navigation.getNodeEvaluator();
+
+        if (evaluator == null) return false;
+
+        BlockPathTypes type = evaluator.getBlockPathType(mob.level(), Mth.floor(pos.getX()),Mth.floor(pos.getY()),Mth.floor(pos.getZ()),mob);
+
+        int safeDrop = 2;
+        BlockPos.MutableBlockPos checkPos = pos.mutable();
+
+        for (int i = 1; i <= safeDrop; i++) {
+            checkPos.move(Direction.DOWN);
+            if (!mob.level().getBlockState(checkPos).isAir()) {
+                return false;
+            }
+        }
+
+        return type == BlockPathTypes.DAMAGE_OTHER
+                || type == BlockPathTypes.OPEN
+                || type == BlockPathTypes.DANGER_OTHER;
     }
 
     @Override
