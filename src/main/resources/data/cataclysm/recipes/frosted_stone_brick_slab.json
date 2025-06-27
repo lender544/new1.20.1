@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:frosted_stone_bricks"
+        }
+    },
+    "result": {
+        "item": "cataclysm:frosted_stone_brick_slab",
+        "count": 6
+    }
+}

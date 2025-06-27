@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:tuff",
+    "minecraft:polished_andesite",
+    "minecraft:andesite",
+    "cataclysm:stone_tiles",
+    "cataclysm:altar_of_abyss"
+  ]
+}

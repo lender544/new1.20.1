@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "cataclysm:block/polished_end_stone_slab" },
+    "type=top": { "model": "cataclysm:block/polished_end_stone_slab_top" },
+    "type=double": { "model": "cataclysm:block/polished_end_stone" }
+  }
+}

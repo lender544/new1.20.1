@@ -1,0 +1,7 @@
+{
+  "processors": [
+    {
+      "processor_type": "cataclysm:water_logging_fix_processor"
+    }
+  ]
+}

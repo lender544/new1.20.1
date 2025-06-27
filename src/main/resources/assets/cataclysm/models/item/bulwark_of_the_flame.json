@@ -1,0 +1,112 @@
+{
+	"parent": "minecraft:builtin/entity",
+	"gui_light": "front",
+	"textures": {
+		"particle": "minecraft:block/nether_bricks"
+	},
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [
+				0,
+				90,
+				0
+			],
+			"translation": [
+				0.25,
+				8.5,
+				2
+			]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [
+				0,
+				90,
+				0
+			],
+			"translation": [
+				0.25,
+				8.5,
+				2
+			]
+		},
+		"firstperson_righthand": {
+			"rotation": [
+				0,
+				180,
+				5
+			],
+			"translation": [
+				10,
+				0,
+				-10 ],
+			"scale": [
+				1.25,
+				1.25,
+				1.25 ]
+		},
+		"firstperson_lefthand": {
+			"rotation": [
+				0,
+				180,
+				5 ],
+			"translation": [
+				10,
+				0,
+				-10 ],
+			"scale": [
+				1.25,
+				1.25,
+				1.25 ]
+		},
+		"ground": {
+			"translation": [
+				0,
+				8,
+				0
+			],
+			"scale": [
+				0.5,
+				0.5,
+				0.5
+			]
+		},
+		"gui": {
+			"rotation": [ 15, -25, -5 ],
+			"translation": [ 0, 6, 0 ],
+			"scale": [ 0.5, 0.5, 0.5 ]
+		},
+		"head": {
+			"rotation": [
+				0,
+				90,
+				0
+			],
+			"translation": [
+				0,
+				2.25,
+				-1.25
+			]
+		},
+		"fixed": {
+			"rotation": [
+				0,
+				180,
+				0
+			],
+			"translation": [
+				0,
+				7,
+				0
+			],
+			"scale":[ 0.6, 0.6, 0.6]
+		}
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"blocking": 1
+			},
+			"model": "cataclysm:item/bulwark_of_the_flame_blocking"
+		}
+	]
+}

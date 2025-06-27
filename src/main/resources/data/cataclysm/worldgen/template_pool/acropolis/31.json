@@ -1,0 +1,16 @@
+{
+  "name": "cataclysm:acropolis/31",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:acropolis_31",
+        "processors": "cataclysm:water_logging_fix",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

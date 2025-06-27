@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "cataclysm:block/curved_seastone/clawdian_4"
+	}
+}

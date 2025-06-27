@@ -1,0 +1,41 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "arena": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structure": "cataclysm:burning_arena"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.burning_arena.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "cataclysm:altar_of_fire"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.burning_arena.title"
+    }
+  },
+  "requirements": [
+    [
+      "arena"
+    ]
+  ]
+}

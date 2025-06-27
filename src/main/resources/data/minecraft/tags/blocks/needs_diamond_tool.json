@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:obsidian_explosion_trap_bricks",
+    "cataclysm:obsidian_brick_wall",
+    "cataclysm:obsidian_brick_stairs",
+    "cataclysm:chiseled_obsidian_bricks",
+    "cataclysm:obsidian_bricks",
+    "cataclysm:obsidian_brick_slab",
+    "cataclysm:void_stone",
+    "cataclysm:void_lantern_block",
+    "cataclysm:ignitium_block",
+    "cataclysm:witherite_block",
+    "cataclysm:enderite_block",
+    "cataclysm:ancient_metal_block",
+    "cataclysm:cursium_block",
+    "cataclysm:black_steel_block",
+    "cataclysm:black_steel_wall",
+    "cataclysm:black_steel_fence",
+    "cataclysm:polished_obsidian",
+    "cataclysm:void_crystal",
+    "cataclysm:obsidian_pillar"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "cataclysm:block/sandstone_ignite_trap_off"
+    },
+    "lit=true": {
+      "model": "cataclysm:block/sandstone_ignite_trap_on"
+    }
+  }
+}

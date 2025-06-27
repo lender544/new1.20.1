@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom":  "cataclysm:block/chorus_planks",
+    "top": "cataclysm:block/chorus_planks",
+    "side": "cataclysm:block/chorus_planks"
+  }
+}

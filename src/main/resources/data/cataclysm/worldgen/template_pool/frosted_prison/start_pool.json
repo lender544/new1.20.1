@@ -1,0 +1,16 @@
+{
+  "name": "cataclysm:frosted_prison/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:frosted_prison_mid_6",
+        "processors": "cataclysm:water_logging_fix",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

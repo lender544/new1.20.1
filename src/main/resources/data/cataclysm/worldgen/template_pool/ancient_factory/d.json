@@ -1,0 +1,16 @@
+{
+  "name": "cataclysm:ancient_factory/d",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:ancient_factory_d",
+        "processors": "cataclysm:water_logging_fix",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

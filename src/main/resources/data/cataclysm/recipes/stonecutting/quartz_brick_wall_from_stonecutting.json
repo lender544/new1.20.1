@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "minecraft:quartz_bricks"
+        }
+    ],
+    "result": "cataclysm:quartz_brick_wall",
+    "count": 1
+}

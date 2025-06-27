@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:witherite_block",
+    "cataclysm:enderite_block",
+    "cataclysm:ignitium_block",
+    "cataclysm:cursium_block",
+    "cataclysm:altar_of_void",
+    "cataclysm:altar_of_fire",
+    "cataclysm:altar_of_amethyst",
+    "cataclysm:altar_of_abyss",
+    "cataclysm:dungeon_block",
+    "cataclysm:emp",
+    "cataclysm:door_of_seal",
+    "cataclysm:door_of_seal_part",
+    "cataclysm:cursed_tombstone"
+  ]
+}

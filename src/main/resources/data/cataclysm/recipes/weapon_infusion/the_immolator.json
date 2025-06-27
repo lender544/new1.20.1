@@ -1,0 +1,12 @@
+{
+    "type": "cataclysm:weapon_fusion",
+    "base": {
+        "item": "cataclysm:the_annihilator"
+    },
+    "addition": {
+        "item": "cataclysm:ignitium_ingot"
+    },
+    "result": {
+        "item": "cataclysm:the_immolator"
+    }
+}

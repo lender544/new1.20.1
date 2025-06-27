@@ -1,0 +1,14 @@
+{
+  "pools": [
+    {
+      "name": "skull",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:remnant_skull"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "i": {
+      "item": "cataclysm:kobolediator_skull"
+    },
+    "R": {
+      "item": "cataclysm:ancient_metal_ingot"
+    },
+    "n": {
+      "item": "cataclysm:koboleton_bone"
+    }
+  },
+  "pattern": [
+    "R R",
+    "nin",
+    "   "
+  ],
+  "result": {
+    "item": "cataclysm:bone_reptile_helmet"
+  }
+}

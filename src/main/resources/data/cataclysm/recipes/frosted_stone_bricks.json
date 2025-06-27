@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "item": "minecraft:stone_bricks"
+    },
+    "E": {
+      "item": "minecraft:snow_block"
+    }
+  },
+  "pattern": [
+    "###",
+    "#E#",
+    "###"
+  ],
+  "result": {
+    "count": 8,
+    "item": "cataclysm:frosted_stone_bricks"
+  }
+}

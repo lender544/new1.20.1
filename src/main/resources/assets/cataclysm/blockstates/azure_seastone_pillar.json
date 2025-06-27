@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y":    { "model": "cataclysm:block/azure_seastone_pillar" },
+    "axis=z":    { "model": "cataclysm:block/azure_seastone_pillar", "x": 90 },
+    "axis=x":    { "model": "cataclysm:block/azure_seastone_pillar", "x": 90, "y": 90 }
+  }
+}

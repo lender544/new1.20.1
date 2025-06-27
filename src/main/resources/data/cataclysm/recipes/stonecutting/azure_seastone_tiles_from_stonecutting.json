@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "cataclysm:azure_seastone"
+        },
+        {
+            "item": "cataclysm:azure_seastone_bricks"
+        }
+    ],
+    "result": "cataclysm:azure_seastone_tiles",
+    "count": 1
+}

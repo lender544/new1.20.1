@@ -1,0 +1,15 @@
+{
+  "pools": [
+    {
+      "name": "the_baby_leviathan",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cataclysm:abyssal_egg",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

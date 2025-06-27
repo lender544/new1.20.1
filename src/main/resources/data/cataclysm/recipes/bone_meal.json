@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "bonemeal",
+  "ingredients": [
+    {
+      "item": "cataclysm:koboleton_bone"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "minecraft:bone_meal"
+  }
+}

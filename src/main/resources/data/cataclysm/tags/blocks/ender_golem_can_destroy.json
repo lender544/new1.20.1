@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:end_stone_brick_stairs",
+    "cataclysm:chiseled_obsidian_bricks",
+    "cataclysm:obsidian_brick_slab",
+    "cataclysm:polished_end_stone_stairs",
+    "cataclysm:obsidian_brick_wall"
+  ]
+}

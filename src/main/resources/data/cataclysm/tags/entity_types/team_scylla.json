@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:hippocamtus",
+    "cataclysm:cindaria",
+    "cataclysm:scylla",
+    "cataclysm:urchinkin",
+    "cataclysm:clawdian",
+    "cataclysm:drowned_host",
+    "cataclysm:symbiocto"
+  ]
+}

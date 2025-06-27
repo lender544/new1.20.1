@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_inventory",
+  "textures": {
+    "wall": "cataclysm:block/stone_tiles"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "cataclysm:burning_ashes"
+    },
+    "title": {
+      "translate": "advancements.cataclysm.kill_revenant.title"
+    },
+    "description": {
+      "translate": "advancements.cataclysm.kill_revenant.description"
+    }
+  },
+  "parent": "cataclysm:find_burning_arena",
+  "criteria": {
+    "endergolem": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "cataclysm:ignited_revenant"
+        }
+      }
+    }
+  }
+}

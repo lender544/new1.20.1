@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#S#",
+        "EVE",
+        "PSP"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:purpur_pillar"
+        },
+        "S": {
+            "item": "minecraft:shulker_shell"
+        },
+        "E": {
+            "item": "minecraft:end_stone_bricks"
+        },
+        "V": {
+            "item": "minecraft:ender_eye"
+        },
+        "P": {
+            "item": "minecraft:purpur_block"
+        }
+    },
+    "result": {
+        "item": "cataclysm:void_eye",
+        "count": 1
+    }
+}

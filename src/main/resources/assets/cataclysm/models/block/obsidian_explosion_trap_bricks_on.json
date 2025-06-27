@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "cataclysm:block/obsidian_explosion_trap_bricks_on"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "cataclysm:acropolis/mob/cindaria",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:cindaria",
+        "processors": "cataclysm:water_logging_fix",
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

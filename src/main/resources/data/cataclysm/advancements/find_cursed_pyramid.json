@@ -1,0 +1,41 @@
+{
+  "parent": "cataclysm:root",
+  "criteria": {
+    "pyramid": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "structure": "cataclysm:cursed_pyramid"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.cataclysm.cursed_pyramid.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "cataclysm:sandstone_poison_dart_trap"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.cataclysm.cursed_pyramid.title"
+    }
+  },
+  "requirements": [
+    [
+      "pyramid"
+    ]
+  ]
+}

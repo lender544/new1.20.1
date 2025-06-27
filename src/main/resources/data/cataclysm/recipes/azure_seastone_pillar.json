@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "key": {
+        "#": {
+            "item": "cataclysm:azure_seastone"
+        }
+    },
+    "pattern": [
+        "#",
+        "#"
+    ],
+    "result": {
+        "count": 2,
+        "item": "cataclysm:azure_seastone_pillar"
+    }
+}
