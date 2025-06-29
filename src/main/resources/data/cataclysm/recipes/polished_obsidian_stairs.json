@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "cataclysm:polished_obsidian"
+        }
+    },
+    "result": {
+        "item": "cataclysm:polished_obsidian_stairs",
+        "count": 4
+    }
+}

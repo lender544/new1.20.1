@@ -89,12 +89,12 @@
     },
     "firstperson_righthand": {
       "rotation": [
-        0,
-        -170,
+        -25,
+        10,
         0
       ],
       "translation": [
-        0,
+        4,
         0,
         -2
       ],

@@ -1,8 +1,7 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#",
-        "#"
+        "###"
     ],
     "key": {
         "#": {
@@ -10,7 +9,7 @@
         }
     },
     "result": {
-        "item": "cataclysm:purpur_pillar",
-        "count": 2
+        "item": "cataclysm:purpur_tile_slab",
+        "count": 6
     }
 }

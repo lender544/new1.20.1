@@ -289,7 +289,6 @@ public class Wave_Entity extends Entity {
                     } else {
                         --i;
                     }
-
                     i = Mth.clamp(i, 0, 4);
                     MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS.get(), 200, i, false, true, true);
                     entity.addEffect(effectinstance);
@@ -300,8 +299,16 @@ public class Wave_Entity extends Entity {
                 for(vec3 = entity.getDeltaMovement(); x * x + z * z < (double)1.0E-5F; z = (Math.random() - Math.random()) * 0.01) {
                     x = (Math.random() - Math.random()) * 0.01;
                 }
-                Vec3 vec31 = (new Vec3(x, (double)0.0F, z)).normalize().scale(strength);
-                entity.setDeltaMovement(vec3.x / (double)2.0F - vec31.x, entity.onGround() ? Math.min(0.5, vec3.y / (double)2.0F + strength) : vec3.y, vec3.z / (double)2.0F - vec31.z);
+                double playerSize = 0.6 * 1.8;
+                double entitySize = entity.getBbWidth() * entity.getBbHeight();
+                double scale = playerSize / Math.max(0.1, entitySize); // 최소값 보정
+                double knockbackScale = Math.min(scale, 1.5);
+                double adjustedStrength = strength * knockbackScale;
+
+                Vec3 knockback = new Vec3(x, 0, z).normalize().scale(adjustedStrength);
+
+                entity.setDeltaMovement(vec3.x / (double)2.0F - knockback.x, entity.onGround() ? Math.min(0.5, vec3.y / (double)2.0F + strength) : vec3.y, vec3.z / (double)2.0F - knockback.z);
+
             }
         }
     }

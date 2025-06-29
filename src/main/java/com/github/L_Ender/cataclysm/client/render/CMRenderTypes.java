@@ -155,7 +155,7 @@ public class CMRenderTypes extends RenderType {
                         .setLightmapState(LIGHTMAP)
                         .setCullState(NO_CULL)
                         .setOverlayState(OVERLAY)
-                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                        .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(true);
                 return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
             }

@@ -6,10 +6,14 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_E
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,15 +23,24 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
     private static final EntityDataAccessor<Boolean> SOUL = SynchedEntityData.defineId(Ignis_Fireball_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> FIRED = SynchedEntityData.defineId(Ignis_Fireball_Entity.class, EntityDataSerializers.BOOLEAN);
     private int timer;
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
 
     public Ignis_Fireball_Entity(EntityType<? extends Ignis_Fireball_Entity> type, Level level) {
         super(type, level);
@@ -84,6 +97,18 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
                 this.zPower = dz * speed;
             }
         }
+        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+        if (trailPointer == -1) {
+            Vec3 backAt = trailAt;
+            for (int i = 0; i < trailPositions.length; i++) {
+                trailPositions[i] = backAt;
+            }
+        }
+        if (++this.trailPointer == this.trailPositions.length) {
+            this.trailPointer = 0;
+        }
+        this.trailPositions[this.trailPointer] = trailAt;
+
     }
 
     public void setUp(int delay) {
@@ -119,7 +144,10 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
             } else {
                 flag = entity.hurt(this.damageSources().magic(), 6.0F);
             }
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, true, Level.ExplosionInteraction.NONE);
+            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 1f, true, Explosion.BlockInteraction.KEEP);
+            explosion.explode();
+            explosion.finalizeExplosion(this.isSoul() ?2 :1,0.35D);
+
             this.discard();
 
             if (flag && entity instanceof LivingEntity) {
@@ -144,9 +172,26 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         if (!this.level().isClientSide && getFired()) {
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, true, Level.ExplosionInteraction.NONE);
+            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 1f, true, Explosion.BlockInteraction.KEEP);
+            explosion.explode();
+            explosion.finalizeExplosion(this.isSoul() ?2 :1,0.35D);
             this.discard();
         }
+    }
+
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
+        }
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
+    }
+
+    public boolean hasTrail() {
+        return trailPointer != -1;
     }
 
     @Override

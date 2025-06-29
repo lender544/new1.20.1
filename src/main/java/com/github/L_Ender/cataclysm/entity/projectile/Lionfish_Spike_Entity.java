@@ -81,7 +81,9 @@ public class Lionfish_Spike_Entity extends ThrowableItemProjectile {
     public boolean isNoGravity() {
         return false;
     }
-
+    public boolean isInWater() {
+        return false;
+    }
     protected void onHit(HitResult result) {
         super.onHit(result);
         if (!this.level().isClientSide) {

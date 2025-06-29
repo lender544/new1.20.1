@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.client.particle.RoarParticle;
+import com.github.L_Ender.cataclysm.client.render.entity.Ignis_Renderer;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -14,6 +15,7 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
@@ -55,6 +57,7 @@ import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
@@ -1820,7 +1823,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             float f1 = Mth.sin(this.yBodyRot * ((float) Math.PI / 180F));
             double extraX = radius * Mth.sin((float) (Math.PI + angle));
             double extraZ = radius * Mth.cos(angle);
-            this.level().explode(this, this.getX() + extraX + f * math, this.getY() + y, this.getZ() + extraZ + f1 * math, 2.0F, Level.ExplosionInteraction.NONE);
+            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX() + extraX + f * math, this.getY() + y, this.getZ() + extraZ + f1 * math, 2f, true, Explosion.BlockInteraction.KEEP);
+            explosion.explode();
+            explosion.finalizeExplosion(this.getBossPhase() > 0 ? 2 : 1, 0.5D);
         }
     }
 

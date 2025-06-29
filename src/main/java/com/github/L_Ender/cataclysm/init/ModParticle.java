@@ -168,4 +168,13 @@ public class ModParticle {
 
     public static final RegistryObject<SimpleParticleType> LIGHTNING_EXPLODE = PARTICLE.register("lightning_explode", () -> new SimpleParticleType(false));
 
+
+    public static final RegistryObject<SimpleParticleType> IGNIS_EXPLODE = PARTICLE.register("ignis_explode", () -> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> IGNIS_ABYSS_EXPLODE = PARTICLE.register("ignis_abyss_explode", () -> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> IGNIS_SOUL_EXPLODE = PARTICLE.register("ignis_soul_explode", () -> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> DESERT_GLYPH = PARTICLE.register("desert_glyph", () -> new SimpleParticleType(false));
+
 }

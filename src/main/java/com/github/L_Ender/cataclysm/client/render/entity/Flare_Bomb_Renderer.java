@@ -68,9 +68,10 @@ public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
     private void renderTrail(Flare_Bomb_Entity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
         int sampleSize = 10;
         float trailHeight = 0.5F;
+        float trailYRot = 0;
         float trailZRot = 0;
-        Vec3 topAngleVec = new Vec3(0, trailHeight, 0).zRot(trailZRot);
-        Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
+        Vec3 topAngleVec = new Vec3(trailHeight, trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
+        Vec3 bottomAngleVec = new Vec3(-trailHeight, -trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
         Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
         PoseStack.Pose posestack$pose = poseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();

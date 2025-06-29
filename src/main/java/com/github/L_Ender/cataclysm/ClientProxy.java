@@ -90,6 +90,10 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
+        registry.registerSpriteSet(ModParticle.IGNIS_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
+        registry.registerSpriteSet(ModParticle.IGNIS_ABYSS_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
+        registry.registerSpriteSet(ModParticle.IGNIS_SOUL_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
+        registry.registerSpriteSet(ModParticle.DESERT_GLYPH.get(), Desert_Glyph_Particle.GlyphFactory::new);
         registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
         registry.registerSpriteSet(ModParticle.LIGHTNING_EXPLODE.get(), LightningExplodeParticle.FlareFactory::new);
         registry.registerSpecial(ModParticle.DUST_PILLAR.get(), new Dust_Pillar_Particle.DustPillarProvider());
@@ -223,6 +227,7 @@ public class ClientProxy extends CommonProxy {
             ItemProperties.register(ModItems.BLACK_STEEL_TARGE.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.CERAUNUS.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> Ceraunus.getThrownUuid(stack) != null ? 1 : 0);
+            ItemProperties.register(ModItems.ASTRAPE.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("Could not load item models for weapons");

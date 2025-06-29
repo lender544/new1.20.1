@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +22,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.api.distmarker.Dist;
@@ -181,7 +183,10 @@ public class Flame_Strike_Entity extends Entity {
                 }else{
                     if(!this.isSoul()) {
                         int explosionradius = this.owner instanceof Player ? 1 : 2;
-                        this.level().explode(this.owner, this.getX(), this.getY(), this.getZ(), explosionradius, Level.ExplosionInteraction.NONE);
+
+                        IgnisExplosion explosion = new IgnisExplosion(level(), this.owner,null,null, this.getX(), this.getY(), this.getZ(), explosionradius, false, Explosion.BlockInteraction.KEEP);
+                        explosion.explode();
+                        explosion.finalizeExplosion(0,0);
                     }
                     this.level().broadcastEntityEvent(this, (byte)4);
                     this.discard();
@@ -325,8 +330,15 @@ public class Flame_Strike_Entity extends Entity {
     public void handleEntityEvent(byte id) {
         super.handleEntityEvent(id);
         if (id == 4) {
-            this.level().addParticle(ModParticle.FLARE_EXPLODE.get(), this.getX(), this.getY() + 0.05F, this.getZ(), 0, 0, 0);
+            this.level().addParticle(ModParticle.FLARE_EXPLODE.get(), this.getX(), this.getY() + 0.05F, this.getZ(), 0.1D, 0, 0);
+            for (int i = 0; i < 5 ; i++) {
+                double particleX = this.getX() + (random.nextFloat() - 0.5F) * 4;
+                double particleY = this.getY() +  (random.nextFloat()) ;
+                double particleZ = this.getZ() +  (random.nextFloat() - 0.5F) * 4;
 
+                this.level().addParticle(ModParticle.IGNIS_EXPLODE.get(),particleX, particleY, particleZ, 1.4D, 0, 0);
+
+            }
         }
 
     }

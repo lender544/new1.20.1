@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,19 +31,21 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class Ancient_Desert_Stele_Entity extends Projectile {
-    private int warmupDelayTicks;
-    private boolean sentSpikeEvent;
+    private boolean sentSpikeEvent = false;
     private int lifeTicks = 70;
     private LivingEntity caster;
     private UUID casterUuid;
     private static final EntityDataAccessor<Boolean> ACTIVATE = SynchedEntityData.defineId(Ancient_Desert_Stele_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Ancient_Desert_Stele_Entity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> WARMUP = SynchedEntityData.defineId(Ancient_Desert_Stele_Entity.class, EntityDataSerializers.INT);
 
 
     public Ancient_Desert_Stele_Entity(EntityType<? extends Ancient_Desert_Stele_Entity> p_i50170_1_, Level p_i50170_2_) {
@@ -51,7 +54,7 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
 
     public Ancient_Desert_Stele_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_,float damage, LivingEntity casterIn) {
         this(ModEntities.ANCIENT_DESERT_STELE.get(), worldIn);
-        this.warmupDelayTicks = p_i47276_9_;
+        this.setWarmUp(p_i47276_9_);
         this.setCaster(casterIn);
         this.setDamage(damage);
         this.setYRot(p_i47276_8_ * (180F / (float)Math.PI));
@@ -62,6 +65,7 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
     protected void defineSynchedData() {
         this.entityData.define(ACTIVATE, Boolean.valueOf(false));
         this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(WARMUP, 0);
     }
 
     public float getDamage() {
@@ -70,6 +74,14 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
 
     public void setDamage(float damage) {
         entityData.set(DAMAGE, damage);
+    }
+
+    public int getWarmUp() {
+        return entityData.get(WARMUP);
+    }
+
+    public void setWarmUp(int damage) {
+        entityData.set(WARMUP, damage);
     }
 
     public void setCaster(@Nullable LivingEntity p_190549_1_) {
@@ -93,19 +105,19 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     protected void readAdditionalSaveData(CompoundTag compound) {
-        this.warmupDelayTicks = compound.getInt("Warmup");
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
         this.setDamage(compound.getFloat("damage"));
+        this.setWarmUp(compound.getInt("Warmup"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
-        compound.putInt("Warmup", this.warmupDelayTicks);
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
         compound.putFloat("damage", this.getDamage());
+        compound.putInt("Warmup", this.getWarmUp());
     }
 
     /**
@@ -141,12 +153,24 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
         if (this.level().isClientSide) {
             --this.lifeTicks;
 
-        } else if (--this.warmupDelayTicks < 0) {
-            if(!this.isActivate()) {
-                this.setActivate(true);
+        } else {
+
+            if(this.getWarmUp() > 0) {
+                setWarmUp(this.getWarmUp() -1);
+            }else{
+                if(!this.isActivate()) {
+                    this.setActivate(true);
+                }
+                if (--this.lifeTicks < 0) {
+                    this.discard();
+                }
+
             }
-            if (--this.lifeTicks < 0) {
-                this.discard();
+            if(this.getWarmUp() < 10){
+                if(!sentSpikeEvent){
+                    this.level().broadcastEntityEvent(this, (byte)4);
+                    sentSpikeEvent = true;
+                }
             }
         }
 
@@ -212,6 +236,16 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
         this.entityData.set(ACTIVATE, Activate);
     }
 
+
+    @OnlyIn(Dist.CLIENT)
+    public void handleEntityEvent(byte id) {
+        super.handleEntityEvent(id);
+        if (id == 4) {
+            this.level().addParticle(ModParticle.DESERT_GLYPH.get(), this.getX(), this.getY() + 2, this.getZ(), 0.5D, 0, 0);
+
+        }
+
+    }
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {

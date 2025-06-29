@@ -10,6 +10,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -106,10 +107,19 @@ public class ModBlocks {
     public static final RegistryObject<Block> PURPUR_TILES = BLOCKS.register("purpur_tiles",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.PURPUR_BLOCK)));
 
+    public static final RegistryObject<Block> PURPUR_TILE_SLAB = BLOCKS.register("purpur_tile_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(PURPUR_TILES.get())));
+
+    public static final RegistryObject<Block> PURPUR_TILE_STAIRS = BLOCKS.register("purpur_tile_stairs",
+            () -> new StairBlock(PURPUR_TILES.get().defaultBlockState(),BlockBehaviour.Properties.copy(PURPUR_TILES.get())));
+
+    public static final RegistryObject<Block> PURPUR_TILE_WALL = BLOCKS.register("purpur_tile_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(PURPUR_TILES.get())));
+
     public static final RegistryObject<Block> VOID_PURPUR_TILES = BLOCKS.register("void_purpur_tiles",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.PURPUR_BLOCK)));
 
-    public static final RegistryObject<Block> PURPUR_PILLAR = BLOCKS.register("purpur_pillar",
+    public static final RegistryObject<Block> PURPUR_TILE_PILLAR = BLOCKS.register("purpur_tile_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.copy(Blocks.PURPUR_BLOCK)));
 
     public static final RegistryObject<Block> CHISELED_PURPUR_BLOCK = BLOCKS.register("chiseled_purpur_block",
@@ -123,6 +133,15 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> POLISHED_OBSIDIAN = BLOCKS.register("polished_obsidian",
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.OBSIDIAN)));
+
+    public static final RegistryObject<Block> POLISHED_OBSIDIAN_SLAB = BLOCKS.register("polished_obsidian_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.copy(POLISHED_OBSIDIAN.get())));
+
+    public static final RegistryObject<Block> POLISHED_OBSIDIAN_STAIRS = BLOCKS.register("polished_obsidian_stairs",
+            () -> new StairBlock(POLISHED_OBSIDIAN.get().defaultBlockState(),BlockBehaviour.Properties.copy(POLISHED_OBSIDIAN.get())));
+
+    public static final RegistryObject<Block> POLISHED_OBSIDIAN_WALL = BLOCKS.register("polished_obsidian_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.copy(POLISHED_OBSIDIAN.get())));
 
     public static final RegistryObject<Block> CHISELED_OBSIDIAN_BRICKS = BLOCKS.register("chiseled_obsidian_bricks",
             () -> new Block(BlockBehaviour.Properties.copy(OBSIDIAN_BRICKS.get())));
@@ -246,6 +265,9 @@ public class ModBlocks {
     
     public static final RegistryObject<Block> CHORUS_FENCE = BLOCKS.register("chorus_fence",
             () -> new FenceBlock(BlockBehaviour.Properties.copy(CHORUS_PLANKS.get())));
+
+    public static final RegistryObject<Block> CHORUS_TRAPDOOR = BLOCKS.register("chorus_trapdoor",
+            () ->  new TrapDoorBlock(BlockBehaviour.Properties.copy(CHORUS_PLANKS.get()).noOcclusion(), CMWoodTypes.CHORUS));
 
     public static final RegistryObject<Block> PRISMARINE_BRICK_FENCE = BLOCKS.register("prismarine_brick_fence",
             () -> new FenceBlock(BlockBehaviour.Properties.copy(Blocks.PRISMARINE_BRICKS)));

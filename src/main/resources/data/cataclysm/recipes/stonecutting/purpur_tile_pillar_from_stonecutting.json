@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "minecraft:purpur_block"
+        },
+        {
+            "item": "cataclysm:purpur_tiles"
+        }
+    ],
+    "result": "cataclysm:purpur_tile_pillar",
+    "count": 1
+}

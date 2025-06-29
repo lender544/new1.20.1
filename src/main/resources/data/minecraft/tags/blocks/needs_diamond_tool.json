@@ -19,6 +19,9 @@
     "cataclysm:black_steel_fence",
     "cataclysm:polished_obsidian",
     "cataclysm:void_crystal",
-    "cataclysm:obsidian_pillar"
+    "cataclysm:obsidian_pillar",
+    "cataclysm:polished_obsidian_slab",
+    "cataclysm:polished_obsidian_stairs",
+    "cataclysm:polished_obsidian_wall"
   ]
 }

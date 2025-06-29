@@ -306,9 +306,16 @@ public class ModGroup {
                 entries.accept(ModItems.DRAUGR_HEAD.get());
                 entries.accept(ModItems.KOBOLEDIATOR_SKULL.get());
                 entries.accept(ModItems.PURPUR_TILES.get());
+                entries.accept(ModItems.PURPUR_TILE_SLAB.get());
+                entries.accept(ModItems.PURPUR_TILE_STAIRS.get());
+                entries.accept(ModItems.PURPUR_TILE_WALL.get());
+                entries.accept(ModItems.PURPUR_TILE_PILLAR.get());
                 entries.accept(ModItems.VOID_PURPUR_TILES.get());
+                entries.accept(ModItems.POLISHED_OBSIDIAN_SLAB.get());
+                entries.accept(ModItems.POLISHED_OBSIDIAN_STAIRS.get());
+                entries.accept(ModItems.POLISHED_OBSIDIAN_WALL.get());
                 entries.accept(ModItems.OBSIDIAN_PILLAR.get());
-                entries.accept(ModItems.PURPUR_PILLAR.get());
+                entries.accept(ModItems.CHORUS_TRAPDOOR.get());
             })
             .withTabsBefore(ITEM.getKey())
             .build());

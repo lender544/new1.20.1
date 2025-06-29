@@ -69,9 +69,10 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
     private void renderTrail(Wither_Homing_Missile_Entity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
         int sampleSize = 5;
         float trailHeight = 0.1F;
+        float trailYRot = 0;
         float trailZRot = 0;
-        Vec3 topAngleVec = new Vec3(0, trailHeight, 0).zRot(trailZRot);
-        Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
+        Vec3 topAngleVec = new Vec3(trailHeight, trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
+        Vec3 bottomAngleVec = new Vec3(-trailHeight, -trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
         Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
         PoseStack.Pose posestack$pose = poseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();

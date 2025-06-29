@@ -136,7 +136,7 @@ public class Scylla_Entity extends IABoss_monster {
     private int explosion_cooldown = 0;
     public static final int EXPLOSION_COOLDOWN = 300;
     private int whip_cooldown = 0;
-    public static final int WHIP_COOLDOWN = 300;
+    public static final int WHIP_COOLDOWN = 400;
     private int parry_cooldown = 0;
     public static final int PARRY_COOLDOWN = 100;
     public static final int MAX_PARRY_COUNT = 18;
