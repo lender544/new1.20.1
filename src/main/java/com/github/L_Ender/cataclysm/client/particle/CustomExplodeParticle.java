@@ -11,15 +11,12 @@ public class CustomExplodeParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
 
 
-    protected CustomExplodeParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan, int color1) {
-        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
-        this.xd = xSpeed;
-        this.yd = ySpeed;
-        this.zd = zSpeed;
-        this.setSize(0.5F, 0.5F);
-        this.quadSize = 2.0F;
-        this.lifetime = 10;
+    protected CustomExplodeParticle(ClientLevel world, double x, double y, double z, double xSpeed, SpriteSet sprites) {
+        super(world, x, y, z, 0, 0, 0);
+        this.quadSize = 2.0F * (1.0F - (float)xSpeed * 0.5F);
+        this.lifetime = 7 + this.random.nextInt(4);
         this.sprites = sprites;
+
     }
 
     public void tick() {
@@ -56,7 +53,23 @@ public class CustomExplodeParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0Xffffff);
+            CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, spriteSet);
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
+            return particle;
+        }
+    }
+
+
+    public static class IgnisFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public IgnisFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, spriteSet);
             particle.setSpriteFromAge(spriteSet);
             particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
             return particle;

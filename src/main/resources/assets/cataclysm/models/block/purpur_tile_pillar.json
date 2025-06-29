@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end":  "cataclysm:block/purpur_tile_pillar_top",
+    "side": "cataclysm:block/purpur_tile_pillar"
+  }
+}

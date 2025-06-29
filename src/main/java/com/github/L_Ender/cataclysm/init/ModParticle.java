@@ -217,4 +217,12 @@ public class ModParticle {
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> LIGHTNING_EXPLODE = PARTICLE.register("lightning_explode", () -> new SimpleParticleType(false));
 
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> IGNIS_EXPLODE = PARTICLE.register("ignis_explode", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> IGNIS_ABYSS_EXPLODE = PARTICLE.register("ignis_abyss_explode", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> IGNIS_SOUL_EXPLODE = PARTICLE.register("ignis_soul_explode", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DESERT_GLYPH = PARTICLE.register("desert_glyph", () -> new SimpleParticleType(false));
+
 }

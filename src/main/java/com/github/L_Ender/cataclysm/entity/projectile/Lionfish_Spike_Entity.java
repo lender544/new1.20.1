@@ -67,7 +67,9 @@ public class Lionfish_Spike_Entity extends ThrowableItemProjectile {
             entity.hurt(this.damageSources().mobProjectile(this, null), i);
         }
     }
-
+    public boolean isInWater() {
+        return false;
+    }
     @Override
     public boolean isNoGravity() {
         return false;

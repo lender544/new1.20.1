@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "cataclysm:block/purpur_tile_slab" },
+    "type=top": { "model": "cataclysm:block/purpur_tile_slab_top" },
+    "type=double": { "model": "cataclysm:block/purpur_tiles" }
+  }
+}

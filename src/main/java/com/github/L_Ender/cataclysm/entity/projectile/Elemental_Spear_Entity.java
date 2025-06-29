@@ -124,6 +124,9 @@ public class Elemental_Spear_Entity extends Projectile {
                     this.setState(2);
                 }
             }
+            if (this.lifetick > 600) {
+                this.discard();
+            }
             this.checkInsideBlocks();
             Vec3 vec3 = this.getDeltaMovement();
             double d0 = this.getX() + vec3.x;

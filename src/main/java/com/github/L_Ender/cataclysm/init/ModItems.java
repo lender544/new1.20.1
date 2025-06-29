@@ -18,9 +18,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
 
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -71,8 +73,17 @@ public class ModItems {
     public static final DeferredItem<BlockItem> VOID_PURPUR_TILES = ITEMS.register("void_purpur_tiles",
             () -> new BlockItem(ModBlocks.VOID_PURPUR_TILES.get(), new Item.Properties()));
 
-    public static final DeferredItem<BlockItem> PURPUR_PILLAR = ITEMS.register("purpur_pillar",
-            () -> new BlockItem(ModBlocks.PURPUR_PILLAR.get(), new Item.Properties()));
+    public static final DeferredItem<BlockItem> PURPUR_TILE_PILLAR = ITEMS.register("purpur_tile_pillar",
+            () -> new BlockItem(ModBlocks.PURPUR_TILE_PILLAR.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> PURPUR_TILE_SLAB = ITEMS.register("purpur_tile_slab",
+            () -> new BlockItem(ModBlocks.PURPUR_TILE_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> PURPUR_TILE_STAIRS = ITEMS.register("purpur_tile_stairs",
+            () -> new BlockItem(ModBlocks.PURPUR_TILE_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> PURPUR_TILE_WALL = ITEMS.register("purpur_tile_wall",
+            () -> new BlockItem(ModBlocks.PURPUR_TILE_WALL.get(), new Item.Properties()));
 
 
     public static final DeferredItem<BlockItem> VOID_INFUSED_END_STONE_BRICKS = ITEMS.register("void_infused_end_stone_bricks",
@@ -92,6 +103,15 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> POLISHED_OBSIDIAN = ITEMS.register("polished_obsidian",
             () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> POLISHED_OBSIDIAN_SLAB = ITEMS.register("polished_obsidian_slab",
+            () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN_SLAB.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> POLISHED_OBSIDIAN_STAIRS = ITEMS.register("polished_obsidian_stairs",
+            () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN_STAIRS.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> POLISHED_OBSIDIAN_WALL = ITEMS.register("polished_obsidian_wall",
+            () -> new BlockItem(ModBlocks.POLISHED_OBSIDIAN_WALL.get(), new Item.Properties()));
 
     public static final DeferredItem<BlockItem> OBSIDIAN_PILLAR = ITEMS.register("obsidian_pillar",
             () -> new BlockItem(ModBlocks.OBSIDIAN_PILLAR.get(), new Item.Properties()));
@@ -147,6 +167,9 @@ public class ModItems {
 
     public static final DeferredItem<BlockItem> CHORUS_FENCE = ITEMS.register("chorus_fence",
             () -> new BlockItem(ModBlocks.CHORUS_FENCE.get(), new Item.Properties()));
+
+    public static final DeferredItem<BlockItem> CHORUS_TRAPDOOR = ITEMS.register("chorus_trapdoor",
+            () -> new BlockItem(ModBlocks.CHORUS_TRAPDOOR.get(), new Item.Properties()));
 
     public static final DeferredItem<BlockItem> PRISMARINE_BRICK_FENCE = ITEMS.register("prismarine_brick_fence",
             () -> new BlockItem(ModBlocks.PRISMARINE_BRICK_FENCE.get(), new Item.Properties()));

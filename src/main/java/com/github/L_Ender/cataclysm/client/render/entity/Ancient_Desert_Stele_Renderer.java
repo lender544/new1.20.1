@@ -7,10 +7,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -28,8 +31,20 @@ public class Ancient_Desert_Stele_Renderer extends EntityRenderer<Ancient_Desert
         matrixStackIn.mulPose(Axis.YP.rotationDegrees(90.0F - entityIn.getYRot()));
         matrixStackIn.translate(0.0D, 1.5F, 0.0D);
         matrixStackIn.scale(-1.0F, -1.0F, 1.0F);
-        VertexConsumer vertexconsumer = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
-        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY);
+        VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entityIn)));
+
+        int maxWarmUp = 10;
+        float progress = Mth.clamp(1.0F - (entityIn.getWarmUp() / (float)maxWarmUp), 0.0F, 1.0F);
+
+        int r = Mth.lerpInt(progress, 195, 255);
+        int g = Mth.lerpInt(progress, 90, 255);
+        int b = Mth.lerpInt(progress, 0, 255);
+        float alpha = progress;
+
+        int i = FastColor.ARGB32.color((int) (255 * alpha), r, g, b);
+
+        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,i);
+
         matrixStackIn.popPose();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }

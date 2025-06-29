@@ -99,10 +99,19 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PURPUR_TILES = BLOCKS.register("purpur_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
+    public static final DeferredBlock<Block> PURPUR_TILE_SLAB = BLOCKS.register("purpur_tile_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(PURPUR_TILES.get())));
+
+    public static final DeferredBlock<Block> PURPUR_TILE_STAIRS = BLOCKS.register("purpur_tile_stairs",
+            () -> new StairBlock(PURPUR_TILES.get().defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(PURPUR_TILES.get())));
+
+    public static final DeferredBlock<Block> PURPUR_TILE_WALL = BLOCKS.register("purpur_tile_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(PURPUR_TILES.get())));
+
     public static final DeferredBlock<Block> VOID_PURPUR_TILES = BLOCKS.register("void_purpur_tiles",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
-    public static final DeferredBlock<Block> PURPUR_PILLAR = BLOCKS.register("purpur_pillar",
+    public static final DeferredBlock<Block> PURPUR_TILE_PILLAR = BLOCKS.register("purpur_tile_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
 
     public static final DeferredBlock<Block> CHISELED_PURPUR_BLOCK = BLOCKS.register("chiseled_purpur_block",
@@ -116,6 +125,15 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> POLISHED_OBSIDIAN = BLOCKS.register("polished_obsidian",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OBSIDIAN)));
+
+    public static final DeferredBlock<Block> POLISHED_OBSIDIAN_SLAB = BLOCKS.register("polished_obsidian_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_OBSIDIAN.get())));
+
+    public static final DeferredBlock<Block> POLISHED_OBSIDIAN_STAIRS = BLOCKS.register("polished_obsidian_stairs",
+            () -> new StairBlock(POLISHED_OBSIDIAN.get().defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(POLISHED_OBSIDIAN.get())));
+
+    public static final DeferredBlock<Block> POLISHED_OBSIDIAN_WALL = BLOCKS.register("polished_obsidian_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(POLISHED_OBSIDIAN.get())));
 
     public static final DeferredBlock<Block> CHISELED_OBSIDIAN_BRICKS = BLOCKS.register("chiseled_obsidian_bricks",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(OBSIDIAN_BRICKS.get())));
@@ -301,6 +319,9 @@ public class ModBlocks {
     
     public static final DeferredBlock<Block> CHORUS_FENCE = BLOCKS.register("chorus_fence",
             () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(CHORUS_PLANKS.get())));
+
+    public static final DeferredBlock<Block> CHORUS_TRAPDOOR = BLOCKS.register("chorus_trapdoor",
+            () ->  new TrapDoorBlock(CMWoodTypes.CHORUS,BlockBehaviour.Properties.ofFullCopy(CHORUS_PLANKS.get()).noOcclusion()));
 
     public static final DeferredBlock<Block> PRISMARINE_BRICK_FENCE = BLOCKS.register("prismarine_brick_fence",
             () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PRISMARINE_BRICKS)));

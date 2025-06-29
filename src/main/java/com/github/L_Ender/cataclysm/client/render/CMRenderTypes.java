@@ -148,13 +148,13 @@ public class CMRenderTypes extends RenderType {
             p_286155_ -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_EYES_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
+                        .setTextureState(new TextureStateShard(p_286155_, false, false))
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setOutputState(ITEM_ENTITY_TARGET)
                         .setLightmapState(LIGHTMAP)
                         .setCullState(NO_CULL)
                         .setOverlayState(OVERLAY)
-                        .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                        .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(true);
                 return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
             }

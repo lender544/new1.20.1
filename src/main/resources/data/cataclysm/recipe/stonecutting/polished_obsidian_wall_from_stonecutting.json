@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": [
+        {
+            "item": "minecraft:obsidian"
+        },
+        {
+            "item": "cataclysm:polished_obsidian"
+        }
+    ],
+    "result": {
+        "count": 1,
+        "id": "cataclysm:polished_obsidian_wall"
+    }
+}

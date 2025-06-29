@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_E
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -33,7 +35,8 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
     private static final EntityDataAccessor<Integer> BOUNCES = SynchedEntityData.defineId(Ignis_Abyss_Fireball_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> FIRED = SynchedEntityData.defineId(Ignis_Abyss_Fireball_Entity.class, EntityDataSerializers.BOOLEAN);
     private int timer;
-
+    private Vec3[] trailPositions = new Vec3[64];
+    private int trailPointer = -1;
     public Ignis_Abyss_Fireball_Entity(EntityType<? extends Ignis_Abyss_Fireball_Entity> type, Level level) {
         super(type, level);
     }
@@ -88,6 +91,17 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
                 }
             }
         }
+        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
+        if (trailPointer == -1) {
+            Vec3 backAt = trailAt;
+            for (int i = 0; i < trailPositions.length; i++) {
+                trailPositions[i] = backAt;
+            }
+        }
+        if (++this.trailPointer == this.trailPositions.length) {
+            this.trailPointer = 0;
+        }
+        this.trailPositions[this.trailPointer] = trailAt;
     }
 
     public void setUp(int delay) {
@@ -124,8 +138,9 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
             } else {
                 flag = entity.hurt(this.damageSources().magic(), 5.0F);
             }
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, true, Level.ExplosionInteraction.NONE);
-            this.discard();
+            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 2f, true, Explosion.BlockInteraction.KEEP);
+            explosion.explode();
+            explosion.finalizeExplosion(3,0.5D); this.discard();
             if (flag && entity instanceof LivingEntity) {
                 MobEffectInstance effectinstance1 = ((LivingEntity)entity).getEffect(ModEffect.EFFECTBLAZING_BRAND);
                 int i = 2;
@@ -178,7 +193,9 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
 
             if (this.tickCount > 500 || this.getTotalBounces() > 5) {
                 if (!this.level().isClientSide) {
-                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2.0F, true, Level.ExplosionInteraction.NONE);
+                    IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 2f, true, Explosion.BlockInteraction.KEEP);
+                    explosion.explode();
+                    explosion.finalizeExplosion(3,0.5D);
                     this.discard();
                 }
             } else {
@@ -205,7 +222,19 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
             this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
         }
     }
-
+    public Vec3 getTrailPosition(int pointer, float partialTick) {
+        if (this.isRemoved()) {
+            partialTick = 1.0F;
+        }
+        int i = this.trailPointer - pointer & 63;
+        int j = this.trailPointer - pointer - 1 & 63;
+        Vec3 d0 = this.trailPositions[j];
+        Vec3 d1 = this.trailPositions[i].subtract(d0);
+        return d0.add(d1.scale(partialTick));
+    }
+    public boolean hasTrail() {
+        return trailPointer != -1;
+    }
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(BOUNCES, 0);

@@ -68,6 +68,11 @@ public class Urchin_Spike_Entity extends ThrowableItemProjectile {
         }
     }
 
+
+    public boolean isInWater() {
+        return false;
+    }
+
     @Override
     public boolean isNoGravity() {
         return false;
