@@ -240,24 +240,24 @@ public class Flame_Strike_Entity extends Entity {
                         Hitentity.addEffect(effectinstance);
                     }
                 } else {
-                    if (caster.isAlliedTo(Hitentity)) {
-                        return;
-                    }
-                    boolean flag = Hitentity.hurt(CMDamageTypes.causeFlameStrikeDamage(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
-                    if (flag) {
-                        MobEffectInstance effectinstance1 = Hitentity.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
-                        int i = 1;
-                        if (effectinstance1 != null) {
-                            i += effectinstance1.getAmplifier();
-                            Hitentity.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND.get());
-                        } else {
-                            --i;
+
+                    if (!caster.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(caster)) {
+                        boolean flag = Hitentity.hurt(CMDamageTypes.causeFlameStrikeDamage(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
+                        if (flag) {
+                            MobEffectInstance effectinstance1 = Hitentity.getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
+                            int i = 1;
+                            if (effectinstance1 != null) {
+                                i += effectinstance1.getAmplifier();
+                                Hitentity.removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND.get());
+                            } else {
+                                --i;
+                            }
+
+                            i = Mth.clamp(i, 0, 4);
+                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 200, i, false, false, true);
+                            Hitentity.addEffect(effectinstance);
+
                         }
-
-                        i = Mth.clamp(i, 0, 4);
-                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 200, i, false, false, true);
-                        Hitentity.addEffect(effectinstance);
-
                     }
                 }
             }

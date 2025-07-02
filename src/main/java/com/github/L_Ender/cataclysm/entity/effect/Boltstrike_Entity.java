@@ -222,10 +222,9 @@ public class Boltstrike_Entity extends Entity {
             if (livingentity == null) {
                 Hitentity.hurt(this.damageSources().magic(), this.getDamage());
             } else {
-                if (livingentity.isAlliedTo(Hitentity)) {
-                    return;
+                if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+                    Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), this.getDamage());
                 }
-                Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), this.getDamage());
             }
         }
     }

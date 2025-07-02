@@ -498,8 +498,10 @@ public class Ancient_Ancient_Remnant_Entity extends LLibrary_Boss_Monster {
                     double sx = this.getX() + (Mth.cos(angle) * 8);
                     double sy = this.getY();
                     double sz = this.getZ() + (Mth.sin(angle) * 8);
-                    Sandstorm_Entity projectile = new Sandstorm_Entity(this.level(), sx,sy,sz,300,angle,this.getUUID());
-                    this.level().addFreshEntity(projectile);
+                    if (!level().isClientSide()) {
+                        Sandstorm_Entity projectile = new Sandstorm_Entity(this.level(), sx, sy, sz, 300, angle, this);
+                        this.level().addFreshEntity(projectile);
+                    }
                 }
             }
         }

@@ -76,7 +76,9 @@ public class Accretion_Entity extends ThrowableProjectile {
     public boolean shouldRiderSit() {
         return false;
     }
-
+    public boolean isInWater() {
+        return false;
+    }
 
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);

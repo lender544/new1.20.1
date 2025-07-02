@@ -85,7 +85,7 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
             Entity entity = p_37626_.getEntity();
             boolean flag = false;
             if (this.getOwner() instanceof LivingEntity livingentity) {
-                if (!isAlliedTo(entity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
+                if (!entity.isAlliedTo(livingentity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
                     DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
                     flag = entity.hurt(damagesource, this.getDamage());
                     if (flag) {

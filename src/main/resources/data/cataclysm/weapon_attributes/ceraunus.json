@@ -1,0 +1,30 @@
+{
+  "parent": "bettercombat:anchor",
+  "attributes": {
+    "range_bonus": 1.5,
+    "two_handed": true,
+    "category": "anchor",
+    "attacks": [
+      {
+        "hitbox": "FORWARD_BOX",
+        "damage_multiplier": 1.2,
+        "angle": 0,
+        "upswing": 0.5,
+        "animation": "bettercombat:two_handed_slam_heavy",
+        "swing_sound": {
+          "id": "bettercombat:anchor_slam"
+         }
+        },
+		{
+        "hitbox": "HORIZONTAL_PLANE",
+        "damage_multiplier": 1.3,
+        "angle": 180,
+        "upswing": 0.5,
+        "animation": "bettercombat:two_handed_slash_horizontal_right",
+        "swing_sound": {
+          "id": "bettercombat:double_axe_swing"
+        }
+      }
+    ]
+  }
+}

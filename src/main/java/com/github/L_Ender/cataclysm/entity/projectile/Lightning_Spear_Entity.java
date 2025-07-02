@@ -110,7 +110,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             Entity entity = p_37626_.getEntity();
             boolean flag;
             if (this.getOwner() instanceof LivingEntity livingentity) {
-                if (!isAlliedTo(entity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
+                if (!entity.isAlliedTo(livingentity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
                     DamageSource damagesource = CMDamageTypes.causeLightningDamage(this, livingentity);
                     flag = entity.hurt(damagesource, this.getDamage());
                     if (flag) {

@@ -693,7 +693,7 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
                     double sy = this.getY();
                     double sz = this.getZ() + (Mth.sin(angle) * 8);
                     if (!level().isClientSide()) {
-                        Sandstorm_Entity projectile = new Sandstorm_Entity(this.level(), sx,sy,sz,300,angle,this.getUUID());
+                        Sandstorm_Entity projectile = new Sandstorm_Entity(this.level(), sx, sy, sz, 300, angle, this);
                         this.level().addFreshEntity(projectile);
                     }
                 }

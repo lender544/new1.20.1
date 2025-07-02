@@ -64,7 +64,6 @@ public class Astrape extends Item implements More_Tool_Attribute  {
             float f = getPowerForTime(i);
             if (!((double) f < 0.5D)) {
                 p_43395_.playSound((Player)null, player.getX(), player.getY(), player.getZ(), ModSounds.EMP_ACTIVATED.get(), SoundSource.PLAYERS,1.0F, 0.8F);
-                player.getCooldowns().addCooldown(this, 50);
                 if (!p_43395_.isClientSide) {
                         float d7 = p_43396_.getYRot();
                         float d = p_43396_.getXRot();
@@ -81,14 +80,18 @@ public class Astrape extends Item implements More_Tool_Attribute  {
                         Vec3 vec3 = new Vec3(d1, d2, d3).normalize();
                         float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
                         float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
-                        Lightning_Spear_Entity lightning = new Lightning_Spear_Entity(player, vec3.normalize(),p_43395_,(float) CMConfig.WASWMissileDamage);
+                        Lightning_Spear_Entity lightning = new Lightning_Spear_Entity(player, vec3.normalize(),p_43395_,(float) CMConfig.AstrapeDamage);
                         lightning.accelerationPower = 0.15D;
                         lightning.setYRot(yRot);
                         lightning.setXRot(xRot);
                         lightning.setPosRaw(x, y, Z);
-                        lightning.setAreaDamage(3);
+                        lightning.setAreaDamage((float) CMConfig.AstrapeAreaDamage);
                         lightning.setAreaRadius(1);
-                        p_43395_.addFreshEntity(lightning);
+                        boolean flag = p_43395_.addFreshEntity(lightning);
+
+                        if(flag){
+                        player.getCooldowns().addCooldown(this, CMConfig.AstrapeCooldown);
+                    }
 
 
 

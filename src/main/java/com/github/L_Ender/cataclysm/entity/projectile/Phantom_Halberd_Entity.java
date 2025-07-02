@@ -218,10 +218,9 @@ public class Phantom_Halberd_Entity extends Entity {
                 if (livingentity == null) {
                     Hitentity.hurt(this.damageSources().magic(), getDamage());
                 } else {
-                    if (livingentity.isAlliedTo(Hitentity)) {
-                        return;
+                    if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+                        Hitentity.hurt(CMDamageTypes.causeMaledictioMagicaeDamage(this, livingentity), getDamage());
                     }
-                    Hitentity.hurt(CMDamageTypes.causeMaledictioMagicaeDamage(this,livingentity), getDamage());
                 }
             }
         }

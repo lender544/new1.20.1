@@ -296,7 +296,7 @@ public class Cursed_Sandstorm_Entity extends Projectile {
             Entity entity1 = this.getOwner();
             boolean flag = false;
             if (entity1 instanceof LivingEntity ownerliving) {
-                if (!ownerliving.isAlliedTo(entity)) {
+                if (!ownerliving.isAlliedTo(entity) && !entity.isAlliedTo(ownerliving)) {
 
                     flag = entity.hurt(CMDamageTypes.causeMaledictioSagittaDamage(this, ownerliving), this.getDamage());
                     if (flag) {

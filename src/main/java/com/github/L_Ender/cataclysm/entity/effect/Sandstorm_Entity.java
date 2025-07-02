@@ -26,17 +26,18 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
 public class Sandstorm_Entity extends Entity {
 
-    private static final EntityDataAccessor<Optional<UUID>> CREATOR_ID = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
     protected static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> OFFSET = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.FLOAT);
-
-    private static final EntityDataAccessor<Boolean> POWERD = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
+
+    private LivingEntity caster;
+    private UUID casterUuid;
     public AnimationState SpawnAnimationState = new AnimationState();
     public AnimationState DespawnAnimationState = new AnimationState();
 
@@ -44,9 +45,9 @@ public class Sandstorm_Entity extends Entity {
         super(entityTypeIn, worldIn);
     }
 
-    public Sandstorm_Entity(Level worldIn, double x, double y, double z, int lifespan, float offset, UUID casterIn) {
+    public Sandstorm_Entity(Level worldIn, double x, double y, double z, int lifespan, float offset, LivingEntity casterIn) {
         this(ModEntities.SANDSTORM.get(), worldIn);
-        this.setCreatorEntityUUID(casterIn);
+        this.setCaster(casterIn);
         this.setLifespan(lifespan);
         this.setPos(x, y, z);
         this.setState(1);
@@ -61,7 +62,7 @@ public class Sandstorm_Entity extends Entity {
     public void tick() {
         super.tick();
         updateMotion();
-        Entity owner = getCreatorEntity();
+        LivingEntity owner = getCaster();
         if (owner != null && !owner.isAlive()) discard();
         if(level().isClientSide) {
             float ran = 0.04f;
@@ -93,29 +94,7 @@ public class Sandstorm_Entity extends Entity {
         }
 
         for(LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
-            if (entity instanceof Player && ((Player) entity).getAbilities().invulnerable) continue;
-            if(entity != owner) {
-                if (entity.isAlive() && !entity.isInvulnerable() ) {
-                    if (this.tickCount % 3 == 0) {
-                        if (owner == null) {
-                           boolean flag =  entity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
-                           if(flag) {
-                               MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
-                               entity.addEffect(effectinstance);
-                           }
-                        } else {
-                            if (owner.isAlliedTo(entity)) {
-                                return;
-                            }
-                            boolean flag = entity.hurt(this.damageSources().indirectMagic(this, owner), (float) CMConfig.Sandstormdamage);
-                            if(flag) {
-                                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
-                                entity.addEffect(effectinstance);
-                            }
-                        }
-                    }
-                }
-            }
+            damage(entity);
 
         }
 
@@ -124,6 +103,30 @@ public class Sandstorm_Entity extends Entity {
         if (this.getLifespan() <= 0) {
             Cataclysm.PROXY.clearSoundCacheFor(this);
             this.remove(RemovalReason.DISCARDED);
+        }
+    }
+
+    private void damage(LivingEntity Hitentity) {
+        LivingEntity livingentity = this.getCaster();
+        if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
+            if (this.tickCount % 3 == 0) {
+                if (livingentity == null) {
+                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                    if(flag) {
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
+                        Hitentity.addEffect(effectinstance);
+                    }
+                } else {
+                    if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+
+                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), (float) CMConfig.Sandstormdamage);
+                        if (flag) {
+                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
+                            Hitentity.addEffect(effectinstance);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -143,24 +146,26 @@ public class Sandstorm_Entity extends Entity {
         this.entityData.set(OFFSET, i);
     }
 
-    public UUID getCreatorEntityUUID() {
-        return this.entityData.get(CREATOR_ID).orElse(null);
+    public void setCaster(@Nullable LivingEntity p_190549_1_) {
+        this.caster = p_190549_1_;
+        this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUUID();
     }
 
-    public void setCreatorEntityUUID(UUID id) {
-        this.entityData.set(CREATOR_ID, Optional.ofNullable(id));
-    }
-
-    public Entity getCreatorEntity() {
-        UUID uuid = getCreatorEntityUUID();
-        if(uuid != null && !this.level().isClientSide){
-            return ((ServerLevel) level()).getEntity(uuid);
+    @Nullable
+    public LivingEntity getCaster() {
+        if (this.caster == null && this.casterUuid != null && this.level() instanceof ServerLevel) {
+            Entity entity = ((ServerLevel)this.level()).getEntity(this.casterUuid);
+            if (entity instanceof LivingEntity) {
+                this.caster = (LivingEntity)entity;
+            }
         }
-        return null;
+
+        return this.caster;
     }
+
 
     protected void updateMotion() {
-        Entity owner = getCreatorEntity();
+        LivingEntity owner = getCaster();
         if(owner !=null) {
             if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {
                 Vec3 center = owner.position().add(0.0, 0, 0.0);
@@ -185,7 +190,6 @@ public class Sandstorm_Entity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        this.entityData.define(CREATOR_ID, Optional.empty());
         this.entityData.define(LIFESPAN, 300);
         this.entityData.define(OFFSET,0f);
         this.entityData.define(STATE,0);
@@ -236,25 +240,15 @@ public class Sandstorm_Entity extends Entity {
 
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.setLifespan(compound.getInt("Lifespan"));
-        UUID uuid;
         if (compound.hasUUID("Owner")) {
-            uuid = compound.getUUID("Owner");
-        } else {
-            String s = compound.getString("Owner");
-            uuid = OldUsersConverter.convertMobOwnerIfNecessary(this.getServer(), s);
-        }
-        if (uuid != null) {
-            try {
-                this.setCreatorEntityUUID(uuid);} catch (Throwable ignored) {
-
-            }
+            this.casterUuid = compound.getUUID("Owner");
         }
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("Lifespan", getLifespan());
-       if (this.getCreatorEntityUUID() != null) {
-           compound.putUUID("Owner", this.getCreatorEntityUUID());
+        if (this.casterUuid != null) {
+            compound.putUUID("Owner", this.casterUuid);
         }
     }
 }
