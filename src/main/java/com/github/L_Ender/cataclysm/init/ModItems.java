@@ -679,7 +679,7 @@ public class ModItems {
             () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_FLAME_LOCATED,252,149,0));
 
     public static final DeferredItem<Item> VOID_EYE = ITEMS.register("void_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_FLAME_LOCATED,186,149,186));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_RUINED_LOCATED,186,149,186));
 
     public static final DeferredItem<Item> MONSTROUS_EYE = ITEMS.register("monstrous_eye",
             () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MONSTROUS_LOCATED,90,87,90));

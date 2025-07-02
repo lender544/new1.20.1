@@ -136,11 +136,10 @@ public class Flame_Jet_Entity extends Entity {
             if (livingentity == null) {
                 Hitentity.hurt(this.damageSources().magic(), getDamage());
             } else {
-                if (livingentity.isAlliedTo(Hitentity)) {
-                    return;
-                }
-                if(Hitentity.hurt(this.damageSources().mobProjectile(this,livingentity), getDamage())){
-                    Hitentity.igniteForSeconds(5);
+                if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+                    if(Hitentity.hurt(this.damageSources().mobProjectile(this,livingentity), getDamage())){
+                        Hitentity.igniteForSeconds(5);
+                    }
                 }
             }
 

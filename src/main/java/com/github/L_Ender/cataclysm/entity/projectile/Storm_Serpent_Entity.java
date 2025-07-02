@@ -351,13 +351,12 @@ public class Storm_Serpent_Entity extends Entity {
             if (livingentity == null) {
                 Hitentity.hurt(this.damageSources().magic(), getDamage());
             } else {
-                if (livingentity.isAlliedTo(Hitentity)) {
-                    return;
-                }
-                boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this,livingentity), getDamage());
-                if(flag ){
-                    MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS, 150, 4, false, true, true);
-                    Hitentity.addEffect(effectinstance);
+                if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+                    boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), getDamage());
+                    if (flag) {
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS, 150, 4, false, true, true);
+                        Hitentity.addEffect(effectinstance);
+                    }
                 }
             }
 

@@ -271,7 +271,7 @@ public class Wave_Entity extends Entity {
         AABB bashBox = this.getBoundingBox().inflate(0.01f);
         DamageSource source = damageSources().mobProjectile(this, owner);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
-            if (!isAlliedTo(entity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
+            if ((owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity) && !entity.isAlliedTo(owner))) {
                 boolean flag = entity.hurt(source, this.getDamage());
 
                 if(flag) {

@@ -158,13 +158,12 @@ public class Wither_Smoke_Effect_Entity extends Entity {
                         Hitentity.addEffect(effectinstance);
                     }
                 } else {
-                    if (caster.isAlliedTo(Hitentity)) {
-                        return;
-                    }
-                    boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, caster), 3);
-                    if(flag){
-                       MobEffectInstance effectinstance = new MobEffectInstance(MobEffects.WITHER, 160, 0, false, false, true);
-                       Hitentity.addEffect(effectinstance);
+                    if (!caster.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(caster)) {
+                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, caster), 3);
+                        if (flag) {
+                            MobEffectInstance effectinstance = new MobEffectInstance(MobEffects.WITHER, 160, 0, false, false, true);
+                            Hitentity.addEffect(effectinstance);
+                        }
                     }
                 }
             }

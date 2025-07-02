@@ -158,10 +158,9 @@ public class Lightning_Area_Effect_Entity extends Entity {
                 if (caster == null) {
                     Hitentity.hurt(this.damageSources().lightningBolt(), this.getDamage());
                 } else {
-                    if (caster.isAlliedTo(Hitentity)) {
-                        return;
+                    if (!caster.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(caster)) {
+                        Hitentity.hurt(CMDamageTypes.causeLightningDamage(this, caster), this.getDamage());
                     }
-                    Hitentity.hurt(CMDamageTypes.causeLightningDamage(this, caster),  this.getDamage());
                 }
             }
         }

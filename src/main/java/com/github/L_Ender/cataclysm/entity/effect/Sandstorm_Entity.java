@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions
 import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -26,18 +27,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class Sandstorm_Entity extends Entity {
 
     protected static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> OFFSET = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> CASTER = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
-
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
     public AnimationState SpawnAnimationState = new AnimationState();
     public AnimationState DespawnAnimationState = new AnimationState();
-    @Nullable
-    private LivingEntity owner;
+    private LivingEntity caster;
+    private UUID casterUuid;
 
     public Sandstorm_Entity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
@@ -45,14 +45,11 @@ public class Sandstorm_Entity extends Entity {
 
     public Sandstorm_Entity(Level worldIn, double x, double y, double z, int lifespan, float offset, LivingEntity casterIn) {
         this(ModEntities.SANDSTORM.get(), worldIn);
-        this.setOwner(casterIn);
         this.setLifespan(lifespan);
         this.setPos(x, y, z);
         this.setState(1);
         this.setOffset(offset);
-        if (!worldIn.isClientSide) {
-            this.setCasterID(casterIn.getId());
-        }
+        this.setCaster(casterIn);
     }
 
     @Override
@@ -63,7 +60,7 @@ public class Sandstorm_Entity extends Entity {
     public void tick() {
         super.tick();
         updateMotion();
-        Entity owner = getOwner();
+        LivingEntity owner = getCaster();
         if (owner != null && !owner.isAlive()) discard();
         if(level().isClientSide) {
             float ran = 0.04f;
@@ -95,29 +92,8 @@ public class Sandstorm_Entity extends Entity {
         }
 
         for(LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
-            if (entity instanceof Player && ((Player) entity).getAbilities().invulnerable) continue;
-            if(entity != owner) {
-                if (entity.isAlive() && !entity.isInvulnerable() ) {
-                    if (this.tickCount % 3 == 0) {
-                        if (owner == null) {
-                           boolean flag =  entity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
-                           if(flag) {
-                               MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
-                               entity.addEffect(effectinstance);
-                           }
-                        } else {
-                            if (owner.isAlliedTo(entity)) {
-                                return;
-                            }
-                            boolean flag = entity.hurt(this.damageSources().indirectMagic(this, owner), (float) CMConfig.Sandstormdamage);
-                            if(flag) {
-                                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
-                                entity.addEffect(effectinstance);
-                            }
-                        }
-                    }
-                }
-            }
+            damage(entity);
+
 
         }
 
@@ -126,6 +102,30 @@ public class Sandstorm_Entity extends Entity {
         if (this.getLifespan() <= 0) {
             Cataclysm.PROXY.clearSoundCacheFor(this);
             this.remove(RemovalReason.DISCARDED);
+        }
+    }
+
+    private void damage(LivingEntity Hitentity) {
+        LivingEntity livingentity = this.getCaster();
+        if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
+            if (this.tickCount % 3 == 0) {
+                if (livingentity == null) {
+                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                    if(flag) {
+                        MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
+                        Hitentity.addEffect(effectinstance);
+                    }
+                } else {
+                    if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+
+                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), (float) CMConfig.Sandstormdamage);
+                        if (flag) {
+                            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
+                            Hitentity.addEffect(effectinstance);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -145,35 +145,27 @@ public class Sandstorm_Entity extends Entity {
         this.entityData.set(OFFSET, i);
     }
 
-    public int getCasterID() {
-        return entityData.get(CASTER);
-    }
 
-    public void setCasterID(int id) {
-        entityData.set(CASTER, id);
-    }
-
-    public void setOwner(@Nullable LivingEntity p_19719_) {
-        this.owner = p_19719_;
-        setCasterID(p_19719_ == null ? 0 : p_19719_.getId());
+    public void setCaster(@Nullable LivingEntity p_190549_1_) {
+        this.caster = p_190549_1_;
+        this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUUID();
     }
 
     @Nullable
-    public LivingEntity getOwner() {
-        if (this.owner == null && getCasterID() != 0 && this.level() instanceof ServerLevel) {
-            Entity entity = ((ServerLevel)this.level()).getEntity(getCasterID());
+    public LivingEntity getCaster() {
+        if (this.caster == null && this.casterUuid != null && this.level() instanceof ServerLevel) {
+            Entity entity = ((ServerLevel)this.level()).getEntity(this.casterUuid);
             if (entity instanceof LivingEntity) {
-                this.owner = (LivingEntity)entity;
+                this.caster = (LivingEntity)entity;
             }
         }
 
-
-        return this.owner;
+        return this.caster;
     }
 
 
     protected void updateMotion() {
-        Entity owner = getOwner();
+        LivingEntity owner = getCaster();
         if(owner !=null) {
             if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {
                 Vec3 center = owner.position().add(0.0, 0, 0.0);
@@ -197,7 +189,6 @@ public class Sandstorm_Entity extends Entity {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
-        p_326229_.define(CASTER, -1);
         p_326229_.define(LIFESPAN, 300);
         p_326229_.define(OFFSET,0f);
         p_326229_.define(STATE,0);
@@ -248,11 +239,15 @@ public class Sandstorm_Entity extends Entity {
 
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.setLifespan(compound.getInt("Lifespan"));
-        this.setCasterID(compound.getInt("CasterId"));
+        if (compound.hasUUID("Owner")) {
+            this.casterUuid = compound.getUUID("Owner");
+        }
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("Lifespan", getLifespan());
-        compound.putInt("CasterId", getCasterID());
+        if (this.casterUuid != null) {
+            compound.putUUID("Owner", this.casterUuid);
+        }
     }
 }

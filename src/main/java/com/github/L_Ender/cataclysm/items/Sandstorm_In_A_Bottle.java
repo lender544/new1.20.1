@@ -35,16 +35,15 @@ public class Sandstorm_In_A_Bottle extends Item {
 				double sx = player.getX() + (Mth.cos(angle) * 6);
 				double sy = player.getY();
 				double sz = player.getZ() + (Mth.sin(angle) * 6);
-				Sandstorm_Entity projectile = new Sandstorm_Entity(player.level(), sx,sy,sz,200,angle,player);
-				player.level().addFreshEntity(projectile);
+				Sandstorm_Entity projectile = new Sandstorm_Entity(level, sx,sy,sz,200,angle,player);
+				boolean flag = level.addFreshEntity(projectile);
+				if(flag){
+					player.getCooldowns().addCooldown(this,  CMConfig.SandstormInABottleCOOLDOWN);
+				}
 			}
 
 		}
 
-		if (!level.isClientSide) {
-			player.getCooldowns().addCooldown(this,  CMConfig.SandstormInABottleCOOLDOWN);
-
-		}
 
 		return InteractionResultHolder.success(stack);
 	}
