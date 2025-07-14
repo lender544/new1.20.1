@@ -201,8 +201,6 @@ public class CMRenderTypes extends RenderType {
             }
     );
 
-
-
     private static final BiFunction<ResourceLocation, Boolean, RenderType> GHOST = Util.memoize((p_286156_, p_286157_) -> {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                 .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
