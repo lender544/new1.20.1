@@ -118,9 +118,9 @@ public class Tidal_Tentacle_Entity extends Entity {
                                     i = Mth.clamp(i, 0, 4);
                                     MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTABYSSAL_CURSE, 60, i, false, true, true);
                                     ((LivingEntity)current).addEffect(effectinstance);
-                                    if (this.level() instanceof ServerLevel serverlevel) {
-                                        EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
-                                    }
+                                   // if (this.level() instanceof ServerLevel serverlevel) {
+                                   //     EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
+                                  //  }
                                 }
                             }
                         }

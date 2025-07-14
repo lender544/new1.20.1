@@ -74,6 +74,8 @@ public class CMModelLayers {
     public static final ModelLayerLocation DROWNED_HOST_OUTER_LAYER = createLocation("drowned_host", "outer");
 
     public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
+    public static final ModelLayerLocation TEST_MODEL = createLocation("test_model", "main");
+
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
 
@@ -121,7 +123,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(LASER_BEAM_MODEL, Laser_Beam_Model::createBodyLayer);
 
         event.registerLayerDefinition(WAVE_MODEL, Wave_Model::createBodyLayer);
-
+        event.registerLayerDefinition(TEST_MODEL, TestModel::createBodyLayer);
         event.registerLayerDefinition(STORM_SERPENT_MODEL, Storm_Serpent_Model::createBodyLayer);
         event.registerLayerDefinition(DROWNED_HOST, () -> Drowned_Host_Model.createBodyLayer(CubeDeformation.NONE));
         event.registerLayerDefinition(DROWNED_HOST_INNER_ARMOR,() -> layerdefinition3);

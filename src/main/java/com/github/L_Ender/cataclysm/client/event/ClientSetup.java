@@ -42,6 +42,9 @@ public class ClientSetup {
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(ModEntities.ENDER_GOLEM.get(), Ender_Golem_Renderer::new);
+
+		event.registerEntityRenderer(ModEntities.TEST_ENTITY.get(), TestRenderer::new);
+
 		event.registerEntityRenderer(ModEntities.NETHERITE_MONSTROSITY.get(), New_Netherite_Monstrosity_Renderer::new);
 		event.registerEntityRenderer(ModEntities.NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Renderer::new);
 		event.registerEntityRenderer(ModEntities.LAVA_BOMB.get(), Lava_Bomb_Renderer::new);

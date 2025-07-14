@@ -713,6 +713,7 @@
   "death.attack.cataclysm.penetrate": "%s was penetrated by %s",
   "death.attack.cataclysm.lightning": "%s was electrocuted by %s",
   "death.attack.cataclysm.flame_strike": "%s was consumed by the flames",
+  "death.attack.cataclysm.storm_bringer": "%s was hunted by %s",
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",

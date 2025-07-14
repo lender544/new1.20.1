@@ -19,6 +19,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Test.Test_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
@@ -52,6 +53,11 @@ public class ModEntities {
             .sized(2.5F, 3.5F)
             .fireImmune()
             .build(Cataclysm.MODID + ":ender_golem"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<Test_Entity>> TEST_ENTITY = ENTITY_TYPE.register("test_entity", () -> EntityType.Builder.of(Test_Entity::new, MobCategory.MONSTER)
+            .sized(2.5F, 3.5F)
+            .fireImmune()
+            .build(Cataclysm.MODID + ":test_entity"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ender_Guardian_Entity>> ENDER_GUARDIAN = ENTITY_TYPE.register("ender_guardian", () -> EntityType.Builder.of(Ender_Guardian_Entity::new, MobCategory.MONSTER)
             .sized(2.5F, 3.8F)
@@ -767,5 +773,6 @@ public class ModEntities {
         event.put(CLAWDIAN.get(), Clawdian_Entity.clawdian().build());
         event.put(DROWNED_HOST.get(), Drowned_Host_Entity.createAttributes().build());
         event.put(SYMBIOCTO.get(), Symbiocto_Entity.octo().build());
+        event.put(TEST_ENTITY.get(), Test_Entity.test().build());
     }
 }

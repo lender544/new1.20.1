@@ -45,7 +45,7 @@ public class Goddess_Statue_Renderer implements BlockEntityRenderer<Statue_Block
 
     public AABB getRenderBoundingBox(Statue_Block_Entity blockEntity) {
         BlockPos pos = blockEntity.getBlockPos();
-        return new AABB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)pos.getX() + (double)1.0F, (double)pos.getY() + 2.0D, (double)pos.getZ() + (double)1.0F);
+        return new AABB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)pos.getX() + (double)1.0F, (double)pos.getY() + 3.0D, (double)pos.getZ() + (double)1.0F);
     }
 
 

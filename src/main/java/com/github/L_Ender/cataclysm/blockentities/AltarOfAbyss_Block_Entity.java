@@ -68,15 +68,18 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                     Sphereparticle(3,3);
                 }
                 if(summoningticks > 121) {
-                    this.items.set(0, ItemStack.EMPTY);
                     BlockBreaking(3, 6, 3);
                     The_Leviathan_Entity leviathan = ModEntities.THE_LEVIATHAN.get().create(level);
                     if (leviathan != null) {
                         leviathan.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
                         leviathan.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
-                            level.addFreshEntity(leviathan);
+                            boolean flag = level.addFreshEntity(leviathan);
+                            if(flag){
+                                this.items.set(0, ItemStack.EMPTY);
+                            }
                         }
+
                     }
                 }
 
