@@ -69,7 +69,7 @@ public class Boss_Respawn_Spawner_Block extends BaseEntityBlock {
                     ItemStack stack = player.getItemInHand(hand);
                     if (stack.is(itemstack.getItem())) {
                         if (!player.getAbilities().instabuild) {
-                            itemstack.shrink(1);
+                            stack.shrink(1);
                         }
                         spawnerBlockEntitylockentity.onHit(level);
                         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state));
