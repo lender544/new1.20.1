@@ -21,7 +21,6 @@ public class MessageEntityCamera {
 		this.entityID = id;
 		this.firstperson = firstperson;
 	}
-
 	public MessageEntityCamera(Entity entity, boolean firstperson) {
 		this(entity.getId(), firstperson);
 	}
