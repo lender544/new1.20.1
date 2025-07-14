@@ -34,7 +34,7 @@ public class Cindaria_Layer extends RenderLayer<Cindaria_Entity, Cindaria_Model>
 
 
         if (!entity.isInvisible()) {
-            RenderType ghost = CMRenderTypes.jelly(this.getLayerTextureLocation());
+            RenderType ghost = RenderType.entityTranslucent(this.getLayerTextureLocation());
             VertexConsumer VertexConsumer = bufferIn.getBuffer(ghost);
             float alpha = 0.65F;
             boolean hurt = Math.max(entity.hurtTime, entity.deathTime) > 0;

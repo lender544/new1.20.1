@@ -11,7 +11,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
@@ -36,14 +35,9 @@ public class CMRenderTypes extends RenderType {
         return GLOWING_EFFECT.apply(location);
     }
 
-    public static RenderType getGhost(ResourceLocation p_110455_, boolean p_110456_) {
-        return GHOST.apply(p_110455_, p_110456_);
+    public static RenderType getGhost(ResourceLocation location) {
+        return GHOST.apply(location);
     }
-
-    public static RenderType getGhost(ResourceLocation p_110474_) {
-        return getGhost(p_110474_, true);
-    }
-
 
     public static RenderType CMEyes(ResourceLocation location) {
         return CMEYE.apply(location);
@@ -201,20 +195,23 @@ public class CMRenderTypes extends RenderType {
             }
     );
 
-    private static final BiFunction<ResourceLocation, Boolean, RenderType> GHOST = Util.memoize((p_286156_, p_286157_) -> {
-        RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
-                .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                .setTextureState(new RenderStateShard.TextureStateShard(p_286156_, false, false))
-                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                .setCullState(NO_CULL)
-                .setLightmapState(LIGHTMAP)
-                .setOverlayState(OVERLAY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setLayeringState(NO_LAYERING)
-                .createCompositeState(p_286157_);
-        return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, rendertype$compositestate);
-    });
+    public static final Function<ResourceLocation, RenderType> GHOST = Util.memoize(
+            p_286169_ -> {
+                CompositeState rendertype$compositestate = CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
+                        .setCullState(NO_CULL)
+                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                        .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                        .setLightmapState(LIGHTMAP)
+                        .setOverlayState(OVERLAY)
+                        .setWriteMaskState(COLOR_DEPTH_WRITE)
+                        .setDepthTestState(LEQUAL_DEPTH_TEST)
+                        .setLayeringState(NO_LAYERING)
+                        .createCompositeState(false);
+
+                return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+            }
+    );
 
 
     public static final Function<ResourceLocation, RenderType> DRAGON_DEATH = Util.memoize(

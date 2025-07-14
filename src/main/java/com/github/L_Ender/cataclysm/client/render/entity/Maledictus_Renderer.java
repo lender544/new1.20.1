@@ -149,7 +149,7 @@ public class Maledictus_Renderer extends MobRenderer<Maledictus_Entity, Maledict
     @Nullable
     protected RenderType getRenderType(Maledictus_Entity maledictus, boolean normal, boolean invis, boolean outline) {
         ResourceLocation resourcelocation = this.getTextureLocation(maledictus);
-        return outline ? RenderType.outline(resourcelocation) : CMRenderTypes.getGhost(resourcelocation);
+        return outline ? RenderType.outline(resourcelocation) : RenderType.entityTranslucent(resourcelocation);
     }
 
     @Override
