@@ -194,7 +194,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 							for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.3f))) {
 								if (entity.equals(controller)) {
 									if (!this.getPassengers().isEmpty()) {
-										Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.getPassengers().get(0)), new MessageEntityCamera(this.getPassengers().get(0).getId(), false));
+										Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this.getPassengers().get(0)), new MessageEntityCamera(this.getPassengers().get(0).getId(), true));
 									}
 									this.discard();
 								}
@@ -235,7 +235,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 				if (this.getPassengers().isEmpty()) {
 					if (!this.level().isClientSide) {
 						entity.startRiding(this, true);
-						Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(),true));
+						Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(),false));
 					}
 				}
 			}

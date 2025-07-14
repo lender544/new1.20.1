@@ -571,7 +571,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                                 }
 
                                     entity.startRiding(this, true);
-                                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(), true));
+                                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(), false));
 
                             }
 
@@ -655,20 +655,20 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     }
                     if (!this.level().isClientSide) {
                         passenger.stopRiding();
-                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),false));
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),true));
                     }
                 }
             }else if(this.getAttackState() == 5){
                 if(this.attackTicks == 1) {
                     if (!this.level().isClientSide) {
                         passenger.stopRiding();
-                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),false));
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),true));
                     }
                 }
             }else if (this.getAttackState() != 4){
                 if (!this.level().isClientSide) {
                     passenger.stopRiding();
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),false));
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),true));
                 }
             }
             moveFunc.accept(passenger, px, y, pz);

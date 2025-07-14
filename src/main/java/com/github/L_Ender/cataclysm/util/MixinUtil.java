@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.util;
 
-import com.github.L_Ender.cataclysm.mixin.StructureManagerAccessor;
-import com.github.L_Ender.cataclysm.mixin.WorldGenRegionAccessor;
+import com.github.L_Ender.cataclysm.mixin.accessor.StructureManagerAccessor;
+import com.github.L_Ender.cataclysm.mixin.accessor.WorldGenRegionAccessor;
 import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;

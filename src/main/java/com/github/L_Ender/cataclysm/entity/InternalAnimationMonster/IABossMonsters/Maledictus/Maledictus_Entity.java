@@ -599,7 +599,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 if(this.attackTicks == 23) {
                     if (!this.level().isClientSide) {
                         passenger.stopRiding();
-                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),false));
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> passenger), new MessageEntityCamera(passenger.getId(),true));
                     }
                 }
             }
@@ -1633,7 +1633,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                         if (this.getPassengers().isEmpty()) {
 
                                 entity.startRiding(this, true);
-                                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(), true));
+                                Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entity), new MessageEntityCamera(entity.getId(), false));
 
                         }
                     }

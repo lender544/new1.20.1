@@ -1,4 +1,4 @@
-package com.github.L_Ender.cataclysm.mixin;
+package com.github.L_Ender.cataclysm.mixin.accessor;
 
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.ChunkPos;

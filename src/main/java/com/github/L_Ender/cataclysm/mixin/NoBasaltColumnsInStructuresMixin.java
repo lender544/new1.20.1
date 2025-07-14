@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.mixin;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.mixin.accessor.WorldGenRegionAccessor;
 import com.github.L_Ender.cataclysm.util.MixinUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;

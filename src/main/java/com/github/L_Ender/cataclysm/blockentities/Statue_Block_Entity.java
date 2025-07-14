@@ -29,7 +29,8 @@ public class Statue_Block_Entity extends BlockEntity {
     }
 
     public AABB getRenderBoundingBox() {
-        return new AABB(this.getBlockPos(), this.getBlockPos().above(1));
+        BlockPos pos = this.getBlockPos();
+        return new AABB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)pos.getX() + (double)1.0F, (double)pos.getY() + 3.0D, (double)pos.getZ() + (double)1.0F);
     }
 
 }

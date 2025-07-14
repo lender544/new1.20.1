@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.mixin;
 
 import com.github.L_Ender.cataclysm.init.ModStructureProcessor;
+import com.github.L_Ender.cataclysm.mixin.accessor.StructureProcessorAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;

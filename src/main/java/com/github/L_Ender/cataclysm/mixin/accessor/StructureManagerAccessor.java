@@ -1,4 +1,4 @@
-package com.github.L_Ender.cataclysm.mixin;
+package com.github.L_Ender.cataclysm.mixin.accessor;
 
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.StructureManager;

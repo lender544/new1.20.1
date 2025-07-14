@@ -898,7 +898,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                             if (entityHit.hurt(damagesource, 1)) {
 
                                     entityHit.startRiding(this, true);
-                                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entityHit), new MessageEntityCamera(entityHit.getId(), true));
+                                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> entityHit), new MessageEntityCamera(entityHit.getId(), false));
 
 
                             }

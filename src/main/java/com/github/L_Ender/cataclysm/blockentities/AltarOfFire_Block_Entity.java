@@ -70,7 +70,10 @@ public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
                         ignis.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
                         ignis.setHomePos(this.getBlockPos());
                         if (!level.isClientSide) {
-                            level.addFreshEntity(ignis);
+                            boolean flag = level.addFreshEntity(ignis);
+                            if(flag){
+                                this.setItem(0, ItemStack.EMPTY);
+                            }
                         }
                     }
                 }
