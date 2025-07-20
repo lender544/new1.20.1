@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -125,6 +126,7 @@ public class EarthQuake_Entity extends ThrowableProjectile {
                         - 0.5D, 4.0D * ((double) this.random.nextFloat() - 0.5D), (double) this.random.nextFloat() * 5 + 0.5D,
                         ((double) this.random.nextFloat() - 0.5D) * 4.0D);
             }
+            this.level().addParticle(ModParticle.DUST_BLAST.get(), this.getX(), this.getY() + 0.1d, this.getZ(), 0,0,0);
         }
     }
 

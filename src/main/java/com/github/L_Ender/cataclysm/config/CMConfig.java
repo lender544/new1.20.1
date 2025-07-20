@@ -9,6 +9,7 @@ public class CMConfig {
     public static boolean custombossbar = true;
     public static boolean setThirdPerson = true;
     public static boolean setFirstPerson = true;
+    public static boolean shadersCompat = false;
 
     public static int GauntletOfBulwarkCooldown = 80;
     public static int BulwarkOfTheFlameCooldown = 80;
@@ -176,6 +177,7 @@ public class CMConfig {
     public static double ScyllaLightningAreaDamage = 4;
     public static double ScyllaSnakeDamage = 16;
     public static double ScyllaAnchordamage = 16;
+    public static boolean ScyllaWeatherChange = true;
 
     public static double MaledictusHealthMultiplier = 1D;
     public static double MaledictusDamageMultiplier = 1D;
@@ -253,13 +255,18 @@ public class CMConfig {
     public static int cursedPyramidCheckRange = 2;
     public static int cursedPyramidHeightVariance = 7;
 
+    public static boolean MonstrosityRespawner = true;
+    public static boolean EnderGuardianRespawner = true;
+    public static boolean HarbingerRespawner = true;
+    public static boolean ScyllaRespawner = true;
+    public static boolean RemnantRespawner = true;
 
     public static void bake(ModConfig config) {
         try {
             setThirdPerson = ConfigHolder.COMMON.setThirdPerson.get();
             setFirstPerson = ConfigHolder.COMMON.setFirstPerson.get();
             custombossbar = ConfigHolder.COMMON.custombossbar.get();
-
+            shadersCompat = ConfigHolder.COMMON.shadersCompat.get();
             Return_Home = ConfigHolder.COMMON.Return_Home.get();
 
             GauntletOfBulwarkCooldown = ConfigHolder.COMMON.GauntletOfBulwarkCooldown.get();
@@ -470,7 +477,7 @@ public class CMConfig {
             ScyllaLightningAreaDamage = ConfigHolder.COMMON.ScyllaLightningAreaDamage.get();
             ScyllaSnakeDamage = ConfigHolder.COMMON.ScyllaSnakeDamage.get();
             ScyllaAnchordamage = ConfigHolder.COMMON.ScyllaAnchordamage.get();
-
+            ScyllaWeatherChange = ConfigHolder.COMMON.ScyllaWeatherChange.get();
             Armor_Infinity_Durability = ConfigHolder.COMMON.Armor_Infinity_Durability.get();
 
             DeeplingSpawnWeight = ConfigHolder.COMMON.DeeplingSpawnWeight.get();
@@ -502,6 +509,12 @@ public class CMConfig {
 
             IgnitedBerserkerSpawnWeight = ConfigHolder.COMMON.IgnitedBerserkerSpawnWeight.get();
             IgnitedBerserkerSpawnRolls = ConfigHolder.COMMON.IgnitedBerserkerSpawnRolls.get();
+
+            MonstrosityRespawner = ConfigHolder.COMMON.MonstrosityRespawner.get();
+            EnderGuardianRespawner = ConfigHolder.COMMON.EnderGuardianRespawner.get();
+            HarbingerRespawner = ConfigHolder.COMMON.HarbingerRespawner.get();
+            RemnantRespawner = ConfigHolder.COMMON.RemnantRespawner.get();
+            ScyllaRespawner = ConfigHolder.COMMON.ScyllaRespawner.get();
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("An exception was caused trying to load the config for CM");

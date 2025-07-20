@@ -502,7 +502,12 @@ public class ServerEventHandler {
             if (!player.getInventory().add(reward)) {
                 player.drop(reward, false);
             }
-
+            player.playNotifySound(
+                    ModSounds.THE_CATACLYSMFARER.get(),
+                    SoundSource.RECORDS,
+                    1.0F,
+                    1.0F
+            );
         }
     }
 

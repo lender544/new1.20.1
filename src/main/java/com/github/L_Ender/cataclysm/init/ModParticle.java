@@ -177,4 +177,7 @@ public class ModParticle {
 
     public static final RegistryObject<SimpleParticleType> DESERT_GLYPH = PARTICLE.register("desert_glyph", () -> new SimpleParticleType(false));
 
+    public static final RegistryObject<SimpleParticleType> DUST_BLAST = PARTICLE.register("dust_blast", () -> new SimpleParticleType(false));
+
+
 }

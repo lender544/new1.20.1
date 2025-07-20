@@ -5,7 +5,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class CommonConfig {
 
-    public final ForgeConfigSpec.DoubleValue LavaVisionOpacity;
     public final ForgeConfigSpec.BooleanValue shadersCompat;
     public final ForgeConfigSpec.BooleanValue custombossbar;
 
@@ -200,6 +199,7 @@ public class CommonConfig {
     public final ForgeConfigSpec.DoubleValue ScyllaLongRangelimit;
     public final ForgeConfigSpec.DoubleValue ScyllaAnchordamage;
     public final ForgeConfigSpec.IntValue ScyllaDamageTime;
+    public final ForgeConfigSpec.BooleanValue ScyllaWeatherChange;
 
     public final ForgeConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue MaledictusDamageMultiplier;
@@ -246,10 +246,15 @@ public class CommonConfig {
     public final ForgeConfigSpec.IntValue cursedPyramidCheckRange;
     public final ForgeConfigSpec.IntValue cursedPyramidHeightVariance;
 
+    public final ForgeConfigSpec.BooleanValue MonstrosityRespawner;
+    public final ForgeConfigSpec.BooleanValue EnderGuardianRespawner;
+    public final ForgeConfigSpec.BooleanValue HarbingerRespawner;
+    public final ForgeConfigSpec.BooleanValue RemnantRespawner;
+    public final ForgeConfigSpec.BooleanValue ScyllaRespawner;
+
     public CommonConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("Etc");
-        LavaVisionOpacity = buildDouble(builder, "lavaVisionOpacity", "all", 0.5D, 0.01D, 1D, "Lava Opacity for the Ignitium Helemt.");
-        shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Whether to disable certain aspects of the Ignitium Helemt. Enable if issues with shaders persist.");
+        shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Off the Custom Rendering");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
         setThirdPerson = buildBoolean(builder, "setThirdPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
         setFirstPerson = buildBoolean(builder, "setFirstPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
@@ -487,6 +492,7 @@ public class CommonConfig {
         ScyllaSnakeDamage = buildDouble(builder, "Scylla's Snake Damage", "all", CMConfig.ScyllaSnakeDamage, 0D, 1000000D, "Scylla's Storm Serpent");
         ScyllaAnchordamage = buildDouble(builder, "Scylla's Anchor Damage", "all", CMConfig.ScyllaAnchordamage, 0, 1000000, "Scylla's Anchor Damage");
         ScyllaNatureHealing = buildDouble(builder, "Scylla NatureHealing", "all", CMConfig.ScyllaNatureHealing, 0D, 1000000D, "Scylla's Healing with out target");
+        ScyllaWeatherChange = buildBoolean(builder, "Scylla Weather Change", "all", true, "Scylla weather change");
 
 
         ScyllaDamageCap = buildDouble(builder, "Scylla DamageCap", "all", CMConfig.ScyllaDamageCap, 0D, 1000000D, "Scylla's DamageCap");
@@ -548,6 +554,14 @@ public class CommonConfig {
         builder.push("World Generation");
         cursedPyramidCheckRange = buildInt(builder, "cursedPyramidCheckRange", "all", CMConfig.cursedPyramidCheckRange, 0, 5, "Defines the area in which the structure check for height variances (1 means 9 chunks will be checked (center + area around it)) - 0 disables this check");
         cursedPyramidHeightVariance = buildInt(builder, "cursedPyramidHeightVariance", "all", CMConfig.cursedPyramidCheckRange, 0, 32, "Allowed height variance for the check - if the variance is lower than this value the structure will not spawn (has no effect if the are check is disabled)");
+        builder.pop();
+
+        builder.push("Boss Respawner");
+        MonstrosityRespawner = buildBoolean(builder, "MonstrosityRespawner", "all", CMConfig.MonstrosityRespawner,"on/off");
+        EnderGuardianRespawner = buildBoolean(builder, "EnderGuardianRespawner", "all", CMConfig.EnderGuardianRespawner,"on/off");
+        HarbingerRespawner = buildBoolean(builder, "HarbingerRespawner", "all", CMConfig.HarbingerRespawner,"on/off");
+        RemnantRespawner = buildBoolean(builder, "RemnantRespawner", "all", CMConfig.RemnantRespawner,"on/off");
+        ScyllaRespawner = buildBoolean(builder, "ScyllaRespawner", "all", CMConfig.ScyllaRespawner,"on/off");
         builder.pop();
 
     }

@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.layer.MaledictusRiderLayer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Cicle_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.Maledictus_Layer;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -149,7 +150,10 @@ public class Maledictus_Renderer extends MobRenderer<Maledictus_Entity, Maledict
     @Nullable
     protected RenderType getRenderType(Maledictus_Entity maledictus, boolean normal, boolean invis, boolean outline) {
         ResourceLocation resourcelocation = this.getTextureLocation(maledictus);
-        return outline ? RenderType.outline(resourcelocation) : RenderType.entityTranslucent(resourcelocation);
+        RenderType ghost = CMConfig.shadersCompat ? RenderType.entityTranslucent(resourcelocation) : CMRenderTypes.getGhost(resourcelocation);
+
+
+        return outline ? RenderType.outline(resourcelocation) : ghost;
     }
 
     @Override

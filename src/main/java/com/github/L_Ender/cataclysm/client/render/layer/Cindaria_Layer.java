@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Cindaria_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.client.render.entity.Cindaria_Renderer;
+import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Cindaria_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -34,7 +35,7 @@ public class Cindaria_Layer extends RenderLayer<Cindaria_Entity, Cindaria_Model>
 
 
         if (!entity.isInvisible()) {
-            RenderType ghost = RenderType.entityTranslucent(this.getLayerTextureLocation());
+            RenderType ghost = CMConfig.shadersCompat ? RenderType.entityTranslucent(this.getLayerTextureLocation()) : CMRenderTypes.jelly(this.getLayerTextureLocation());
             VertexConsumer VertexConsumer = bufferIn.getBuffer(ghost);
             float alpha = 0.65F;
             boolean hurt = Math.max(entity.hurtTime, entity.deathTime) > 0;

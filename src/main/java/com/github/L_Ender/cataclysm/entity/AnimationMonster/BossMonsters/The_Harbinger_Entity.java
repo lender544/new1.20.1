@@ -572,6 +572,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                 itemstack.shrink(1);
             }
             this.setHomePos(this.blockPosition());
+            this.heal(this.getMaxHealth());
             this.setIsAct(true);
             return InteractionResult.SUCCESS;
         }
@@ -681,17 +682,19 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
 
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if (!this.level().isClientSide) {
-            if (this.getHomePos() != BlockPos.ZERO) {
-                int newX = Mth.floor(this.getHomePos().getX());
-                int newY = Mth.floor(this.getHomePos().getY());
-                int newZ = Mth.floor(this.getHomePos().getZ());
-                BlockPos pos = new BlockPos(newX,newY,newZ);
-                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
-                this.level().setBlock(pos, block, 2);
-                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
-                    spawnerblockentity.setEntityId(ModEntities.THE_HARBINGER.get());
-                    spawnerblockentity.setItem(0,ModItems.MECH_EYE.get().getDefaultInstance());
+        if(CMConfig.HarbingerRespawner) {
+            if (!this.level().isClientSide) {
+                if (this.getHomePos() != BlockPos.ZERO) {
+                    int newX = Mth.floor(this.getHomePos().getX());
+                    int newY = Mth.floor(this.getHomePos().getY());
+                    int newZ = Mth.floor(this.getHomePos().getZ());
+                    BlockPos pos = new BlockPos(newX, newY, newZ);
+                    BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                    this.level().setBlock(pos, block, 2);
+                    if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                        spawnerblockentity.setEntityId(ModEntities.THE_HARBINGER.get());
+                        spawnerblockentity.setItem(0, ModItems.MECH_EYE.get().getDefaultInstance());
+                    }
                 }
             }
         }

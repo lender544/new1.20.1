@@ -602,12 +602,14 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if (!this.level().isClientSide) {
-            if (this.getHomePos() != BlockPos.ZERO) {
-                int newX = Mth.floor(this.getHomePos().getX());
-                int newY = Mth.floor(this.getHomePos().getY());
-                int newZ = Mth.floor(this.getHomePos().getZ());
-                Respawner(newX,newZ,newY -10,newY);
+        if(CMConfig.EnderGuardianRespawner) {
+            if (!this.level().isClientSide) {
+                if (this.getHomePos() != BlockPos.ZERO) {
+                    int newX = Mth.floor(this.getHomePos().getX());
+                    int newY = Mth.floor(this.getHomePos().getY());
+                    int newZ = Mth.floor(this.getHomePos().getZ());
+                    Respawner(newX, newZ, newY - 10, newY);
+                }
             }
         }
     }
