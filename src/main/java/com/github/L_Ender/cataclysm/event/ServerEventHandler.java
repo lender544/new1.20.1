@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -478,7 +479,12 @@ public class ServerEventHandler {
             if (!player.getInventory().add(reward)) {
                 player.drop(reward, false);
             }
-
+            player.playNotifySound(
+                    ModSounds.THE_CATACLYSM_FARER.get(),
+                    SoundSource.RECORDS,
+                    1.0F,
+                    1.0F
+            );
         }
     }
 }

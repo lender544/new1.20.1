@@ -1239,17 +1239,19 @@ public class Ancient_Remnant_Entity extends IABoss_monster {
 
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if (!this.level().isClientSide) {
-            if (this.getHomePos() != BlockPos.ZERO) {
-                int newX = Mth.floor(this.getHomePos().getX());
-                int newY = Mth.floor(this.getHomePos().getY());
-                int newZ = Mth.floor(this.getHomePos().getZ());
-                BlockPos pos = new BlockPos(newX,newY,newZ);
-                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
-                this.level().setBlock(pos, block, 2);
-                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
-                    spawnerblockentity.setEntityId(ModEntities.ANCIENT_REMNANT.get());
-                    spawnerblockentity.setTheItem(ModItems.DESERT_EYE.get().getDefaultInstance());
+        if(CMConfig.RemnantRespawner) {
+            if (!this.level().isClientSide) {
+                if (this.getHomePos() != BlockPos.ZERO) {
+                    int newX = Mth.floor(this.getHomePos().getX());
+                    int newY = Mth.floor(this.getHomePos().getY());
+                    int newZ = Mth.floor(this.getHomePos().getZ());
+                    BlockPos pos = new BlockPos(newX, newY, newZ);
+                    BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                    this.level().setBlock(pos, block, 2);
+                    if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                        spawnerblockentity.setEntityId(ModEntities.ANCIENT_REMNANT.get());
+                        spawnerblockentity.setTheItem(ModItems.DESERT_EYE.get().getDefaultInstance());
+                    }
                 }
             }
         }

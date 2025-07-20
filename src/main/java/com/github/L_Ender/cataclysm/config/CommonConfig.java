@@ -4,7 +4,7 @@ package com.github.L_Ender.cataclysm.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class CommonConfig {
-
+    public final ModConfigSpec.BooleanValue shadersCompat;
     public final ModConfigSpec.BooleanValue custombossbar;
 
     public final ModConfigSpec.BooleanValue setThirdPerson;
@@ -198,6 +198,7 @@ public class CommonConfig {
     public final ModConfigSpec.DoubleValue ScyllaLongRangelimit;
     public final ModConfigSpec.DoubleValue ScyllaAnchordamage;
     public final ModConfigSpec.IntValue ScyllaDamageTime;
+    public final ModConfigSpec.BooleanValue ScyllaWeatherChange;
 
     public final ModConfigSpec.DoubleValue MaledictusHealthMultiplier;
     public final ModConfigSpec.DoubleValue MaledictusDamageMultiplier;
@@ -244,8 +245,16 @@ public class CommonConfig {
     public final ModConfigSpec.IntValue cursedPyramidCheckRange;
     public final ModConfigSpec.IntValue cursedPyramidHeightVariance;
 
+    public final ModConfigSpec.BooleanValue MonstrosityRespawner;
+    public final ModConfigSpec.BooleanValue EnderGuardianRespawner;
+    public final ModConfigSpec.BooleanValue HarbingerRespawner;
+    public final ModConfigSpec.BooleanValue RemnantRespawner;
+    public final ModConfigSpec.BooleanValue ScyllaRespawner;
+
+
     public CommonConfig(final ModConfigSpec.Builder builder) {
         builder.push("Etc");
+        shadersCompat = buildBoolean(builder, "shadersCompat", "all", false, "Off the Custom Rendering");
         ScreenShake = buildBoolean(builder, "ScreenShake(on/off)", "all", true, "ScreenShake(on/off)");
         setThirdPerson = buildBoolean(builder, "setThirdPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
         setFirstPerson = buildBoolean(builder, "setFirstPerson(on/off)", "all", true, "Forced viewpoint change when hit by a grab attack");
@@ -489,6 +498,8 @@ public class CommonConfig {
         ScyllaHpDamage = buildDouble(builder, "Scylla's HP Damage", "all", CMConfig.ScyllaHpDamage, 0, 1000000, "Scylla's HP Damage");
         ScyllaSpinHpDamage = buildDouble(builder, "Scylla's Spin Hp Damage", "all", CMConfig.ScyllaSpinHpDamage, 0, 1000000, "Scylla's Spin HP Damage");
         ScyllaLightningStormHpDamage = buildDouble(builder, "Scylla's Lightning Storm HP Damage", "all", CMConfig.ScyllaLightningStormHpDamage, 0, 1000000, "Scylla's Lightning Storm HP Damage");
+        ScyllaWeatherChange = buildBoolean(builder, "Scylla Weather Change", "all", true, "Scylla weather change");
+
         builder.pop();
 
 
@@ -545,6 +556,13 @@ public class CommonConfig {
         cursedPyramidHeightVariance = buildInt(builder, "cursedPyramidHeightVariance", "all", CMConfig.cursedPyramidCheckRange, 0, 32, "Allowed height variance for the check - if the variance is lower than this value the structure will not spawn (has no effect if the are check is disabled)");
         builder.pop();
 
+        builder.push("Boss Respawner");
+        MonstrosityRespawner = buildBoolean(builder, "MonstrosityRespawner", "all", CMConfig.MonstrosityRespawner,"on/off");
+        EnderGuardianRespawner = buildBoolean(builder, "EnderGuardianRespawner", "all", CMConfig.EnderGuardianRespawner,"on/off");
+        HarbingerRespawner = buildBoolean(builder, "HarbingerRespawner", "all", CMConfig.HarbingerRespawner,"on/off");
+        RemnantRespawner = buildBoolean(builder, "RemnantRespawner", "all", CMConfig.RemnantRespawner,"on/off");
+        ScyllaRespawner = buildBoolean(builder, "ScyllaRespawner", "all", CMConfig.ScyllaRespawner,"on/off");
+        builder.pop();
     }
 
     private static ModConfigSpec.BooleanValue buildBoolean(ModConfigSpec.Builder builder, String name, String catagory, boolean defaultValue, String comment) {

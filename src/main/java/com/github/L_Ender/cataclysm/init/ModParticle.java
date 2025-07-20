@@ -225,4 +225,7 @@ public class ModParticle {
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DESERT_GLYPH = PARTICLE.register("desert_glyph", () -> new SimpleParticleType(false));
 
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DUST_BLAST = PARTICLE.register("dust_blast", ()-> new SimpleParticleType(false));
+
 }

@@ -51,6 +51,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.VillagerType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -806,17 +807,19 @@ public class Scylla_Entity extends IABoss_monster {
 
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if (!this.level().isClientSide) {
-            if (this.getHomePos() != BlockPos.ZERO) {
-                int newX = Mth.floor(this.getHomePos().getX());
-                int newY = Mth.floor(this.getHomePos().getY());
-                int newZ = Mth.floor(this.getHomePos().getZ());
-                BlockPos pos = new BlockPos(newX,newY,newZ);
-                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
-                this.level().setBlock(pos, block, 2);
-                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
-                    spawnerblockentity.setEntityId(ModEntities.SCYLLA.get());
-                    spawnerblockentity.setTheItem(ModItems.STORM_EYE.get().getDefaultInstance());
+        if(CMConfig.ScyllaRespawner) {
+            if (!this.level().isClientSide) {
+                if (this.getHomePos() != BlockPos.ZERO) {
+                    int newX = Mth.floor(this.getHomePos().getX());
+                    int newY = Mth.floor(this.getHomePos().getY());
+                    int newZ = Mth.floor(this.getHomePos().getZ());
+                    BlockPos pos = new BlockPos(newX, newY, newZ);
+                    BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                    this.level().setBlock(pos, block, 2);
+                    if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+                        spawnerblockentity.setEntityId(ModEntities.SCYLLA.get());
+                        spawnerblockentity.setTheItem(ModItems.STORM_EYE.get().getDefaultInstance());
+                    }
                 }
             }
         }
@@ -1162,6 +1165,13 @@ public class Scylla_Entity extends IABoss_monster {
 
                 }
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
+                if (CMConfig.ScyllaWeatherChange) {
+                    if (this.level().getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
+                        if (this.level() instanceof ServerLevel serverLevel) {
+                            serverLevel.setWeatherParameters(24000, 0, false, false);
+                        }
+                    }
+                }
             }
             if (this.attackTicks > 100) {
                 if (level().isClientSide) {
@@ -1175,6 +1185,7 @@ public class Scylla_Entity extends IABoss_monster {
                     }
                 }
             }
+
         }
 
         if(this.getAttackState() == 15) {
@@ -1401,6 +1412,16 @@ public class Scylla_Entity extends IABoss_monster {
             if(this.attackTicks < 30 && this.attackTicks >= 15) {
                 Stormknockback(0.9F, 8.5D);
             }
+
+            if(this.attackTicks == 30) {
+                if (CMConfig.ScyllaWeatherChange) {
+                    if (this.level().getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
+                        if (this.level() instanceof ServerLevel serverLevel) {
+                            serverLevel.setWeatherParameters(0, 24000, true, false);
+                        }
+                    }
+                }
+            }
         }
         if(this.getAttackState() == 22) {
             if (level().isClientSide) {
@@ -1451,6 +1472,15 @@ public class Scylla_Entity extends IABoss_monster {
             }
             if(this.attackTicks < 30 && this.attackTicks >= 15) {
                 Stormknockback(0.9F, 8.5D);
+            }
+            if(this.attackTicks == 30) {
+                if (CMConfig.ScyllaWeatherChange) {
+                    if (this.level().getGameRules().getBoolean(GameRules.RULE_WEATHER_CYCLE)) {
+                        if (this.level() instanceof ServerLevel serverLevel) {
+                            serverLevel.setWeatherParameters(0, 24000, true, true);
+                        }
+                    }
+                }
             }
         }
 
@@ -2101,6 +2131,7 @@ public class Scylla_Entity extends IABoss_monster {
         if (!this.getAct()) {
             this.setHomePos(this.blockPosition());
             this.setAct(true);
+            this.heal(this.getMaxHealth());
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
