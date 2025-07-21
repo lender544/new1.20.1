@@ -93,3 +93,8 @@ modId = "curios"
 type="required"
 versionRange = "[9.2.2+1.21.1,)"
 ordering = "NONE"
+[[dependencies.${mod_id}]]
+modId = "lionfishapi"
+type="required"
+versionRange = "[2.6,)"
+ordering = "NONE"
