@@ -1,6 +1,9 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -514,4 +517,17 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> THE_CATACLYSM_FARER = SOUNDS.register("the_cataclysmfarer",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"the_cataclysmfarer")));
+
+
+    public static final Holder.Reference<SoundEvent> NOTE_BLOCK_IMITATE_KOBOLEDIATOR = registerForHolder("note_block_imitate_kobolediator");
+
+    public static final Holder.Reference<SoundEvent> NOTE_BLOCK_IMITATE_DRAUGR = registerForHolder("note_block_imitate_draugr");
+
+    public static final Holder.Reference<SoundEvent> NOTE_BLOCK_IMITATE_APTRGANGR = registerForHolder("note_block_imitate_aptrgangr");
+
+
+    private static Holder.Reference<SoundEvent> registerForHolder(String location) {
+        return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, location), SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, location)));
+    }
+
 }

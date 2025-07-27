@@ -99,8 +99,8 @@ public class Door_Of_Seal_BlockEntity extends BlockEntity {
                                     BlockPos[] toBreakPoses = {blockpos1, blockpos2, blockpos3, blockpos4, blockpos5};
                                     for (BlockPos toBreakPos : toBreakPoses) {
                                         BlockState blockstate = level.getBlockState(toBreakPos);
-                                        if (blockstate.is(ModBlocks.DOOR_OF_SEAL_PART.get())) {
-                                            level.setBlock(toBreakPos, blockstate.setValue(Door_of_Seal_Block.Door_Of_Seal_Part_Block.OPEN, Boolean.valueOf(true)), 2);
+                                        if (blockstate.is(ModBlocks.DOOR_OF_SEAL.get())) {
+                                            level.setBlock(toBreakPos, blockstate.setValue(Door_of_Seal_Block.OPEN, Boolean.valueOf(true)), 2);
                                             level.gameEvent(GameEvent.BLOCK_CHANGE, toBreakPos, GameEvent.Context.of(null, blockstate));
                                         }
                                     }

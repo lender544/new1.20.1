@@ -37,7 +37,7 @@ public class Ignis_Renderer extends MobRenderer<Ignis_Entity, Ignis_Model> {
 
     @Override
     public ResourceLocation getTextureLocation(Ignis_Entity entity) {
-        return getGrowingTexture(entity,(int) ((entity.tickCount * 0.5F) % 7));
+        return getGrowingTexture(entity,(int) ((entity.tickCount * 0.5F) % 8));
     }
 
     public ResourceLocation getGrowingTexture(Ignis_Entity entity, int age) {

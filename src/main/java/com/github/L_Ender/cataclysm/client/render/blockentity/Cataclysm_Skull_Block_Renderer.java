@@ -15,6 +15,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,8 +23,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.SkinManager;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.component.ResolvableProfile;
+import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.neoforged.api.distmarker.Dist;
@@ -63,10 +67,12 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
         Cataclysm_Skull_Block.Type Cataclysm_Skull_Block$type = ((Abstract_Cataclysm_Skull_Block)blockstate.getBlock()).getType();
         Cataclysm_Skull_Model_Base Cataclysm_Skull_Model_Base = this.modelByType.get(Cataclysm_Skull_Block$type);
 
-        ResourceLocation resourcelocation = SKIN_BY_TYPE.get(Cataclysm_Skull_Block$type);
-        RenderType rendertype = RenderType.entityCutoutNoCullZOffset(resourcelocation);
-        renderSkull(direction, f1, f, p_112536_, p_112537_, p_112538_, Cataclysm_Skull_Model_Base, rendertype);
+        RenderType rendertype = getRenderType(Cataclysm_Skull_Block$type);
+        renderSkull(direction, f1, f, p_112536_, p_112537_, p_112538_, Cataclysm_Skull_Model_Base, rendertype,Cataclysm_Skull_Block$type,false);
     }
+
+
+
 
     public static void renderSkull(
             @Nullable Direction p_173664_,
@@ -76,7 +82,8 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
             MultiBufferSource p_173668_,
             int p_173669_,
             Cataclysm_Skull_Model_Base p_173670_,
-            RenderType p_173671_
+            RenderType p_173671_,
+            Cataclysm_Skull_Block.Type type, boolean isLayer
     ) {
         p_173667_.pushPose();
         if (p_173664_ == null) {
@@ -87,9 +94,28 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
         }
 
         p_173667_.scale(-1.0F, -1.0F, 1.0F);
+
+        if (isLayer) {
+            if (type == Cataclysm_Skull_Block.Types.KOBOLEDIATOR) {
+                p_173667_.translate(0F, 0.1f,0F);
+            }
+            if (type == Cataclysm_Skull_Block.Types.APTRGANGR) {
+                p_173667_.translate(0F, 0.2f,0F);
+            }
+            if (type == Cataclysm_Skull_Block.Types.DRAUGR) {
+                p_173667_.translate(0F, 0.075f,0F);
+            }
+        }
+
         VertexConsumer vertexconsumer = p_173668_.getBuffer(p_173671_);
         p_173670_.setupAnim(p_173666_, p_173665_, 0.0F);
         p_173670_.renderToBuffer(p_173667_, vertexconsumer, p_173669_, OverlayTexture.NO_OVERLAY);
         p_173667_.popPose();
     }
+
+    public static RenderType getRenderType(Cataclysm_Skull_Block.Type type) {
+        ResourceLocation resourcelocation = SKIN_BY_TYPE.get(type);
+        return RenderType.entityCutoutNoCullZOffset(resourcelocation);
+    }
+
 }

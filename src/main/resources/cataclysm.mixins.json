@@ -14,16 +14,19 @@
     "NoMagmaBlockInStructuresMixin",
     "NoMultifaceGrowthFeatureInStructuresMixin",
     "NoOreInStructuresMixin",
-    "accessor.StructureManagerAccessor",
-    "accessor.StructureProcessorAccessor",
+    "NoteBlockInstrumentMixin",
+    "NoteBlockMixin",
     "accessor.BeardifierAccessor",
     "accessor.BoundingBoxAccessor",
     "accessor.FeaturePoolElementAccessor",
     "accessor.ListPoolElementAccessor",
     "accessor.SinglePoolElementAccessor",
+    "accessor.StructureManagerAccessor",
+    "accessor.StructureProcessorAccessor",
     "accessor.StructureTemplatePoolAccessor"
   ],
   "client": [
+    "Client.CustomHeadLayerMixin",
     "Client.HumanoidModelMixin"
   ],
   "injectors": {

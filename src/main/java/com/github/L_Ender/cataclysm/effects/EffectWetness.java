@@ -14,7 +14,7 @@ public class EffectWetness extends MobEffect {
     private static final ResourceLocation WETNESS_SPEED =  ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"wetness_speed");
 
     public EffectWetness() {
-        super(MobEffectCategory.BENEFICIAL, 0X5a76ce);
+        super(MobEffectCategory.HARMFUL, 0X5a76ce);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, WETNESS_SPEED, -0.05D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
     }
 

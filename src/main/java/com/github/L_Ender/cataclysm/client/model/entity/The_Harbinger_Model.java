@@ -5,6 +5,7 @@ import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedEntityModel;
 import com.github.L_Ender.lionfishapi.client.model.tools.AdvancedModelBox;import com.github.L_Ender.lionfishapi.client.model.Animations.ModelAnimator;
 import com.github.L_Ender.lionfishapi.client.model.tools.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entity> {
     private final AdvancedModelBox root;
@@ -35,10 +36,12 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
     private final AdvancedModelBox rightedge1;
     private final AdvancedModelBox rightedge2;
     private final AdvancedModelBox rightedge3;
+    private final AdvancedModelBox right_jet;
     private final AdvancedModelBox leftside;
     private final AdvancedModelBox leftedge1;
     private final AdvancedModelBox leftedge2;
     private final AdvancedModelBox leftedge3;
+    private final AdvancedModelBox left_jet;
     private ModelAnimator animator;
 
     public The_Harbinger_Model() {
@@ -209,6 +212,10 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
         setRotationAngle(rightedge3, 0.0F, -1.5708F, 0.0F);
         rightedge3.setTextureOffset(58, 56).addBox(1.0F, -5.0F, 1.0F, 6.0F, 10.0F, 6.0F, 0.0F, false);
 
+        right_jet = new AdvancedModelBox(this);
+        right_jet.setRotationPoint(2.1929F, 1.1285F, 14.293F);
+        rightside.addChild(right_jet);
+
         leftside = new AdvancedModelBox(this);
         leftside.setRotationPoint(0.0F, 0.5846F, -0.1554F);
         jetpack.addChild(leftside);
@@ -235,6 +242,10 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
         leftside.addChild(leftedge3);
         setRotationAngle(leftedge3, 0.0F, 3.1416F, 0.0F);
         leftedge3.setTextureOffset(58, 56).addBox(1.0F, -5.0F, 1.0F, 6.0F, 10.0F, 6.0F, 0.0F, false);
+
+        left_jet = new AdvancedModelBox(this);
+        left_jet.setRotationPoint(-2.1929F, 1.1285F, 14.293F);
+        leftside.addChild(left_jet);
 
         animator = ModelAnimator.create();
         this.updateDefaultPose();
@@ -603,8 +614,24 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
                 leftside,
                 leftedge1,
                 leftedge2,
-                leftedge3);
+                leftedge3,
+                left_jet,right_jet);
     }
+
+    public void translateToHand(PoseStack matrixStack, boolean right) {
+        this.root.translateAndRotate(matrixStack);
+        this.mid.translateAndRotate(matrixStack);
+        this.body.translateAndRotate(matrixStack);
+        this.jetpack.translateAndRotate(matrixStack);
+        if(right) {
+            this.rightside.translateAndRotate(matrixStack);
+            this.right_jet.translateAndRotate(matrixStack);
+        }else{
+            this.leftside.translateAndRotate(matrixStack);
+            this.left_jet.translateAndRotate(matrixStack);
+        }
+    }
+
 
     @Override
     public Iterable<BasicModelPart> parts() {

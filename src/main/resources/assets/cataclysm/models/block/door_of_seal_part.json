@@ -1,7 +1,0 @@
-{
-	"render_type": "translucent",
-	"ambientocclusion": true,
-	"textures": {
-		"particle": "cataclysm:block/dungeon_block"
-	}
-}

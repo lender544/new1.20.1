@@ -13,20 +13,27 @@ public class Astrape_Model extends AdvancedEntityModel<Entity> {
 	private final AdvancedModelBox root;
 
 	public Astrape_Model() {
-		texWidth = 32;
-		texHeight = 32;
+		texWidth = 64;
+		texHeight = 64;
 
 		root = new AdvancedModelBox(this);
-		root.setRotationPoint(0.0F, 16.0F, 0.0F);
-		root.setTextureOffset(18, 11).addBox(-0.5F, -2.0F, -0.25F, 1.0F, 2.0F, 1.0F, 0.1F, false);
-		root.setTextureOffset(18, 14).addBox(-0.5F, -24.0F, -0.25F, 1.0F, 2.0F, 1.0F, 0.1F, false);
-		root.setTextureOffset(14, 0).addBox(-0.5F, -22.0F, -0.25F, 1.0F, 20.0F, 1.0F, 0.0F, false);
-		root.setTextureOffset(18, 0).addBox(-0.5F, -30.0F, -0.25F, 1.0F, 6.0F, 1.0F, 0.0F, false);
-		root.setTextureOffset(18, 7).addBox(-0.5F, -28.0F, -1.25F, 1.0F, 3.0F, 1.0F, 0.0F, false);
-		root.setTextureOffset(18, 17).addBox(-0.5F, -26.0F, 0.75F, 1.0F, 1.0F, 1.0F, 0.0F, false);
-		root.setTextureOffset(0, 0).addBox(0.0F, -34.0F, -3.25F, 0.0F, 12.0F, 7.0F, 0.0F, false);
-		root.setTextureOffset(0, 12).addBox(0.0F, 0.0F, -3.25F, 0.0F, 12.0F, 7.0F, 0.0F, false);
-		root.setTextureOffset(24, -4).addBox(0.0F, -22.0F, 0.75F, 0.0F, 12.0F, 4.0F, 0.0F, false);
+		root.setRotationPoint(0.0F, 24.0F, 0.0F);
+		root.setTextureOffset(38, 0).addBox(-1.0F, -40.0F, -1.0F, 2.0F, 40.0F, 2.0F, 0.0F, false);
+		root.setTextureOffset(56, 48).addBox(0.0F, -40.0F, 1.0F, 0.0F, 12.0F, 4.0F, 0.0F, false);
+		root.setTextureOffset(46, 35).addBox(-1.0F, -43.0F, -1.0F, 2.0F, 3.0F, 2.0F, 0.2F, false);
+		root.setTextureOffset(52, 23).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 1.0F, 2.0F, 0.2F, false);
+		root.setTextureOffset(52, 26).addBox(-1.0F, -5.0F, -1.0F, 2.0F, 1.0F, 2.0F, 0.2F, false);
+		root.setTextureOffset(4, 54).addBox(-0.5F, -47.0F, -0.5F, 1.0F, 4.0F, 1.0F, 0.0F, false);
+		root.setTextureOffset(46, 0).addBox(-0.5F, -51.0F, -3.5F, 1.0F, 4.0F, 4.0F, 0.0F, false);
+		root.setTextureOffset(38, 42).addBox(0.0F, 0.0F, -4.5F, 0.0F, 10.0F, 9.0F, 0.0F, false);
+		root.setTextureOffset(0, 0).addBox(0.0F, -70.0F, -9.5F, 0.0F, 35.0F, 19.0F, 0.0F, false);
+		root.setTextureOffset(52, 8).addBox(-0.5F, -57.0F, -1.5F, 1.0F, 6.0F, 2.0F, 0.0F, false);
+		root.setTextureOffset(52, 16).addBox(-0.5F, -63.0F, -0.5F, 1.0F, 6.0F, 1.0F, 0.0F, false);
+		root.setTextureOffset(46, 29).addBox(-0.5F, -50.0F, 0.5F, 1.0F, 3.0F, 3.0F, 0.0F, false);
+		root.setTextureOffset(46, 40).addBox(-0.5F, -43.0F, 2.5F, 1.0F, 1.0F, 1.0F, 0.0F, false);
+		root.setTextureOffset(46, 19).addBox(-0.5F, -50.0F, 3.5F, 1.0F, 8.0F, 2.0F, 0.0F, false);
+		root.setTextureOffset(46, 8).addBox(-0.5F, -51.0F, -5.5F, 1.0F, 9.0F, 2.0F, 0.0F, false);
+		root.setTextureOffset(0, 54).addBox(-0.5F, -42.0F, -4.5F, 1.0F, 5.0F, 1.0F, 0.0F, false);
 		this.updateDefaultPose();
 	}
 

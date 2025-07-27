@@ -192,7 +192,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
                 Cataclysm_Skull_Model_Base skullmodelbase = this.skullModels.get(skullblock$type);
                 ResourceLocation resourcelocation = SKIN_BY_TYPE.get(skullblock$type);
                 RenderType rendertype = RenderType.entityCutoutNoCullZOffset(resourcelocation);
-                Cataclysm_Skull_Block_Renderer.renderSkull((Direction) null, 180.0F, 0.0F, matrixStackIn, bufferIn, combinedLightIn, skullmodelbase, rendertype);
+                Cataclysm_Skull_Block_Renderer.renderSkull((Direction) null, 180.0F, 0.0F, matrixStackIn, bufferIn, combinedLightIn, skullmodelbase, rendertype, skullblock$type, false);
             }
         }
 

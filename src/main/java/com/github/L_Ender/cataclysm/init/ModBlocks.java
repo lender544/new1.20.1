@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.*;
+import com.github.L_Ender.cataclysm.blocks.Property.CustomNoteBlockInstrument;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -268,21 +269,20 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> DOOR_OF_SEAL_PART = BLOCKS.register("door_of_seal_part", () -> new
-            Door_of_Seal_Block.Door_Of_Seal_Part_Block(BlockBehaviour.Properties.ofFullCopy(ModBlocks.DOOR_OF_SEAL.get())));
 
-    public static final DeferredBlock<Block> KOBOLEDIATOR_SKULL = BLOCKS.register("kobolediator_skull", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).pushReaction(PushReaction.DESTROY)));
+
+    public static final DeferredBlock<Block> KOBOLEDIATOR_SKULL = BLOCKS.register("kobolediator_skull", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.KOBOLEDIATOR.get()).pushReaction(PushReaction.DESTROY)));
 
 
     public static final DeferredBlock<Block> KOBOLEDIATOR_WALL_SKULL = BLOCKS.register("kobolediator_wall_skull", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(KOBOLEDIATOR_SKULL.get()).pushReaction(PushReaction.DESTROY)));
 
 
-    public static final DeferredBlock<Block> APTRGANGR_HEAD = BLOCKS.register("aptrgangr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<Block> APTRGANGR_HEAD = BLOCKS.register("aptrgangr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.APTRGANGR.get()).pushReaction(PushReaction.DESTROY)));
 
 
     public static final DeferredBlock<Block> APTRGANGR_WALL_HEAD = BLOCKS.register("aptrgangr_wall_head", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(APTRGANGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
 
-    public static final DeferredBlock<Block> DRAUGR_HEAD = BLOCKS.register("draugr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<Block> DRAUGR_HEAD = BLOCKS.register("draugr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.DRAUGR.get()).pushReaction(PushReaction.DESTROY)));
 
     public static final DeferredBlock<Block> DRAUGR_WALL_HEAD = BLOCKS.register("draugr_wall_head", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(APTRGANGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
 
