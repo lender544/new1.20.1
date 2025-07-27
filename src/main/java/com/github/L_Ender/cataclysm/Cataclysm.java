@@ -128,7 +128,9 @@ public class Cataclysm {
     }
 
     private void setupClient(FMLClientSetupEvent event) {
-        PROXY.clientInit();
+        event.enqueueWork(() -> {
+            PROXY.clientInit();
+        });
     }
 
 
