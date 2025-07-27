@@ -429,7 +429,7 @@ public class ServerEventHandler {
         if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity livingEntity) {
             if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
                 //if(event.isVanillaCritical()){
-                event.setDamageModifier(2.25F);
+                event.setDamageModifier(1.5F * event.getDamageModifier());
                 // }
 
             }
@@ -437,7 +437,7 @@ public class ServerEventHandler {
                 if (livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())) {
                     event.setResult(Event.Result.ALLOW);
                 }
-                event.setDamageModifier(2.0F);
+                event.setDamageModifier(1.35F * event.getDamageModifier());
             }
         }
     }

@@ -415,14 +415,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                     double vecZ = Math.sin(theta);
                     double vec = -1.75D;
                     double math = 1.35;
-                    for (int i1 = 0; i1 < 10; i1++) {
-                        float angle = (0.01745329251F * this.yBodyRot) + i1;
-                        double extraX = 0.2F * Mth.sin((float) (Math.PI + angle));
-                        double extraY = 2.75F;
-                        double extraZ = 0.2F * Mth.cos(angle);
-                        this.level().addParticle(ParticleTypes.FLAME, getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, 0, -0.07, 0);
-                        this.level().addParticle(ParticleTypes.FLAME, getX() + vec * vecX + extraX + f * -math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * -math, 0, -0.07, 0);
-                    }
+
                     for (int i1 = 0; i1 < 5; i1++) {
                         float angle = (0.01745329251F * this.yBodyRot) + i1;
                         double extraX = 0.2F * Mth.sin((float) (Math.PI + angle));

@@ -339,6 +339,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return CMConfig.LeviathanDamageTime;
     }
 
+    public int HealCooldown() {
+        return 600;
+    }
+
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = this.spawnAtLocation(stack, 0.0f);

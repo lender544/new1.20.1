@@ -32,7 +32,6 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
     private int reducedDamageTicks;
     private int homeTicks;
     protected final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
-    protected final int NATURE_HEAL_COOLDOWN = 200;
     private int self_regen;
     private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(LLibrary_Boss_Monster.class, EntityDataSerializers.BLOCK_POS);
     public LLibrary_Boss_Monster(EntityType entity, Level world) {
@@ -90,7 +89,7 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
             }
         }
         if (source.is(ModTag.BLOCK_SELF_REGEN)) {
-            self_regen = NATURE_HEAL_COOLDOWN;
+            self_regen = HealCooldown();
         }
         boolean flag = super.hurt(source, damage);
         if (ReducedDamage(source)) {
@@ -111,6 +110,10 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
 
     public float NatureRegen() {
         return 0;
+    }
+
+    public int HealCooldown() {
+        return 200;
     }
 
     public int DamageTime() {

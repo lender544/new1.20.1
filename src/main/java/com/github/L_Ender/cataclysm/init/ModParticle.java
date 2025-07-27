@@ -179,5 +179,4 @@ public class ModParticle {
 
     public static final RegistryObject<SimpleParticleType> DUST_BLAST = PARTICLE.register("dust_blast", () -> new SimpleParticleType(false));
 
-
 }

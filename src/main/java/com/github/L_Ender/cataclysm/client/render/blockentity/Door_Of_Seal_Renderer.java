@@ -6,6 +6,7 @@ import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.blockentities.EMP_Block_Entity;
 import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
 import com.github.L_Ender.cataclysm.blocks.Mechanical_fusion_Anvil;
+import com.github.L_Ender.cataclysm.blocks.Statue_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Void_Model;
 import com.github.L_Ender.cataclysm.client.model.block.Door_Of_Seal_Model;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
@@ -22,6 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.Vec3;
 
 public class Door_Of_Seal_Renderer implements BlockEntityRenderer<Door_Of_Seal_BlockEntity> {
@@ -46,21 +48,25 @@ public class Door_Of_Seal_Renderer implements BlockEntityRenderer<Door_Of_Seal_B
     }
     @Override
     public void render(Door_Of_Seal_BlockEntity entity, float delta, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int overlay) {
-        poseStack.pushPose();
-        Direction dir = entity.getBlockState().getValue(Door_of_Seal_Block.FACING);
-        if(dir == Direction.NORTH){
-            poseStack.translate(0.5, 1.501F, 0.5F);
-        }else if(dir == Direction.EAST){
-            poseStack.translate(0.5F, 1.501F, 0.5F);
-        }else if(dir == Direction.SOUTH){
-            poseStack.translate(0.5, 1.501F, 0.5F);
-        }else if(dir == Direction.WEST){
-            poseStack.translate(0.5F, 1.501F, 0.5F);
+        Door_of_Seal_Block.Door_Of_Seal_Part doubleblockhalf = entity.getBlockState().getValue(Door_of_Seal_Block.PART);
+        int Y = entity.getBlockState().getValue(Door_of_Seal_Block.Y_OFFSET);
+        if (doubleblockhalf == Door_of_Seal_Block.Door_Of_Seal_Part.CENTER && Y == 0) {
+            poseStack.pushPose();
+            Direction dir = entity.getBlockState().getValue(Door_of_Seal_Block.FACING);
+            if (dir == Direction.NORTH) {
+                poseStack.translate(0.5, 1.501F, 0.5F);
+            } else if (dir == Direction.EAST) {
+                poseStack.translate(0.5F, 1.501F, 0.5F);
+            } else if (dir == Direction.SOUTH) {
+                poseStack.translate(0.5, 1.501F, 0.5F);
+            } else if (dir == Direction.WEST) {
+                poseStack.translate(0.5F, 1.501F, 0.5F);
+            }
+            poseStack.mulPose(dir.getOpposite().getRotation());
+            poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+            MODEL.animate(entity, delta);
+            MODEL.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), packedLight, overlay, 1, 1F, 1, 1);
+            poseStack.popPose();
         }
-        poseStack.mulPose(dir.getOpposite().getRotation());
-        poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-        MODEL.animate(entity, delta);
-        MODEL.renderToBuffer(poseStack, buffer.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), packedLight, overlay, 1, 1F, 1, 1);
-        poseStack.popPose();
     }
 }

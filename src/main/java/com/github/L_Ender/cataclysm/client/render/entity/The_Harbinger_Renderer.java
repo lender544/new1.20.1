@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.The_Harbinger_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Item_Layer;
+import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Jet_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Layer;
 import com.github.L_Ender.cataclysm.client.render.layer.The_Harbinger_Shield_Layer;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
@@ -34,6 +35,7 @@ public class The_Harbinger_Renderer extends MobRenderer<The_Harbinger_Entity, Th
     public The_Harbinger_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new The_Harbinger_Model(), 1.0F);
         this.addLayer(new The_Harbinger_Layer(this));
+        this.addLayer(new The_Harbinger_Jet_Layer(this, renderManagerIn));
         this.addLayer(new The_Harbinger_Shield_Layer(this));
         this.addLayer(new The_Harbinger_Item_Layer(this, getModel().nether_star, Items.NETHER_STAR.getDefaultInstance(), ItemDisplayContext.GROUND));
     }

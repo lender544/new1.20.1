@@ -30,6 +30,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -359,7 +360,9 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
 
         return flag;
     }
-
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.KOBOLEDIATOR_HURT.get();
+    }
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {
         boolean flag = false;

@@ -16,13 +16,14 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -112,7 +113,45 @@ public class ClientEvent {
         }
     }
 
+    /*
+    @SubscribeEvent
+    public void onRenderWorld(RenderGuiOverlayEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null) return;
 
+      //  if (player.hasEffect(MobEffects.FIRE_RESISTANCE)) {
+       //     renderDarkOverlay(0.5F); // 0.0~1.0 값, 높을수록 더 어두움
+      //  }
+    }
+
+    private void renderDarkOverlay(float darknessAlpha) {
+        Minecraft mc = Minecraft.getInstance();
+        Window window = mc.getWindow();
+        int width = window.getGuiScaledWidth();
+        int height = window.getGuiScaledHeight();
+
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuilder();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+        bufferbuilder.vertex(0, height, -90).color(0F, 0F, 0F, darknessAlpha).endVertex();
+        bufferbuilder.vertex(width, height, -90).color(0F, 0F, 0F, darknessAlpha).endVertex();
+        bufferbuilder.vertex(width, 0, -90).color(0F, 0F, 0F, darknessAlpha).endVertex();
+        bufferbuilder.vertex(0, 0, -90).color(0F, 0F, 0F, darknessAlpha).endVertex();
+
+        tessellator.end();
+
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
+    }
+
+     */
 
     @SubscribeEvent
     public void MovementInput(MovementInputUpdateEvent event) {

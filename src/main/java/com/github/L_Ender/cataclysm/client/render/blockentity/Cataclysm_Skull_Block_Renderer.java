@@ -64,10 +64,20 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
 
         ResourceLocation resourcelocation = SKIN_BY_TYPE.get(Cataclysm_Skull_Block$type);
         RenderType rendertype = RenderType.entityCutoutNoCullZOffset(resourcelocation);
-        renderSkull(direction, f1, f, p_112536_, p_112537_, p_112538_, Cataclysm_Skull_Model_Base, rendertype);
+        renderSkull(direction, f1, f, p_112536_, p_112537_, p_112538_, Cataclysm_Skull_Model_Base, rendertype,Cataclysm_Skull_Block$type,false);
     }
 
-    public static void renderSkull(@Nullable Direction p_173664_, float p_173665_, float p_173666_, PoseStack p_173667_, MultiBufferSource p_173668_, int p_173669_, Cataclysm_Skull_Model_Base p_173670_, RenderType p_173671_) {
+    public static void renderSkull(
+            @Nullable Direction p_173664_,
+            float p_173665_,
+            float p_173666_,
+            PoseStack p_173667_,
+            MultiBufferSource p_173668_,
+            int p_173669_,
+            Cataclysm_Skull_Model_Base p_173670_,
+            RenderType p_173671_,
+            Cataclysm_Skull_Block.Type type, boolean isLayer
+    ) {
         p_173667_.pushPose();
         if (p_173664_ == null) {
             p_173667_.translate(0.5F, 0.0F, 0.5F);
@@ -77,9 +87,27 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
         }
 
         p_173667_.scale(-1.0F, -1.0F, 1.0F);
+
+        if (isLayer) {
+            if (type == Cataclysm_Skull_Block.Types.KOBOLEDIATOR) {
+                p_173667_.translate(0F, 0.1f,0F);
+            }
+            if (type == Cataclysm_Skull_Block.Types.APTRGANGR) {
+                p_173667_.translate(0F, 0.2f,0F);
+            }
+            if (type == Cataclysm_Skull_Block.Types.DRAUGR) {
+                p_173667_.translate(0F, 0.075f,0F);
+            }
+        }
+
         VertexConsumer vertexconsumer = p_173668_.getBuffer(p_173671_);
         p_173670_.setupAnim(p_173666_, p_173665_, 0.0F);
-        p_173670_.renderToBuffer(p_173667_, vertexconsumer, p_173669_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        p_173670_.renderToBuffer(p_173667_, vertexconsumer, p_173669_, OverlayTexture.NO_OVERLAY,1f,1f,1f,1f);
         p_173667_.popPose();
+    }
+
+    public static RenderType getRenderType(Cataclysm_Skull_Block.Type type) {
+        ResourceLocation resourcelocation = SKIN_BY_TYPE.get(type);
+        return RenderType.entityCutoutNoCullZOffset(resourcelocation);
     }
 }

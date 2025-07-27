@@ -428,6 +428,10 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         return (float) CMConfig.MaledictusDamageCap;
     }
 
+    public float NatureRegen() {
+        return (float) CMConfig.MaledictusNatureHealing;
+    }
+
     public int DamageTime() {
         return CMConfig.MaledictusDamageTime;
     }

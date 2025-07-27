@@ -1595,5 +1595,50 @@
         "name": "cataclysm:music_disc/the_cataclysmfarer"
       }
     ]
+  },
+  "note_block_imitate_kobolediator": {
+    "sounds": [
+      {
+        "name": "cataclysm:entity/kobolediator_idle1"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_idle2"
+      },
+      {
+        "name": "cataclysm:entity/kobolediator_idle3"
+      }
+    ]
+  },
+  "note_block_imitate_draugr": {
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_idle1"
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle2"
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle3"
+      }
+    ]
+  },
+  "note_block_imitate_aptrgangr": {
+    "sounds": [
+      {
+        "name": "cataclysm:entity/draugr_idle1",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle2",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/draugr_idle3",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
   }
 }
