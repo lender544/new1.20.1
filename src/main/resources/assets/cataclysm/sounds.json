@@ -344,19 +344,59 @@
       }
     ]
   },
-  "enderguardian_music": {
+  "enderguardian_music_1": {
     "subtitle": "enderguardian_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/enderguardian_theme"
+        "name": "cataclysm:music_disc/enderguardian_theme_1"
       }
     ]
   },
-  "ignis_music": {
+  "enderguardian_music_2": {
+    "subtitle": "enderguardian_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/enderguardian_theme_2"
+      }
+    ]
+  },
+  "enderguardian_music_disc": {
+    "subtitle": "enderguardian_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/enderguardian_theme_disc"
+      }
+    ]
+  },
+  "ignis_music_1": {
     "subtitle": "ignis_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/ignis_theme"
+        "name": "cataclysm:music_disc/ignis_theme_1"
+      }
+    ]
+  },
+  "ignis_music_2": {
+    "subtitle": "ignis_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/ignis_theme_2"
+      }
+    ]
+  },
+  "ignis_music_3": {
+    "subtitle": "ignis_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/ignis_theme_3"
+      }
+    ]
+  },
+  "ignis_music_disc": {
+    "subtitle": "ignis_music.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:music_disc/ignis_theme_disc"
       }
     ]
   },

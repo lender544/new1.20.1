@@ -71,12 +71,26 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MINISTROSITY_HURT = SOUNDS.register("ministrosity_hurt",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_hurt")));
 
-    public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC = SOUNDS.register("enderguardian_music",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music")));
+    public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC_1 = SOUNDS.register("enderguardian_music_1",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music_1")));
 
+    public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC_2 = SOUNDS.register("enderguardian_music_2",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music_2")));
 
-    public static final RegistryObject<SoundEvent> IGNIS_MUSIC = SOUNDS.register("ignis_music",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music")));
+    public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC_DISC = SOUNDS.register("enderguardian_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music_disc")));
+
+    public static final RegistryObject<SoundEvent> IGNIS_MUSIC_1 = SOUNDS.register("ignis_music_1",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music_1")));
+
+    public static final RegistryObject<SoundEvent> IGNIS_MUSIC_2 = SOUNDS.register("ignis_music_2",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music_2")));
+
+    public static final RegistryObject<SoundEvent> IGNIS_MUSIC_3 = SOUNDS.register("ignis_music_3",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music_3")));
+
+    public static final RegistryObject<SoundEvent> IGNIS_MUSIC_DISC = SOUNDS.register("ignis_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music_disc")));
 
 
     public static final RegistryObject<SoundEvent> ENDERMAPTERA_HURT = SOUNDS.register("endermaptera_hurt",

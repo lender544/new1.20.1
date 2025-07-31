@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.config.CMConfig;
@@ -13,6 +14,7 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ender_Guardian_Bullet_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.message.MessageMusic;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.core.BlockPos;
@@ -65,6 +67,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -483,6 +486,11 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         }
 
         if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION) {
+            if (this.getAnimationTick() == 1) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+                }
+            }
             if (this.getAnimationTick() == 39) {
                 Attackparticle(2.75f,2.25f);
                 Attackparticle(2.75f,-2.25f);
@@ -497,6 +505,11 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                             BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
                         }
                     }
+                }
+            }
+            if (this.getAnimationTick() == 50) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
                 }
             }
         }
@@ -1164,13 +1177,16 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     }
 
     @Override
-    public SoundEvent getBossMusic() {
-        return ModSounds.ENDERGUARDIAN_MUSIC.get();
-    }
-
-    @Override
     protected boolean canPlayMusic() {
-        return super.canPlayMusic();
+        if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION ){
+            return getAnimationTick() > 50 &&  super.canPlayMusic();
+        }else{
+            return super.canPlayMusic();
+        }
+    }
+    @Override
+    public SoundEvent getBossMusic() {
+        return (this.getIsHelmetless() || this.getUsedMassDestruction()) ? ModSounds.ENDERGUARDIAN_MUSIC_2.get() : ModSounds.ENDERGUARDIAN_MUSIC_1.get();
     }
 
     @Override

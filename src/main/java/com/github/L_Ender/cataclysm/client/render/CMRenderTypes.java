@@ -215,6 +215,17 @@ public class CMRenderTypes extends RenderType {
     );
 
 
+    public static RenderType energySwirl(ResourceLocation p_110437_, float p_110438_, float p_110439_) {
+        return create("energy_swirl", DefaultVertexFormat.NEW_ENTITY,
+                VertexFormat.Mode.QUADS, 256, false, true,
+                RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_110437_, false, false))
+                        .setTexturingState(new RenderStateShard.OffsetTexturingStateShard(p_110438_, p_110439_))
+                        .setTransparencyState(ADDITIVE_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP)
+                        .setOverlayState(OVERLAY).createCompositeState(false));
+    }
+
+
     public static final Function<ResourceLocation, RenderType> DRAGON_DEATH = Util.memoize(
             p_286169_ -> {
                 CompositeState rendertype$compositestate = CompositeState.builder()
