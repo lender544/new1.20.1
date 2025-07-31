@@ -1,4 +1,4 @@
-﻿{
+{
   "item.cataclysm.witherite_ingot": "Barra de Witherita",
   "item.cataclysm.infernal_forge": "Forja Infernal",
   "item.cataclysm.final_fractal": "Fractal Final",
@@ -47,9 +47,9 @@
   "item.cataclysm.ignitium_upgrade.desc": "Melhoria de Ignítio",
   "item.cataclysm.ignitium_upgrade.applies_to.desc": "Equipamento de Netherita",
   "item.cataclysm.ignitium_upgrade.ingredients.desc": "Barra de Ignítio",
-  "item.cataclysm.cursium_upgrade.desc":"Melhoria de Maldímio",
-  "item.cataclysm.cursium_upgrade.applies_to.desc":"Equipamento de Netherita",
-  "item.cataclysm.cursium_upgrade.ingredients.desc":"Barra de Maldímio",
+  "item.cataclysm.cursium_upgrade.desc": "Melhoria de Maldímio",
+  "item.cataclysm.cursium_upgrade.applies_to.desc": "Equipamento de Netherita",
+  "item.cataclysm.cursium_upgrade.ingredients.desc": "Barra de Maldímio",
   "item.cataclysm.tidal_claws.desc": "Botão direito: Pode ser usado como um gancho",
   "item.cataclysm.tidal_claws.desc2": "Clique esquerdo: Atire um tentáculo das marés em um inimigo, pode atacar múltiplas entidades",
   "item.cataclysm.bloom_stone_pauldrons.desc": "Você pode se esconder no chão ao se esgueirar, ao se levantar, cristais de ametista serão disparados",
@@ -66,7 +66,7 @@
   "item.cataclysm.ceraunus.desc": "Você pode jogar a âncora usando o botão direito",
   "item.cataclysm.ceraunus2.desc": "Quando usado enquanto se esgueira: Invoca ondas de água em forma de leque usando o botão direito",
   "item.cataclysm.astrape.desc": "Botão direito: Atira uma lança-relâmpago",
-
+  
   "entity.cataclysm.you_cant_escape": "Você não pode escapar",
   "entity.cataclysm.rage_meter": "",
   "entity.cataclysm.the_leviathan_immune": "O Leviatã é invencível fora da água!",
@@ -222,7 +222,6 @@
   "item.cataclysm.royal_draugr_spawn_egg": "Ovo Gerador de Draugr Real",
   "item.cataclysm.aptrgangr_spawn_egg": "Ovo Gerador de Aptrgangr",
   "item.cataclysm.elite_draugr_spawn_egg": "Ovo Gerador de Draugr de Elite",
-
   "item.cataclysm.scylla_spawn_egg": "Ovo Gerador de Scylla, A Imperatriz da Tempestade",
   "item.cataclysm.clawdian_spawn_egg": "Ovo Gerador de Garradião",
   "item.cataclysm.hippocamtus_spawn_egg": "Ovo Gerador de Kaltrion",
@@ -230,7 +229,6 @@
   "item.cataclysm.urchinkin_spawn_egg": "Ovo Gerador de Ouriçinho",
   "item.cataclysm.octohost_spawn_egg": "Ovo Gerador de Hospedeiro Afogado",
   "item.cataclysm.symbiocto_spawn_egg": "Ovo Gerador de Simbipolvo",
-
 
   "itemGroup.cataclysm.item": "Itens do Cataclysm",
   "itemGroup.cataclysm.block": "Blocos do Cataclysm",
@@ -302,14 +300,14 @@
   "block.cataclysm.azure_seastone_mural_cindaria": "Mural de Pedra do Mar Celeste (Cindária)",
   "block.cataclysm.azure_seastone_mural_hippocamtus": "Mural de Pedra do Mar Celeste (Kaltrion)",
   "block.cataclysm.azure_seastone_mural_urchinkin": "Mural de Pedra do Mar Celeste (Ouriçinho)",
-
+  
   "block.cataclysm.azure_seastone_mural_thunder": "Mural de Pedra do Mar Celeste (Trovão)",
   "block.cataclysm.azure_seastone_mural_sea": "Mural de Pedra do Mar Celeste (Mar)",
   "block.cataclysm.azure_seastone_mural_underworld": "Mural de Pedra do Mar Celeste (Submundo)",
   "block.cataclysm.azure_seastone_mural_harvest": "Mural de Pedra do Mar Celeste (Colheita)",
   "block.cataclysm.azure_seastone_mural_wisdom": "Mural de Pedra do Mar Celeste (Sabedoria)",
   "block.cataclysm.azure_seastone_mural_smithing": "Mural de Pedra do Mar Celeste (Ferraria)",
-
+  
   "block.cataclysm.curved_azure_seastone_urchinkin": "Peça de Pedra do Mar Celeste (Ouriçinho)",
   "block.cataclysm.curved_azure_seastone_cindaria_1": "Peça de Pedra do Mar Celeste (Cindária 1)",
   "block.cataclysm.curved_azure_seastone_cindaria_2": "Peça de Pedra do Mar Celeste (Cindária 2)",
@@ -332,22 +330,30 @@
   "block.cataclysm.curved_azure_seastone_scylla_7": "Peça de Pedra do Mar Celeste (Scylla 7)",
   "block.cataclysm.curved_azure_seastone_scylla_8": "Peça de Pedra do Mar Celeste (Scylla 8)",
   "block.cataclysm.curved_azure_seastone_scylla_9": "Peça de Pedra do Mar Celeste (Scylla 9)",
-
+  
 
   "block.cataclysm.polished_azure_seastone": "Pedra do Mar Celeste Polida",
   "block.cataclysm.polished_azure_seastone_slab": "Laje de Pedra do Mar Celeste Polida",
   "block.cataclysm.polished_azure_seastone_stairs": "Escadas de Pedra do Mar Celeste Polida",
   "block.cataclysm.polished_azure_seastone_wall": "Muro de Pedra do Mar Celeste Polida",
-
+  
   "block.cataclysm.azure_seastone_pillar": "Pilar de Pedra do Mar Celeste",
   "block.cataclysm.azure_seastone_pillar_wall": "Muro de Pilar de Pedra do Mar Celeste",
   "block.cataclysm.chiseled_azure_seastone_pillar": "Pilar de Pedra do Mar Celeste Cinzelada",
   "block.cataclysm.chiseled_azure_seastone_pillar_wall": "Muro de Pilar de Pedra do Mar Celeste Cinzelada",
-
+  
   "block.cataclysm.purpur_tiles": "Ladrilho de Púrpura",
+  "block.cataclysm.purpur_tile_slab": "Laje de Azulejo Purpur",
+  "block.cataclysm.purpur_tile_pillar": "Pilar de Azulejo Purpur",
+  "block.cataclysm.purpur_tile_stairs": "Escada de Azulejo Purpur",
+  "block.cataclysm.purpur_tile_wall": "Parede de Azulejos Purpur",
   "block.cataclysm.void_purpur_tiles": "Ladrilho de Púrpura do Vazio",
   "block.cataclysm.obsidian_pillar": "Pilar de Obsidiana",
-  "block.cataclysm.purpur_pillar": "Pilar de Púrpura",
+  "block.cataclysm.polished_obsidian_slab": "Laje de Obsidiana Polida",
+  "block.cataclysm.polished_obsidian_stairs": "Escadas de Obsidiana Polidas",
+  "block.cataclysm.polished_obsidian_wall": "Muro de Obsidiana Polido",
+  "block.cataclysm.chorus_trapdoor": "Escotilha de Chorus",
+  
   
   "block.cataclysm.kobolediator_skull": "Crânio de Cobóleto Gladiador",
   "block.cataclysm.draugr_head": "Cabeça de Draugr",
@@ -368,13 +374,14 @@
   "block.cataclysm.prismarine_brick_fence": "Cerca de Tijolos de Prismarinho",
   "block.cataclysm.prismarine_brick_wall": "Muro de Tijolos de Prismarinho",
   "block.cataclysm.boss_respawner": "Reinvocador de Chefe",
-
+  
   "entity.cataclysm.ender_golem": "Golem do End",
   "entity.cataclysm.ender_guardian": "Guardião Ender, O Encerrador de Jornadas",
   "entity.cataclysm.ender_guardian_bullet": "Munição do Guardião Ender",
   "entity.cataclysm.lava_bomb": "Bomba de Lava",
   "entity.cataclysm.void_rune": "Runa do Vazio",
   "entity.cataclysm.nameless_sorcerer": "Feiticeiro sem Nome (T.E.P)",
+  "entity.cataclysm.old_netherite_monstrosity": "Antiga Monstruosidade de Netherita",
   "entity.cataclysm.netherite_monstrosity": "Monstruosidade de Netherita, A Demolidora do Nether",
   "entity.cataclysm.netherite_ministrosity": "Ministruosidade de Netherita",
   "entity.cataclysm.endermaptera": "Besouro do End",
@@ -449,7 +456,6 @@
   "entity.cataclysm.flame_jet": "Jato de Chama",
   "entity.cataclysm.storm_serpent": "Serpente da Tempestade",
   "entity.cataclysm.octo_ink": "Tinta",
-
   "entity.cataclysm.hippocamtus": "Kaltrion",
   "entity.cataclysm.cindaria": "Cindária",
   "entity.cataclysm.clawdian": "Garradião",
@@ -464,7 +470,7 @@
   "entity.cataclysm.bolt_strike": "Ataque de Raio",
   "entity.cataclysm.lightning_storm": "Tempestade de Relâmpago",
   "entity.cataclysm.lightning_area_effect": "Área de Efeito do Relâmpago",
-
+  
   "entity.cataclysm.all.command_0": "%s está vagando",
   "entity.cataclysm.all.command_1": "%s está seguindo",
   "entity.cataclysm.all.command_2": "%s está parado",
@@ -482,6 +488,7 @@
   "effect.cataclysm.ghost_sickness": "Doença Fantasmagórica",
   "effect.cataclysm.wetness": "Umidade",
 
+  "flamethrower.sub": "Lança-chamas",
   "golemhurt.sub": "Golem do End ferido",
   "golemdeath.sub": "Golem do End morre",
   "golemattack.sub": "Golem do End ataca",
@@ -515,6 +522,7 @@
   "sword_stomp.sub": "Ataques do Ignis",
   "ignis_poke.sub": "Ignis segurando",
   "ignis_armor_break": "Armadura do Ignis danificada",
+  "ignis_shield_break": "Escudo de Ignis quebra",
   "flame_burst.sub": "A explosão de uma chama",
   "ignis_death.sub": "Ignis morre",
   "ignis_music.sub": "Música de fundo do Ignis",
@@ -551,6 +559,8 @@
   "black_hole_closing.sub": "Fenda dimensional desaparece",
   "abyss_blast.sub": "Leviatã prepara a fúria do abismo",
   "abyss_blast_shoot.sub": "Fúria do abismo liberada",
+  "abyss_blast_only_charge.sub": "Leviatã prepara explosão múltipla do abismo",
+  "abyss_blast_only_shoot.sub": "Explosões do Leviatã",
   "leviathan_roar.sub": "Rugido do Leviatã",
   "portal_abyss_blast.sub": "Raio do abismo irrompe do portal",
   "leviathan_tentacle_strike.sub": "Leviatã ataca com tentáculos",
@@ -624,6 +634,21 @@
   "maledictus_spear.sub": "Alabardas fantasmas aparecem",
   "maledictus_bow_pull.sub": "Maledictus puxa o arco",
   "maledictus_leap.sub": "Maledictus salta",
+  "parry.sub": "Desvios de escudo",
+  "heavy_smash.sub": "Golpe Pesado",
+  "hippocamtus_idle.sub": "Hippocamtus borbulha",
+  "hippocamtus_hurt.sub": "Hipocamtus ferido",
+  "hippocamtus_death.sub": "Hippocamtus morre",
+  "cindaria_hurt.sub": "Cindaria ferido",
+  "cindaria_death.sub": "Cindaria morre",
+  "scylla_music.sub": "O tema de Scylla toca",
+  "scylla_music_disc.sub": "O tema original de Scylla toca",
+  "scylla_hurt.sub": "Scylla uiva",
+  "scylla_roar.sub": "Scylla rosna",
+  "scylla_death.sub": "Scylla morre",
+  "super_lightning_strike.sub": "Relâmpago atinge",
+  "the_cataclysmfarer.sub": "O Cataclysmfarer toca",
+
 
   "advancements.cataclysm.root.title": "Cataclysm",
   "advancements.cataclysm.root.description": "Cataclysm!",
@@ -688,6 +713,8 @@
   "death.attack.cataclysm.penetrate": "%s foi penetrado(a) por %s",
   "death.attack.cataclysm.lightning": "%s foi eletrocutado(a) por %s",
   "death.attack.cataclysm.flame_strike": "%s foi consumido(a) pelas chamas",
+  "death.attack.cataclysm.storm_bringer": "%s foi caçado por %s",
+
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Bênção",
   "key.categories.cataclysm": "Atalhos do Cataclysm",
