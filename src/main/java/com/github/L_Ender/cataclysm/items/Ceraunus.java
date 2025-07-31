@@ -172,6 +172,7 @@ public class Ceraunus extends Item implements RangeTool  {
         return itemStack.get(ModDataComponents.THROWN_ANCHOR) == null;
     }
 
+
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
         tooltips.add(Component.translatable("item.cataclysm.ceraunus.desc").withStyle(ChatFormatting.DARK_GREEN));

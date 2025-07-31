@@ -49,7 +49,7 @@ public class BossMusicSound extends AbstractTickableSoundInstance {
         // If the music should keep playing
         else {
             volumeControl.increaseTimer();
-            timeUntilFade = 60;
+            timeUntilFade = 20;
         }
 
         if (volumeControl.getAnimationFraction() < 0.025) {

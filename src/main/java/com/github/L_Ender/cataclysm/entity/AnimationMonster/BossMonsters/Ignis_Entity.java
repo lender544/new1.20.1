@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
@@ -16,6 +17,7 @@ import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Abyss_Fireball_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Ignis_Fireball_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.message.MessageMusic;
 import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
@@ -71,6 +73,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -874,6 +877,17 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
         }
         if (this.getAnimation() == PHASE_2) {
+            if (this.getAnimationTick() == 1) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                }
+            }
+
+            if (this.getAnimationTick() == 21) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                }
+            }
             if (this.getAnimationTick() == 29) {
                 this.playSound(ModSounds.FLAME_BURST.get(), 1.0f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
@@ -886,6 +900,12 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
             }
         }
         if (this.getAnimation() == PHASE_3) {
+            if (this.getAnimationTick() == 1) {
+                if (!level().isClientSide && getBossMusic() != null) {
+                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                }
+            }
+
             if (this.getAnimationTick() == 58) {
                 this.setBossPhase(2);
                 this.setShowShield(false);
@@ -896,6 +916,9 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 this.playSound(ModSounds.SWORD_STOMP.get(), 1.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 10);
                 ShieldSmashparticle(0.5f, 1.0f, -0.15f);
+                if (!level().isClientSide && getBossMusic() != null) {
+                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                }
             }
 
             if (this.getAnimationTick() > 58 && this.getAnimationTick() < 68) {
@@ -2174,8 +2197,28 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
 
     @Override
+    protected boolean canPlayMusic() {
+
+        if (this.getAnimation() == PHASE_2) {
+            return getAnimationTick() >= 21 && super.canPlayMusic();
+        }else if(this.getAnimation() == PHASE_3){
+            return getAnimationTick() >= 58 && super.canPlayMusic();
+        }else{
+            return super.canPlayMusic();
+        }
+    }
+
+
+    @Override
     public SoundEvent getBossMusic() {
-        return ModSounds.IGNIS_MUSIC.get();
+
+        if (this.getBossPhase() >= 2 || this.getBossPhase() == 1 && this.getAnimation() == PHASE_3 && getAnimationTick() >= 30) {
+            return ModSounds.IGNIS_MUSIC_3.get();
+        } else if (this.getBossPhase() == 1 || this.getBossPhase() == 0  &&  this.getAnimation() == PHASE_2 && getAnimationTick() >= 21) {
+            return ModSounds.IGNIS_MUSIC_2.get();
+        } else {
+            return ModSounds.IGNIS_MUSIC_1.get();
+        }
     }
 
     @Override

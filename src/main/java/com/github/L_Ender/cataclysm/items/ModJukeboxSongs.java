@@ -29,8 +29,8 @@ public interface ModJukeboxSongs {
 
 
     public static void bootstrap(BootstrapContext<JukeboxSong> p_350269_) {
-        register(p_350269_, IGNIS_THEME,  ModSounds.IGNIS_MUSIC, 153, 15);
-        register(p_350269_, ENDERGUARDIAN_THEME,  ModSounds.ENDERGUARDIAN_MUSIC, 196, 15);
+        register(p_350269_, IGNIS_THEME,  ModSounds.IGNIS_MUSIC_DISC, 153, 15);
+        register(p_350269_, ENDERGUARDIAN_THEME,  ModSounds.ENDERGUARDIAN_MUSIC_DISC, 196, 15);
         register(p_350269_, HARBINGER_THEME,  ModSounds.HARBINGER_MUSIC, 189, 15);
         register(p_350269_, MONSTROSITY_THEME,  ModSounds.MONSTROSITY_MUSIC, 289, 15);
         register(p_350269_, REMNANT_THEME,  ModSounds.REMNANT_MUSIC, 212, 15);

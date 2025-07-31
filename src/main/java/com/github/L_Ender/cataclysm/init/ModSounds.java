@@ -70,13 +70,27 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> MONSTROSITY_MUSIC = SOUNDS.register("monstrosity_music",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"monstrosity_music")));
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> ENDERGUARDIAN_MUSIC = SOUNDS.register("enderguardian_music",
-            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"enderguardian_music")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> ENDERGUARDIAN_MUSIC_1 = SOUNDS.register("enderguardian_music_1",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"enderguardian_music_1")));
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> ENDERGUARDIAN_MUSIC_2 = SOUNDS.register("enderguardian_music_2",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"enderguardian_music_2")));
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> IGNIS_MUSIC = SOUNDS.register("ignis_music",
-            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"ignis_music")));
+    public static final DeferredHolder<SoundEvent, SoundEvent> ENDERGUARDIAN_MUSIC_DISC = SOUNDS.register("enderguardian_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"enderguardian_music_disc")));
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> IGNIS_MUSIC_1 = SOUNDS.register("ignis_music_1",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"ignis_music_1")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> IGNIS_MUSIC_2 = SOUNDS.register("ignis_music_2",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"ignis_music_2")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> IGNIS_MUSIC_3 = SOUNDS.register("ignis_music_3",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"ignis_music_3")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> IGNIS_MUSIC_DISC = SOUNDS.register("ignis_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"ignis_music_disc")));
+    
 
     public static final DeferredHolder<SoundEvent, SoundEvent> ENDERMAPTERA_HURT = SOUNDS.register("endermaptera_hurt",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"endermaptera_hurt")));

@@ -120,10 +120,10 @@
   "item.cataclysm.music_disc_maledictus": "Music Disc",
   "item.cataclysm.music_disc_scylla": "Music Disc",
   "item.cataclysm.music_disc_the_cataclysmfarer": "Music Disc",
-  "item.cataclysm.music_disc_netherite_monstrosity.desc": "LeoDragon1 - Soul Bound Inferno",
-  "item.cataclysm.music_disc_ender_guardian.desc": "LeoDragon1 - Guardian of the Abyss",
-  "item.cataclysm.music_disc_ignis.desc": "LeoDragon1 - Burning Retribution",
-  "item.cataclysm.music_disc_the_harbinger.desc": "LeoDragon1 - Doom of the Forsaken",
+  "item.cataclysm.music_disc_netherite_monstrosity.desc": "Yuri_O - Spawn Of Hell",
+  "item.cataclysm.music_disc_ender_guardian.desc": "Yuri_O - Defender of the Outer Realm",
+  "item.cataclysm.music_disc_ignis.desc": "Yuri_O - Light My Fire",
+  "item.cataclysm.music_disc_the_harbinger.desc": "Yuri_O - Self-Destruction Sequence",
   "item.cataclysm.music_disc_the_leviathan.desc": "Yuri_O - Predator of the Abyss",
   "item.cataclysm.music_disc_ancient_remnant.desc": "Yuri_O - The Dryest Beast",
   "item.cataclysm.music_disc_maledictus.desc": "Rotch Gwylt - Maledictus",
@@ -714,6 +714,7 @@
   "death.attack.cataclysm.lightning": "%s was electrocuted by %s",
   "death.attack.cataclysm.flame_strike": "%s was consumed by the flames",
   "death.attack.cataclysm.storm_bringer": "%s was hunted by %s",
+
 
   "cataclysm.gui.altar_of_amethyst_blessing": "Blessing",
   "key.categories.cataclysm": "Cataclysm Key Category",
