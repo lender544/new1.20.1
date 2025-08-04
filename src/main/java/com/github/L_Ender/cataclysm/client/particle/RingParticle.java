@@ -226,17 +226,22 @@ public class RingParticle extends TextureSheetParticle {
 
         @Override
         public void writeToNetwork(FriendlyByteBuf buffer) {
+            buffer.writeFloat(this.yaw);
+            buffer.writeFloat(this.pitch);
             buffer.writeFloat(this.r);
             buffer.writeFloat(this.g);
             buffer.writeFloat(this.b);
             buffer.writeFloat(this.scale);
             buffer.writeInt(this.duration);
+            buffer.writeBoolean(this.facesCamera);
+            buffer.writeEnum(this.behavior);
+
         }
 
         @Override
         public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %.2f %.2f %d %b", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.yaw, this.pitch, this.r, this.g, this.b, this.scale, this.a, this.duration, this.facesCamera);
+            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f %.2f %.2f %.2f %.2f %d %b %s", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
+                    this.yaw, this.pitch, this.r, this.g, this.b, this.scale, this.a, this.duration, this.facesCamera,this.behavior);
         }
 
         @Override

@@ -808,8 +808,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
         if(this.getAnimation() == LEVIATHAN_PHASE2){
             if (this.getAnimationTick() == 1) {
-                if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+                if (CMConfig.LeviathanSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+                    }
                 }
             }
 
@@ -818,8 +820,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                 if(!this.getMeltDown()) {
                     setMeltDown(true);
                 }
-                if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
+                if (CMConfig.LeviathanSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
+                    }
                 }
                 for(int i = 0; i < 3; ++i) {
                     motion = new Vec3(0.5, -1.25, 0.5).yRot(-(float)(120 * i) * 0.01745329251F);
@@ -1465,18 +1469,25 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     @Override
     public SoundEvent getBossMusic() {
-        return this.getMeltDown() ? ModSounds.LEVIATHAN_MUSIC_2.get() : ModSounds.LEVIATHAN_MUSIC_1.get();
+        if (CMConfig.LeviathanSeparatePhaseMusic) {
+            return this.getMeltDown() ? ModSounds.LEVIATHAN_MUSIC_2.get() : ModSounds.LEVIATHAN_MUSIC_1.get();
+        }else{
+            return ModSounds.LEVIATHAN_MUSIC.get();
+        }
     }
 
     @Override
     protected boolean canPlayMusic() {
-        if (this.getAnimation() == LEVIATHAN_PHASE2 ){
-            return getAnimationTick() > 90 &&  super.canPlayMusic();
+        if (CMConfig.LeviathanSeparatePhaseMusic) {
+            if (this.getAnimation() == LEVIATHAN_PHASE2) {
+                return getAnimationTick() > 90 && super.canPlayMusic();
+            } else {
+                return super.canPlayMusic();
+            }
         }else{
             return super.canPlayMusic();
         }
     }
-
     @Nullable
     public Animation getDeathAnimation()
     {

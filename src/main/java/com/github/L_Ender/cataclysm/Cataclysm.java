@@ -131,6 +131,11 @@ public class Cataclysm {
 
     private void setupClient(FMLClientSetupEvent event) {
         PROXY.clientInit();
+        event.enqueueWork(() -> {
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new ResourceLocation(Cataclysm.MODID, "textures/entity/koboleton/kobolediator.png"));
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.APTRGANGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/aptrgangr.png"));
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/draugr.png"));
+        });
     }
 
 
@@ -150,12 +155,6 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageMiniinventory.class, MessageMiniinventory::write, MessageMiniinventory::read, MessageMiniinventory.Handler::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageEntityCamera.class, MessageEntityCamera::encode, MessageEntityCamera::new, MessageEntityCamera.Handler::onMessage);
 
-
-        event.enqueueWork(() -> {
-            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new ResourceLocation(Cataclysm.MODID, "textures/entity/koboleton/kobolediator.png"));
-            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.APTRGANGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/aptrgangr.png"));
-            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/draugr.png"));
-        });
         event.enqueueWork(ModItems::initDispenser);
         event.enqueueWork(ModJigsaw::registerJigsawElements);
     }
