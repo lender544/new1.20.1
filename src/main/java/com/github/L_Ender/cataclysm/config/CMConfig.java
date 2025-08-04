@@ -261,6 +261,10 @@ public class CMConfig {
     public static boolean ScyllaRespawner = true;
     public static boolean RemnantRespawner = true;
 
+    public static boolean IgnisSeparatePhaseMusic = true;
+    public static boolean EnderGuardianSeparatePhaseMusic = true;
+    public static boolean LeviathanSeparatePhaseMusic = true;
+
     public static void bake(ModConfig config) {
         try {
             setThirdPerson = ConfigHolder.COMMON.setThirdPerson.get();
@@ -515,6 +519,10 @@ public class CMConfig {
             HarbingerRespawner = ConfigHolder.COMMON.HarbingerRespawner.get();
             RemnantRespawner = ConfigHolder.COMMON.RemnantRespawner.get();
             ScyllaRespawner = ConfigHolder.COMMON.ScyllaRespawner.get();
+
+            IgnisSeparatePhaseMusic = ConfigHolder.COMMON.IgnisSeparatePhaseMusic.get();
+            EnderGuardianSeparatePhaseMusic = ConfigHolder.COMMON.EnderGuardianSeparatePhaseMusic.get();
+            LeviathanSeparatePhaseMusic = ConfigHolder.COMMON.LeviathanSeparatePhaseMusic.get();
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("An exception was caused trying to load the config for CM");

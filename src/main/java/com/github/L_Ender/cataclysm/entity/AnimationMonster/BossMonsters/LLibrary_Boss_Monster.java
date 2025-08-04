@@ -9,10 +9,14 @@ import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -24,6 +28,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -34,12 +41,16 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
     protected final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
     private int self_regen;
     private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(LLibrary_Boss_Monster.class, EntityDataSerializers.BLOCK_POS);
+
+    private static final EntityDataAccessor<String> DIMENSION_TYPE = SynchedEntityData.defineId(LLibrary_Boss_Monster.class, EntityDataSerializers.STRING);
+
     public LLibrary_Boss_Monster(EntityType entity, Level world) {
         super(entity, world);
     }
 
     public void setHomePos(BlockPos homePos) {
         this.entityData.set(HOME_POS, homePos);
+
     }
 
 
@@ -47,11 +58,19 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         return (BlockPos)this.entityData.get(HOME_POS);
     }
 
+    public String getDimensionType() {
+        return this.entityData.get(DIMENSION_TYPE);
+    }
+
+    public void setDimensionType(String dimenType) {
+        this.entityData.set(DIMENSION_TYPE, dimenType);
+    }
 
 
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(HOME_POS, BlockPos.ZERO);
+        this.entityData.define(DIMENSION_TYPE, "minecraft:overworld");
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -59,6 +78,7 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         compound.putInt("HomePosX", this.getHomePos().getX());
         compound.putInt("HomePosY", this.getHomePos().getY());
         compound.putInt("HomePosZ", this.getHomePos().getZ());
+        compound.putString("DimensionType", this.getDimensionType());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -66,6 +86,8 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
         int j = compound.getInt("HomePosY");
         int k = compound.getInt("HomePosZ");
         this.setHomePos(new BlockPos(i, j, k));
+        this.setDimensionType(compound.getString("DimensionType"));
+
         super.readAdditionalSaveData(compound);
 
     }
@@ -140,14 +162,43 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
                     if (target != null) {
                         homeTicks = HOME_COOLDOWN;
                     }
+
                     if (homeTicks <= 0) {
-                        if (this.getHomePos() != BlockPos.ZERO) {
-                            if (!this.getHomePos().closerToCenterThan(this.position(), (double) 16.0F)) {
-                                this.moveTo((double) this.getHomePos().getX() + (double) 0.5F, (double) this.getHomePos().getY(), (double) this.getHomePos().getZ() + (double) 0.5F, this.getYRot(), this.getXRot());
-                                homeTicks = HOME_COOLDOWN;
-                            }
-                        }
+                        ReturnToHome();
                     }
+
+                }
+            }
+        }
+    }
+
+    protected void ReturnToHome() {
+        if (this.getHomePos() != null && this.getHomePos() != BlockPos.ZERO) {
+            if (this.level() instanceof ServerLevel serverLevel) {
+                String dimStr = this.getDimensionType();
+                ResourceLocation parsed = ResourceLocation.tryParse(dimStr);
+                boolean isInvalidDim = dimStr == null || dimStr.contains("ResourceKey") || parsed == null;
+
+                if (isInvalidDim) {
+                    System.err.println("[DIM] Malformed dimension string detected: " + dimStr + " → Replacing with current dimension.");
+                    parsed = serverLevel.dimension().location();
+                    this.setDimensionType(parsed.toString());
+                }
+                ResourceKey<Level> targetDim = ResourceKey.create(Registries.DIMENSION, parsed);
+
+                if (!serverLevel.dimension().location().equals(parsed)) {
+                    ServerLevel targetLevel = serverLevel.getServer().getLevel(targetDim);
+                    if (targetLevel != null) {
+                        this.changeDimension(targetLevel);
+                        this.moveTo(this.getHomePos().getX() + 0.5, this.getHomePos().getY(), this.getHomePos().getZ() + 0.5, this.getYRot(), this.getXRot());
+                        homeTicks = HOME_COOLDOWN;
+                        return;
+                    }
+                }
+
+                if (!this.getHomePos().closerToCenterThan(this.position(), 16.0)) {
+                    this.moveTo(this.getHomePos().getX() + 0.5, this.getHomePos().getY(), this.getHomePos().getZ() + 0.5, this.getYRot(), this.getXRot());
+                    homeTicks = HOME_COOLDOWN;
                 }
             }
         }
@@ -156,6 +207,9 @@ public class LLibrary_Boss_Monster extends LLibrary_Monster implements IAnimated
 
     protected void onDeathAIUpdate() {}
 
+    public boolean canChangeDimensions() {
+        return false;
+    }
 
     public boolean canBeAffected(MobEffectInstance p_34192_) {
         return ModTag.EFFECTIVE_FOR_BOSSES_LOOKUP.contains(p_34192_.getEffect()) && super.canBeAffected(p_34192_);

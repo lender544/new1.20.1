@@ -6,30 +6,26 @@ import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Equipable;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.PathComputationType;
 
 import javax.annotation.Nullable;
 
+public class Cataclysm_Wall_Skull_Block extends WallSkullBlock {
 
-public abstract class Abstract_Cataclysm_Skull_Block extends BaseEntityBlock implements Equipable {
-    private final Cataclysm_Skull_Block.Type type;
-
-    public Abstract_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Type p_48745_, BlockBehaviour.Properties p_48746_) {
-        super(p_48746_);
-        this.type = p_48745_;
+    public Cataclysm_Wall_Skull_Block(SkullBlock.Type type, Properties props) {
+        super(type, props);
     }
 
-    public BlockEntity newBlockEntity(BlockPos p_151996_, BlockState p_151997_) {
-        return new Cataclysm_Skull_BlockEntity(p_151996_, p_151997_);
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new Cataclysm_Skull_BlockEntity(pos, state);
     }
+
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_151992_, BlockState p_151993_, BlockEntityType<T> p_151994_) {
@@ -41,17 +37,5 @@ public abstract class Abstract_Cataclysm_Skull_Block extends BaseEntityBlock imp
         }
 
         return null;
-    }
-
-    public Cataclysm_Skull_Block.Type getType() {
-        return this.type;
-    }
-
-    public boolean isPathfindable(BlockState p_48750_, BlockGetter p_48751_, BlockPos p_48752_, PathComputationType p_48753_) {
-        return false;
-    }
-
-    public EquipmentSlot getEquipmentSlot() {
-        return EquipmentSlot.HEAD;
     }
 }

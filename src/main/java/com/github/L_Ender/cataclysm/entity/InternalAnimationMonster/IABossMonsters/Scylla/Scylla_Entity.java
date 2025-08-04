@@ -29,6 +29,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -2116,6 +2117,10 @@ public class Scylla_Entity extends IABoss_monster {
             this.setHomePos(this.blockPosition());
             this.setAct(true);
             this.heal(this.getMaxHealth());
+            if(this.level() instanceof ServerLevel serverLevel) {
+                ResourceLocation dimLoc = serverLevel.dimension().location();
+                this.setDimensionType(dimLoc.toString());
+            }
             return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);

@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -11,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class KobolediatorHeadModel extends Cataclysm_Skull_Model_Base {
+public class KobolediatorHeadModel extends SkullModelBase {
     private final ModelPart head;
     private final ModelPart jaw;
 
@@ -47,14 +48,6 @@ public class KobolediatorHeadModel extends Cataclysm_Skull_Model_Base {
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
 
-
-    public KobolediatorHeadModel withAnimations(LivingEntity entity){
-        float partialTick = Minecraft.getInstance().getFrameTime();
-        float limbSwingAmount = entity.walkAnimation.speed(partialTick);
-        float limbSwing = entity.walkAnimation.position() + partialTick;
-        setupAnim(entity.tickCount + partialTick, 0, 0);
-        return  this;
-    }
 
     public void setupAnim(float p_104188_, float p_104189_, float p_104190_) {
         this.jaw.xRot = (float)(Math.sin((double)(p_104188_ * (float)Math.PI * 0.2F)) + 1.0D) * 0.2F;

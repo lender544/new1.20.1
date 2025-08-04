@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_G
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.MobSpawnType;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 
 public class AltarOfVoid_Block_Entity extends BlockEntity {
@@ -27,38 +29,41 @@ public class AltarOfVoid_Block_Entity extends BlockEntity {
         entity.tick(level,pos,state,entity);
     }
 
-    public boolean anyPlayerInRange() {
-        return level.hasNearbyAlivePlayer(worldPosition.getX() + 0.5D, worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D, getRange());
+    public boolean anyPlayerInRange(Level level,BlockPos pos) {
+        return level.hasNearbyAlivePlayer(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, getRange());
     }
 
     public void tick(Level level, BlockPos pos, BlockState state, AltarOfVoid_Block_Entity te) {
-        if (spawnedBoss || !anyPlayerInRange()) {
+        if (spawnedBoss || !anyPlayerInRange(level,pos)) {
             return;
         }
-        if (!level.isClientSide) {
-            if (level.getDifficulty() != Difficulty.PEACEFUL) {
-                if (spawnMyBoss((ServerLevel)level)) {
-                    level.destroyBlock(pos, false);
-                    spawnedBoss = true;
-                }
+
+        if (level.getDifficulty() != Difficulty.PEACEFUL) {
+            if (spawnMyBoss((ServerLevel)level,pos)) {
+                level.destroyBlock(pos, false);
+                spawnedBoss = true;
             }
         }
+
     }
 
-    protected boolean spawnMyBoss(ServerLevelAccessor world) {
+    protected boolean spawnMyBoss(ServerLevel serverLevel, BlockPos pos) {
+        Vec3 vec3 = Vec3.atLowerCornerWithOffset(pos, 0.5, 0, 0.5);
+        Ender_Guardian_Entity entity = ModEntities.ENDER_GUARDIAN.get().create(serverLevel);
 
-        Ender_Guardian_Entity enderGuardian = ModEntities.ENDER_GUARDIAN.get().create(level);
 
-        enderGuardian.moveTo(worldPosition, world.getLevel().random.nextFloat() * 360F, 0.0F);
-        enderGuardian.finalizeSpawn(world, world.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
-        enderGuardian.setHomePos(this.getBlockPos());
-        enderGuardian.restrictTo(worldPosition, 46);
+        if (entity != null) {
+            entity.setPos(vec3);
+            entity.setUsedMassDestruction(false);
+            entity.setHomePos(pos);
+            entity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
+            ResourceLocation dimLoc = serverLevel.dimension().location();
+            entity.setDimensionType(dimLoc.toString());
 
-        // spawn it
-        return world.addFreshEntity(enderGuardian);
+            return serverLevel.addFreshEntity(entity);
+        }
+        return false;
     }
-
-
 
     protected int getRange() {
         return SHORT_RANGE;

@@ -281,6 +281,7 @@ public class Wave_Entity extends Entity {
                 boolean flag = entity.hurt(source, this.getDamage());
 
                 if(flag) {
+                    entity.extinguishFire();
                     MobEffectInstance effectinstance1 = entity.getEffect(ModEffect.EFFECTWETNESS.get());
                     int i = 1;
                     if (effectinstance1 != null) {

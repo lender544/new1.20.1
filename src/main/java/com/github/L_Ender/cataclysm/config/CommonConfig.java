@@ -65,6 +65,10 @@ public class CommonConfig {
     public final ForgeConfigSpec.BooleanValue BossMusic;
     public final ForgeConfigSpec.IntValue BossMusicVolume;
 
+    public final ForgeConfigSpec.BooleanValue IgnisSeparatePhaseMusic;
+    public final ForgeConfigSpec.BooleanValue EnderGuardianSeparatePhaseMusic;
+    public final ForgeConfigSpec.BooleanValue LeviathanSeparatePhaseMusic;
+
     public final ForgeConfigSpec.DoubleValue EnderguardianHealthMultiplier;
     public final ForgeConfigSpec.DoubleValue EnderguardianDamageMultiplier;
     public final ForgeConfigSpec.DoubleValue EnderguardianNatureHealing;
@@ -262,10 +266,17 @@ public class CommonConfig {
 
         builder.push("bosses Common settings");
         custombossbar = buildBoolean(builder, "custombossbar(on/off)", "all", true, "custombossbar(on/off)");
-        BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
-        BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
         Return_Home = buildInt(builder, "ReturnHome", "all", CMConfig.Return_Home, 0, 200, "If the boss leaves the summoned location and there is no target, it returns to the summoned location. When set to 0, it does not return");
         builder.pop();
+
+        builder.push("bosses Music");
+        BossMusic = buildBoolean(builder, "BossMusic(on/off)", "all", true, "BossMusic(on/off)");
+        BossMusicVolume = buildInt(builder, "BossMusicVolume", "all", 1, 1, 1000000, "BossMusicVolume(denominator)");
+        IgnisSeparatePhaseMusic = buildBoolean(builder, "IgnisSeparatePhaseMusic(on/off)", "all", true, "Enable separate music per boss phase");
+        EnderGuardianSeparatePhaseMusic = buildBoolean(builder, "EnderGuardianSeparatePhaseMusic(on/off)", "all", true, "Enable separate music per boss phase");
+        LeviathanSeparatePhaseMusic = buildBoolean(builder, "LeviathanSeparatePhaseMusic(on/off)", "all", true, "Enable separate music per boss phase");
+        builder.pop();
+
 
         builder.push("Weapon");
         Armor_Infinity_Durability = buildBoolean(builder, "Armor Infinity Durability(on/off)", "all", true, "Armor Infinity Durability(on/off)");

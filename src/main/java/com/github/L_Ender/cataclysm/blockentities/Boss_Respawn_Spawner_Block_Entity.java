@@ -106,17 +106,18 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity implements Cl
 			return false;
 		}
 
-
 		if (entity != null) {
 			entity.setPos(vec3);
 			if (entity instanceof IABoss_monster iaBossMonster) {
 				iaBossMonster.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
-
-
+				ResourceLocation dimLoc = serverLevel.dimension().location();
+				iaBossMonster.setDimensionType(dimLoc.toString());
 				iaBossMonster.setHomePos(BlockPos.containing(vec3));
 				// spawn it
 			} else if (entity instanceof LLibrary_Boss_Monster llBossMonster) {
 				llBossMonster.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
+				ResourceLocation dimLoc = serverLevel.dimension().location();
+				llBossMonster.setDimensionType(dimLoc.toString());
 				llBossMonster.setHomePos(BlockPos.containing(vec3));
 			}
 			return serverLevel.addFreshEntity(entity);

@@ -5,6 +5,7 @@ package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -14,11 +15,13 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class AptrgangrHeadModel extends Cataclysm_Skull_Model_Base {
+public class AptrgangrHeadModel extends SkullModelBase {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	private final ModelPart head;
 	private final ModelPart helmet;
 	private final ModelPart jaw;
+
+
 
 	public AptrgangrHeadModel(ModelPart root) {
 		this.head = root.getChild("head");

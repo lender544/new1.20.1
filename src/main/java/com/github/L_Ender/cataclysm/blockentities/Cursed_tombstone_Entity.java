@@ -15,6 +15,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
@@ -90,28 +92,31 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                             maledictus.setTombstonePos(pos);
                             maledictus.setHomePos(pos);
                             maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
-                            if (!level.isClientSide) {
-                                int MthX = Mth.floor(pos.getX());
-                                int MthY = Mth.floor(pos.getY());
-                                int MthZ = Mth.floor(pos.getZ());
-                                for (int k2 = -1; k2 <= 1; ++k2) {
-                                    for (int l2 = -1; l2 <= 1; ++l2) {
-                                        for (int j = 0; j <= 5; ++j) {
-                                            int i3 = MthX + k2;
-                                            int k = MthY + j;
-                                            int l = MthZ + l2;
-                                            BlockPos blockpos = new BlockPos(i3, k, l);
-                                            BlockState block = level.getBlockState(blockpos);
-                                            if (block != Blocks.AIR.defaultBlockState() && !block.is(ModTag.ALTAR_DESTROY_IMMUNE)) {
-                                                level.destroyBlock(blockpos, false);
-                                            }
+                            if (level instanceof ServerLevel) {
+                                ResourceLocation dimLoc = level.dimension().location();
+                                maledictus.setDimensionType(dimLoc.toString());
+                            }
 
+                            int MthX = Mth.floor(pos.getX());
+                            int MthY = Mth.floor(pos.getY());
+                            int MthZ = Mth.floor(pos.getZ());
+                            for (int k2 = -1; k2 <= 1; ++k2) {
+                                for (int l2 = -1; l2 <= 1; ++l2) {
+                                    for (int j = 0; j <= 5; ++j) {
+                                        int i3 = MthX + k2;
+                                        int k = MthY + j;
+                                        int l = MthZ + l2;
+                                        BlockPos blockpos = new BlockPos(i3, k, l);
+                                        BlockState block = level.getBlockState(blockpos);
+                                        if (block != Blocks.AIR.defaultBlockState() && !block.is(ModTag.ALTAR_DESTROY_IMMUNE)) {
+                                            level.destroyBlock(blockpos, false);
                                         }
+
                                     }
                                 }
-                                if(level.addFreshEntity(maledictus)){
-                                    level.destroyBlock(pos, false);
-                                }
+                            }
+                            if (level.addFreshEntity(maledictus)) {
+                                level.destroyBlock(pos, false);
                             }
                         }
                     }

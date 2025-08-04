@@ -487,8 +487,10 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
         if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION) {
             if (this.getAnimationTick() == 1) {
-                if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+                if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+                    }
                 }
             }
             if (this.getAnimationTick() == 39) {
@@ -508,8 +510,10 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 }
             }
             if (this.getAnimationTick() == 50) {
-                if (!level().isClientSide && getBossMusic() != null) {
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
+                if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
+                    }
                 }
             }
         }
@@ -1178,15 +1182,23 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     @Override
     protected boolean canPlayMusic() {
-        if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION ){
-            return getAnimationTick() > 50 &&  super.canPlayMusic();
+        if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+            if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION) {
+                return getAnimationTick() > 50 && super.canPlayMusic();
+            } else {
+                return super.canPlayMusic();
+            }
         }else{
             return super.canPlayMusic();
         }
     }
     @Override
     public SoundEvent getBossMusic() {
-        return (this.getIsHelmetless() || this.getUsedMassDestruction()) ? ModSounds.ENDERGUARDIAN_MUSIC_2.get() : ModSounds.ENDERGUARDIAN_MUSIC_1.get();
+        if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+            return (this.getIsHelmetless() || this.getUsedMassDestruction()) ? ModSounds.ENDERGUARDIAN_MUSIC_2.get() : ModSounds.ENDERGUARDIAN_MUSIC_1.get();
+        }else{
+            return ModSounds.ENDERGUARDIAN_MUSIC_DISC.get();
+        }
     }
 
     @Override

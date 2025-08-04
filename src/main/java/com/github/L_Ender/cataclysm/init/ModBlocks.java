@@ -227,17 +227,17 @@ public class ModBlocks {
     public static final RegistryObject<Block> KOBOLEDIATOR_SKULL = BLOCKS.register("kobolediator_skull", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.KOBOLEDIATOR.get()).pushReaction(PushReaction.DESTROY)));
 
 
-    public static final RegistryObject<Block> KOBOLEDIATOR_WALL_SKULL = BLOCKS.register("kobolediator_wall_skull", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(KOBOLEDIATOR_SKULL.get()).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> KOBOLEDIATOR_WALL_SKULL = BLOCKS.register("kobolediator_wall_skull", () -> new Cataclysm_Wall_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(KOBOLEDIATOR_SKULL.get()).pushReaction(PushReaction.DESTROY)));
 
 
     public static final RegistryObject<Block> APTRGANGR_HEAD = BLOCKS.register("aptrgangr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.APTRGANGR.get()).pushReaction(PushReaction.DESTROY)));
 
 
-    public static final RegistryObject<Block> APTRGANGR_WALL_HEAD = BLOCKS.register("aptrgangr_wall_head", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(APTRGANGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> APTRGANGR_WALL_HEAD = BLOCKS.register("aptrgangr_wall_head", () -> new Cataclysm_Wall_Skull_Block(Cataclysm_Skull_Block.Types.APTRGANGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(APTRGANGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
 
     public static final RegistryObject<Block> DRAUGR_HEAD = BLOCKS.register("draugr_head", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.DRAUGR.get()).pushReaction(PushReaction.DESTROY)));
 
-    public static final RegistryObject<Block> DRAUGR_WALL_HEAD = BLOCKS.register("draugr_wall_head", () -> new Wall_Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(DRAUGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> DRAUGR_WALL_HEAD = BLOCKS.register("draugr_wall_head", () -> new Cataclysm_Wall_Skull_Block(Cataclysm_Skull_Block.Types.DRAUGR, BlockBehaviour.Properties.of().strength(1.0F).dropsLike(DRAUGR_HEAD.get()).pushReaction(PushReaction.DESTROY)));
 
 
     public static final RegistryObject<Block> ABYSSAL_EGG = registerBlockAndItem("abyssal_egg",

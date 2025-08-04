@@ -1,7 +1,12 @@
 package com.github.L_Ender.cataclysm;
 
+import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.event.ClientEvent;
 import com.github.L_Ender.cataclysm.client.gui.GUIWeponfusion;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.blockentity.*;
@@ -24,6 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -38,6 +44,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -61,6 +68,7 @@ public class ClientProxy extends CommonProxy {
        // FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientLayerEvent::onAddLayers);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupParticles);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerKeybinds);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::createSkullModels);
     }
 
     public void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -100,6 +108,13 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
 
         registry.registerSpriteSet(ModParticle.DUST_BLAST.get(), Dust_Blast_Particle.Factory::new);
+    }
+
+
+    public void createSkullModels(EntityRenderersEvent.CreateSkullModels event) {
+        event.registerSkullModel(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new KobolediatorHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.KOBOLEDIATOR_HEAD_MODEL)));
+        event.registerSkullModel(Cataclysm_Skull_Block.Types.APTRGANGR, new AptrgangrHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.APTRGANGR_HEAD_MODEL)));
+        event.registerSkullModel(Cataclysm_Skull_Block.Types.DRAUGR, new DraugrHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.DRAUGR_HEAD_MODEL)));
     }
 
 
@@ -242,7 +257,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ModTileentites.EMP.get(), RendererEMP::new);
         BlockEntityRenderers.register(ModTileentites.MECHANICAL_FUSION_ANVIL.get(), RendererMechanical_fusion_anvil::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_AMETHYST.get(), RendererAltar_of_Amethyst::new);
-        BlockEntityRenderers.register(ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_Block_Renderer::new);
+        BlockEntityRenderers.register(ModTileentites.CATACLYSM_SKULL.get(), SkullBlockRenderer::new);
         BlockEntityRenderers.register(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
         BlockEntityRenderers.register(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
         BlockEntityRenderers.register(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);

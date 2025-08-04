@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm;
 
 
+import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.config.BiomeConfig;
 import com.github.L_Ender.cataclysm.config.CMConfig;
@@ -11,6 +12,7 @@ import com.github.L_Ender.cataclysm.message.*;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnBiomeModifier;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnStructureModifier;
 import com.mojang.serialization.Codec;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -149,9 +151,16 @@ public class Cataclysm {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MessageEntityCamera.class, MessageEntityCamera::encode, MessageEntityCamera::new, MessageEntityCamera.Handler::onMessage);
 
 
+        event.enqueueWork(() -> {
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new ResourceLocation(Cataclysm.MODID, "textures/entity/koboleton/kobolediator.png"));
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.APTRGANGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/aptrgangr.png"));
+            SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID, "textures/entity/draugar/draugr.png"));
+        });
         event.enqueueWork(ModItems::initDispenser);
         event.enqueueWork(ModJigsaw::registerJigsawElements);
     }
+
+
 }
 
 
