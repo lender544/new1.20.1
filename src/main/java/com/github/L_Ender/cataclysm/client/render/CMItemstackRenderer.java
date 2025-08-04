@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.blocks.Abstract_Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.block.*;
 import com.github.L_Ender.cataclysm.client.model.entity.Coral_Bardiche_Model;
@@ -19,6 +18,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -138,7 +138,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
     private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/ancient_spear.png");
     
-    private Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
+    private Map<Cataclysm_Skull_Block.Type, SkullModelBase> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
 
     public static final Map<Cataclysm_Skull_Block.Type, ResourceLocation> SKIN_BY_TYPE = Util.make(Maps.newHashMap(), (p_261388_) -> {
         p_261388_.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/koboleton/kobolediator.png"));
@@ -187,9 +187,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         Item item = itemStackIn.getItem();
         if (item instanceof BlockItem blockItem) {
             Block block = blockItem.getBlock();
-            if (block instanceof Abstract_Cataclysm_Skull_Block) {
-                Cataclysm_Skull_Block.Type skullblock$type = ((Abstract_Cataclysm_Skull_Block) block).getType();
-                Cataclysm_Skull_Model_Base skullmodelbase = this.skullModels.get(skullblock$type);
+            if (block instanceof Cataclysm_Skull_Block) {
+                Cataclysm_Skull_Block.Type skullblock$type = ((Cataclysm_Skull_Block) block).getType();
+                SkullModelBase skullmodelbase = this.skullModels.get(skullblock$type);
                 ResourceLocation resourcelocation = SKIN_BY_TYPE.get(skullblock$type);
                 RenderType rendertype = RenderType.entityCutoutNoCullZOffset(resourcelocation);
                 Cataclysm_Skull_Block_Renderer.renderSkull((Direction) null, 180.0F, 0.0F, matrixStackIn, bufferIn, combinedLightIn, skullmodelbase, rendertype, skullblock$type, false);

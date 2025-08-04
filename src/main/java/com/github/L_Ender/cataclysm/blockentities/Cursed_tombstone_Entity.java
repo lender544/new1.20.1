@@ -11,6 +11,8 @@ import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
@@ -40,10 +42,10 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                 if(entity.summonCooldownProgress < CMConfig.Cursed_tombstone_summon_cooldown * 1200){
                     entity.summonCooldownProgress++;
                 }else{
-                    if (!level.isClientSide) {
-                        level.setBlock(pos, blockState.setValue(Cursed_Tombstone_Block.POWERED, Boolean.valueOf(true)), 2);
-                        level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
-                    }
+
+                    level.setBlock(pos, blockState.setValue(Cursed_Tombstone_Block.POWERED, Boolean.valueOf(true)), 2);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
+
                 }
             }else{
                 if (blockState.getValue(Cursed_Tombstone_Block.LIT)) {
@@ -84,7 +86,11 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                             maledictus.setHomePos(pos);
                             maledictus.setTombstonePos(pos);
                             maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
-                            if (!level.isClientSide) {
+                            if (level instanceof ServerLevel) {
+                                ResourceLocation dimLoc = level.dimension().location();
+                                maledictus.setDimensionType(dimLoc.toString());
+                            }
+
                                 int MthX = Mth.floor(pos.getX());
                                 int MthY = Mth.floor(pos.getY());
                                 int MthZ = Mth.floor(pos.getZ());
@@ -107,7 +113,7 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                                     level.destroyBlock(pos, false);
                                 }
                             }
-                        }
+
                     }
 
                 }else{

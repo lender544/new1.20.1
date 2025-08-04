@@ -878,14 +878,18 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         }
         if (this.getAnimation() == PHASE_2) {
             if (this.getAnimationTick() == 1) {
+                if(CMConfig.IgnisSeparatePhaseMusic) {
                 if (!level().isClientSide && getBossMusic() != null) {
                     PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                }
                 }
             }
 
             if (this.getAnimationTick() == 21) {
-                if (!level().isClientSide && getBossMusic() != null) {
-                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                if(CMConfig.IgnisSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                    }
                 }
             }
             if (this.getAnimationTick() == 29) {
@@ -901,8 +905,10 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         }
         if (this.getAnimation() == PHASE_3) {
             if (this.getAnimationTick() == 1) {
-                if (!level().isClientSide && getBossMusic() != null) {
-                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                if(CMConfig.IgnisSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), false)));
+                    }
                 }
             }
 
@@ -916,8 +922,10 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
                 this.playSound(ModSounds.SWORD_STOMP.get(), 1.0f, 0.75F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 30, 0.15f, 0, 10);
                 ShieldSmashparticle(0.5f, 1.0f, -0.15f);
-                if (!level().isClientSide && getBossMusic() != null) {
-                    PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                if(CMConfig.IgnisSeparatePhaseMusic) {
+                    if (!level().isClientSide && getBossMusic() != null) {
+                        PacketDistributor.sendToAllPlayers((new MessageMusic(this.getId(), true)));
+                    }
                 }
             }
 
@@ -2198,11 +2206,14 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
     @Override
     protected boolean canPlayMusic() {
-
-        if (this.getAnimation() == PHASE_2) {
-            return getAnimationTick() >= 21 && super.canPlayMusic();
-        }else if(this.getAnimation() == PHASE_3){
-            return getAnimationTick() >= 58 && super.canPlayMusic();
+        if(CMConfig.IgnisSeparatePhaseMusic) {
+            if (this.getAnimation() == PHASE_2) {
+                return getAnimationTick() >= 21 && super.canPlayMusic();
+            } else if (this.getAnimation() == PHASE_3) {
+                return getAnimationTick() >= 58 && super.canPlayMusic();
+            } else {
+                return super.canPlayMusic();
+            }
         }else{
             return super.canPlayMusic();
         }
@@ -2211,13 +2222,16 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
     @Override
     public SoundEvent getBossMusic() {
-
-        if (this.getBossPhase() >= 2 || this.getBossPhase() == 1 && this.getAnimation() == PHASE_3 && getAnimationTick() >= 30) {
-            return ModSounds.IGNIS_MUSIC_3.get();
-        } else if (this.getBossPhase() == 1 || this.getBossPhase() == 0  &&  this.getAnimation() == PHASE_2 && getAnimationTick() >= 21) {
-            return ModSounds.IGNIS_MUSIC_2.get();
-        } else {
-            return ModSounds.IGNIS_MUSIC_1.get();
+        if(CMConfig.IgnisSeparatePhaseMusic) {
+            if (this.getBossPhase() >= 2 || this.getBossPhase() == 1 && this.getAnimation() == PHASE_3 && getAnimationTick() >= 30) {
+                return ModSounds.IGNIS_MUSIC_3.get();
+            } else if (this.getBossPhase() == 1 || this.getBossPhase() == 0 && this.getAnimation() == PHASE_2 && getAnimationTick() >= 21) {
+                return ModSounds.IGNIS_MUSIC_2.get();
+            } else {
+                return ModSounds.IGNIS_MUSIC_1.get();
+            }
+        }else{
+            return ModSounds.IGNIS_MUSIC_DISC.get();
         }
     }
 

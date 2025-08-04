@@ -1,7 +1,12 @@
 package com.github.L_Ender.cataclysm.client.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.gui.GUIWeponfusion;
+import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.github.L_Ender.cataclysm.client.particle.*;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.blockentity.*;
@@ -12,6 +17,7 @@ import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Chitin
 import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.init.*;
+import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +38,7 @@ public class ClientSetup {
 		bus.addListener(ClientSetup::registerParticleFactories);
 		bus.addListener(ClientSetup::registerClientExtensions);
 		bus.addListener(ClientSetup::doClientStuff);
-	//	bus.addListener(ClientSetup::addLayers);
+		bus.addListener(ClientSetup::createSkullModels);
 	}
 
 	private static void registerScreens(RegisterMenuScreensEvent event) {
@@ -163,15 +169,17 @@ public class ClientSetup {
 		event.registerBlockEntityRenderer(ModTileentites.EMP.get(), RendererEMP::new);
 		event.registerBlockEntityRenderer(ModTileentites.MECHANICAL_FUSION_ANVIL.get(), RendererMechanical_fusion_anvil::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_AMETHYST.get(), RendererAltar_of_Amethyst::new);
-		event.registerBlockEntityRenderer(ModTileentites.CATACLYSM_SKULL.get(), Cataclysm_Skull_Block_Renderer::new);
+		event.registerBlockEntityRenderer(ModTileentites.CATACLYSM_SKULL.get(), SkullBlockRenderer::new);
 		event.registerBlockEntityRenderer(ModTileentites.ALTAR_OF_ABYSS.get(), RendererAltar_of_Abyss::new);
 		event.registerBlockEntityRenderer(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
 		event.registerBlockEntityRenderer(ModTileentites.BOSS_RESPAWNER.get(), Boss_Respawn_Spawn_Renderer::new);
 		event.registerBlockEntityRenderer(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);
 	}
 
-	private static void registerCuriosRenderer() {
-
+	public static void createSkullModels(EntityRenderersEvent.CreateSkullModels event) {
+		event.registerSkullModel(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new KobolediatorHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.KOBOLEDIATOR_HEAD_MODEL)));
+		event.registerSkullModel(Cataclysm_Skull_Block.Types.APTRGANGR, new AptrgangrHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.APTRGANGR_HEAD_MODEL)));
+		event.registerSkullModel(Cataclysm_Skull_Block.Types.DRAUGR, new DraugrHeadModel(event.getEntityModelSet().bakeLayer(CMModelLayers.DRAUGR_HEAD_MODEL)));
 	}
 
 	private static void registerParticleFactories(RegisterParticleProvidersEvent registry) {
@@ -235,6 +243,11 @@ public class ClientSetup {
 		CuriosRendererRegistry.register(ModItems.APTRGANGR_HEAD.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.DRAUGR_HEAD.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.CHITIN_CLAW.get(), Chitin_Claw_Renderer::new);
+
+		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/koboleton/kobolediator.png"));
+		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.APTRGANGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/draugar/aptrgangr.png"));
+		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.DRAUGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/draugar/draugr.png"));
+
 	}
 
 

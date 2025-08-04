@@ -72,19 +72,19 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity  {
 
 		if (state.getBlock() instanceof Boss_Respawn_Spawner_Block) {
 			if (state.getValue(Boss_Respawn_Spawner_Block.LIT)) {
-				if (!level.isClientSide) {
-					++te.Animaitonticks;
 
-						if (level.getDifficulty() != Difficulty.PEACEFUL) {
-							if (te.Animaitonticks >= 19) {
-								if (te.spawnMyBoss((ServerLevel) level, pos)) {
-									level.destroyBlock(pos, false);
-									te.spawnedBoss = true;
-								}
-							}
+				++te.Animaitonticks;
+
+				if (level.getDifficulty() != Difficulty.PEACEFUL) {
+					if (te.Animaitonticks >= 19) {
+						if (te.spawnMyBoss((ServerLevel) level, pos)) {
+							level.destroyBlock(pos, false);
+							te.spawnedBoss = true;
 						}
-
+					}
 				}
+
+
 			} else {
 				te.Animaitonticks = 0;
 			}
@@ -112,10 +112,15 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity  {
 			entity.setPos(vec3);
 			if (entity instanceof IABoss_monster iaBossMonster) {
 				iaBossMonster.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null);
+				ResourceLocation dimLoc = serverLevel.dimension().location();
+				iaBossMonster.setDimensionType(dimLoc.toString());
 				iaBossMonster.setHomePos(BlockPos.containing(vec3));
+
 				// spawn it
 			} else if (entity instanceof LLibrary_Boss_Monster llBossMonster) {
 				llBossMonster.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null);
+				ResourceLocation dimLoc = serverLevel.dimension().location();
+				llBossMonster.setDimensionType(dimLoc.toString());
 				llBossMonster.setHomePos(BlockPos.containing(vec3));
 			}
 			return serverLevel.addFreshEntity(entity);

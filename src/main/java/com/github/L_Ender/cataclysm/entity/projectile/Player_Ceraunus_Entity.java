@@ -177,6 +177,7 @@ public class Player_Ceraunus_Entity extends AbstractArrow implements IEntityWith
 			if (entity instanceof LivingEntity livingentity) {
 				this.doKnockback(livingentity, damagesource);
 				this.doPostHurtEffects(livingentity);
+				this.playSound(this.getHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
 			}
 		}
 

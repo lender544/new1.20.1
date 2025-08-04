@@ -2,12 +2,10 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.Cataclysm_Skull_BlockEntity;
-import com.github.L_Ender.cataclysm.blocks.Abstract_Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
-import com.github.L_Ender.cataclysm.blocks.Wall_Cataclysm_Skull_Block;
+import com.github.L_Ender.cataclysm.blocks.Cataclysm_Wall_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
-import com.github.L_Ender.cataclysm.client.model.block.Cataclysm_Skull_Model_Base;
 import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
 import com.google.common.collect.ImmutableMap;
@@ -15,7 +13,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -23,11 +20,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.SkinManager;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.component.ResolvableProfile;
-import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RotationSegment;
 import net.neoforged.api.distmarker.Dist;
@@ -38,15 +32,15 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Cataclysm_Skull_BlockEntity> {
-    private final Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> modelByType;
+    private final Map<Cataclysm_Skull_Block.Type, SkullModelBase> modelByType;
     public static final Map<Cataclysm_Skull_Block.Type, ResourceLocation> SKIN_BY_TYPE = Util.make(Maps.newHashMap(), (p_261388_) -> {
         p_261388_.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/koboleton/kobolediator.png"));
         p_261388_.put(Cataclysm_Skull_Block.Types.APTRGANGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/draugar/aptrgangr.png"));
         p_261388_.put(Cataclysm_Skull_Block.Types.DRAUGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/draugar/draugr.png"));
     });
 
-    public static Map<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> createSkullRenderers(EntityModelSet p_173662_) {
-        ImmutableMap.Builder<Cataclysm_Skull_Block.Type, Cataclysm_Skull_Model_Base> builder = ImmutableMap.builder();
+    public static Map<Cataclysm_Skull_Block.Type, SkullModelBase> createSkullRenderers(EntityModelSet p_173662_) {
+        ImmutableMap.Builder<Cataclysm_Skull_Block.Type, SkullModelBase> builder = ImmutableMap.builder();
         builder.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, new KobolediatorHeadModel(p_173662_.bakeLayer(CMModelLayers.KOBOLEDIATOR_HEAD_MODEL)));
         builder.put(Cataclysm_Skull_Block.Types.APTRGANGR, new AptrgangrHeadModel(p_173662_.bakeLayer(CMModelLayers.APTRGANGR_HEAD_MODEL)));
         builder.put(Cataclysm_Skull_Block.Types.DRAUGR, new DraugrHeadModel(p_173662_.bakeLayer(CMModelLayers.DRAUGR_HEAD_MODEL)));
@@ -60,12 +54,12 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
     public void render(Cataclysm_Skull_BlockEntity p_112534_, float p_112535_, PoseStack p_112536_, MultiBufferSource p_112537_, int p_112538_, int p_112539_) {
         float f = p_112534_.getAnimation(p_112535_);
         BlockState blockstate = p_112534_.getBlockState();
-        boolean flag = blockstate.getBlock() instanceof Wall_Cataclysm_Skull_Block;
-        Direction direction = flag ? blockstate.getValue(Wall_Cataclysm_Skull_Block.FACING) : null;
+        boolean flag = blockstate.getBlock() instanceof Cataclysm_Wall_Skull_Block;
+        Direction direction = flag ? blockstate.getValue(Cataclysm_Wall_Skull_Block.FACING) : null;
         int i = flag ? RotationSegment.convertToSegment(direction.getOpposite()) : blockstate.getValue(Cataclysm_Skull_Block.ROTATION);
         float f1 = RotationSegment.convertToDegrees(i);
-        Cataclysm_Skull_Block.Type Cataclysm_Skull_Block$type = ((Abstract_Cataclysm_Skull_Block)blockstate.getBlock()).getType();
-        Cataclysm_Skull_Model_Base Cataclysm_Skull_Model_Base = this.modelByType.get(Cataclysm_Skull_Block$type);
+        Cataclysm_Skull_Block.Type Cataclysm_Skull_Block$type = ((Cataclysm_Skull_Block)blockstate.getBlock()).getType();
+        SkullModelBase Cataclysm_Skull_Model_Base = this.modelByType.get(Cataclysm_Skull_Block$type);
 
         RenderType rendertype = getRenderType(Cataclysm_Skull_Block$type);
         renderSkull(direction, f1, f, p_112536_, p_112537_, p_112538_, Cataclysm_Skull_Model_Base, rendertype,Cataclysm_Skull_Block$type,false);
@@ -81,7 +75,7 @@ public class Cataclysm_Skull_Block_Renderer implements BlockEntityRenderer<Catac
             PoseStack p_173667_,
             MultiBufferSource p_173668_,
             int p_173669_,
-            Cataclysm_Skull_Model_Base p_173670_,
+            SkullModelBase p_173670_,
             RenderType p_173671_,
             Cataclysm_Skull_Block.Type type, boolean isLayer
     ) {

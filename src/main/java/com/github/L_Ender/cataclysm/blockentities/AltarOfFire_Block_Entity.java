@@ -15,6 +15,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Clearable;
@@ -46,37 +48,42 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfFire_Block_Entity entity) {
-        entity.tick();
+        entity.tick(level,pos);
 
     }
 
-    public void tick() {
+    public void tick(Level level, BlockPos pos) {
         tickCount++;
         summoningthis = false;
         if (!this.getItem(0).isEmpty()) {
             if(this.getItem(0).getItem() == ModItems.BURNING_ASHES.get()){
                 summoningthis = true;
                 if(summoningticks == 1) {
-                    ScreenShake_Entity.ScreenShake(this.level, Vec3.atCenterOf(this.getBlockPos()), 20, 0.05f, 0, 150);
-                 //   this.level.addFreshEntity(new Flame_Strike_Entity(this.level, this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5F, 0, 0, 100, 0, 2.5F, false, null));
+                    ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.05f, 0, 150);
+                    //   this.level.addFreshEntity(new Flame_Strike_Entity(this.level, this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5F, 0, 0, 100, 0, 2.5F, false, null));
                 }
                 if(summoningticks > 118 && summoningticks < 121) {
                     Sphereparticle(3,3);
                 }
                 if(summoningticks > 121) {
+
                     BlockBreaking(3, 3, 3);
-                    BasaltBreaking(16,8,16);
+                    BasaltBreaking(16, 8, 16);
                     Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
                     if (ignis != null) {
-                        ignis.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
-                        ignis.setHomePos(this.getBlockPos());
-                        if (!level.isClientSide) {
-                           boolean flag = level.addFreshEntity(ignis);
-                           if(flag){
-                               this.items.set(0, ItemStack.EMPTY);
-                           }
+                        ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                        ignis.setHomePos(pos);
+                        if (level instanceof ServerLevel) {
+                            ResourceLocation dimLoc = level.dimension().location();
+                            ignis.setDimensionType(dimLoc.toString());
                         }
+                        boolean flag = level.addFreshEntity(ignis);
+                        if (flag) {
+                            this.items.set(0, ItemStack.EMPTY);
+                        }
+
                     }
+
                 }
 
             }

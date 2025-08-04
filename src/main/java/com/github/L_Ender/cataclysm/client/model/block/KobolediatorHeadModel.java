@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm.client.model.block;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.SkullModelBase;
 import net.minecraft.client.model.dragon.DragonHeadModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -12,7 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class KobolediatorHeadModel extends Cataclysm_Skull_Model_Base {
+public class KobolediatorHeadModel extends SkullModelBase {
     private final ModelPart head;
     private final ModelPart jaw;
 

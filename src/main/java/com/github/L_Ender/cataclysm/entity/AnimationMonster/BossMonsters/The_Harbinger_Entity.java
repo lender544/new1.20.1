@@ -20,6 +20,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -559,6 +561,11 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                 itemstack.shrink(1);
             }
             this.setIsAct(true);
+            this.setHomePos(this.blockPosition());
+            if(this.level() instanceof ServerLevel serverLevel) {
+                ResourceLocation dimLoc = serverLevel.dimension().location();
+                this.setDimensionType(dimLoc.toString());
+            }
             this.heal(this.getMaxHealth());
             return InteractionResult.SUCCESS;
         }
@@ -800,7 +807,6 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     public void setIsAct(boolean isAct) {
         this.entityData.set(IS_ACT, isAct);
         this.bossEvent.setVisible(isAct);
-        this.setHomePos(this.blockPosition());
     }
 
     public boolean getIsAct() {

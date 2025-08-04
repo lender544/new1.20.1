@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -15,6 +16,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Clearable;
@@ -49,11 +52,11 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfAbyss_Block_Entity entity) {
-        entity.tick();
+        entity.tick(level,pos);
 
     }
 
-    public void tick() {
+    public void tick(Level level, BlockPos pos) {
         tickCount++;
         summoningthis = false;
         prevChompProgress = chompProgress;
@@ -61,24 +64,27 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
             if(this.getItem(0).getItem() == ModItems.ABYSSAL_SACRIFICE.get()){
                 summoningthis = true;
                 if(summoningticks == 1) {
-                    ScreenShake_Entity.ScreenShake(this.level, Vec3.atCenterOf(this.getBlockPos()), 20, 0.03f, 0, 150);
+                    ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.03f, 0, 150);
                     //   this.level.addFreshEntity(new Flame_Strike_Entity(this.level, this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5F, 0, 0, 100, 0, 2.5F, false, null));
                 }
                 if(summoningticks > 118 && summoningticks < 121) {
-                    Sphereparticle(3,3);
+                    Sphereparticle(level,3,3);
                 }
                 if(summoningticks > 121) {
                     BlockBreaking(3, 6, 3);
                     The_Leviathan_Entity leviathan = ModEntities.THE_LEVIATHAN.get().create(level);
                     if (leviathan != null) {
-                        leviathan.setPos(this.getBlockPos().getX() + 0.5F, this.getBlockPos().getY() + 3, this.getBlockPos().getZ() + 0.5F);
-                        leviathan.setHomePos(this.getBlockPos());
-                        if (!level.isClientSide) {
-                            boolean flag = level.addFreshEntity(leviathan);
-                            if(flag){
-                                this.items.set(0, ItemStack.EMPTY);
-                            }
+                        leviathan.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                        leviathan.setHomePos(pos);
+                        if (level instanceof ServerLevel) {
+                            ResourceLocation dimLoc = level.dimension().location();
+                            leviathan.setDimensionType(dimLoc.toString());
                         }
+                        boolean flag = level.addFreshEntity(leviathan);
+                        if(flag){
+                            this.items.set(0, ItemStack.EMPTY);
+                        }
+
 
                     }
                 }
@@ -105,7 +111,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
     }
 
     private void BlockBreaking(int x, int y, int z) {
-        //this.level.destroyBlock(this.getBlockPos(), false);
+        //this.level.destroyBlock(pos, false);
         int MthX = Mth.floor(this.getBlockPos().getX());
         int MthY = Mth.floor(this.getBlockPos().getY());
         int MthZ = Mth.floor(this.getBlockPos().getZ());
@@ -127,7 +133,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
     }
 
 
-    private void Sphereparticle(float height, float size) {
+    private void Sphereparticle(Level level,float height, float size) {
         double d0 = this.getBlockPos().getX() + 0.5F;
         double d1 = this.getBlockPos().getY() + height;
         double d2 = this.getBlockPos().getZ() + 0.5F;
@@ -139,7 +145,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                     double d5 = (double) k + (this.rnd.nextDouble() - this.rnd.nextDouble()) * 0.5D;
                     double d6 = (double) Mth.sqrt((float) (d3 * d3 + d4 * d4 + d5 * d5)) / 0.5 + this.rnd.nextGaussian() * 0.05D;
 
-                    this.level.addParticle(ParticleTypes.REVERSE_PORTAL, d0, d1, d2, d3 / d6, d4 / d6, d5 / d6);
+                    level.addParticle(ParticleTypes.REVERSE_PORTAL, d0, d1, d2, d3 / d6, d4 / d6, d5 / d6);
 
                     if (i != -size && i != size && j != -size && j != size) {
                         k += size * 2 - 1;

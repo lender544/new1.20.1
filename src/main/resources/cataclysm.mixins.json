@@ -26,7 +26,6 @@
     "accessor.StructureTemplatePoolAccessor"
   ],
   "client": [
-    "Client.CustomHeadLayerMixin",
     "Client.HumanoidModelMixin"
   ],
   "injectors": {
