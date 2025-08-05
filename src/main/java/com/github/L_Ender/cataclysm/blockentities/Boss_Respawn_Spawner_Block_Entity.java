@@ -74,12 +74,13 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity  {
 			if (state.getValue(Boss_Respawn_Spawner_Block.LIT)) {
 
 				++te.Animaitonticks;
-
-				if (level.getDifficulty() != Difficulty.PEACEFUL) {
-					if (te.Animaitonticks >= 19) {
-						if (te.spawnMyBoss((ServerLevel) level, pos)) {
-							level.destroyBlock(pos, false);
-							te.spawnedBoss = true;
+				if (level instanceof ServerLevel serverLevel) {
+					if (level.getDifficulty() != Difficulty.PEACEFUL) {
+						if (te.Animaitonticks >= 19) {
+							if (te.spawnMyBoss(serverLevel, pos)) {
+								level.destroyBlock(pos, false);
+								te.spawnedBoss = true;
+							}
 						}
 					}
 				}

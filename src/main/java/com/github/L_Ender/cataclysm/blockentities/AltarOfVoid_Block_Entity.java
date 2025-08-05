@@ -41,14 +41,14 @@ public class AltarOfVoid_Block_Entity extends BlockEntity {
         if (spawnedBoss || !anyPlayerInRange(level,pos)) {
             return;
         }
-
+        if (level instanceof ServerLevel serverLevel) {
             if (level.getDifficulty() != Difficulty.PEACEFUL) {
-                if (spawnMyBoss((ServerLevel)level,pos)) {
+                if (spawnMyBoss(serverLevel, pos)) {
                     level.destroyBlock(pos, false);
                     spawnedBoss = true;
                 }
             }
-
+        }
     }
 
     protected boolean spawnMyBoss(ServerLevel serverLevel, BlockPos pos) {

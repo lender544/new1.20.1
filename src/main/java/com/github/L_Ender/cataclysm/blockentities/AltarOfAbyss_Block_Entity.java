@@ -27,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
@@ -52,11 +53,11 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfAbyss_Block_Entity entity) {
-        entity.tick(level,pos);
+        entity.tick(level,state,pos);
 
     }
 
-    public void tick(Level level, BlockPos pos) {
+    public void tick(Level level, BlockState state, BlockPos pos) {
         tickCount++;
         summoningthis = false;
         prevChompProgress = chompProgress;
@@ -73,19 +74,23 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                 if(summoningticks > 121) {
                     BlockBreaking(3, 6, 3);
                     The_Leviathan_Entity leviathan = ModEntities.THE_LEVIATHAN.get().create(level);
-                    if (leviathan != null) {
-                        leviathan.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                        leviathan.setHomePos(pos);
-                        if (level instanceof ServerLevel) {
-                            ResourceLocation dimLoc = level.dimension().location();
+                    if (level instanceof ServerLevel serverLevel) {
+                        if (leviathan != null) {
+                            leviathan.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                            leviathan.setHomePos(pos);
+
+                            ResourceLocation dimLoc = serverLevel.dimension().location();
                             leviathan.setDimensionType(dimLoc.toString());
-                        }
-                        boolean flag = level.addFreshEntity(leviathan);
-                        if(flag){
-                            this.items.set(0, ItemStack.EMPTY);
-                        }
+
+                            boolean flag = level.addFreshEntity(leviathan);
+                            if (flag) {
+                                this.items.set(0, ItemStack.EMPTY);
+                                this.setChanged();
+                                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                            }
 
 
+                        }
                     }
                 }
 

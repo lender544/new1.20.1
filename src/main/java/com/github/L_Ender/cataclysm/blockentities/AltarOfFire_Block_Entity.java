@@ -48,11 +48,11 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfFire_Block_Entity entity) {
-        entity.tick(level,pos);
+        entity.tick(level,pos,state);
 
     }
 
-    public void tick(Level level, BlockPos pos) {
+    public void tick(Level level, BlockPos pos,BlockState state) {
         tickCount++;
         summoningthis = false;
         if (!this.getItem(0).isEmpty()) {
@@ -67,22 +67,27 @@ public class AltarOfFire_Block_Entity extends BlockEntity implements Clearable {
                 }
                 if(summoningticks > 121) {
 
-                    BlockBreaking(3, 3, 3);
-                    BasaltBreaking(16, 8, 16);
-                    Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
-                    if (ignis != null) {
-                        ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                        ignis.setHomePos(pos);
-                        if (level instanceof ServerLevel) {
-                            ResourceLocation dimLoc = level.dimension().location();
-                            ignis.setDimensionType(dimLoc.toString());
-                        }
-                        boolean flag = level.addFreshEntity(ignis);
-                        if (flag) {
-                            this.items.set(0, ItemStack.EMPTY);
+                        BlockBreaking(3, 3, 3);
+                        BasaltBreaking(16, 8, 16);
+                        Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
+                        if (level instanceof ServerLevel serverLevel) {
+                            if (ignis != null) {
+                                ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                                ignis.setHomePos(pos);
+
+                                ResourceLocation dimLoc = serverLevel.dimension().location();
+                                ignis.setDimensionType(dimLoc.toString());
+
+                                boolean flag = level.addFreshEntity(ignis);
+                                if (flag) {
+                                    this.items.set(0, ItemStack.EMPTY);
+                                    this.setChanged();
+                                    level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                                }
+
+                            }
                         }
 
-                    }
 
                 }
 
