@@ -74,10 +74,10 @@ public class Boss_Respawn_Spawner_Block_Entity extends BlockEntity implements Cl
 			if (state.getValue(Boss_Respawn_Spawner_Block.LIT)) {
 				++te.Animaitonticks;
 
-					if (!level.isClientSide) {
+				if (level instanceof ServerLevel serverLevel) {
 						if (level.getDifficulty() != Difficulty.PEACEFUL) {
 							if (te.Animaitonticks >= 19) {
-								if (te.spawnMyBoss((ServerLevel) level, pos)) {
+								if (te.spawnMyBoss(serverLevel, pos)) {
 									level.destroyBlock(pos, false);
 									te.spawnedBoss = true;
 								}

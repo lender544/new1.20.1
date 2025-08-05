@@ -2,6 +2,8 @@ package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -46,11 +48,11 @@ public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, AltarOfFire_Block_Entity entity) {
-        entity.tick(level,pos);
+        entity.tick(level,state,pos);
 
     }
 
-    public void tick(Level level, BlockPos pos) {
+    public void tick(Level level,BlockState state, BlockPos pos) {
         tickCount++;
         summoningthis = false;
         if (!this.getItem(0).isEmpty()) {
@@ -68,18 +70,22 @@ public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
                     BlockBreaking(3, 3, 3);
                     BasaltBreaking(16, 8, 16);
                     Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
-                    if (ignis != null) {
-                        ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                        ignis.setHomePos(pos);
-                        if (level instanceof ServerLevel) {
-                            ResourceLocation dimLoc = level.dimension().location();
-                            ignis.setDimensionType(dimLoc.toString());
-                        }
-                        boolean flag = level.addFreshEntity(ignis);
-                        if (flag) {
-                            this.setItem(0, ItemStack.EMPTY);
-                        }
+                    if (level instanceof ServerLevel serverLevel) {
+                        if (ignis != null) {
+                            ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                            ignis.setHomePos(pos);
 
+                            ResourceLocation dimLoc = serverLevel.dimension().location();
+                            ignis.setDimensionType(dimLoc.toString());
+
+                            boolean flag = level.addFreshEntity(ignis);
+                            if (flag) {
+                                this.setItem(0, ItemStack.EMPTY);
+                                this.setChanged();
+                                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                            }
+
+                        }
                     }
 
                 }

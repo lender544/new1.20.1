@@ -51,7 +51,7 @@ public class The_Harbinger_Jet_Layer extends RenderLayer<The_Harbinger_Entity, T
 
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, The_Harbinger_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.getAnimation() != The_Harbinger_Entity.MISSILE_FIRE_ANIAMATION) {
+        if ( entity.getIsAct() && entity.getAnimation() != The_Harbinger_Entity.MISSILE_FIRE_ANIAMATION && entity.getAnimation() != The_Harbinger_Entity.MISSILE_FIRE_FAST_ANIAMATION) {
             rendercicle(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks, true);
             rendercicle(matrixStackIn, bufferIn, packedLightIn, entity, partialTicks, false);
         }
