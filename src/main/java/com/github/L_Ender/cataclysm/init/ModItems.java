@@ -733,7 +733,16 @@ public class ModItems {
             () -> new Item(new Item.Properties().stacksTo(64).food(new FoodProperties.Builder().nutrition(3).saturationMod(0.6F).build())));
 
     public static final RegistryObject<Item> BACON_TOAST = ITEMS.register("bacon_toast",
-            () -> new Item(new Item.Properties().stacksTo(64).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8F).build())));
+            () -> new Item(new Item.Properties().stacksTo(64).food(new FoodProperties.Builder().nutrition(6).saturationMod(0.8F)
+                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.JUMP, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 600, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0), 1.0F)
+                    .build())));
 
     public static final RegistryObject<Item> AMETHYST_CRAB_SHELL = ITEMS.register("amethyst_crab_shell",
             () -> new Item(new Item.Properties()));
