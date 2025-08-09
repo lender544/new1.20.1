@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,6 +30,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
+import com.github.L_Ender.cataclysm.init.ModEntities;
 
 import javax.annotation.Nullable;
 
@@ -48,22 +50,25 @@ public class Teddy_Bear_Entity extends AnimationPet {
 
     public static AttributeSupplier.Builder bakeAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 8.0D)  // Wild teddy bears start with lower health
                 .add(Attributes.ATTACK_DAMAGE, 2.0D)
                 .add(Attributes.ATTACK_SPEED, 1.0D)
-                .add(Attributes.MOVEMENT_SPEED, 0.25D)
+                .add(Attributes.MOVEMENT_SPEED, 0.3D)  // Slightly faster like wolves
                 .add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(2, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
+        // Removed BegGoal since it's wolf-specific - we'll implement begging behavior manually
+        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(5, new BreedGoal(this, 1.0D));  // Allow breeding
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 
+        // Better defensive AI
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
@@ -96,6 +101,17 @@ public class Teddy_Bear_Entity extends AnimationPet {
 
         if (this.level().isClientSide()) {
             setupAnimationStates();
+        } else {
+            // Wolf-like teleportation behavior
+            if (this.isTame() && this.getOwner() != null && !this.isOrderedToSit()) {
+                LivingEntity owner = this.getOwner();
+                double distance = this.distanceToSqr(owner);
+                
+                // Teleport if too far away (like wolves do)
+                if (distance > 144.0D) { // 12 blocks squared
+                    this.teleportToOwner();
+                }
+            }
         }
     }
 
@@ -123,24 +139,33 @@ public class Teddy_Bear_Entity extends AnimationPet {
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
                 }
-                this.heal(2.0F);
-                return InteractionResult.SUCCESS;
-            } else if (!(itemstack.getItem() instanceof Item)) {
-                if (this.isOwnedBy(player) && !this.level().isClientSide && !this.isFood(itemstack)) {
-                    this.setOrderedToSit(!this.isOrderedToSit());
-                    this.jumping = false;
-                    this.navigation.stop();
-                    this.setTarget(null);
-                    return InteractionResult.SUCCESS;
+                // Wolf-like health regeneration - more healing for meat items
+                float healAmount = 2.0F;
+                FoodProperties foodProperties = itemstack.getFoodProperties(this);
+                if (foodProperties != null) {
+                    healAmount = Math.max(healAmount, foodProperties.getNutrition());
                 }
+                this.heal(healAmount);
+                return InteractionResult.SUCCESS;
+            } else if (this.isOwnedBy(player) && !this.level().isClientSide && !this.isFood(itemstack)) {
+                // Toggle sit/follow behavior
+                this.setOrderedToSit(!this.isOrderedToSit());
+                this.jumping = false;
+                this.navigation.stop();
+                this.setTarget(null);
+                return InteractionResult.SUCCESS;
             }
         } else if (this.isFood(itemstack)) {
             if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
             
+            // Wolf-like taming chance
             if (this.random.nextInt(3) == 0) {
                 this.tame(player);
+                // Scale health up when tamed (like wolves: 8 HP -> 40 HP)
+                this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(40.0D);
+                this.setHealth(40.0F);
                 this.navigation.stop();
                 this.setTarget(null);
                 this.setOrderedToSit(true);
@@ -163,7 +188,20 @@ public class Teddy_Bear_Entity extends AnimationPet {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return null; // Teddy bears don't breed
+        Teddy_Bear_Entity baby = ModEntities.TEDDY_BEAR.get().create(serverLevel);
+        if (baby != null) {
+            // Baby inherits random variant from parents
+            if (ageableMob instanceof Teddy_Bear_Entity otherParent) {
+                if (this.random.nextBoolean()) {
+                    baby.setVariant(this.getVariant());
+                } else {
+                    baby.setVariant(otherParent.getVariant());
+                }
+            } else {
+                baby.setVariant(this.getVariant());
+            }
+        }
+        return baby;
     }
 
     public boolean isSitting() {
@@ -225,5 +263,58 @@ public class Teddy_Bear_Entity extends AnimationPet {
 
     public static boolean canSpawn(EntityType<Teddy_Bear_Entity> entityType, LevelAccessor levelAccessor, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         return Animal.checkAnimalSpawnRules(entityType, levelAccessor, spawnType, pos, random) && random.nextInt(8) == 0;
+    }
+
+    private void teleportToOwner() {
+        LivingEntity owner = this.getOwner();
+        if (owner == null) return;
+
+        for (int attempt = 0; attempt < 10; ++attempt) {
+            int x = this.getRandomX(5) - 2;
+            int z = this.getRandomZ(5) - 2;
+            int y = this.getTeleportRandomY();
+            
+            BlockPos targetPos = new BlockPos((int) (owner.getX() + x), (int) (owner.getY() + y), (int) (owner.getZ() + z));
+            
+            if (this.maybeTeleportTo(targetPos.getX(), targetPos.getY(), targetPos.getZ())) {
+                this.navigation.stop();
+                this.setTarget(null);
+                return;
+            }
+        }
+    }
+
+    private int getRandomX(int range) {
+        return this.random.nextInt(range * 2 + 1);
+    }
+
+    private int getRandomZ(int range) {
+        return this.random.nextInt(range * 2 + 1);
+    }
+
+    private int getTeleportRandomY() {
+        return this.random.nextInt(3) - 1;
+    }
+
+    private boolean maybeTeleportTo(int x, int y, int z) {
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, y, z);
+        
+        while (pos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(pos).blocksMotion()) {
+            pos.move(0, -1, 0);
+        }
+
+        BlockState blockState = this.level().getBlockState(pos);
+        boolean canSpawn = blockState.blocksMotion() && 
+                          !blockState.hasAnalogOutputSignal() && 
+                          this.level().isEmptyBlock(pos.above()) && 
+                          this.level().isEmptyBlock(pos.above(2));
+
+        if (canSpawn) {
+            this.moveTo((double)x + 0.5D, (double)y, (double)z + 0.5D, this.getYRot(), this.getXRot());
+            this.navigation.stop();
+            return true;
+        }
+
+        return false;
     }
 }
