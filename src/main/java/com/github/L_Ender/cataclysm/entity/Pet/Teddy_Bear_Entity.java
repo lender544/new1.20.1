@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
 
 public class Teddy_Bear_Entity extends AnimationPet {
 
-    private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(Teddy_Bear_Entity.class, EntityDataSerializers.BOOLEAN);
+    // Remove duplicate SITTING - using parent class's implementation
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(Teddy_Bear_Entity.class, EntityDataSerializers.INT);
 
     public AnimationState idleAnimationState = new AnimationState();
@@ -77,21 +77,18 @@ public class Teddy_Bear_Entity extends AnimationPet {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(SITTING, false);
         this.entityData.define(VARIANT, 0);
     }
 
     @Override
     public void addAdditionalSaveData(CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
-        compoundTag.putBoolean("IsSitting", this.isSitting());
         compoundTag.putInt("Variant", this.getVariant());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag compoundTag) {
         super.readAdditionalSaveData(compoundTag);
-        this.setSitting(compoundTag.getBoolean("IsSitting"));
         this.setVariant(compoundTag.getInt("Variant"));
     }
 
@@ -103,7 +100,7 @@ public class Teddy_Bear_Entity extends AnimationPet {
             setupAnimationStates();
         } else {
             // Wolf-like teleportation behavior
-            if (this.isTame() && this.getOwner() != null && !this.isOrderedToSit()) {
+            if (this.isTame() && this.getOwner() != null && !this.isOrderedToSit() && !this.isSitting()) {
                 LivingEntity owner = this.getOwner();
                 double distance = this.distanceToSqr(owner);
                 
@@ -168,7 +165,7 @@ public class Teddy_Bear_Entity extends AnimationPet {
                 this.setHealth(40.0F);
                 this.navigation.stop();
                 this.setTarget(null);
-                this.setOrderedToSit(true);
+                // Don't automatically sit when tamed - let player control this
                 this.level().broadcastEntityEvent(this, (byte)7);
             } else {
                 this.level().broadcastEntityEvent(this, (byte)6);
@@ -204,18 +201,35 @@ public class Teddy_Bear_Entity extends AnimationPet {
         return baby;
     }
 
-    public boolean isSitting() {
-        return this.entityData.get(SITTING);
-    }
-
-    public void setSitting(boolean sitting) {
-        this.entityData.set(SITTING, sitting);
-    }
-
+    // Using parent class sitting implementation - removed duplicate methods
+    
     @Override
-    public void setOrderedToSit(boolean orderedToSit) {
-        super.setOrderedToSit(orderedToSit);
-        this.setSitting(orderedToSit);
+    public void travel(net.minecraft.world.phys.Vec3 pTravelVector) {
+        // Prevent movement when sitting (fixes the "go-cart" gliding issue)
+        if (this.isSitting()) {
+            if (this.isControlledByLocalInstance()) {
+                this.lerpSteps = 0;
+                this.syncPacketPositionCodec(this.getX(), this.getY(), this.getZ());
+            }
+            
+            if (this.lerpSteps > 0) {
+                double x = this.getX() + (this.lerpX - this.getX()) / (double)this.lerpSteps;
+                double y = this.getY() + (this.lerpY - this.getY()) / (double)this.lerpSteps;
+                double z = this.getZ() + (this.lerpZ - this.getZ()) / (double)this.lerpSteps;
+                this.setYRot(this.getYRot() + (float)net.minecraft.util.Mth.wrapDegrees(this.lerpYRot - (double)this.getYRot()) / (float)this.lerpSteps);
+                this.setXRot(this.getXRot() + (float)(this.lerpXRot - (double)this.getXRot()) / (float)this.lerpSteps);
+                --this.lerpSteps;
+                this.setPos(x, y, z);
+            } else {
+                this.reapplyPosition();
+            }
+            
+            this.calculateEntityAnimation(false);
+            return;
+        }
+        
+        // Normal movement when not sitting
+        super.travel(pTravelVector);
     }
 
     public int getVariant() {
