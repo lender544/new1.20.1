@@ -132,6 +132,7 @@ public class Teddy_Bear_Entity extends AnimationPet {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (this.isTame()) {
+            // First priority: Healing with food when teddy bear is hurt
             if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
                 if (!player.getAbilities().instabuild) {
                     itemstack.shrink(1);
@@ -144,13 +145,30 @@ public class Teddy_Bear_Entity extends AnimationPet {
                 }
                 this.heal(healAmount);
                 return InteractionResult.SUCCESS;
-            } else if (this.isOwnedBy(player) && !this.level().isClientSide && !this.isFood(itemstack)) {
-                // Toggle sit/follow behavior
-                this.setOrderedToSit(!this.isOrderedToSit());
-                this.jumping = false;
-                this.navigation.stop();
-                this.setTarget(null);
-                return InteractionResult.SUCCESS;
+            }
+            
+            // Second priority: Sit/stand toggle for owner with empty hand or non-food items
+            if (this.isOwnedBy(player) && !this.level().isClientSide) {
+                // Allow sit/stand toggle with empty hand OR when teddy bear is at full health
+                boolean shouldToggleSit = itemstack.isEmpty() || !this.isFood(itemstack) || this.getHealth() >= this.getMaxHealth();
+                
+                if (shouldToggleSit) {
+                    this.setOrderedToSit(!this.isOrderedToSit());
+                    this.jumping = false;
+                    this.navigation.stop();
+                    this.setTarget(null);
+                    
+                    // Debug feedback
+                    if (this.isOrderedToSit()) {
+                        // Sitting
+                        this.level().broadcastEntityEvent(this, (byte)6);
+                    } else {
+                        // Standing  
+                        this.level().broadcastEntityEvent(this, (byte)7);
+                    }
+                    
+                    return InteractionResult.SUCCESS;
+                }
             }
         } else if (this.isFood(itemstack)) {
             if (!player.getAbilities().instabuild) {
