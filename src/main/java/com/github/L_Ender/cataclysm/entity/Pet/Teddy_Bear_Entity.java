@@ -166,12 +166,19 @@ public class Teddy_Bear_Entity extends AnimationPet {
                 boolean shouldToggleSit = itemstack.isEmpty() || !this.isFood(itemstack) || this.getHealth() >= this.getMaxHealth();
                 
                 if (shouldToggleSit) {
-                    // DEBUG: Print current state
-                    System.out.println("Toggling sit: currently " + this.isOrderedToSit() + " -> " + !this.isOrderedToSit());
-                    this.setOrderedToSit(!this.isOrderedToSit());
+                    boolean newSitState = !this.isOrderedToSit();
+                    this.setOrderedToSit(newSitState);
                     this.jumping = false;
                     this.navigation.stop();
                     this.setTarget(null);
+                    
+                    // Show message to player
+                    if (newSitState) {
+                        player.displayClientMessage(net.minecraft.network.chat.Component.literal("Teddy Bear is now sitting"), true);
+                    } else {
+                        player.displayClientMessage(net.minecraft.network.chat.Component.literal("Teddy Bear is now standing"), true);
+                    }
+                    
                     return InteractionResult.SUCCESS;
                 }
             }
