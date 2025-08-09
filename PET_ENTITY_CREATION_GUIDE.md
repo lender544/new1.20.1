@@ -225,13 +225,15 @@ public class [PetName]_Entity extends AnimationPet {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new SitWhenOrderedToGoal(this));
-        this.goalSelector.addGoal(4, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
-        this.goalSelector.addGoal(5, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));  // Combat maneuver like wolves
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, true));  // Primary combat behavior
+        this.goalSelector.addGoal(5, new FollowOwnerGoal(this, 1.0D, 10.0F, 2.0F, false));
+        this.goalSelector.addGoal(6, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(9, new WaterAvoidingRandomStrollGoal(this, 1.0D));
 
-        // Defensive AI
+        // Defensive targeting AI (matches wolf priorities)
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new HurtByTargetGoal(this));
@@ -269,6 +271,24 @@ public class [PetName]_Entity extends AnimationPet {
                 
                 if (distance > 144.0D) { // 12 blocks squared
                     this.teleportToOwner();
+                }
+            }
+            
+            // CRITICAL: Force gravity/physics check - prevent floating when blocks are broken
+            if (!this.onGround() && this.getDeltaMovement().y >= 0) {
+                // Check if there's solid ground below within reasonable distance
+                boolean hasGroundSupport = false;
+                for (int i = 1; i <= 3; i++) {
+                    BlockPos below = this.blockPosition().below(i);
+                    if (this.level().getBlockState(below).isSolidRender(this.level(), below)) {
+                        hasGroundSupport = true;
+                        break;
+                    }
+                }
+                
+                // If floating without ground support, apply gravity
+                if (!hasGroundSupport) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0)); // Apply gravity
                 }
             }
         }
@@ -607,11 +627,19 @@ Add to your client-side registration:
 ❌ **Wrong**: Allowing normal movement when sitting
 ✅ **Correct**: Override `travel()` to prevent movement when sitting
 
-### 5. Particle Events
+### 5. Missing Combat Goals
+❌ **Wrong**: Only having targeting goals without combat actions
+✅ **Correct**: Include `LeapAtTargetGoal` and `MeleeAttackGoal` for proper defense
+
+### 6. Physics Issues
+❌ **Wrong**: Entity floating when blocks are broken beneath it
+✅ **Correct**: Add gravity checks in `tick()` method to prevent floating
+
+### 7. Particle Events
 ❌ **Wrong**: Calling `broadcastEntityEvent` in wrong places  
 ✅ **Correct**: Use with proper `handleEntityEvent` override
 
-### 6. Entity Inheritance
+### 8. Entity Inheritance
 ❌ **Wrong**: Extending `Animation_Monster` or wrong base class
 ✅ **Correct**: Extend `AnimationPet` for proper pet behaviors
 
