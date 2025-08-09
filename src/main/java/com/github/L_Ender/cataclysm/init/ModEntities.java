@@ -22,6 +22,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMon
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
+import com.github.L_Ender.cataclysm.entity.Pet.Teddy_Bear_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.*;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.google.common.base.Predicates;
@@ -229,6 +230,11 @@ public class ModEntities {
             .clientTrackingRange(10)
             .fireImmune()
             .build(Cataclysm.MODID + ":the_baby_leviathan"));
+
+    public static final RegistryObject<EntityType<Teddy_Bear_Entity>> TEDDY_BEAR = ENTITY_TYPE.register("teddy_bear", () -> EntityType.Builder.of(Teddy_Bear_Entity::new, MobCategory.CREATURE)
+            .sized(0.6F, 0.8F)
+            .clientTrackingRange(10)
+            .build(Cataclysm.MODID + ":teddy_bear"));
 
     public static final RegistryObject<EntityType<Void_Scatter_Arrow_Entity>> VOID_SCATTER_ARROW = ENTITY_TYPE.register("void_scatter_arrow", () -> EntityType.Builder.<Void_Scatter_Arrow_Entity>of(Void_Scatter_Arrow_Entity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f)
@@ -716,6 +722,7 @@ public class ModEntities {
         SpawnPlacements.register(CORAL_GOLEM.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Coral_Golem_Entity::cangolemSpawn);
         SpawnPlacements.register(AMETHYST_CRAB.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Amethyst_Crab_Entity::canCrabSpawnSpawnRules);
         SpawnPlacements.register(IGNITED_BERSERKER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
+        SpawnPlacements.register(TEDDY_BEAR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Teddy_Bear_Entity::canSpawn);
         event.put(ENDER_GOLEM.get(), Ender_Golem_Entity.ender_golem().build());
         event.put(NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Entity.ministrosity().build());
         event.put(NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Entity.netherite_monstrosity().build());
@@ -729,6 +736,7 @@ public class ModEntities {
         event.put(THE_HARBINGER.get(), The_Harbinger_Entity.harbinger().build());
         event.put(THE_LEVIATHAN.get(), The_Leviathan_Entity.leviathan().build());
         event.put(THE_BABY_LEVIATHAN.get(), The_Baby_Leviathan_Entity.babyleviathan().build());
+        event.put(TEDDY_BEAR.get(), Teddy_Bear_Entity.bakeAttributes().build());
         event.put(DEEPLING.get(), Deepling_Entity.deepling().build());
         event.put(DEEPLING_BRUTE.get(), Deepling_Brute_Entity.deeplingbrute().build());
         event.put(DEEPLING_ANGLER.get(), Deepling_Angler_Entity.deepling().build());

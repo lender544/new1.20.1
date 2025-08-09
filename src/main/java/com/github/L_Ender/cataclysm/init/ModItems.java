@@ -821,6 +821,9 @@ public class ModItems {
     public static final RegistryObject<SpawnEggItem> THE_BABY_LEVIATHAN_SPAWN_EGG = ITEMS.register("the_baby_leviathan_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_BABY_LEVIATHAN, 0x322141, 0x8a3eff, new Item.Properties()));
 
+    public static final RegistryObject<SpawnEggItem> TEDDY_BEAR_SPAWN_EGG = ITEMS.register("teddy_bear_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.TEDDY_BEAR, 0x8B4513, 0xFFB6C1, new Item.Properties()));
+
     public static final RegistryObject<SpawnEggItem> DEEPLING_SPAWN_EGG = ITEMS.register("deepling_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING, 0x182a3c, 0xbaedf4, new Item.Properties()));
 

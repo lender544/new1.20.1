@@ -44,6 +44,7 @@ public class CMModelLayers {
     public static final ModelLayerLocation IGNITED_BERSERKER_MODEL = createLocation("ignited_berserker_model", "main");
     public static final ModelLayerLocation NETHERITE_MONSTROSITY_MODEL = createLocation("netherite_monstrosity_model", "main");
     public static final ModelLayerLocation NETHERITE_MINISTROSITY_MODEL = createLocation("netherite_ministrosity_model", "main");
+    public static final ModelLayerLocation TEDDY_BEAR_MODEL = createLocation("teddy_bear_model", "main");
     public static final ModelLayerLocation FLARE_BOMB_MODEL = createLocation("flare_bomb_model", "main");
 
     public static final ModelLayerLocation ROYAL_DRAUGR_MODEL = createLocation("royal_draugr_model", "main");
@@ -96,6 +97,7 @@ public class CMModelLayers {
         event.registerLayerDefinition(IGNITED_BERSERKER_MODEL, Ignited_Berserker_Model::createBodyLayer);
         event.registerLayerDefinition(NETHERITE_MONSTROSITY_MODEL, Netherite_Monstrosity_Model::createBodyLayer);
         event.registerLayerDefinition(NETHERITE_MINISTROSITY_MODEL, Netherite_Ministrosity_Model::createBodyLayer);
+        event.registerLayerDefinition(TEDDY_BEAR_MODEL, Teddy_Bear_Model::createBodyLayer);
         event.registerLayerDefinition(FLARE_BOMB_MODEL, Flare_Bomb_Model::createBodyLayer);
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(CURSIUM_ARMOR_MODEL_LEGS, () -> Cursium_Armor_Model.createArmorLayer(new CubeDeformation(0.2F)));
