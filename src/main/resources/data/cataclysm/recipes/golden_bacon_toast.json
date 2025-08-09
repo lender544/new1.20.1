@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "group": "food",
+  "ingredients": [
+    {
+      "item": "cataclysm:bacon_toast"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "cataclysm:golden_bacon_toast"
+  }
+}

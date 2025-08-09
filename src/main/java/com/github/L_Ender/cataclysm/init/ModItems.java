@@ -744,6 +744,20 @@ public class ModItems {
                     .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 600, 0), 1.0F)
                     .build())));
 
+    public static final RegistryObject<Item> GOLDEN_BACON_TOAST = ITEMS.register("golden_bacon_toast",
+            () -> new Item(new Item.Properties().stacksTo(64).food(new FoodProperties.Builder().nutrition(9).saturationMod(0.53F)
+                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.JUMP, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.REGENERATION, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 6000, 1), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 6000, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.WATER_BREATHING, 6000, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.NIGHT_VISION, 6000, 0), 1.0F)
+                    .effect(new MobEffectInstance(MobEffects.ABSORPTION, 6000, 3), 1.0F)
+                    .build())));
+
     public static final RegistryObject<Item> AMETHYST_CRAB_SHELL = ITEMS.register("amethyst_crab_shell",
             () -> new Item(new Item.Properties()));
 

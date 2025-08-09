@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bacon_toast": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["cataclysm:bacon_toast"]
+          }
+        ]
+      }
+    },
+    "has_gold_ingot": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:gold_ingot"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "cataclysm:golden_bacon_toast"
+      }
+    }
+  },
+  "requirements": [
+    ["has_bacon_toast", "has_gold_ingot"],
+    ["has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["cataclysm:golden_bacon_toast"]
+  }
+}
