@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "group": "food",
+  "ingredients": [
+    {
+      "item": "cataclysm:bacon"
+    },
+    {
+      "item": "minecraft:bread"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "cataclysm:bacon_toast"
+  }
+}

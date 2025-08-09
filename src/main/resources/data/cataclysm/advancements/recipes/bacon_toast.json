@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_bacon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["cataclysm:bacon"]
+          }
+        ]
+      }
+    },
+    "has_bread": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": ["minecraft:bread"]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "cataclysm:bacon_toast"
+      }
+    }
+  },
+  "requirements": [
+    ["has_bacon", "has_bread"],
+    ["has_the_recipe"]
+  ],
+  "rewards": {
+    "recipes": ["cataclysm:bacon_toast"]
+  }
+}
