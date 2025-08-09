@@ -131,6 +131,20 @@ public class Teddy_Bear_Entity extends AnimationPet {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
+        if (this.level().isClientSide) {
+            // Client side - just report success for valid interactions
+            if (this.isTame() && this.isOwnedBy(player)) {
+                boolean shouldToggleSit = itemstack.isEmpty() || !this.isFood(itemstack) || this.getHealth() >= this.getMaxHealth();
+                if (shouldToggleSit || (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth())) {
+                    return InteractionResult.SUCCESS;
+                }
+            } else if (!this.isTame() && this.isFood(itemstack)) {
+                return InteractionResult.SUCCESS;
+            }
+            return InteractionResult.PASS;
+        }
+
+        // Server side logic
         if (this.isTame()) {
             // First priority: Healing with food when teddy bear is hurt
             if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
@@ -148,25 +162,16 @@ public class Teddy_Bear_Entity extends AnimationPet {
             }
             
             // Second priority: Sit/stand toggle for owner with empty hand or non-food items
-            if (this.isOwnedBy(player) && !this.level().isClientSide) {
-                // Allow sit/stand toggle with empty hand OR when teddy bear is at full health
+            if (this.isOwnedBy(player)) {
                 boolean shouldToggleSit = itemstack.isEmpty() || !this.isFood(itemstack) || this.getHealth() >= this.getMaxHealth();
                 
                 if (shouldToggleSit) {
+                    // DEBUG: Print current state
+                    System.out.println("Toggling sit: currently " + this.isOrderedToSit() + " -> " + !this.isOrderedToSit());
                     this.setOrderedToSit(!this.isOrderedToSit());
                     this.jumping = false;
                     this.navigation.stop();
                     this.setTarget(null);
-                    
-                    // Debug feedback
-                    if (this.isOrderedToSit()) {
-                        // Sitting
-                        this.level().broadcastEntityEvent(this, (byte)6);
-                    } else {
-                        // Standing  
-                        this.level().broadcastEntityEvent(this, (byte)7);
-                    }
-                    
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -183,7 +188,6 @@ public class Teddy_Bear_Entity extends AnimationPet {
                 this.setHealth(40.0F);
                 this.navigation.stop();
                 this.setTarget(null);
-                // Don't automatically sit when tamed - let player control this
                 this.level().broadcastEntityEvent(this, (byte)7);
             } else {
                 this.level().broadcastEntityEvent(this, (byte)6);
@@ -192,7 +196,7 @@ public class Teddy_Bear_Entity extends AnimationPet {
             return InteractionResult.SUCCESS;
         }
 
-        return super.mobInteract(player, hand);
+        return InteractionResult.PASS;
     }
 
     @Override
@@ -219,7 +223,45 @@ public class Teddy_Bear_Entity extends AnimationPet {
         return baby;
     }
 
-    // Using parent class sitting implementation - removed duplicate methods
+    @Override
+    public boolean isOrderedToSit() {
+        return this.isSitting(); // Use parent class's SITTING data accessor
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 7) {
+            // Successful taming - show hearts
+            this.showEmoteParticle(true);
+        } else if (id == 6) {
+            // Failed taming - show smoke
+            this.showEmoteParticle(false);
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    private void showEmoteParticle(boolean success) {
+        // This is handled client-side
+        for(int i = 0; i < 7; ++i) {
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            if (success) {
+                this.level().addParticle(net.minecraft.core.particles.ParticleTypes.HEART, 
+                    this.getX() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), 
+                    this.getY() + 0.5D + (double)(this.random.nextFloat() * this.getBbHeight()), 
+                    this.getZ() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), 
+                    d0, d1, d2);
+            } else {
+                this.level().addParticle(net.minecraft.core.particles.ParticleTypes.SMOKE, 
+                    this.getX() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), 
+                    this.getY() + 0.5D + (double)(this.random.nextFloat() * this.getBbHeight()), 
+                    this.getZ() + (double)(this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double)this.getBbWidth(), 
+                    d0, d1, d2);
+            }
+        }
+    }
     
     @Override
     public void travel(net.minecraft.world.phys.Vec3 pTravelVector) {
