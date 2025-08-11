@@ -165,8 +165,15 @@ public class Ceraunus extends Item implements RangeTool  {
         }
     }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
 
-
+    @Override
+    public int getEnchantmentValue() {
+        return 16;
+    }
 
     public static boolean getThrowing(ItemStack itemStack){
         return itemStack.get(ModDataComponents.THROWN_ANCHOR) == null;
