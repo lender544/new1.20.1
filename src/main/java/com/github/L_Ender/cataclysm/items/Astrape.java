@@ -120,7 +120,15 @@ public class Astrape extends Item implements RangeTool  {
         return InteractionResultHolder.consume(itemstack);
     }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
 
+    @Override
+    public int getEnchantmentValue() {
+        return 16;
+    }
 
     @Override
     public boolean canPerformAction(ItemStack stack, net.neoforged.neoforge.common.ItemAbility itemAbility) {
