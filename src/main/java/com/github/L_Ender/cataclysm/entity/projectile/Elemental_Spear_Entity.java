@@ -6,6 +6,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
@@ -198,7 +199,26 @@ public class Elemental_Spear_Entity extends Projectile {
     public float getLightLevelDependentMagicValue() {
         return 1.0F;
     }
+    @Override
+    public void checkDespawn() {
+        if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
+            this.discard();
+        } else {
+            Entity entity = this.level().getNearestPlayer(this, -1.0);
+            if (entity != null) {
+                double d0 = entity.distanceToSqr(this);
+                int i = this.getType().getCategory().getDespawnDistance();
+                int j = i * i;
+                if (d0 > (double)j && this.removeWhenFarAway(d0)) {
+                    this.discard();
+                }
+            }
+        }
+    }
 
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return true;
+    }
 
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);

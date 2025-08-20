@@ -95,7 +95,9 @@ public class EarthQuake_Entity extends ThrowableProjectile {
     public boolean isOnFire() {
         return false;
     }
-
+    public float getStepHeight() {
+        return 2.0F;
+    }
     private void onUpdateInAir() {
         this.lifeTime -= 1;
 

@@ -678,14 +678,12 @@ public class ModEntities {
     public static final RegistryObject<EntityType<Water_Spear_Entity>> WATER_SPEAR = ENTITY_TYPE.register("water_spear", () -> EntityType.Builder.<Water_Spear_Entity>of(Water_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(5)
             .build(Cataclysm.MODID + ":water_spear"));
 
 
     public static final RegistryObject<EntityType<Lightning_Spear_Entity>> LIGHTNING_SPEAR = ENTITY_TYPE.register("lightning_spear", () -> EntityType.Builder.<Lightning_Spear_Entity>of(Lightning_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(5)
             .build(Cataclysm.MODID + ":lightning_spear"));
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){

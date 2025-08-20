@@ -39,26 +39,37 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 	@Override
 	public void render(Tidal_Hook_Entity entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource provider, int light) {
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(Mth.lerp(tickDelta, entity.yRotO, entity.getYRot()) - 90.0F));
-		matrices.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(tickDelta, entity.xRotO, entity.getXRot()) + 90.0F));
+
+		float yRot = Mth.lerp(tickDelta, entity.yRotO, entity.getYRot());
+		float xRot = Mth.lerp(tickDelta, entity.xRotO, entity.getXRot());
+
+		matrices.mulPose(Axis.YP.rotationDegrees(yRot - 90.0F));
+		matrices.mulPose(Axis.ZP.rotationDegrees(xRot + 90.0F));
 
 		VertexConsumer vertexConsumer = provider.getBuffer(this.model.renderType(getTextureLocation(entity)));
-		model.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-		matrices.popPose();
+		model.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
 
-		matrices.pushPose();
+		matrices.popPose();
 		Entity fromEntity = entity.getOwner();
+		if (fromEntity != null) {
+			Vec3 entityPos = entity.getPosition(tickDelta);
 
-		float x = (float)Mth.lerp(tickDelta, entity.xo, entity.getX());
-		float y = (float)Mth.lerp(tickDelta, entity.yo, entity.getY());
-		float z = (float)Mth.lerp(tickDelta, entity.zo, entity.getZ());
-		if(fromEntity != null) {
-			Vec3 distVec = getPositionOfPriorMob(fromEntity, tickDelta).subtract(x, y, z);
-			Vec3 from = distVec;
-			renderChainCube(from, tickDelta, entity.tickCount, matrices, provider, light);
+			PoseStack poseForModel = new PoseStack();
+			poseForModel.mulPose(Axis.YP.rotationDegrees(yRot - 90.0F));
+			poseForModel.mulPose(Axis.ZP.rotationDegrees(xRot + 90.0F));
+
+			Vec3 modelOffset = model.getChainPosition(new Vec3(0, 0.0F, 0), poseForModel);
+			Vec3 fromPos = getPositionOfPriorMob(fromEntity, tickDelta);
+			Vec3 chainTo = fromPos.subtract(entityPos);
+			Vec3 chainBase = modelOffset;
+
+			matrices.pushPose();
+			matrices.translate(chainBase.x, chainBase.y, chainBase.z);
+
+			VertexConsumer chainBuffer = provider.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
+			renderChainCube(chainTo.subtract(chainBase), matrices, chainBuffer, light, OverlayTexture.NO_OVERLAY);
+			matrices.popPose();
 		}
-
-		matrices.popPose();
 
 	}
 
@@ -103,52 +114,40 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 		return new Vec3(d4, d5 + f3, d6);
 	}
 
-	public static void renderChainCube(Vec3 from, float tickDelta, int age, PoseStack stack, MultiBufferSource provider, int light) {
-		float lengthXY = Mth.sqrt((float) (from.x * from.x + from.z * from.z));
-		float squaredLength = (float) (from.x * from.x + from.y * from.y + from.z * from.z);
-		float length = Mth.sqrt(squaredLength);
 
-		stack.pushPose();
-		stack.mulPose(Axis.YP.rotation((float) (-Math.atan2(from.z, from.x)) - 1.5707964F));
-		stack.mulPose(Axis.XP.rotation((float) (-Math.atan2(lengthXY, from.y)) - 1.5707964F));
-		stack.mulPose(Axis.ZP.rotationDegrees(25));
-		stack.pushPose();
-		stack.translate(0.015, -0.2, 0);
 
-		VertexConsumer vertexConsumer = provider.getBuffer(CHAIN_LAYER);
-		float vertX1 = 0F;
-		float vertY1 = 0.25F;
-		float vertX2 = Mth.sin(6.2831855F) * 0.125F;
-		float vertY2 = Mth.cos(6.2831855F) * 0.125F;
-		float minU = 0F;
-		float maxU = 0.1875F;
-		float minV = 0.0F - ((float) age + tickDelta) * 0.01F;
-		float maxV = Mth.sqrt(squaredLength) / 8F - ((float) age + tickDelta) * 0.01F;
-		PoseStack.Pose entry = stack.last();
-		Matrix4f matrix4f = entry.pose();
-		Matrix3f matrix3f = entry.normal();
 
-		vertexConsumer.vertex(matrix4f, vertX1, vertY1, 0F).color(0, 0, 0, 255).uv(minU, minV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX1, vertY1, length).color(255, 255, 255, 255).uv(minU, maxV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX2, vertY2, length).color(255, 255, 255, 255).uv(maxU, maxV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX2, vertY2, 0F).color(0, 0, 0, 255).uv(maxU, minV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+	//The old code was taken from https://github.com/CammiesCorner/Hookshot/blob/1.20.1/src/main/java/dev/cammiescorner/hookshot/client/entity/renderer/HookshotEntityRenderer.java#L64-L108
+	//This code was taken from https://github.com/AlexModGuy/AlexsCaves/blob/main/src/main/java/com/github/alexmodguy/alexscaves/client/render/entity/BoundroidWinchRenderer.java
+	public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
+		double d = to.horizontalDistance();
+		float rotY = (float) (Mth.atan2(to.x, to.z) * (double) (180F / (float) Math.PI));
+		float rotX = (float) (-(Mth.atan2(to.y, d) * (double) (180F / (float) Math.PI))) - 90.0F;
+		float chainWidth = 3F / 32F;
+		float chainOffset = chainWidth * -0.5F;
+		float chainLength = (float) to.length()/2.3F;
+		poseStack.pushPose();
+		poseStack.scale(2.3F, 2.3F, 2.3F);
+		poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
+		poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
+		poseStack.translate(0, -chainLength, 0);
+		PoseStack.Pose posestack$pose = poseStack.last();
 
-		stack.popPose();
-		stack.mulPose(Axis.ZP.rotationDegrees(90));
-		stack.translate(-0.015, -0.2, 0);
-
-		entry = stack.last();
-		matrix4f = entry.pose();
-		matrix3f = entry.normal();
-
-		vertexConsumer.vertex(matrix4f, vertX1, vertY1, 0F).color(0, 0, 0, 255).uv(minU, minV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX1, vertY1, length).color(255, 255, 255, 255).uv(minU, maxV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX2, vertY2, length).color(255, 255, 255, 255).uv(maxU, maxV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-		vertexConsumer.vertex(matrix4f, vertX2, vertY2, 0F).color(0, 0, 0, 255).uv(maxU, minV).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-
-		stack.popPose();
+		Matrix4f matrix4f = posestack$pose.pose();
+		Matrix3f matrix3f = posestack$pose.normal();
+		//x links
+		buffer.vertex(matrix4f, chainOffset, 0, 0).color(255, 255, 255, 255).uv((float) 0, (float) chainLength).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, chainWidth + chainOffset, 0, 0).color(255, 255, 255, 255).uv((float) chainWidth, (float) chainLength).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, chainWidth + chainOffset, chainLength, 0).color(255, 255, 255, 255).uv((float) chainWidth, (float) 0).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, chainOffset, chainLength, 0).color(255, 255, 255, 255).uv((float) 0, (float) 0).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		float pixelSkip = 4F / 32F;
+		//z links
+		buffer.vertex(matrix4f, 0, pixelSkip, chainOffset).color(255, 255, 255, 255).uv((float) chainWidth, (float) chainLength + pixelSkip).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, 0, pixelSkip, chainWidth + chainOffset).color(255, 255, 255, 255).uv((float) chainWidth * 2, (float) chainLength + pixelSkip).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, 0, chainLength + pixelSkip, chainWidth + chainOffset).color(255, 255, 255, 255).uv((float) chainWidth * 2, (float) pixelSkip).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		buffer.vertex(matrix4f, 0, chainLength + pixelSkip, chainOffset).color(255, 255, 255, 255).uv((float) chainWidth, (float) pixelSkip).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+		poseStack.popPose();
 	}
-
 
 	@Override
 	public ResourceLocation getTextureLocation(Tidal_Hook_Entity entity) {

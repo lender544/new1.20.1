@@ -23,7 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-
+//orginal code https://github.com/CammiesCorner/Hookshot/blob/1.20.1/src/main/java/dev/cammiescorner/hookshot/entity/HookshotEntity.java#L30
 public class Tidal_Hook_Entity extends AbstractArrow {
 	private static final EntityDataAccessor<Integer> HOOKED_ENTITY_ID = SynchedEntityData.defineId(Tidal_Hook_Entity.class, EntityDataSerializers.INT);
 
