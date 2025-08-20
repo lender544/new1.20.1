@@ -135,6 +135,9 @@ public class EarthQuake_Entity extends ThrowableProjectile {
         p_33340_.push(d0 * modifier / d2, 0.5D * modifier, d1 * modifier / d2);
     }
 
+    public float maxUpStep() {
+        return 2.0F;
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {

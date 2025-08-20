@@ -343,6 +343,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 Vec3 m = Maledictus_Entity.this.getDeltaMovement().add(speed * Math.cos(dodgeYaw), 0, speed * Math.sin(dodgeYaw));
                 Maledictus_Entity.this.playSound(ModSounds.MALEDICTUS_JUMP.get(), 1F, 1.0f);
                 Maledictus_Entity.this.setDeltaMovement(m.x, 0.4, m.z);
+                Maledictus_Entity.this.hasImpulse = true;
             }
 
             @Override
@@ -1004,6 +1005,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                     double vecZ = Math.sin(theta);
                     this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 30, 86, 236, 204, 1.0f, 85, false, 0), getX() + vec * vecX + f * math, getY() + 0.02f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
                 }else {
+
 
                     for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D))) {
                         if (!isAlliedTo(entity) && entity != this) {
@@ -1692,7 +1694,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                         boolean flag = entity.hurt(CMDamageTypes.causeMaledictioDamage(this), DMG() * damage + Math.min(DMG() * damage, entity.getMaxHealth() * hpdamage));
                         if (flag) {
                             entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, airborne * distance + level().random.nextDouble() * 0.15, 0.0D));
-
+                            entity.hasImpulse = true;
                         }
                     }
                 }
@@ -1817,6 +1819,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                         double d0 = entity.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE);
                         double d1 = Math.max(0.0D, 1.0D - d0);
                         entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, (double) 0.4F * d1, 0.0D));
+                        entity.hasImpulse = true;
                     }
                 }
 
@@ -1947,10 +1950,12 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                     double d2 = target.getZ() - this.entity.getZ();
                     Vec3 vec3 = (new Vec3(d0, 0.7 + Mth.clamp(d1 * 0.075, 0.0, 10.0), d2)).multiply(0.2D, 1.0D, 0.2D);
                     this.entity.setDeltaMovement(vec3);
+                    this.entity.hasImpulse = true;
                 } else {
 
                     Vec3 vec3 = (new Vec3(0, 0.7, 0));
                     this.entity.setDeltaMovement(vec3);
+                    this.entity.hasImpulse = true;
                 }
             }
         }
@@ -2091,8 +2096,10 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
                     double d1 = target.getY() - this.entity.getY();
                     this.entity.setDeltaMovement(x * -r, 0.9 + Mth.clamp(d1 * 0.075, 0.0, 7.0), z * -r);
+                    this.entity.hasImpulse = true;
                 } else {
                     this.entity.setDeltaMovement(0, 0.9, 0);
+                    this.entity.hasImpulse = true;
                 }
                 entity.setFlying(true);
             }
@@ -2229,13 +2236,13 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 entity.setYRot(entity.yRotO);
             }
             if (this.entity.attackTicks == 25) {
-                this.entity.setDeltaMovement(0, 0.9, 0);
-
                 if(target !=null) {
                     double d1 = target.getY() - this.entity.getY();
                     this.entity.setDeltaMovement(0, 0.9 + Mth.clamp(d1 * 0.075, 0.0, 7.0), 0);
+                    this.entity.hasImpulse = true;
                 }else{
                     this.entity.setDeltaMovement(0, 0.9, 0);
+                    this.entity.hasImpulse = true;
                 }
                 entity.setFlying(true);
             }
@@ -2247,7 +2254,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                     double Z = 0.1f * (target.getZ() - this.entity.getZ());
                     double X = 0.1F * (target.getX() - this.entity.getX());
                     entity.setDeltaMovement(entity.getDeltaMovement().add(X, -1.0d * Y, Z));
-
+                    this.entity.hasImpulse = true;
                 }
             }
 
@@ -2414,6 +2421,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                     float dodgeYaw = (float) Math.toRadians(entity.getYRot() + 90);
                     Vec3 m = entity.getDeltaMovement().add(speed * Math.cos(dodgeYaw), 0, speed * Math.sin(dodgeYaw));
                     entity.setDeltaMovement(m.x, 0.4, m.z);
+                    this.entity.hasImpulse = true;
                 }
             }
 
@@ -2500,6 +2508,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 Vec3 m = entity.getDeltaMovement().add(speed * Math.cos(dodgeYaw), 0, speed * Math.sin(dodgeYaw));
                 entity.playSound(ModSounds.MALEDICTUS_JUMP.get(), 1F, 1.0f);
                 entity.setDeltaMovement(m.x, 0.4, m.z);
+                this.entity.hasImpulse = true;
             }
         }
 
@@ -2687,6 +2696,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
                 float f = entity.getYRot() * ((float)Math.PI / 180F);
                 Vec3 vector3d1 = new Vec3(-Mth.sin(f), entity.getDeltaMovement().y, Mth.cos(f)).scale(0.8D).add(vector3d.scale(0.8D));
                 entity.setDeltaMovement(vector3d1.x, entity.getDeltaMovement().y, vector3d1.z);
+                this.entity.hasImpulse = true;
             }
         }
 
@@ -2704,6 +2714,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
 
 
     }
+
 
 
     static class MaledictusSuccessState extends InternalStateGoal {
@@ -2733,6 +2744,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
         public void tick() {
             if (this.entity.attackTicks == 19) {
                 this.entity.setDeltaMovement(0, 1.2, 0);
+                this.entity.hasImpulse = true;
                 entity.setFlying(true);
             }
             entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);

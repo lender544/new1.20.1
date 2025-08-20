@@ -1,14 +1,13 @@
 package com.github.L_Ender.cataclysm.client.model.entity;
 
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Test.Test_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Test.Onyx_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.phys.Vec3;
 
-public class TestModel<T extends Test_Entity> extends HierarchicalModel<T> {
+public class TestModel<T extends Onyx_Entity> extends HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart head;
     private final ModelPart rightArm;
@@ -66,13 +65,81 @@ public class TestModel<T extends Test_Entity> extends HierarchicalModel<T> {
      * Sets this entity's model rotation angles
      */
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.yRot = netHeadYaw * (float) (Math.PI / 180.0);
         this.head.xRot = headPitch * (float) (Math.PI / 180.0);
-        this.rightLeg.xRot = -1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-        this.leftLeg.xRot = 1.5F * Mth.triangleWave(limbSwing, 13.0F) * limbSwingAmount;
-        this.rightLeg.yRot = 0.0F;
-        this.leftLeg.yRot = 0.0F;
+
+
+        Vec3 moveVec = entity.getDeltaMovement().normalize().yRot((float) Math.toRadians(entity.yBodyRot + 90.0));
+        float forward = (float) Math.max(0, new Vec3(1.0, 0, 0).dot(moveVec));
+        float backward = (float) Math.max(0, new Vec3(-1.0, 0, 0).dot(moveVec));
+        float left = (float) Math.max(0, new Vec3(0, 0, -1.0).dot(moveVec));
+        float right = (float) Math.max(0, new Vec3(0, 0, 1.0).dot(moveVec));
+        float walkAnim = 1.0F;
+        float animSpeed = 1.0F;
+        limbSwingAmount *= 2;
+        limbSwingAmount = Math.min(0.7f, limbSwingAmount);
+        walkLeftAnim(left  * walkAnim, limbSwing, limbSwingAmount, animSpeed);
+        walkRightAnim(right  * walkAnim, limbSwing, limbSwingAmount, animSpeed);
+
     }
+
+
+    private void walkForwardAnim(float blend, float limbSwing, float limbSwingAmount, float speed) {
+
+
+        float globalHeight = 1.5f;
+        float globalDegree = 1.5f;
+
+        leftLeg.xRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree) * limbSwingAmount);
+        leftLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree - 0.15f) * limbSwingAmount);
+
+        rightLeg.xRot +=(blend * -(float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree) * limbSwingAmount);
+        rightLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree + 0.15f) * limbSwingAmount);
+
+    }
+
+    private void walkBackwardAnim(float blend, float limbSwing, float limbSwingAmount, float speed) {
+
+        float globalHeight = 1.5f;
+        float globalDegree = 1.5f;
+
+        leftLeg.xRot =(blend * (float) (Math.cos(limbSwing * speed * 0.5 - 1.5) * 0.55f * globalDegree - 0.3 * globalDegree) * limbSwingAmount);
+        leftLeg.yRot =(blend * (float) (Math.cos(limbSwing * speed * 0.5 - 1.5) * 0.1f * globalDegree - 0.15f) * limbSwingAmount);
+
+        rightLeg.xRot =(blend * -(float) (Math.cos(limbSwing * speed * 0.5 - 1.5) * 0.55f * globalDegree + 0.3 * globalDegree) * limbSwingAmount);
+        rightLeg.yRot =(blend * (float) (Math.cos(limbSwing * speed * 0.5 - 1.5) * 0.1f * globalDegree + 0.15f) * limbSwingAmount);
+
+    }
+
+    private void walkLeftAnim(float blend, float limbSwing, float limbSwingAmount, float speed) {
+
+        float globalHeight = 1.5f;
+        float globalDegree = 1.5f;
+
+        leftLeg.xRot +=(blend * -0.05f * limbSwingAmount * globalHeight);
+        leftLeg.zRot +=(blend * -(float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree + 0.05 * globalDegree) * limbSwingAmount);
+        leftLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree - 0.15) * limbSwingAmount);
+
+        rightLeg.xRot +=(blend * 0.05f * limbSwingAmount * globalHeight);
+        rightLeg.zRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree - 0.05 * globalDegree) * limbSwingAmount);
+        rightLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree + 0.15) * limbSwingAmount);
+    }
+
+    private void walkRightAnim(float blend, float limbSwing, float limbSwingAmount, float speed) {
+
+        float globalHeight = 1.5f;
+        float globalDegree = 1.5f;
+
+        leftLeg.xRot +=(blend * 0.05f * limbSwingAmount * globalHeight);
+        leftLeg.zRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree + 0.05 * globalDegree) * limbSwingAmount);
+        leftLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree - 0.15) * limbSwingAmount);
+
+        rightLeg.xRot +=(blend * -0.05f * limbSwingAmount * globalHeight);
+        rightLeg.zRot +=(blend * -(float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.55f * globalDegree - 0.05 * globalDegree) * limbSwingAmount);
+        rightLeg.yRot +=(blend * (float) (Math.cos(limbSwing * speed * 0.5 + 1.5) * 0.1f * globalDegree + 0.15) * limbSwingAmount);
+    }
+
 
     public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
 

@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Tidal_Hook_Model;
+import com.github.L_Ender.cataclysm.entity.projectile.Player_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -11,6 +12,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 
@@ -37,30 +40,52 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 	@Override
 	public void render(Tidal_Hook_Entity entity, float yaw, float tickDelta, PoseStack matrices, MultiBufferSource provider, int light) {
 		matrices.pushPose();
-		matrices.mulPose(Axis.YP.rotationDegrees(Mth.lerp(tickDelta, entity.yRotO, entity.getYRot()) - 90.0F));
-		matrices.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(tickDelta, entity.xRotO, entity.getXRot()) + 90.0F));
+
+		float yRot = Mth.lerp(tickDelta, entity.yRotO, entity.getYRot());
+		float xRot = Mth.lerp(tickDelta, entity.xRotO, entity.getXRot());
+
+		matrices.mulPose(Axis.YP.rotationDegrees(yRot - 90.0F));
+		matrices.mulPose(Axis.ZP.rotationDegrees(xRot + 90.0F));
 
 		VertexConsumer vertexConsumer = provider.getBuffer(this.model.renderType(getTextureLocation(entity)));
 		model.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY);
-		matrices.popPose();
 
-		matrices.pushPose();
+		matrices.popPose();
 		Entity fromEntity = entity.getOwner();
+		if (fromEntity != null) {
+			Vec3 entityPos = entity.getPosition(tickDelta);
 
-		float x = (float)Mth.lerp(tickDelta, entity.xo, entity.getX());
-		float y = (float)Mth.lerp(tickDelta, entity.yo, entity.getY());
-		float z = (float)Mth.lerp(tickDelta, entity.zo, entity.getZ());
-		if(fromEntity != null) {
-			Vec3 distVec = getPositionOfPriorMob(fromEntity, tickDelta).subtract(x, y, z);
-			Vec3 from = distVec;
-			renderChainCube(from, tickDelta, entity.tickCount, matrices, provider, light);
+			PoseStack poseForModel = new PoseStack();
+			poseForModel.mulPose(Axis.YP.rotationDegrees(yRot - 90.0F));
+			poseForModel.mulPose(Axis.ZP.rotationDegrees(xRot + 90.0F));
+
+			Vec3 modelOffset = model.getChainPosition(new Vec3(0, 0.0F, 0), poseForModel);
+			Vec3 fromPos = getPositionOfPriorMob(fromEntity, tickDelta);
+			Vec3 chainTo = fromPos.subtract(entityPos);
+			Vec3 chainBase = modelOffset;
+
+			matrices.pushPose();
+			matrices.translate(chainBase.x, chainBase.y, chainBase.z);
+
+			VertexConsumer chainBuffer = provider.getBuffer(RenderType.entityCutoutNoCull(CHAIN_TEXTURE));
+			renderChainCube(chainTo.subtract(chainBase), matrices, chainBuffer, light, OverlayTexture.NO_OVERLAY);
+			matrices.popPose();
 		}
-
-		matrices.popPose();
-
 	}
 
-
+	public boolean shouldRender(Tidal_Hook_Entity entity, Frustum camera, double camX, double camY, double camZ) {
+		if (super.shouldRender(entity, camera, camX, camY, camZ)) {
+			return true;
+		} else {
+			Entity weapon = entity.getOwner();
+			if (weapon != null) {
+				Vec3 vec3 = entity.position();
+				Vec3 vec31 = weapon.position();
+				return camera.isVisible(new AABB(vec31.x, vec31.y, vec31.z, vec3.x, vec3.y, vec3.z));
+			}
+			return false;
+		}
+	}
 
 	private Vec3 getPositionOfPriorMob(Entity mob, float partialTicks){
 		double d4 = Mth.lerp(partialTicks, mob.xo, mob.getX());
@@ -101,46 +126,34 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 		return new Vec3(d4, d5 + f3, d6);
 	}
 
-	public static void renderChainCube(Vec3 from, float tickDelta, int age, PoseStack stack, MultiBufferSource provider, int light) {
-		float lengthXY = Mth.sqrt((float) (from.x * from.x + from.z * from.z));
-		float squaredLength = (float) (from.x * from.x + from.y * from.y + from.z * from.z);
-		float length = Mth.sqrt(squaredLength);
+	//The old code was taken from https://github.com/CammiesCorner/Hookshot/blob/1.20.1/src/main/java/dev/cammiescorner/hookshot/client/entity/renderer/HookshotEntityRenderer.java#L64-L108
+	//This code was taken from https://github.com/AlexModGuy/AlexsCaves/blob/main/src/main/java/com/github/alexmodguy/alexscaves/client/render/entity/BoundroidWinchRenderer.java
 
-		stack.pushPose();
-		stack.mulPose(Axis.YP.rotation((float) (-Math.atan2(from.z, from.x)) - 1.5707964F));
-		stack.mulPose(Axis.XP.rotation((float) (-Math.atan2(lengthXY, from.y)) - 1.5707964F));
-		stack.mulPose(Axis.ZP.rotationDegrees(25));
-		stack.pushPose();
-		stack.translate(0.015, -0.2, 0);
-
-		VertexConsumer vertexConsumer = provider.getBuffer(CHAIN_LAYER);
-		float vertX1 = 0F;
-		float vertY1 = 0.25F;
-		float vertX2 = Mth.sin(6.2831855F) * 0.125F;
-		float vertY2 = Mth.cos(6.2831855F) * 0.125F;
-		float minU = 0F;
-		float maxU = 0.1875F;
-		float minV = 0.0F - ((float) age + tickDelta) * 0.01F;
-		float maxV = Mth.sqrt(squaredLength) / 8F - ((float) age + tickDelta) * 0.01F;
-		PoseStack.Pose entry = stack.last();
-
-
-		vertexConsumer.addVertex(entry, vertX1, vertY1, 0F).setColor(0, 0, 0, 255).setUv(minU, minV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX1, vertY1, length).setColor(255, 255, 255, 255).setUv(minU, maxV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX2, vertY2, length).setColor(255, 255, 255, 255).setUv(maxU, maxV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX2, vertY2, 0F).setColor(0, 0, 0, 255).setUv(maxU, minV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-
-		stack.popPose();
-		stack.mulPose(Axis.ZP.rotationDegrees(90));
-		stack.translate(-0.015, -0.2, 0);
-
-		entry = stack.last();
-		vertexConsumer.addVertex(entry, vertX1, vertY1, 0F).setColor(0, 0, 0, 255).setUv(minU, minV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX1, vertY1, length).setColor(255, 255, 255, 255).setUv(minU, maxV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX2, vertY2, length).setColor(255, 255, 255, 255).setUv(maxU, maxV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-		vertexConsumer.addVertex(entry, vertX2, vertY2, 0F).setColor(0, 0, 0, 255).setUv(maxU, minV).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(entry, 0.0F, -1.0F, 0.0F);
-
-		stack.popPose();
+	public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
+		double d = to.horizontalDistance();
+		float rotY = (float) (Mth.atan2(to.x, to.z) * (double) (180F / (float) Math.PI));
+		float rotX = (float) (-(Mth.atan2(to.y, d) * (double) (180F / (float) Math.PI))) - 90.0F;
+		float chainWidth = 3F / 32F;
+		float chainOffset = chainWidth * -0.5F;
+		float chainLength = (float) to.length()/2.3F;
+		poseStack.pushPose();
+		poseStack.scale(2.3F, 2.3F, 2.3F);
+		poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
+		poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
+		poseStack.translate(0, -chainLength, 0);
+		PoseStack.Pose posestack$pose = poseStack.last();
+		//x links
+		buffer.addVertex(posestack$pose, chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, chainWidth + chainOffset, 0, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, chainWidth + chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, chainOffset, chainLength, 0).setColor(255, 255, 255, 255).setUv((float) 0, (float) 0).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		float pixelSkip = 4F / 32F;
+		//z links
+		buffer.addVertex(posestack$pose, 0, pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, 0, pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) chainLength + pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainWidth + chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth * 2, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		buffer.addVertex(posestack$pose, 0, chainLength + pixelSkip, chainOffset).setColor(255, 255, 255, 255).setUv((float) chainWidth, (float) pixelSkip).setOverlay(setOverlay).setLight(packedLightIn).setNormal(posestack$pose, 0.0F, 1.0F, 0.0F);
+		poseStack.popPose();
 	}
 
 

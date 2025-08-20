@@ -42,7 +42,6 @@ public class AttackMoveGoal extends Goal {
             this.Boss_monster.setTarget((LivingEntity)null);
         }
         this.Boss_monster.setAggressive(false);
-        this.Boss_monster.getNavigation().stop();
     }
 
     public boolean canContinueToUse() {

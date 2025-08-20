@@ -7,7 +7,9 @@ import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Homing_Missile_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -24,13 +26,14 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
 {
     private static final ResourceLocation WITHER_MISSILE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/harbinger/wither_homing_missile.png");
     private static final ResourceLocation TRAIL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/particle/amogus.png");
-
+    protected final EntityRenderDispatcher entityRenderDispatcher;
     public Wither_Homing_Missile_Model model;
 
     public Wither_Homing_Missile_Renderer(EntityRendererProvider.Context manager)
     {
         super(manager);
         this.model = new Wither_Homing_Missile_Model();
+        entityRenderDispatcher = manager.getEntityRenderDispatcher();
     }
 
     @Override
@@ -68,40 +71,50 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
     }
 
     private void renderTrail(Wither_Homing_Missile_Entity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
-        int sampleSize = 5;
-        float trailHeight = 0.1F;
-        float trailZRot = 0;
-        Vec3 topAngleVec = new Vec3(0, trailHeight, 0).zRot(trailZRot);
-        Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
-        Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
+
+        int sampleSize = 10;
+        float trailWidth = 0.2F;
+
         PoseStack.Pose lastPose = poseStack.last();
         Matrix4f matrix = lastPose.pose();
         VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.getLightTrailEffect(TRAIL_TEXTURE));
 
-        for (int samples = 0; samples < sampleSize; samples++) {
-            Vec3 sample = entityIn.getTrailPosition(samples + 2, partialTicks);
-            float u1 = samples / (float) sampleSize;
-            float u2 = u1 + 1 / (float) sampleSize;
 
-            addVertex(vertexconsumer, matrix, drawFrom, bottomAngleVec, trailR,trailG,trailB,u1, 1F, packedLightIn);
-            addVertex(vertexconsumer, matrix, sample, bottomAngleVec,  trailR,trailG,trailB,u2,1F, packedLightIn);
-            addVertex(vertexconsumer, matrix, sample, topAngleVec, trailR,trailG,trailB,u2,0F, packedLightIn);
-            addVertex(vertexconsumer, matrix, drawFrom, topAngleVec, trailR,trailG,trailB, u1,0F, packedLightIn);
+        Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
+
+        Vec3 cameraPos = this.entityRenderDispatcher.camera.getPosition();
+
+        for (int i = 0; i < sampleSize; i++) {
+            Vec3 sample = entityIn.getTrailPosition(i + 1, partialTicks);
+            float u1 = i / (float) sampleSize;
+            float u2 = u1 + (1.0F / sampleSize);
+
+            Vec3 forward = sample.subtract(drawFrom);
+            if (forward.lengthSqr() == 0) continue;
+
+            Vec3 toCamera = cameraPos.subtract(drawFrom);
+
+            Vec3 side = forward.cross(toCamera).normalize();
+
+            Vec3 offset = side.scale(trailWidth / 2.0F);
+
+            addVertex(vertexconsumer, matrix, drawFrom.add(offset),       trailR, trailG, trailB, u1, 0F, packedLightIn); // Top-left
+            addVertex(vertexconsumer, matrix, drawFrom.add(offset.scale(-1)), trailR, trailG, trailB, u1, 1F, packedLightIn); // Bottom-left
+            addVertex(vertexconsumer, matrix, sample.add(offset.scale(-1)),   trailR, trailG, trailB, u2, 1F, packedLightIn); // Bottom-right
+            addVertex(vertexconsumer, matrix, sample.add(offset),           trailR, trailG, trailB, u2, 0F, packedLightIn); // Top-right
 
             drawFrom = sample;
         }
     }
 
-    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Vec3 pos, Vec3 offset, float r, float g, float b, float u, float v, int light) {
-        consumer.addVertex(matrix,
-                        (float) (pos.x + offset.x),
-                        (float) (pos.y + offset.y),
-                        (float) (pos.z + offset.z))
+    // Update the addVertex method to simplify its signature
+    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Vec3 pos, float r, float g, float b, float u, float v, int light) {
+        consumer.addVertex(matrix, (float)pos.x, (float)pos.y, (float)pos.z)
                 .setColor(r, g, b, 1.0F)
                 .setUv(u, v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
-                .setNormal(0.0F, 1.0F, 0.0F);
+                .setNormal(0.0F, 1.0F, 0.0F); // Normal can be fixed as lighting is emissive
     }
 
     @Override

@@ -35,10 +35,6 @@ public class Animation_Monsters extends Monster implements Enemy {
     private static final ResourceLocation MOB_HEALTH_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"animation_health");
     private static final ResourceLocation MOB_DAMAGE_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"animation_damage");
 
-    protected boolean dropAfterDeathAnim = false;
-    public int killDataRecentlyHit;
-    public DamageSource killDataCause;
-    public Player killDataAttackingPlayer;
     public int attackTicks;
 
     @OnlyIn(Dist.CLIENT)
