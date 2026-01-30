@@ -3,8 +3,6 @@
   "values": [
     "cataclysm:laser",
     "cataclysm:maledictio_sagitta",
-    "cataclysm:storm_bringer",
-    "cataclysm:star_lance",
-    "cataclysm:dagger"
+    "cataclysm:storm_bringer"
   ]
 }

@@ -6,8 +6,6 @@
     "cataclysm:abyssal_burn",
     "cataclysm:maledictio_magicae",
     "cataclysm:lightning",
-    "cataclysm:flame_strike",
-    "cataclysm:draconic_wound",
-    "cataclysm:draconic_wound_eruption"
+    "cataclysm:flame_strike"
   ]
 }

@@ -7,10 +7,6 @@
     "cataclysm:lightning",
     "cataclysm:storm_bringer",
     "cataclysm:player_ceraunus",
-    "cataclysm:flame_strike",
-    "cataclysm:star_lance",
-    "cataclysm:draconic_wound",
-    "cataclysm:draconic_slash",
-    "cataclysm:draconic_wound_eruption"
+    "cataclysm:flame_strike"
   ]
 }
