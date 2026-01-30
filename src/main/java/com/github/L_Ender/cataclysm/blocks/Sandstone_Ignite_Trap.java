@@ -64,6 +64,7 @@ public class Sandstone_Ignite_Trap extends BaseEntityBlock {
         return RenderShape.MODEL;
     }
 
+
     public static boolean shouldTrigger(Entity entity) {
         if(entity instanceof LivingEntity) {
             if (!entity.getType().is(ModTag.SANDSTONE_TRAP_NOT_DETECTED)) {

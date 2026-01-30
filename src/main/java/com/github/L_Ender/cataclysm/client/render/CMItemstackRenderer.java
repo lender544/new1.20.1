@@ -55,7 +55,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Gauntlet_of_Maelstrom_Model GAUNTLET_OF_MAELSTROM_MODEL = new Gauntlet_of_Maelstrom_Model();
     private static final Astrape_Model ASTRAPE_MODEL = new Astrape_Model();
     private static final Ceraunus_Item_Model CERAUNUS_MODEL = new Ceraunus_Item_Model();
-
+    private static final Brontes_Model BRONTES_MODEL = new Brontes_Model();
     private static final Incinerator_Model THE_INCINERATOR_MODEL = new Incinerator_Model();
     private static final Coral_Spear_Model CORAL_SPEAR_MODEL = new Coral_Spear_Model();
     private static final Coral_Bardiche_Model CORAL_BARDICHE_MODEL = new Coral_Bardiche_Model();
@@ -69,6 +69,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final Wither_Assault_SHoulder_Weapon_Model WASW_MODEL = new Wither_Assault_SHoulder_Weapon_Model();
     private static final Void_Forge_Model VOID_FORGE_MODEL = new Void_Forge_Model();
+    private static final Infernal_Forge_Model INFERNAL_FORGE_MODEL = new Infernal_Forge_Model();
     private static final Tidal_Claws_Model TIDAL_CLAWS_MODEL = new Tidal_Claws_Model();
     private static final Meat_Shredder_Model MEAT_SHREDDER_MODEL = new Meat_Shredder_Model();
     private static final Laser_Gatling_Model LASER_GATLING_MODEL = new Laser_Gatling_Model();
@@ -102,17 +103,24 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation CERAUNUS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/ceraunus.png");
 
 
-    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
+    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/new_gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom.png");
 
-    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
-    private static final ResourceLocation GAUNTLET_OF_GUARD_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_guard_layer.png");
-    private static final ResourceLocation GAUNTLET_OF_BULWARK_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark_layer.png");
+    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/new_gauntlet_of_bulwark.png");
+    private static final ResourceLocation GAUNTLET_OF_GUARD_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/new_gauntlet_of_guard_layer.png");
+    private static final ResourceLocation GAUNTLET_OF_BULWARK_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/new_gauntlet_of_bulwark_layer.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom_layer.png");
 
     private static final ResourceLocation THE_INCINERATOR_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/the_incinerator.png");
     private static final ResourceLocation VOID_FORGE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/void_forge.png");
     private static final ResourceLocation VOID_FORGE_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/void_forge_layer.png");
+
+    private static final ResourceLocation INFERNAL_FORGE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/infernal_forge.png");
+    private static final ResourceLocation INFERNAL_FORGE_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/infernal_forge_layer.png");
+
+    private static final ResourceLocation BRONTES_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/brontes.png");
+    private static final ResourceLocation BRONTES_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/brontes_layer.png");
+
     private static final ResourceLocation TIDAL_CLAWS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/tidal_claws.png");
     private static final ResourceLocation MEAT_SHREDDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/meat_shredder.png");
     private static final ResourceLocation MEAT_SHREDDER_LAYER_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/item/meat_shredder_layer.png");
@@ -231,8 +239,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            boolean throwing = Ceraunus.getThrowing(itemStackIn);
-
             VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.entityCutoutNoCull(CERAUNUS_TEXTURE), itemStackIn.hasFoil());
             CERAUNUS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
 
@@ -325,6 +331,29 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
             matrixStackIn.popPose();
         }
+
+        if (itemStackIn.getItem() == ModItems.BRONTES.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(BRONTES_TEXTURE), itemStackIn.hasFoil());
+            BRONTES_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(BRONTES_LAYER_TEXTURE), itemStackIn.hasFoil());
+            BRONTES_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
+
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.getItem() == ModItems.INFERNAL_FORGE.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(INFERNAL_FORGE_TEXTURE), itemStackIn.hasFoil());
+            INFERNAL_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(INFERNAL_FORGE_LAYER_TEXTURE), itemStackIn.hasFoil());
+            INFERNAL_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn);
+            matrixStackIn.popPose();
+        }
         if (itemStackIn.getItem() == ModItems.TIDAL_CLAWS.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
@@ -333,7 +362,6 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             TIDAL_CLAWS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn);
             matrixStackIn.popPose();
         }
-
         if (itemStackIn.getItem() == ModItems.MEAT_SHREDDER.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);

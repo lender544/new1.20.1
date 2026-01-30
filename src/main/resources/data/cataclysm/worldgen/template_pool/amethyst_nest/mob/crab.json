@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:amethyst_nest/mob/amethyst_crab",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:amethyst_crab",
+        "processors": {
+          "processors": []
+        },
+        "projection": "rigid",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

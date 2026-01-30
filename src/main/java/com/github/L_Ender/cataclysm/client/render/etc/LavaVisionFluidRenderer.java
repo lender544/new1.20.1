@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.client.render.etc;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;

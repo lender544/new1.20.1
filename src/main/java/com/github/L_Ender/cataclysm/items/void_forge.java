@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -10,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
@@ -25,11 +23,10 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class void_forge extends PickaxeItem {
-    public void_forge(Tier toolMaterial, Properties props) {
+public class Void_forge extends PickaxeItem {
+    public Void_forge(Tier toolMaterial, Properties props) {
 
         super(toolMaterial, props);
     }
@@ -57,13 +54,14 @@ public class void_forge extends PickaxeItem {
             ScreenShake_Entity.ScreenShake(world, player.position(), 30, 0.1f, 0, 30);
             for (Vec3 vector3d : all) {
                 float f = (float) Mth.atan2(vector3d.z, vector3d.x);
-                player.getCooldowns().addCooldown(this, CMConfig.VoidForgeCooldown);
+                player.getCooldowns().addCooldown(this, CMCommonConfig.VoidForge.cooldown);
                 for (int i = 0; i < 5; i++) {
                     double d2 = 1.75D * (double) (i + 1);
                     int j = 1 * i;
                     this.spawnFangs(player.getX() + (double) Mth.cos(f) * d2, headY, player.getZ() + (double) Mth.sin(f) * d2, standingOnY, f, j, world, player);
                 }
             }
+
 
             return InteractionResult.SUCCESS;
         }
@@ -118,7 +116,7 @@ public class void_forge extends PickaxeItem {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks,(float) CMConfig.Voidrunedamage, player));
+            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, (float) CMCommonConfig.VoidForge.runeDamage, player));
             return true;
         }
         return false;

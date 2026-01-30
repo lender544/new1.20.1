@@ -1,58 +1,27 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-
-import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
-public class Gauntlet_of_Guard extends Item implements RangeTool {
+public class Gauntlet_of_Guard extends Cataclysm_Weapon {
 
     public Gauntlet_of_Guard(Properties group) {
         super(group);
  }
-
-    public static ItemAttributeModifiers createAttributes() {
-        return ItemAttributeModifiers.builder()
-                .add(
-                        Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 10.0D, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.4F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ARMOR, new AttributeModifier(BASE_ENTITY_ARMOR_ID, 3F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ENTITY_ARMOR_TOUGHNESS_ID, 3F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(BASE_ENTITY_KNOCKBACK_RESISTANCE_ID, 0.15F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .build();
-    }
 
     public UseAnim getUseAnimation(ItemStack p_77661_1_) {
         return UseAnim.BOW;

@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -18,12 +17,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class void_core extends Item {
+public class Void_core extends Item {
 
-    public void_core(Properties group) {
+    public Void_core(Properties group) {
         super(group);
 
     }
@@ -57,7 +55,7 @@ public class void_core extends Item {
         }
         ItemStack stack = player.getItemInHand(hand);
         if (hasSucceeded) {
-            player.getCooldowns().addCooldown(this, CMConfig.VoidCoreCooldown);
+            player.getCooldowns().addCooldown(this, CMCommonConfig.VoidCore.cooldown);
             return InteractionResultHolder.success(stack);
         }
         return InteractionResultHolder.pass(stack);
@@ -88,7 +86,7 @@ public class void_core extends Item {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks,(float) CMConfig.Voidrunedamage, player));
+            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, (float)CMCommonConfig.VoidCore.runeDamage, player));
             return true;
         }
         return false;

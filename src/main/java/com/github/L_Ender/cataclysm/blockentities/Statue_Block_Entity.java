@@ -9,20 +9,14 @@ import net.minecraft.world.level.block.state.BlockState;
 public class Statue_Block_Entity extends BlockEntity {
 
 
-
-    public int tickCount;
-
     public Statue_Block_Entity(BlockPos pos, BlockState state) {
         super(ModTileentites.GODDESS_STATUE.get(), pos, state);
     }
 
     public static void commonTick(Level level, BlockPos pos, BlockState state, Statue_Block_Entity entity) {
-        entity.tick();
-
     }
 
     public void tick() {
-        tickCount++;
 
     }
 

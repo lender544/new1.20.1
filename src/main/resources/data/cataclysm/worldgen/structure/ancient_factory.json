@@ -1,7 +1,7 @@
 {
   "type": "cataclysm:cataclysm_jigsaw",
   "biomes": "#cataclysm:has_structure/ancient_factory_biomes",
-  "step": "underground_decoration",
+  "step": "underground_structures",
   "start_pool": "cataclysm:ancient_factory/start_pool",
   "liquid_settings": "ignore_waterlogging",
   "terrain_adaptation": "beard_box",

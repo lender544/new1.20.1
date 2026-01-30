@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -113,16 +114,19 @@ public class Abyss_Portal_Entity extends Entity {
         this.entityData.set(ENTRANCE, entrance);
     }
 
-    public BlockPos getDestination() {
-        return this.entityData.get(DESTINATION).orElse(null);
-    }
 
-    public void setDestination(BlockPos destination) {
+    public void setDestination(@Nullable BlockPos destination) {
         this.entityData.set(DESTINATION, Optional.ofNullable(destination));
         if (this.getSisterId() == null) {
             createAndSetSister(level(), null);
         }
     }
+
+    @Nullable
+    public BlockPos getDestination() {
+        return this.getEntityData().get(DESTINATION).orElse(null);
+    }
+
 
     public void createAndSetSister(Level world, Direction dir){
         Abyss_Portal_Entity portal = ModEntities.ABYSS_PORTAL.get().create(world);
@@ -156,17 +160,11 @@ public class Abyss_Portal_Entity extends Entity {
         p_326229_.define(ENTRANCE, true);
     }
 
+
     @Override
     protected void readAdditionalSaveData(CompoundTag compound) {
         this.setLifespan(compound.getInt("Lifespan"));
-        if (compound.contains("DX")) {
-            int i = compound.getInt("DX");
-            int j = compound.getInt("DY");
-            int k = compound.getInt("DZ");
-            this.entityData.set(DESTINATION, Optional.of(new BlockPos(i, j, k)));
-        } else {
-            this.entityData.set(DESTINATION, Optional.empty());
-        }
+        NbtUtils.readBlockPos(compound, "Destination").ifPresent(this::setDestination);
         if (compound.hasUUID("SisterUUID")) {
             this.setSisterId(compound.getUUID("SisterUUID"));
         }
@@ -175,11 +173,8 @@ public class Abyss_Portal_Entity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("Lifespan", getLifespan());
-        BlockPos blockpos = this.getDestination();
-        if (blockpos != null) {
-            compound.putInt("DX", blockpos.getX());
-            compound.putInt("DY", blockpos.getY());
-            compound.putInt("DZ", blockpos.getZ());
+        if (this.getDestination() != null) {
+            compound.put("Destination", NbtUtils.writeBlockPos(this.getDestination()));
         }
         if (this.getSisterId() != null) {
             compound.putUUID("SisterUUID", this.getSisterId());

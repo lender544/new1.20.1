@@ -116,6 +116,7 @@
     "cataclysm:purpur_tile_wall",
     "cataclysm:polished_obsidian_slab",
     "cataclysm:polished_obsidian_stairs",
-    "cataclysm:polished_obsidian_wall"
+    "cataclysm:polished_obsidian_wall",
+    "cataclysm:obsidian_fence"
   ]
 }

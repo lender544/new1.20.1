@@ -1,0 +1,7 @@
+{
+  "processors": [
+    {
+      "processor_type": "cataclysm:waterlogging_when_replacing_water_processor"
+    }
+  ]
+}

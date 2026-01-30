@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
@@ -15,8 +14,8 @@ import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -26,12 +25,12 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -42,12 +41,10 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
-import net.minecraft.world.entity.animal.Rabbit;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathType;
@@ -83,6 +80,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     public static final int JUMP_COOLDOWN = 160;
     private boolean isLandNavigator;
     boolean searchingForLand;
+
 
 
     public Coralssus_Entity(EntityType entity, Level world) {
@@ -349,6 +347,23 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         }
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float damage) {
+        if (source.is(DamageTypes.HOT_FLOOR) ) {
+            return false;
+        }
+
+        return super.hurt(source, damage);
+    }
+
+    public void onInsideBubbleColumn(boolean p_20322_) {
+
+    }
+
+    public void onAboveBubbleCol(boolean p_20313_) {
+
+    }
+
     public void travel(Vec3 p_32394_) {
         if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
             this.moveRelative(0.01F, p_32394_);
@@ -468,13 +483,13 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.15f, 0, 20);
         this.playSound(ModSounds.EXPLOSION.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
                 if (!isAlliedTo(entity) && !(entity instanceof Coralssus_Entity) && entity != this) {
                     launch(entity, true);
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
                     if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
                 }
             }

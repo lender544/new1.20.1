@@ -118,5 +118,4 @@ public class AnimationUtils {
 
         return new AnimationChannel(AnimationChannel.Targets.POSITION, frames.toArray(new Keyframe[0]));
     }
-
 }

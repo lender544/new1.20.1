@@ -107,6 +107,9 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> ENDER_GUARDIAN_FIST = SOUNDS.register("enderguardianattack",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"enderguardianattack")));
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUARDIAN_FIST = SOUNDS.register("guardianfistattack",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"guardianfistattack")));
+
     public static final DeferredHolder<SoundEvent, SoundEvent> VOID_RUNE_RISING = SOUNDS.register("voidrunerising",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"voidrunerising")));
 
@@ -366,6 +369,16 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> KOBOLETON_DEATH = SOUNDS.register("koboleton_death",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"koboleton_death")));
 
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> LACERTON_AMBIENT = SOUNDS.register("lacerton_ambient",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"lacerton_ambient")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> LACERTON_HURT = SOUNDS.register("lacerton_hurt",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"lacerton_hurt")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> LACERTON_DEATH = SOUNDS.register("lacerton_death",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"lacerton_death")));
+
     public static final DeferredHolder<SoundEvent, SoundEvent> KOBOLETON_STEP = SOUNDS.register("koboleton_step",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"koboleton_step")));
 
@@ -464,6 +477,15 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> CINDARIA_DEATH = SOUNDS.register("cindaria_death",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"cindaria_death")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLAWDIAN_HURT = SOUNDS.register("clawdian_hurt",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"clawdian_hurt")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLAWDIAN_IDLE = SOUNDS.register("clawdian_idle",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"clawdian_idle")));
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> CLAWDIAN_DEATH = SOUNDS.register("clawdian_death",
+            () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"clawdian_death")));
 
     public static final DeferredHolder<SoundEvent, SoundEvent> HIPPOCAMTUS_HURT = SOUNDS.register("hippocamtus_hurt",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"hippocamtus_hurt")));

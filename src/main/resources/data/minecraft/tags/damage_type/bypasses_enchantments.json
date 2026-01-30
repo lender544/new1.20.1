@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "cataclysm:maledictio_anima",
-    "cataclysm:flame_strike"
+    "cataclysm:flame_strike",
+    "cataclysm:draconic_wound"
   ]
 }

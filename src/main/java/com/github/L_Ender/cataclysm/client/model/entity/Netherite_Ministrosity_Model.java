@@ -5,8 +5,6 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Netherite_Ministrosity_Animation;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -74,8 +72,12 @@ public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Mi
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.animateHeadLookTarget(netHeadYaw, headPitch);
 		this.animate(entity.getAnimationState("idle"), Netherite_Ministrosity_Animation.IDLE, ageInTicks, 1.0F);
+
 		this.animateWalk(Netherite_Ministrosity_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
-		this.animate(entity.getAnimationState("sleep"), Netherite_Ministrosity_Animation.SLEEP, ageInTicks, 1.0F);
+		if (!entity.getIsAwaken()) {
+			this.applyStatic(Netherite_Ministrosity_Animation.SLEEP);
+		}
+
 		this.animate(entity.getAnimationState("operation"), Netherite_Ministrosity_Animation.OPERATION, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("chest_open"), Netherite_Ministrosity_Animation.CHEST_OPEN, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("chest_loop"), Netherite_Ministrosity_Animation.CHEST_LOOP, ageInTicks, 1.0F);

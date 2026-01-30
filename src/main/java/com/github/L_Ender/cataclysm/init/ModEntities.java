@@ -19,9 +19,9 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.*;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Test.Test_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Modern_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
+import com.github.L_Ender.cataclysm.entity.Pet.Summoned_Entity.Ignited_Sword_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.The_Baby_Leviathan_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.*;
 import com.github.L_Ender.cataclysm.entity.projectile.*;
@@ -54,10 +54,6 @@ public class ModEntities {
             .fireImmune()
             .build(Cataclysm.MODID + ":ender_golem"));
 
-    public static final DeferredHolder<EntityType<?>,EntityType<Test_Entity>> TEST_ENTITY = ENTITY_TYPE.register("test_entity", () -> EntityType.Builder.of(Test_Entity::new, MobCategory.MONSTER)
-            .sized(2.5F, 3.5F)
-            .fireImmune()
-            .build(Cataclysm.MODID + ":test_entity"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ender_Guardian_Entity>> ENDER_GUARDIAN = ENTITY_TYPE.register("ender_guardian", () -> EntityType.Builder.of(Ender_Guardian_Entity::new, MobCategory.MONSTER)
             .sized(2.5F, 3.8F)
@@ -67,10 +63,11 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":ender_guardian"));
 
 
+
     public static final DeferredHolder<EntityType<?>,EntityType<Netherite_Monstrosity_Entity>> NETHERITE_MONSTROSITY = ENTITY_TYPE.register("netherite_monstrosity", () -> EntityType.Builder.of(Netherite_Monstrosity_Entity::new, MobCategory.MONSTER)
             .sized(3.0f, 5.75f)
             .fireImmune()
-            .clientTrackingRange(4)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":netherite_monstrosity"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Netherite_Ministrosity_Entity>> NETHERITE_MINISTROSITY  = ENTITY_TYPE.register("netherite_ministrosity", () -> EntityType.Builder.of(Netherite_Ministrosity_Entity::new, MobCategory.CREATURE)
@@ -108,8 +105,6 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":lightning_storm"));
 
 
-
-
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Entity>> IGNIS = ENTITY_TYPE.register("ignis", () -> EntityType.Builder.of(Ignis_Entity::new, MobCategory.MONSTER)
             .sized(2.25F, 3.5F)
             .fireImmune()
@@ -145,17 +140,17 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Deepling_Entity>> DEEPLING = ENTITY_TYPE.register("deepling", () -> EntityType.Builder.<Deepling_Entity>of(Deepling_Entity::new, MobCategory.MONSTER)
             .sized(0.6F, 2.3f)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":deepling"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Deepling_Brute_Entity>> DEEPLING_BRUTE = ENTITY_TYPE.register("deepling_brute", () -> EntityType.Builder.<Deepling_Brute_Entity>of(Deepling_Brute_Entity::new, MobCategory.MONSTER)
             .sized(0.7F, 2.6f)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":deepling_brute"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Deepling_Angler_Entity>> DEEPLING_ANGLER = ENTITY_TYPE.register("deepling_angler", () -> EntityType.Builder.of(Deepling_Angler_Entity::new, MobCategory.MONSTER)
             .sized(0.65F, 2.45f)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":deepling_angler"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Deepling_Priest_Entity>> DEEPLING_PRIEST = ENTITY_TYPE.register("deepling_priest", () -> EntityType.Builder.of(Deepling_Priest_Entity::new, MobCategory.MONSTER)
@@ -178,12 +173,12 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Lionfish_Entity>> LIONFISH = ENTITY_TYPE.register("lionfish", () -> EntityType.Builder.of(Lionfish_Entity::new, MobCategory.MONSTER)
             .sized(0.6F, 0.55f)
-            .clientTrackingRange(6)
+            .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":lionfish"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Coral_Golem_Entity>> CORAL_GOLEM = ENTITY_TYPE.register("coral_golem", () -> EntityType.Builder.of(Coral_Golem_Entity::new, MobCategory.MONSTER)
             .sized(2.5F, 2.7F)
-            .clientTrackingRange(10)
+            .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":coral_golem"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Coralssus_Entity>> CORALSSUS = ENTITY_TYPE.register("coralssus", () -> EntityType.Builder.of(Coralssus_Entity::new, MobCategory.MONSTER)
@@ -223,7 +218,7 @@ public class ModEntities {
             .sized(4.5F, 3F)
             .fireImmune()
             .eyeHeight(1.35F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(10)
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":the_leviathan"));
 
@@ -282,6 +277,7 @@ public class ModEntities {
             .clientTrackingRange(4)
             .build(Cataclysm.MODID + ":urchin_spike"));
 
+
     public static final DeferredHolder<EntityType<?>,EntityType<Spark_Entity>> SPARK = ENTITY_TYPE.register("spark", () -> EntityType.Builder.<Spark_Entity>of(Spark_Entity::new, MobCategory.MISC)
             .sized(0.5f, 0.5f)
             .updateInterval(20)
@@ -289,10 +285,15 @@ public class ModEntities {
             .build(Cataclysm.MODID + ":spark"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<ScreenShake_Entity>> SCREEN_SHAKE = ENTITY_TYPE.register("screen_shake", () -> EntityType.Builder.<ScreenShake_Entity>of(ScreenShake_Entity::new, MobCategory.MISC)
-            .noSummon()
             .sized(0.0f, 0.0f)
             .setUpdateInterval(Integer.MAX_VALUE)
             .build(Cataclysm.MODID + ":screen_shake"));
+
+    public static final DeferredHolder<EntityType<?>,EntityType<SkyColor_Entity>> SKY_COLOR = ENTITY_TYPE.register("sky_color", () -> EntityType.Builder.<SkyColor_Entity>of(SkyColor_Entity::new, MobCategory.MISC)
+            .sized(0.0f, 0.0f)
+            .setUpdateInterval(Integer.MAX_VALUE)
+            .build(Cataclysm.MODID + ":sky_color"));
+
 
 
     public static final DeferredHolder<EntityType<?>,EntityType<Cm_Falling_Block_Entity>> CM_FALLING_BLOCK = ENTITY_TYPE.register("cm_falling_block", () -> EntityType.Builder.<Cm_Falling_Block_Entity>of(Cm_Falling_Block_Entity::new, MobCategory.MISC)
@@ -300,8 +301,6 @@ public class ModEntities {
             .clientTrackingRange(10)
             .updateInterval(20)
             .build(Cataclysm.MODID + ":cm_falling_block"));
-
-
 
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ignis_Fireball_Entity>> IGNIS_FIREBALL = ENTITY_TYPE.register("ignis_fireball", () -> EntityType.Builder.<Ignis_Fireball_Entity>of(Ignis_Fireball_Entity::new, MobCategory.MISC)
@@ -333,7 +332,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Flame_Strike_Entity>> FLAME_STRIKE = ENTITY_TYPE.register("flame_strike", () -> EntityType.Builder.<Flame_Strike_Entity>of(Flame_Strike_Entity::new, MobCategory.MISC)
             .sized(6.0F, 0.5F)
             .fireImmune()
-            .clientTrackingRange(10).updateInterval(Integer.MAX_VALUE)
+            .clientTrackingRange(10).updateInterval(2)
             .build(Cataclysm.MODID + ":flame_strike"));
 
 
@@ -342,12 +341,13 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Bolt_strike_Entity>> BOLT_STRIKE = ENTITY_TYPE.register("bolt_strike", () -> EntityType.Builder.<Bolt_strike_Entity>of(Bolt_strike_Entity::new, MobCategory.MISC)
             .sized(0.0F, 0.0F)
             .clientTrackingRange(16)
-            .updateInterval(Integer.MAX_VALUE)
+            .updateInterval(2)
             .build(Cataclysm.MODID + ":bolt_strike"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Wave_Entity>> WAVE = ENTITY_TYPE.register("wave", () -> EntityType.Builder.<Wave_Entity>of(Wave_Entity::new, MobCategory.MISC)
             .sized(1.7F, 2.0F)
             .fireImmune()
+            .clientTrackingRange(6)
             .setUpdateInterval(1)
             .build(Cataclysm.MODID + ":wave"));
 
@@ -363,7 +363,8 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Ashen_Breath_Entity>> ASHEN_BREATH = ENTITY_TYPE.register("ashen_breath", () -> EntityType.Builder.<Ashen_Breath_Entity>of(Ashen_Breath_Entity::new, MobCategory.MISC)
             .sized(0.0f, 0.0f)
             .fireImmune()
-            .setUpdateInterval(1)
+            .clientTrackingRange(4)
+            .setUpdateInterval(3)
             .build(Cataclysm.MODID + ":ashen_breath"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Wall_Watcher_Entity>> WALL_WATCHER = ENTITY_TYPE.register("wall_watcher", () -> EntityType.Builder.<Wall_Watcher_Entity>of(Wall_Watcher_Entity::new, MobCategory.MISC)
@@ -479,6 +480,13 @@ public class ModEntities {
             .updateInterval(20)
             .build(Cataclysm.MODID + ":player_ceraunus"));
 
+    public static final DeferredHolder<EntityType<?>,EntityType<Brontes_Entity>> BRONTES = ENTITY_TYPE.register("brontes", () -> EntityType.Builder.<Brontes_Entity>of(Brontes_Entity::new, MobCategory.MISC)
+            .sized(1.5F, 1.5F)
+            .clientTrackingRange(4)
+            .passengerAttachments(0.5F)
+            .updateInterval(20)
+            .build(Cataclysm.MODID + ":brontes"));
+
     public static final DeferredHolder<EntityType<?>,EntityType<Abyss_Portal_Entity>> ABYSS_PORTAL = ENTITY_TYPE.register("abyss_portal", () -> EntityType.Builder.<Abyss_Portal_Entity>of(Abyss_Portal_Entity::new, MobCategory.MISC)
             .fireImmune()
             .sized(3F, 0.15f)
@@ -532,18 +540,11 @@ public class ModEntities {
             .setUpdateInterval(1)
             .build(Cataclysm.MODID + ":amethyst_cluster_projectile"));
 
-    public static final DeferredHolder<EntityType<?>,EntityType<Ancient_Ancient_Remnant_Entity>> ANCIENT_ANCIENT_REMNANT = ENTITY_TYPE.register("ancient_ancient_remnant", () -> EntityType.Builder.of(Ancient_Ancient_Remnant_Entity::new, MobCategory.MONSTER)
-            .sized(3.8F, 5F)
-            .fireImmune()
-            .clientTrackingRange(8)
-            .setShouldReceiveVelocityUpdates(true)
-            .build(Cataclysm.MODID + ":ancient_ancient_remnant"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ancient_Remnant_Entity>> ANCIENT_REMNANT = ENTITY_TYPE.register("ancient_remnant", () -> EntityType.Builder.of(Ancient_Remnant_Entity::new, MobCategory.MONSTER)
             .sized(4.35F, 5F)
             .fireImmune()
-            .clientTrackingRange(8)
-            .setShouldReceiveVelocityUpdates(true)
+            .clientTrackingRange(10)
             .build(Cataclysm.MODID + ":ancient_remnant"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Modern_Remnant_Entity>> MODERN_REMNANT = ENTITY_TYPE.register("modern_remnant", () -> EntityType.Builder.of(Modern_Remnant_Entity::new, MobCategory.CREATURE)
@@ -567,6 +568,8 @@ public class ModEntities {
             .clientTrackingRange(8)
             .build(Cataclysm.MODID + ":wadjet"));
 
+
+
     public static final DeferredHolder<EntityType<?>,EntityType<Sandstorm_Entity>> SANDSTORM = ENTITY_TYPE.register("sandstorm", () -> EntityType.Builder.<Sandstorm_Entity>of(Sandstorm_Entity::new, MobCategory.MISC)
             .sized(2.5F, 4.5F)
             .fireImmune()
@@ -577,16 +580,15 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Sandstorm_Projectile>> SANDSTORM_PROJECTILE = ENTITY_TYPE.register("sandstorm_projectile", () -> EntityType.Builder.<Sandstorm_Projectile>of(Sandstorm_Projectile::new, MobCategory.MISC)
             .sized(0.5F, 1.0F)
             .clientTrackingRange(4)
-            .setUpdateInterval(1)
+            .setUpdateInterval(2)
             .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":sandstorm_projectile"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Cursed_Sandstorm_Entity>> CURSED_SANDSTORM = ENTITY_TYPE.register("cursed_sandstorm", () -> EntityType.Builder.<Cursed_Sandstorm_Entity>of(Cursed_Sandstorm_Entity::new, MobCategory.MISC)
             .sized(0.5F, 1.0F)
             .setShouldReceiveVelocityUpdates(true)
-            .setUpdateInterval(1)
+            .setUpdateInterval(2)
             .setTrackingRange(20)
-            .setShouldReceiveVelocityUpdates(true)
             .build(Cataclysm.MODID + ":cursed_sandstorm"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Ancient_Desert_Stele_Entity>> ANCIENT_DESERT_STELE = ENTITY_TYPE.register("ancient_desert_stele", () -> EntityType.Builder.<Ancient_Desert_Stele_Entity>of(Ancient_Desert_Stele_Entity::new, MobCategory.MISC)
@@ -607,23 +609,23 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Draugr_Entity>> DRAUGR = ENTITY_TYPE.register("draugr", () -> EntityType.Builder.of(Draugr_Entity::new, MobCategory.MONSTER)
             .sized(0.6F, 1.95F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":draugr"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Royal_Draugr_Entity>> ROYAL_DRAUGR = ENTITY_TYPE.register("royal_draugr", () -> EntityType.Builder.of(Royal_Draugr_Entity::new, MobCategory.MONSTER)
             .sized(0.975F, 2.05F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":royal_draugr"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Elite_Draugr_Entity>> ELITE_DRAUGR = ENTITY_TYPE.register("elite_draugr", () -> EntityType.Builder.of(Elite_Draugr_Entity::new, MobCategory.MONSTER)
             .sized(0.8F, 2.6F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(6)
             .build(Cataclysm.MODID + ":elite_draugr"));
 
 
     public static final DeferredHolder<EntityType<?>,EntityType<Aptrgangr_Entity>> APTRGANGR = ENTITY_TYPE.register("aptrgangr", () -> EntityType.Builder.of(Aptrgangr_Entity::new, MobCategory.MONSTER)
             .sized(2.4F, 4.0f)
-            .clientTrackingRange(8)
+            .clientTrackingRange(10)
             .build(Cataclysm.MODID + ":aptrgangr"));
 
 
@@ -647,7 +649,7 @@ public class ModEntities {
 
     public static final DeferredHolder<EntityType<?>,EntityType<Clawdian_Entity>> CLAWDIAN = ENTITY_TYPE.register("clawdian", () -> EntityType.Builder.of(Clawdian_Entity::new, MobCategory.MONSTER)
             .sized(2.5F, 4.5F)
-            .clientTrackingRange(8)
+            .clientTrackingRange(10)
             .eyeHeight(4.4F)
             .fireImmune()
             .build(Cataclysm.MODID + ":clawdian"));
@@ -655,7 +657,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Scylla_Entity>> SCYLLA = ENTITY_TYPE.register("scylla", () -> EntityType.Builder.of(Scylla_Entity::new, MobCategory.MONSTER)
             .sized(1.4F, 3.0F)
             .fireImmune()
-            .clientTrackingRange(8)
+            .clientTrackingRange(10)
             .build(Cataclysm.MODID + ":scylla"));
 
     public static final DeferredHolder<EntityType<?>,EntityType<Urchinkin_Entity>> URCHINKIN = ENTITY_TYPE.register("urchinkin", () -> EntityType.Builder.of(Urchinkin_Entity::new, MobCategory.MONSTER)
@@ -690,15 +692,17 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>,EntityType<Water_Spear_Entity>> WATER_SPEAR = ENTITY_TYPE.register("water_spear", () -> EntityType.Builder.<Water_Spear_Entity>of(Water_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(5)
+            .updateInterval(10)
             .build(Cataclysm.MODID + ":water_spear"));
 
 
     public static final DeferredHolder<EntityType<?>,EntityType<Lightning_Spear_Entity>> LIGHTNING_SPEAR = ENTITY_TYPE.register("lightning_spear", () -> EntityType.Builder.<Lightning_Spear_Entity>of(Lightning_Spear_Entity::new, MobCategory.MISC)
             .sized(0.5F, 0.5F)
             .clientTrackingRange(4)
-            .updateInterval(5)
+            .updateInterval(10)
             .build(Cataclysm.MODID + ":lightning_spear"));
+
+
 
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
@@ -727,7 +731,7 @@ public class ModEntities {
         event.register(DEEPLING_WARLOCK.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Deepling_Warlock_Entity::candeeplingSpawn,RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(DEEPLING_PRIEST.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Deepling_Priest_Entity::candeeplingSpawn,RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CORAL_GOLEM.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Coral_Golem_Entity::cangolemSpawn,RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(AMETHYST_CRAB.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Amethyst_Crab_Entity::canCrabSpawnSpawnRules,RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(AMETHYST_CRAB.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Amethyst_Crab_Entity::canCrabSpawnSpawnRules,RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(IGNITED_BERSERKER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules,RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 
@@ -753,7 +757,6 @@ public class ModEntities {
         event.put(CORALSSUS.get(), Coralssus_Entity.coralssus().build());
         event.put(LIONFISH.get(), Lionfish_Entity.lionfish().build());
         event.put(AMETHYST_CRAB.get(), Amethyst_Crab_Entity.amethyst_crab().build());
-        event.put(ANCIENT_ANCIENT_REMNANT.get(), Ancient_Ancient_Remnant_Entity.ancient_remnant().build());
         event.put(MODERN_REMNANT.get(), Modern_Remnant_Entity.modernremnant().build());
         event.put(KOBOLETON.get(), Koboleton_Entity.koboleton().build());
         event.put(THE_WATCHER.get(), The_Watcher_Entity.the_watcher().build());
@@ -773,6 +776,7 @@ public class ModEntities {
         event.put(CLAWDIAN.get(), Clawdian_Entity.clawdian().build());
         event.put(DROWNED_HOST.get(), Drowned_Host_Entity.createAttributes().build());
         event.put(SYMBIOCTO.get(), Symbiocto_Entity.octo().build());
-        event.put(TEST_ENTITY.get(), Test_Entity.test().build());
+
+
     }
 }

@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Bardiche_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -118,7 +118,7 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingBruteSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingBruteSpawnWeight, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable

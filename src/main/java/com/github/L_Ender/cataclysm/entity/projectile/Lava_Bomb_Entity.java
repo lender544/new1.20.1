@@ -1,10 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
-import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +9,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +20,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.fluids.FluidType;
 
 
 public class Lava_Bomb_Entity extends ThrowableProjectile {
@@ -67,7 +62,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         Entity shooter = this.getOwner();
         if (!this.getGround() && !this.level().isClientSide && !(result.getEntity() instanceof Lava_Bomb_Entity || result.getEntity() instanceof Netherite_Monstrosity_Part || result.getEntity() instanceof Netherite_Monstrosity_Entity)) {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(shooter, this.getX(), this.getY(), this.getZ(), CMConfig.Lavabombradius, Level.ExplosionInteraction.NONE);
+            this.level().explode(shooter, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }
@@ -77,7 +72,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         super.onHitBlock(result);
         if (!this.level().isClientSide() && !this.getGround()) {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), CMConfig.Lavabombradius, Level.ExplosionInteraction.NONE);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }

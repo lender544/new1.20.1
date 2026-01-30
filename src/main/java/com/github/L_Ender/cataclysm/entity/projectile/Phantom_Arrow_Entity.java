@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.Cursed_MarkParticleOption;
 import com.github.L_Ender.cataclysm.client.particle.Options.TrackLightningParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -35,9 +35,15 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
     @Nullable
     private UUID targetId;
     private boolean stopSeeking;
+
+    private boolean impactParticleSpawn = false;
+
     public Phantom_Arrow_Entity(EntityType type, Level worldIn) {
         super(type, worldIn);
     }
+
+
+
 
     public Phantom_Arrow_Entity(EntityType type, double x, double y, double z, Level worldIn) {
         this(type, worldIn);
@@ -142,8 +148,14 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
 
     }
 
-
-
+    @Override
+    protected void onHit(HitResult result) {
+        super.onHit(result);
+        Vec3 blockpos = result.getLocation();
+        if (this.level() instanceof ServerLevel serverlevel) {
+            serverlevel.sendParticles(new Cursed_MarkParticleOption(0.5F + this.random.nextFloat() * 0.2F), blockpos.x(), blockpos.y(), blockpos.z(), 1, 0.0, 0, 0.0, 0);
+        }
+    }
 
 
     @Override
@@ -186,7 +198,6 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
         }
 
         this.playSound(SoundEvents.ARROW_HIT, 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
-
     }
 
 

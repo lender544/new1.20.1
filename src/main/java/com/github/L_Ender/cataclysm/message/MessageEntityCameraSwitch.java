@@ -2,10 +2,10 @@ package com.github.L_Ender.cataclysm.message;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,8 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-
-import java.util.UUID;
 
 /**
  * Packets to help sync the server's Aether boss bars with the client's.
@@ -51,7 +49,7 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
                 if (entity instanceof Player player) {
-                    if (CMConfig.setFirstPerson) {
+                    if (CMClientConfig.firstPerson) {
                         if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
                             Minecraft.getInstance().setCameraEntity(entity);
                             Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
@@ -87,7 +85,7 @@ public abstract class MessageEntityCameraSwitch implements CustomPacketPayload {
             context.enqueueWork(() -> {
                 Entity entity = context.player().level().getEntity(payload.entityId);
                 if (entity instanceof Player player) {
-                    if (CMConfig.setThirdPerson) {
+                    if (CMClientConfig.thirdPerson) {
                         if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
                             Minecraft.getInstance().setCameraEntity(entity);
                             Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);

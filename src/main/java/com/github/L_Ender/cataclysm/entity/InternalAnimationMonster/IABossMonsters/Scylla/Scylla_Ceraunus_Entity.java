@@ -1,11 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -258,7 +258,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 		double DeltaMovementZ = getRandom().nextGaussian() * 0.1D;
 		if (this.level().isClientSide) {
 			for (int i1 = 0; i1 < 5 + random.nextInt(2); i1++) {
-				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+				this.level().addParticle(new ParryParticleOptions(255/255F, 106/255F,  0/255F), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}else{
 			Entity entity1 = this.getController();
@@ -267,10 +267,10 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 				if(this.getPhase() > 0) {
 					for (int i = 0; i < this.getPhase(); i++) {
 						Spark_Entity peq = new Spark_Entity(this.level(), living);
-						peq.setDamage((float) CMConfig.ScyllaLightningStormDamage);
-						peq.setAreaDamage((float) CMConfig.ScyllaLightningAreaDamage);
+						peq.setDamage((float) CMCommonConfig.Scylla.LightningStormDamage);
+						peq.setAreaDamage((float) CMCommonConfig.Scylla.LightningAreaDamage);
 						peq.setAreaRadius(1.0F);
-						peq.setHpDamage((float) CMConfig.ScyllaLightningStormHpDamage);
+						peq.setHpDamage((float) CMCommonConfig.Scylla.StormHpDamage);
 						peq.shoot((this.random.nextFloat() - 0.5) * 0.5F, this.random.nextFloat() * 0.4F + 0.01F, (this.random.nextFloat() - 0.5) * 0.5F, 1.0F, 1F);
 						peq.setPos(this.getX(), this.getY() + 0.03, this.getZ());
 						this.level().addFreshEntity(peq);

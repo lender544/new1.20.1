@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nullable;
@@ -15,6 +16,10 @@ public class ServerProxy {
         return false;
     }
 
+    public Player getClientSidePlayer() {
+        return null;
+    }
+
     public void blockRenderingEntity(UUID id) {
     }
 
@@ -25,10 +30,9 @@ public class ServerProxy {
 
     }
 
+    public float getPartialTicks() {
+        return 1.0F;
 
-
-    public boolean isKeyDown(int keyType) {
-        return false;
     }
 
     public void clearSoundCacheFor(BlockEntity entity) {

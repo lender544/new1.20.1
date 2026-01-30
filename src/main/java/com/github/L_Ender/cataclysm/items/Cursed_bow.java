@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataComponents;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -208,13 +208,11 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                     if (hommingArrows) {
                         if (target instanceof LivingEntity tango && !target.isAlliedTo(shooter)) {
                             Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, shooter, tango);
-                            hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * velocity);
-
+                            hommingArrowEntity.setBaseDamage((float)CMCommonConfig.CursedBow.damage * velocity);
                             abstractarrow = hommingArrowEntity;
                         } else {
                             Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, shooter);
-                            hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * velocity);
-
+                            hommingArrowEntity.setBaseDamage((float)CMCommonConfig.CursedBow.damage * velocity);
                             abstractarrow = hommingArrowEntity;
                         }
                     } else {

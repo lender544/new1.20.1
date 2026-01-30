@@ -1,13 +1,16 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.CustomRarity.CMRarity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.items.*;
-import com.github.L_Ender.cataclysm.items.CuriosItem.AttributeContainer;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Chitin_Claw;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Sticky_Gloves;
+import com.github.L_Ender.cataclysm.items.CuriosItem.*;
+import com.github.L_Ender.cataclysm.items.Sandstorm_In_A_Bottle;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import net.minecraft.core.BlockPos;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
@@ -17,20 +20,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.Unbreakable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Fluids;
-
-import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItems {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Cataclysm.MODID);
-    
-    
+
     public static final DeferredItem<BlockItem> ENDERITE_BLOCK = ITEMS.register("enderite_block",
             () -> new BlockItem(ModBlocks.ENDERRITE_BLOCK.get(), new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
@@ -126,8 +127,13 @@ public class ModItems {
     public static final DeferredItem<BlockItem> OBSIDIAN_BRICK_STAIRS = ITEMS.register("obsidian_brick_stairs",
             () -> new BlockItem(ModBlocks.OBSIDIAN_BRICK_STAIRS.get(), new Item.Properties()));
 
+
+    public static final DeferredItem<BlockItem> OBSIDIAN_FENCE = ITEMS.register("obsidian_fence",
+            () -> new BlockItem(ModBlocks.OBSIDIAN_FENCE.get(), new Item.Properties()));
+
     public static final DeferredItem<BlockItem> OBSIDIAN_BRICK_WALL = ITEMS.register("obsidian_brick_wall",
             () -> new BlockItem(ModBlocks.OBSIDIAN_BRICK_WALL.get(), new Item.Properties()));
+
 
     public static final DeferredItem<BlockItem> CHISELED_PURPUR_BLOCK = ITEMS.register("chiseled_purpur_block",
             () -> new BlockItem(ModBlocks.CHISELED_PURPUR_BLOCK.get(), new Item.Properties()));
@@ -383,9 +389,9 @@ public class ModItems {
     public static final DeferredItem<BlockItem> BLACK_STEEL_WALL = ITEMS.register("black_steel_wall",
             () -> new BlockItem(ModBlocks.BLACK_STEEL_WALL.get(), new Item.Properties()));
 
-
     public static final DeferredItem<BlockItem> POINTED_ICICLE = ITEMS.register("pointed_icicle",
             () -> new BlockItem(ModBlocks.POINTED_ICICLE.get(), new Item.Properties()));
+
 
     public static final DeferredItem<Item> WITHERITE_INGOT = ITEMS.register("witherite_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -413,10 +419,10 @@ public class ModItems {
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final DeferredItem<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
-            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Item(new Item.Properties().fireResistant().rarity(CMRarity.IGNITIUM_PROXY.getValue())));
 
     public static final DeferredItem<Item> CURSIUM_INGOT = ITEMS.register("cursium_ingot",
-            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Item(new Item.Properties().fireResistant().rarity(CMRarity.MALEDICTUS_PROXY.getValue())));
 
     public static final DeferredItem<Item> IGNITIUM_UPGARDE_SMITHING_TEMPLATE = ITEMS.register("ignitium_upgrade_smithing_template",
             () -> ModTemplate.createignitiumUpgradeTemplate());
@@ -438,6 +444,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> KHOPESH = ITEMS.register("khopesh",
             () -> new SwordItem(Tooltier.ANCIENT_METAL, new Item.Properties().attributes(SwordItem.createAttributes(Tooltier.ANCIENT_METAL, 3, -2.4F))));
+
 
     public static final DeferredItem<Item> BLACK_STEEL_SWORD = ITEMS.register("black_steel_sword",
             () -> new SwordItem(Tooltier.BLACK_STEEL , new Item.Properties().attributes(SwordItem.createAttributes(Tooltier.BLACK_STEEL, 3, -2.4F))));
@@ -467,17 +474,45 @@ public class ModItems {
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final DeferredItem<Item> GAUNTLET_OF_GUARD = ITEMS.register("gauntlet_of_guard",
-            () -> new Gauntlet_of_Guard(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Gauntlet_of_Guard.createAttributes())));
+            () -> new Gauntlet_of_Guard(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes( 10.0F, -2.4F,
+                            new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)
+                    ))));
+
 
     public static final DeferredItem<Item> GAUNTLET_OF_BULWARK = ITEMS.register("gauntlet_of_bulwark",
-            () -> new Gauntlet_of_Bulwark(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Gauntlet_of_Bulwark.createAttributes())));
+            () -> new Gauntlet_of_Bulwark(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes(10.0F, -2.4F,
+                            new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)
+                    ))));
 
     public static final DeferredItem<Item> GAUNTLET_OF_MAELSTROM = ITEMS.register("gauntlet_of_maelstrom",
-            () -> new Gauntlet_of_Maelstrom(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Gauntlet_of_Maelstrom.createAttributes())));
+            () -> new Gauntlet_of_Maelstrom(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes( 10.0F, -2.4F,
+                            new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)
+                    ))));
 
 
     public static final DeferredItem<Item> THE_INCINERATOR = ITEMS.register("the_incinerator",
-            () -> new The_Incinerator(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(The_Incinerator.createAttributes())));
+            () -> new The_Incinerator(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes( 13.0F, -2.7F,
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)))));
+
+    public static final DeferredItem<Item> BELT_OF_BEGINNER = ITEMS.register("belt_of_beginner",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1))
+                    .withSlotModifier("talisman", 2)
+    );
+
+    public static final DeferredItem<Item> BELT_OF_MONSTROSITY = ITEMS.register("belt_of_monstrosity",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1))
+                    .withSlotModifier("talisman", 2)
+    );
 
     public static final DeferredItem<Item> BLAZING_GRIPS = ITEMS.register("blazing_grips",
             () -> new Blazing_Grips(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -485,10 +520,51 @@ public class ModItems {
     public static final DeferredItem<Item> CHITIN_CLAW = ITEMS.register("chitin_claw",
             () -> new Chitin_Claw(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
                     .withAttributes("hands",
-                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 0.5, AttributeModifier.Operation.ADD_VALUE),
-                            new AttributeContainer(Attributes.BLOCK_INTERACTION_RANGE, 0.75, AttributeModifier.Operation.ADD_VALUE)
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 0.25, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.BLOCK_INTERACTION_RANGE, 1.0, AttributeModifier.Operation.ADD_VALUE)
                     )
     );
+
+    public static final DeferredItem<Item> RING_OF_GRUDGED = ITEMS.register("ring_of_grudged",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("rings",
+                            new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 10, AttributeModifier.Operation.ADD_VALUE)
+                    )
+    );
+
+    public static final DeferredItem<Item> BERSERKER_SOUL_AMULET = ITEMS.register("berserker_soul_amulet",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("necklace",
+                            new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.1D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL),
+                            new AttributeContainer(Attributes.ARMOR, -0.25D, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                    )
+    );
+
+    public static final DeferredItem<Item> VITALITY_ANKH = ITEMS.register("vitality_ankh",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("necklace",
+                            new AttributeContainer(ModAttribute.NATURE_HEAL, 20, AttributeModifier.Operation.ADD_VALUE)
+                    )
+    );
+
+
+
+
+    public static final DeferredItem<Item> UNBREAKABLE_SKULL = ITEMS.register("unbreakable_skull",
+            () -> new Unbreakable_Skull(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("talisman",
+                            new AttributeContainer(Attributes.ARMOR, 1, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 1, AttributeModifier.Operation.ADD_VALUE)
+                    )
+    );
+
+    public static final DeferredItem<Item> STURDY_BOOTS = ITEMS.register("sturdy_boots",
+            () -> new Sturdy_Boots(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+                    .withAttributes("feet",
+                            new AttributeContainer(Attributes.STEP_HEIGHT, 0.5D, AttributeModifier.Operation.ADD_VALUE)
+                    )
+    );
+
 
     public static final DeferredItem<Item> CURSED_BOW = ITEMS.register("cursed_bow",
             () -> new Cursed_bow(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -497,22 +573,38 @@ public class ModItems {
             () -> new Wrath_of_the_desert(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final DeferredItem<Item> SOUL_RENDER = ITEMS.register("soul_render",
-            () -> new Soul_Render(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(Soul_Render.createAttributes())));
+            () -> new Soul_Render(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)
+                    .attributes(Cataclysm_Weapon.createAttributes( 14F,-2.9F,
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE),
+                            new AttributeContainer(Attributes.BLOCK_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)))));
 
     public static final DeferredItem<Item> THE_ANNIHILATOR = ITEMS.register("the_annihilator",
-            () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Annihilator.createAttributes())));
+            () -> new The_Annihilator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)
+                    .attributes(Cataclysm_Weapon.createAttributes(6.5F, -2.4F,
+                            new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 75F, AttributeModifier.Operation.ADD_VALUE)))));
 
     public static final DeferredItem<Item> ASTRAPE = ITEMS.register("astrape",
-            () -> new Astrape(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Astrape.createAttributes())));
+            () -> new Astrape(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes( 9.5F, -2.6F,
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)))));
 
     public static final DeferredItem<Item> CERAUNUS = ITEMS.register("ceraunus",
-            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Ceraunus.createAttributes())));
+            () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes(15.0F, -3.3F,
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 1.0F, AttributeModifier.Operation.ADD_VALUE)))));
+
+    public static final DeferredItem<Item> BRONTES = ITEMS.register("brontes",
+            () -> new Brontes(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8.0F, -3.0F))));
 
     public static final DeferredItem<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
-            () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(The_Immolator.createAttributes())));
+            () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)
+                    .attributes(Cataclysm_Weapon.createAttributes(7.5F, -2.4F,
+                            new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 60F, AttributeModifier.Operation.ADD_VALUE)))));
+
 
     public static final DeferredItem<Item> MEAT_SHREDDER = ITEMS.register("meat_shredder",
-            () -> new Meat_Shredder(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC).attributes(Meat_Shredder.createAttributes())));
+            () -> new Meat_Shredder(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)
+                    .attributes(Cataclysm_Weapon.createAttributes(7.5F,-2.6F))));
 
     public static final DeferredItem<Item> LASER_GATLING = ITEMS.register("laser_gatling",
             () -> new Laser_Gatling(new Item.Properties().stacksTo(1).fireResistant().durability(50).rarity(Rarity.EPIC)));
@@ -524,19 +616,25 @@ public class ModItems {
             () -> new Void_Assault_SHoulder_Weapon(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final DeferredItem<Item> VOID_FORGE = ITEMS.register("void_forge",
-            () -> new void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));
+            () -> new Void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8.0F, -3.0F))));
 
     public static final DeferredItem<Item> TIDAL_CLAWS = ITEMS.register("tidal_claws",
-            () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().attributes(Tidal_Claws.createAttributes())));
+            () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()
+                    .attributes(Cataclysm_Weapon.createAttributes(7.0F,-2.4F))));
 
     public static final DeferredItem<Item> INFERNAL_FORGE = ITEMS.register("infernal_forge",
-            () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC).attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));
+            () -> new Infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)
+                    .attributes(PickaxeItem.createAttributes(Tooltier.MONSTROSITY,8, -3.0F))));
+
+
 
     public static final DeferredItem<Item> SANDSTORM_IN_A_BOTTLE = ITEMS.register("sandstorm_in_a_bottle",
             () -> new Sandstorm_In_A_Bottle(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final DeferredItem<Item> ANCIENT_SPEAR = ITEMS.register("ancient_spear",
-            () -> new Ancient_Spear(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().durability(1800).attributes(Ancient_Spear.createAttributes())));
+            () -> new Ancient_Spear(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().durability(1800)
+                    .attributes(Cataclysm_Weapon.createAttributes(8.5F, -2.6F,
+                            new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)))));
 
     public static final DeferredItem<Item> STICKY_GLOVES = ITEMS.register("sticky_gloves",
             () -> new Sticky_Gloves(new Item.Properties().stacksTo(1)));
@@ -563,7 +661,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().fireResistant()));
 
     public static final DeferredItem<Item> VOID_CORE = ITEMS.register("void_core",
-            () -> new void_core(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.UNCOMMON)));
+            () -> new Void_core(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.UNCOMMON)));
 
     public static final DeferredItem<Item> CRYSTALLIZED_CORAL_FRAGMENTS = ITEMS.register("crystallized_coral_fragments",
             () -> new Item(new Item.Properties()));
@@ -614,17 +712,20 @@ public class ModItems {
     public static final DeferredItem<Item> IGNITIUM_BOOTS = ITEMS.register("ignitium_boots",
             () -> new Ignitium_Armor(Armortier.IGNITIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.BOOTS.getDurability(45))));
 
+
+
     public static final DeferredItem<Item> CURSIUM_HELMET = ITEMS.register("cursium_helmet",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.HELMET.getDurability(45))));
 
     public static final DeferredItem<Item> CURSIUM_CHESTPLATE = ITEMS.register("cursium_chestplate",
-            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.CHESTPLATE.getDurability(45))));
+            () -> new Cursium_ChestPlate(Armortier.CURSIUM, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.CHESTPLATE.getDurability(45))));
 
     public static final DeferredItem<Item> CURSIUM_LEGGINGS = ITEMS.register("cursium_leggings",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.LEGGINGS.getDurability(45))));
 
     public static final DeferredItem<Item> CURSIUM_BOOTS = ITEMS.register("cursium_boots",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC).durability(ArmorItem.Type.BOOTS.getDurability(45))));
+
 
     public static final DeferredItem<Item> MONSTROUS_HORN = ITEMS.register("monstrous_horn",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -636,7 +737,9 @@ public class ModItems {
             () -> new Monstrous_Helm(ArmorMaterials.NETHERITE, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().durability(ArmorItem.Type.HELMET.getDurability(45)).rarity(Rarity.EPIC)));
 
     public static final DeferredItem<Item> BLOOM_STONE_PAULDRONS = ITEMS.register("bloom_stone_pauldrons",
-            () -> new Bloom_Stone_Pauldrons(Armortier.CRAB, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON).durability(ArmorItem.Type.CHESTPLATE.getDurability(30))));
+            () -> new Bloom_Stone_Pauldrons(Armortier.CRAB, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON).durability(ArmorItem.Type.CHESTPLATE.getDurability(30)),
+                    new AttributeContainer(ModAttribute.NATURE_HEAL, 15, AttributeModifier.Operation.ADD_VALUE)));
+
 
     public static final DeferredItem<Item> BURNING_ASHES = ITEMS.register("burning_ashes",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
@@ -811,6 +914,7 @@ public class ModItems {
     public static final DeferredItem<SpawnEggItem> WADJET_SPAWN_EGG = ITEMS.register("wadjet_spawn_egg",
             () -> new SpawnEggItem(ModEntities.WADJET.get(), 0xb7b196, 0xdbb86a, new Item.Properties()));
 
+
     public static final DeferredItem<SpawnEggItem> ANCIENT_REMNANT_SPAWN_EGG = ITEMS.register("ancient_remnant_spawn_egg",
             () -> new SpawnEggItem(ModEntities.ANCIENT_REMNANT.get(), 0xb7b196, 0x682e22, new Item.Properties()));
 
@@ -909,6 +1013,184 @@ public class ModItems {
         };
         DispenserBlock.registerBehavior(THE_BABY_LEVIATHAN_BUCKET.get(), dispenseItemBehavior);
         DispenserBlock.registerBehavior(MODERN_REMNANT_BUCKET.get(), dispenseItemBehavior);
+    }
+
+    public static void modifyComponents(ModifyDefaultComponentsEvent event) {
+        if (!ConfigHolder.COMMON_SPEC.isLoaded()) {
+            Cataclysm.LOGGER.error("Could not modify default components due to config not being loaded yet");
+        } else {
+            event.modify(ModItems.IGNITIUM_HELMET.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.IGNITIUM_HELMET.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.IGNITIUM,
+                                (float) CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.IgnitiumArmor.toughness,
+                                (float) CMCommonConfig.IgnitiumArmor.knockbackResistance,
+                                ArmorItem.Type.HELMET));
+            });
+            event.modify(ModItems.IGNITIUM_CHESTPLATE.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.IGNITIUM_CHESTPLATE.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.IGNITIUM,
+                                (float) CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.IgnitiumArmor.toughness,
+                                (float) CMCommonConfig.IgnitiumArmor.knockbackResistance,
+                                ArmorItem.Type.CHESTPLATE));
+            });
+            event.modify(ModItems.IGNITIUM_ELYTRA_CHESTPLATE.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.IGNITIUM_ELYTRA_CHESTPLATE.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.IGNITIUM,
+                                (float) CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.IgnitiumArmor.toughness,
+                                (float) CMCommonConfig.IgnitiumArmor.knockbackResistance,
+                                ArmorItem.Type.CHESTPLATE));
+            });
+            event.modify(ModItems.IGNITIUM_LEGGINGS.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.IGNITIUM_LEGGINGS.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.IGNITIUM,
+                                (float) CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.IgnitiumArmor.toughness,
+                                (float) CMCommonConfig.IgnitiumArmor.knockbackResistance,
+                                ArmorItem.Type.LEGGINGS));
+            });
+            event.modify(ModItems.IGNITIUM_BOOTS.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.IGNITIUM_BOOTS.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.IGNITIUM,
+                                (float) CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.IgnitiumArmor.toughness,
+                                (float) CMCommonConfig.IgnitiumArmor.knockbackResistance,
+                                ArmorItem.Type.BOOTS));
+            });
+
+            event.modify(ModItems.CURSIUM_HELMET.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.CURSIUM_HELMET.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.CURSIUM,
+                                (float) CMCommonConfig.CursiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.CursiumArmor.toughness,
+                                (float) CMCommonConfig.CursiumArmor.knockbackResistance,
+                                ArmorItem.Type.HELMET));
+            });
+            event.modify(ModItems.CURSIUM_CHESTPLATE.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.CURSIUM_CHESTPLATE.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.CURSIUM,
+                                (float) CMCommonConfig.CursiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.CursiumArmor.toughness,
+                                (float) CMCommonConfig.CursiumArmor.knockbackResistance,
+                                ArmorItem.Type.CHESTPLATE));
+            });
+            event.modify(ModItems.CURSIUM_LEGGINGS.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.CURSIUM_LEGGINGS.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.CURSIUM,
+                                (float) CMCommonConfig.CursiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.CursiumArmor.toughness,
+                                (float) CMCommonConfig.CursiumArmor.knockbackResistance,
+                                ArmorItem.Type.LEGGINGS));
+            });
+            event.modify(ModItems.CURSIUM_BOOTS.get(), (builder) -> {
+                builder.set(DataComponents.UNBREAKABLE, new Unbreakable(true));
+                AttributeUtils.mergeAttributes(builder, ModItems.CURSIUM_BOOTS.get(),
+                        Cataclysm_Armor.createArmorAttributes(Armortier.CURSIUM,
+                                (float) CMCommonConfig.CursiumArmor.armorMultiplier,
+                                (float) CMCommonConfig.CursiumArmor.toughness,
+                                (float) CMCommonConfig.CursiumArmor.knockbackResistance,
+                                ArmorItem.Type.BOOTS));
+            });
+            
+            event.modify(ModItems.GAUNTLET_OF_BULWARK.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.GAUNTLET_OF_BULWARK.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.GauntletOfBulwark.attackDamage,
+                                -4.0F + (float) CMCommonConfig.GauntletOfBulwark.attackSpeed,
+                                new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.GAUNTLET_OF_GUARD.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.GAUNTLET_OF_GUARD.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.GauntletOfGuard.attackDamage,
+                                -4.0F + (float) CMCommonConfig.GauntletOfGuard.attackSpeed,
+                                new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.GAUNTLET_OF_MAELSTROM.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.GAUNTLET_OF_MAELSTROM.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.GauntletOfMaelstrom.attackDamage,
+                                -4.0F + (float) CMCommonConfig.GauntletOfMaelstrom.attackSpeed,
+                                new AttributeContainer(Attributes.ARMOR, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 3F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.KNOCKBACK_RESISTANCE, 0.15F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.MEAT_SHREDDER.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.MEAT_SHREDDER.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.MeatShredder.attackDamage,
+                                -4.0F + (float) CMCommonConfig.MeatShredder.attackSpeed));
+            });
+
+            event.modify(ModItems.SOUL_RENDER.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.SOUL_RENDER.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.SoulRender.attackDamage,
+                                -4.0F + (float) CMCommonConfig.SoulRender.attackSpeed,
+                                new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE),
+                                new AttributeContainer(Attributes.BLOCK_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.CERAUNUS.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.CERAUNUS.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.Ceraunus.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Ceraunus.attackSpeed,
+                                new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 1.0F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.THE_ANNIHILATOR.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.THE_ANNIHILATOR.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.Annihilator.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Annihilator.attackSpeed,
+                                new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 75F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.THE_IMMOLATOR.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.THE_IMMOLATOR.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.Immolator.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Immolator.attackSpeed,
+                                new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 60F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.ASTRAPE.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.ASTRAPE.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.Astrape.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Astrape.attackSpeed,
+                                new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.THE_INCINERATOR.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.THE_INCINERATOR.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.Incinerator.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Incinerator.attackSpeed,
+                                new AttributeContainer(Attributes.ENTITY_INTERACTION_RANGE, 2.0F, AttributeModifier.Operation.ADD_VALUE)));
+            });
+
+            event.modify(ModItems.INFERNAL_FORGE.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.INFERNAL_FORGE.get(),
+                        PickaxeItem.createAttributes(Tooltier.MONSTROSITY,
+                                -4.0F + (float) CMCommonConfig.InfernalForge.attackDamage,
+                                -4.0F + (float) CMCommonConfig.InfernalForge.attackSpeed));
+            });
+
+            event.modify(ModItems.TIDAL_CLAWS.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.TIDAL_CLAWS.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.TidalClaws.attackDamage,
+                                -4.0F + (float) CMCommonConfig.TidalClaws.attackSpeed));
+            });
+        }
     }
 }
 

@@ -30,7 +30,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-
 import javax.annotation.Nullable;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
         super(p_i50170_1_, p_i50170_2_);
     }
 
-    public Ancient_Desert_Stele_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_,float damage, LivingEntity casterIn) {
+    public Ancient_Desert_Stele_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage, LivingEntity casterIn) {
         this(ModEntities.ANCIENT_DESERT_STELE.get(), worldIn);
         this.setWarmUp(p_i47276_9_);
         this.setCaster(casterIn);

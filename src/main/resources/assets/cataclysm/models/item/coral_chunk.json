@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "cataclysm:item/coral_chunk_1"
+    "layer0": "cataclysm:item/coral_chunk_blue"
   },
   "overrides": [
     {

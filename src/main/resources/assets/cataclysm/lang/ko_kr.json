@@ -1,6 +1,7 @@
 {
   "item.cataclysm.witherite_ingot": "위더라이트 주괴",
   "item.cataclysm.infernal_forge": "지옥불 용광로",
+  "item.cataclysm.brontes": "브론테스",
   "item.cataclysm.final_fractal": "파이널 프랙탈",
   "item.cataclysm.zweiender": "츠바이엔더",
   "item.cataclysm.final_fractal.desc": "맞은 대상의 최대 체력의 3%만큼 추가 피해를 준다.",
@@ -10,6 +11,10 @@
   "item.cataclysm.gauntlet_of_guard.desc": "주로 사용하는 손에 있을때 우클릭으로 생명체를 끌어 당길 수 있다.",
   "item.cataclysm.monstrous_helm.desc": "착용하고 있을때 체력 절반 이하로 떨어지면 주변에 몬스터를 밀치고 ",
   "item.cataclysm.monstrous_helm2.desc": "방어력,넉백저항,생명력재생이 강해지는 버프가 걸린다.",
+
+  "item.cataclysm.brontes.desc": "던질 수 있다.",
+  "item.cataclysm.brontes.desc2": "(여전히 곡괭이다.)",
+
   "item.cataclysm.void_core.desc": "사용시 공허의 룬을 사용 할 수 있다.",
   "item.cataclysm.wip.desc": "개발자 아이템 추가될 수 도 있고 변경될 수 도 있고 없어질 수 도 있음",
   "item.cataclysm.ignitium_helmet.desc": "열기의 시선",
@@ -66,6 +71,17 @@
   "item.cataclysm.ceraunus.desc": "닻을 던질 수 있다.",
   "item.cataclysm.ceraunus2.desc": "웅크린채 사용시 파도들을 부채꼴로 발사한다.",
   "item.cataclysm.astrape.desc": "우클릭 시 번개 창을 쏜다",
+
+
+  "item.cataclysm.belt_of_beginner": "초심자의 허리띠",
+  "item.cataclysm.ring_of_grudged": "원망의 반지",
+  "item.cataclysm.berserker_soul_amulet": "광전사 영혼 부적",
+  "item.cataclysm.vitality_ankh": "활력의 앙크",
+  "item.cataclysm.unbreakable_skull": "불굴의 해골",
+  "item.cataclysm.unbreakable_skull.desc": "쿨다운마다 기절을 1회 무효한다.",
+  "item.cataclysm.sturdy_boots": "단단한 부츠",
+  "item.cataclysm.sturdy_boots.desc": "가루 눈 위를 걸을 수 있다.",
+
   "entity.cataclysm.you_cant_escape": "넌 벗어날 수 없다.",
   "entity.cataclysm.rage_meter": "",
   "entity.cataclysm.the_leviathan_immune": "레비아탄은 물 밖에선 무적입니다!",

@@ -302,6 +302,11 @@ public class Wadjet_Model extends AdvancedEntityModel<Wadjet_Entity> {
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);
 		this.chainSwing(tailOriginal, swimSpeed * 0.6F, swimDegree * 0.15F, -3, ageInTicks,1.0F);
 		entity.dc.updateChain(Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
+
+
+		if (!entity.getAwaken()) {
+			this.applyStatic(Wadjet_Animation.SLEEP);
+		}
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {

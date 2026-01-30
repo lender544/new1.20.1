@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -63,7 +63,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         this.xpReward = 70;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.ProwlerHealthMultiplier, CMConfig.ProwlerDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Prowler.healthMultiplier,CMCommonConfig.Prowler.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -133,17 +133,35 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.95);
     }
 
-
     @Override
     public boolean hurt(DamageSource source, float damage) {
         if (source.is(CMDamageTypes.EMP) && this.getAttackState() != 1) {
             this.setAttackState(1);
         }
-        double range = calculateRange(source);
-        if (range > CMConfig.ProwlerLongRangelimit * CMConfig.ProwlerLongRangelimit) {
-            return false;
-        }
+        double distSqr = calculateRange(source);
 
+        if (distSqr != -1) {
+
+            double limit = CMCommonConfig.Prowler.rangeCap;
+            double maxLimit = limit * 1.5;
+
+            double limitSqr = limit * limit;
+            double maxLimitSqr = maxLimit * maxLimit;
+
+            if (distSqr >= maxLimitSqr) {
+                return false;
+            }
+
+            if (distSqr > limitSqr) {
+                double distance = Math.sqrt(distSqr);
+
+                float multiplier = (float) ((maxLimit - distance) / (maxLimit - limit));
+
+                damage *= multiplier;
+
+                if (damage <= 0) return false;
+            }
+        }
         return super.hurt(source, damage);
     }
 
@@ -350,6 +368,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
     private void AreaAttack(float range, float height, float arc, float damage) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = CMDamageTypes.causeShredderDamage(this);
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
                 float entityAttackingAngle = this.yBodyRot % 360;
@@ -363,7 +382,7 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!isAlliedTo(entityHit) && !(entityHit instanceof The_Prowler_Entity) && entityHit != this) {
-                        entityHit.hurt(CMDamageTypes.causeShredderDamage(this), (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                        entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
 
                     }
                 }
@@ -392,7 +411,8 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
         double d4 = target.getY() - d1;
         double d5 = target.getZ() - d2;
         Vec3 vec3 = new Vec3(d3, d4, d5);
-        Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.WitherHomingMissiledamage,target);
+        Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(this, vec3.normalize(),this.level(),
+                (float) CMCommonConfig.Prowler.HomingMissiledamage,target);
         laserBeam.setPosRaw(d0, d1, d2);
         this.level().addFreshEntity(laserBeam);
     }
@@ -479,7 +499,8 @@ public class The_Prowler_Entity extends Internal_Animation_Monster {
             LivingEntity target = entity.getTarget();
             super.tick();
             if (this.entity.attackTicks == attackshot) {
-                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28,(float) CMConfig.DeathLaserdamage,(float) CMConfig.DeathLaserHpdamage);
+                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 1.8, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28,
+                        (float)CMCommonConfig.Prowler.DeathLaserdamage,(float)CMCommonConfig.Prowler.DeathLaserHpdamage);
                 entity.level().addFreshEntity(DeathBeam);
             }
             if (this.entity.attackTicks >= attackshot) {

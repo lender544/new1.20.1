@@ -12,9 +12,7 @@ import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
 import com.github.L_Ender.cataclysm.client.render.blockentity.*;
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import com.github.L_Ender.cataclysm.client.render.etc.CurioHeadRenderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Chitin_Claw_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.*;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.init.*;
 import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
@@ -23,9 +21,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
@@ -39,17 +35,31 @@ public class ClientSetup {
 		bus.addListener(ClientSetup::registerClientExtensions);
 		bus.addListener(ClientSetup::doClientStuff);
 		bus.addListener(ClientSetup::createSkullModels);
+		bus.addListener(ClientSetup::registerKeybinds);
+		bus.addListener(ClientSetup::registerGuiLayers);
+		//bus.addListener(ClientSetup::onClientTick);
 	}
 
 	private static void registerScreens(RegisterMenuScreensEvent event) {
 		event.register(ModMenu.WEAPON_FUSION.get(), GUIWeponfusion::new);
 	}
 
+	private static void registerKeybinds(RegisterKeyMappingsEvent event) {
+		event.register(ModKeybind.KEY_ABILITY);
+		event.register(ModKeybind.HELMET_KEY_ABILITY);
+		event.register(ModKeybind.CHESTPLATE_KEY_ABILITY);
+		event.register(ModKeybind.BOOTS_KEY_ABILITY);
+	}
+
+	private static void registerGuiLayers(RegisterGuiLayersEvent event) {
+	//	event.registerAbove(VanillaGuiLayers.EXPERIENCE_BAR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/icons.png"), AbilitySlotOverlay.instance);
+	//	CustomHud.register(event);
+	}
+
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(ModEntities.ENDER_GOLEM.get(), Ender_Golem_Renderer::new);
 
-		event.registerEntityRenderer(ModEntities.TEST_ENTITY.get(), TestRenderer::new);
 
 		event.registerEntityRenderer(ModEntities.NETHERITE_MONSTROSITY.get(), New_Netherite_Monstrosity_Renderer::new);
 		event.registerEntityRenderer(ModEntities.NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Renderer::new);
@@ -71,6 +81,7 @@ public class ClientSetup {
 
 		event.registerEntityRenderer(ModEntities.PHANTOM_ARROW.get(), Phantom_Arrow_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SCREEN_SHAKE.get(), RendererNull::new);
+		event.registerEntityRenderer(ModEntities.SKY_COLOR.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WITHER_SMOKE_EFFECT.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.LIGHTNING_AREA_EFFECT.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.ASHEN_BREATH.get(), RendererNull::new);
@@ -78,6 +89,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.FLAME_STRIKE.get(), Flame_Strike_Renderer::new);
 
 		event.registerEntityRenderer(ModEntities.BOLT_STRIKE.get(), Boltstrike_Renderer::new);
+
 
 		event.registerEntityRenderer(ModEntities.CM_FALLING_BLOCK.get(), Cm_Falling_Block_Renderer::new);
 		event.registerEntityRenderer(ModEntities.IGNIS_FIREBALL.get(), Ignis_Fireball_Renderer::new);
@@ -113,7 +125,6 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.LIONFISH.get(), Lionfish_Renderer::new);
 		event.registerEntityRenderer(ModEntities.TIDAL_HOOK.get(), Tidal_Hook_Renderer::new);
 		event.registerEntityRenderer(ModEntities.AMETHYST_CRAB.get(), Amethyst_Crab_Renderer::new);
-		event.registerEntityRenderer(ModEntities.ANCIENT_ANCIENT_REMNANT.get(), Ancient_Remnant_Renderer::new);
 		event.registerEntityRenderer(ModEntities.ANCIENT_REMNANT.get(), Ancient_Remnant_Rework_Renderer::new);
 		event.registerEntityRenderer(ModEntities.MODERN_REMNANT.get(), Modern_Remnant_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SANDSTORM.get(), Sandstorm_Renderer::new);
@@ -157,6 +168,7 @@ public class ClientSetup {
 		event.registerEntityRenderer(ModEntities.CINDARIA.get(), Cindaria_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SCYLLA_CERAUNUS.get(), Scylla_Ceraunus_Renderer::new);
 		event.registerEntityRenderer(ModEntities.PLAYER_CERAUNUS.get(), Player_Ceraunus_Renderer::new);
+		event.registerEntityRenderer(ModEntities.BRONTES.get(), Brontes_Renderer::new);
 		event.registerEntityRenderer(ModEntities.URCHIN_SPIKE.get(), Urchin_Spike_Renderer::new);
 		event.registerEntityRenderer(ModEntities.SPARK.get(), RendererNull::new);
 		event.registerEntityRenderer(ModEntities.WAVE.get(), Wave_Renderer::new);
@@ -200,14 +212,23 @@ public class ClientSetup {
 		registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
 		registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
 		registry.registerSpecial(ModParticle.RISING_TRAIL.get(), new Rising_Trail_Particle.Factory());
+		registry.registerSpecial(ModParticle.AFTER_IMAGE.get(), new AfterImageParticle.Factory());
 		registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
 		registry.registerSpriteSet(ModParticle.ROAR.get(), RoarParticle.RoarFactory::new);
+		registry.registerSpriteSet(ModParticle.PARRY.get(), ParryParticle.ParryFactory::new);
+
 		registry.registerSpriteSet(ModParticle.SCYLLA_SWING.get(), Scylla_Swing_Particle.Provider::new);
+
+		registry.registerSpriteSet(ModParticle.IGNIS_SWING.get(), Ignis_Swing_Particle.Provider::new);
+
+		registry.registerSpriteSet(ModParticle.IGNIS_SOUL_SWING.get(), Ignis_Soul_Swing_Particle.Provider::new);
+
 		registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
 		registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.Factory());
 		registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
 		registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
+
 		registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
 		registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
 		registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
@@ -218,6 +239,13 @@ public class ClientSetup {
 		registry.registerSpriteSet(ModParticle.DESERT_GLYPH.get(), Desert_Glyph_Particle.GlyphFactory::new);
 		registry.registerSpriteSet(ModParticle.DUST_BLAST.get(), Dust_Blast_Particle.Factory::new);
 
+		registry.registerSpriteSet(ModParticle.PHANTOM_EMITTER.get(), Phantom_Emitter_Particle.Provider::new);
+
+		registry.registerSpriteSet(ModParticle.CIRCLE.get(), Circle_Particle.CircleFactory::new);
+
+		registry.registerSpriteSet(ModParticle.AMETHYST_CRASH.get(), Amethyst_Crush_Particle.CrashFactory::new);
+		registry.registerSpriteSet(ModParticle.CURSED_MARK.get(), CursedMarkParticle.MarkFactory::new);
+		registry.registerSpriteSet(ModParticle.CURSED_ALGIZ.get(), CursedAlgizParticle.AlgizFactory::new);
 	}
 
 
@@ -234,16 +262,22 @@ public class ClientSetup {
 			ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), ResourceLocation.parse("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.ASTRAPE.get(), ResourceLocation.parse("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
 			ItemProperties.register(ModItems.CERAUNUS.get(), ResourceLocation.parse("throwing"), (stack, level, entity, idk) -> stack.get(ModDataComponents.THROWN_ANCHOR) != null ? 1 : 0);
+			ItemProperties.register(ModItems.BRONTES.get(), ResourceLocation.parse("throwing"), (stack, level, entity, idk) -> stack.get(ModDataComponents.THROWN_HAMMER) != null ? 1 : 0);
 		} catch (Exception e) {
 			Cataclysm.LOGGER.warn("Could not load item models for weapons");
 		}
-		CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), RendererSticky_Gloves::new);
+		CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), Sticky_Gloves_Renderer::new);
 		CuriosRendererRegistry.register(ModItems.BLAZING_GRIPS.get(), Blazing_Grips_Renderer::new);
 		CuriosRendererRegistry.register(ModItems.KOBOLEDIATOR_SKULL.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.APTRGANGR_HEAD.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.DRAUGR_HEAD.get(), CurioHeadRenderer::new);
 		CuriosRendererRegistry.register(ModItems.CHITIN_CLAW.get(), Chitin_Claw_Renderer::new);
-
+		CuriosRendererRegistry.register(ModItems.VITALITY_ANKH.get(), Vitality_Ankh_Renderer::new);
+		CuriosRendererRegistry.register(ModItems.BELT_OF_BEGINNER.get(), Belt_Of_Beginner_Renderer::new);
+		CuriosRendererRegistry.register(ModItems.BELT_OF_MONSTROSITY.get(), Belt_Of_Monstrosity_Renderer::new);
+		CuriosRendererRegistry.register(ModItems.UNBREAKABLE_SKULL.get(), Unbreakable_Skull_Renderer::new);
+		CuriosRendererRegistry.register(ModItems.BERSERKER_SOUL_AMULET.get(), Berserker_Soul_Amulet_Renderer::new);
+		CuriosRendererRegistry.register(ModItems.STURDY_BOOTS.get(), Sturdy_Boots_Renderer::new);
 		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/koboleton/kobolediator.png"));
 		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.APTRGANGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/draugar/aptrgangr.png"));
 		SkullBlockRenderer.SKIN_BY_TYPE.put(Cataclysm_Skull_Block.Types.DRAUGR, ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/draugar/draugr.png"));
@@ -263,9 +297,9 @@ public class ClientSetup {
 		event.registerItem(CMItemstackRenderer.CLIENT_ITEM_EXTENSION,
 				ModItems.BULWARK_OF_THE_FLAME.get(), ModItems.BLACK_STEEL_TARGE.get(), ModItems.GAUNTLET_OF_GUARD.get(), ModItems.GAUNTLET_OF_BULWARK.get(), ModItems.GAUNTLET_OF_MAELSTROM.get(),
 				ModItems.THE_INCINERATOR.get(), ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get(), ModItems.VOID_ASSULT_SHOULDER_WEAPON.get(), ModItems.CORAL_SPEAR.get(), ModItems.CORAL_BARDICHE.get(),
-				ModItems.VOID_FORGE.get(), ModItems.TIDAL_CLAWS.get(), ModItems.MEAT_SHREDDER.get(), ModItems.LASER_GATLING.get(), ModItems.ANCIENT_SPEAR.get() , ModItems.CURSED_BOW.get(),
+				ModItems.VOID_FORGE.get(),ModItems.INFERNAL_FORGE.get(), ModItems.TIDAL_CLAWS.get(), ModItems.MEAT_SHREDDER.get(), ModItems.LASER_GATLING.get(), ModItems.ANCIENT_SPEAR.get() , ModItems.CURSED_BOW.get(),
 				ModItems.WRATH_OF_THE_DESERT.get(), ModItems.SOUL_RENDER.get(), ModItems.THE_ANNIHILATOR.get(), ModItems.THE_IMMOLATOR.get(), ModItems.ALTAR_OF_FIRE.get(), ModItems.ALTAR_OF_VOID.get(),
-				ModItems.AZURE_SEA_SHIELD.get(),ModItems.ASTRAPE.get(),ModItems.CERAUNUS.get(),
+				ModItems.AZURE_SEA_SHIELD.get(),ModItems.ASTRAPE.get(),ModItems.CERAUNUS.get(),ModItems.BRONTES.get(),
 				ModItems.ALTAR_OF_AMETHYST.get(), ModItems.ALTAR_OF_ABYSS.get(), ModItems.EMP.get(), ModItems.MECHANICAL_FUSION_ANVIL.get(), ModItems.ABYSSAL_EGG.get(),
 				ModItems.KOBOLEDIATOR_SKULL.get(), ModItems.APTRGANGR_HEAD.get(), ModItems.DRAUGR_HEAD.get(), ModItems.GODDESS_STATUE.get(), ModItems.BOSS_RESPAWNER.get()
 		);

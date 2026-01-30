@@ -55,4 +55,6 @@ public class ModTileentites {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<Boss_Respawn_Spawner_Block_Entity>> BOSS_RESPAWNER = TILE_ENTITY_TYPES.register("boss_respawner", () ->
             BlockEntityType.Builder.of(Boss_Respawn_Spawner_Block_Entity::new, ModBlocks.BOSS_RESPAWNER.get()).build(null));
 
+
+
 }

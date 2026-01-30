@@ -1,7 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
 
@@ -62,7 +60,7 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
             if (this.getOwner() instanceof LivingEntity livingentity) {
 
                 DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
-                flag = entity.hurt(damagesource, (float) CMConfig.FlareBombDamage);
+                flag = entity.hurt(damagesource, 7);
                 if (flag) {
                     if (entity.isAlive()) {
                         entity.igniteForSeconds(5);
@@ -156,9 +154,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
         if (flag) {
             if (this.getOwner() != null && this.getOwner() instanceof LivingEntity living) {
-                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.FlareBombDamage, living));
+                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, 7, living));
             }else{
-                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.FlareBombDamage, null));
+                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, 7, null));
 
             }
         }

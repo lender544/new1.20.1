@@ -3,7 +3,7 @@ package com.github.L_Ender.cataclysm.init;
 import com.github.L_Ender.cataclysm.Attachment.*;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;

@@ -4,6 +4,12 @@
     "minecraft:tuff",
     "minecraft:polished_andesite",
     "minecraft:andesite",
+    "minecraft:andesite_slab",
+    "minecraft:andesite_stairs",
+    "minecraft:stone",
+    "minecraft:stone_bricks",
+    "minecraft:stone_brick_slab",
+    "minecraft:stone_brick_stairs",
     "cataclysm:stone_tiles",
     "cataclysm:altar_of_abyss"
   ]

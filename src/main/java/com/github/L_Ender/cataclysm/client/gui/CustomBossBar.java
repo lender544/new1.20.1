@@ -10,11 +10,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.BossEvent;
 import net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CustomBossBar {
     public static Map<Integer, CustomBossBar> customBossBars = new HashMap<>();
+
+    private static final ResourceLocation LIFE_REMAIN_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/life_remain.png");
+    private static final ResourceLocation LIFE_REMAIN_SANS_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/life_remain_sans.png");
+    private static final ResourceLocation LIFE_REMAIN_SKULL_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/life_remain_skull.png");
+
     static {
         //N.M
         customBossBars.put(0, new CustomBossBar(
@@ -67,19 +73,26 @@ public class CustomBossBar {
         customBossBars.put(9, new CustomBossBar(
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_bar_base.png"),
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_bar_overlay.png"),
-                5, 16, 1,7, -6, -9, 256, 32, 25,182, ChatFormatting.DARK_GREEN));
+                5, 16, 0,7, -7, -9, 256, 32, 25,182, ChatFormatting.DARK_GREEN));
 
         //maledictus rage
         customBossBars.put(10, new CustomBossBar(
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_rage_bar_base.png"),
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/maledictus_rage_bar_overlay.png"),
-                5, 16, 69,-3, -6,  -8, 256, 16, 15, 48,ChatFormatting.DARK_PURPLE));
+                5, 16, 68,-3, -7,  -8, 256, 16, 15, 48,ChatFormatting.DARK_PURPLE));
 
         //scylla
         customBossBars.put(12, new CustomBossBar(
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/scylla_bar_base.png"),
                 ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/scylla_bar_overlay.png"),
-                5, 16, 1,7, -6, -8, 256, 32, 25,182, ChatFormatting.BLUE));
+                5, 16, 0,7, -7, -8, 256, 32, 25,182, ChatFormatting.BLUE));
+
+
+        //onxy1
+        customBossBars.put(13, new CustomBossBar(
+                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/onyx_bar_base.png"),
+                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/onyx_bar_overlay.png"),
+                5, 16, 0,8, -7, -10, 256, 32, 25,182, ChatFormatting.DARK_PURPLE));
 
     }
 
@@ -175,16 +188,21 @@ public class CustomBossBar {
         return textColor;
     }
 
-    public void renderBossBar(CustomizeGuiOverlayEvent.BossEventProgress event) {
+    public void renderBossBar(CustomizeGuiOverlayEvent.BossEventProgress event, int remainLife) {
         GuiGraphics guiGraphics = event.getGuiGraphics();
         int y = event.getY();
         int i = Minecraft.getInstance().getWindow().getGuiScaledWidth();
         int j = y - 9;
+
         Minecraft.getInstance().getProfiler().push("CataclysmCustomBossBarBase");
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, getBaseTexture());
-        drawBar(guiGraphics, event.getX() + getBaseOffsetX(), y + getBaseOffsetY(), event.getBossEvent());
+
+        int barX = event.getX() + getBaseOffsetX();
+        int barY = y + getBaseOffsetY();
+
+        drawBar(guiGraphics, barX, barY, event.getBossEvent());
         Component component = event.getBossEvent().getName().copy().withStyle(getTextColor());
         Minecraft.getInstance().getProfiler().pop();
 
@@ -199,6 +217,21 @@ public class CustomBossBar {
             RenderSystem.setShaderTexture(0, getOverlayTexture());
             event.getGuiGraphics().blit(getOverlayTexture(), event.getX() + getBaseOffsetX() + getOverlayOffsetX(), y + getOverlayOffsetY() + getBaseOffsetY(), 0, 0, getOverlayWidth(), getOverlayHeight(), getOverlayWidth(), getOverlayHeight());
             Minecraft.getInstance().getProfiler().pop();
+        }
+        if (remainLife > 0) {
+            int iconSize = 16;
+            int iconX = barX + getProgress() -32;
+            int iconY = barY + getBaseHeight() + 2;
+            Calendar calendar = Calendar.getInstance();
+
+            ResourceLocation sans = calendar.get(Calendar.MONTH) == Calendar.APRIL && calendar.get(Calendar.DAY_OF_MONTH) == 1 ? LIFE_REMAIN_SANS_ICON : LIFE_REMAIN_SKULL_ICON;
+            RenderSystem.setShaderTexture(0, sans);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            guiGraphics.blit(sans, iconX, iconY,0, 0, iconSize, iconSize, iconSize, iconSize);
+
+            Component lifeText = Component.literal("x " + remainLife).withStyle(ChatFormatting.WHITE);
+
+            guiGraphics.drawString(Minecraft.getInstance().font, lifeText, iconX + iconSize + 2 , iconY + 3, 16777215, true);
         }
 
         event.setIncrement(getVerticalIncrement());

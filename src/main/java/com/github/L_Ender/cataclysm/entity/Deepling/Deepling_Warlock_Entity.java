@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.effect.Abyss_Mark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -31,7 +31,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -106,7 +105,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.DeeplingWarlockSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingWarlockSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }
@@ -238,7 +237,8 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
                     double sx = this.warlock.getX();
                     double sy = this.warlock.getY();
                     double sz = this.warlock.getZ();
-                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage,this.warlock.getUUID(),target);
+                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,
+                                    (float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage,this.warlock.getUUID(),target);
                     this.warlock.level().addFreshEntity(fireball);
                 }
 

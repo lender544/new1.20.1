@@ -45,7 +45,7 @@ public class Scylla_Swing_Particle extends TextureSheetParticle {
 
     @Override
     public void tick() {
-        if (this.age++ > this.lifetime) {
+        if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
             this.setSpriteFromAge(sprites);

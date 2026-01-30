@@ -1,8 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.Deepling.Deepling_Warlock_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -29,7 +27,6 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -171,7 +168,7 @@ public class Koboleton_Entity extends Animation_Monster {
                             ItemStack offhand = target.getOffhandItem();
                             ItemStack mainhand = target.getMainHandItem();
                             Optional<SlotResult> slot = CuriosApi.getCuriosHelper().findFirstCurio(target, stack -> stack.is(ModItems.STICKY_GLOVES.get()));
-                            if(this.random.nextFloat() * 100.0F <= CMConfig.CauseKoboletontoDropItemInHandPercent) {
+                            if(this.random.nextFloat() * 100.0F <= (float)CMCommonConfig.Koboleton.CauseKoboletontoDropItemInHandPercent) {
                                 if (slot.isEmpty()) {
                                     if (!offhand.isEmpty()) {
                                         if (!offhand.is(ModTag.STICKY_ITEM)) {
@@ -221,7 +218,7 @@ public class Koboleton_Entity extends Animation_Monster {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.KoboletonSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.KoboletonSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     public static boolean checkKoboletonSpawnRules(EntityType<Koboleton_Entity> husk, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {

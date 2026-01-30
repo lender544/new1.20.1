@@ -5,8 +5,6 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Netherite_Monstrosity_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -286,7 +284,9 @@ public class Netherite_Monstrosity_Model extends HierarchicalModel<Netherite_Mon
 			this.animateWalk(Netherite_Monstrosity_Animation.WALK, limbSwing, limbSwingAmount, 2.0F, 2.0F);
 		}
 
-
+		if (!entity.getIsAwaken()) {
+			this.applyStatic(Netherite_Monstrosity_Animation.SLEEP);
+		}
 
 		this.animate(entity.getAnimationState("idle"), Netherite_Monstrosity_Animation.IDLE, ageInTicks, 1.0F);
 

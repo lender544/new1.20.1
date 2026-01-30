@@ -20,6 +20,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.SlotResult;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import top.theillusivec4.curios.platform.Services;
 
 import java.util.List;
 
@@ -48,5 +49,6 @@ public class Chitin_Claw extends CuriosItem {
     }
 
      */
+
 
 }

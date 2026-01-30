@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Urchin_Spike_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -99,11 +100,12 @@ public class Urchinkin_Entity extends Monster {
     @Override
     public void updateSwimming() {
         if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            boolean inWaterAI = this.isEffectiveAi() && this.isInWater() && this.wantsToSwim();
+            if (inWaterAI && !(this.moveControl instanceof UrchinkinSwimControl)) {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new UrchinkinSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else {
+            } else if (!inWaterAI && (this.moveControl instanceof Hippocamtus_Entity.HippocamtusSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);
@@ -211,13 +213,12 @@ public class Urchinkin_Entity extends Monster {
         if(this.getAttackState() == 1) {
             if (this.attackTicks >13 && this.attackTicks <30 ) {
                 if (!this.level().isClientSide) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     for (LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
                         if (!isAlliedTo(livingentity) && !(livingentity instanceof Urchinkin_Entity) && livingentity != this) {
-                            boolean flag = livingentity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                            boolean flag = livingentity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                             if (flag) {
-                                if (!this.level().isClientSide) {
-                                    livingentity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0), this);
-                                }
+                                livingentity.addEffect(new MobEffectInstance(MobEffects.POISON, 60, 0), this);
                             }
                         }
                     }

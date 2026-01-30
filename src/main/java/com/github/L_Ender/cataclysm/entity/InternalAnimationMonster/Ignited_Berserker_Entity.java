@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -11,6 +10,7 @@ import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -379,6 +379,7 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
                 float entityAttackingAngle = this.yBodyRot % 360;
@@ -392,10 +393,9 @@ public class Ignited_Berserker_Entity extends Internal_Animation_Monster {
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!isAlliedTo(entityHit) && !(entityHit instanceof Ignited_Berserker_Entity) && entityHit != this) {
-                        DamageSource damagesource = CMDamageTypes.causeSwordDanceDamage(this);
                         boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
 
 

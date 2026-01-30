@@ -1,0 +1,17 @@
+{
+  "name": "cataclysm:abandoned_spire/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:abandoned_spire",
+        "projection": "rigid",
+        "processors": {
+          "processors": []
+        },
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

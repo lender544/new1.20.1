@@ -1,11 +1,20 @@
 package com.github.L_Ender.cataclysm.client.render;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -42,6 +51,7 @@ public class CMRenderTypes extends RenderType {
         return CMEYE.apply(location);
     }
 
+
     public static RenderType jelly(ResourceLocation location) {
         return JELLY.apply(location);
     }
@@ -56,6 +66,10 @@ public class CMRenderTypes extends RenderType {
 
     public static RenderType DragonDeath(ResourceLocation location) {
         return DRAGON_DEATH.apply(location);
+    }
+
+    public static RenderType CMLightning() {
+        return CM_LIGHTNING;
     }
 
     public static final Function<ResourceLocation, RenderType> BRIGHT = Util.memoize(
@@ -117,7 +131,6 @@ public class CMRenderTypes extends RenderType {
                         .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                        .setCullState(NO_CULL)
                         .setOverlayState(OVERLAY)
                         .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(false);
@@ -151,11 +164,12 @@ public class CMRenderTypes extends RenderType {
                         .setTextureState(new TextureStateShard(p_286155_, false, false))
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setOutputState(ITEM_ENTITY_TARGET)
-                        .setLightmapState(LIGHTMAP)
                         .setCullState(NO_CULL)
-                        .setOverlayState(OVERLAY)
+                        .setLightmapState(LIGHTMAP)
                         .setWriteMaskState(COLOR_WRITE)
+                        .setOverlayState(OVERLAY)
                         .createCompositeState(true);
+
                 return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
             }
     );
@@ -176,6 +190,22 @@ public class CMRenderTypes extends RenderType {
 
                 return create("cm_eyes", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536,false,true, rendertype$compositestate);
             }
+    );
+
+    public static final RenderType CM_LIGHTNING = create(
+            "cm_lightning",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            1536,
+            false,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .setTransparencyState(LIGHTNING_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setOutputState(WEATHER_TARGET)
+                    .createCompositeState(false)
     );
 
 
@@ -272,4 +302,27 @@ public class CMRenderTypes extends RenderType {
                 .createCompositeState(false);
         return create("em_pulse", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
+
+
+    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType(){
+
+        @Override
+        public BufferBuilder begin(Tesselator p_350576_, TextureManager p_107449_) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.disableCull();
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            return p_350576_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+
+        public String toString() {
+            return "cataclysm:PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH";
+        }
+    };
+
+
 }

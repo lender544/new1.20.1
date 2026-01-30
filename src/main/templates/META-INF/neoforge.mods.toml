@@ -12,7 +12,7 @@ license="${mod_license}"
 
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
-
+enumExtensions="META-INF/enumextensions.json"
 # The modid of the mod
 modId = "${mod_id}"
 
@@ -47,7 +47,6 @@ authors="L_Ender" #optional
 
 # The description text for the mod (multi line!) (#mandatory)
 description='''${mod_description}'''
-
 # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
 [[mixins]]
 config="cataclysm.mixins.json"

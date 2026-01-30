@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "cataclysm:infernal_forge",
-    "cataclysm:void_forge"
+    "cataclysm:void_forge",
+    "cataclysm:brontes"
   ]
 }

@@ -1,52 +1,24 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.CircleLightningParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.Options.TrackLightningParticleOptions;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Area_Effect_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Storm_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.util.Mth;
-import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.DragonFireball;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileDeflection;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
 
 public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
     private static final EntityDataAccessor<Float> AREA_RADIUS = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
@@ -59,21 +31,24 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         this.accelerationPower = 0.1;
     }
 
-    public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
+
+
+    public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level,double accel) {
         this(type, level);
         this.setPosRaw(getX, gety, getz);
-        this.setState(1);
         this.setOldPosAndRot();
+        this.setState(1);
         this.reapplyPosition();
-        this.assignDirectionalMovement(vec3, this.accelerationPower);
+        this.assignDirectionalMovement(vec3, accel);
 
     }
 
-    public Lightning_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage) {
-        this(ModEntities.LIGHTNING_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
+    public Lightning_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage,double accel) {
+        this(ModEntities.LIGHTNING_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_, accel);
         this.setOwner(p_36827_);
         this.setDamage(damage);
     }
+
 
     public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
         this(type, level);
@@ -127,7 +102,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         int r = (89 + random.nextInt(5)) ;
         int g = (180 + random.nextInt(5));
         int b = (180 + random.nextInt(5));
-        this.level().addParticle((new CircleLightningParticleOptions(r, g,  b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
+        this.level().addParticle((new CircleLightningParticleOptions(0.1F,r, g,  b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
     }
 
     @Override
@@ -157,9 +132,9 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-
+        Vec3 blockpos = result.getLocation();
         if (!this.level().isClientSide) {
-            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), this.getX(), this.getY(), this.getZ());
+            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), blockpos.x(), blockpos.y(), blockpos.z());
             areaeffectcloud.setRadius(this.getAreaRadius());
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
@@ -170,7 +145,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), this.getHpDamage(), entity1,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), blockpos.x(), blockpos.y(), blockpos.z(), this.getYRot(), -5, this.getAreaDamage(), this.getHpDamage(), entity1,2.0F));
 
             this.discard();
         }

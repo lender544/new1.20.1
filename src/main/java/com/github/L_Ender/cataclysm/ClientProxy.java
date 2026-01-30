@@ -3,6 +3,7 @@ package com.github.L_Ender.cataclysm;
 import com.github.L_Ender.cataclysm.client.sound.MeatShredderSound;
 import com.github.L_Ender.cataclysm.client.sound.SandstormSound;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
+import com.github.L_Ender.cataclysm.init.ModKeybind;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
@@ -10,6 +11,7 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nullable;
@@ -19,7 +21,11 @@ public class ClientProxy extends ServerProxy {
     public static final Int2ObjectMap<AbstractTickableSoundInstance> ENTITY_SOUND_INSTANCE_MAP = new Int2ObjectOpenHashMap<>();
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     public static List<UUID> blockedEntityRenders = new ArrayList<>();
-    public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
+   // public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
+
+    public record BossBarData(int renderType, int remainLife) {
+    }
+    public static Map<UUID, BossBarData> bossBarRenderTypes = new HashMap<>();
 
     @Override
     public boolean isFirstPersonPlayer(Entity entity) {
@@ -32,6 +38,14 @@ public class ClientProxy extends ServerProxy {
     @Override
     public void releaseRenderingEntity(UUID id) {
         blockedEntityRenders.remove(id);
+    }
+
+    public Player getClientSidePlayer() {
+        return Minecraft.getInstance().player;
+    }
+
+    public float getPartialTicks() {
+        return Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -55,7 +56,6 @@ public class Storm_Serpent_Entity extends Entity {
     public Storm_Serpent_Entity(EntityType<? extends Storm_Serpent_Entity> p_i50170_1_, Level p_i50170_2_) {
         super(p_i50170_1_, p_i50170_2_);
     }
-
 
 
     public Storm_Serpent_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, LivingEntity casterIn, float damage, LivingEntity finalTarget,boolean right) {
@@ -216,7 +216,7 @@ public class Storm_Serpent_Entity extends Entity {
                 if (this.lifeTicks > 12 && this.lifeTicks < 18) {
                     for (int i = 0; i < 5; i++) {
 
-                        level().addParticle((new CircleLightningParticleOptions(113,194,240)), this.getX(), this.getY() + 0.1, this.getZ(),   this.getX() + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + (random.nextFloat() - 0.5F) * 7);
+                        level().addParticle((new CircleLightningParticleOptions(0.1F,113,194,240)), this.getX(), this.getY() + 0.1, this.getZ(),   this.getX() + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + (random.nextFloat() - 0.5F) * 7);
                     }
 
                 }
@@ -263,7 +263,7 @@ public class Storm_Serpent_Entity extends Entity {
                         double vecX = Math.cos(theta) * 8;
                         double vecZ = Math.sin(theta) * 8;
 
-                        level().addParticle((new CircleLightningParticleOptions(113,194,240)), this.getX() +vecX, this.getY() + 0.1, this.getZ()+vecZ,this.getX() + vecX + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + vecZ + (random.nextFloat() - 0.5F) * 7);
+                        level().addParticle((new CircleLightningParticleOptions(0.1F,113,194,240)), this.getX() +vecX, this.getY() + 0.1, this.getZ()+vecZ,this.getX() + vecX + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + vecZ + (random.nextFloat() - 0.5F) * 7);
                     }
 
                 }

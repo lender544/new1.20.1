@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.client.sound;
 
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
 import com.github.L_Ender.cataclysm.entity.etc.Animation_Monsters;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
@@ -57,7 +57,7 @@ public class BossMusicSound extends AbstractTickableSoundInstance {
             BossMusicPlayer.bossMusic = null;
         }
 
-        volume = volumeControl.getAnimationFraction() / CMConfig.BossMusicVolume;
+        volume = volumeControl.getAnimationFraction() / CMClientConfig.BossMusicVolume;
 
         if (ticksExisted % 100 == 0) {
             Minecraft.getInstance().getMusicManager().stopPlaying();

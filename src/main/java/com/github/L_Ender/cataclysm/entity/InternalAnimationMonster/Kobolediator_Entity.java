@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
@@ -15,12 +14,14 @@ import com.github.L_Ender.cataclysm.entity.projectile.Poison_Dart_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -33,14 +34,13 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
@@ -55,6 +55,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
 
 
@@ -75,13 +76,15 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     private int charge_cooldown = 0;
     public static final int CHARGE_COOLDOWN = 160;
 
+    private static final EntityDataAccessor<Boolean> AWAKEN = SynchedEntityData.defineId(Kobolediator_Entity.class, EntityDataSerializers.BOOLEAN);
+
 
     public Kobolediator_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 80;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.KobolediatorHealthMultiplier, CMConfig.KobolediatorDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Kobolediator.healthMultiplier,CMCommonConfig.Kobolediator.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -90,10 +93,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByNearestTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.goalSelector.addGoal(2, new InternalMoveGoal(this,false,1.0D));
+        this.goalSelector.addGoal(3, new InternalMoveGoal(this,false,1.0D));
 
 
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,3,0,50,15,12){
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,3,0,50,15,12){
             @Override
             public boolean canUse() {
                 return super.canUse() && Kobolediator_Entity.this.getRandom().nextFloat() * 100.0F < 16f && Kobolediator_Entity.this.earthquake_cooldown <= 0;
@@ -104,10 +107,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 Kobolediator_Entity.this.earthquake_cooldown = EARTHQUAKE_COOLDOWN;
             }
         });
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,4,0,100,64,8));
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,4,0,100,64,8));
 
         //chargePrepare
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,6,40,30,15) {
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,5,6,40,30,15) {
             @Override
             public boolean canUse() {
                 return super.canUse() && Kobolediator_Entity.this.getRandom().nextFloat() * 100.0F < 9f && Kobolediator_Entity.this.charge_cooldown <= 0;
@@ -125,7 +128,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 }
             }
         });
-        this.goalSelector.addGoal(0, new InternalAttackGoal(this,6,7,0,40,40,5) {
+        this.goalSelector.addGoal(2, new InternalAttackGoal(this,6,7,0,40,40,5) {
 
             @Override
             public void stop() {
@@ -133,22 +136,18 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 Kobolediator_Entity.this.charge_cooldown = CHARGE_COOLDOWN;
             }
         });
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,7,7,0,40,40) {
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,7,7,0,40,40) {
             @Override
             public void stop() {
                 super.stop();
                 Kobolediator_Entity.this.charge_cooldown = CHARGE_COOLDOWN;
             }
         });
-        this.goalSelector.addGoal(1, new InternalStateGoal(this,1,1,0,0,0){
-            @Override
-            public void tick() {
-                entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
-            }
-        });
+        this.goalSelector.addGoal(0, new KobolediatorDoNothingGoal());
+        this.goalSelector.addGoal(1, new InternalStateGoal(this, 2, 2, 0, 70,0));
 
-        this.goalSelector.addGoal(0, new InternalAttackGoal(this,1,2,0,70,0,18));
-        this.goalSelector.addGoal(0, new InternalStateGoal(this,9,9,0,18,0,false));
+
+        this.goalSelector.addGoal(1, new InternalStateGoal(this,9,9,0,18,0,false));
     }
 
     public static AttributeSupplier.Builder kobolediator() {
@@ -238,10 +237,20 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         super.defineSynchedData(p_326229_);
+        p_326229_.define(AWAKEN, false);
+    }
+
+    public void setAwaken(boolean necklace) {
+        this.entityData.set(AWAKEN, necklace);
+    }
+
+
+    public boolean getAwaken() {
+        return this.entityData.get(AWAKEN);
     }
 
     public boolean isSleep() {
-        return this.getAttackState() == 1 || this.getAttackState() == 2;
+        return !this.getAwaken() || this.getAttackState() == 2;
     }
 
     public void setSleep(boolean sleep) {
@@ -328,19 +337,19 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("is_Sleep", isSleep());
+        compound.putBoolean("Awaken", getAwaken());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        setSleep(compound.getBoolean("is_Sleep"));
+        setAwaken(compound.getBoolean("Awaken"));
     }
 
 
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
+            this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0 && this.getAwaken(), this.tickCount);
         }
         if (earthquake_cooldown > 0) earthquake_cooldown--;
         if (charge_cooldown > 0) charge_cooldown--;
@@ -361,15 +370,35 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.1f, 0, 20);
                 Makeparticle(0.5f, 9.0f, 1.2f);
             }
-            for (int l = 19; l <= 28; l = l + 2) {
-                if (this.attackTicks == l) {
-                    int d = l - 17;
-                    int d2 = l - 16;
-                    float ds = (d + d2) / 2;
-                   StompDamage(0.25f, d, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
-                   StompDamage(0.25f, d2, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
-                   Stompsound(ds,-0.2F);
-                }
+            if (this.attackTicks == 19) {
+                StompDamage(0.25f, 2, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                StompDamage(0.25f, 3, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                Stompsound(2.5F,-0.2F);
+
+            }
+            if (this.attackTicks == 21) {
+                StompDamage(0.25f, 4, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                StompDamage(0.25f, 5, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                Stompsound(4.5F,-0.2F);
+
+            }
+            if (this.attackTicks == 23) {
+                StompDamage(0.25f, 5, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                StompDamage(0.25f, 6, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                Stompsound(5.5F,-0.2F);
+
+            }
+            if (this.attackTicks == 25) {
+                StompDamage(0.25f, 7, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                StompDamage(0.25f, 8, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                Stompsound(7.5F,-0.2F);
+
+            }
+            if (this.attackTicks == 27) {
+                StompDamage(0.25f, 9, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                StompDamage(0.25f, 10, 5,1.05F, 2.0f, -0.2f, 0, 1.0f);
+                Stompsound(9.5F,-0.2F);
+
             }
         }
 
@@ -393,7 +422,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         }
         if(this.getAttackState() == 6) {
             if (!this.level().isClientSide) {
-                if (CMConfig.KobolediatorBlockBreaking) {
+                if (CMCommonConfig.Kobolediator.ignoreMobGriefing) {
                     ChargeBlockBreaking();
                 } else {
                     if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {
@@ -402,9 +431,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 }
 
                 if (this.tickCount % 4 == 0) {
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.5D))) {
                         if (!isAlliedTo(Lentity) && !(Lentity instanceof Kobolediator_Entity) && Lentity != this) {
-                            boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
+                            boolean flag = Lentity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
                             if (flag) {
                                 if (Lentity.onGround()) {
                                     double d0 = Lentity.getX() - this.getX();
@@ -490,6 +520,7 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
+        DamageSource damagesource = this.damageSources().mobAttack(this);
         if (!this.level().isClientSide) {
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -504,10 +535,10 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!isAlliedTo(entityHit) && !(entityHit instanceof Kobolediator_Entity) && entityHit != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
+
                         entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
 
                     }
@@ -516,25 +547,39 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
         }
     }
 
-    private void StompDamage(float spreadarc, int distance, int height, float mxy, float vec,float math, int shieldbreakticks, float damage) {
-        double perpFacing = this.yBodyRot * (Math.PI / 180);
-        double facingAngle = perpFacing + Math.PI / 2;
+    private void StompDamage(float spreadarc, int distance, int height, float mxy, float vec, float math, int shieldbreakticks, float damage) {
+        double bodyRotRad = this.yBodyRot * (Math.PI / 180.0);
+        double cosBodyRot = Math.cos(bodyRotRad);
+        double sinBodyRot = Math.sin(bodyRotRad);
+
+        double facingAngle = bodyRotRad + Math.PI / 2.0;
+
+        double commonOffsetX = vec * -sinBodyRot + cosBodyRot * math;
+        double commonOffsetZ = vec * cosBodyRot + sinBodyRot * math;
+
+        double baseX = this.getX() + commonOffsetX;
+        double baseZ = this.getZ() + commonOffsetZ;
+
         int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
         double spread = Math.PI * spreadarc;
         int arcLen = Mth.ceil(distance * spread);
-        float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-        float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+
+        float factor = 1.0F - (float)distance / 12.0F;
+
         for (int i = 0; i < arcLen; i++) {
-            double theta = (i / (arcLen - 1.0) - 0.5) * spread + facingAngle;
+            double thetaRatio = (arcLen > 1) ? (double) i / (double) (arcLen - 1) : 0.5;
+            double theta = (thetaRatio - 0.5) * spread + facingAngle;
+
             double vx = Math.cos(theta);
             double vz = Math.sin(theta);
-            double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180) + f * math;
-            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180  + f1 * math);
-            float factor = 1 - distance / (float) 12;
+
+            double px = baseX + vx * distance;
+            double pz = baseZ + vz * distance;
+
             int hitX = Mth.floor(px);
             int hitZ = Mth.floor(pz);
             BlockPos pos = new BlockPos(hitX, hitY + height, hitZ);
-            BlockState block = level().getBlockState(pos);
+            BlockState block = this.level().getBlockState(pos);
 
             int maxDepth = 30;
             for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
@@ -542,22 +587,22 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                     break;
                 }
                 pos = pos.below();
-                block = level().getBlockState(pos);
+                block = this.level().getBlockState(pos);
             }
 
             if (block.getRenderShape() != RenderShape.MODEL) {
                 block = Blocks.AIR.defaultBlockState();
             }
+
             if (!this.level().isClientSide) {
-                spawnBlocks(hitX, hitY + height, hitZ, (int) (this.getY() - height), block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage);
+                this.spawnBlocks(hitX, hitY + height, hitZ, (int) (this.getY() - height), block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage);
             }
         }
     }
 
-
-    private void spawnBlocks(int hitX, int hitY, int hitZ, int lowestYCheck,BlockState blockState,double px,double pz,float mxy,double vx,double vz,float factor, int shieldbreakticks,float damage) {
+    private void spawnBlocks(int hitX, int hitY, int hitZ, int lowestYCheck, BlockState blockState, double px, double pz, float mxy, double vx, double vz, float factor, int shieldbreakticks, float damage) {
+        DamageSource damagesource = this.damageSources().mobAttack(this);
         BlockPos blockpos = new BlockPos(hitX, hitY, hitZ);
-        BlockState block = level().getBlockState(blockpos);
         double d0 = 0.0D;
 
         do {
@@ -571,41 +616,35 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
                         d0 = voxelshape.max(Direction.Axis.Y);
                     }
                 }
-
                 break;
             }
-
             blockpos = blockpos.below();
-        } while(blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
+        } while (blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
 
+        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(this.level(), hitX + 0.5D, (double) blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
+        fallingBlockEntity.push(0, 0.2D + this.getRandom().nextGaussian() * 0.04D, 0);
+        this.level().addFreshEntity(fallingBlockEntity);
 
-        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, (double)blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
-        fallingBlockEntity.push(0, 0.2D + getRandom().nextGaussian() * 0.04D, 0);
-        level().addFreshEntity(fallingBlockEntity);
+        AABB selection = new AABB(px - 0.5, (double) blockpos.getY() + d0 - 1.0, pz - 0.5, px + 0.5, (double) blockpos.getY() + d0 + mxy, pz + 0.5);
+        List<LivingEntity> hit = this.level().getEntitiesOfClass(LivingEntity.class, selection);
 
-
-
-        AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
+        if (!hit.isEmpty()) {
         for (LivingEntity entity : hit) {
-            if (!isAlliedTo(entity) && !(entity instanceof Kobolediator_Entity) && entity != this) {
-                DamageSource damagesource = this.damageSources().mobAttack(this);
+            if (!this.isAlliedTo(entity) && !(entity instanceof Kobolediator_Entity) && entity != this) {
                 boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player  && shieldbreakticks > 0) {
-                    disableShield(player, shieldbreakticks);
+                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
+                    EntityUtil.disableShield(player, shieldbreakticks);
                 }
 
                 if (flag) {
-                    double magnitude = -4;
-                    double x = vx * (1 - factor) * magnitude;
-                    double y = 0;
-                    if (entity.onGround()) {
-                        y += 0.15;
-                    }
-                    double z = vz * (1 - factor) * magnitude;
+                    double magnitude = -4.0;
+                    double x = vx * (1.0 - factor) * magnitude;
+                    double y = entity.onGround() ? 0.15 : 0.0;
+                    double z = vz * (1.0 - factor) * magnitude;
                     entity.setDeltaMovement(entity.getDeltaMovement().add(x, y, z));
                 }
             }
+        }
         }
     }
 
@@ -657,6 +696,39 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
 
     protected boolean canRide(Entity p_31508_) {
         return false;
+    }
+
+
+
+    class KobolediatorDoNothingGoal extends Goal {
+        public KobolediatorDoNothingGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = Kobolediator_Entity.this.getTarget();
+            return !Kobolediator_Entity.this.getAwaken() && !(target != null &&  target.isAlive() && Kobolediator_Entity.this.distanceToSqr(target) < 255 && Kobolediator_Entity.this.getSensing().hasLineOfSight(target));
+        }
+
+        @Override
+        public void tick() {
+            Kobolediator_Entity.this.setDeltaMovement(0,Kobolediator_Entity.this.getDeltaMovement().y,0);
+        }
+
+        @Override
+        public void stop() {
+            Kobolediator_Entity.this.setAwaken(true);
+            Kobolediator_Entity.this.setAttackState(2);
+        }
+
+        @Override
+        public boolean isInterruptable() {
+            return false;
+        }
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
     }
 
 }

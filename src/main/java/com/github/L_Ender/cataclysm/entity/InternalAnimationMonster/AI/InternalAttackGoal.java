@@ -4,7 +4,6 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Ani
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 
 import java.util.EnumSet;
 
@@ -45,7 +44,10 @@ public class InternalAttackGoal extends Goal {
         LivingEntity target = entity.getTarget();
         return target != null && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getattackstate;
     }
-
+    @Override
+    public boolean isInterruptable() {
+        return false;
+    }
 
     @Override
     public void start() {
@@ -55,7 +57,7 @@ public class InternalAttackGoal extends Goal {
 
     @Override
     public void stop() {
-        this.entity.setAttackState(attackendstate);
+        EndState();
         LivingEntity target = entity.getTarget();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(target)) {
             this.entity.setTarget((LivingEntity)null);
@@ -66,6 +68,10 @@ public class InternalAttackGoal extends Goal {
         }
     }
 
+    protected void EndState() {
+        this.entity.setAttackState(attackendstate);
+    }
+
     @Override
     public boolean canContinueToUse() {
         return  this.entity.getAttackState() == attackstate && this.entity.attackTicks <= attackMaxtick;
@@ -74,12 +80,21 @@ public class InternalAttackGoal extends Goal {
 
     public void tick() {
         LivingEntity target = entity.getTarget();
-        if (entity.attackTicks < attackseetick && target != null) {
-            entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            entity.lookAt(target, 30.0F, 30.0F);
-        } else {
+
+        if(target !=null){
+            boolean flag = entity.attackTicks < attackseetick;
+            if(flag){
+                entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            }else{
+                entity.getLookControl().setLookAt(target,0F, 30.0F);
+                entity.setYRot(entity.yRotO);
+            }
+
+        }else{
             entity.setYRot(entity.yRotO);
         }
+
         this.entity.getNavigation().stop();
     }
 

@@ -9,6 +9,7 @@ import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentMap;
@@ -77,11 +78,7 @@ public class AltarOfAbyss_Block_Entity extends BlockEntity implements Clearable 
                     if (level instanceof ServerLevel serverLevel) {
                         if (leviathan != null) {
                             leviathan.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                            leviathan.setHomePos(pos);
-
-                            ResourceLocation dimLoc = serverLevel.dimension().location();
-                            leviathan.setDimensionType(dimLoc.toString());
-
+                            leviathan.setHomePos(GlobalPos.of(serverLevel.dimension(), pos));
                             boolean flag = level.addFreshEntity(leviathan);
                             if (flag) {
                                 this.items.set(0, ItemStack.EMPTY);

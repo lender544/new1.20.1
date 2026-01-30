@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
@@ -88,7 +88,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         this.setPathfindingMalus(PathType.WATER, 0.0F);
         this.setPathfindingMalus(PathType.WATER_BORDER, 0.0F);
         switchNavigator(false);
-        setConfigattribute(this, CMConfig.BabyLeviathanHealthMultiplier, CMConfig.BabyLeviathanDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.BabyLeviathan.healthMultiplier,CMCommonConfig.BabyLeviathan.attackMultiplier);
     }
 
     protected SoundEvent getAmbientSound() {
@@ -127,6 +127,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
                 .add(Attributes.MOVEMENT_SPEED, 0.2F);
     }
 
+
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
         this.goalSelector.addGoal(2, new TameableAIFollowOwnerWater(this, 1.3D, 4.0F, 2.0F, true));
@@ -143,7 +144,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D(this, LivingEntity.class, 120, false, true, ModEntities.buildPredicateFromTag(ModTag.BABY_LEVIATHAN_TARGET)) {
             public boolean canUse() {
-                return The_Baby_Leviathan_Entity.this.getCommand() != 2 && !The_Baby_Leviathan_Entity.this.isSitting() && super.canUse();
+                return The_Baby_Leviathan_Entity.this.getCommand() != 2 && !The_Baby_Leviathan_Entity.this.isSitting() && super.canUse() && !The_Baby_Leviathan_Entity.this.isTame();
             }
         });
         this.targetSelector.addGoal(4, new HurtByTargetGoal(this));

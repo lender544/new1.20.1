@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataComponents;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -93,8 +93,7 @@ public class Laser_Gatling extends Item {
             if (count % 2 == 0) {
                 Vec3 vector3d = livingEntityIn.getViewVector(1.0F);
                 Vec3 vec3 = vector3d.normalize();
-
-                Laser_Beam_Entity laser = new Laser_Beam_Entity(livingEntityIn, vec3,worldIn,(float)CMConfig.Laserdamage);
+                Laser_Beam_Entity laser = new Laser_Beam_Entity(livingEntityIn, vec3,worldIn, (float)CMCommonConfig.LaserGatling.damage);
 
                 float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
 

@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwner;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -59,7 +59,7 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
     public Modern_Remnant_Entity(EntityType type, Level world) {
         super(type, world);
         this.xpReward = 0;
-        setConfigattribute(this, CMConfig.ModernRemnantHealthMultiplier, CMConfig.ModernRemnantDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.ModernRemnant.healthMultiplier,CMCommonConfig.ModernRemnant.attackMultiplier);
     }
 
     protected SoundEvent getAmbientSound() {
@@ -88,6 +88,7 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
                 .add(Attributes.STEP_HEIGHT, 1.0f)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F);
     }
+
 
     protected int decreaseAirSupply(int air) {
         return air;

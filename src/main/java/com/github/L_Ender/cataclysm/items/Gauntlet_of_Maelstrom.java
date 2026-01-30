@@ -1,10 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,57 +10,26 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.enchantment.Enchantment;
-
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-
-import javax.annotation.Nullable;
 import java.util.List;
 
-public class Gauntlet_of_Maelstrom extends Item implements RangeTool {
+public class Gauntlet_of_Maelstrom extends Cataclysm_Weapon {
 
 
     public Gauntlet_of_Maelstrom(Properties group) {
         super(group);
     }
 
-    public static ItemAttributeModifiers createAttributes() {
-        return ItemAttributeModifiers.builder()
-                .add(
-                        Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 10.0D, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.4F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ARMOR, new AttributeModifier(BASE_ENTITY_ARMOR_ID, 3F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ENTITY_ARMOR_TOUGHNESS_ID, 3F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(BASE_ENTITY_KNOCKBACK_RESISTANCE_ID, 0.15F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .build();
-    }
 
     public UseAnim getUseAnimation(ItemStack p_77661_1_) {
         return UseAnim.BOW;
@@ -104,7 +70,7 @@ public class Gauntlet_of_Maelstrom extends Item implements RangeTool {
                     }
 
                     if (hasSucceeded) {
-                        player.getCooldowns().addCooldown(this, CMConfig.GauntletOfMaelstromCooldown);
+                        player.getCooldowns().addCooldown(this,  CMCommonConfig.GauntletOfMaelstrom.cooldown);
                         player.awardStat(Stats.ITEM_USED.get(this));
                     }
                 }

@@ -10,7 +10,9 @@ import com.github.L_Ender.lionfishapi.server.animation.LegSolver;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.animation.definitions.SnifferAnimation;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.SnifferModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -396,7 +398,6 @@ public class Ancient_Remnant_Rework_Model extends HierarchicalModel<Ancient_Remn
 		this.animate(entityIn.getAnimationState("right_bite"), Ancient_Remnant_Animation.RIGHT_BITE, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("sandstorm_roar"), Ancient_Remnant_Animation.SAND_STORM_ROAR, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("phase_roar"), Ancient_Remnant_Animation.PHASE_ROAR, ageInTicks, 1.0F);
-		this.animate(entityIn.getAnimationState("charge"), Ancient_Remnant_Animation.CHARGE, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("sleep"), Ancient_Remnant_Animation.SLEEP, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("awaken"), Ancient_Remnant_Animation.AWAKEN, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("left_double_stomp"), Ancient_Remnant_Power_Animation.DOUBLE_STOMP2, ageInTicks, 1.0F);
@@ -408,6 +409,7 @@ public class Ancient_Remnant_Rework_Model extends HierarchicalModel<Ancient_Remn
 
 		this.animate(entityIn.getAnimationState("right_stomp"), Ancient_Remnant_Animation.STOMP1, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("left_stomp"), Ancient_Remnant_Animation.STOMP2, ageInTicks, 1.0F);
+		this.animate(entityIn.getAnimationState("charge"), Ancient_Remnant_Animation.CHARGE, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("charge_prepare"), Ancient_Remnant_Animation.CHARGE_PREPARE, ageInTicks, 1.0F);
 		this.animate(entityIn.getAnimationState("charge_stun"), Ancient_Remnant_Animation.CHARGE_STUN, ageInTicks, 1.0F);
 		float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
@@ -415,6 +417,11 @@ public class Ancient_Remnant_Rework_Model extends HierarchicalModel<Ancient_Remn
 		if (!entityIn.isSleep()) {
 			articulateLegs(entityIn.legSolver, partialTick);
 		}
+
+		if (!entityIn.getNecklace()) {
+			this.applyStatic(Ancient_Remnant_Animation.SLEEP);
+		}
+
 
 		desert_necklace.visible = entityIn.getNecklace();
 

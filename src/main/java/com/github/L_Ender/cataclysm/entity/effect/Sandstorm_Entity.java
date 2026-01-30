@@ -2,10 +2,7 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -110,7 +107,7 @@ public class Sandstorm_Entity extends Entity {
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 3 == 0) {
                 if (livingentity == null) {
-                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), 7);
                     if(flag) {
                         MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
                         Hitentity.addEffect(effectinstance);
@@ -118,7 +115,7 @@ public class Sandstorm_Entity extends Entity {
                 } else {
                     if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
 
-                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), (float) CMConfig.Sandstormdamage);
+                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), 7);
                         if (flag) {
                             MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 200, 0);
                             Hitentity.addEffect(effectinstance);
@@ -167,7 +164,7 @@ public class Sandstorm_Entity extends Entity {
     protected void updateMotion() {
         LivingEntity owner = getCaster();
         if(owner !=null) {
-            if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {
+            if ( owner instanceof Ancient_Remnant_Entity) {
                 Vec3 center = owner.position().add(0.0, 0, 0.0);
                 float radius = 8;
                 float speed = this.tickCount * 0.04f;

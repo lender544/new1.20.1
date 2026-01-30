@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -64,7 +64,7 @@ public class The_Leviathan_Tongue_Entity extends Entity {
 
 
         if (!this.level().isClientSide) {
-            if(CMConfig.LeviathanBlockBreaking){
+            if(CMCommonConfig.Leviathan.ignoreMobGriefing) {
                 blockbreak(0.25d,0.25d,0.25d);
             }else{
                 if (net.neoforged.neoforge.event.EventHooks.canEntityGrief(this.level(), this)) {

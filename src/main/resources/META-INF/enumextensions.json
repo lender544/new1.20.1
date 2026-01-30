@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/item/Rarity",
+      "name": "CATACLYSM_MALEDICTUS",
+      "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+      "parameters": {
+        "class": "com/github/L_Ender/cataclysm/client/CustomRarity/CMRarity",
+        "field": "MALEDICTUS_PROXY"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/item/Rarity",
+      "name": "CATACLYSM_IGNITIUM",
+      "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+      "parameters": {
+        "class": "com/github/L_Ender/cataclysm/client/CustomRarity/CMRarity",
+        "field": "IGNITIUM_PROXY"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/item/Rarity",
+      "name": "CATACLYSM_MALGNIS",
+      "constructor": "(ILjava/lang/String;Ljava/util/function/UnaryOperator;)V",
+      "parameters": {
+        "class": "com/github/L_Ender/cataclysm/client/CustomRarity/CMRarity",
+        "field": "MALGNIS_PROXY"
+      }
+    }
+  ]
+}

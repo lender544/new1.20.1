@@ -71,6 +71,14 @@
       }
     ]
   },
+  "guardianfistattack": {
+    "subtitle": "enderguardianattack.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/guardian_fist_attack"
+      }
+    ]
+  },
   "monstrositydeath": {
     "subtitle": "monstrositydeath.sub",
     "sounds": [
@@ -364,7 +372,7 @@
     "subtitle": "enderguardian_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/enderguardian_theme_disc"
+        "name": "cataclysm:music_disc/enderguardian_theme"
       }
     ]
   },
@@ -392,7 +400,7 @@
       }
     ]
   },
-  "ignis_music": {
+  "ignis_music_disc": {
     "subtitle": "ignis_music.sub",
     "sounds": [
       {
@@ -452,7 +460,7 @@
     "subtitle": "maledictus_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/maledictus_theme_disc"
+        "name": "cataclysm:music_disc/maledictus_theme"
       }
     ]
   },
@@ -468,7 +476,7 @@
     "subtitle": "scylla_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/scylla_theme_disc"
+        "name": "cataclysm:music_disc/scylla_theme"
       }
     ]
   },
@@ -1322,7 +1330,7 @@
     "subtitle": "maledictus_leap.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/maledictus_leap"
+        "name": "cataclysm:entity/maledictus_leap1"
       },
       {
         "name": "cataclysm:entity/maledictus_leap2"
@@ -1460,6 +1468,57 @@
       }
     ]
   },
+  "lacerton_ambient": {
+    "subtitle": "lacerton_ambient.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/koboleton_idle1",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/koboleton_idle2",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/koboleton_idle3",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "lacerton_hurt": {
+    "subtitle": "lacerton_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/koboleton_hurt1",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/koboleton_hurt2",
+        "volume": 1.0,
+        "pitch": 0.7
+      },
+      {
+        "name": "cataclysm:entity/koboleton_hurt3",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "lacerton_death": {
+    "subtitle": "lacerton_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/koboleton_death",
+        "volume": 1.0,
+        "pitch": 0.7
+      }
+    ]
+  },
+
   "aptrgangr_hurt": {
     "subtitle": "aptrgangr_hurt.sub",
     "sounds": [
@@ -1565,6 +1624,45 @@
       },
       {
         "name": "cataclysm:entity/cindaria_hurt3"
+      }
+    ]
+  },
+  "clawdian_hurt": {
+    "subtitle": "clawdian_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_hurt1",
+        "pitch": 0.8
+      },
+      {
+        "name": "cataclysm:entity/clawdian_hurt2",
+        "pitch": 0.8
+      },
+      {
+        "name": "cataclysm:entity/clawdian_hurt3",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "clawdian_idle": {
+    "subtitle": "clawdian_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_idle1"
+      },
+      {
+        "name": "cataclysm:entity/clawdian_idle2"
+      },
+      {
+        "name": "cataclysm:entity/clawdian_idle3"
+      }
+    ]
+  },
+  "clawdian_death": {
+    "subtitle": "clawdian_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_death"
       }
     ]
   },

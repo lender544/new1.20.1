@@ -131,7 +131,7 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 	}
 
 	protected float getWaterInertia() {
-		return 1.0F;
+		return 0.9F;
 	}
 
 	@Override

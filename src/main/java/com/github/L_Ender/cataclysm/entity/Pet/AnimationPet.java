@@ -3,29 +3,19 @@ package com.github.L_Ender.cataclysm.entity.Pet;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.etc.IFollower;
-import com.github.L_Ender.lionfishapi.server.animation.Animation;
-import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.monster.EnderMan;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.UUID;
 
 public class AnimationPet extends TamableAnimal implements IFollower {
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(AnimationPet.class, EntityDataSerializers.BOOLEAN);
@@ -76,7 +66,7 @@ public class AnimationPet extends TamableAnimal implements IFollower {
         this.setCommand(compound.getInt("Command"));
     }
 
-    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+    public void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
         AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthAttr != null) {
             double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
@@ -89,6 +79,7 @@ public class AnimationPet extends TamableAnimal implements IFollower {
             attackDamageAttr.addTransientModifier(new AttributeModifier(MOB_DAMAGE_MODIFIER_ID,  difference, AttributeModifier.Operation.ADD_VALUE));
         }
     }
+
 
     public boolean removeWhenFarAway(double p_21542_) {
         return false;

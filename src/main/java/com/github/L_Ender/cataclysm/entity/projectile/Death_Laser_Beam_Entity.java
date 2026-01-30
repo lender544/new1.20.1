@@ -2,10 +2,9 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 
 
 import com.github.L_Ender.cataclysm.blocks.EMP_Block;
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
@@ -14,8 +13,6 @@ import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,7 +20,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -160,7 +156,7 @@ public class Death_Laser_Beam_Entity extends Entity {
                     }
                     if(this.getFire()) {
                         BlockPos blockpos1 = BlockPos.containing(collidePosX,collidePosY, collidePosZ);
-                        if(CMConfig.HarbingerLightFire) {
+                        if(CMCommonConfig.Harbinger.ignoreMobGriefing) {
                             if (this.level().isEmptyBlock(blockpos1)) {
                                 this.level().setBlockAndUpdate(blockpos1, BaseFireBlock.getState(this.level(), blockpos1));
                             }

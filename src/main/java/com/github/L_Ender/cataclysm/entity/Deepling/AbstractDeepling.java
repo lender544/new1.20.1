@@ -14,6 +14,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -144,6 +146,24 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
             this.navigation = new SemiAquaticPathNavigator(this, level());
             this.isLandNavigator = false;
         }
+    }
+
+
+    @Override
+    public boolean hurt(DamageSource source, float damage) {
+        if (source.is(DamageTypes.HOT_FLOOR) ) {
+            return false;
+        }
+
+        return super.hurt(source, damage);
+    }
+
+    public void onInsideBubbleColumn(boolean p_20322_) {
+
+    }
+
+    public void onAboveBubbleCol(boolean p_20313_) {
+
     }
 
     public AABB getSwimmingBox() {

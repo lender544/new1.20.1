@@ -19,19 +19,34 @@ public class AttackAnimationGoal1<T extends LLibrary_Monster & IAnimatedEntity> 
     public void tick() {
         LivingEntity target = entity.getTarget();
         if(see) {
-            if (entity.getAnimationTick() < look1 && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.lookAt(target, 30.0F, 30.0F);
-            } else {
+            if(target !=null){
+                boolean flag = entity.getAnimationTick() < look1;
+                if(flag){
+                    entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                    entity.lookAt(target, 30.0F, 30.0F);
+                }else{
+                    entity.getLookControl().setLookAt(target,0F, 30.0F);
+                    entity.setYRot(entity.yRotO);
+                }
+
+            }else{
                 entity.setYRot(entity.yRotO);
             }
         }else{
-            if (entity.getAnimationTick() > look1 && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.lookAt(target, 30.0F, 30.0F);
-            } else {
+            if(target !=null){
+                boolean flag = entity.getAnimationTick() > look1;
+                if(flag){
+                    entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                    entity.lookAt(target, 30.0F, 30.0F);
+                }else{
+                    entity.getLookControl().setLookAt(target,0F, 30.0F);
+                    entity.setYRot(entity.yRotO);
+                }
+
+            }else{
                 entity.setYRot(entity.yRotO);
             }
+
         }
         entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
     }

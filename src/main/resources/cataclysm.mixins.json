@@ -5,6 +5,7 @@
   "target": "@env(DEFAULT)",
   "refmap": "cataclysm.refmap.json",
   "mixins": [
+    "FoodDataMixin",
     "ItemMixin",
     "LivingEntityMixin",
     "NoBasaltColumnsInStructuresMixin",
@@ -26,6 +27,8 @@
     "accessor.StructureTemplatePoolAccessor"
   ],
   "client": [
+    "accessor.LivingEntityRendererAccessor",
+    "Client.HumanoidArmorLayerMixin",
     "Client.HumanoidModelMixin"
   ],
   "injectors": {

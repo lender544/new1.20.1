@@ -1,0 +1,26 @@
+{
+  "structures": [
+    {
+      "structure": "cataclysm:desert_temple",
+      "weight": 1
+    },
+    {
+      "structure": "cataclysm:desert_site",
+      "weight": 1
+    },
+    {
+      "structure": "cataclysm:desert_occupied_village",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "cataclysm:cataclysm_random_spread",
+    "salt": 31547671,
+    "spacing": 30,
+    "separation": 20,
+    "super_exclusion_zone": {
+      "chunk_count": 8,
+      "other_set": "#cataclysm:desert_structures_avoid"
+    }
+  }
+}

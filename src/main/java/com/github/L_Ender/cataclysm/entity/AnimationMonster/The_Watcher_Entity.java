@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -137,7 +136,7 @@ public class The_Watcher_Entity extends LLibrary_Monster {
                     double d4 = target.getY() + target.getBbHeight() * 1 / 2 - d1;
                     double d5 = target.getZ() - d2;
                     Vec3 vec3 = new Vec3(d3, d4, d5);
-                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.HarbingerLaserdamage);
+                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),7);
                     float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
 
 

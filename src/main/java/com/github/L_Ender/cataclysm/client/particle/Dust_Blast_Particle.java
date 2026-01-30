@@ -15,7 +15,7 @@ public class Dust_Blast_Particle extends TextureSheetParticle {
         this.alpha = 0.9F;
         this.quadSize *= 4F;
         this.gravity = 0F;
-        this.lifetime = 8;
+        this.lifetime = 4;
     }
 
     public ParticleRenderType getRenderType() {
@@ -30,12 +30,9 @@ public class Dust_Blast_Particle extends TextureSheetParticle {
 
     public void tick() {
         super.tick();
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        }else{
-            this.setSpriteFromAge(this.sprites);
-        }
+        this.setSpriteFromAge(sprites);
     }
+
 
 
     

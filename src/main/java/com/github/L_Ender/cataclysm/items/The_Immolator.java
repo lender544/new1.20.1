@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -10,30 +10,24 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-
 import java.util.List;
 
-public class The_Immolator extends Item {
+public class The_Immolator extends Cataclysm_Weapon {
 
 
     public The_Immolator(Properties properties) {
@@ -42,16 +36,7 @@ public class The_Immolator extends Item {
     }
 
 
-    public static ItemAttributeModifiers createAttributes() {
-        return ItemAttributeModifiers.builder()
-                .add(
-                        Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 6.5D, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.4F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-                )
-                .build();
-    }
+
 
 
     public UseAnim getUseAnimation(ItemStack p_77661_1_) {
@@ -79,7 +64,7 @@ public class The_Immolator extends Item {
 
                 if (hasSucceeded) {
                     if (!p_43395_.isClientSide) {
-                        player.getCooldowns().addCooldown(this, CMConfig.ImmolatorCooldown);
+                        player.getCooldowns().addCooldown(this, CMCommonConfig.Immolator.cooldown);
                     }
                     ScreenShake_Entity.ScreenShake(p_43395_, player.position(), 30, 0.15f, 0, 30);
                     p_43395_.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.EXPLOSION.get(), SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));

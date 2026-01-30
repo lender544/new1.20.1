@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -54,7 +53,7 @@ public class Lionfish_Spike_Entity extends ThrowableItemProjectile {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
         Entity entity = result.getEntity();
-        float i = (float) CMConfig.BlazingBonedamage;
+        float i = 4;
         if (shooter instanceof LivingEntity) {
             if (!((entity == shooter) || (shooter.isAlliedTo(entity)))) {
                 if(entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), i)) {

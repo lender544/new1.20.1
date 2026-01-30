@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMEntityMoveHelper;
@@ -11,6 +11,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Amethyst_Cluster_Projectil
 import com.github.L_Ender.cataclysm.entity.projectile.EarthQuake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.IAnimatedEntity;
 import net.minecraft.ChatFormatting;
@@ -22,7 +23,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -43,7 +43,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -81,7 +80,8 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
         moveControl = new CMEntityMoveHelper(this, 45);
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.AmethystCrabHealthMultiplier, CMConfig.AmethystCrabDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.AmethystCrab.healthMultiplier,CMCommonConfig.AmethystCrab.attackMultiplier);
+
     }
 
     @Override
@@ -112,6 +112,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                 .add(Attributes.STEP_HEIGHT, 1.5F)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
+
 
 
     protected int decreaseAirSupply(int air) {
@@ -160,17 +161,14 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
     }
 
 
-    public boolean checkSpawnObstruction(LevelReader reader) {
-        return reader.isUnobstructed(this);
-    }
-
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.AmethystCrabSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.AmethystCrabSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     public static boolean canCrabSpawnSpawnRules(EntityType<? extends Amethyst_Crab_Entity> p_219020_, LevelAccessor p_219021_, MobSpawnType p_219022_, BlockPos p_219023_, RandomSource p_219024_) {
         return checkAnyLightMonsterSpawnRules(p_219020_, p_219021_, p_219022_, p_219023_, p_219024_);
     }
+
 
     public void tick() {
         super.tick();
@@ -215,18 +213,16 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
             }
         }
         if (this.getAnimation() == CRAB_BURROW) {
-            for (int l = 1; l <= 10; l = l + 3) {
-                if (this.getAnimationTick() == l) {
-                    BurrowSound();
-                    BurrowParticle(0.6f,0.0f,2.0f);
-                }
+            if (this.getAnimationTick() == 1 || this.getAnimationTick() == 4 || this.getAnimationTick() == 7 || this.getAnimationTick() == 10) {
+                BurrowSound();
+                BurrowParticle(0.6f,0.0f,2.0f);
             }
-            for (int l = 39; l <= 48; l = l + 3) {
-                if (this.getAnimationTick() == l) {
-                    BurrowParticle(0.6f, 0.0f, 2.0f);
-                    BurrowSound();
-                }
+            if (this.getAnimationTick() == 39 || this.getAnimationTick() == 42 || this.getAnimationTick() == 45|| this.getAnimationTick() == 48) {
+                BurrowParticle(0.6f, 0.0f, 2.0f);
+                BurrowSound();
             }
+
+
         }
         if (this.getAnimation() == CRAB_BITE) {
             if (this.getAnimationTick() == 14) {
@@ -242,6 +238,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
                 float entityAttackingAngle = this.yBodyRot % 360;
@@ -255,10 +252,9 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!(entityHit instanceof Amethyst_Crab_Entity)) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
                         entityHit.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
                     }
                 }
@@ -345,7 +341,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
         float angle = 360.0F / quakeCount;
         for (int i = 0; i < quakeCount; i++) {
             EarthQuake_Entity peq = new EarthQuake_Entity(this.level(), this);
-            peq.setDamage((float) CMConfig.AmethystCrabEarthQuakeDamage);
+            peq.setDamage((float)CMCommonConfig.AmethystCrab.EarthQuakeDamage);
             peq.shootFromRotation(this, 0, angle * i, 0.0F, 0.25F, 0.0F);
             peq.setPos(this.getX() + vec * vecX + f * math, this.getY(), getZ() + vec * vecZ + f1 * math);
             this.level().addFreshEntity(peq);
@@ -404,7 +400,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
     }
 
     public boolean removeWhenFarAway(double p_21542_) {
-        return this.despawnTime >= 0;
+        return super.removeWhenFarAway(p_21542_) && this.despawnTime >= 0;
     }
 
     @Nullable
@@ -612,7 +608,7 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
                     double vy = 0 + entity.random.nextFloat() * 0.3F;
                     double vz = Mth.sin(throwAngle);
                     double v3 = Mth.sqrt((float) (vx * vx + vz * vz));
-                    Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), entity.level(), entity,(float)CMConfig.AmethystClusterdamage);
+                    Amethyst_Cluster_Projectile_Entity projectile = new Amethyst_Cluster_Projectile_Entity(ModEntities.AMETHYST_CLUSTER_PROJECTILE.get(), entity.level(), entity,(float)CMCommonConfig.AmethystCrab.AmethystClusterDamage);
 
                     projectile.moveTo(sx, sy, sz, i * 11.25F, entity.getXRot());
                     float speed = 0.8F;

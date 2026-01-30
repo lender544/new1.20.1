@@ -24,7 +24,8 @@ public class CircleLightningParticle extends Particle {
 
     private LightningRender lightningRender = new LightningRender();
 
-    public CircleLightningParticle(ClientLevel world, double x, double y, double z, double xd, double yd, double zd, int r, int g, int b) {
+
+    public CircleLightningParticle(ClientLevel world, double x, double y, double z, double xd, double yd, double zd, float size, int r, int g, int b) {
         super(world, x, y, z);
         this.setSize(6.0F, 6.0F);
         this.x = x;
@@ -36,10 +37,11 @@ public class CircleLightningParticle extends Particle {
         Vec3 lightningTo = new Vec3(xd - x, yd - y, zd - z);
         this.lifetime = 10;
          LightningBoltData.BoltRenderInfo boltData = new LightningBoltData.BoltRenderInfo(0.5F, 0.1F, 0.5F, 0.85F, new Vector4f(rCol /255, gCol /255, bCol /255, 0.8F), 0.1F);
-          LightningBoltData bolt = new LightningBoltData(boltData, Vec3.ZERO, lightningTo, 5)
-                .size(0.1F)
+         LightningBoltData bolt = new LightningBoltData(boltData, Vec3.ZERO, lightningTo, 5)
+                .size(size)
                 .lifespan(this.lifetime)
                  .spawn(LightningBoltData.SpawnFunction.CONSECUTIVE);
+
              lightningRender.update(this, bolt, 1.0F);
     }
 
@@ -63,7 +65,6 @@ public class CircleLightningParticle extends Particle {
             this.remove();
         } else {
             this.move(this.xd, this.yd, this.zd);
-            this.yd -= (double) this.gravity;
         }
 
     }
@@ -96,7 +97,7 @@ public class CircleLightningParticle extends Particle {
         @Override
         public Particle createParticle(CircleLightningParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             CircleLightningParticle particle;
-            particle = new CircleLightningParticle(level, x, y, z, xSpeed,ySpeed,zSpeed, data.r(), data.g(),data.b());
+            particle = new CircleLightningParticle(level, x, y, z, xSpeed,ySpeed,zSpeed, data.size(),data.r(), data.g(),data.b());
             return particle;
         }
 

@@ -107,7 +107,7 @@ public class Spark_Entity extends ThrowableProjectile {
 
         if(this.level().isClientSide){
             Vec3 center = this.position().add(this.getDeltaMovement());
-            this.level().addParticle(new CircleLightningParticleOptions(143, 241, 215), center.x, center.y, center.z, xo, yo, zo);
+            this.level().addParticle(new CircleLightningParticleOptions(0.1F,143, 241, 215), center.x, center.y, center.z, xo, yo, zo);
 
         }
 

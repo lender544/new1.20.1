@@ -12,64 +12,82 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.world.entity.Entity;
 
 public class Void_Forge_Model extends AdvancedEntityModel<Entity> {
+
 	private final AdvancedModelBox root;
+	private final AdvancedModelBox hammer_head;
+	private final AdvancedModelBox back;
 	private final AdvancedModelBox handle;
-	private final AdvancedModelBox voidspike;
-	private final AdvancedModelBox voidspike2;
-	private final AdvancedModelBox voidspike3;
-	private final AdvancedModelBox voidspike4;
+	private final AdvancedModelBox handle2;
+	private final AdvancedModelBox crystal;
+	private final AdvancedModelBox crystal2;
+	private final AdvancedModelBox crystal3;
 
 	public Void_Forge_Model() {
-		texWidth = 64;
-		texHeight = 64;
+		texWidth = 128;
+		texHeight = 128;
 
 		root = new AdvancedModelBox(this);
-		root.setRotationPoint(0.011F, 10.0F, 0.0F);
-		root.setTextureOffset(0, 0).addBox(-3.011F, -13.25F, -3.5F, 6.0F, 6.0F, 8.0F, 0.0F, false);
-		root.setTextureOffset(22, 24).addBox(-3.511F, -14.0F, 2.3F, 7.0F, 7.0F, 5.0F, 0.0F, false);
-		root.setTextureOffset(15, 37).addBox(-2.511F, -14.0F, -8.0F, 5.0F, 1.0F, 5.0F, 0.0F, false);
-		root.setTextureOffset(21, 0).addBox(-2.511F, -8.0F, -8.0F, 5.0F, 1.0F, 5.0F, 0.0F, false);
-		root.setTextureOffset(0, 29).addBox(2.489F, -14.0F, -8.0F, 1.0F, 7.0F, 6.0F, 0.0F, false);
-		root.setTextureOffset(0, 29).addBox(-3.511F, -14.0F, -8.0F, 1.0F, 7.0F, 6.0F, 0.0F, false);
-		root.setTextureOffset(42, 20).addBox(-2.511F, -13.0F, -6.0F, 5.0F, 5.0F, 1.0F, 0.0F, false);
-		root.setTextureOffset(0, 15).addBox(-3.511F, -14.0F, -8.25F, 7.0F, 7.0F, 6.0F, 0.25F, false);
-		root.setTextureOffset(0, 43).addBox(-2.5F, -13.0F, -5.0F, 5.0F, 5.0F, 0.0F, 0.0F, false);
-		root.setTextureOffset(22, 8).addBox(-2.011F, -12.5F, 7.0F, 4.0F, 4.0F, 7.0F, 0.0F, false);
+		root.setRotationPoint(0.0F, 11.0F, 0.0F);
+
+
+		hammer_head = new AdvancedModelBox(this);
+		hammer_head.setRotationPoint(0.0F, 20.0F, -1.0F);
+		root.addChild(hammer_head);
+		hammer_head.setTextureOffset(33, 15).addBox(-3.0F, -38.0F, -2.0F, 6.0F, 7.0F, 6.0F, 0.0F, false);
+		hammer_head.setTextureOffset(7, 46).addBox(3.25F, -33.5F, -2.0F, 0.0F, 2.0F, 6.0F, 0.0F, false);
+		hammer_head.setTextureOffset(51, 53).addBox(-3.25F, -33.5F, -2.0F, 0.0F, 2.0F, 6.0F, 0.0F, false);
+		hammer_head.setTextureOffset(38, 53).addBox(-3.25F, -37.5F, -2.0F, 0.0F, 2.0F, 6.0F, 0.0F, false);
+		hammer_head.setTextureOffset(38, 53).addBox(3.25F, -37.5F, -2.0F, 0.0F, 2.0F, 6.0F, 0.0F, false);
+		hammer_head.setTextureOffset(7, 55).addBox(-3.5F, -38.5F, 2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(58, 15).addBox(-3.5F, -33.5F, 2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(58, 27).addBox(0.5F, -38.5F, 2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(58, 33).addBox(0.5F, -38.5F, -2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(60, 0).addBox(0.5F, -33.5F, -2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(60, 6).addBox(0.5F, -33.5F, 2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(58, 21).addBox(-3.5F, -33.5F, -2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(18, 56).addBox(-3.5F, -38.5F, -2.0F, 3.0F, 3.0F, 2.0F, 0.0F, false);
+		hammer_head.setTextureOffset(0, 0).addBox(-4.0F, -39.0F, -10.0F, 8.0F, 9.0F, 8.0F, 0.0F, false);
+		hammer_head.setTextureOffset(33, 29).addBox(-4.5F, -39.5F, -11.0F, 9.0F, 10.0F, 3.0F, 0.0F, false);
+		hammer_head.setTextureOffset(0, 18).addBox(-4.0F, -39.0F, -9.0F, 8.0F, 9.0F, 8.0F, 0.3F, false);
+
+		back = new AdvancedModelBox(this);
+		back.setRotationPoint(0.0F, -35.0F, 9.0F);
+		hammer_head.addChild(back);
+		back.setTextureOffset(33, 0).addBox(-4.0F, -4.0F, -5.0F, 8.0F, 9.0F, 5.0F, 0.0F, false);
+		back.setTextureOffset(0, 36).addBox(-4.0F, -4.0F, 0.0F, 8.0F, 5.0F, 4.0F, 0.0F, false);
+
+		crystal = new AdvancedModelBox(this);
+		crystal.setRotationPoint(0.0F, -35.0F, 12.0F);
+		hammer_head.addChild(crystal);
+		crystal.setTextureOffset(0, 63).addBox(-2.0F, -2.0F, -3.0F, 4.0F, 4.0F, 9.0F, 0.0F, false);
+		crystal.setTextureOffset(0, 77).addBox(-3.0F, -1.0F, -3.0F, 4.0F, 4.0F, 5.0F, 0.0F, false);
+
+		crystal2 = new AdvancedModelBox(this);
+		crystal2.setRotationPoint(0.0F, -39.75F, 9.75F);
+		hammer_head.addChild(crystal2);
+		setRotationAngle(crystal2, 0.7854F, 0.0F, 0.0F);
+		crystal2.setTextureOffset(0, 63).addBox(-2.0F, -2.0F, -3.0F, 4.0F, 4.0F, 9.0F, 0.0F, false);
+		crystal2.setTextureOffset(0, 77).addBox(-3.0F, -1.0F, -3.0F, 4.0F, 4.0F, 5.0F, 0.0F, false);
+
+		crystal3 = new AdvancedModelBox(this);
+		crystal3.setRotationPoint(0.0F, -30.25F, 9.75F);
+		hammer_head.addChild(crystal3);
+		setRotationAngle(crystal3, -0.7854F, 0.0F, 0.0F);
+		crystal3.setTextureOffset(0, 63).addBox(-2.0F, -2.0F, -3.0F, 4.0F, 4.0F, 9.0F, 0.0F, false);
+		crystal3.setTextureOffset(0, 77).addBox(-3.0F, -1.0F, -3.0F, 4.0F, 4.0F, 5.0F, 0.0F, false);
 
 		handle = new AdvancedModelBox(this);
-		handle.setRotationPoint(-18.5F, -8.0F, 7.0F);
+		handle.setRotationPoint(0.0F, 12.0F, 0.5F);
 		root.addChild(handle);
-		handle.setTextureOffset(37, 0).addBox(17.989F, 0.0F, -8.0F, 1.0F, 2.0F, 2.0F, 0.25F, false);
-		handle.setTextureOffset(36, 37).addBox(17.989F, 0.0F, -8.0F, 1.0F, 17.0F, 2.0F, 0.0F, false);
-		handle.setTextureOffset(0, 0).addBox(17.989F, 17.25F, -8.0F, 1.0F, 4.0F, 2.0F, 0.25F, false);
+		handle.setTextureOffset(0, 46).addBox(-0.5F, -18.0F, -1.5F, 1.0F, 14.0F, 2.0F, 0.0F, false);
+		handle.setTextureOffset(19, 43).addBox(0.0F, -2.0F, -3.5F, 0.0F, 6.0F, 6.0F, 0.0F, false);
+		handle.setTextureOffset(25, 36).addBox(-0.5F, -4.0F, -1.5F, 1.0F, 4.0F, 2.0F, 0.2F, false);
 
-		voidspike = new AdvancedModelBox(this);
-		voidspike.setRotationPoint(-0.286F, -14.9249F, 7.1558F);
-		root.addChild(voidspike);
-		setRotationAngle(voidspike, 0.7854F, 0.0F, 0.0F);
-		voidspike.setTextureOffset(38, 1).addBox(-1.0F, -0.5F, -1.75F, 2.0F, 2.0F, 6.0F, 0.0F, false);
-		voidspike.setTextureOffset(9, 29).addBox(-1.75F, -1.5F, -2.75F, 3.0F, 2.0F, 3.0F, 0.0F, false);
+		handle2 = new AdvancedModelBox(this);
+		handle2.setRotationPoint(0.0F, 7.0F, 0.5F);
+		root.addChild(handle2);
+		handle2.setTextureOffset(38, 43).addBox(-1.5F, -18.0F, -2.5F, 3.0F, 5.0F, 4.0F, 0.0F, false);
 
-		voidspike2 = new AdvancedModelBox(this);
-		voidspike2.setRotationPoint(-0.186F, -6.0751F, 7.1558F);
-		root.addChild(voidspike2);
-		setRotationAngle(voidspike2, -0.829F, 0.0F, 0.0F);
-		voidspike2.setTextureOffset(38, 1).addBox(-1.0F, -1.5F, -1.75F, 2.0F, 2.0F, 6.0F, 0.0F, false);
-		voidspike2.setTextureOffset(9, 29).addBox(-1.75F, -0.5F, -2.75F, 3.0F, 2.0F, 3.0F, 0.0F, false);
-
-		voidspike3 = new AdvancedModelBox(this);
-		voidspike3.setRotationPoint(3.739F, -10.0751F, 7.1558F);
-		root.addChild(voidspike3);
-		setRotationAngle(voidspike3, 0.0F, 0.7854F, 0.0F);
-		voidspike3.setTextureOffset(38, 1).addBox(-0.5F, -1.5F, -1.75F, 2.0F, 2.0F, 6.0F, 0.0F, false);
-		voidspike3.setTextureOffset(9, 29).addBox(-0.75F, -0.5F, -2.75F, 3.0F, 2.0F, 3.0F, 0.0F, false);
-
-		voidspike4 = new AdvancedModelBox(this);
-		voidspike4.setRotationPoint(-3.75F, -10.0751F, 7.1558F);
-		root.addChild(voidspike4);
-		setRotationAngle(voidspike4, 0.0F, -0.829F, 0.0F);
-		voidspike4.setTextureOffset(38, 1).addBox(-1.5F, -1.5F, -1.75F, 2.0F, 2.0F, 6.0F, 0.0F, false);
-		voidspike4.setTextureOffset(9, 29).addBox(-2.25F, -0.5F, -2.75F, 3.0F, 2.0F, 3.0F, 0.0F, false);
 	}
 
 	@Override
@@ -89,11 +107,13 @@ public class Void_Forge_Model extends AdvancedEntityModel<Entity> {
 	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(
 				root,
+				hammer_head,
+				back,
 				handle,
-				voidspike,
-				voidspike2,
-				voidspike3,
-				voidspike4
+				handle2,
+				crystal,
+				crystal2,
+				crystal3
 		);
 	}
 

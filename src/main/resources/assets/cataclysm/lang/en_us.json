@@ -1,12 +1,15 @@
 {
   "item.cataclysm.witherite_ingot": "Witherite Ingot",
   "item.cataclysm.infernal_forge": "Infernal Forge",
+  "item.cataclysm.brontes": "Brontes",
   "item.cataclysm.final_fractal": "Final Fractal",
   "item.cataclysm.zweiender": "Zweiender",
   "item.cataclysm.final_fractal.desc": "Deals 3% of the maximum health of your target as additional damage",
   "item.cataclysm.zweiender.desc": "Deals 200% damage if you attack your target from behind",
   "item.cataclysm.infernal_forge.desc": "When in your main hand, right click at a block to cause AOE damage",
   "item.cataclysm.infernal_forge.desc2": "(FYI, this is a pickaxe)",
+  "item.cataclysm.brontes.desc": "You Can throw it",
+  "item.cataclysm.brontes.desc2": "(Also, this is a pickaxe)",
   "item.cataclysm.gauntlet_of_guard.desc": "When in your main hand, right click to pull entities",
   "item.cataclysm.monstrous_helm.desc": "While worn, if you fall below half health knock back nearby entities",
   "item.cataclysm.monstrous_helm2.desc": "and increases defense, knockback resistance and regeneration",
@@ -66,6 +69,15 @@
   "item.cataclysm.ceraunus.desc": "You can Throw the Anchor",
   "item.cataclysm.ceraunus2.desc": "When used while sneaking, it summons Waves in a Fan pattern",
   "item.cataclysm.astrape.desc": "Right click to shoot a Lightning Spear",
+
+  "item.cataclysm.belt_of_beginner": "Belt of Beginner",
+  "item.cataclysm.ring_of_grudged": "Ring of Grudged",
+  "item.cataclysm.berserker_soul_amulet": "Berserker Soul Amulet",
+  "item.cataclysm.vitality_ankh": "Vitality Ankh",
+  "item.cataclysm.unbreakable_skull": "Unbreakable Skull",
+  "item.cataclysm.unbreakable_skull.desc": "Negates Stun once per cooldown.",
+  "item.cataclysm.sturdy_boots": "Sturdy Boots",
+  "item.cataclysm.sturdy_boots.desc": "Allows you to walk on powder snow",
 
   "entity.cataclysm.you_cant_escape": "You can't escape",
   "entity.cataclysm.rage_meter": "",
@@ -229,6 +241,8 @@
   "item.cataclysm.urchinkin_spawn_egg": "Urchinkin Spawn Egg",
   "item.cataclysm.octohost_spawn_egg": "Octohost Spawn Egg",
   "item.cataclysm.symbiocto_spawn_egg": "Symbiocto Spawn Egg",
+  "item.cataclysm.onyx_spawn_egg": "Onyx Spawn Egg",
+
 
   "itemGroup.cataclysm.item": "Cataclysm Items",
   "itemGroup.cataclysm.block": "Cataclysm Blocks",
@@ -250,6 +264,7 @@
   "block.cataclysm.chiseled_purpur_block": "Chiseled Purpur Block",
   "block.cataclysm.chiseled_obsidian_bricks": "Chiseled Obsidian Bricks",
   "block.cataclysm.polished_obsidian": "Polished Obsidian",
+  "block.cataclysm.obsidian_fence": "Obsidian Fence",
   "block.cataclysm.obsidian_bricks": "Obsidian Bricks",
   "block.cataclysm.obsidian_brick_slab": "Obsidian Brick Slab",
   "block.cataclysm.obsidian_brick_stairs": "Obsidian Brick Stairs",
@@ -470,6 +485,7 @@
   "entity.cataclysm.bolt_strike": "Bolt Strike",
   "entity.cataclysm.lightning_storm": "Lightning Storm",
   "entity.cataclysm.lightning_area_effect": "Lightning Area Effect",
+  "entity.cataclysm.onyx": "Onyx",
 
   "entity.cataclysm.all.command_0": "%s is wandering",
   "entity.cataclysm.all.command_1": "%s is following",
@@ -487,6 +503,10 @@
   "effect.cataclysm.ghost_form": "Ghost Form",
   "effect.cataclysm.ghost_sickness": "Ghost Sickness",
   "effect.cataclysm.wetness": "Wetness",
+  "effect.cataclysm.lightning_hex": "Lightning Hex",
+  "effect.cataclysm.over_gravity": "Over Gravity",
+  "effect.cataclysm.dragon_wound": "Dragon Wound",
+
 
   "flamethrower.sub": "Flamethrower",
   "golemhurt.sub": "Ender Golem hurts",
@@ -723,5 +743,20 @@
   "key.cataclysm.chestplate_ability": "Cataclysm Chestplate Ability",
   "key.cataclysm.boots_ability": "Cataclysm Boots Ability",
   "curios.identifier.feet": "Feet",
-  "curios.modifiers.feet": "When on feet:"
+  "curios.modifiers.feet": "When on Feet:",
+  "curios.identifier.rings": "Rings",
+  "curios.identifier.talisman": "Talisman",
+  "curios.identifier.waist": "Waist",
+  "curios.modifiers.rings": "When on Rings:",
+  "curios.modifiers.talisman": "When on Talisman:",
+  "curios.modifiers.waist": "When on Waist:",
+
+  "attribute.cataclysm.additional_critical_damage": "% Critical Damage",
+  "attribute.cataclysm.nature_heal": "% Nature Heal",
+
+
+  "ability.cataclysm.amethyst_cluster": "Amethyst Cluster",
+  "ability.cataclysm.amethyst_cluster.desc": "Fire amethyst clusters around you that damage entities.",
+
+  "item.cataclysm.shift_desc": "Hold [SHIFT] for details"
 }

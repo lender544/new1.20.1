@@ -70,8 +70,15 @@ public class ModGroup {
                 entries.accept(ModItems.GAUNTLET_OF_BULWARK.get());
                 entries.accept(ModItems.GAUNTLET_OF_MAELSTROM.get());
                 entries.accept(ModItems.THE_INCINERATOR.get());
+                entries.accept(ModItems.BELT_OF_BEGINNER.get());
+                //entries.accept(ModItems.BELT_OF_MONSTROSITY.get());
                 entries.accept(ModItems.BLAZING_GRIPS.get());
                 entries.accept(ModItems.CHITIN_CLAW.get());
+                entries.accept(ModItems.RING_OF_GRUDGED.get());
+                entries.accept(ModItems.BERSERKER_SOUL_AMULET.get());
+                entries.accept(ModItems.VITALITY_ANKH.get());
+                entries.accept(ModItems.UNBREAKABLE_SKULL.get());
+                entries.accept(ModItems.STURDY_BOOTS.get());
                 entries.accept(ModItems.CURSED_BOW.get());
                 entries.accept(ModItems.WRATH_OF_THE_DESERT.get());
                 entries.accept(ModItems.SOUL_RENDER.get());
@@ -88,6 +95,7 @@ public class ModGroup {
                 entries.accept(ModItems.ANCIENT_SPEAR.get());
                 entries.accept(ModItems.ASTRAPE.get());
                 entries.accept(ModItems.CERAUNUS.get());
+                entries.accept(ModItems.BRONTES.get());
                 entries.accept(ModItems.STICKY_GLOVES.get());
                 entries.accept(ModItems.VOID_CORE.get());
                 entries.accept(ModItems.VOID_SCATTER_ARROW.get());
@@ -198,6 +206,7 @@ public class ModGroup {
                 entries.accept(ModItems.OBSIDIAN_BRICKS.get());
                 entries.accept(ModItems.OBSIDIAN_BRICK_SLAB.get());
                 entries.accept(ModItems.OBSIDIAN_BRICK_STAIRS.get());
+                entries.accept(ModItems.OBSIDIAN_FENCE.get());
                 entries.accept(ModItems.OBSIDIAN_BRICK_WALL.get());
                 entries.accept(ModItems.POLISHED_OBSIDIAN.get());
                 entries.accept(ModItems.CHISELED_OBSIDIAN_BRICKS.get());

@@ -1,26 +1,20 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
-import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -29,18 +23,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
-import net.neoforged.neoforge.network.PacketDistributor;
-
-import javax.annotation.Nullable;
-import java.util.Optional;
-import java.util.UUID;
 
 public class Player_Ceraunus_Entity extends AbstractArrow implements IEntityWithComplexSpawn {
 	private static final EntityDataAccessor<Boolean> RETURN = SynchedEntityData.defineId(Player_Ceraunus_Entity.class, EntityDataSerializers.BOOLEAN);
@@ -167,7 +155,7 @@ public class Player_Ceraunus_Entity extends AbstractArrow implements IEntityWith
 	protected void onHitEntity(EntityHitResult p_37573_) {
 		Entity entity = p_37573_.getEntity();
 		Entity entity1 = this.getOwner();
-		DamageSource damagesource = CMDamageTypes.causeStormBringerDamage(this, (Entity)(entity1 == null ? this : entity1));
+		DamageSource damagesource = CMDamageTypes.causePlayerCeraunusDamage(this, (Entity)(entity1 == null ? this : entity1));
 		if (entity.hurt(damagesource, (float) this.getBaseDamage())) {
 
 			if (entity.getType() == EntityType.ENDERMAN) {
@@ -186,12 +174,24 @@ public class Player_Ceraunus_Entity extends AbstractArrow implements IEntityWith
 	@Override
 	protected void onHitBlock(BlockHitResult p_37573_) {
 		super.onHitBlock(p_37573_);
-		double DeltaMovementX = getRandom().nextGaussian() * 0.1D;
-		double DeltaMovementY = getRandom().nextGaussian() * 0.02D;
-		double DeltaMovementZ = getRandom().nextGaussian() * 0.1D;
 		if (this.level().isClientSide) {
-			for (int i1 = 0; i1 < 5 + random.nextInt(2); i1++) {
-				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+			int particleCount = 10 + random.nextInt(5);
+			double speed = 0.35D;
+
+			for (int i = 0; i < particleCount; i++) {
+				double angle = (Math.PI * 2 * i) / particleCount;
+
+				double currentSpeed = speed + (random.nextGaussian() * 0.05D);
+
+				double DeltaMovementX = Math.cos(angle) * currentSpeed;
+				double DeltaMovementZ = Math.sin(angle) * currentSpeed;
+				double DeltaMovementY = 0.05D;
+
+				this.level().addParticle(
+						new ParryParticleOptions(255/255F, 106/255F, 0/255F),
+						this.getX(), this.getY(), this.getZ(),
+						DeltaMovementX, DeltaMovementY, DeltaMovementZ
+				);
 			}
 		}
 	}

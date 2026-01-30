@@ -2,9 +2,7 @@ package com.github.L_Ender.cataclysm.items;
 
 
 import com.github.L_Ender.cataclysm.Attachment.ChargeAttachment;
-import com.github.L_Ender.cataclysm.Attachment.TidalTentacleAttachment;
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModDataAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -19,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Bulwark_of_the_flame extends Item {
@@ -73,7 +70,7 @@ public class Bulwark_of_the_flame extends Item {
                 charge.setdZ(f3 * 0.1F);
 
                 if (!level.isClientSide) {
-                    ((Player) entityLiving).getCooldowns().addCooldown(this, CMConfig.BulwarkOfTheFlameCooldown);
+                    ((Player) entityLiving).getCooldowns().addCooldown(this,CMCommonConfig.BulwarkOfTheFlame.cooldown);
                 }
             }
         }

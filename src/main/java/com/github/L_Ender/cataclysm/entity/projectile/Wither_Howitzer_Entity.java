@@ -1,15 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.Lightning_Zap_Particle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Lightning_Area_Effect_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wither_Smoke_Effect_Entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -67,13 +63,13 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
             if (entity1 instanceof LivingEntity) {
                 LivingEntity livingentity = (LivingEntity) entity1;
                 DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
-                flag = entity.hurt(damagesource, (float) CMConfig.WitherHowizterdamage);
+                flag = entity.hurt(damagesource, 11);
                 if (flag) {
                     if (entity.isAlive()) {
                         EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
                     } else {
                         if (entity1 instanceof The_Harbinger_Entity) {
-                            livingentity.heal(5.0F * (float) CMConfig.HarbingerHealingMultiplier);
+                            livingentity.heal((float) CMCommonConfig.Harbinger.LifeSteal);
                         } else {
                             livingentity.heal(5.0F);
                         }

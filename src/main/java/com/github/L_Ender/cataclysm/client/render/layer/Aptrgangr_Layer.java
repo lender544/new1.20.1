@@ -29,13 +29,11 @@ public class Aptrgangr_Layer extends RenderLayer<Aptrgangr_Entity, Aptrgangr_Mod
     }
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Aptrgangr_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            //need rework
-        float f = 1.0F - entity.deathTime / (float) entity.deathtimer();
+
         RenderType eyes = CMRenderTypes.CMEyes(this.getLayerTextureLocation());
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-        int i = FastColor.ARGB32.color(255, (int) f, (int) f, (int) f);
 
-        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, i);
+        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY);
 
     }
 }

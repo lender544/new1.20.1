@@ -3495,6 +3495,7 @@ public class Ignis_Model extends AdvancedEntityModel<Ignis_Entity> {
         progressRotationPrev(left_arm_joint,blockingProgress,(float)Math.toRadians(-40F), (float)Math.toRadians(15F), (float)Math.toRadians(-7.5F), 10f);
         progressRotationPrev(left_hand,blockingProgress,(float)Math.toRadians(-42.5F), (float)Math.toRadians(15F), (float)Math.toRadians(15F), 10f);
 
+
         progressRotationPrev(root,swordProgress,0, (float)Math.toRadians(25F), 0, 10f);
         progressRotationPrev(upperbody,swordProgress,(float)Math.toRadians(-5F), (float)Math.toRadians(12.5F), (float)Math.toRadians(-5F), 10f);
         progressRotationPrev(head,swordProgress,(float)Math.toRadians(15F), (float)Math.toRadians(-30F), (float)Math.toRadians(12.5F), 10f);

@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.InternalPetStateGoal;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwner;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
@@ -30,10 +29,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
@@ -47,6 +43,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerContainerEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.Optional;
 
 public class Netherite_Ministrosity_Entity extends InternalAnimationPet implements Bucketable,ContainerListener, HasCustomInventoryScreen {
@@ -67,8 +64,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         super(type, world);
         this.createInventory();
         this.xpReward = 0;
-        setConfigattribute(this, CMConfig.MinistrosityHealthMultiplier,1);
-
+        setConfigattribute(this, CMCommonConfig.NetheriteMinistrosity.healthMultiplier,CMCommonConfig.NetheriteMinistrosity.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -78,20 +74,9 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D, 60));
-        this.goalSelector.addGoal(1, new InternalPetStateGoal(this,1,1,0,0,0){
+        this.goalSelector.addGoal(0, new MinistrosityDoNothingGoal());
 
-            @Override
-            public boolean canUse() {
-                return super.canUse() ;
-            }
-
-            @Override
-            public void tick() {
-                entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
-            }
-        });
-
-        this.goalSelector.addGoal(0, new InternalPetStateGoal(this,1,2,0,40,0){
+        this.goalSelector.addGoal(0, new InternalPetStateGoal(this,2,2,0,40,0){
             @Override
             public boolean canUse() {
                 return super.canUse() && Netherite_Ministrosity_Entity.this.getIsAwaken();
@@ -117,9 +102,6 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     public void setIsAwaken(boolean isAwaken) {
         this.entityData.set(IS_AWAKEN, isAwaken);
-        if (!isAwaken) {
-            this.setAttackState(1);
-        }
     }
 
     public boolean getIsAwaken() {
@@ -210,6 +192,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.4F);
     }
+
 
     protected int decreaseAirSupply(int air) {
         return air;
@@ -410,6 +393,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
             if (!net.neoforged.neoforge.event.EventHooks.onAnimalTame(this, player)) {
                 this.tame(player);
                 this.setIsAwaken(true);
+                this.setAttackState(2);
                 this.level().broadcastEntityEvent(this, (byte) 7);
             } else {
                 this.level().broadcastEntityEvent(this, (byte) 6);
@@ -540,6 +524,30 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     public boolean hasInventoryChanged(Container p_149512_) {
         return this.miniInventory != p_149512_;
+    }
+
+
+    class MinistrosityDoNothingGoal extends Goal {
+        public MinistrosityDoNothingGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !Netherite_Ministrosity_Entity.this.getIsAwaken();
+        }
+        @Override
+        public void tick() {
+            Netherite_Ministrosity_Entity.this.setDeltaMovement(0,Netherite_Ministrosity_Entity.this.getDeltaMovement().y,0);
+        }
+
+        @Override
+        public boolean isInterruptable() {
+            return false;
+        }
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
     }
 
 }

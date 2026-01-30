@@ -77,7 +77,7 @@ public class Animation_Monsters extends Monster implements Enemy {
                 && distanceTo(player) < 2500;
     }
 
-    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+    public void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
         AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthAttr != null) {
             double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
@@ -99,15 +99,6 @@ public class Animation_Monsters extends Monster implements Enemy {
         return Math.atan2(second.getZ() - first.getZ(), second.getX() - first.getX()) * (180 / Math.PI) + 90;
     }
 
-    public void disableShield(Player player, int ticks) {
-        if (player.isBlocking()) {
-            if (!player.level().isClientSide) {
-                player.disableShield();
-                player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
-                player.stopUsingItem();
-            }
-        }
-    }
 
     protected boolean canPlayMusic() {
         return !isSilent() && getTarget() instanceof Player && getTarget() !=null && this.getTarget().isAlive();

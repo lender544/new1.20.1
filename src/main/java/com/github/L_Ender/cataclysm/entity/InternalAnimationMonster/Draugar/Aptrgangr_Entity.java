@@ -2,8 +2,7 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 
 import com.github.L_Ender.cataclysm.blocks.PointedIcicleBlock;
 import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
@@ -17,6 +16,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.MessageEntityCameraSwitch;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -49,28 +49,20 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static java.lang.Math.toRadians;
 
 
 public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHoldEntity {
@@ -94,7 +86,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         this.xpReward = 60;
         this.setPathfindingMalus(PathType.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(PathType.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.AptrgangrHealthMultiplier, CMConfig.AptrgangrDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Aptrgangr.healthMultiplier,CMCommonConfig.Aptrgangr.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -199,6 +191,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                 .add(Attributes.STEP_HEIGHT, 1.25f)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
+
 
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
@@ -337,7 +330,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     }
 
     public float NatureRegen() {
-        return (float) (25F * CMConfig.AptrgangrHealthMultiplier);
+        return (float)CMCommonConfig.Aptrgangr.natureHeal;
     }
 
     public void tick() {
@@ -400,7 +393,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     float rad = (float) Math.toRadians(angle);
                     double dx = -Math.sin(rad);
                     double dz = Math.cos(rad);
-                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float) CMConfig.AptrgangrAxeBladeDamage,angle);
+                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float)CMCommonConfig.Aptrgangr.AxeBladeDamage,angle);
                     double spawnX = this.getX() + vecX * 5;
                     double spawnY = this.getY(0.15D);
                     double spawnZ = this.getZ() + vecZ * 5;
@@ -481,6 +474,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
                 float entityAttackingAngle = this.yBodyRot % 360;
@@ -494,10 +488,9 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!isAlliedTo(entityHit) && !(entityHit instanceof Aptrgangr_Entity) && entityHit != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
                         boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
                         double d0 = entityHit.getX() - this.getX();
                         double d1 = entityHit.getZ() - this.getZ();
@@ -531,7 +524,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                         DamageSource damagesource = this.damageSources().mobAttack(this);
                         boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
                         double d0 = entityHit.getX() - this.getX();
                         double d1 = entityHit.getZ() - this.getZ();
@@ -558,7 +551,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
                     boolean flag = entity.hurt(damagesource, damage);
                     if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
                     if (flag) {
                         if (!entity.getType().is(ModTag.IGNIS_CANT_POKE) && entity.isAlive()) {

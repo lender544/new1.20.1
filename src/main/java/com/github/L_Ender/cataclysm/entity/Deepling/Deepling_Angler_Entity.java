@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
@@ -114,7 +114,7 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingAnglerSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingAnglerSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable

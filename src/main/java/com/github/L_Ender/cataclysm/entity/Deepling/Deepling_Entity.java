@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -112,8 +112,9 @@ public class Deepling_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingSpawnRolls, this.getRandom(), spawnReasonIn) ;
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingSpawnRolls, this.getRandom(), spawnReasonIn) ;
     }
+
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34088_, DifficultyInstance p_34089_, MobSpawnType p_34090_, @Nullable SpawnGroupData p_34091_) {

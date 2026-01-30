@@ -96,17 +96,19 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
     @Override
     public void updateSwimming() {
         if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            boolean inWaterAI = this.isEffectiveAi() && this.isInWater() && this.wantsToSwim();
+            if (inWaterAI && !(this.moveControl instanceof SymbioctoSwimControl)) {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new SymbioctoSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else {
+            } else if (!inWaterAI && (this.moveControl instanceof SymbioctoSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);
             }
         }
     }
+
 
     public AnimationState getAnimationState(String input) {
         if (input == "spit") {

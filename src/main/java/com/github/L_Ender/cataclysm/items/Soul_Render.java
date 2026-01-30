@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.Attachment.ChargeAttachment;
 import com.github.L_Ender.cataclysm.Attachment.RenderRushAttachment;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataAttachments;
 import com.github.L_Ender.cataclysm.init.ModParticle;
@@ -14,24 +13,21 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
 import net.neoforged.neoforge.common.ItemAbilities;
-
 
 import java.util.List;
 
-public class Soul_Render extends Item implements RangeTool {
+public class Soul_Render extends Cataclysm_Weapon {
 
 	public Soul_Render(Properties properties) {
 		super(properties);
@@ -39,22 +35,6 @@ public class Soul_Render extends Item implements RangeTool {
 	}
 
 
-	public static ItemAttributeModifiers createAttributes() {
-		return ItemAttributeModifiers.builder()
-				.add(
-						Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 14D, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.add(
-						Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.9F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.add(
-						Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, 2.0F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.add(
-						Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(BASE_BLOCK_INTERACTION_RANGE_ID, 2.0F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.build();
-	}
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeLeft) {
@@ -64,7 +44,7 @@ public class Soul_Render extends Item implements RangeTool {
 			if(livingEntity.isShiftKeyDown()) {
 				StrikeWindmillHalberd(level,player,7, 5, 1.0, 1.0, 0.2, 1);
 				if (!level.isClientSide) {
-					player.getCooldowns().addCooldown(this, CMConfig.SoulRenderCooldown);
+					player.getCooldowns().addCooldown(this, CMCommonConfig.SoulRender.cooldown);
 				}
 			}else{
 				int t = Mth.clamp(i, 0, 60);
@@ -81,7 +61,7 @@ public class Soul_Render extends Item implements RangeTool {
 
 					if (!level.isClientSide) {
 						if (hasSucceeded) {
-							player.getCooldowns().addCooldown(this, CMConfig.SoulRenderCooldown);
+							player.getCooldowns().addCooldown(this, CMCommonConfig.SoulRender.cooldown);
 						}
 					}
 				}
@@ -140,7 +120,7 @@ public class Soul_Render extends Item implements RangeTool {
 			blockpos = blockpos.below();
 		} while(blockpos.getY() >= Mth.floor(minY) - 1);
 		if (flag) {
-			world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double)blockpos.getY() + d0, z, rotation, delay, player,(float)CMConfig.PhantomHalberddamage));
+			world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double)blockpos.getY() + d0, z, rotation, delay, player,(float)CMCommonConfig.SoulRender.phantomHalberdDamage));
 		}
 	}
 

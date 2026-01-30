@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -10,7 +9,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
@@ -54,7 +52,7 @@ public class Urchin_Spike_Entity extends ThrowableItemProjectile {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
         Entity entity = result.getEntity();
-        float i = (float) CMConfig.BlazingBonedamage;
+        float i = (float) 4;
         if (shooter instanceof LivingEntity) {
             if (!((entity == shooter) || (shooter.isAlliedTo(entity)))) {
                 if(entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), i)) {

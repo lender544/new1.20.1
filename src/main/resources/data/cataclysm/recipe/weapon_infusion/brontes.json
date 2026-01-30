@@ -1,0 +1,12 @@
+{
+    "type": "cataclysm:weapon_fusion",
+    "base": {
+        "item": "cataclysm:infernal_forge"
+    },
+    "addition": {
+        "item": "cataclysm:astrape"
+    },
+    "result": {
+        "id": "cataclysm:brontes"
+    }
+}

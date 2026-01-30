@@ -85,6 +85,7 @@ public class ModParticle {
         }
     });
 
+
     public static final DeferredHolder<ParticleType<?>, ParticleType<CircleLightningParticleOptions>> CIRCLE_LIGHTNING = PARTICLE.register("circle_lightning", () -> new ParticleType<>(false)  {
         @Override
         public MapCodec<CircleLightningParticleOptions> codec() {
@@ -116,6 +117,19 @@ public class ModParticle {
     });
 
 
+    public static final DeferredHolder<ParticleType<?>, ParticleType<ParryParticleOptions>> PARRY = PARTICLE.register("parry", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<ParryParticleOptions> codec() {
+            return ParryParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, ParryParticleOptions> streamCodec() {
+            return ParryParticleOptions.STREAM_CODEC;
+        }
+    });
+
+
+
+
     public static final DeferredHolder<ParticleType<?>, ParticleType<ScyllaSwingParticleOptions>> SCYLLA_SWING = PARTICLE.register("scylla_swing", () -> new ParticleType<>(false) {
         @Override
         public MapCodec<ScyllaSwingParticleOptions> codec() {
@@ -125,6 +139,29 @@ public class ModParticle {
             return ScyllaSwingParticleOptions.STREAM_CODEC;
         }
     });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<IgnisSwingParticleOptions>> IGNIS_SWING = PARTICLE.register("ignis_swing", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<IgnisSwingParticleOptions> codec() {
+            return IgnisSwingParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, IgnisSwingParticleOptions> streamCodec() {
+            return IgnisSwingParticleOptions.STREAM_CODEC;
+        }
+    });
+
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<IgnisSoulSwingParticleOptions>> IGNIS_SOUL_SWING = PARTICLE.register("ignis_soul_swing", () -> new ParticleType<>(false) {
+        @Override
+        public MapCodec<IgnisSoulSwingParticleOptions> codec() {
+            return IgnisSoulSwingParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, IgnisSoulSwingParticleOptions> streamCodec() {
+            return IgnisSoulSwingParticleOptions.STREAM_CODEC;
+        }
+    });
+
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<CustomPoofParticleOptions>> CUSTOM_POOF = PARTICLE.register("custom_poof", () -> new ParticleType<>(false)  {
         @Override
@@ -156,6 +193,7 @@ public class ModParticle {
             return LightningStormParticleOptions.STREAM_CODEC;
         }
     });
+
 
     public static final DeferredHolder<ParticleType<?>, ParticleType<RainFogParticleOptions>> RAIN_FOG = PARTICLE.register("rain_fog", () -> new ParticleType<>(false)  {
         @Override
@@ -197,6 +235,7 @@ public class ModParticle {
         }
     });
 
+
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CURSED_FLAME = PARTICLE.register("cursed_flame", () -> new SimpleParticleType(false));
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SMALL_CURSED_FLAME = PARTICLE.register("small_cursed_flame", () -> new SimpleParticleType(false));
@@ -211,6 +250,7 @@ public class ModParticle {
 
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLAME_JET = PARTICLE.register("flame_jet", () -> new SimpleParticleType(false));
+
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLARE_EXPLODE = PARTICLE.register("flare_explode", () -> new SimpleParticleType(false));
 
@@ -227,5 +267,42 @@ public class ModParticle {
 
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DUST_BLAST = PARTICLE.register("dust_blast", ()-> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> PHANTOM_EMITTER = PARTICLE.register("phantom_emitter", () -> new SimpleParticleType(false));
+
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> AMETHYST_CRASH = PARTICLE.register("amethyst_crash", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<Cursed_MarkParticleOption>> CURSED_MARK = PARTICLE.register("cursed_mark", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<Cursed_MarkParticleOption> codec() {
+            return Cursed_MarkParticleOption.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, Cursed_MarkParticleOption> streamCodec() {
+            return Cursed_MarkParticleOption.STREAM_CODEC;
+        }
+    });
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> CURSED_ALGIZ = PARTICLE.register("cursed_algiz", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<Circle_ParticleOptions>> CIRCLE = PARTICLE.register("circle", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<Circle_ParticleOptions> codec() {
+            return Circle_ParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, Circle_ParticleOptions> streamCodec() {
+            return Circle_ParticleOptions.STREAM_CODEC;
+        }
+    });
+
+    public static final DeferredHolder<ParticleType<?>, ParticleType<AfterImageParticleOptions>> AFTER_IMAGE = PARTICLE.register("after_image", () -> new ParticleType<>(false)  {
+        @Override
+        public MapCodec<AfterImageParticleOptions> codec() {
+            return AfterImageParticleOptions.MAP_CODEC;
+        }
+        public StreamCodec<? super RegistryFriendlyByteBuf, AfterImageParticleOptions> streamCodec() {
+            return AfterImageParticleOptions.STREAM_CODEC;
+        }
+    });
 
 }

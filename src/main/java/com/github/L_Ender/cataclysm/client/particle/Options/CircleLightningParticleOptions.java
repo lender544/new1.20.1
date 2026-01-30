@@ -10,22 +10,24 @@ import net.minecraft.core.particles.ParticleType;
 import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
-public record CircleLightningParticleOptions(int r, int g, int b) implements ParticleOptions {
+public record CircleLightningParticleOptions(float size,int r, int g, int b) implements ParticleOptions {
     //For networking. Encoder/Decoder functions very intuitive
     public static StreamCodec<? super ByteBuf, CircleLightningParticleOptions> STREAM_CODEC = StreamCodec.of(
             (buf, option) -> {
+                buf.writeFloat(option.size);
                 buf.writeInt(option.r);
                 buf.writeInt(option.g);
                 buf.writeInt(option.b);
             },
             (buf) -> {
-                return new CircleLightningParticleOptions(buf.readInt(), buf.readInt(), buf.readInt());
+                return new CircleLightningParticleOptions(buf.readFloat(),buf.readInt(), buf.readInt(), buf.readInt());
             }
     );
 
     //For command only?
     public static MapCodec<CircleLightningParticleOptions> MAP_CODEC = RecordCodecBuilder.mapCodec(object ->
             object.group(
+                    Codec.FLOAT.fieldOf("size").forGetter(p -> ((CircleLightningParticleOptions) p).size),
                     Codec.INT.fieldOf("r").forGetter(p -> ((CircleLightningParticleOptions) p).r),
                     Codec.INT.fieldOf("g").forGetter(p -> ((CircleLightningParticleOptions) p).g),
                     Codec.INT.fieldOf("b").forGetter(p -> ((CircleLightningParticleOptions) p).b)

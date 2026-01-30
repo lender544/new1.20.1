@@ -5,23 +5,28 @@ import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.PlayerSandstorm_Model;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Blazing_Grips_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.Chitin_Claw_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemREnderer.RendererSticky_Gloves;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+
+
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Blazing_Grips_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Chitin_Claw_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Sticky_Gloves_Renderer;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.effect.SkyColor_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.projectile.Accretion_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -45,6 +50,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import org.lwjgl.glfw.GLFW;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
@@ -67,12 +73,14 @@ public class ClientEvent {
 
     private int leftHeight = 39;
     private int rightHeight = 39;
+    private static boolean toolMenuKeyWasDown = false;
 
 
     public static void ClientEvent() {
         NeoForge.EVENT_BUS.addListener(ClientEvent::renderBossOverlay);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onCameraSetup);
-        NeoForge.EVENT_BUS.addListener(ClientEvent::MovementInput);
+        NeoForge.EVENT_BUS.addListener(ClientEvent::onCameraZoom);
+       // NeoForge.EVENT_BUS.addListener(ClientEvent::MovementInput);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPreRenderHUD);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPostRenderHUD);
 
@@ -82,18 +90,95 @@ public class ClientEvent {
 
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPoseHand);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderArm);
-                
+        NeoForge.EVENT_BUS.addListener(ClientEvent::onPoseHand);
+        //NeoForge.EVENT_BUS.addListener(ClientEvent::onKeyInput);
+        NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderFog);
+        NeoForge.EVENT_BUS.addListener(ClientEvent::onComputFog);
+    }
+
+    public static void onRenderFog(ViewportEvent.RenderFog event) {
+
+        /*
+        if (event.isCanceled()) {
+
+            return;
+        }
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+        if (player == null || mc.level == null || event.getCamera().getEntity() != player) {
+            return;
+        }
+
+        float partialTicks = (float) event.getPartialTick();
+        float currentMaxIntensity = 0.0f;
+
+        for (SkyColor_Entity skyColorEntity : player.level().getEntitiesOfClass(SkyColor_Entity.class, player.getBoundingBox().inflate(64))) {
+            float intensity = skyColorEntity.getColorIntensity(player, partialTicks);
+            if (intensity > currentMaxIntensity) {
+                currentMaxIntensity = intensity;
+            }
+        }
+        currentMaxIntensity = Mth.clamp(currentMaxIntensity, 0.0f, 1.0f);
+        boolean noVanillaFog = event.getMode() == FogRenderer.FogMode.FOG_SKY;
+        if (currentMaxIntensity > 0.01f && noVanillaFog) {
+            event.setNearPlaneDistance(0.0f);
+            event.setFarPlaneDistance(event.getFarPlaneDistance());
+            event.setFogShape(FogShape.CYLINDER);
+            event.setCanceled(true);
+        }
+
+         */
+    }
+
+    public static void onComputFog(ViewportEvent.ComputeFogColor event) {
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
+
+        float delta = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+        if (player != null) {
+        float ticksExistedDelta = delta;
+
+        float totalIntensity = 0.0f;
+
+        float r = event.getRed();
+        float g = event.getGreen();
+        float b = event.getBlue();
+
+
+        for (SkyColor_Entity skyColorEntity : player.level().getEntitiesOfClass(SkyColor_Entity.class, player.getBoundingBox().inflate(64))) {
+            float intensity = skyColorEntity.getColorIntensity(player, ticksExistedDelta);
+            if (intensity > 0) {
+
+                if (intensity > totalIntensity) {
+                    totalIntensity = intensity;
+                    r = skyColorEntity.getR()/255F;
+                    g = skyColorEntity.getG()/255F;
+                    b = skyColorEntity.getB()/255F;
+                }
+            }
+        }
+
+        if (totalIntensity > 0) {
+            totalIntensity = Mth.clamp(totalIntensity, 0.0f, 1.0f);
+            float baseR = event.getRed();
+            float baseG = event.getGreen();
+            float baseB = event.getBlue();
+            event.setRed(Mth.lerp(totalIntensity, baseR, r));
+            event.setGreen(Mth.lerp(totalIntensity, baseG, g));
+            event.setBlue(Mth.lerp(totalIntensity, baseB, b));
+        }
+        }
     }
 
 
     public static void onCameraSetup(ViewportEvent.ComputeCameraAngles event) {
         Player player = Minecraft.getInstance().player;
-        float delta = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+        float delta = (float) event.getPartialTick();
         float ticksExistedDelta = player.tickCount + delta;
-        if (CMConfig.ScreenShake && !Minecraft.getInstance().isPaused()) {
+        if (CMClientConfig.ScreenShake && !Minecraft.getInstance().isPaused()) {
             if (player != null) {
                 float shakeAmplitude = 0;
-                for (ScreenShake_Entity ScreenShake : player.level().getEntitiesOfClass(ScreenShake_Entity.class, player.getBoundingBox().inflate(20, 20, 20))) {
+                for (ScreenShake_Entity ScreenShake : player.level().getEntitiesOfClass(ScreenShake_Entity.class, player.getBoundingBox().inflate(48, 48, 48))) {
                     if (ScreenShake.distanceTo(player) < ScreenShake.getRadius()) {
                         shakeAmplitude += ScreenShake.getShakeAmount(player, delta);
                     }
@@ -113,24 +198,54 @@ public class ClientEvent {
             }
         }
 
-        Entity cameraEntity = Minecraft.getInstance().getCameraEntity();
+
+    }
+
+    public static void onCameraZoom(CalculateDetachedCameraDistanceEvent event) {
+        Entity cameraEntity = event.getCamera().getEntity();
+        float partialTick =  event.getCamera().getPartialTickTime();
         if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Maledictus_Entity && event.getCamera().isDetached()) {
-            event.getCamera().move(-event.getCamera().getMaxZoom(6F), 0, 0);
+            event.setDistance(6F);
         }
 
         if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Aptrgangr_Entity && event.getCamera().isDetached()) {
-            event.getCamera().move(-event.getCamera().getMaxZoom(3F), 0, 0);
+            event.setDistance(3F);
         }
         if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Clawdian_Entity && event.getCamera().isDetached()) {
-            event.getCamera().move(-event.getCamera().getMaxZoom(6F), 0, 0);
+            event.setDistance(6F);
+        }
+
+        if (CameraZoomManager.isActive() && event.getCamera().isDetached()){
+            float zoom = CameraZoomManager.getZoomOffset(partialTick);
+            float floorzoom = event.getCamera().getMaxZoom(zoom);
+            if (floorzoom < zoom) {
+                floorzoom = Math.max(0, floorzoom - 0.2f);
+            }
+            float dy = 0;
+            float ny = zoom - floorzoom;
+            if (ny > 0) {
+                dy = Math.min(ny * 0.5f, 1.5f);
+            }
+            event.getCamera().move(-floorzoom, dy, 0);
+
         }
     }
 
+    public static boolean isKeyDown0(KeyMapping keybind) {
+        if (keybind.isUnbound()) {
+            return false;
+        }
 
-   
+        return switch (keybind.getKey().getType()) {
+            case KEYSYM -> InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), keybind.getKey().getValue());
+            case MOUSE -> GLFW.glfwGetMouseButton(Minecraft.getInstance().getWindow().getWindow(), keybind.getKey().getValue()) == GLFW.GLFW_PRESS;
+            default -> false;
+        };
+    }
 
 
 
+/*
     public static void MovementInput(MovementInputUpdateEvent event) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
@@ -152,11 +267,18 @@ public class ClientEvent {
     }
 
 
+ */
+
+
+
+
 
     public static void onPreRenderHUD(RenderGuiLayerEvent.Pre event) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             Minecraft mc = Minecraft.getInstance();
+
+
             if (player.isPassenger()) {
                 if (player.getVehicle() instanceof The_Leviathan_Tongue_Entity || player.getVehicle() instanceof IHoldEntity) {
                     if (VanillaGuiLayers.VEHICLE_HEALTH == event.getName()) {
@@ -285,7 +407,11 @@ public class ClientEvent {
 
 
     public static void clientTick(ClientTickEvent.Post event) {
+        if (Minecraft.getInstance().isSingleplayer() && Minecraft.getInstance().isPaused()) {
+            return;
+        }
         CMItemstackRenderer.incrementTick();
+        CameraZoomManager.tick();
     }
 
     private static void updateAllChunks() {
@@ -296,12 +422,6 @@ public class ClientEvent {
             }
         }
     }
-
-
-
-
-
-
 
    
     public static void onPoseHand(EventPosePlayerHand event) {
@@ -349,7 +469,7 @@ public class ClientEvent {
                     if (gripsrenderer != null) {
                         gripsrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
                     }
-                    RendererSticky_Gloves stickyrenderer = RendererSticky_Gloves.getGloveRenderer(stack);
+                    Sticky_Gloves_Renderer stickyrenderer = Sticky_Gloves_Renderer.getGloveRenderer(stack);
                     if (stickyrenderer != null) {
                         stickyrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
                     }
@@ -483,18 +603,18 @@ public class ClientEvent {
 
     private static void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event){
 
-        if(CMConfig.custombossbar) {
-            if (ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {
-                int renderTypeFor = ClientProxy.bossBarRenderTypes.get(event.getBossEvent().getId());
+        if(CMClientConfig.customBossBars) {
+            var data = ClientProxy.bossBarRenderTypes.get(event.getBossEvent().getId());
 
-                CustomBossBar customBossBar = CustomBossBar.customBossBars.getOrDefault(renderTypeFor, null);
+            if (data != null) {
+                CustomBossBar customBossBar = CustomBossBar.customBossBars.getOrDefault(data.renderType(), null);
+
                 if (customBossBar == null) return;
 
                 event.setCanceled(true);
-                customBossBar.renderBossBar(event);
+                customBossBar.renderBossBar(event, data.remainLife());
             }
         }
-
-
     }
+
 }

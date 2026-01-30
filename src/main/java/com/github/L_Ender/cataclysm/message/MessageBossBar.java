@@ -19,10 +19,11 @@ import java.util.UUID;
 public abstract class MessageBossBar implements CustomPacketPayload {
     protected final UUID bossEvent;
     protected final int rendertype;
-
-    public MessageBossBar(UUID bossEvent, int rendertype) {
+    protected final int remainlife;
+    public MessageBossBar(UUID bossEvent, int rendertype, int remainlife) {
         this.bossEvent = bossEvent;
         this.rendertype = rendertype;
+        this.remainlife = remainlife;
     }
 
     /**
@@ -32,14 +33,16 @@ public abstract class MessageBossBar implements CustomPacketPayload {
         public static final Type<Display> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "add_custom_bossbar"));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, Display> STREAM_CODEC = StreamCodec.composite(
-            UUIDUtil.STREAM_CODEC,
-            Display::getBossEvent,
-            ByteBufCodecs.INT,
-            Display::getRendertype,
+                UUIDUtil.STREAM_CODEC,
+                Display::getBossEvent,
+                ByteBufCodecs.INT,
+                Display::getRendertype,
+                ByteBufCodecs.INT,
+                Display::getRemainlife,
             Display::new);
 
-        public Display(UUID bossEvent, int rendertype) {
-            super(bossEvent, rendertype);
+        public Display(UUID bossEvent, int rendertype, int remainlife) {
+            super(bossEvent, rendertype, remainlife);
         }
 
         @Override
@@ -48,7 +51,10 @@ public abstract class MessageBossBar implements CustomPacketPayload {
         }
 
         public static void execute(Display payload, IPayloadContext context) {
-            ClientProxy.bossBarRenderTypes.put(payload.bossEvent, payload.rendertype);
+            ClientProxy.bossBarRenderTypes.put(
+                    payload.bossEvent,
+                    new ClientProxy.BossBarData(payload.rendertype, payload.remainlife)
+            );
         }
     }
 
@@ -63,10 +69,12 @@ public abstract class MessageBossBar implements CustomPacketPayload {
             Remove::getBossEvent,
             ByteBufCodecs.INT,
             Remove::getRendertype,
+                ByteBufCodecs.INT,
+                Remove::getRemainlife,
             Remove::new);
 
-        public Remove(UUID bossEvent, int entityID) {
-            super(bossEvent, entityID);
+        public Remove(UUID bossEvent, int rendertype, int remainlife) {
+            super(bossEvent, rendertype, remainlife);
         }
 
         @Override
@@ -85,5 +93,9 @@ public abstract class MessageBossBar implements CustomPacketPayload {
 
     public int getRendertype() {
         return this.rendertype;
+    }
+
+    public int getRemainlife() {
+        return this.remainlife;
     }
 }

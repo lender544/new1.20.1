@@ -1,10 +1,8 @@
 package com.github.L_Ender.cataclysm.items;
 
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
-import com.github.L_Ender.cataclysm.init.ModKeybind;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +14,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class Sandstorm_In_A_Bottle extends Item {
@@ -38,7 +35,7 @@ public class Sandstorm_In_A_Bottle extends Item {
 				Sandstorm_Entity projectile = new Sandstorm_Entity(level, sx,sy,sz,200,angle,player);
 				boolean flag = level.addFreshEntity(projectile);
 				if(flag){
-					player.getCooldowns().addCooldown(this,  CMConfig.SandstormInABottleCOOLDOWN);
+					player.getCooldowns().addCooldown(this,  CMCommonConfig.SandstormInABottle.cooldown);
 				}
 			}
 
@@ -61,6 +58,6 @@ public class Sandstorm_In_A_Bottle extends Item {
 
 	@Override
 	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flags) {
-		tooltip.add(Component.translatable("item.cataclysm.sandstorm_in_a_bottle.desc", ModKeybind.KEY_ABILITY.getTranslatedKeyMessage()).withStyle(ChatFormatting.DARK_GREEN));
+		//tooltip.add(Component.translatable("item.cataclysm.sandstorm_in_a_bottle.desc", ModKeybind.KEY_ABILITY.getTranslatedKeyMessage()).withStyle(ChatFormatting.DARK_GREEN));
 	}
 }

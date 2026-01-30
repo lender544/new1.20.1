@@ -1,0 +1,6 @@
+{
+	"parent": "minecraft:item/generated",
+	"textures": {
+		"layer0": "cataclysm:item/ring_of_grudged"
+	}
+}

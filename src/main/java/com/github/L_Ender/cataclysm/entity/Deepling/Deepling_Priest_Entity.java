@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -110,7 +110,7 @@ public class Deepling_Priest_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.DeeplingPriestSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel ) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingPriestSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel ) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }

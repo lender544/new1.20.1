@@ -1,58 +1,40 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.message.MessageMusic;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-
-import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.network.PacketDistributor;
-
 
 import java.util.List;
 import java.util.Optional;
 
-public class Meat_Shredder extends Item {
+public class Meat_Shredder extends Cataclysm_Weapon {
 
 	public Meat_Shredder(Properties properties) {
 		super(properties);
 
 	}
-
-	public static ItemAttributeModifiers createAttributes() {
-		return ItemAttributeModifiers.builder()
-				.add(
-						Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, 7.5D, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.add(
-						Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.6F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND
-				)
-				.build();
-	}
-
-	
 
 	public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
 		ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
@@ -105,16 +87,16 @@ public class Meat_Shredder extends Item {
 				}
 
 				if (flag) {
-					if (entity.hurt(CMDamageTypes.causeShredderDamage(living), (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8.5F)) {
+					if(!level.isClientSide()) {
+						if (entity.hurt(CMDamageTypes.causeShredderDamage(living), (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8.5F)) {
+							double d0 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
+							double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
+							double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
+							if (level instanceof ServerLevel serverLevel) {
+								serverLevel.sendParticles(new ParryParticleOptions(255 / 255F, 106 / 255F, 0 / 255F), entity.getX(), entity.getY(0.5), entity.getZ(), 2, entity.getDeltaMovement().x, entity.getDeltaMovement().y, entity.getDeltaMovement().z, (level.getRandom().nextFloat() - 0.5F));
+							}
+						}
 					}
-					double d0 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
-					double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
-					double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
-					double dist = 1F + level.getRandom().nextFloat() * 0.2F;
-					double d3 = d0 * dist;
-					double d4 = d1 * dist;
-					double d5 = d2 * dist;
-					entity.level().addParticle(ModParticle.SPARK.get(), entity.getX(), living.getEyeY() - 0.1D + (entity.getEyePosition().y - living.getEyeY()), entity.getZ(), d3, d4, d5);
 				}
 			}
 		}

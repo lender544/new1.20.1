@@ -10,9 +10,19 @@ public class CMBossInfoServer extends ServerBossEvent {
 
     private int renderType;
 
+    private int remainlife;
+
     public CMBossInfoServer(Component component, BossBarColor bossBarColor, boolean dark, int renderType) {
         super(component, bossBarColor, BossBarOverlay.PROGRESS);
         this.setDarkenScreen(dark);
+        this.renderType = renderType;
+    }
+
+    public CMBossInfoServer(Component component, BossBarColor bossBarColor, boolean dark,boolean fog, int renderType) {
+        super(component, bossBarColor, BossBarOverlay.PROGRESS);
+
+        this.setDarkenScreen(dark);
+        this.setCreateWorldFog(fog);
         this.renderType = renderType;
     }
 
@@ -20,7 +30,7 @@ public class CMBossInfoServer extends ServerBossEvent {
     public void setRenderType(int renderType) {
         if (renderType != this.renderType) {
             this.renderType = renderType;
-            PacketDistributor.sendToAllPlayers(new MessageBossBar.Display(this.getId(), renderType));
+            PacketDistributor.sendToAllPlayers(new MessageBossBar.Display(this.getId(), renderType,remainlife));
         }
     }
 
@@ -28,14 +38,25 @@ public class CMBossInfoServer extends ServerBossEvent {
         return this.renderType;
     }
 
+    public void setLife(int life) {
+        if (life != this.remainlife) {
+            this.remainlife = life;
+            PacketDistributor.sendToAllPlayers(new MessageBossBar.Display(this.getId(), renderType,life));
+        }
+    }
+
+    public int getLife() {
+        return this.remainlife;
+    }
+
 
     public void addPlayer(ServerPlayer serverPlayer) {
-        PacketDistributor.sendToPlayer(serverPlayer, new MessageBossBar.Display(this.getId(), renderType));
+        PacketDistributor.sendToPlayer(serverPlayer, new MessageBossBar.Display(this.getId(), renderType,remainlife));
         super.addPlayer(serverPlayer);
     }
 
     public void removePlayer(ServerPlayer serverPlayer) {
-        PacketDistributor.sendToPlayer(serverPlayer, new MessageBossBar.Remove(this.getId(), renderType));
+        PacketDistributor.sendToPlayer(serverPlayer, new MessageBossBar.Remove(this.getId(), renderType,remainlife));
         super.removePlayer(serverPlayer);
     }
 

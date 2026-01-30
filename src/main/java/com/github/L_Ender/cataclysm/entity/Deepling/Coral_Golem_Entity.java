@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.CmAttackGoal;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
@@ -143,7 +143,7 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.CoralgolemSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel && super.checkSpawnRules(worldIn, spawnReasonIn)) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.CoralgolemSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel && super.checkSpawnRules(worldIn, spawnReasonIn)) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }

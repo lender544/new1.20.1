@@ -16,5 +16,5 @@ public interface RangeTool {
 
     ResourceLocation BASE_ENTITY_KNOCKBACK_RESISTANCE_ID = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"base_knockback_resistance");
 
-
+    ResourceLocation BASE_ENTITY_CRITICAL_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"base_critical_damage");
 }

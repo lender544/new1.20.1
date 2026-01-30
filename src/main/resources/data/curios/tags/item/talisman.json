@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "cataclysm:unbreakable_skull",
+    "cataclysm:overgrown_geode",
+    "cataclysm:ravenous_fang",
+    "cataclysm:lava_reactor"
+  ]
+}

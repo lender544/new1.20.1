@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -130,7 +130,7 @@ public class Ignis_Abyss_Fireball_Entity extends CMAbstractHurtingProjectile {
                         EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
                     }
                     if(owner instanceof Ignis_Entity) {
-                        owner.heal(5.0F * (float) CMConfig.IgnisHealingMultiplier);
+                        owner.heal(5.0F * (float) CMCommonConfig.Ignis.HealingMultiplier);
                     }else{
                         owner.heal(5.0F);
                     }

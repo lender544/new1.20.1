@@ -28,6 +28,8 @@ public class ModDataComponents {
 
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> THROWN_ANCHOR = COMPONENTS.register("thrown_anchor", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
 
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> THROWN_HAMMER = COMPONENTS.register("thrown_hammer", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
+
 
 	private static @NotNull <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> register(String name, final Codec<T> codec) {
 		return register2(name, codec, null);

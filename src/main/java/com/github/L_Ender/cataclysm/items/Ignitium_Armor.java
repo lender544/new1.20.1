@@ -1,23 +1,17 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModKeybind;
 import com.github.L_Ender.cataclysm.message.MessageArmorKey;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,10 +21,7 @@ import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -42,14 +33,7 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
 
     }
 
-    @Override
-    public void setDamage(ItemStack stack, int damage) {
-        if(CMConfig.Armor_Infinity_Durability) {
-            super.setDamage(stack, 0);
-        }else{
-            super.setDamage(stack, damage);
-        }
-    }
+
 
 
     public boolean isValidRepairItem(ItemStack p_41134_, ItemStack p_41135_) {
@@ -58,19 +42,19 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
-        if (entity instanceof Player living) {
-            if (living.getItemBySlot(EquipmentSlot.HEAD).getItem() == ModItems.IGNITIUM_HELMET.get()) {
-                if (level.isClientSide) {
-                    if (ModKeybind.HELMET_KEY_ABILITY.isDown()) {
-                        PacketDistributor.sendToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), living.getId(), 5));
-                        onKeyPacket(living, stack,5);
-                    }
-                }
-
-            }
-
+        if (!(entity instanceof Player player) || !level.isClientSide) {
+            return;
         }
+
+        if (this.type == Type.HELMET && player.getItemBySlot(EquipmentSlot.HEAD) == stack) {
+            if (ModKeybind.HELMET_KEY_ABILITY.consumeClick()) {
+                PacketDistributor.sendToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), player.getId(), 5));
+                onKeyPacket(player, stack, 5);
+            }
+        }
+
     }
+
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltips, TooltipFlag flags) {
@@ -91,8 +75,9 @@ public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
 
     @Override
     public void onKeyPacket(Player player, ItemStack itemStack, int Type) {
+        if (player == null) return;
         if (Type == 5) {
-            if (player != null && !player.getCooldowns().isOnCooldown(ModItems.IGNITIUM_HELMET.get())) {
+            if ( !player.getCooldowns().isOnCooldown(ModItems.IGNITIUM_HELMET.get())) {
                 boolean flag = false;
                 List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(16.0D));
                 for (Entity entity : list) {

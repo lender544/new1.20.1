@@ -4,11 +4,9 @@ import com.github.L_Ender.cataclysm.client.model.armor.*;
 import com.github.L_Ender.cataclysm.client.model.block.AptrgangrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.DraugrHeadModel;
 import com.github.L_Ender.cataclysm.client.model.block.KobolediatorHeadModel;
+import com.github.L_Ender.cataclysm.client.model.block.Void_Lamp_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.*;
-import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Blazing_Grips_Model;
-import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Chitin_Claw_Model;
-import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sandstorm_In_A_BottleModel;
-import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.Sticky_Gloves_Model;
+import com.github.L_Ender.cataclysm.client.model.item.CuriosModel.*;
 import net.minecraft.client.model.DrownedModel;
 import net.minecraft.client.model.HumanoidArmorModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -38,6 +36,12 @@ public class CMModelLayers {
     public static final ModelLayerLocation BLAZING_GRIPS_SLIM_MODEL = createLocation("blazing_grips_slim_model", "main");
     public static final ModelLayerLocation CHITIN_CLAW_MODEL = createLocation("chitin_claw_model", "main");
     public static final ModelLayerLocation CHITIN_CLAW_SLIM_MODEL = createLocation("chitin_claw_slim_model", "main");
+    public static final ModelLayerLocation VITALITY_ANKH_MODEL = createLocation("vitality_ankh_model", "main");
+    public static final ModelLayerLocation BELT_OF_BEGINNER_MODEL = createLocation("belt_of_beginner_model", "main");
+    public static final ModelLayerLocation BELT_OF_MONSTROSITY_MODEL = createLocation("belt_of_monstrosity_model", "main");
+    public static final ModelLayerLocation STURDY_BOOTS_MODEL = createLocation("sturdy_boots_model", "main");
+    public static final ModelLayerLocation UNBREAKABLE_SKULL_MODEL = createLocation("unbreakable_skull_model", "main");
+    public static final ModelLayerLocation BERSERKER_SOUL_AMULET_MODEL = createLocation("berserker_soul_amulet_model", "main");
 
     public static final ModelLayerLocation KOBOLEDIATOR_HEAD_MODEL = createLocation("kobolediator_head_model", "main");
     public static final ModelLayerLocation APTRGANGR_HEAD_MODEL = createLocation("aptrgangr_head_model", "main");
@@ -73,12 +77,10 @@ public class CMModelLayers {
     public static final ModelLayerLocation DROWNED_HOST_OUTER_ARMOR = createLocation("drowned_host","outer_armor");
     public static final ModelLayerLocation DROWNED_HOST_OUTER_LAYER = createLocation("drowned_host", "outer");
 
-    public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
-    public static final ModelLayerLocation TEST_MODEL = createLocation("test_model", "main");
 
+    public static final ModelLayerLocation STORM_SERPENT_MODEL = createLocation("storm_serpent_model", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
-
         LayerDefinition layerdefinition3 = LayerDefinition.create(HumanoidArmorModel.createBodyLayer(new CubeDeformation(0.5F)), 64, 32);
         event.registerLayerDefinition(MONSTROUS_HELM, () -> MonstrousHelm_Model.createArmorLayer(new CubeDeformation(0.3F)));
         event.registerLayerDefinition(IGNITIUM_ARMOR_MODEL, () -> Ignitium_Armor_Model.createArmorLayer(new CubeDeformation(0.6F)));
@@ -93,7 +95,12 @@ public class CMModelLayers {
         event.registerLayerDefinition(BLAZING_GRIPS_SLIM_MODEL, () -> Blazing_Grips_Model.createLayer(true,new CubeDeformation(0.0F)));
         event.registerLayerDefinition(CHITIN_CLAW_MODEL, () -> Chitin_Claw_Model.createLayer(false,new CubeDeformation(0.0F)));
         event.registerLayerDefinition(CHITIN_CLAW_SLIM_MODEL, () -> Chitin_Claw_Model.createLayer(true,new CubeDeformation(0.0F)));
-
+        event.registerLayerDefinition(VITALITY_ANKH_MODEL, () -> Vitality_Ankh_Model.createLayer(new CubeDeformation(0.2F)));
+        event.registerLayerDefinition(UNBREAKABLE_SKULL_MODEL, () -> Unbreakable_Skull_Model.createBodyLayer(new CubeDeformation(0.2F)));
+        event.registerLayerDefinition(BELT_OF_BEGINNER_MODEL, () -> Belt_Of_Beginner_Model.createBodyLayer(new CubeDeformation(0.2F)));
+        event.registerLayerDefinition(BELT_OF_MONSTROSITY_MODEL, () -> Belt_Of_Monstrosity_Model.createBodyLayer(new CubeDeformation(0.2F)));
+        event.registerLayerDefinition(STURDY_BOOTS_MODEL, () -> Sturdy_Boots_Model.createBodyLayer(new CubeDeformation(0.3F)));
+        event.registerLayerDefinition(BERSERKER_SOUL_AMULET_MODEL, () -> Berserker_Soul_Amulet_Model.createLayer(new CubeDeformation(0.2F)));
         event.registerLayerDefinition(KOBOLEDIATOR_HEAD_MODEL, KobolediatorHeadModel::createHeadLayer);
         event.registerLayerDefinition(APTRGANGR_HEAD_MODEL, AptrgangrHeadModel::createHeadLayer);
         event.registerLayerDefinition(DRAUGR_HEAD_MODEL, DraugrHeadModel::createHeadLayer);
@@ -111,7 +118,6 @@ public class CMModelLayers {
         event.registerLayerDefinition(APTRGANGR_MODEL, Aptrgangr_Model::createBodyLayer);
         event.registerLayerDefinition(KOBOLEDIATOR_MODEL, Kobolediator_Model::createBodyLayer);
         event.registerLayerDefinition(PROWLER_MODEL, The_Prowler_Model::createBodyLayer);
-
         event.registerLayerDefinition(HIPPOCAMTUS_MODEL, Hippocamtus_Model::createBodyLayer);
         event.registerLayerDefinition(OCTOSITE_MODEL, Symbiocto_Model::createBodyLayer);
         event.registerLayerDefinition(URCHINKIN_MODEL, Urchinkin_Model::createBodyLayer);
@@ -123,12 +129,13 @@ public class CMModelLayers {
         event.registerLayerDefinition(LASER_BEAM_MODEL, Laser_Beam_Model::createBodyLayer);
 
         event.registerLayerDefinition(WAVE_MODEL, Wave_Model::createBodyLayer);
-        event.registerLayerDefinition(TEST_MODEL, TestModel::createBodyLayer);
         event.registerLayerDefinition(STORM_SERPENT_MODEL, Storm_Serpent_Model::createBodyLayer);
         event.registerLayerDefinition(DROWNED_HOST, () -> Drowned_Host_Model.createBodyLayer(CubeDeformation.NONE));
         event.registerLayerDefinition(DROWNED_HOST_INNER_ARMOR,() -> layerdefinition3);
         event.registerLayerDefinition(DROWNED_HOST_OUTER_ARMOR, () -> layerdefinition3);
         event.registerLayerDefinition(DROWNED_HOST_OUTER_LAYER, () -> Drowned_Host_Model.createBodyLayer(new CubeDeformation(0.25F)));
+
+
     }
 
     private static ModelLayerLocation createLocation(String model, String layer) {

@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
 import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackAniamtionGoal3;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
@@ -15,12 +15,13 @@ import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -38,7 +39,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -107,7 +107,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
         super(entity, world);
         this.xpReward = 300;
         this.moveControl = new FlyingMoveControl(this, 10, false);
-        setConfigattribute(this, CMConfig.HarbingerHealthMultiplier, CMConfig.HarbingerDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Harbinger.healthMultiplier,CMCommonConfig.Harbinger.attackMultiplier);
     }
 
     protected PathNavigation createNavigation(Level p_186262_) {
@@ -149,8 +149,24 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.5D)
                 .add(Attributes.ARMOR, 12.0D);
     }
+    
 
+    public float DamageCap() {
+        return (float) CMCommonConfig.Harbinger.damageCap;
+    }
 
+    public float NatureRegen() {
+        return (float) CMCommonConfig.Harbinger.natureHeal;
+    }
+
+    public float DpsCap() {
+        return (float) CMCommonConfig.Harbinger.dpsCap;
+    }
+
+    public double RangeLimit() {
+        return CMCommonConfig.Harbinger.rangeCap;
+    }
+    
     protected int decreaseAirSupply(int air) {
         return air;
     }
@@ -158,6 +174,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
 
 
 
+    
 
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
@@ -202,11 +219,6 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             for (int i = 0; i < this.idleHeadUpdates.length; ++i) {
                 this.idleHeadUpdates[i] += 3;
             }
-            double range = calculateRange(source);
-            if (range > CMConfig.HarbingerLongRangelimit * CMConfig.HarbingerLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-                return false;
-            }
-
             if (this.destroyBlocksTick <= 0) {
                 this.destroyBlocksTick = 20;
             }
@@ -234,14 +246,6 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
     }
 
     
-    public float DamageCap() {
-        return (float) CMConfig.HarbingerDamageCap;
-    }
-
-    public int DamageTime() {
-        return CMConfig.HarbingerDamageTime;
-    }
-
     public boolean canBeSeenAsEnemy() {
         return this.getIsAct() && super.canBeSeenAsEnemy();
     }
@@ -461,7 +465,8 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             if (this.tickCount % 4 == 0) {
                 for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.5D))) {
                     if (!isAlliedTo(Lentity) && !(Lentity instanceof The_Harbinger_Entity) && Lentity != this) {
-                        boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(5) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), Lentity.getMaxHealth() * CMConfig.HarbingerChargeHpDamage)));
+                        boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(5) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE),
+                                Lentity.getMaxHealth() * (float)CMCommonConfig.Harbinger.ChargeHpDamage)));
                         if (flag) {
                             if (Lentity.onGround()) {
                                 double d0 = Lentity.getX() - this.getX();
@@ -561,11 +566,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                 itemstack.shrink(1);
             }
             this.setIsAct(true);
-            this.setHomePos(this.blockPosition());
-            if(this.level() instanceof ServerLevel serverLevel) {
-                ResourceLocation dimLoc = serverLevel.dimension().location();
-                this.setDimensionType(dimLoc.toString());
-            }
+            this.setHomePos(GlobalPos.of(this.level().dimension(), this.blockPosition()));
             this.heal(this.getMaxHealth());
             return InteractionResult.SUCCESS;
         }
@@ -626,12 +627,12 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
                     this.setAlternativeTarget(0, 0);
                 }
                 if (this.tickCount % 20 == 0) {
-                    this.heal((float) CMConfig.HarbingerHealingMultiplier);
+                    this.heal((float)CMCommonConfig.Harbinger.AutoHeal);
                 }
             }
         }else{
             if (this.tickCount % 20 == 0) {
-                this.heal(50 * (float) CMConfig.HarbingerHealthMultiplier);
+                this.heal(50 *  (float)CMCommonConfig.Harbinger.healthMultiplier);
             }
         }
     }
@@ -676,18 +677,21 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
 
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if(CMConfig.HarbingerRespawner) {
+        if(CMCommonConfig.Harbinger.respawner) {
             if (!this.level().isClientSide) {
-                if (this.getHomePos() != BlockPos.ZERO) {
-                    int newX = Mth.floor(this.getHomePos().getX());
-                    int newY = Mth.floor(this.getHomePos().getY());
-                    int newZ = Mth.floor(this.getHomePos().getZ());
-                    BlockPos pos = new BlockPos(newX, newY, newZ);
-                    BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
-                    this.level().setBlock(pos, block, 2);
-                    if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
-                        spawnerblockentity.setEntityId(ModEntities.THE_HARBINGER.get());
-                        spawnerblockentity.setTheItem(ModItems.MECH_EYE.get().getDefaultInstance());
+                if (this.getHomePos() != null) {
+                    if (this.level() instanceof ServerLevel serverLevel) {
+                        MinecraftServer server = serverLevel.getServer();
+                        ServerLevel targetLevel = server.getLevel(this.getHomePos().dimension());
+                        if (targetLevel != null) {
+                            BlockPos targetPos = this.getHomePos().pos();
+                            BlockState blockState = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                            targetLevel.setBlock(targetPos, blockState, 2);
+                            if (targetLevel.getBlockEntity(targetPos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerBlockEntity) {
+                                spawnerBlockEntity.setEntityId(ModEntities.THE_HARBINGER.get());
+                                spawnerBlockEntity.setTheItem(ModItems.MECH_EYE.get().getDefaultInstance());
+                            }
+                        }
                     }
                 }
             }
@@ -749,8 +753,8 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             if (!this.isSilent()) {
                 this.playSound(ModSounds.HARBINGER_LASER.get(),1,1.0F);
             }
-
-            Laser_Beam_Entity laser = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.HarbingerLaserdamage);
+            
+            Laser_Beam_Entity laser = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),(float) CMCommonConfig.Harbinger.Laserdamage);
             float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
             float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
 
@@ -763,8 +767,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             if (!this.isSilent()) {
                 this.playSound(ModSounds.ROCKET_LAUNCH.get(),1,0.8F);
             }
-
-            Wither_Missile_Entity witherskull = new Wither_Missile_Entity(this, vec3.normalize(),this.level(),(float) CMConfig.HarbingerWitherMissiledamage);
+            Wither_Missile_Entity witherskull = new Wither_Missile_Entity(this, vec3.normalize(),this.level(),(float) CMCommonConfig.Harbinger.WitherMissiledamage);
             witherskull.setPosRaw(d0, d1, d2);
             this.level().addFreshEntity(witherskull);
         }
@@ -882,7 +885,10 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
             if (entity.getAnimationTick() == 18 && !entity.level().isClientSide) {
                 //Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX() + radius1 * Math.sin(-entity.getYRot() * Math.PI / 180), entity.getY() + 2.9, entity.getZ() + radius1 * Math.cos(-entity.getYRot() * Math.PI / 180), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 20);
-                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 2.9, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 60,(float) CMConfig.DeathLaserdamage,(float) CMConfig.DeathLaserHpdamage);
+                Death_Laser_Beam_Entity DeathBeam = new Death_Laser_Beam_Entity(ModEntities.DEATH_LASER_BEAM.get(), entity.level(), entity, entity.getX(), entity.getY() + 2.9, entity.getZ(), (float) ((entity.yHeadRot + 90) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 60,
+
+                        (float) CMCommonConfig.Harbinger.DeathLaserdamage,
+                        (float) CMCommonConfig.Harbinger.DeathLaserHpdamage);
                 if(entity.isPowered()){
                     DeathBeam.setFire(true);
                 }
@@ -1050,7 +1056,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             double d5 = target.getZ() - d2;
             Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
 
-            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity, vec3,entity.level(),(float) CMConfig.WitherHomingMissiledamage,target);
+            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity, vec3,entity.level(),(float) CMCommonConfig.Harbinger.WitherMissiledamage,target);
 
             laserBeam.setPosRaw(d0, d1, d2);
             entity.level().addFreshEntity(laserBeam);
@@ -1145,7 +1151,7 @@ public class The_Harbinger_Entity extends LLibrary_Boss_Monster implements Range
             double d4 = target.getY() - d1;
             double d5 = target.getZ() - d2;
             Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
-            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity, vec3,entity.level(),(float) CMConfig.WitherHomingMissiledamage,target);
+            Wither_Homing_Missile_Entity laserBeam = new Wither_Homing_Missile_Entity(entity, vec3,entity.level(),(float) CMCommonConfig.Harbinger.WitherMissiledamage,target);
             laserBeam.setPosRaw(d0, d1, d2);
             entity.level().addFreshEntity(laserBeam);
         }

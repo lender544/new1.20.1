@@ -4,6 +4,8 @@ package com.github.L_Ender.cataclysm.init;
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.*;
 import com.github.L_Ender.cataclysm.blocks.Property.CustomNoteBlockInstrument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -92,6 +94,7 @@ public class ModBlocks {
         return 15;
     })));
 
+
     public static final DeferredBlock<Block> END_STONE_PILLAR = BLOCKS.register("end_stone_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                     .requiresCorrectToolForDrops()
@@ -145,8 +148,12 @@ public class ModBlocks {
     public static final DeferredBlock<Block> OBSIDIAN_BRICK_STAIRS = BLOCKS.register("obsidian_brick_stairs",
             () -> new StairBlock(OBSIDIAN_BRICKS.get().defaultBlockState(),BlockBehaviour.Properties.ofFullCopy(OBSIDIAN_BRICKS.get())));
 
+    public static final DeferredBlock<Block> OBSIDIAN_FENCE = BLOCKS.register("obsidian_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(OBSIDIAN_BRICKS.get())));
+
     public static final DeferredBlock<Block> OBSIDIAN_BRICK_WALL = BLOCKS.register("obsidian_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(OBSIDIAN_BRICKS.get())));
+
 
     public static final DeferredBlock<Block> PURPUR_WALL = BLOCKS.register("purpur_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.PURPUR_BLOCK)));
@@ -563,9 +570,15 @@ public class ModBlocks {
                     .offsetType(BlockBehaviour.OffsetType.XZ)
                     .pushReaction(PushReaction.DESTROY)));
 
+
+
     private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {
         return (state) -> {
             return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;
         };
+    }
+
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
     }
 }

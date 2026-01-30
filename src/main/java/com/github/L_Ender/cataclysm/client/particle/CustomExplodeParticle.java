@@ -76,4 +76,21 @@ public class CustomExplodeParticle extends TextureSheetParticle {
         }
     }
 
+    public static class LightningFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public LightningFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, spriteSet);
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(0.5F);
+            particle.setLifetime(5);
+            return particle;
+        }
+    }
+
+
 }

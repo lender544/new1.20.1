@@ -18,12 +18,20 @@ public class AttackAnimationGoal2<T extends LLibrary_Monster & IAnimatedEntity> 
     }
     public void tick() {
         LivingEntity target = entity.getTarget();
-        if (entity.getAnimationTick() < look1 && target != null || entity.getAnimationTick() > look2 && target != null) {
-            entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            entity.lookAt(target, 30.0F, 30.0F);
-        } else {
+        if(target !=null){
+            boolean flag = entity.getAnimationTick() < look1 || entity.getAnimationTick() > look2;
+            if(flag){
+                entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            }else{
+                entity.getLookControl().setLookAt(target,0F, 30.0F);
+                entity.setYRot(entity.yRotO);
+            }
+
+        }else{
             entity.setYRot(entity.yRotO);
         }
+
         entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
     }
 

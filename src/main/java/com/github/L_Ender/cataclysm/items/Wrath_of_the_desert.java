@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Cursed_Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataComponents;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -165,12 +165,12 @@ public class Wrath_of_the_desert extends Item {
                          double Z = player.getZ() + vecZ;
 
                         if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f, target);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMCommonConfig.WrathOfTheDesert.damage * f, target);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);
                         }else{
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f, null);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float)CMCommonConfig.WrathOfTheDesert.damage  * f, null);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);

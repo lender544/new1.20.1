@@ -3,6 +3,6 @@
   "description": {
     "translate": "item.cataclysm.music_disc_maledictus.desc"
   },
-  "length_in_seconds": 201.0,
+  "length_in_seconds": 205.0,
   "sound_event": "cataclysm:maledictus_music_disc"
 }
