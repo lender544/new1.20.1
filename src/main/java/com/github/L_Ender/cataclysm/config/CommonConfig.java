@@ -707,20 +707,6 @@ public class CommonConfig {
         public final ModConfigSpec.DoubleValue AxeBladeDamage;
     }
 
-    public static class Onyx {
-        Onyx(final ModConfigSpec.Builder builder) {
-            builder.push("onyx");
-            combatConfig = new CombatConfig(builder, CMCommonConfig.Onyx.healthMultiplier, CMCommonConfig.Onyx.attackMultiplier);
-            capConfig = new CapConfig(builder, CMCommonConfig.Onyx.damageCap, CMCommonConfig.Onyx.dpsCap,CMCommonConfig.Onyx.dpsLimitTime,CMCommonConfig.Onyx.rangeCap);
-            healConfig = new NatureHealConfig(builder, CMCommonConfig.Onyx.natureHeal);
-            mobGriefingConfig = new IgnoreMobGriefing(builder, CMCommonConfig.Onyx.ignoreMobGriefing);
-            builder.pop();
-        }
-        public final CombatConfig combatConfig;
-        public final CapConfig capConfig;
-        public final NatureHealConfig healConfig;
-        public final IgnoreMobGriefing mobGriefingConfig;
-    }
 
     // ==========================================
     // Spawning Configs
@@ -1156,7 +1142,6 @@ public class CommonConfig {
             APTRGANGR = new Aptrgangr(builder);
             SCYLLA = new Scylla(builder);
             CLAWDIAN = new Clawdian(builder);
-            ONYX = new Onyx(builder);
             builder.pop();
         }
         public final ETC ETC;
@@ -1180,7 +1165,6 @@ public class CommonConfig {
         public final Aptrgangr APTRGANGR;
         public final Scylla SCYLLA;
         public final Clawdian CLAWDIAN;
-        public final Onyx ONYX;
     }
 
     public static class Blocks {

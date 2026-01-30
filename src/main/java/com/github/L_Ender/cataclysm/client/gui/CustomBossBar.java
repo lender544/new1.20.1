@@ -88,12 +88,6 @@ public class CustomBossBar {
                 5, 16, 0,7, -7, -8, 256, 32, 25,182, ChatFormatting.BLUE));
 
 
-        //onxy1
-        customBossBars.put(13, new CustomBossBar(
-                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/onyx_bar_base.png"),
-                ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/boss_bar/onyx_bar_overlay.png"),
-                5, 16, 0,8, -7, -10, 256, 32, 25,182, ChatFormatting.DARK_PURPLE));
-
     }
 
     private final ResourceLocation baseTexture;

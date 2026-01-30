@@ -250,16 +250,6 @@ public class CMCommonConfig {
         public static double AxeBladeDamage = 8.0D;
     }
 
-    public static class Onyx {
-        public static double healthMultiplier = 1.0D;
-        public static double attackMultiplier = 1.0D;
-        public static double damageCap = 20.0D;
-        public static double dpsCap = 25.0D;
-        public static int dpsLimitTime = 50;
-        public static double rangeCap = 20.0D;
-        public static double natureHeal = 25.0D;
-        public static boolean ignoreMobGriefing = true;
-    }
 
     public static class ETC {
         public static int ReturnHome = 20;
@@ -662,15 +652,6 @@ public class CMCommonConfig {
             Aptrgangr.natureHeal = config.MOBS.APTRGANGR.healConfig.heal.get();
             Aptrgangr.AxeBladeDamage = config.MOBS.APTRGANGR.AxeBladeDamage.get();
 
-            // Mobs - Onyx
-            Onyx.healthMultiplier = config.MOBS.ONYX.combatConfig.healthMultiplier.get();
-            Onyx.attackMultiplier = config.MOBS.ONYX.combatConfig.attackMultiplier.get();
-            Onyx.damageCap = config.MOBS.ONYX.capConfig.damageCap.get();
-            Onyx.dpsCap = config.MOBS.ONYX.capConfig.dpsCap.get();
-            Onyx.dpsLimitTime = config.MOBS.ONYX.capConfig.dpslimittime.get();
-            Onyx.rangeCap = config.MOBS.ONYX.capConfig.rangeCap.get();
-            Onyx.natureHeal = config.MOBS.ONYX.healConfig.heal.get();
-            Onyx.ignoreMobGriefing = config.MOBS.ONYX.mobGriefingConfig.Ignore.get();
 
             // Mobs - ETC
             ETC.ReturnHome = config.MOBS.ETC.ReturnHome.get();
