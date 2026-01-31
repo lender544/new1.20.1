@@ -152,7 +152,7 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
                 } else {
                     entity.setYRot(entity.yRotO);
                 }
-                if (this.entity.getMoveControl() instanceof FowardMoveController onyxMoveController) {
+                if (this.entity.getMoveControl() instanceof ClawdianMoveController onyxMoveController) {
                     onyxMoveController.forward(1F, 2.0F);
                 }
             }

@@ -1190,6 +1190,18 @@ public class ModItems {
                         Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.TidalClaws.attackDamage,
                                 -4.0F + (float) CMCommonConfig.TidalClaws.attackSpeed));
             });
+
+            event.modify(ModItems.BRONTES.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.BRONTES.get(),
+                        Cataclysm_Weapon.createAttributes(-4.0F + (float) CMCommonConfig.Brontes.attackDamage,
+                                -4.0F + (float) CMCommonConfig.Brontes.attackSpeed));
+            });
+
+            event.modify(ModItems.ANCIENT_SPEAR.get(), (builder) -> {
+                AttributeUtils.mergeAttributes(builder, ModItems.ANCIENT_SPEAR.get(),
+                        Cataclysm_Weapon.createAttributes(-1.0F + (float) CMCommonConfig.AncientSpear.attackDamage,
+                                -4.0F + (float) CMCommonConfig.AncientSpear.attackSpeed));
+            });
         }
     }
 }

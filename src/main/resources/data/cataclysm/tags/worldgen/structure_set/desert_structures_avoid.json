@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:villages"
+    "minecraft:villages",
+    "cataclysm:cursed_pyramid"
   ]
 }

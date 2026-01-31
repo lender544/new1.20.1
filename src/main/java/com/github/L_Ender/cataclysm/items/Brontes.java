@@ -1,9 +1,11 @@
 package com.github.L_Ender.cataclysm.items;
 
 
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Brontes_Entity;
 import com.github.L_Ender.cataclysm.init.ModDataComponents;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -68,10 +70,9 @@ public class Brontes extends PickaxeItem {
                 if (!p_43395_.isClientSide) {
                     if (p_43394_.get(ModDataComponents.THROWN_HAMMER) == null && p_43395_.getWorldBorder().isWithinBounds(player.blockPosition())) {
                         Brontes_Entity brontes = new Brontes_Entity(p_43395_, player);
-                        brontes.setBaseDamage((float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                        brontes.setAreaDamage(1);
-
-                        brontes.setStormDamage(10);
+                        brontes.setBaseDamage(AttributeUtils.OriginDamage(p_43396_,p_43394_));
+                        brontes.setAreaDamage((float) CMCommonConfig.Brontes.stormareadamage);
+                        brontes.setStormDamage((float) CMCommonConfig.Brontes.stormdamage);
                         brontes.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
                         if (p_43395_.addFreshEntity(brontes)) {
                             p_43394_.set(ModDataComponents.THROWN_HAMMER, brontes.getUUID());

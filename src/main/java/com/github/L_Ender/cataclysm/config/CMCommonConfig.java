@@ -356,6 +356,14 @@ public class CMCommonConfig {
         public static double runeDamage = 7.0D;
     }
 
+    public static class Brontes {
+        public static double attackDamage = 13.0D;
+        public static double attackSpeed = 1.0D;
+        public static double stormareadamage = 1.0D;
+        public static double stormdamage = 10.0D;
+    }
+
+
     public static class MeatShredder {
         public static double attackDamage = 8.5D;
         public static double attackSpeed = 1.4D;
@@ -431,6 +439,11 @@ public class CMCommonConfig {
         public static double damage = 7.0D;
     }
 
+    public static class AncientSpear {
+        public static double attackDamage = 9.5D;
+        public static double attackSpeed = 1.4D;
+        public static double sandstormdamage = 6D;
+    }
 
 
     public static void Commonbake(CommonConfig config) {
@@ -723,6 +736,12 @@ public class CMCommonConfig {
             VoidForge.cooldown = config.TOOLS_AND_ABILITIES.VOID_FORGE.VoidForgeCooldown.get();
             VoidForge.runeDamage = config.TOOLS_AND_ABILITIES.VOID_FORGE.VoidRuneDamage.get();
 
+
+            Brontes.attackDamage = config.TOOLS_AND_ABILITIES.BRONTES.toolConfig.attackDamage.get();
+            Brontes.attackSpeed = config.TOOLS_AND_ABILITIES.BRONTES.toolConfig.attackSpeed.get();
+            Brontes.stormareadamage = config.TOOLS_AND_ABILITIES.BRONTES.StormAreaDamage.get();
+            Brontes.stormdamage = config.TOOLS_AND_ABILITIES.BRONTES.StormDamage.get();
+
             MeatShredder.attackDamage = config.TOOLS_AND_ABILITIES.MEATH_SHREDDER.toolConfig.attackDamage.get();
             MeatShredder.attackSpeed = config.TOOLS_AND_ABILITIES.MEATH_SHREDDER.toolConfig.attackSpeed.get();
 
@@ -770,6 +789,9 @@ public class CMCommonConfig {
 
             LaserGatling.damage = config.TOOLS_AND_ABILITIES.LASER_GATLING.LaserDamage.get();
 
+            AncientSpear.attackDamage = config.TOOLS_AND_ABILITIES.ANCIENTSPEAR.toolConfig.attackDamage.get();
+            AncientSpear.attackSpeed = config.TOOLS_AND_ABILITIES.ANCIENTSPEAR.toolConfig.attackSpeed.get();
+            AncientSpear.sandstormdamage = config.TOOLS_AND_ABILITIES.ANCIENTSPEAR.SandstormDamage.get();
 
             // Blocks
             Blocks.CursedTombstoneCooldown = config.BLOCKS.CURSEDTOMBSTONE.CursedTombstoneCooldown.get();

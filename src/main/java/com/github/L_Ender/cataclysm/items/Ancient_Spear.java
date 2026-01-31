@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.items;
 
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.ChatFormatting;
@@ -75,7 +76,7 @@ public class Ancient_Spear extends Cataclysm_Weapon implements ILeftClick {
             double vecZ = Math.sin(theta);
             double x = playerIn.getX() + vecX;
             double Z = playerIn.getZ() + vecZ;
-            Sandstorm_Projectile largefireball = new Sandstorm_Projectile(playerIn, d1, d2, d3, playerIn.level(),6);
+            Sandstorm_Projectile largefireball = new Sandstorm_Projectile(playerIn, d1, d2, d3, playerIn.level(), (float)CMCommonConfig.AncientSpear.sandstormdamage);
             largefireball.setState(1);
             largefireball.setPos(x, playerIn.getEyeY() - 0.5D, Z);
             worldIn.addFreshEntity(largefireball);

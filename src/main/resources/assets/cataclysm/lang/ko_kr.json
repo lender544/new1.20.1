@@ -707,5 +707,14 @@
   "key.cataclysm.chestplate_ability": "대격변 흉갑 기술",
   "key.cataclysm.boots_ability": "대격변 부츠 기술",
   "curios.identifier.feet": "발",
-  "curios.modifiers.feet": "발에 착용 시:"
+  "curios.modifiers.feet": "발에 착용 시:",
+
+  "curios.identifier.talisman": "부적",
+  "curios.identifier.waist": "허리",
+  "curios.modifiers.rings": "반지에 착용 시:",
+  "curios.modifiers.talisman": "부적에 착용 시:",
+  "curios.modifiers.waist": "허리에 착용 시:",
+  "attribute.cataclysm.additional_critical_damage": "% 치명타 피해",
+  "attribute.cataclysm.nature_heal": "% 자연 치유"
+
 }

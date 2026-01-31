@@ -396,7 +396,7 @@ public class ServerEventHandler {
             }
             if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get() || weapon.getItem() == ModItems.CERAUNUS.get() || weapon.getItem() == ModItems.THE_IMMOLATOR.get() ) {
                 if(event.isCriticalHit()){
-                    livingEntity.playSound(ModSounds.MALEDICTUS_MACE_SWING.get(), 1.25f, 1.0F);
+                    livingEntity.playSound(ModSounds.PARRY.get(), 0.5f, 1.1F);
                 }
             }
         }

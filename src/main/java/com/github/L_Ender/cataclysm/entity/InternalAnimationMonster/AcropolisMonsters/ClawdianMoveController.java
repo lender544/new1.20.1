@@ -46,6 +46,14 @@ public class ClawdianMoveController extends MoveControl {
         this.speedModifier = 1.15;
     }
 
+
+    public void forward(float forward, float speed) {
+        this.operation = ClawdianOperation.FORWARD;
+        this.strafeForwards = forward;
+        this.speedModifier = speed;
+    }
+
+
     public void tick() {
         if (this.operation == ClawdianOperation.STRAFE) {
             float baseSpeed = (float)this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED);

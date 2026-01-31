@@ -1956,7 +1956,7 @@ public class Scylla_Entity extends IABoss_monster {
         } while (blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMCommonConfig.Scylla.LightningStormDamage,(float)CMCommonConfig.Scylla.LightningAreaDamage,this,size));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMCommonConfig.Scylla.LightningStormDamage,(float)CMCommonConfig.Scylla.StormHpDamage,this,size));
         }
 
 

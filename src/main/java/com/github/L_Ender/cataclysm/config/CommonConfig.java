@@ -926,6 +926,24 @@ public class CommonConfig {
         public final ToolConfig toolConfig;
     }
 
+    public static class Brontes {
+        Brontes(final ModConfigSpec.Builder builder) {
+            builder.push("brontes");
+            StormDamage = builder.comment("Brontes Storm Damage")
+                    .translation(LANG_PREFIX + "brontes_storm_damage")
+                    .defineInRange("brontes_storm_damage", CMCommonConfig.Brontes.stormdamage, 0.0D, 1000000.0D);
+            StormAreaDamage = builder.comment("Brontes Storm Area Damage")
+                    .translation(LANG_PREFIX + "brontes_storm_area_damage")
+                    .defineInRange("brontes_storm_area_damage", CMCommonConfig.Brontes.stormareadamage, 0.0D, 1000000.0D);
+            toolConfig = new ToolConfig(builder, CMCommonConfig.Brontes.attackDamage, CMCommonConfig.Brontes.attackSpeed);
+            builder.pop();
+        }
+        public final ModConfigSpec.DoubleValue StormAreaDamage;
+        public final ModConfigSpec.DoubleValue StormDamage;
+        public final ToolConfig toolConfig;
+    }
+
+
     public static class MeatShredder {
         MeatShredder(final ModConfigSpec.Builder builder) {
             builder.push("meat_shredder");
@@ -1114,6 +1132,21 @@ public class CommonConfig {
         public final ModConfigSpec.DoubleValue LaserDamage;
     }
 
+    public static class AncientSpear {
+        AncientSpear(final ModConfigSpec.Builder builder) {
+            builder.push("ancient_spear");
+            SandstormDamage = builder.comment("SandStorm")
+                    .translation(LANG_PREFIX + "sand_storm_damage")
+                    .defineInRange("sand_storm_damage",CMCommonConfig.AncientSpear.sandstormdamage, 0.0D, 1000000.0D);
+            toolConfig = new ToolConfig(builder,CMCommonConfig.AncientSpear.attackDamage, CMCommonConfig.AncientSpear.attackSpeed);
+            builder.pop();
+        }
+
+        public final ModConfigSpec.DoubleValue SandstormDamage;
+
+        public final ToolConfig toolConfig;
+    }
+
     // ==========================================
     // Grouping Classes
     // ==========================================
@@ -1190,6 +1223,7 @@ public class CommonConfig {
             GAUNTLER_OF_MAELSTROM = new GauntletOfMaelstrom(builder);
             INFERNAL_FORGE = new InfernalForge(builder);
             VOID_FORGE = new VoidForge(builder);
+            BRONTES = new Brontes(builder);
             WASW = new WitherAssaultShoulderWeapon(builder);
             VASW = new VoidAssaultShoulderWeapon(builder);
             VOID_CORE = new VoidCore(builder);
@@ -1204,6 +1238,7 @@ public class CommonConfig {
             CURSED_BOW = new CursedBow(builder);
             WRATH_OF_THE_DESERT = new WrathOfTheDesert(builder);
             LASER_GATLING = new LaserGatling(builder);
+            ANCIENTSPEAR = new AncientSpear(builder);
             builder.pop();
         }
 
@@ -1218,6 +1253,7 @@ public class CommonConfig {
         public final GauntletOfMaelstrom GAUNTLER_OF_MAELSTROM;
         public final InfernalForge INFERNAL_FORGE;
         public final VoidForge VOID_FORGE;
+        public final Brontes BRONTES;
         public final TidalClaws TIDAL_CLAW;
         public final MeatShredder MEATH_SHREDDER;
         public final WitherAssaultShoulderWeapon WASW;
@@ -1232,5 +1268,6 @@ public class CommonConfig {
         public final CursedBow CURSED_BOW;
         public final WrathOfTheDesert WRATH_OF_THE_DESERT;
         public final LaserGatling LASER_GATLING;
+        public final AncientSpear ANCIENTSPEAR;
     }
 }
