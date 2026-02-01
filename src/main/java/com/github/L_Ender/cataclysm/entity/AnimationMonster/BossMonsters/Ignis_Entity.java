@@ -4,6 +4,7 @@ import com.github.L_Ender.cataclysm.client.particle.Options.*;
 import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
@@ -173,6 +174,10 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
         this.setPathfindingMalus(PathType.LAVA, 8.0F);
         this.setPathfindingMalus(PathType.DANGER_FIRE, 0.0F);
         this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
+        this.setPathfindingMalus(PathType.DAMAGE_FIRE, 0.0F);
+
+        setConfigattribute(this, CMCommonConfig.Ignis.healthMultiplier,CMCommonConfig.Ignis.attackMultiplier);
+
         if (world.isClientSide)
             socketPosArray = new Vec3[]{new Vec3(0, 0, 0)};
     }
@@ -633,7 +638,7 @@ public class Ignis_Entity extends LLibrary_Boss_Monster implements IHoldEntity {
 
 
         LivingEntity target = this.getTarget();
-       // SwingParticles();
+        SwingParticles();
         if (this.level().isClientSide) {
             if (this.random.nextInt(24) == 0 && !this.isSilent()) {
                 this.level().playLocalSound(this.getX() + 0.5D, this.getY() + 0.5D, this.getZ() + 0.5D, SoundEvents.BLAZE_BURN, this.getSoundSource(), 1.0F + this.random.nextFloat(), this.random.nextFloat() * 0.7F + 0.3F, false);

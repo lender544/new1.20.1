@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class Bone_Reptile_Armor extends ArmorItem {
+public class Bone_Reptile_Armor extends Cataclysm_Armor {
 
     public Bone_Reptile_Armor(Holder<ArmorMaterial> material, Type slot, Properties properties) {
         super(material, slot, properties);

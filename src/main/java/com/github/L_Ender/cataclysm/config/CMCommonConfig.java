@@ -371,7 +371,7 @@ public class CMCommonConfig {
 
     public static class Annihilator {
         public static double attackDamage = 8.5D;
-        public static double attackSpeed = 1.4D;
+        public static double attackSpeed = 1.6D;
     }
 
     public static class WASW {

@@ -241,6 +241,9 @@ public class Kobolediator_Entity extends Internal_Animation_Monster {
     }
 
     public void setAwaken(boolean necklace) {
+        if(necklace){
+            this.heal(this.getMaxHealth());
+        }
         this.entityData.set(AWAKEN, necklace);
     }
 

@@ -26,7 +26,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class Ignitium_Armor extends ArmorItem implements KeybindUsingArmor  {
+public class Ignitium_Armor extends Cataclysm_Armor implements KeybindUsingArmor  {
 
     public Ignitium_Armor(Holder<ArmorMaterial> material, Type slot, Properties properties) {
         super(material, slot, properties);

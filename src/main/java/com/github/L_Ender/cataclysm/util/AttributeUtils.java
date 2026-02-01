@@ -1,40 +1,46 @@
 package com.github.L_Ender.cataclysm.util;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class AttributeUtils {
-
 	public static void mergeAttributes(DataComponentPatch.Builder builder, Item item, ItemAttributeModifiers newModifiers) {
 
 		ItemAttributeModifiers existingModifiers = item.components().getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.EMPTY);
-		Set<Holder<Attribute>> attributesOverwritten = new HashSet<>();
-		for (var entry : newModifiers.modifiers()) {
-			attributesOverwritten.add(entry.attribute());
-		}
 
 		ItemAttributeModifiers.Builder combinedBuilder = ItemAttributeModifiers.builder();
 
-		for (var entry : existingModifiers.modifiers()) {
-			if (!attributesOverwritten.contains(entry.attribute())) {
-				combinedBuilder.add(entry.attribute(), entry.modifier(), entry.slot());
+		for (var existingEntry : existingModifiers.modifiers()) {
+			boolean shouldReplace = false;
+
+			for (var newEntry : newModifiers.modifiers()) {
+				if (existingEntry.attribute().equals(newEntry.attribute()) &&
+						existingEntry.slot().equals(newEntry.slot())) {
+					shouldReplace = true;
+					break;
+				}
+			}
+
+			if (!shouldReplace) {
+				combinedBuilder.add(existingEntry.attribute(), existingEntry.modifier(), existingEntry.slot());
 			}
 		}
 
-		for (var entry : newModifiers.modifiers()) {
-			combinedBuilder.add(entry.attribute(), entry.modifier(), entry.slot());
+		for (var newEntry : newModifiers.modifiers()) {
+			combinedBuilder.add(newEntry.attribute(), newEntry.modifier(), newEntry.slot());
 		}
 
 		builder.set(DataComponents.ATTRIBUTE_MODIFIERS, combinedBuilder.build());

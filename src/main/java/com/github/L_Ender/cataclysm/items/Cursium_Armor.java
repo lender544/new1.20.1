@@ -15,7 +15,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,7 +26,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
+public class Cursium_Armor extends Cataclysm_Armor implements KeybindUsingArmor {
 
 
     public Cursium_Armor(Holder<ArmorMaterial> material, Type slot, Properties properties) {

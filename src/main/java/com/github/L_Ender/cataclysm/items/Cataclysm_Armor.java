@@ -64,26 +64,34 @@ public class Cataclysm_Armor extends ArmorItem {
 
 
     public static ItemAttributeModifiers createArmorAttributes(Holder<ArmorMaterial> material,
-            float configDefense,
-            float configToughness,
-            float configKnockback,
-            ArmorItem.Type Type,
-            AttributeContainer... attributes)
-    {
+                                                               float configDefenseMultiplier,
+                                                               float configToughness,
+                                                               float configKnockback,
+                                                               ArmorItem.Type type,
+                                                               AttributeContainer... attributes) {
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
-        EquipmentSlotGroup slotGroup = EquipmentSlotGroup.bySlot(Type.getSlot());
-        ResourceLocation resLoc = ResourceLocation.withDefaultNamespace("armor." + Type.getName());
-        int i = Math.round(configDefense) * material.value().getDefense(Type);
-        builder.add(
-                Attributes.ARMOR,
-                new AttributeModifier(resLoc, i, AttributeModifier.Operation.ADD_VALUE),
-                slotGroup
-        );
-        builder.add(
-                Attributes.ARMOR_TOUGHNESS,
-                new AttributeModifier(resLoc, configToughness, AttributeModifier.Operation.ADD_VALUE),
-                slotGroup
-        );
+        EquipmentSlotGroup slotGroup = EquipmentSlotGroup.bySlot(type.getSlot());
+
+        ResourceLocation resLoc = ResourceLocation.withDefaultNamespace("armor." + type.getName());
+
+        int finalDefense = Math.round(configDefenseMultiplier * material.value().getDefense(type));
+
+        if (finalDefense > 0) {
+            builder.add(
+                    Attributes.ARMOR,
+                    new AttributeModifier(resLoc, finalDefense, AttributeModifier.Operation.ADD_VALUE),
+                    slotGroup
+            );
+        }
+
+        if (configToughness > 0.0F) {
+            builder.add(
+                    Attributes.ARMOR_TOUGHNESS,
+                    new AttributeModifier(resLoc, configToughness, AttributeModifier.Operation.ADD_VALUE),
+                    slotGroup
+            );
+        }
+
         if (configKnockback > 0.0F) {
             builder.add(
                     Attributes.KNOCKBACK_RESISTANCE,
@@ -93,11 +101,42 @@ public class Cataclysm_Armor extends ArmorItem {
         }
 
         for (AttributeContainer holder : attributes) {
-            AttributeModifier modifier = holder.createModifier(Type.getSlot().getName());
-            if (modifier.amount() != 0.0) {
+            AttributeModifier modifier = holder.createModifier(type.getSlot().getName());
+            if (Math.abs(modifier.amount()) > 1e-5) {
                 builder.add(holder.attribute(), modifier, slotGroup);
             }
         }
+
+        return builder.build();
+    }
+
+
+    public static ItemAttributeModifiers createAttributes(Holder<ArmorMaterial> material, ArmorItem.Type type, AttributeContainer... attributes) {
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+        EquipmentSlotGroup slotGroup = EquipmentSlotGroup.bySlot(type.getSlot());
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "armor." + type.getName());
+
+        int defense = material.value().getDefense(type);
+        if (defense > 0) {
+            builder.add(Attributes.ARMOR, new AttributeModifier(id, defense, AttributeModifier.Operation.ADD_VALUE), slotGroup);
+        }
+        float toughness = material.value().toughness();
+        if (toughness > 0) {
+            builder.add(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(id, toughness, AttributeModifier.Operation.ADD_VALUE), slotGroup);
+        }
+
+        float knockback = material.value().knockbackResistance();
+        if (knockback > 0) {
+            builder.add(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(id, knockback, AttributeModifier.Operation.ADD_VALUE), slotGroup);
+        }
+        for (AttributeContainer holder : attributes) {
+            AttributeModifier modifier = holder.createModifier(type.getSlot().getName());
+
+            if (Math.abs(modifier.amount()) > 1e-5) {
+                builder.add(holder.attribute(), modifier, slotGroup);
+            }
+        }
+
         return builder.build();
     }
 

@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Flame_Jet_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,9 +17,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -78,12 +81,15 @@ public class Infernal_forge extends PickaxeItem {
                 }
             }
         }else{
+
+            float finalDamage = AttributeUtils.OriginDamage(player, context.getItemInHand());
+
             ScreenShake_Entity.ScreenShake(world, player.position(), 30, 0.1f, 0, 30);
             world.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.EXPLOSION.get(), SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
             List<Entity> list = world.getEntities(player, player.getBoundingBox().inflate(radius, radius, radius));
             for (Entity entity : list) {
                 if (entity instanceof LivingEntity) {
-                    entity.hurt(world.damageSources().mobAttack(player), (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                    entity.hurt(world.damageSources().mobAttack(player), finalDamage);
                     entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.0, 2.0, 0.0));
                     if (berserk) {
                         entity.igniteForSeconds((int) 5.0);
