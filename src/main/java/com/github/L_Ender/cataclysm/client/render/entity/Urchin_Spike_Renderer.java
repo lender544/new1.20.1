@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.entity;
 
+import com.github.L_Ender.cataclysm.entity.projectile.Lionfish_Spike_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Urchin_Spike_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -14,7 +15,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Urchin_Spike_Renderer extends EntityRenderer<Urchin_Spike_Entity> {

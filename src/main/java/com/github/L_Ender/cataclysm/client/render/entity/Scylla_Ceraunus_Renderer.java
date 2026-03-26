@@ -6,6 +6,8 @@ import com.github.L_Ender.cataclysm.client.model.entity.Ceraunus_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Scylla_Model;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Player_Ceraunus_Entity;
+import com.github.L_Ender.cataclysm.init.ModItems;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -20,6 +22,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
@@ -32,9 +37,8 @@ public class Scylla_Ceraunus_Renderer extends EntityRenderer<Scylla_Ceraunus_Ent
 
 
 
-	private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/scylla/ceraunus.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation( Cataclysm.MODID,"textures/entity/scylla/ceraunus.png");
 	private static final ResourceLocation CHAIN_TEXTURE  = new ResourceLocation(Cataclysm.MODID,"textures/entity/scylla/scylla_chain.png");
-
 
 	public Scylla_Ceraunus_Renderer(EntityRendererProvider.Context renderManagerIn) {
 		super(renderManagerIn);
@@ -51,7 +55,7 @@ public class Scylla_Ceraunus_Renderer extends EntityRenderer<Scylla_Ceraunus_Ent
 		matrices.mulPose(Axis.ZP.rotationDegrees(xRot + 90.0F));
 
 		VertexConsumer vertexConsumer = provider.getBuffer(this.model.renderType(getTextureLocation(entity)));
-		model.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY,1,1,1,1);
+		model.renderToBuffer(matrices, vertexConsumer, light, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
 		matrices.popPose();
 		Entity fromEntity = entity.getController();
 		if (fromEntity != null) {
@@ -110,6 +114,7 @@ public class Scylla_Ceraunus_Renderer extends EntityRenderer<Scylla_Ceraunus_Ent
 
 		return new Vec3(d4, d5, d6);
 	}
+
 
 	public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
 		double d = to.horizontalDistance();

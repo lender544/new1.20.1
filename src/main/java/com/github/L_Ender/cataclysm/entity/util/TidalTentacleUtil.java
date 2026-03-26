@@ -1,14 +1,13 @@
 package com.github.L_Ender.cataclysm.entity.util;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
+
 import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
-import com.github.L_Ender.cataclysm.message.MessageTidalTentacle;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+
 
 import java.util.UUID;
 

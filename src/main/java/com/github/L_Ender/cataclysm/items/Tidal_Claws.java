@@ -1,30 +1,32 @@
 package com.github.L_Ender.cataclysm.items;
 
+
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.HookCapability;
 import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Tentacle_Entity;
 import com.github.L_Ender.cataclysm.entity.util.TidalTentacleUtil;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -39,16 +41,11 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Tidal_Claws extends Item implements ILeftClick {
-    private final Multimap<Attribute, AttributeModifier> ClawsAttributes;
+public class Tidal_Claws extends Cataclysm_Weapon_Item implements ILeftClick {
 
 
-    public Tidal_Claws(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 7.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
-        this.ClawsAttributes = builder.build();
+    public Tidal_Claws(Item.Properties properties) {
+        super(properties,7.0F, -2.4F);
     }
 
 
@@ -161,28 +158,13 @@ public class Tidal_Claws extends Item implements ILeftClick {
         }
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
 
-    @Override
-    public int getEnchantmentValue() {
-        return 16;
-    }
-
-    public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
-        return !player.isCreative();
-    }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category == EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE;
     }
 
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.ClawsAttributes : super.getDefaultAttributeModifiers(equipmentSlot);
-    }
 
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
@@ -191,7 +173,9 @@ public class Tidal_Claws extends Item implements ILeftClick {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack,worldIn,tooltip,flagIn);
         tooltip.add(Component.translatable("item.cataclysm.tidal_claws.desc").withStyle(ChatFormatting.DARK_GREEN));
         tooltip.add(Component.translatable("item.cataclysm.tidal_claws.desc2").withStyle(ChatFormatting.DARK_GREEN));
     }
+
 }

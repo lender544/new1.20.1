@@ -30,6 +30,6 @@ public class Revenant_Layer extends RenderLayer<Ignited_Revenant_Entity, Ignited
         this.getParentModel().copyPropertiesTo(this.model);
         this.model.setupAnim(revenant, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         VertexConsumer lvt_13_1_ = bufferIn.getBuffer(RenderType.entityCutoutNoCull(REVENANT_SHIELD));
-        this.model.renderToBuffer(matrixStackIn, lvt_13_1_, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(matrixStackIn, lvt_13_1_, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
     }
 }

@@ -5,15 +5,12 @@ import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
 import com.github.L_Ender.cataclysm.inventory.MinistrostiyMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.HorseInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 @OnlyIn(Dist.CLIENT)
 public class MinistrosityInventoryScreen extends AbstractContainerScreen<MinistrostiyMenu> {
@@ -33,8 +30,8 @@ public class MinistrosityInventoryScreen extends AbstractContainerScreen<Ministr
         int j = (this.height - this.imageHeight) / 2;
         p_282553_.blit(HORSE_INVENTORY_LOCATION, i, j, 0, 0, this.imageWidth, this.imageHeight);
 
-            p_282553_.blit(HORSE_INVENTORY_LOCATION, i + 70, j + 17, 0, this.imageHeight, mini.getInventoryColumns() * 18, 54);
-            InventoryScreen.renderEntityInInventoryFollowsMouse(p_282553_, i + 35, j + 62, 40, (float)(i + 35) - this.xMouse, (float)(j + 75 - 50) - this.yMouse, mini);
+        p_282553_.blit(HORSE_INVENTORY_LOCATION, i + 70, j + 17, 0, this.imageHeight, mini.getInventoryColumns() * 18, 54);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(p_282553_, i + 35, j + 62, 40, (float)(i + 35) - this.xMouse, (float)(j + 75 - 50) - this.yMouse, mini);
 
     }
 

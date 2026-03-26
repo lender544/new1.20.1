@@ -1,9 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
 
+import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import net.minecraft.core.particles.ParticleOptions;
@@ -15,10 +17,11 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -69,12 +72,12 @@ public class Flame_Strike_Entity extends Entity {
     }
 
     protected void defineSynchedData() {
-        this.getEntityData().define(DATA_RADIUS, 0.5F);
-        this.getEntityData().define(DAMAGE, 0F);
-        this.getEntityData().define(HPDAMAGE, 0F);
-        this.getEntityData().define(DATA_WAITING, true);
-        this.getEntityData().define(DATA_SEE, false);
-        this.getEntityData().define(SOUL, false);
+        this.entityData.define(DATA_RADIUS, 0.5F);
+        this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(HPDAMAGE, 0F);
+        this.entityData.define(DATA_WAITING, true);
+        this.entityData.define(DATA_SEE, false);
+        this.entityData.define(SOUL, false);
     }
 
     public void setRadius(float p_19713_) {
@@ -240,7 +243,6 @@ public class Flame_Strike_Entity extends Entity {
                         Hitentity.addEffect(effectinstance);
                     }
                 } else {
-
                     if (!caster.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(caster)) {
                         boolean flag = Hitentity.hurt(CMDamageTypes.causeFlameStrikeDamage(this, caster), this.getDamage() + Hitentity.getMaxHealth() * 0.01f * this.getHpDamage());
                         if (flag) {

@@ -19,7 +19,7 @@ public class FacingPillarBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 
-    public FacingPillarBlock(BlockBehaviour.Properties p_49046_) {
+    public FacingPillarBlock(Properties p_49046_) {
         super(p_49046_);
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)).setValue(FACING, Direction.UP));
     }

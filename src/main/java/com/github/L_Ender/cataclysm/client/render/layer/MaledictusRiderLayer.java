@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
 import com.github.L_Ender.cataclysm.client.render.entity.Maledictus_Renderer;
@@ -33,18 +34,19 @@ public class MaledictusRiderLayer extends RenderLayer<Maledictus_Entity, Maledic
                 if (passenger == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
                     continue;
                 }
+                Cataclysm.PROXY.releaseRenderingEntity(passenger.getUUID());
                 poseStack.pushPose();
                 poseStack.translate(ridePos.x, ridePos.y - 0.65F + passenger.getBbHeight(), ridePos.z);
                 poseStack.mulPose(Axis.XN.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(360 - bodyYaw));
-                Cataclysm.PROXY.releaseRenderingEntity(passenger.getUUID());
                 renderPassenger(passenger, 0, 0, 0, 0, partialTicks, poseStack, bufferIn, packedLightIn);
-                Cataclysm.PROXY.blockRenderingEntity(passenger.getUUID());
                 poseStack.popPose();
+               Cataclysm.PROXY.blockRenderingEntity(passenger.getUUID());
             }
 
         }
     }
+
 
 
 

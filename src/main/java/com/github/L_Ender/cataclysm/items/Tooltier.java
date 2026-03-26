@@ -2,20 +2,16 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.TierSortingRegistry;
 
+
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Supplier;
 
 
 public class Tooltier {
@@ -40,6 +36,20 @@ public class Tooltier {
                     BlockTags.create(prefix("needs_monstrosity_tool")), () -> Ingredient.of(ModItems.MONSTROUS_HORN.get())),
             prefix("monstrosity"), List.of(Tiers.NETHERITE), List.of());
 
+    public static final Tier CURSIUM = TierSortingRegistry.registerTier(
+            new ForgeTier(4, 2800, 9F, 2, 16,
+                    BlockTags.create(prefix("needs_cursium_tool")), () -> Ingredient.of(ModItems.CURSIUM_INGOT.get())),
+            prefix("cursium"), List.of(Tiers.NETHERITE),  List.of());
+
+    public static final Tier IGNITIUM = TierSortingRegistry.registerTier(
+            new ForgeTier(4, 2800, 9F, 2, 16,
+                    BlockTags.create(prefix("needs_ignitium_tool")), () -> Ingredient.of(ModItems.IGNITIUM_INGOT.get())),
+            prefix("ignitium"), List.of(Tiers.NETHERITE),  List.of());
+
+    public static final Tier SCYLLA = TierSortingRegistry.registerTier(
+            new ForgeTier(4, 2800, 9F, 2, 16,
+                    BlockTags.create(prefix("needs_scylla_tool")), () -> Ingredient.of(ModItems.LACRIMA.get())),
+            prefix("scylla"), List.of(Tiers.NETHERITE),  List.of());
 
 }
 

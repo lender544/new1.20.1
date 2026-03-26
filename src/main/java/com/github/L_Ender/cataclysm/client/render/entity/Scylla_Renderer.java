@@ -3,13 +3,11 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.Maledictus_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Scylla_Model;
-import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
-import com.github.L_Ender.cataclysm.client.render.layer.Scylla_Eye_Spark_Layer;
-import com.github.L_Ender.cataclysm.client.render.layer.Scylla_Snake_Layer;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.client.render.layer.*;
+
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -17,8 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
@@ -30,13 +27,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderNameTagEvent;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import org.joml.Vector4f;
+
 
 @OnlyIn(Dist.CLIENT)
 public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
@@ -168,7 +164,7 @@ public class Scylla_Renderer extends MobRenderer<Scylla_Entity, Scylla_Model> {
         }
         net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderLivingEvent.Post<Scylla_Entity, Scylla_Model>(entityIn, this, partialTicks, matrixStackIn, bufferIn, packedLightIn));
 
-       // renderStromBringer(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        // renderStromBringer(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 
 
         this.shadowRadius = entityIn.getAct() ? 0.75F : 0F ;

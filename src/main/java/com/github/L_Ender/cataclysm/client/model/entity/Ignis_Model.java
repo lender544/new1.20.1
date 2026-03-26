@@ -3458,7 +3458,7 @@ public class Ignis_Model extends AdvancedEntityModel<Ignis_Entity> {
         float walkDegree = 0.4F;
         float idleSpeed = 0.1F;
         float idleDegree = 0.1F;
-        float partialTick = Minecraft.getInstance().getFrameTime();
+        float partialTick = Minecraft.getInstance().getPartialTick();
         float blockingProgress = entity.prevblockingProgress + (entity.blockingProgress - entity.prevblockingProgress) * partialTick;
         float swordProgress = entity.prevswordProgress + (entity.swordProgress - entity.prevswordProgress) * partialTick;
         this.bob(root, walkSpeed * 0.2F, walkDegree * 2, false, ageInTicks, 1.0f);
@@ -3494,6 +3494,7 @@ public class Ignis_Model extends AdvancedEntityModel<Ignis_Entity> {
         progressRotationPrev(right_fist,blockingProgress,(float)Math.toRadians(22.5F), 0, 0, 10f);
         progressRotationPrev(left_arm_joint,blockingProgress,(float)Math.toRadians(-40F), (float)Math.toRadians(15F), (float)Math.toRadians(-7.5F), 10f);
         progressRotationPrev(left_hand,blockingProgress,(float)Math.toRadians(-42.5F), (float)Math.toRadians(15F), (float)Math.toRadians(15F), 10f);
+
 
         progressRotationPrev(root,swordProgress,0, (float)Math.toRadians(25F), 0, 10f);
         progressRotationPrev(upperbody,swordProgress,(float)Math.toRadians(-5F), (float)Math.toRadians(12.5F), (float)Math.toRadians(-5F), 10f);

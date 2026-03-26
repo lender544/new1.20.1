@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.capabilities.HookCapability;
 import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
 import com.github.L_Ender.cataclysm.entity.util.TidalTentacleUtil;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
@@ -16,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -27,8 +27,10 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +132,7 @@ public class Tidal_Tentacle_Entity extends Entity {
                                     MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTABYSSAL_CURSE.get(), 60, i, false, true, true);
                                     ((LivingEntity)current).addEffect(effectinstance);
 
-                                   // this.doEnchantDamageEffects((LivingEntity) creator, current);
+                                    // this.doEnchantDamageEffects((LivingEntity) creator, current);
                                 }
                             }
                         }

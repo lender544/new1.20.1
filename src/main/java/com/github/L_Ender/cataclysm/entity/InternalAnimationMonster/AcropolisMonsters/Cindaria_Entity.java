@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
@@ -10,8 +9,10 @@ import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,10 +22,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
@@ -109,17 +107,19 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     @Override
     public void updateSwimming() {
         if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            boolean inWaterAI = this.isEffectiveAi() && this.isInWater() && this.wantsToSwim();
+            if (inWaterAI && !(this.moveControl instanceof CindariaSwimControl)) {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new CindariaSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else {
+            } else if (!inWaterAI && (this.moveControl instanceof CindariaSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);
             }
         }
     }
+
 
 
     @Override
@@ -232,34 +232,34 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
-            for (LivingEntity entityHit : entitiesHit) {
-                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-                float entityAttackingAngle = this.yBodyRot % 360;
-                if (entityHitAngle < 0) {
-                    entityHitAngle += 360;
-                }
-                if (entityAttackingAngle < 0) {
-                    entityAttackingAngle += 360;
-                }
-                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                    if (!isAlliedTo(entityHit) && !(entityHit instanceof Cindaria_Entity) && entityHit != this) {
-                        DamageSource damagesource = this.damageSources().mobAttack(this);
-                        boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
-                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
-                        }
+            DamageSource damagesource = this.damageSources().mobAttack(this);
+        for (LivingEntity entityHit : entitiesHit) {
+            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+            float entityAttackingAngle = this.yBodyRot % 360;
+            if (entityHitAngle < 0) {
+                entityHitAngle += 360;
+            }
+            if (entityAttackingAngle < 0) {
+                entityAttackingAngle += 360;
+            }
+            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                if (!isAlliedTo(entityHit) && !(entityHit instanceof Cindaria_Entity) && entityHit != this) {
+                    boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
+                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                        EntityUtil.disableShield(player, shieldbreakticks);
+                    }
 
-                        double d0 = entityHit.getX() - this.getX();
-                        double d1 = entityHit.getZ() - this.getZ();
-                        double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-                        if (hurt && knockback) {
-                            entityHit.push(d0 / d2 * 2.25D, 0.15D, d1 / d2 * 2.25D);
-                        }
+                    double d0 = entityHit.getX() - this.getX();
+                    double d1 = entityHit.getZ() - this.getZ();
+                    double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
+                    if (hurt && knockback) {
+                        entityHit.push(d0 / d2 * 2.25D, 0.15D, d1 / d2 * 2.25D);
                     }
                 }
             }
+        }
         }
     }
 
@@ -283,7 +283,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
 
 
     public boolean canBeAffected(MobEffectInstance p_34192_) {
-        return p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
+        return p_34192_.getEffect() != ModEffect.EFFECTSTUN.get() && p_34192_.getEffect() != ModEffect.EFFECTABYSSAL_CURSE.get() && super.canBeAffected(p_34192_);
     }
 
 
@@ -313,7 +313,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
             this.mob = p_25792_;
             this.speedModifier = p_25793_;
             this.attackRadiusSqr = p_25795_ * p_25795_;
-            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         }
 
 
@@ -398,65 +398,29 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
     }
 
 
-    static class MagicAttackGoal extends Goal {
+    static class MagicAttackGoal extends InternalAttackGoal {
+
         protected final Cindaria_Entity entity;
 
-        private final int getAttackState;
-
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
         private final float attackminrange;
-        private final float attackrange;
 
-        public MagicAttackGoal(Cindaria_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackminrange, float attackrange) {
+        public MagicAttackGoal(Cindaria_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackminrange, float attackrange) {
+            super(entity,getattackstate,attackstate,attackendstate,attackMaxtick,attackseetick,attackrange);
             this.entity = entity;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
-            this.getAttackState = getAttackState;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
             this.attackminrange = attackminrange;
-            this.attackrange = attackrange;
         }
 
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.magic_cooldown <= 0;
+            return target != null && super.canUse() && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.magic_cooldown <= 0;
         }
 
-        @Override
-        public void start() {
-            this.entity.setAttackState(attackstate);
-        }
-
-        @Override
-        public void stop() {
-            this.entity.setAttackState(attackendstate);
-          //  this.entity.magic_cooldown = CHARGE_COOLDOWN;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks < attackMaxtick;
-        }
-
-        @Override
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
 
         public void tick() {
             LivingEntity target = entity.getTarget();
-            if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                this.entity.lookAt(target, 30.0F, 30.0F);
-            } else {
-                entity.setYRot(entity.yRotO);
-            }
+            super.tick();
             if (entity.attackTicks == attackseetick) {
                 if (target != null) {
                     double d0 = entity.getX();
@@ -466,7 +430,7 @@ public class Cindaria_Entity extends Internal_Animation_Monster {
                     double d4 = target.getY() - d1;
                     double d5 = target.getZ() - d2;
                     Vec3 vec3 = new Vec3(d3, d4, d5).normalize();
-                    Water_Spear_Entity waterSpear = new Water_Spear_Entity(entity, vec3,entity.level(),(float) CMConfig.HarbingerWitherMissiledamage);
+                    Water_Spear_Entity waterSpear = new Water_Spear_Entity(entity, vec3,entity.level(),7,1D);
 
                     float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
 

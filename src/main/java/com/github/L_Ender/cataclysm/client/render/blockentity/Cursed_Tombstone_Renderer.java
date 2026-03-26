@@ -3,12 +3,8 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.Cursed_tombstone_Entity;
-import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
-import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
 import com.github.L_Ender.cataclysm.client.model.block.Cursed_Tombstone_Model;
-import com.github.L_Ender.cataclysm.client.model.block.Door_Of_Seal_Model;
-import com.github.L_Ender.cataclysm.client.render.entity.The_Harbinger_Renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -18,16 +14,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
 public class Cursed_Tombstone_Renderer implements BlockEntityRenderer<Cursed_tombstone_Entity> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/cursed_tombstone_off.png");
     private static final ResourceLocation TEXTURE2 = new ResourceLocation(Cataclysm.MODID,"textures/block/cursed_tombstone_on.png");
-   private static final Cursed_Tombstone_Model MODEL = new Cursed_Tombstone_Model();
+    private static final Cursed_Tombstone_Model MODEL = new Cursed_Tombstone_Model();
     private final RandomSource rnd = RandomSource.create();
     private static final float HALF_SQRT_3 = (float)(Math.sqrt(3.0D) / 2.0D);
     public Cursed_Tombstone_Renderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {

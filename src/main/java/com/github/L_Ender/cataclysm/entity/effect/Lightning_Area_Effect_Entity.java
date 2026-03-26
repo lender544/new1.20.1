@@ -1,19 +1,17 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
-import com.github.L_Ender.cataclysm.client.particle.Lightning_Zap_Particle;
-
-import com.github.L_Ender.cataclysm.client.particle.Rain_Fog_Particle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningZapParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RainFogParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
@@ -47,7 +45,6 @@ public class Lightning_Area_Effect_Entity extends Entity {
         this.setPos(p_19708_, p_19709_, p_19710_);
     }
 
-    @Override
     protected void defineSynchedData() {
         this.entityData.define(DATA_RADIUS, 0.5F);
         this.entityData.define(DAMAGE, 0.0F);
@@ -107,19 +104,18 @@ public class Lightning_Area_Effect_Entity extends Entity {
             if (flag) {
                 return;
             }
-
-
             for(int j = 0; j < 2 + random.nextInt(1); ++j) {
                 float f2 = this.random.nextFloat() * ((float)Math.PI * 2F);
                 float f3 = Mth.sqrt(this.random.nextFloat()) * f;
                 double d0 = this.getX() + (double)(Mth.cos(f2) * f3);
-                double d2 = this.getY();
+                double d2 = this.getY() + 0.2;
                 double d4 = this.getZ() + (double)(Mth.sin(f2) * f3);
 
-                this.level().addAlwaysVisibleParticle(new Lightning_Zap_Particle.ZapData(99,194,201,0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
+                this.level().addAlwaysVisibleParticle(new LightningZapParticleOptions(99,194,201,0.0F), d0, d2, d4, 0.0D, this.random.nextGaussian() * 0.07D, 0.0D);
+
             }
             if (this.tickCount % 10 == 0) {
-                this.level().addAlwaysVisibleParticle(new Rain_Fog_Particle.FogData(f), this.getX(), this.getY() + 0.01, this.getZ(), this.random.nextGaussian() * 0.01D, 0.0D, this.random.nextGaussian() * 0.01D);
+                this.level().addAlwaysVisibleParticle(new RainFogParticleOptions(f), this.getX(), this.getY() + 0.01, this.getZ(), this.random.nextGaussian() * 0.01D, 0.0D, this.random.nextGaussian() * 0.01D);
 
             }
         } else {
@@ -256,10 +252,6 @@ public class Lightning_Area_Effect_Entity extends Entity {
         return PushReaction.IGNORE;
     }
 
-
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
 
     public EntityDimensions getDimensions(Pose p_19721_) {
         return EntityDimensions.scalable(this.getRadius() * 2.0F, 0.5F);

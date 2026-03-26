@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -28,11 +29,11 @@ public class Aptrgangr_Layer extends RenderLayer<Aptrgangr_Entity, Aptrgangr_Mod
     }
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Aptrgangr_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            //need rework
-        float f = 1.0F - entity.deathTime / (float) entity.deathtimer();
+
         RenderType eyes = CMRenderTypes.CMEyes(this.getLayerTextureLocation());
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, f, f, f, 1.0F);
+
+        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
 
     }
 }

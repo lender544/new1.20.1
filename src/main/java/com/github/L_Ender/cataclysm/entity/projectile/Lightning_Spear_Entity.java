@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.CircleLightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.CircleLightningParticleOptions;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Area_Effect_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Storm_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -25,26 +25,30 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
     private static final EntityDataAccessor<Float> AREA_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> HP_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
 
+
     public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, Level level) {
         super(type, level);
         this.accelerationPower = 0.1;
     }
 
-    public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
+
+
+    public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level,double accel) {
         this(type, level);
         this.setPosRaw(getX, gety, getz);
-        this.setState(1);
         this.setOldPosAndRot();
+        this.setState(1);
         this.reapplyPosition();
-        this.assignDirectionalMovement(vec3, this.accelerationPower);
+        this.assignDirectionalMovement(vec3, accel);
 
     }
 
-    public Lightning_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage) {
-        this(ModEntities.LIGHTNING_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
+    public Lightning_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage,double accel) {
+        this(ModEntities.LIGHTNING_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_, accel);
         this.setOwner(p_36827_);
         this.setDamage(damage);
     }
+
 
     public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
         this(type, level);
@@ -90,8 +94,6 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         entityData.set(HP_DAMAGE, damage);
     }
 
-
-
     protected void SpawnParticle() {
         Vec3 vec3 = this.getDeltaMovement();
         double d0 = this.getX() + vec3.x;
@@ -100,7 +102,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
         int r = (89 + random.nextInt(5)) ;
         int g = (180 + random.nextInt(5));
         int b = (180 + random.nextInt(5));
-        this.level().addParticle((new CircleLightningParticle.CircleData(r, g,  b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
+        this.level().addParticle((new CircleLightningParticleOptions(0.1F,r, g,  b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             Entity entity = p_37626_.getEntity();
             boolean flag;
             if (this.getOwner() instanceof LivingEntity livingentity) {
-                if (!entity.isAlliedTo(livingentity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
+                if (!isAlliedTo(entity) && !livingentity.equals(entity) && !livingentity.isAlliedTo(entity)) {
                     DamageSource damagesource = CMDamageTypes.causeLightningDamage(this, livingentity);
                     flag = entity.hurt(damagesource, this.getDamage());
                     if (flag) {
@@ -130,9 +132,9 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
     @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-
+        Vec3 blockpos = result.getLocation();
         if (!this.level().isClientSide) {
-            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), this.getX(), this.getY(), this.getZ());
+            Lightning_Area_Effect_Entity areaeffectcloud = new Lightning_Area_Effect_Entity(this.level(), blockpos.x(), blockpos.y(), blockpos.z());
             areaeffectcloud.setRadius(this.getAreaRadius());
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
@@ -143,7 +145,7 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
 
-            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), this.getX(), this.getY(), this.getZ(), this.getYRot(), -5, this.getAreaDamage(), this.getHpDamage(), entity1,2.0F));
+            this.level().addFreshEntity(new Lightning_Storm_Entity(this.level(), blockpos.x(), blockpos.y(), blockpos.z(), this.getYRot(), -5, this.getAreaDamage(), this.getHpDamage(), entity1,2.0F));
 
             this.discard();
         }

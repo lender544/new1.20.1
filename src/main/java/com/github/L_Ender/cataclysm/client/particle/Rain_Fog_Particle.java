@@ -1,20 +1,13 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
-import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RainFogParticleOptions;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.math.Axis;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.Util;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.Locale;
 import java.util.function.Consumer;
 
 public class Rain_Fog_Particle extends TextureSheetParticle {
@@ -32,7 +24,7 @@ public class Rain_Fog_Particle extends TextureSheetParticle {
     private static final float DEGREES_90 = Mth.PI / 2f;
 
 
-    protected Rain_Fog_Particle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xd, double yd, double zd, float size, SpriteSet spriteSet) {
+    protected Rain_Fog_Particle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xd, double yd, double zd,float size,SpriteSet spriteSet) {
         super(level, xCoord, yCoord, zCoord, xd, yd, zd);
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);
@@ -116,77 +108,26 @@ public class Rain_Fog_Particle extends TextureSheetParticle {
         this.makeCornerVertex(pConsumer, avector3f[3], this.getU0(), this.getV1(), j);
     }
 
-    private void makeCornerVertex(VertexConsumer pConsumer, Vector3f pVec3f, float p_233996_, float p_233997_, int p_233998_) {
-        Vec3 wiggle = new Vec3(noise((float) (age + this.x)), noise((float) (age - this.x)), noise((float) (age + this.z))).scale(0.02f);
-        pConsumer.vertex(pVec3f.x() + wiggle.x, pVec3f.y(), pVec3f.z() + wiggle.z).uv(p_233996_, p_233997_).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(p_233998_).endVertex();
+    private void makeCornerVertex(VertexConsumer pConsumer, Vector3f pVec3f, float u, float v, int light) {
+        Vec3 wiggle = new Vec3(noise((float) (this.age + this.x)), noise((float) (this.age - this.x)), noise((float) (this.age + this.z))).scale(0.02f);
+        pConsumer.vertex((double) (pVec3f.x() + (float) wiggle.x), (double) pVec3f.y(), (double) (pVec3f.z() + (float) wiggle.z))
+                .uv(u, v)
+                .color(this.rCol, this.gCol, this.bCol, this.alpha)
+                .uv2(light)
+                .endVertex();
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<Rain_Fog_Particle.FogData> {
+    public static class Factory implements ParticleProvider<RainFogParticleOptions> {
         private final SpriteSet spriteSet;
 
         public Factory(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
-        public Particle createParticle(Rain_Fog_Particle.FogData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            Rain_Fog_Particle particle = new Rain_Fog_Particle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,typeIn.getSize(), spriteSet);
+        public Particle createParticle(RainFogParticleOptions typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Rain_Fog_Particle particle = new Rain_Fog_Particle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,typeIn.size(), spriteSet);
             return particle;
         }
     }
-
-
-    public static class FogData implements ParticleOptions {
-        public static final Deserializer<Rain_Fog_Particle.FogData> DESERIALIZER = new Deserializer<Rain_Fog_Particle.FogData>() {
-            public Rain_Fog_Particle.FogData fromCommand(ParticleType<Rain_Fog_Particle.FogData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                float size = reader.readFloat();
-
-                return new Rain_Fog_Particle.FogData(size);
-            }
-
-            public Rain_Fog_Particle.FogData fromNetwork(ParticleType<Rain_Fog_Particle.FogData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new Rain_Fog_Particle.FogData(buffer.readFloat());
-            }
-        };
-
-        private final float size;
-
-
-        public FogData(float size) {
-            this.size = size;
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeFloat(this.size);
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.size);
-        }
-
-        @Override
-        public ParticleType<Rain_Fog_Particle.FogData> getType() {
-            return ModParticle.RAIN_FOG.get();
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getSize() {
-            return this.size;
-        }
-
-
-
-        public static Codec<Rain_Fog_Particle.FogData> CODEC(ParticleType<Rain_Fog_Particle.FogData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("size").forGetter(Rain_Fog_Particle.FogData::getSize)
-                    ).apply(codecBuilder, (size) ->
-                            new Rain_Fog_Particle.FogData(size))
-            );
-        }
-    }
-
 }

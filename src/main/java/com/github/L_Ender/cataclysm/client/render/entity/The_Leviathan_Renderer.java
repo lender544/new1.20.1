@@ -129,7 +129,7 @@ public class The_Leviathan_Renderer extends MobRenderer<The_Leviathan_Entity, Th
             float rotY = (float) (Mth.atan2(toVec.x, toVec.z) * (double) (180F / (float) Math.PI));
             float rotX = (float) (-(Mth.atan2(toVec.y, toVec.horizontalDistance()) * (double) (180F / (float) Math.PI)));
             TONGUE_END_MODEL.setAttributes(rotX, rotY);
-            TONGUE_END_MODEL.renderToBuffer(matrixStackIn, clawConsumer, getLightColor(entity, toVec.add(x, y, z)), OverlayTexture.NO_OVERLAY, 1, 1F, 1, 1F);
+            TONGUE_END_MODEL.renderToBuffer(matrixStackIn, clawConsumer, getLightColor(entity, toVec.add(x, y, z)), OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
             matrixStackIn.popPose();
             matrixStackIn.popPose();
         }
@@ -151,7 +151,7 @@ public class The_Leviathan_Renderer extends MobRenderer<The_Leviathan_Entity, Th
         matrixStackIn.translate(from.x, from.y, from.z);
         matrixStackIn.translate(0, -0.5F, 0);
         TONGUE_MODEL.setAttributes((float) sub.length(), rotX, rotY, additionalYaw);
-        TONGUE_MODEL.renderToBuffer(matrixStackIn, buffer, packedLightIn, overlayCoords, 1, 1F, 1, 1);
+        TONGUE_MODEL.renderToBuffer(matrixStackIn, buffer, packedLightIn, overlayCoords,1.0F,1.0F,1.0F,1.0F);
         matrixStackIn.popPose();
     }
 

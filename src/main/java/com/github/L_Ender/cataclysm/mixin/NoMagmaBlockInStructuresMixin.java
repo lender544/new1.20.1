@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.mixin;
 
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.mixin.accessor.WorldGenRegionAccessor;
-import com.github.L_Ender.cataclysm.util.MixinUtil;
+import com.github.L_Ender.cataclysm.util.MixinUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
@@ -40,7 +40,7 @@ public class NoMagmaBlockInStructuresMixin {
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)context.level()).getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry.getOrCreateTag(ModTag.BLOCKED_MAGMA_BLOCK)) {
-            if (MixinUtil.getStructureAt(structureManager, context.origin(),  configuredStructureFeature.value()).isValid()) {
+            if (MixinUtils.getStructureAt(structureManager, context.origin(),  configuredStructureFeature.value()).isValid()) {
                 cir.setReturnValue(false);
                 return;
             }

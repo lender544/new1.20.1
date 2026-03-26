@@ -3,9 +3,8 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.ChargeCapability;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
-import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -14,23 +13,26 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
+import org.jetbrains.annotations.NotNull;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Bulwark_of_the_flame extends Item {
+public class Bulwark_of_the_flame extends ShieldItem {
+
+
     public Bulwark_of_the_flame(Properties group) {
         super(group);
     }
+
+
 
     @Override
     public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
@@ -77,11 +79,12 @@ public class Bulwark_of_the_flame extends Item {
                     ChargeCapability.setdZ(f3 * 0.1F);
                 }
                 if (!level.isClientSide) {
-                    ((Player) entityLiving).getCooldowns().addCooldown(this, CMConfig.BulwarkOfTheFlameCooldown);
+                    ((Player) entityLiving).getCooldowns().addCooldown(this,CMCommonConfig.BulwarkOfTheFlame.cooldown);
                 }
             }
         }
     }
+
 
     public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
         ItemStack lvt_4_1_ = p_77659_2_.getItemInHand(p_77659_3_);

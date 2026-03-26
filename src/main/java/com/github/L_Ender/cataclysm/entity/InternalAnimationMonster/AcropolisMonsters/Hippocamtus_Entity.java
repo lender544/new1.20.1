@@ -1,8 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
@@ -12,6 +14,7 @@ import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -26,10 +29,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -85,7 +85,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(3, new InternalMoveGoal(this, false, 1.0D));
-        this.goalSelector.addGoal(2, new ChargeAttackGoal(this,0,3,0,41,13,4.5F,16));
+        this.goalSelector.addGoal(2, new ChargeAttackGoal(this,0,3,0,41,13,4.5F,16,16F));
         this.goalSelector.addGoal(2, new InternalAttackGoal(this,0,4,0,50,50,4.0f){
 
             @Override
@@ -169,10 +169,6 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7);
     }
 
-    public MobType getMobType() {
-        return MobType.WATER;
-    }
-
     boolean wantsToSwim() {
         if (this.searchingForLand) {
             return true;
@@ -196,11 +192,12 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     @Override
     public void updateSwimming() {
         if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            boolean inWaterAI = this.isEffectiveAi() && this.isInWater() && this.wantsToSwim();
+            if (inWaterAI && !(this.moveControl instanceof HippocamtusSwimControl)) {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new HippocamtusSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else {
+            } else if (!inWaterAI && (this.moveControl instanceof HippocamtusSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);
@@ -275,7 +272,6 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
             return new AnimationState();
         }
     }
-
 
     @Override
     protected void defineSynchedData() {
@@ -429,6 +425,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
     private void AreaAttack(float range, float height, float arc, float damage, int shieldbreakticks,boolean knockback, boolean penetrate) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = penetrate ? CMDamageTypes.causePenetrateDamage(this) : this.damageSources().mobAttack(this);
             for (LivingEntity entityHit : entitiesHit) {
                 float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
                 float entityAttackingAngle = this.yBodyRot % 360;
@@ -442,10 +439,9 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                 float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
                 if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
                     if (!isAlliedTo(entityHit) && !(entityHit instanceof Hippocamtus_Entity) && entityHit != this) {
-                        DamageSource damagesource = penetrate ? CMDamageTypes.causePenetrateDamage(this) : this.damageSources().mobAttack(this);
                         boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
 
                         double d0 = entityHit.getX() - this.getX();
@@ -486,7 +482,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                 double d4 = y + (this.random.nextDouble() - this.random.nextDouble()) * 0.5D;
                 double d5 = xz * vecZ + (this.random.nextDouble() - this.random.nextDouble()) * 0.5D;
                 double speed = 0.35;
-                this.level().addParticle(ModParticle.SPARK.get(), d0 + vec * X + f * math, d1, d2 + vec * Z  + f1 * math, d3 * speed, d4 * speed, d5 * speed);
+                this.level().addParticle(new ParryParticleOptions(255/255F, 106/255F,  0/255F), d0 + vec * X + f * math, d1, d2 + vec * Z  + f1 * math, d3 * speed, d4 * speed, d5 * speed);
             }
         }
     }
@@ -530,68 +526,42 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
         return false;
     }
 
-    static class ChargeAttackGoal extends Goal {
+    static class ChargeAttackGoal extends InternalAttackGoal {
         protected final Hippocamtus_Entity entity;
 
-        private final int getAttackState;
-
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
         private final float attackminrange;
-        private final float attackrange;
+        private final float random;
 
-        public ChargeAttackGoal(Hippocamtus_Entity entity, int getAttackState, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, float attackminrange, float attackrange) {
+        public ChargeAttackGoal(Hippocamtus_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick,float attackminrange, float attackrange, float random) {
+            super(entity, getattackstate, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
             this.entity = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
-            this.getAttackState = getAttackState;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
             this.attackminrange = attackminrange;
-            this.attackrange = attackrange;
+            this.random = random;
+
         }
+
 
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.getRandom().nextFloat() * 100.0F < 16f && this.entity.charge_cooldown <= 0;
-        }
-
-        @Override
-        public void start() {
-            this.entity.setAttackState(attackstate);
+            return super.canUse() && target != null && this.entity.distanceTo(target) > attackminrange && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.charge_cooldown <= 0;
         }
 
         @Override
         public void stop() {
-            this.entity.setAttackState(attackendstate);
+            super.stop();
             this.entity.charge_cooldown = CHARGE_COOLDOWN;
         }
 
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks < attackMaxtick;
-        }
 
-        @Override
-        public boolean requiresUpdateEveryTick() {
-            return true;
-        }
 
         public void tick() {
+            super.tick();
             LivingEntity target = entity.getTarget();
-            if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.setYRot(entity.yBodyRot);
-            } else {
-                entity.setYRot(entity.yRotO);
-            }
             if (entity.attackTicks == attackseetick) {
-                float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
-                float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
+                float f1 = (float) Math.cos(Math.toRadians(entity.yBodyRot + 90));
+                float f2 = (float) Math.sin(Math.toRadians(entity.yBodyRot + 90));
                 if(target != null) {
                     float r = entity.distanceTo(target);
                     r = Mth.clamp(r, 0, 5);

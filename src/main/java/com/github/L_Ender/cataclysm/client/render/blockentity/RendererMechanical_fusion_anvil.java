@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
 import com.github.L_Ender.cataclysm.blocks.Mechanical_fusion_Anvil;
 import com.github.L_Ender.cataclysm.client.model.block.Mechanical_Anvil_Model;
 import com.github.L_Ender.cataclysm.blockentities.Mechanical_fusion_Anvil_Block_Entity;
@@ -18,8 +19,6 @@ public class RendererMechanical_fusion_anvil<T extends Mechanical_fusion_Anvil_B
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
     private static final ResourceLocation LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil_layer.png");
-
-
     private static final Mechanical_Anvil_Model MODEL = new Mechanical_Anvil_Model();
 
     public RendererMechanical_fusion_anvil(Context rendererDispatcherIn) {

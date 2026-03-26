@@ -2,7 +2,6 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-
 import com.github.L_Ender.cataclysm.client.model.entity.Urchinkin_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.Urchinkin_Layer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Urchinkin_Entity;
@@ -11,7 +10,6 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Urchinkin_Renderer extends MobRenderer<Urchinkin_Entity, Urchinkin_Model> {

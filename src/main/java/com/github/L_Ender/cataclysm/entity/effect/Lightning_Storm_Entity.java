@@ -1,17 +1,14 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
 
-
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
-import com.github.L_Ender.cataclysm.client.particle.LightningStormParticle;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -58,12 +55,8 @@ public class Lightning_Storm_Entity extends Entity {
     }
 
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
 
-    @Override
+
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE, 0F);
         this.entityData.define(HPDAMAGE, 0F);
@@ -178,7 +171,7 @@ public class Lightning_Storm_Entity extends Entity {
 
         if (this.level().isClientSide) {
             if (adjustedLifespan == 2){
-                this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 20, 99/255F,194/255F,201/255F, 1f, this.getSize() * 6, false, RingParticle.EnumRingBehavior.SHRINK), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 20,99,194,201, 1f, this.getSize() * 6, false, 1), getX(), getY() + 0.3f, getZ(), 0, 0, 0);
             }
             for (int i = STRIKE +1; i < 30; i = i + 2) {
                 if (adjustedLifespan == i) {
@@ -192,7 +185,7 @@ public class Lightning_Storm_Entity extends Entity {
                 double d0 = this.getX();
                 double d1 = this.getY() + this.getSize() + 0.03D;
                 double d2 = this.getZ();
-                this.level().addAlwaysVisibleParticle(new LightningStormParticle.StormData(this.getSize()), d0, d1, d2, 0, 0, 0);
+                this.level().addAlwaysVisibleParticle(new LightningStormParticleOptions(this.getSize()), d0, d1, d2, 0, 0, 0);
             }
 
 
@@ -229,7 +222,6 @@ public class Lightning_Storm_Entity extends Entity {
                     Hitentity.hurt(CMDamageTypes.causeLightningDamage(this, livingentity), this.getDamage() + Hitentity.getMaxHealth() * this.getHpDamage());
 
                 }
-
             }
         }
     }
@@ -252,7 +244,7 @@ public class Lightning_Storm_Entity extends Entity {
             float motionY = random.nextFloat() * 0.8F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticle.OrbData(99,194,201)), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticleOptions(99,194,201)), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
         }
 
     }

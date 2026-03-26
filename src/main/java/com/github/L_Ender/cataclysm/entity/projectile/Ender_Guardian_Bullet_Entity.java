@@ -3,8 +3,7 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,14 +15,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-
-import javax.annotation.Nonnull;
 
 public class Ender_Guardian_Bullet_Entity extends AbstractHurtingProjectile {
     //Projectile goes to a point over a set duration, then activates and accelerates in a given straight line
@@ -40,6 +37,7 @@ public class Ender_Guardian_Bullet_Entity extends AbstractHurtingProjectile {
         super(ModEntities.ENDER_GUARDIAN_BULLET.get(), shooter, accelX, accelY, accelZ, worldIn);
     }
 
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -48,15 +46,18 @@ public class Ender_Guardian_Bullet_Entity extends AbstractHurtingProjectile {
     @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        if (!level().isClientSide && fired) {
-            Entity entity = result.getEntity();
-            Entity Shooter = this.getOwner();
-            LivingEntity livingentity = Shooter instanceof LivingEntity ? (LivingEntity)Shooter : null;
-            boolean flag = entity.hurt(damageSources().mobProjectile(this, livingentity), 6.0F);
-            if (flag) {
-                this.doEnchantDamageEffects(livingentity, entity);
-                if (entity instanceof LivingEntity) {
-                    ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.LEVITATION, 100));
+        if (this.level() instanceof ServerLevel serverlevel) {
+            if (fired) {
+                Entity entity = result.getEntity();
+                Entity Shooter = this.getOwner();
+                LivingEntity livingentity = Shooter instanceof LivingEntity ? (LivingEntity) Shooter : null;
+                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                boolean flag = entity.hurt(damagesource, 6.0F);
+                if (flag) {
+                    this.doEnchantDamageEffects(livingentity, entity);
+                    if (entity instanceof LivingEntity living) {
+                        living.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 100));
+                    }
                 }
             }
         }
@@ -187,11 +188,5 @@ public class Ender_Guardian_Bullet_Entity extends AbstractHurtingProjectile {
         return true;
     }
 
-
-    @Nonnull
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
 }

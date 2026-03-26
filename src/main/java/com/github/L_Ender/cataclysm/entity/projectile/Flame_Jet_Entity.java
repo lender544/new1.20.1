@@ -1,14 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,15 +13,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Ravager;
-import net.minecraft.world.entity.projectile.EvokerFangs;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -57,6 +47,7 @@ public class Flame_Jet_Entity extends Entity {
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE, 0F);
     }
+
 
     public float getDamage() {
         return entityData.get(DAMAGE);
@@ -114,7 +105,6 @@ public class Flame_Jet_Entity extends Entity {
                     double d1 = this.getY() + 2.0D;
                     double d2 = this.getZ();
                     this.level().addAlwaysVisibleParticle(ModParticle.FLAME_JET.get(), d0, d1, d2, 0, 0, 0);
-
                 }
 
             }
@@ -160,7 +150,6 @@ public class Flame_Jet_Entity extends Entity {
     /**
      * Handler for
      */
-    @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         super.handleEntityEvent(id);
         if (id == 4) {
@@ -177,10 +166,4 @@ public class Flame_Jet_Entity extends Entity {
         return 1.0F;
     }
 
-
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

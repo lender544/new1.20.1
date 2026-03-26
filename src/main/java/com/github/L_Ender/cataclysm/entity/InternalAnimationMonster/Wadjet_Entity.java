@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
@@ -10,6 +10,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.*;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.github.L_Ender.lionfishapi.client.model.tools.DynamicChain;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,6 +65,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     public AnimationState magicAnimationState = new AnimationState();
     public AnimationState deathAnimationState = new AnimationState();
     public AnimationState blockAnimationState = new AnimationState();
+    private static final EntityDataAccessor<Boolean> AWAKEN = SynchedEntityData.defineId(Wadjet_Entity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> STAB = SynchedEntityData.defineId(Wadjet_Entity.class, EntityDataSerializers.BOOLEAN);
     private float prevAttackProgress;
     private float AttackProgress;
@@ -82,7 +84,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         this.setMaxUpStep(1.25F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.WadjetHealthMultiplier, CMConfig.WadjetDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Wadjet.healthMultiplier,CMCommonConfig.Wadjet.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -92,9 +94,12 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.goalSelector.addGoal(2, new InternalMoveGoal(this, false, 1.0D));
+
+        this.goalSelector.addGoal(1, new InternalStateGoal(this, 2, 2, 0, 70,0));
+        this.goalSelector.addGoal(0, new WadjetDoNothingGoal());
         this.goalSelector.addGoal(1, new ChargeAttackGoal(this,0,3,0,45,15,20,5.5F,16));
         this.goalSelector.addGoal(1, new MagicAttackGoal(this,0,4,0,35,15,3.5F,12));
-        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,0,60,60,5){
+        this.goalSelector.addGoal(1, new InternalAttackGoal(this,0,5,   0,60,60,5){
             @Override
             public boolean canUse() {
                 return super.canUse() && Wadjet_Entity.this.getStab();
@@ -140,9 +145,6 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.7);
     }
 
-    public MobType getMobType() {
-        return MobType.UNDEAD;
-    }
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
@@ -150,7 +152,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         if (entity instanceof Poison_Dart_Entity) {
             return false;
         }
-        if (this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+        if (!this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         if (this.canBlockDamageSource(source)) {
@@ -169,6 +171,20 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         return super.hurt(source, damage);
     }
 
+    @Override
+    public void handleDamageEvent(DamageSource damageSource) {
+        this.invulnerableTime = 20;
+        this.hurtDuration = 10;
+        this.hurtTime = this.hurtDuration;
+        SoundEvent soundevent = this.getHurtSound(damageSource);
+        if (soundevent != null) {
+            this.playSound(soundevent, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+        }
+
+        this.hurt(this.damageSources().generic(), 0.0F);
+        this.lastDamageSource = damageSource;
+        this.lastDamageStamp = this.level().getGameTime();
+    }
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {
         boolean flag = false;
@@ -190,6 +206,10 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;
+    }
+
+    public MobType getMobType() {
+        return MobType.UNDEAD;
     }
 
     public AnimationState getAnimationState(String input) {
@@ -220,10 +240,11 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(STAB, false);
+        this.entityData.define(AWAKEN, false);
     }
 
     public boolean isSleep() {
-        return this.getAttackState() == 1 || this.getAttackState() == 2;
+        return this.getAwaken() || this.getAttackState() == 2;
     }
 
     public void setSleep(boolean sleep) {
@@ -238,12 +259,25 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         return this.entityData.get(STAB);
     }
 
+    public void setAwaken(boolean necklace) {
+        if(necklace){
+            this.heal(this.getMaxHealth());
+        }
+
+        this.entityData.set(AWAKEN, necklace);
+    }
+
+
+    public boolean getAwaken() {
+        return this.entityData.get(AWAKEN);
+    }
+
+
     public boolean canBeSeenAsEnemy() {
         return !this.isSleep() && super.canBeSeenAsEnemy();
     }
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
-        this.setSleep(true);
         return super.finalizeSpawn(p_29678_, p_29679_, p_29680_, p_29681_, p_29682_);
     }
 
@@ -311,18 +345,18 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("is_Sleep", isSleep());
+        compound.putBoolean("Awaken", getAwaken());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        setSleep(compound.getBoolean("is_Sleep"));
+        setAwaken(compound.getBoolean("Awaken"));
     }
 
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
-            this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0, this.tickCount);
+            this.idleAnimationState.animateWhen(!this.walkAnimation.isMoving() && this.getAttackState() == 0 && this.getAwaken(), this.tickCount);
         }
         prevAttackProgress = AttackProgress;
         if (isAggressive() && AttackProgress < 10F) {
@@ -395,7 +429,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
                         DamageSource damagesource = this.damageSources().mobAttack(this);
                         boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
 
                         double d0 = entityHit.getX() - this.getX();
@@ -464,70 +498,75 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         return false;
     }
 
-    static class ChargeAttackGoal extends Goal {
-        protected final Wadjet_Entity entity;
-
-        private final int getAttackState;
-
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
-        private final int attackshottick;
-        private final float attackminrange;
-        private final float attackrange;
-
-        public ChargeAttackGoal(Wadjet_Entity entity,int getAttackState, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,int attackshottick,float attackminrange,float attackrange) {
-            this.entity = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
-            this.getAttackState = getAttackState;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
-            this.attackshottick = attackshottick;
-            this.attackminrange = attackminrange;
-            this.attackrange = attackrange;
+    class WadjetDoNothingGoal extends Goal {
+        public WadjetDoNothingGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
         }
 
         @Override
         public boolean canUse() {
-            LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.getRandom().nextFloat() * 100.0F < 16f && this.entity.charge_cooldown <= 0;
+            LivingEntity target = Wadjet_Entity.this.getTarget();
+            return !Wadjet_Entity.this.getAwaken() && !(target != null &&  target.isAlive() && Wadjet_Entity.this.distanceToSqr(target) < 50 && Wadjet_Entity.this.getSensing().hasLineOfSight(target));
         }
 
         @Override
-        public void start() {
-            this.entity.setAttackState(attackstate);
+        public void tick() {
+            Wadjet_Entity.this.setDeltaMovement(0,Wadjet_Entity.this.getDeltaMovement().y,0);
         }
 
         @Override
         public void stop() {
-            this.entity.setAttackState(attackendstate);
-            this.entity.charge_cooldown = CHARGE_COOLDOWN;
+            Wadjet_Entity.this.setAwaken(true);
+            Wadjet_Entity.this.setAttackState(2);
         }
 
         @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks < attackMaxtick;
+        public boolean isInterruptable() {
+            return false;
         }
-
-        @Override
         public boolean requiresUpdateEveryTick() {
             return true;
         }
+    }
+
+    static class ChargeAttackGoal extends InternalAttackGoal {
+        protected final Wadjet_Entity entity;
+
+        private final int attackshottick;
+        private final float attackminrange;
+
+
+        public ChargeAttackGoal(Wadjet_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick, int attackshottick,float attackminrange,int attackrange) {
+
+            super(entity, getattackstate, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
+            this.entity = entity;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+            this.attackshottick = attackshottick;
+            this.attackminrange = attackminrange;
+        }
+
+
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = entity.getTarget();
+            return target != null && this.entity.distanceTo(target) > attackminrange && super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 16f && this.entity.charge_cooldown <= 0;
+        }
+
+
+        @Override
+        public void stop() {
+            super.stop();
+            this.entity.charge_cooldown = CHARGE_COOLDOWN;
+        }
+
 
         public void tick() {
             LivingEntity target = entity.getTarget();
-            if (entity.attackTicks < attackseetick && target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-                entity.setYRot(entity.yBodyRot);
-            } else {
-                entity.setYRot(entity.yRotO);
-            }
+            super.tick();
             if (entity.attackTicks == attackseetick) {
-                float f1 = (float) Math.cos(Math.toRadians(entity.getYRot() + 90));
-                float f2 = (float) Math.sin(Math.toRadians(entity.getYRot() + 90));
+                float f1 = (float) Math.cos(Math.toRadians(entity.yBodyRot + 90));
+                float f2 = (float) Math.sin(Math.toRadians(entity.yBodyRot + 90));
                 if(target != null) {
                     float r = entity.distanceTo(target);
                     r = Mth.clamp(r, 0, 4);
@@ -552,58 +591,30 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         }
     }
 
-    static class MagicAttackGoal extends Goal {
+    static class MagicAttackGoal extends InternalAttackGoal {
         protected final Wadjet_Entity entity;
-        private final int getAttackState;
-        private final int attackstate;
-        private final int attackendstate;
-        private final int attackMaxtick;
-        private final int attackseetick;
-        private final float attackminrange;
-        private final float attackrange;
 
-        public MagicAttackGoal(Wadjet_Entity entity,int getAttackState, int attackstate, int attackendstate,int attackMaxtick,int attackseetick,float attackminrange,float attackrange) {
+        private final float attackminrange;
+
+        public MagicAttackGoal(Wadjet_Entity entity, int getattackstate, int attackstate, int attackendstate, int attackMaxtick, int attackseetick,float attackminrange, float attackrange) {
+            super(entity, getattackstate, attackstate, attackendstate, attackMaxtick, attackseetick, attackrange);
             this.entity = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE,Flag.LOOK,Flag.JUMP));
-            this.getAttackState = getAttackState;
-            this.attackstate = attackstate;
-            this.attackendstate = attackendstate;
-            this.attackMaxtick = attackMaxtick;
-            this.attackseetick = attackseetick;
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
             this.attackminrange = attackminrange;
-            this.attackrange = attackrange;
         }
+
 
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return target != null && this.entity.distanceTo(target) > attackminrange && target.isAlive() && this.entity.distanceTo(target) < attackrange && this.entity.getAttackState() == getAttackState && this.entity.getRandom().nextFloat() * 100.0F < 24f && this.entity.magic_cooldown <= 0;
+            return target != null && this.entity.distanceTo(target) > attackminrange && super.canUse() && this.entity.getRandom().nextFloat() * 100.0F < 24f && this.entity.magic_cooldown <= 0;
         }
 
-        @Override
-        public void start() {
-            this.entity.setAttackState(attackstate);
-            LivingEntity target = entity.getTarget();
-            if (target != null) {
-                entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            }
-        }
 
         @Override
         public void stop() {
-            this.entity.setAttackState(attackendstate);
-            this.entity.attackCooldown = 0;
+           super.stop();
             this.entity.magic_cooldown = MAGIC_COOLDOWN;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return this.entity.attackTicks < attackMaxtick;
-        }
-
-        @Override
-        public boolean requiresUpdateEveryTick() {
-            return true;
         }
 
         public void tick() {
@@ -659,8 +670,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
                 blockpos = blockpos.above();
             } while (blockpos.getY() < Math.min(entity.level().getMaxBuildHeight(), entity.getBlockY() + 12));
-            this.entity.level().addFreshEntity(new Ancient_Desert_Stele_Entity(this.entity.level(), posX, (double)blockpos.getY() + d0 -3, posZ, rotation, delay,(float) CMConfig.AncientDesertSteledamage, this.entity));
-
+            this.entity.level().addFreshEntity(new Ancient_Desert_Stele_Entity(this.entity.level(), posX, (double)blockpos.getY() + d0 -3, posZ, rotation, delay, (float)CMCommonConfig.Wadjet.AncientDesertSteledamage, this.entity));
         }
 
     }

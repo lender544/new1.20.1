@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.ChatFormatting;
@@ -12,6 +12,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -98,7 +99,7 @@ public class Laser_Gatling extends Item {
                 Vec3 vector3d = livingEntityIn.getViewVector(1.0F);
                 Vec3 vec3 = vector3d.normalize();
 
-                Laser_Beam_Entity laser = new Laser_Beam_Entity(livingEntityIn, vec3.x,vec3.y,vec3.z,worldIn,(float)CMConfig.Laserdamage);
+                Laser_Beam_Entity laser = new Laser_Beam_Entity(livingEntityIn, vec3,worldIn, (float)CMCommonConfig.LaserGatling.damage);
 
                 float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
 
@@ -170,3 +171,4 @@ public class Laser_Gatling extends Item {
         tooltip.add(Component.translatable("item.cataclysm.laser_gatling.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }
+

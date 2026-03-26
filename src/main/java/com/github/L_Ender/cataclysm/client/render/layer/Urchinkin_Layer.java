@@ -32,7 +32,7 @@ public class Urchinkin_Layer extends RenderLayer<Urchinkin_Entity, Urchinkin_Mod
 
             RenderType eyes = RenderType.eyes(Texture(entity));
             VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1,1,1,1);;
+            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
 
     }
 

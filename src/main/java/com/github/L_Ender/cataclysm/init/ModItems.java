@@ -1,15 +1,15 @@
 package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Scatter_Arrow_Entity;
 import com.github.L_Ender.cataclysm.items.*;
-import com.github.L_Ender.cataclysm.items.CuriosItem.AttributeCurio;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Blazing_Grips;
-import com.github.L_Ender.cataclysm.items.CuriosItem.Sticky_Gloves;
-import com.github.L_Ender.cataclysm.items.Dungeon_Eye.*;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import com.github.L_Ender.cataclysm.items.CuriosItem.*;
+import com.github.L_Ender.cataclysm.items.Sandstorm_In_A_Bottle;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import net.minecraft.core.BlockPos;
+
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
@@ -17,16 +17,19 @@ import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.ForgeSpawnEggItem;
+import net.minecraftforge.event.ItemAttributeModifierEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -90,6 +93,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> PURPUR_TILE_WALL = ITEMS.register("purpur_tile_wall",
             () -> new BlockItem(ModBlocks.PURPUR_TILE_WALL.get(), new Item.Properties()));
 
+
     public static final RegistryObject<BlockItem> VOID_INFUSED_END_STONE_BRICKS = ITEMS.register("void_infused_end_stone_bricks",
             () -> new BlockItem(ModBlocks.VOID_INFUSED_END_STONE_BRICKS.get(), new Item.Properties()));
 
@@ -120,6 +124,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> OBSIDIAN_PILLAR = ITEMS.register("obsidian_pillar",
             () -> new BlockItem(ModBlocks.OBSIDIAN_PILLAR.get(), new Item.Properties()));
 
+
     public static final RegistryObject<BlockItem> CHISELED_OBSIDIAN_BRICKS = ITEMS.register("chiseled_obsidian_bricks",
             () -> new BlockItem(ModBlocks.CHISELED_OBSIDIAN_BRICKS.get(), new Item.Properties()));
 
@@ -129,8 +134,13 @@ public class ModItems {
     public static final RegistryObject<BlockItem> OBSIDIAN_BRICK_STAIRS = ITEMS.register("obsidian_brick_stairs",
             () -> new BlockItem(ModBlocks.OBSIDIAN_BRICK_STAIRS.get(), new Item.Properties()));
 
+
+    public static final RegistryObject<BlockItem> OBSIDIAN_FENCE = ITEMS.register("obsidian_fence",
+            () -> new BlockItem(ModBlocks.OBSIDIAN_FENCE.get(), new Item.Properties()));
+
     public static final RegistryObject<BlockItem> OBSIDIAN_BRICK_WALL = ITEMS.register("obsidian_brick_wall",
             () -> new BlockItem(ModBlocks.OBSIDIAN_BRICK_WALL.get(), new Item.Properties()));
+
 
     public static final RegistryObject<BlockItem> CHISELED_PURPUR_BLOCK = ITEMS.register("chiseled_purpur_block",
             () -> new BlockItem(ModBlocks.CHISELED_PURPUR_BLOCK.get(), new Item.Properties()));
@@ -182,6 +192,7 @@ public class ModItems {
 
     public static final RegistryObject<BlockItem> PRISMARINE_BRICK_WALL = ITEMS.register("prismarine_brick_wall",
             () -> new BlockItem(ModBlocks.PRISMARINE_BRICK_WALL.get(), new Item.Properties()));
+
 
     public static final RegistryObject<BlockItem> STONE_PILLAR = ITEMS.register("stone_pillar",
             () -> new BlockItem(ModBlocks.STONE_PILLAR.get(), new Item.Properties()));
@@ -339,7 +350,6 @@ public class ModItems {
     public static final RegistryObject<BlockItem> CURVED_SEASTONE_SCYLLA_9 = ITEMS.register("curved_azure_seastone_scylla_9",
             () -> new BlockItem(ModBlocks.CURVED_SEASTONE_SCYLLA_9.get(), new Item.Properties()));
 
-
     public static final RegistryObject<BlockItem> POLISHED_AZURE_SEASTONE = ITEMS.register("polished_azure_seastone",
             () -> new BlockItem(ModBlocks.POLISHED_AZURE_SEASTONE.get(), new Item.Properties()));
 
@@ -364,6 +374,7 @@ public class ModItems {
     public static final RegistryObject<BlockItem> CHISELED_AZURE_SEASTONE_PILLAR_WALL = ITEMS.register("chiseled_azure_seastone_pillar_wall",
             () -> new BlockItem(ModBlocks.CHISELED_AZURE_SEASTONE_PILLAR_WALL.get(), new Item.Properties()));
 
+
     public static final RegistryObject<BlockItem> FROSTED_STONE_BRICKS = ITEMS.register("frosted_stone_bricks",
             () -> new BlockItem(ModBlocks.FROSTED_STONE_BRICKS.get(), new Item.Properties()));
 
@@ -385,9 +396,9 @@ public class ModItems {
     public static final RegistryObject<BlockItem> BLACK_STEEL_WALL = ITEMS.register("black_steel_wall",
             () -> new BlockItem(ModBlocks.BLACK_STEEL_WALL.get(), new Item.Properties()));
 
-
     public static final RegistryObject<BlockItem> POINTED_ICICLE = ITEMS.register("pointed_icicle",
             () -> new BlockItem(ModBlocks.POINTED_ICICLE.get(), new Item.Properties()));
+
 
     public static final RegistryObject<Item> WITHERITE_INGOT = ITEMS.register("witherite_ingot",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -415,10 +426,10 @@ public class ModItems {
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> IGNITIUM_INGOT = ITEMS.register("ignitium_ingot",
-            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Item(new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> CURSIUM_INGOT = ITEMS.register("cursium_ingot",
-            () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Item(new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> IGNITIUM_UPGARDE_SMITHING_TEMPLATE = ITEMS.register("ignitium_upgrade_smithing_template",
             () -> ModTemplate.createignitiumUpgradeTemplate());
@@ -441,6 +452,7 @@ public class ModItems {
     public static final RegistryObject<Item> KHOPESH = ITEMS.register("khopesh",
             () -> new Khopesh(Tooltier.ANCIENT_METAL, new Item.Properties()));
 
+
     public static final RegistryObject<Item> BLACK_STEEL_SWORD = ITEMS.register("black_steel_sword",
             () -> new SwordItem(Tooltier.BLACK_STEEL, 3, -2.4F, new Item.Properties()));
 
@@ -461,7 +473,7 @@ public class ModItems {
             () -> new Black_Steel_Targe(new Item.Properties().durability(840)));
 
     public static final RegistryObject<Item> AZURE_SEA_SHIELD = ITEMS.register("azure_sea_shield",
-            () -> new Azure_Sea_Shield(new Item.Properties().durability(514)));
+            () -> new Azure_sea_Shield(new Item.Properties().durability(514)));
 
     public static final RegistryObject<Item> BULWARK_OF_THE_FLAME = ITEMS.register("bulwark_of_the_flame",
             () -> new Bulwark_of_the_flame(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -479,23 +491,65 @@ public class ModItems {
     public static final RegistryObject<Item> THE_INCINERATOR = ITEMS.register("the_incinerator",
             () -> new The_Incinerator(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> BELT_OF_BEGINNER = ITEMS.register("belt_of_beginner",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1))
+                    .withSlotModifier("talisman", 2)
+    );
+
+    public static final RegistryObject<Item> BELT_OF_MONSTROSITY = ITEMS.register("belt_of_monstrosity",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1))
+                    .withSlotModifier("talisman", 2)
+    );
+
     public static final RegistryObject<Item> BLAZING_GRIPS = ITEMS.register("blazing_grips",
             () -> new Blazing_Grips(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
-
     public static final RegistryObject<Item> CHITIN_CLAW = ITEMS.register("chitin_claw",
-            () -> {
-                Multimap<Attribute, AttributeModifier> map = HashMultimap.create();
-                map.put(ForgeMod.ENTITY_REACH.get(),
-                        new AttributeModifier("entity_reach", 0.5, AttributeModifier.Operation.ADDITION));
-                map.put(ForgeMod.BLOCK_REACH.get(),
-                        new AttributeModifier("block_reach", 0.75, AttributeModifier.Operation.ADDITION));
-                return new AttributeCurio(
-                        new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant(),
-                        map
-                );
-            }
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("hands",
+                            new AttributeContainer(ForgeMod.ENTITY_REACH.get(), 0.25, AttributeModifier.Operation.ADDITION),
+                            new AttributeContainer(ForgeMod.BLOCK_REACH.get(), 1.0, AttributeModifier.Operation.ADDITION)
+                    )
     );
+
+    public static final RegistryObject<Item> RING_OF_GRUDGED = ITEMS.register("ring_of_grudged",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("rings",
+                            new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE.get(), 10, AttributeModifier.Operation.ADDITION)
+                    )
+    );
+
+    public static final RegistryObject<Item> BERSERKER_SOUL_AMULET = ITEMS.register("berserker_soul_amulet",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("necklace",
+                            new AttributeContainer(Attributes.ATTACK_DAMAGE, 0.1D, AttributeModifier.Operation.MULTIPLY_TOTAL),
+                            new AttributeContainer(Attributes.ARMOR, -0.25D, AttributeModifier.Operation.MULTIPLY_TOTAL)
+                    )
+    );
+
+    public static final RegistryObject<Item> VITALITY_ANKH = ITEMS.register("vitality_ankh",
+            () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("necklace",
+                            new AttributeContainer(ModAttribute.NATURE_HEAL.get(), 20, AttributeModifier.Operation.ADDITION)
+                    )
+    );
+
+
+    public static final RegistryObject<Item> UNBREAKABLE_SKULL = ITEMS.register("unbreakable_skull",
+            () -> new Unbreakable_Skull(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
+                    .withAttributes("talisman",
+                            new AttributeContainer(Attributes.ARMOR, 1, AttributeModifier.Operation.ADDITION),
+                            new AttributeContainer(Attributes.ARMOR_TOUGHNESS, 1, AttributeModifier.Operation.ADDITION)
+                    )
+    );
+
+    public static final RegistryObject<Item> STURDY_BOOTS = ITEMS.register("sturdy_boots",
+            () -> new Sturdy_Boots(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON))
+                    .withAttributes("feet",
+                            new AttributeContainer(ForgeMod.STEP_HEIGHT_ADDITION.get(), 0.5D, AttributeModifier.Operation.ADDITION)
+                    )
+    );
+
 
     public static final RegistryObject<Item> CURSED_BOW = ITEMS.register("cursed_bow",
             () -> new Cursed_bow(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
@@ -515,9 +569,12 @@ public class ModItems {
     public static final RegistryObject<Item> CERAUNUS = ITEMS.register("ceraunus",
             () -> new Ceraunus(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
+    public static final RegistryObject<Item> BRONTES = ITEMS.register("brontes",
+            () -> new Brontes(Tooltier.MONSTROSITY,new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> THE_IMMOLATOR = ITEMS.register("the_immolator",
             () -> new The_Immolator(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
+
 
     public static final RegistryObject<Item> MEAT_SHREDDER = ITEMS.register("meat_shredder",
             () -> new Meat_Shredder(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC)));
@@ -532,25 +589,20 @@ public class ModItems {
             () -> new Void_Assault_SHoulder_Weapon(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final RegistryObject<Item> VOID_FORGE = ITEMS.register("void_forge",
-            () -> new void_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Void_forge(Tooltier.MONSTROSITY,new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> TIDAL_CLAWS = ITEMS.register("tidal_claws",
             () -> new Tidal_Claws(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
-    public static final RegistryObject<Item> FINAL_FRACTAL = ITEMS.register("final_fractal",
-            () -> new final_fractal(ModItemTier.TOOL_WITHERITE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
-
-    public static final RegistryObject<Item> ZWEIENDER = ITEMS.register("zweiender",
-            () -> new zweiender(ModItemTier.TOOL_ENDERITE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
-
     public static final RegistryObject<Item> INFERNAL_FORGE = ITEMS.register("infernal_forge",
-            () -> new infernal_forge(Tooltier.MONSTROSITY, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Infernal_forge(Tooltier.MONSTROSITY,new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
 
     public static final RegistryObject<Item> SANDSTORM_IN_A_BOTTLE = ITEMS.register("sandstorm_in_a_bottle",
             () -> new Sandstorm_In_A_Bottle(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final RegistryObject<Item> ANCIENT_SPEAR = ITEMS.register("ancient_spear",
-            () -> new Ancient_Spear(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant().durability(1800)));
+            () -> new Ancient_Spear(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
 
     public static final RegistryObject<Item> STICKY_GLOVES = ITEMS.register("sticky_gloves",
             () -> new Sticky_Gloves(new Item.Properties().stacksTo(1)));
@@ -577,7 +629,7 @@ public class ModItems {
             () -> new Item(new Item.Properties().fireResistant()));
 
     public static final RegistryObject<Item> VOID_CORE = ITEMS.register("void_core",
-            () -> new void_core(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.UNCOMMON)));
+            () -> new Void_core(new Item.Properties().stacksTo(1).fireResistant().rarity(Rarity.UNCOMMON)));
 
     public static final RegistryObject<Item> CRYSTALLIZED_CORAL_FRAGMENTS = ITEMS.register("crystallized_coral_fragments",
             () -> new Item(new Item.Properties()));
@@ -628,17 +680,22 @@ public class ModItems {
     public static final RegistryObject<Item> IGNITIUM_BOOTS = ITEMS.register("ignitium_boots",
             () -> new Ignitium_Armor(Armortier.IGNITIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+
+
     public static final RegistryObject<Item> CURSIUM_HELMET = ITEMS.register("cursium_helmet",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.HELMET, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+
     public static final RegistryObject<Item> CURSIUM_CHESTPLATE = ITEMS.register("cursium_chestplate",
-            () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+            () -> new Cursium_ChestPlate(Armortier.CURSIUM, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> CURSIUM_LEGGINGS = ITEMS.register("cursium_leggings",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.LEGGINGS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
 
+
     public static final RegistryObject<Item> CURSIUM_BOOTS = ITEMS.register("cursium_boots",
             () -> new Cursium_Armor(Armortier.CURSIUM, ArmorItem.Type.BOOTS, new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
+
 
     public static final RegistryObject<Item> MONSTROUS_HORN = ITEMS.register("monstrous_horn",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.EPIC)));
@@ -651,6 +708,7 @@ public class ModItems {
 
     public static final RegistryObject<Item> BLOOM_STONE_PAULDRONS = ITEMS.register("bloom_stone_pauldrons",
             () -> new Bloom_Stone_Pauldrons(Armortier.CRAB, ArmorItem.Type.CHESTPLATE, new Item.Properties().fireResistant().rarity(Rarity.UNCOMMON)));
+
 
     public static final RegistryObject<Item> BURNING_ASHES = ITEMS.register("burning_ashes",
             () -> new Item(new Item.Properties().fireResistant().rarity(Rarity.RARE)));
@@ -687,28 +745,28 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> MECH_EYE = ITEMS.register("mech_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MECH_LOCATED,255,51,0));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_MECH_LOCATED, 255, 51, 0));
 
     public static final RegistryObject<Item> FLAME_EYE = ITEMS.register("flame_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_FLAME_LOCATED,252,149,0));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_FLAME_LOCATED, 252, 149, 0));
 
     public static final RegistryObject<Item> VOID_EYE = ITEMS.register("void_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_RUINED_LOCATED,186,149,186));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_RUINED_LOCATED, 186, 149, 186));
 
     public static final RegistryObject<Item> MONSTROUS_EYE = ITEMS.register("monstrous_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_MONSTROUS_LOCATED,90,87,90));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_MONSTROUS_LOCATED, 90, 87, 90));
 
     public static final RegistryObject<Item> ABYSS_EYE = ITEMS.register("abyss_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_ABYSS_LOCATED,33,22,43));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_ABYSS_LOCATED, 33, 22, 43));
 
     public static final RegistryObject<Item> DESERT_EYE = ITEMS.register("desert_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_DESERT_LOCATED,247,168,64));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_DESERT_LOCATED, 247, 168, 64));
 
     public static final RegistryObject<Item> CURSED_EYE = ITEMS.register("cursed_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_CURSE_LOCATED,26,107,89));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_CURSE_LOCATED, 26, 107, 89));
 
     public static final RegistryObject<Item> STORM_EYE = ITEMS.register("storm_eye",
-            () -> new DungeonEyeItem(new Item.Properties().fireResistant(),ModTag.EYE_OF_STORM_LOCATED,99, 194, 224));
+            () -> new DungeonEyeItem(new Item.Properties().fireResistant(), ModTag.EYE_OF_STORM_LOCATED, 99, 194, 224));
 
     public static final RegistryObject<Item> LIONFISH = ITEMS.register("lionfish",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(1).saturationMod(0.1F)
@@ -750,127 +808,125 @@ public class ModItems {
     public static final RegistryObject<Item> NETHERITE_MINISTROSITY_BUCKET = ITEMS.register("netherite_ministrosity_bucket",
             () -> new ModernRemantBucket(ModEntities.NETHERITE_MINISTROSITY, Fluids.EMPTY, new Item.Properties().fireResistant()));
 
-    public static final RegistryObject<SpawnEggItem> ENDER_GOLEM_SPAWN_EGG = ITEMS.register("ender_golem_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> ENDER_GOLEM_SPAWN_EGG = ITEMS.register("ender_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDER_GOLEM, 0x2a1a42, 0xa153fe, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> NETHERITE_MONSTROSITY_SPAWN_EGG = ITEMS.register("netherite_monstrosity_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> NETHERITE_MONSTROSITY_SPAWN_EGG = ITEMS.register("netherite_monstrosity_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.NETHERITE_MONSTROSITY, 0x4d494d, 0xf48522, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> NETHERITE_MINISTROSITY_SPAWN_EGG = ITEMS.register("netherite_ministrosity_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> NETHERITE_MINISTROSITY_SPAWN_EGG = ITEMS.register("netherite_ministrosity_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.NETHERITE_MINISTROSITY, 0x6b686b, 0xc25f01, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> NAMELESS_SORCERER_SPAWN_EGG = ITEMS.register("nameless_sorcerer_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.NAMELESS_SORCERER, 9804699, 0xB92424, new Item.Properties()));
-
-    public static final RegistryObject<SpawnEggItem> ENDER_GUARDIAN_SPAWN_EGG = ITEMS.register("ender_guardian_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> ENDER_GUARDIAN_SPAWN_EGG = ITEMS.register("ender_guardian_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDER_GUARDIAN, 0x2a1a42, 9725844, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> ENDERMAPTERA_SPAWN_EGG = ITEMS.register("endermaptera_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> ENDERMAPTERA_SPAWN_EGG = ITEMS.register("endermaptera_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ENDERMAPTERA, 0x2a1a42, 7237230, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> IGNIS_SPAWN_EGG = ITEMS.register("ignis_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> IGNIS_SPAWN_EGG = ITEMS.register("ignis_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.IGNIS, 16167425, 16579584, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> IGNITED_REVENANT_SPAWN_EGG = ITEMS.register("ignited_revenant_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> IGNITED_REVENANT_SPAWN_EGG = ITEMS.register("ignited_revenant_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.IGNITED_REVENANT, 4672845, 16579584, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> IGNITED_BERSERKER_SPAWN_EGG = ITEMS.register("ignited_berserker_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> IGNITED_BERSERKER_SPAWN_EGG = ITEMS.register("ignited_berserker_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.IGNITED_BERSERKER, 4672845, 16579584, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> THE_WATCHER_SPAWN_EGG = ITEMS.register("the_watcher_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> THE_WATCHER_SPAWN_EGG = ITEMS.register("the_watcher_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_WATCHER, 0x737c8b, 0xe83b3b, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> THE_PROWLER_SPAWN_EGG = ITEMS.register("the_prowler_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> THE_PROWLER_SPAWN_EGG = ITEMS.register("the_prowler_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_PROWLER, 0x1e2021, 0x682e22, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> THE_HARBINGER_SPAWN_EGG = ITEMS.register("the_harbinger_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> THE_HARBINGER_SPAWN_EGG = ITEMS.register("the_harbinger_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_HARBINGER, 0x1e2021, 0xae2334, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> THE_LEVIATHAN_SPAWN_EGG = ITEMS.register("the_leviathan_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> THE_LEVIATHAN_SPAWN_EGG = ITEMS.register("the_leviathan_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_LEVIATHAN, 0x150e1b, 0x6500ff, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> THE_BABY_LEVIATHAN_SPAWN_EGG = ITEMS.register("the_baby_leviathan_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> THE_BABY_LEVIATHAN_SPAWN_EGG = ITEMS.register("the_baby_leviathan_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.THE_BABY_LEVIATHAN, 0x322141, 0x8a3eff, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DEEPLING_SPAWN_EGG = ITEMS.register("deepling_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> DEEPLING_SPAWN_EGG = ITEMS.register("deepling_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING, 0x182a3c, 0xbaedf4, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DEEPLING_BRUTE_SPAWN_EGG = ITEMS.register("deepling_brute_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> DEEPLING_BRUTE_SPAWN_EGG = ITEMS.register("deepling_brute_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING_BRUTE, 0x182a3c, 0x6500ff, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DEEPLING_ANGLER_SPAWN_EGG = ITEMS.register("deepling_angler_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> DEEPLING_ANGLER_SPAWN_EGG = ITEMS.register("deepling_angler_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING_ANGLER, 0x182a3c, 0x98d8e2, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DEEPLING_PRIEST_SPAWN_EGG = ITEMS.register("deepling_priest_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> DEEPLING_PRIEST_SPAWN_EGG = ITEMS.register("deepling_priest_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING_PRIEST, 0x182a3c, 0x082054, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DEEPLING_WARLOCK_SPAWN_EGG = ITEMS.register("deepling_warlock_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> DEEPLING_WARLOCK_SPAWN_EGG = ITEMS.register("deepling_warlock_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DEEPLING_WARLOCK, 0x182a3c, 0xd66a98, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> LIONFISH_SPAWN_EGG = ITEMS.register("lionfish_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> LIONFISH_SPAWN_EGG = ITEMS.register("lionfish_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.LIONFISH, 0x98d8e2, 0x182a3c, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> CORAL_GOLEM_SPAWN_EGG = ITEMS.register("coral_golem_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> CORAL_GOLEM_SPAWN_EGG = ITEMS.register("coral_golem_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.CORAL_GOLEM, 0x2143a4, 0xa4222f, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> CORALSSUS_SPAWN_EGG = ITEMS.register("coralssus_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> CORALSSUS_SPAWN_EGG = ITEMS.register("coralssus_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.CORALSSUS, 0x3f6ce5, 0xedec4c, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> AMETHYST_CRAB_SPAWN_EGG = ITEMS.register("amethyst_crab_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> AMETHYST_CRAB_SPAWN_EGG = ITEMS.register("amethyst_crab_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.AMETHYST_CRAB, 0x646464, 0x7a5bb5, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> KOBOLETON_SPAWN_EGG = ITEMS.register("koboleton_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> KOBOLETON_SPAWN_EGG = ITEMS.register("koboleton_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.KOBOLETON, 0xb7b196, 0xe18103, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> KOBOLEDIATOR_SPAWN_EGG = ITEMS.register("kobolediator_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> KOBOLEDIATOR_SPAWN_EGG = ITEMS.register("kobolediator_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.KOBOLEDIATOR, 0xb7b196, 0x945b31, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> WADJET_SPAWN_EGG = ITEMS.register("wadjet_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> WADJET_SPAWN_EGG = ITEMS.register("wadjet_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.WADJET, 0xb7b196, 0xdbb86a, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> ANCIENT_REMNANT_SPAWN_EGG = ITEMS.register("ancient_remnant_spawn_egg",
+
+    public static final RegistryObject<ForgeSpawnEggItem> ANCIENT_REMNANT_SPAWN_EGG = ITEMS.register("ancient_remnant_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ANCIENT_REMNANT, 0xb7b196, 0x682e22, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> MODERN_REMNANT_SPAWN_EGG = ITEMS.register("modern_remnant_spawn_egg",
+    public static final RegistryObject<ForgeSpawnEggItem> MODERN_REMNANT_SPAWN_EGG = ITEMS.register("modern_remnant_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.MODERN_REMNANT, 0xb7b196, 0xdbcca7, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> MALEDICTUS_SPAWN_EGG = ITEMS.register("maledictus_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.MALEDICTUS,0x39d2b2, 0x945b31, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> MALEDICTUS_SPAWN_EGG = ITEMS.register("maledictus_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.MALEDICTUS, 0x39d2b2, 0x945b31, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> APTRGANGR_SPAWN_EGG = ITEMS.register("aptrgangr_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.APTRGANGR,0x392116, 0xe8e7e4, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> APTRGANGR_SPAWN_EGG = ITEMS.register("aptrgangr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.APTRGANGR, 0x392116, 0xe8e7e4, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> ELITE_DRAUGR_SPAWN_EGG = ITEMS.register("elite_draugr_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.ELITE_DRAUGR,0x392116, 0x442318, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> ELITE_DRAUGR_SPAWN_EGG = ITEMS.register("elite_draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ELITE_DRAUGR, 0x392116, 0x442318, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> ROYAL_DRAUGR_SPAWN_EGG = ITEMS.register("royal_draugr_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.ROYAL_DRAUGR,0x392116, 0x945b31, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> ROYAL_DRAUGR_SPAWN_EGG = ITEMS.register("royal_draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.ROYAL_DRAUGR, 0x392116, 0x945b31, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> DRAUGR_SPAWN_EGG = ITEMS.register("draugr_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.DRAUGR,0x392116, 0x2b2825, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> DRAUGR_SPAWN_EGG = ITEMS.register("draugr_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DRAUGR, 0x392116, 0x2b2825, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> SCYLLA_SPAWN_EGG = ITEMS.register("scylla_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.SCYLLA,0x80a1af, 0x3f569b, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> SCYLLA_SPAWN_EGG = ITEMS.register("scylla_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SCYLLA, 0x80a1af, 0x3f569b, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> CLAWDIAN_SPAWN_EGG = ITEMS.register("clawdian_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.CLAWDIAN,0x8b261d, 0xc96546, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> CLAWDIAN_SPAWN_EGG = ITEMS.register("clawdian_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CLAWDIAN, 0x8b261d, 0xc96546, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> HIPPOCAMTUS_SPAWN_EGG = ITEMS.register("hippocamtus_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.HIPPOCAMTUS,0x7e8fab, 0xffe98e, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> HIPPOCAMTUS_SPAWN_EGG = ITEMS.register("hippocamtus_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.HIPPOCAMTUS, 0x7e8fab, 0xffe98e, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> CINDARIA_SPAWN_EGG = ITEMS.register("cindaria_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.CINDARIA,0xcf95ff, 0x62eaad, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> CINDARIA_SPAWN_EGG = ITEMS.register("cindaria_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.CINDARIA, 0xcf95ff, 0x62eaad, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> OCTOHOST_SPAWN_EGG = ITEMS.register("octohost_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.DROWNED_HOST,9433559, 0x733523, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> OCTOHOST_SPAWN_EGG = ITEMS.register("octohost_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DROWNED_HOST, 9433559, 0x733523, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> SYMBIOCTO_SPAWN_EGG = ITEMS.register("symbiocto_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.SYMBIOCTO,0x733523, 0xeaa961, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> SYMBIOCTO_SPAWN_EGG = ITEMS.register("symbiocto_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.SYMBIOCTO, 0x733523, 0xeaa961, new Item.Properties()));
 
-    public static final RegistryObject<SpawnEggItem> URCHINKIN_SPAWN_EGG = ITEMS.register("urchinkin_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.URCHINKIN,0x000000, 0x2b1052, new Item.Properties()));
+    public static final RegistryObject<ForgeSpawnEggItem> URCHINKIN_SPAWN_EGG = ITEMS.register("urchinkin_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.URCHINKIN, 0x000000, 0x2b1052, new Item.Properties()));
 
-    public static void initDispenser(){
+    public static void initDispenser() {
         DispenserBlock.registerBehavior(VOID_SCATTER_ARROW.get(), new AbstractProjectileDispenseBehavior() {
             /**
              * Return the projectile entity spawned by this dispense behavior.
@@ -898,6 +954,8 @@ public class ModItems {
         DispenserBlock.registerBehavior(THE_BABY_LEVIATHAN_BUCKET.get(), dispenseItemBehavior);
         DispenserBlock.registerBehavior(MODERN_REMNANT_BUCKET.get(), dispenseItemBehavior);
     }
+
+
 }
 
 

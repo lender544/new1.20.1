@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster;
 
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
@@ -14,6 +14,7 @@ import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -24,12 +25,12 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -44,7 +45,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -53,6 +53,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
+
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -80,6 +81,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     public static final int JUMP_COOLDOWN = 160;
     private boolean isLandNavigator;
     boolean searchingForLand;
+
 
 
     public Coralssus_Entity(EntityType entity, Level world) {
@@ -184,6 +186,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
 
+
     public MobType getMobType() {
         return MobType.WATER;
     }
@@ -195,6 +198,8 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;
     }
+
+
 
     public AnimationState getAnimationState(String input) {
         if (input == "nanta") {
@@ -224,7 +229,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(MOISTNESS, 40000);
-        this.entityData.define(VARIANT, Coralssus_Entity.Variant.FIRE.id);
+        this.entityData.define(VARIANT, Variant.FIRE.id);
         this.entityData.define(RIGHT, false);
         this.entityData.define(CORALSSUS_SWIM, false);
     }
@@ -310,7 +315,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setVariant(Coralssus_Entity.Variant.byId(compound.getInt("Variant")));
+        this.setVariant(Variant.byId(compound.getInt("Variant")));
         this.setMoistness(compound.getInt("Moisture"));
     }
 
@@ -322,11 +327,11 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         this.entityData.set(MOISTNESS, p_211137_1_);
     }
 
-    public Coralssus_Entity.Variant getVariant() {
-        return Coralssus_Entity.Variant.byId(this.entityData.get(VARIANT));
+    public Variant getVariant() {
+        return Variant.byId(this.entityData.get(VARIANT));
     }
 
-    public void setVariant(Coralssus_Entity.Variant p_262578_) {
+    public void setVariant(Variant p_262578_) {
         this.entityData.set(VARIANT, p_262578_.id);
     }
 
@@ -347,6 +352,23 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
             LivingEntity livingentity = this.getTarget();
             return livingentity != null && livingentity.isInWater();
         }
+    }
+
+    @Override
+    public boolean hurt(DamageSource source, float damage) {
+        if (source.is(DamageTypes.HOT_FLOOR) ) {
+            return false;
+        }
+
+        return super.hurt(source, damage);
+    }
+
+    public void onInsideBubbleColumn(boolean p_20322_) {
+
+    }
+
+    public void onAboveBubbleCol(boolean p_20313_) {
+
     }
 
     public void travel(Vec3 p_32394_) {
@@ -466,15 +488,15 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
 
     private void EarthQuake(float grow, int damage, int shieldbreakticks) {
         ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.15f, 0, 20);
-        this.playSound(SoundEvents.GENERIC_EXPLODE, 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+        this.playSound(ModSounds.EXPLOSION.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
                 if (!isAlliedTo(entity) && !(entity instanceof Coralssus_Entity) && entity != this) {
                     launch(entity, true);
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
                     if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
                 }
             }
@@ -534,10 +556,10 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
                 BlockPos hit = new BlockPos(hitX, hitY, hitZ);
                 BlockState block = this.level().getBlockState(hit.below());
                 if (block.getRenderShape() != RenderShape.INVISIBLE) {
-                    this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+                   this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
             }
-            this.level().addParticle(new RingParticle.RingData(0f, (float)Math.PI/2f, 30, 1.0f, 1.0F,  1.0F, 1.0f, 20f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+            this.level().addParticle(new RingParticleOptions(0f, (float)Math.PI/2f, 30, 255, 255,  255, 1.0f, 20f, false, 2), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
     }
 
@@ -547,7 +569,6 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         Vec3 vec3 = (new Vec3(0.0D, 0.0D, (double)f)).yRot(-this.yBodyRot * ((float)Math.PI / 180F));
         p_289541_.accept(p_289537_, this.getX() + vec3.x, this.getY(0.75D) + p_289537_.getMyRidingOffset() + 0.0D, this.getZ() + vec3.z);
     }
-
     @Nullable
     public LivingEntity getControllingPassenger() {
         return null;
@@ -605,13 +626,12 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         this.entityData.set(CORALSSUS_SWIM, swim);
     }
 
+    public boolean canBreatheUnderwater() {
+        return true;
+    }
 
     public boolean isPushedByFluid() {
         return !this.isSwimming();
-    }
-
-    public boolean canBreatheUnderwater() {
-        return true;
     }
 
     @Override
@@ -681,8 +701,8 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
         HORN(1, "horn"),
         TUBE(2, "tube");
 
-        private static final IntFunction<Coralssus_Entity.Variant> BY_ID = ByIdMap.sparse(Coralssus_Entity.Variant::id, values(), FIRE);
-        public static final Codec<Coralssus_Entity.Variant> CODEC = StringRepresentable.fromEnum(Coralssus_Entity.Variant::values);
+        private static final IntFunction<Variant> BY_ID = ByIdMap.sparse(Variant::id, values(), FIRE);
+        public static final Codec<Variant> CODEC = StringRepresentable.fromEnum(Variant::values);
         final int id;
         private final String name;
 
@@ -699,7 +719,7 @@ public class Coralssus_Entity extends Internal_Animation_Monster implements Vari
             return this.id;
         }
 
-        public static Coralssus_Entity.Variant byId(int p_262665_) {
+        public static Variant byId(int p_262665_) {
             return BY_ID.apply(p_262665_);
         }
     }

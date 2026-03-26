@@ -1,10 +1,8 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -21,11 +20,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.TheEndGatewayBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -39,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class Ancient_Desert_Stele_Entity extends Projectile {
-    private boolean sentSpikeEvent = false;
+    private boolean sentSpikeEvent;
     private int lifeTicks = 70;
     private LivingEntity caster;
     private UUID casterUuid;
@@ -52,7 +50,7 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
         super(p_i50170_1_, p_i50170_2_);
     }
 
-    public Ancient_Desert_Stele_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_,float damage, LivingEntity casterIn) {
+    public Ancient_Desert_Stele_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, float damage, LivingEntity casterIn) {
         this(ModEntities.ANCIENT_DESERT_STELE.get(), worldIn);
         this.setWarmUp(p_i47276_9_);
         this.setCaster(casterIn);
@@ -105,19 +103,19 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
      * (abstract) Protected helper method to read subclass entity data from NBT.
      */
     protected void readAdditionalSaveData(CompoundTag compound) {
+        this.setWarmUp(compound.getInt("Warmup"));
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
         this.setDamage(compound.getFloat("damage"));
-        this.setWarmUp(compound.getInt("Warmup"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
+        compound.putInt("Warmup", this.getWarmUp());
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
         compound.putFloat("damage", this.getDamage());
-        compound.putInt("Warmup", this.getWarmUp());
     }
 
     /**
@@ -127,34 +125,15 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
         super.tick();
 
         HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-        boolean flag = false;
-        if (hitresult.getType() == HitResult.Type.BLOCK) {
-            BlockPos blockpos = ((BlockHitResult)hitresult).getBlockPos();
-            BlockState blockstate = this.level().getBlockState(blockpos);
-            if (blockstate.is(Blocks.NETHER_PORTAL)) {
-                this.handleInsidePortal(blockpos);
-                flag = true;
-            } else if (blockstate.is(Blocks.END_GATEWAY)) {
-                BlockEntity blockentity = this.level().getBlockEntity(blockpos);
-                if (blockentity instanceof TheEndGatewayBlockEntity && TheEndGatewayBlockEntity.canEntityTeleport(this)) {
-                    TheEndGatewayBlockEntity.teleportEntity(this.level(), blockpos, blockstate, this, (TheEndGatewayBlockEntity)blockentity);
-                }
-
-                flag = true;
-            }
-        }
-
-        if (hitresult.getType() != HitResult.Type.MISS && !flag && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+        if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
             this.onHit(hitresult);
         }
-
         this.checkInsideBlocks();
 
         if (this.level().isClientSide) {
             --this.lifeTicks;
 
         } else {
-
             if(this.getWarmUp() > 0) {
                 setWarmUp(this.getWarmUp() -1);
             }else{
@@ -164,7 +143,6 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
                 if (--this.lifeTicks < 0) {
                     this.discard();
                 }
-
             }
             if(this.getWarmUp() < 10){
                 if(!sentSpikeEvent){
@@ -204,38 +182,33 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
     protected void onHitEntity(EntityHitResult p_213868_1_) {
         LivingEntity shooter = this.getCaster();
         Entity entity = p_213868_1_.getEntity();
-        boolean flag = false;
-        if (shooter != null) {
-            LivingEntity owner = shooter;
-            if (owner != entity) {
-                if (!owner.isAlliedTo(entity)) {
-                    flag = entity.hurt(damageSources().mobProjectile(this, owner), this.getDamage());
-                    if (flag) {
-                        this.doEnchantDamageEffects(owner, entity);
+        if (this.level() instanceof ServerLevel serverlevel) {
+            boolean flag = false;
+            if (shooter != null) {
+                LivingEntity owner = shooter;
+                if (owner != entity) {
+                    if (!owner.isAlliedTo(entity)) {
+                        DamageSource damagesource = this.damageSources().mobProjectile(this, owner);
+                        flag = entity.hurt(damagesource,  this.getDamage());
+
+                        if (flag) {
+                            this.doEnchantDamageEffects(owner, entity);
+                        }
                     }
                 }
+            } else {
+                flag = entity.hurt(this.damageSources().magic(), this.getDamage());
             }
-        } else {
-            flag = entity.hurt(this.damageSources().magic(), this.getDamage());
-        }
-        if (flag && entity instanceof LivingEntity) {
-            MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
-            ((LivingEntity)entity).addEffect(effectinstance);
+            if (flag && entity instanceof LivingEntity) {
+                MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
+                ((LivingEntity) entity).addEffect(effectinstance);
+            }
         }
 
     }
 
     protected void onHitBlock(BlockHitResult p_230299_1_) {
     }
-
-    public boolean isActivate() {
-        return this.entityData.get(ACTIVATE);
-    }
-
-    public void setActivate(boolean Activate) {
-        this.entityData.set(ACTIVATE, Activate);
-    }
-
 
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
@@ -251,4 +224,13 @@ public class Ancient_Desert_Stele_Entity extends Projectile {
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
+
+    public boolean isActivate() {
+        return this.entityData.get(ACTIVATE);
+    }
+
+    public void setActivate(boolean Activate) {
+        this.entityData.set(ACTIVATE, Activate);
+    }
+
 }

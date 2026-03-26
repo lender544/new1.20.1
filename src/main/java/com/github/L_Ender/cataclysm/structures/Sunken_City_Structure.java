@@ -252,7 +252,7 @@ public class Sunken_City_Structure extends Structure {
         super(p_227593_);
     }
 
-    public Optional<GenerationStub> findGenerationPoint(Structure.GenerationContext p_228964_) {
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext p_228964_) {
         int i = p_228964_.chunkPos().getBlockX(9);
         int j = p_228964_.chunkPos().getBlockZ(9);
         for (Holder<Biome> holder : p_228964_.biomeSource().getBiomesWithin(i, p_228964_.chunkGenerator().getSeaLevel(), j, 29, p_228964_.randomState().sampler())) {

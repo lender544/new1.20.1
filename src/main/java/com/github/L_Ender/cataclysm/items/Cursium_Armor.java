@@ -1,41 +1,48 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.Deepling.Deepling_Priest_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Amethyst_Cluster_Projectile_Entity;
-import com.github.L_Ender.cataclysm.init.ModEntities;
+
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModKeybind;
 import com.github.L_Ender.cataclysm.message.MessageArmorKey;
 import net.minecraft.ChatFormatting;
+
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
+public class Cursium_Armor extends Cataclysm_Armor implements KeybindUsingArmor {
 
-    public Cursium_Armor(Armortier material, Type slot, Properties properties) {
+
+    public Cursium_Armor(CataclysmArmorMaterial material, Type slot, Properties properties) {
         super(material, slot, properties);
 
     }
-    
+
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return false;
+    }
+
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getArmorRenderProperties());
@@ -47,44 +54,30 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
     }
 
     @Override
-    public void setDamage(ItemStack stack, int damage) {
-        if(CMConfig.Armor_Infinity_Durability) {
-            super.setDamage(stack, 0);
-        }else{
-            super.setDamage(stack, damage);
-        }
-    }
-
-
     public boolean isValidRepairItem(ItemStack p_41134_, ItemStack p_41135_) {
         return p_41135_.is(ModItems.CURSIUM_INGOT.get());
     }
 
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
-        super.inventoryTick(stack, level, entity, i, held);
-        if (entity instanceof Player living) {
-            if (living.getItemBySlot(EquipmentSlot.HEAD).getItem() == ModItems.CURSIUM_HELMET.get()) {
-                if (level.isClientSide) {
-                    if (Cataclysm.PROXY.getClientSidePlayer() == entity && Cataclysm.PROXY.isKeyDown(5)) {
-                        Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), living.getId(), 5));
-                        onKeyPacket(living, stack,5);
-                    }
-                }
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
 
+        if (!(entity instanceof Player player) || !level.isClientSide) {
+            return;
+        }
+
+        if (this.type == Type.HELMET && player.getItemBySlot(EquipmentSlot.HEAD) == stack) {
+            if (ModKeybind.HELMET_KEY_ABILITY.consumeClick()) {
+                Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.HEAD.ordinal(), player.getId(), 5));
+                onKeyPacket(player, stack, 5);
             }
-            if (living.getItemBySlot(EquipmentSlot.FEET).getItem() == ModItems.CURSIUM_BOOTS.get()) {
-                if (level.isClientSide) {
-                    if (Cataclysm.PROXY.getClientSidePlayer() == entity && Cataclysm.PROXY.isKeyDown(7)) {
-                        Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.FEET.ordinal(), living.getId(), 7));
-                        onKeyPacket(living, stack,7);
-                    }
-                }
-
+        } else if (this.type == Type.BOOTS && player.getItemBySlot(EquipmentSlot.FEET) == stack) {
+            if (ModKeybind.BOOTS_KEY_ABILITY.consumeClick()) {
+                Cataclysm.sendMSGToServer(new MessageArmorKey(EquipmentSlot.FEET.ordinal(), player.getId(), 7));
+                onKeyPacket(player, stack, 7);
             }
-
         }
     }
-
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
@@ -108,29 +101,37 @@ public class Cursium_Armor extends ArmorItem implements KeybindUsingArmor {
     }
 
     @Override
-    public void onKeyPacket(Player player, ItemStack itemStack, int Type) {
-        if (Type == 5) {
-            if (player != null && !player.getCooldowns().isOnCooldown(ModItems.CURSIUM_HELMET.get())) {
-                boolean flag = false;
+    public void onKeyPacket(Player player, ItemStack itemStack, int type) {
+        if (player == null) return;
+
+        if (type == 5) {
+            if (!player.getCooldowns().isOnCooldown(ModItems.CURSIUM_HELMET.get())) {
+                boolean targetFound = false;
                 List<Entity> list = player.level().getEntities(player, player.getBoundingBox().inflate(24.0D));
+
                 for (Entity entity : list) {
-                    if (entity instanceof LivingEntity living) {
-                        flag = living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 160));
-
+                    if (entity instanceof LivingEntity living && entity != player) {
+                        targetFound = true;
+                        living.addEffect(new MobEffectInstance(MobEffects.GLOWING, 160));
                     }
+                }
 
-                    if (flag) {
-                        player.getCooldowns().addCooldown(ModItems.CURSIUM_HELMET.get(), 200);
-                    }
+                if (targetFound) {
+                    player.getCooldowns().addCooldown(ModItems.CURSIUM_HELMET.get(), 200);
                 }
             }
         }
-        if (Type == 7) {
-            if (player != null && player.onGround() && !player.getCooldowns().isOnCooldown(ModItems.CURSIUM_BOOTS.get())) {
+        if (type == 7) {
+            if (player.onGround() && !player.getCooldowns().isOnCooldown(ModItems.CURSIUM_BOOTS.get())) {
                 float speed = -1.8f;
                 float dodgeYaw = (float) Math.toRadians(player.getYRot() + 90);
-                Vec3 m = player.getDeltaMovement().add(speed * Math.cos(dodgeYaw), 0, speed * Math.sin(dodgeYaw));
-                player.setDeltaMovement(m.x, 0.4, m.z);
+
+                double velX = speed * Math.cos(dodgeYaw);
+                double velZ = speed * Math.sin(dodgeYaw);
+
+                Vec3 currentVel = player.getDeltaMovement();
+                player.setDeltaMovement(currentVel.x + velX, 0.4, currentVel.z + velZ);
+                player.hurtMarked = true;
                 player.getCooldowns().addCooldown(ModItems.CURSIUM_BOOTS.get(), 200);
             }
         }

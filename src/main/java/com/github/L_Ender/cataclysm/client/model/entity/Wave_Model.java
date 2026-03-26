@@ -3,12 +3,16 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Aptrgangr_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Wave_Animation;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.phys.Vec3;
 
 public class Wave_Model extends HierarchicalModel<Wave_Entity> {
 

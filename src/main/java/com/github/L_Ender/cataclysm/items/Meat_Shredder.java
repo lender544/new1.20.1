@@ -1,72 +1,75 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class Meat_Shredder extends Item {
-	private final Multimap<Attribute, AttributeModifier> whirligigsawAttributes;
-
-	public Meat_Shredder(Properties properties) {
-		super(properties);
-		ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 7.5D, AttributeModifier.Operation.ADDITION));
-		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.6F, AttributeModifier.Operation.ADDITION));
-		this.whirligigsawAttributes = builder.build();
-	}
+public class Meat_Shredder extends Cataclysm_Tool_Item {
 
 
-	public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
-		ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
-		InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
-		ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
-		if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
-			return InteractionResultHolder.fail(item);
-		}else{
-			p_77659_2_.startUsingItem(p_77659_3_);
-			p_77659_1_.playSound(null, p_77659_2_.getX(), p_77659_2_.getY(), p_77659_2_.getZ(), ModSounds.SHREDDER_START.get(), SoundSource.PLAYERS, 1.5f, 1F / (p_77659_2_.getRandom().nextFloat() * 0.4F + 0.8F));
-			return InteractionResultHolder.consume(item);
-		}
+	public Meat_Shredder(Item.Properties properties) {
+
+		super(-2 + (float) CMCommonConfig.MeatShredder.attackDamage, -4f + (float)CMCommonConfig.MeatShredder.attackSpeed, Tiers.STONE, BlockTags.MINEABLE_WITH_AXE, properties);
 	}
 
 
 	@Override
-	public boolean isEnchantable(ItemStack stack) {
-		return true;
+	public CommonConfig.ToolConfig getConfig() {
+		return ConfigHolder.COMMON.TOOLS_AND_ABILITIES.ANNIHILATOR.toolConfig;
+	}
+
+	@Override
+	public @NotNull ItemStack getDefaultInstance() {
+		ItemStack stack = super.getDefaultInstance();
+		stack.getOrCreateTag().putBoolean("Unbreakable", true);
+		return stack;
+	}
+
+
+	@Override
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		ItemStack item = player.getItemInHand(hand);
+		if (hand == InteractionHand.OFF_HAND) {
+			player.startUsingItem(hand);
+			return InteractionResultHolder.consume(item);
+		}
+		if (hand == InteractionHand.MAIN_HAND) {
+			ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
+			if (offHandItem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !player.getCooldowns().isOnCooldown(offHandItem.getItem())) {
+				return InteractionResultHolder.pass(item);
+			} else {
+				player.startUsingItem(hand);
+				return InteractionResultHolder.consume(item);
+			}
+		}
+		return InteractionResultHolder.pass(item);
 	}
 
 	@Override
@@ -76,11 +79,6 @@ public class Meat_Shredder extends Item {
 
 	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
 		return !player.isCreative();
-	}
-
-	@Override
-	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-		return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category == EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE;
 	}
 
 	@Override
@@ -94,6 +92,7 @@ public class Meat_Shredder extends Item {
 
 		boolean flag = false;
 		Cataclysm.PROXY.playWorldSound(living, (byte) 1);
+		float finalDamage = AttributeUtils.OriginDamage(living, stack) / 8.5F;
 		for (Entity entity : possibleList) {
 			if (entity instanceof LivingEntity) {
 				float borderSize = 0.5F;
@@ -106,25 +105,22 @@ public class Meat_Shredder extends Item {
 				}
 
 				if (flag) {
-					if (entity.hurt(CMDamageTypes.causeShredderDamage(living), (float) living.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8.5F)) {
-						int j = EnchantmentHelper.getFireAspect(living);
-						//level.playSound(null, living.getX(), living.getY(), living.getZ(), ModSounds.SHREDDER_LOOP.get(), SoundSource.PLAYERS, 1.5f, 1F / (living.getRandom().nextFloat() * 0.4F + 0.8F));
-						if (j > 0 && !entity.isOnFire()) {
-							entity.setSecondsOnFire(j * 4);
+					if(!level.isClientSide()) {
+						if (entity.hurt(CMDamageTypes.causeShredderDamage(living), finalDamage)) {
+							double d0 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
+							double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
+							double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
+							if (level instanceof ServerLevel serverLevel) {
+								serverLevel.sendParticles(new ParryParticleOptions(255 / 255F, 106 / 255F, 0 / 255F), entity.getX(), entity.getY(0.5), entity.getZ(), 2, entity.getDeltaMovement().x, entity.getDeltaMovement().y, entity.getDeltaMovement().z, (level.getRandom().nextFloat() - 0.5F));
+							}
 						}
 					}
-					double d0 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
-					double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
-					double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
-					double dist = 1F + level.getRandom().nextFloat() * 0.2F;
-					double d3 = d0 * dist;
-					double d4 = d1 * dist;
-					double d5 = d2 * dist;
-					entity.level().addParticle(ParticleTypes.LAVA, entity.getX(), living.getEyeY() - 0.1D + (entity.getEyePosition().y - living.getEyeY()), entity.getZ(), d3, d4, d5);
 				}
 			}
 		}
 	}
+
+
 
 	@Override
 	public void releaseUsing(ItemStack stack, Level world, LivingEntity living, int remainingUseTicks) {
@@ -139,7 +135,7 @@ public class Meat_Shredder extends Item {
 	}
 
 	@Override
-	public int getUseDuration(ItemStack stack) {
+	public int getUseDuration(ItemStack p_43419_) {
 		return 72000;
 	}
 
@@ -151,10 +147,6 @@ public class Meat_Shredder extends Item {
 	@Override
 	public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
 		consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
-	}
-
-	public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-		return equipmentSlot == EquipmentSlot.MAINHAND ? this.whirligigsawAttributes : super.getDefaultAttributeModifiers(equipmentSlot);
 	}
 
 	@Override

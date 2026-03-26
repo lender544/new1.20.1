@@ -1,18 +1,14 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
 
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.projectile.Death_Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,7 +27,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -181,9 +177,8 @@ public class Abyss_Blast_Entity extends Entity {
             float motionY = random.nextFloat() * 0.08F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticle.OrbData(102, 26, 204)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticleOptions(102, 26, 204)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
         }
-
     }
 
     @Override
@@ -276,10 +271,6 @@ public class Abyss_Blast_Entity extends Entity {
         compound.putFloat("Hpdamage", this.getHpDamage());
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
     private void calculateEndPos() {
         if (level().isClientSide()) {

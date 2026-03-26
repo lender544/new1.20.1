@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.CmAttackGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
@@ -64,7 +63,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
     private int timeWithoutTarget;
     public float deactivateProgress;
     public float prevdeactivateProgress;
-    public boolean Breaking = CMConfig.EndergolemBlockBreaking;
+
 
     public Ender_Golem_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -72,7 +71,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
         this.setMaxUpStep(1.5F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.EnderGolemHealthMultiplier, CMConfig.EnderGolemDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.EnderGolem.healthMultiplier,CMCommonConfig.EnderGolem.attackMultiplier);
     }
 
     @Override
@@ -101,27 +100,26 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                 .add(Attributes.ARMOR, 12)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
+    
 
+    public double RangeLimit() {
+
+        return CMCommonConfig.EnderGolem.rangeCap;
+    }
 
     protected int decreaseAirSupply(int air) {
         return air;
     }
 
 
-    public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
-        return false;
-    }
+
 
     private static Animation getRandomAttack(RandomSource rand) {
-        switch (rand.nextInt(3)) {
-            case 0:
-                return ANIMATION_ATTACK1;
-            case 1:
-                return ANIMATION_ATTACK2;
-            case 2:
-                return ANIMATION_EARTHQUAKE;
-        }
-        return ANIMATION_EARTHQUAKE;
+        return switch (rand.nextInt(3)) {
+            case 0 -> ANIMATION_ATTACK1;
+            case 1 -> ANIMATION_ATTACK2;
+            default -> ANIMATION_EARTHQUAKE;
+        };
     }
 
     @Override
@@ -133,10 +131,6 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
             }
         }
         double range = calculateRange(source);
-
-        if (range > CMConfig.EndergolemLongRangelimit * CMConfig.EndergolemLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
-        }
 
         Entity entity = source.getDirectEntity();
         if (entity instanceof AbstractGolem) {
@@ -206,7 +200,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                     EarthQuake(5,6);
                     EarthQuakeParticle();
                     if (!this.level().isClientSide) {
-                        if (Breaking) {
+                        if (CMCommonConfig.EnderGolem.ignoreMobGriefing) {
                             BlockBreaking(4, 4, 4);
                         } else {
                             if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
@@ -230,7 +224,7 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
                     EarthQuake(4.25f,4);
                     EarthQuakeParticle();
                     if (!this.level().isClientSide) {
-                        if (Breaking) {
+                        if (CMCommonConfig.EnderGolem.ignoreMobGriefing) {
                             BlockBreaking(4, 4, 4);
                         } else {
                             if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
@@ -304,11 +298,12 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
     }
 
     private void EarthQuake(float grow, int damage) {
-        this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+        this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
                 if (!isAlliedTo(entity) && !(entity instanceof Ender_Golem_Entity) && entity != this) {
-                    entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
+                    entity.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
                     launch(entity, true);
 
                 }
@@ -368,7 +363,8 @@ public class Ender_Golem_Entity extends LLibrary_Boss_Monster {
         } while (blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay,(float) CMConfig.Voidrunedamage, this));
+            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay,
+                    (float)CMCommonConfig.EnderGolem.VoidRuneDamage, this));
         }
     }
 

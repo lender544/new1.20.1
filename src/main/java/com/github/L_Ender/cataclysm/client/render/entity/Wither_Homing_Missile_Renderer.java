@@ -7,7 +7,9 @@ import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Wither_Homing_Missile_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -25,13 +27,14 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
 {
     private static final ResourceLocation WITHER_MISSILE = new ResourceLocation(Cataclysm.MODID,"textures/entity/harbinger/wither_homing_missile.png");
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/particle/amogus.png");
-
+    protected final EntityRenderDispatcher entityRenderDispatcher;
     public Wither_Homing_Missile_Model model;
 
     public Wither_Homing_Missile_Renderer(EntityRendererProvider.Context manager)
     {
         super(manager);
         this.model = new Wither_Homing_Missile_Model();
+        entityRenderDispatcher = manager.getEntityRenderDispatcher();
     }
 
     @Override
@@ -49,7 +52,7 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
         float f1 = Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot());
         VertexConsumer vertexconsumer = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
         this.model.setupAnim(entityIn, 0.0F, 0.0F, 0.0F, f, f1);
-        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         matrixStackIn.popPose();
         if (entityIn.hasTrail()) {
             double x = Mth.lerp(partialTicks, entityIn.xOld, entityIn.getX());
@@ -63,39 +66,61 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
             renderTrail(entityIn, partialTicks, matrixStackIn, bufferIn, r, g, b, 1.0F, packedLightIn);
             matrixStackIn.popPose();
         }
+
+
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     private void renderTrail(Wither_Homing_Missile_Entity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
-        int sampleSize = 5;
-        float trailHeight = 0.1F;
-        float trailYRot = 0;
-        float trailZRot = 0;
-        Vec3 topAngleVec = new Vec3(trailHeight, trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
-        Vec3 bottomAngleVec = new Vec3(-trailHeight, -trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
-        Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
+
+        int sampleSize = 10;
+        float trailWidth = 0.2F;
+
         PoseStack.Pose posestack$pose = poseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();
         Matrix3f matrix3f = posestack$pose.normal();
         VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.getLightTrailEffect(TRAIL_TEXTURE));
 
-        for (int samples = 0; samples < sampleSize; samples++) {
-            Vec3 sample = entityIn.getTrailPosition(samples + 2, partialTicks);
-            float u1 = samples / (float) sampleSize;
-            float u2 = u1 + 1 / (float) sampleSize;
 
-            addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom, bottomAngleVec, trailR,trailG,trailB,u1, 1F, packedLightIn);
-            addVertex(vertexconsumer, matrix4f,matrix3f, sample, bottomAngleVec,  trailR,trailG,trailB,u2,1F, packedLightIn);
-            addVertex(vertexconsumer, matrix4f,matrix3f, sample, topAngleVec, trailR,trailG,trailB,u2,0F, packedLightIn);
-            addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom, topAngleVec, trailR,trailG,trailB, u1,0F, packedLightIn);
+        Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
+
+        Vec3 cameraPos = this.entityRenderDispatcher.camera.getPosition();
+
+        for (int i = 0; i < sampleSize; i++) {
+            Vec3 sample = entityIn.getTrailPosition(i + 1, partialTicks);
+            float u1 = i / (float) sampleSize;
+            float u2 = u1 + (1.0F / sampleSize);
+
+            Vec3 forward = sample.subtract(drawFrom);
+            if (forward.lengthSqr() == 0) continue;
+
+            Vec3 toCamera = cameraPos.subtract(drawFrom);
+
+            Vec3 side = forward.cross(toCamera).normalize();
+
+            Vec3 offset = side.scale(trailWidth / 2.0F);
+
+            addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom.add(offset),       trailR, trailG, trailB, u1, 0F, packedLightIn); // Top-left
+            addVertex(vertexconsumer, matrix4f,matrix3f, drawFrom.add(offset.scale(-1)), trailR, trailG, trailB, u1, 1F, packedLightIn); // Bottom-left
+            addVertex(vertexconsumer, matrix4f,matrix3f, sample.add(offset.scale(-1)),   trailR, trailG, trailB, u2, 1F, packedLightIn); // Bottom-right
+            addVertex(vertexconsumer, matrix4f,matrix3f, sample.add(offset),           trailR, trailG, trailB, u2, 0F, packedLightIn); // Top-right
 
             drawFrom = sample;
         }
-
-
     }
 
-    private void addVertex(VertexConsumer consumer, Matrix4f matrix,Matrix3f matrix3, Vec3 pos, Vec3 offset,float r,float g,float b, float u, float v, int light) {
+    // Update the addVertex method to simplify its signature
+    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Matrix3f matrix3, Vec3 pos, float r, float g, float b, float u, float v, int light) {
+        consumer.vertex(matrix,(float)pos.x, (float)pos.y, (float)pos.z)
+                .color(r, g, b, 1.0F)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(light)
+                .normal(matrix3,0.0F, 1.0F, 0.0F).endVertex();
+    }
+
+
+    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Matrix3f matrix3, Vec3 pos, Vec3 offset, float r, float g, float b, float u, float v, int light) {
         consumer.vertex(matrix,
                         (float) (pos.x + offset.x),
                         (float) (pos.y + offset.y),
@@ -106,6 +131,7 @@ public class Wither_Homing_Missile_Renderer extends EntityRenderer<Wither_Homing
                 .uv2(light)
                 .normal(matrix3,0.0F, 1.0F, 0.0F).endVertex();
     }
+
 
     @Override
     public ResourceLocation getTextureLocation(Wither_Homing_Missile_Entity entity)

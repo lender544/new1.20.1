@@ -45,7 +45,7 @@ public class RendererAltar_of_Abyss<T extends AltarOfAbyss_Block_Entity> impleme
         matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F));
         matrixStackIn.pushPose();
         MODEL.animate(tileEntityIn, partialTicks);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn,1,1,1,1);
         matrixStackIn.popPose();
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);

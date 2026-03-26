@@ -13,15 +13,14 @@ import com.github.L_Ender.cataclysm.client.render.blockentity.*;
 import com.github.L_Ender.cataclysm.client.render.entity.*;
 import com.github.L_Ender.cataclysm.client.render.etc.CurioHeadRenderer;
 import com.github.L_Ender.cataclysm.client.render.item.CMItemRenderProperties;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.Blazing_Grips_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.Chitin_Claw_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.RendererSandstorm_In_A_Bottle;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.RendererSticky_Gloves;
+
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.*;
 import com.github.L_Ender.cataclysm.client.render.item.CustomArmorRenderProperties;
 import com.github.L_Ender.cataclysm.client.sound.MeatShredderSound;
 import com.github.L_Ender.cataclysm.client.sound.SandstormSound;
 import com.github.L_Ender.cataclysm.entity.effect.Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.items.Brontes;
 import com.github.L_Ender.cataclysm.items.Ceraunus;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -73,6 +72,7 @@ public class ClientProxy extends CommonProxy {
 
     public void setupParticles(RegisterParticleProvidersEvent registry) {
         Cataclysm.LOGGER.debug("Registered particle factories");
+
         registry.registerSpriteSet(ModParticle.SPARK.get(), SparkParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.SOUL_LAVA.get(), SoulLavaParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.CURSED_FLAME.get(), CursedFlameParticle.Provider::new);
@@ -82,32 +82,44 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ModParticle.LIGHTNING_ZAP.get(), Lightning_Zap_Particle.Provider::new);
         registry.registerSpecial(ModParticle.EM_PULSE.get(), new EM_PulseParticle.Factory());
         registry.registerSpecial(ModParticle.SHOCK_WAVE.get(), new Shock_WaveParticle.Factory());
-        registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.OrbFactory());
+        registry.registerSpecial(ModParticle.LIGHTNING.get(), new LightningParticle.Factory());
         registry.registerSpecial(ModParticle.SPARK_TRAIL.get(), new SparkTrailParticle.Factory());
-        registry.registerSpecial(ModParticle.TRACK_LIGHTNING.get(), new TrackLightningParticle.OrbFactory());
+        registry.registerSpecial(ModParticle.TRACK_LIGHTNING.get(), new TrackLightningParticle.Factory());
         registry.registerSpecial(ModParticle.SPIN_TRAIL_PARTICLE.get(), new SpinTrailParticle.Factory());
         registry.registerSpecial(ModParticle.CIRCLE_LIGHTNING.get(), new CircleLightningParticle.Factory());
         registry.registerSpecial(ModParticle.GATHERING_WATER.get(), new Gathering_Water_Particle.Factory());
-        registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.OrbFactory());
+        registry.registerSpecial(ModParticle.STORM.get(), new StormParticle.Factory());
+        registry.registerSpecial(ModParticle.RISING_TRAIL.get(), new Rising_Trail_Particle.Factory());
+        registry.registerSpecial(ModParticle.AFTER_IMAGE.get(), new AfterImageParticle.Factory());
         registry.registerSpriteSet(ModParticle.RING.get(), RingParticle.RingFactory::new);
         registry.registerSpriteSet(ModParticle.ROAR.get(), RoarParticle.RoarFactory::new);
+        registry.registerSpriteSet(ModParticle.PARRY.get(), ParryParticle.ParryFactory::new);
+
         registry.registerSpriteSet(ModParticle.SCYLLA_SWING.get(), Scylla_Swing_Particle.Provider::new);
+
+
         registry.registerSpriteSet(ModParticle.RAIN_CLOUD.get(), RainCloudParticle.Factory::new);
         registry.registerSpriteSet(ModParticle.TRAP_FLAME.get(), TrapFlameParticle.Factory::new);
-        registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.OrbFactory());
+        registry.registerSpecial(ModParticle.LIGHT_TRAIL.get(), new LightTrailParticle.Factory());
+        registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
         registry.registerSpriteSet(ModParticle.FLAME_JET.get(), FlameJetParticle.Factory::new);
+
         registry.registerSpriteSet(ModParticle.LIGHTNING_STORM.get(), LightningStormParticle.Factory::new);
+        registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
         registry.registerSpriteSet(ModParticle.FLARE_EXPLODE.get(), CustomExplodeParticle.FlareFactory::new);
+        registry.registerSpriteSet(ModParticle.LIGHTNING_EXPLODE.get(), LightningExplodeParticle.FlareFactory::new);
         registry.registerSpriteSet(ModParticle.IGNIS_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
         registry.registerSpriteSet(ModParticle.IGNIS_ABYSS_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
         registry.registerSpriteSet(ModParticle.IGNIS_SOUL_EXPLODE.get(), CustomExplodeParticle.IgnisFactory::new);
         registry.registerSpriteSet(ModParticle.DESERT_GLYPH.get(), Desert_Glyph_Particle.GlyphFactory::new);
-        registry.registerSpriteSet(ModParticle.RAIN_FOG.get(), Rain_Fog_Particle.Factory::new);
-        registry.registerSpriteSet(ModParticle.LIGHTNING_EXPLODE.get(), LightningExplodeParticle.FlareFactory::new);
-        registry.registerSpecial(ModParticle.DUST_PILLAR.get(), new Dust_Pillar_Particle.DustPillarProvider());
-        registry.registerSpecial(ModParticle.NOT_SPIN_PARTICLE.get(), new Not_Spin_TrailParticle.Factory());
-
         registry.registerSpriteSet(ModParticle.DUST_BLAST.get(), Dust_Blast_Particle.Factory::new);
+        registry.registerSpecial(ModParticle.DUST_PILLAR.get(), new Dust_Pillar_Particle.DustPillarProvider());
+        registry.registerSpriteSet(ModParticle.PHANTOM_EMITTER.get(), Phantom_Emitter_Particle.Provider::new);
+
+
+        registry.registerSpriteSet(ModParticle.AMETHYST_CRASH.get(), Amethyst_Crush_Particle.CrashFactory::new);
+        registry.registerSpriteSet(ModParticle.CURSED_MARK.get(), CursedMarkParticle.MarkFactory::new);
+        registry.registerSpriteSet(ModParticle.CURSED_ALGIZ.get(), CursedAlgizParticle.AlgizFactory::new);
     }
 
 
@@ -123,12 +135,10 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.ENDER_GOLEM.get(), Ender_Golem_Renderer::new);
         EntityRenderers.register(ModEntities.NETHERITE_MONSTROSITY.get(), New_Netherite_Monstrosity_Renderer::new);
         EntityRenderers.register(ModEntities.NETHERITE_MINISTROSITY.get(), Netherite_Ministrosity_Renderer::new);
-        EntityRenderers.register(ModEntities.OLD_NETHERITE_MONSTROSITY.get(), Netherite_Monstrosity_Renderer::new);
         EntityRenderers.register(ModEntities.LAVA_BOMB.get(), Lava_Bomb_Renderer::new);
         EntityRenderers.register(ModEntities.FLARE_BOMB.get(), Flare_Bomb_Renderer::new);
         EntityRenderers.register(ModEntities.FLAME_JET.get(), RendererNull::new);
         EntityRenderers.register(ModEntities.LIGHTNING_STORM.get(), RendererNull::new);
-        EntityRenderers.register(ModEntities.NAMELESS_SORCERER.get(), Nameless_Sorcerer_Renderer::new);
         EntityRenderers.register(ModEntities.IGNIS.get(), Ignis_Renderer::new);
         EntityRenderers.register(ModEntities.ENDER_GUARDIAN.get(), Ender_Guardian_Renderer::new);
         EntityRenderers.register(ModEntities.ENDER_GUARDIAN_BULLET.get(), Ender_Guardian_bullet_Renderer::new);
@@ -184,8 +194,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.LIONFISH.get(), Lionfish_Renderer::new);
         EntityRenderers.register(ModEntities.TIDAL_HOOK.get(), Tidal_Hook_Renderer::new);
         EntityRenderers.register(ModEntities.AMETHYST_CRAB.get(), Amethyst_Crab_Renderer::new);
-        EntityRenderers.register(ModEntities.ANCIENT_ANCIENT_REMNANT.get(), Ancient_Remnant_Renderer::new);
-        EntityRenderers.register(ModEntities.ANCIENT_REMNANT.get(), Ancient_Remnant_Rework_Renderer::new);
+        EntityRenderers.register(ModEntities.ANCIENT_REMNANT.get(), Ancient_Remnant_Renderer::new);
         EntityRenderers.register(ModEntities.MODERN_REMNANT.get(), Modern_Remnant_Renderer::new);
         EntityRenderers.register(ModEntities.SANDSTORM.get(), Sandstorm_Renderer::new);
         EntityRenderers.register(ModEntities.SANDSTORM_PROJECTILE.get(), Sandstorm_Projectile_Renderer::new);
@@ -232,6 +241,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ModEntities.BLAZING_BONE.get(), Blazing_Bone_Renderer::new);
         EntityRenderers.register(ModEntities.LIONFISH_SPIKE.get(), Lionfish_Spike_Renderer::new);
         EntityRenderers.register(ModEntities.TIDAL_TENTACLE.get(), Tidal_Tentacle_Renderer::new);
+        EntityRenderers.register(ModEntities.SKY_COLOR.get(), RendererNull::new);
+        EntityRenderers.register(ModEntities.BRONTES.get(), Brontes_Renderer::new);
         MinecraftForge.EVENT_BUS.register(new ClientEvent());
         try {
             ItemProperties.register(ModItems.BULWARK_OF_THE_FLAME.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
@@ -245,7 +256,7 @@ public class ClientProxy extends CommonProxy {
             ItemProperties.register(ModItems.AZURE_SEA_SHIELD.get(), new ResourceLocation("blocking"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
             ItemProperties.register(ModItems.CERAUNUS.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> Ceraunus.getThrownUuid(stack) != null ? 1 : 0);
             ItemProperties.register(ModItems.ASTRAPE.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> p_239421_2_ != null && p_239421_2_.isUsingItem() && p_239421_2_.getUseItem() == stack ? 1.0F : 0.0F);
-
+            ItemProperties.register(ModItems.BRONTES.get(), new ResourceLocation("throwing"), (stack, p_239421_1_, p_239421_2_, j) -> Brontes.getThrownUuid(stack) != null ? 1 : 0);
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("Could not load item models for weapons");
         }
@@ -262,13 +273,20 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ModTileentites.ABYSSAL_EGG.get(), RendererAbyssal_Egg::new);
         BlockEntityRenderers.register(ModTileentites.GODDESS_STATUE.get(), Goddess_Statue_Renderer::new);
         MenuScreens.register(ModMenu.WEAPON_FUSION.get(), GUIWeponfusion::new);
-        CuriosRendererRegistry.register(ModItems.SANDSTORM_IN_A_BOTTLE.get(), RendererSandstorm_In_A_Bottle::new);
-        CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), RendererSticky_Gloves::new);
+        CuriosRendererRegistry.register(ModItems.STICKY_GLOVES.get(), Sticky_Gloves_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.BLAZING_GRIPS.get(), Blazing_Grips_Renderer::new);
         CuriosRendererRegistry.register(ModItems.KOBOLEDIATOR_SKULL.get(), CurioHeadRenderer::new);
         CuriosRendererRegistry.register(ModItems.APTRGANGR_HEAD.get(), CurioHeadRenderer::new);
         CuriosRendererRegistry.register(ModItems.DRAUGR_HEAD.get(), CurioHeadRenderer::new);
-        CuriosRendererRegistry.register(ModItems.BLAZING_GRIPS.get(), Blazing_Grips_Renderer::new);
         CuriosRendererRegistry.register(ModItems.CHITIN_CLAW.get(), Chitin_Claw_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.VITALITY_ANKH.get(), Vitality_Ankh_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.BELT_OF_BEGINNER.get(), Belt_Of_Beginner_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.BELT_OF_MONSTROSITY.get(), Belt_Of_Monstrosity_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.UNBREAKABLE_SKULL.get(), Unbreakable_Skull_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.BERSERKER_SOUL_AMULET.get(), Berserker_Soul_Amulet_Renderer::new);
+        CuriosRendererRegistry.register(ModItems.STURDY_BOOTS.get(), Sturdy_Boots_Renderer::new);
+
+
     }
 
     @OnlyIn(Dist.CLIENT)

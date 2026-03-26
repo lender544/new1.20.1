@@ -34,10 +34,7 @@ public class Scylla_Snake_Layer extends RenderLayer<Scylla_Entity, Scylla_Model>
         RenderType ghost = CMRenderTypes.getGhost(this.getLayerTextureLocation());
         VertexConsumer VertexConsumer = bufferIn.getBuffer(ghost);
 
-        float alpha = 0.35F;
-        int i1 = FastColor.ARGB32.color((int) (alpha * 255),255, 255, 255);
-
-        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1f,1f,1f,0.35F);
+        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,0.35F);
 
 
     }

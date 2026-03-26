@@ -2,8 +2,6 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Bardiche_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
-import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
@@ -22,10 +20,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.Vanishable;
+import net.minecraft.world.item.*;
+
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -37,7 +33,7 @@ import net.minecraftforge.common.ForgeMod;
 
 import java.util.UUID;
 
-public class Coral_Bardiche extends Item implements Vanishable,More_Tool_Attribute {
+public class Coral_Bardiche extends Item implements Vanishable {
     public static final int THROW_THRESHOLD_TIME = 10;
     public static final float BASE_DAMAGE = 8.0F;
     public static final float SHOOT_POWER = 2.5F;
@@ -48,7 +44,7 @@ public class Coral_Bardiche extends Item implements Vanishable,More_Tool_Attribu
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 9.0D, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-3.2F, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 1.5F, AttributeModifier.Operation.ADDITION));
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("0CB612AF-CE7C-4FD2-9647-4BFD75B8D8A0"), "Tool modifier", 1.5F, AttributeModifier.Operation.ADDITION));
         this.defaultModifiers = builder.build();
     }
 
@@ -133,9 +129,9 @@ public class Coral_Bardiche extends Item implements Vanishable,More_Tool_Attribu
         if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
             return InteractionResultHolder.fail(item);
         }else if (item.getDamageValue() >= item.getMaxDamage() - 1) {
-                return InteractionResultHolder.fail(item);
-            } else if (EnchantmentHelper.getRiptide(item) > 0 && !p_77659_2_.isInWaterOrRain()) {
-                return InteractionResultHolder.fail(item);
+            return InteractionResultHolder.fail(item);
+        } else if (EnchantmentHelper.getRiptide(item) > 0 && !p_77659_2_.isInWaterOrRain()) {
+            return InteractionResultHolder.fail(item);
         }else{
             p_77659_2_.startUsingItem(p_77659_3_);
             return InteractionResultHolder.consume(item);

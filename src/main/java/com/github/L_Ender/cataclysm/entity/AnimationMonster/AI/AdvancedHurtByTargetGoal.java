@@ -28,7 +28,7 @@ public class AdvancedHurtByTargetGoal extends HurtByTargetGoal {
     @Override
     public void start() {
         super.start();
-        this.forcedAggroTime = 40 + this.mob.getRandom().nextInt(80) + this.mob.getRandom().nextInt(80);
+        this.forcedAggroTime = 40 + this.mob.getRandom().nextInt(140);
         intensity = 1f;
     }
 

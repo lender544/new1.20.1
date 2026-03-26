@@ -2,8 +2,9 @@ package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blocks.PointedIcicleBlock;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
@@ -13,10 +14,11 @@ import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
-import com.github.L_Ender.cataclysm.entity.projectile.*;
+import com.github.L_Ender.cataclysm.entity.projectile.Axe_Blade_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.MessageEntityCamera;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -49,25 +51,18 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.PointedDripstoneBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
-
-import static java.lang.Math.toRadians;
 
 
 public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHoldEntity {
@@ -92,7 +87,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         this.setMaxUpStep(1.25F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.AptrgangrHealthMultiplier, CMConfig.AptrgangrDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Aptrgangr.healthMultiplier, CMCommonConfig.Aptrgangr.attackMultiplier);
     }
 
     protected void registerGoals() {
@@ -220,6 +215,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         if (source.is(ModTag.BLOCK_SELF_REGEN)) {
             self_regen = NATURE_HEAL_COOLDOWN;
         }
+
         return super.hurt(source, damage);
     }
 
@@ -340,9 +336,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
     }
 
     public float NatureRegen() {
-        return (float) (25F * CMConfig.AptrgangrHealthMultiplier);
+        return (float)CMCommonConfig.Aptrgangr.natureHeal;
     }
-
     public void tick() {
         super.tick();
         if (this.level().isClientSide()) {
@@ -403,7 +398,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     float rad = (float) Math.toRadians(angle);
                     double dx = -Math.sin(rad);
                     double dz = Math.cos(rad);
-                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float) CMConfig.AptrgangrAxeBladeDamage,angle);
+                    Axe_Blade_Entity witherskull = new Axe_Blade_Entity(this, dx, 0, dz, this.level(),(float)CMCommonConfig.Aptrgangr.AxeBladeDamage,angle);
                     double spawnX = this.getX() + vecX * 5;
                     double spawnY = this.getY(0.15D);
                     double spawnZ = this.getZ() + vecZ * 5;
@@ -428,8 +423,8 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                 float yaw = (float) Math.toRadians(-this.getYRot());
                 float yaw2 = (float) Math.toRadians(-this.getYRot() + 180);
                 float pitch = (float) Math.toRadians(-this.getXRot());
-                this.level().addParticle(new RingParticle.RingData(yaw, pitch, 40, 0.337f, 0.925f, 0.8f, 1.0f, 50f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
-                this.level().addParticle(new RingParticle.RingData(yaw2, pitch, 40, 0.337f, 0.925f, 0.8f, 1.0f, 50f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(yaw, pitch, 40, 86, 236, 204, 1.0f, 50f, false, 2), x, y, z, 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(yaw2, pitch, 40, 86, 236, 204, 1.0f, 50f, false, 2), x, y, z, 0, 0, 0);
 
             }
         }
@@ -476,7 +471,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
             }
-            this.level().addParticle(new RingParticle.RingData(0f, (float)Math.PI/2f, 30, 1.0f, 1.0F,  1.0F, 1.0f, 20f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+            this.level().addParticle(new RingParticleOptions(0f, (float)Math.PI/2f, 30, 255, 255,  255, 1.0f, 20f, false, 2), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
 
         }
     }
@@ -500,7 +495,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
                     double d0 = entityHit.getX() - this.getX();
                     double d1 = entityHit.getZ() - this.getZ();
@@ -534,7 +529,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                         DamageSource damagesource = this.damageSources().mobAttack(this);
                         boolean hurt = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                         if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
                         double d0 = entityHit.getX() - this.getX();
                         double d1 = entityHit.getZ() - this.getZ();
@@ -562,7 +557,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
                         DamageSource damagesource = maledictio ? CMDamageTypes.causeMaledictioDamage(this) : this.damageSources().mobAttack(this);
                         boolean flag = entity.hurt(damagesource, damage);
                         if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                            disableShield(player, shieldbreakticks);
+                            EntityUtil.disableShield(player, shieldbreakticks);
                         }
                         if (flag) {
                             if (!entity.getType().is(ModTag.IGNIS_CANT_POKE) && entity.isAlive()) {
@@ -634,7 +629,7 @@ public class Aptrgangr_Entity extends Internal_Animation_Monster implements IHol
         return true;
     }
 
-    public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
+    public void positionRider(Entity passenger, MoveFunction moveFunc) {
         double theta = (yBodyRot) * (Math.PI / 180);
         theta += Math.PI / 2;
         double vecX = Math.cos(theta);

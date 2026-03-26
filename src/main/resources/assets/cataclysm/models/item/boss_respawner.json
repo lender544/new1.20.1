@@ -1,7 +1,7 @@
 {
   "parent": "builtin/entity",
   "textures": {
-    "particle": "minecraft:block/spawner"
+    "particle": "block/spawner"
   },
   "display": {
     "gui": {

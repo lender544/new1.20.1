@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Wave_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -21,6 +22,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
 
+    private static final ResourceLocation WAVE_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/wave.png");
     private static final ResourceLocation[] TEXTURE_PROGRESS = new ResourceLocation[5];
     public Wave_Model model;
 
@@ -43,12 +45,11 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
         VertexConsumer vertexconsumer = buffer.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entity)));
         float alpha = 0.7F;
         int i1 = FastColor.ARGB32.color((int) (alpha * 255),255, 255, 255);
-        //  this.model.setupAnim(f, f1);
+      //  this.model.setupAnim(f, f1);
         this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1.0F,1.0f,1.0f,alpha);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
-
 
 
     @Override
@@ -60,5 +61,6 @@ public class Wave_Renderer extends EntityRenderer<Wave_Entity> {
     public ResourceLocation getGrowingTexture(int age) {
         return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
     }
+
 
 }

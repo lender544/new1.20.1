@@ -1,14 +1,13 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.RoarParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AI.AnimalAIRandomSwimming;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AnimationGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -21,6 +20,7 @@ import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.message.MessageMusic;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
@@ -56,7 +56,6 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -64,15 +63,17 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.network.PacketDistributor;
+
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -163,6 +164,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public The_Leviathan_Entity(EntityType type, Level worldIn) {
         super(type, worldIn);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
         this.xpReward = 500;
         if (worldIn.isClientSide)
             socketPosArray = new Vec3[]{new Vec3(0, 0, 0)
@@ -172,7 +174,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         this.tailPart2 = new The_Leviathan_Part(this, 1.3F, 2.4F);
         this.leviathanParts = new The_Leviathan_Part[]{this.headPart,this.tailPart1,this.tailPart2};
         switchNavigator(false);
-        setConfigattribute(this, CMConfig.LeviathanHealthMultiplier, CMConfig.LeviathanDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.Leviathan.healthMultiplier,CMCommonConfig.Leviathan.attackMultiplier);
     }
 
     public static AttributeSupplier.Builder leviathan() {
@@ -184,6 +186,30 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                 .add(Attributes.MOVEMENT_SPEED, 0.15);
     }
 
+    public float DamageCap() {
+        return (float) CMCommonConfig.Leviathan.damageCap;
+
+
+    }
+
+    public float NatureRegen() {
+        return (float)CMCommonConfig.Leviathan.natureHeal;
+    }
+
+    public float DpsCap() {
+        return (float)CMCommonConfig.Leviathan.dpsCap;
+    }
+
+    public int DpsMulti() {
+        return CMCommonConfig.Leviathan.dpsLimitTime;
+    }
+
+
+    public double RangeLimit() {
+        return CMCommonConfig.Leviathan.rangeCap;
+    }
+    
+    
     protected PathNavigation createNavigation(Level worldIn) {
         return new WaterBoundPathNavigation(this, worldIn);
     }
@@ -293,13 +319,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
         double range = calculateRange(source);
 
-        if (range > CMConfig.LeviathanLongRangelimit * CMConfig.LeviathanLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
-        }
 
         boolean flag1 = this.canInFluidType(this.getEyeInFluidType());
         if (!flag1) {
-            if(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && CMConfig.LeviathanImmuneOutofWater) {
+            if(!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) &&  CMCommonConfig.Leviathan.ImmuneOutofWater) {
                 if (entity instanceof Player player) {
                     player.displayClientMessage(Component.translatable("entity.cataclysm.the_leviathan_immune"), true);
                 }
@@ -325,19 +348,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
         return attack;
     }
-
     
-    public float DamageCap() {
-        return (float) CMConfig.LeviathanDamageCap;
-    }
-
-    public float NatureRegen() {
-        return (float) CMConfig.LeviathanNatureHealing;
-    }
-
-    public int DamageTime() {
-        return CMConfig.LeviathanDamageTime;
-    }
 
     public int HealCooldown() {
         return 600;
@@ -366,15 +377,12 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     }
 
-
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
         return source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.FALLING_BLOCK) || super.isInvulnerableTo(source);
     }
 
-    public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
-        return false;
-    }
+
 
     public boolean attackEntityFromPart(The_Leviathan_Part leviathan_part, DamageSource source, float amount) {
         return this.hurt(source, amount);
@@ -410,6 +418,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                 this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
                 this.bossInfo.setRenderType(6);
             }
+
         }
 
         final boolean groundAnimate = !this.isInWater();
@@ -494,7 +503,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                 if (this.destroyBlocksTick > 0) {
                     --this.destroyBlocksTick;
                     if (this.destroyBlocksTick == 0){
-                        if(CMConfig.LeviathanBlockBreaking){
+                        if(CMCommonConfig.Leviathan.ignoreMobGriefing){
                             blockbreak(0.5D,0.5D,0.5D);
                         }else{
                             if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
@@ -504,7 +513,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     }
                 }
                 if(mode ==AttackMode.MELEE) {
-                    if (CMConfig.LeviathanBlockBreaking) {
+                    if (CMCommonConfig.Leviathan.ignoreMobGriefing) {
                         blockbreak2();
                     } else {
                         if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
@@ -539,7 +548,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public void aiStep() {
         super.aiStep();
         Vec3 motion;
-
 
         final float yaw = this.getYRot() * (float) Math.PI / 180.0F;
         final float pitch = this.getXRot() * (float) Math.PI / 180.0F;
@@ -589,8 +597,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     LayerBrightness = l;
                 }
             }
-            for (int i = 144, j = 1; i <= 184; i++, j++) {
-                float l = j * -0.025f;
+            for (int i = 144, j = 40; i <= 184; i++, j--) {
+                float l = j * 0.025f;
                 if (this.getAnimationTick() == i) {
                     LayerBrightness = l;
                 }
@@ -628,8 +636,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     LayerBrightness = l;
                 }
             }
-            for (int i = 176, j = 1; i <= 216; i++, j++) {
-                float l = j * -0.025f;
+            for (int i = 176, j = 40; i <= 216; i++, j--) {
+                float l = j * 0.025f;
                 if (this.getAnimationTick() == i) {
                     LayerBrightness = l;
                 }
@@ -639,20 +647,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             }
         }
 
-        if(this.getAnimation() == LEVIATHAN_RUSH){
-            if (this.getAnimationTick() > 54 && this.getAnimationTick() < 137) {
-                chargeDamage();
-                if (!this.level().isClientSide) {
-                    if(CMConfig.LeviathanBlockBreaking) {
-                        chargeblockbreaking();
-                    }else{
-                        if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
-                            chargeblockbreaking();
-                        }
-                    }
-                }
 
-            }
+        //RoarParticle(2.5f, 0.0f, 70, 255, 255, 255, 1.0f, 20f);
+        if(this.getAnimation() == LEVIATHAN_RUSH){
+
 
             if (this.getAnimationTick() == 54) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);
@@ -739,8 +737,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     LayerBrightness = l;
                 }
             }
-            for (int i = 102, j = 1; i <= 142; i++, j++) {
-                float l = j * -0.025f;
+            for (int i = 102, j = 40; i <= 142; i++, j--) {
+                float l = j * 0.025f;
                 if (this.getAnimationTick() == i) {
                     LayerBrightness = l;
                 }
@@ -808,19 +806,18 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
         if(this.getAnimation() == LEVIATHAN_PHASE2){
             if (this.getAnimationTick() == 1) {
-                if (CMConfig.LeviathanSeparatePhaseMusic) {
+                if(CMCommonConfig.Leviathan.SeparatePhaseMusic) {
                     if (!level().isClientSide && getBossMusic() != null) {
                         Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
                     }
                 }
             }
 
-
             if (this.getAnimationTick() == 90) {
                 if(!this.getMeltDown()) {
                     setMeltDown(true);
                 }
-                if (CMConfig.LeviathanSeparatePhaseMusic) {
+                if(CMCommonConfig.Leviathan.SeparatePhaseMusic) {
                     if (!level().isClientSide && getBossMusic() != null) {
                         Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
                     }
@@ -862,6 +859,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             if (this.getAnimationTick() == 96) {
                 RoarParticle(this.getX() +fx * -4F, this.getY() -pitch * 3F, this.getZ() -fz * -4F,60, 102, 26, 204, 0.9f,1,1.2F,15);
             }
+            if (this.getAnimationTick() >= 70 && this.getAnimationTick() <= 80)
+                Sphereparticle(this.getEyeHeight(), 0, 8);
         }
         if(this.getAnimation() == LEVIATHAN_TENTACLE_HOLD){
             if (this.getAnimationTick() == 32) {
@@ -876,8 +875,8 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     LayerBrightness = l;
                 }
             }
-            for (int i = 149, j = 1; i <= 189; i++, j++) {
-                float l = j * -0.025f;
+            for (int i = 149, j = 40; i <= 189; i++, j--) {
+                float l = j * 0.025f;
                 if (this.getAnimationTick() == i) {
                     LayerBrightness = l;
                 }
@@ -896,10 +895,9 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
     }
 
-
     private void RoarParticle(double x,double y,double z,int duration, int r, int g, int b, float a,float start,float inc,float end) {
         if (this.level().isClientSide) {
-            this.level().addParticle(new RoarParticle.RoarData(duration, r, g, b, a, start,inc,end), x, y, z, 0, 0, 0);
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), x, y, z, 0, 0, 0);
         }
     }
 
@@ -931,24 +929,25 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     }
 
     private void TailWhips() {
-        if (!this.level().isClientSide) {
-            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D, 7.0D, 7.0D))) {
-                if (!isAlliedTo(entity) && !(entity instanceof The_Leviathan_Entity) && entity != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.LeviathanTailSwingHpdamage)));
+        if (!this.level().isClientSide){
+            
+            
+        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(7.0D,7.0D,7.0D))) {
+            if (!isAlliedTo(entity) && !(entity instanceof The_Leviathan_Entity) && entity != this) {
+                DamageSource damagesource = this.damageSources().mobAttack(this);
+                boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * (float)CMCommonConfig.Leviathan.TailSwingHpDamage)));
+                if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
+                    EntityUtil.disableShield(player, 120);
+                }
 
-                    if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
-                        disableShield(player, 120);
-                    }
 
+                if (flag) {
+                    launch(entity, true);
+                    entity.addEffect(new MobEffectInstance(ModEffect.EFFECTBONE_FRACTURE.get(), 200));
 
-                    if (flag) {
-                        launch(entity, true);
-                        entity.addEffect(new MobEffectInstance(ModEffect.EFFECTBONE_FRACTURE.get(), 200));
-
-                    }
                 }
             }
+        }
         }
     }
 
@@ -988,14 +987,14 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     public void shootAbyssOrb(double xMotion, double yMotion, double zMotion) {
         if(getTarget() != null) {
-            Abyss_Orb_Entity fireball = new Abyss_Orb_Entity(this, xMotion, yMotion, zMotion, this.level(), (float) CMConfig.AbyssOrbdamage,this.getTarget());
+            Abyss_Orb_Entity fireball = new Abyss_Orb_Entity(this, xMotion, yMotion, zMotion, this.level(), (float)CMCommonConfig.Leviathan.AbyssOrbdamage,this.getTarget());
             fireball.setPos(fireball.getX(), this.getEyeY(), fireball.getZ());
             fireball.setUp(40);
             if (!this.level().isClientSide) {
                 this.level().addFreshEntity(fireball);
             }
         }else{
-            Abyss_Orb_Entity fireball = new Abyss_Orb_Entity(this, xMotion, yMotion, zMotion, this.level(), (float) CMConfig.AbyssOrbdamage,null);
+            Abyss_Orb_Entity fireball = new Abyss_Orb_Entity(this, xMotion, yMotion, zMotion, this.level(), (float)CMCommonConfig.Leviathan.AbyssOrbdamage,null);
             fireball.setPos(fireball.getX(), this.getEyeY(), fireball.getZ());
             fireball.setUp(40);
             if (!this.level().isClientSide) {
@@ -1094,12 +1093,17 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     private void chargeDamage(){
         if (this.tickCount % 4 == 0) {
+            if (!this.level().isClientSide){
             for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3D))) {
                 if (!isAlliedTo(Lentity) && !(Lentity instanceof The_Leviathan_Entity) && Lentity != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = Lentity.hurt(damagesource,  (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), Lentity.getMaxHealth() * CMConfig.LeviathanRushHpdamage)));
+                    
+                    
+                    
+                    boolean flag = Lentity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), 
+                            Lentity.getMaxHealth() * (float)CMCommonConfig.Leviathan.RushHpDamage)));
                     if (Lentity instanceof Player player && Lentity.isDamageSourceBlocked(damagesource)) {
-                        disableShield(player, 120);
+                        EntityUtil.disableShield(player, 120);
                     }
 
 
@@ -1114,6 +1118,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     }
                 }
             }
+            }
         }
     }
 
@@ -1121,7 +1126,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     private void biteattack(float radius , double inflateX, double inflateY, double inflateZ,int stuntick) {
         double renderYaw = (this.yHeadRot +90) * Math.PI / 180.0d;
         double renderPitch = (float) (-this.getXRot() * Math.PI / 180.0d);
-
         endPosX = getX() + radius * Math.cos(renderYaw) * Math.cos(renderPitch);
         endPosZ = getZ() + radius * Math.sin(renderYaw) * Math.cos(renderPitch);
         endPosY = getY() + radius * Math.sin(renderPitch);
@@ -1130,9 +1134,10 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             for (LivingEntity target : hit) {
                 if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5 + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5, target.getMaxHealth() * CMConfig.LeviathanbiteHpdamage)));
+                    boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5 + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.5, target.getMaxHealth() * 
+                            (float)CMCommonConfig.Leviathan.TentacleHpDamage)));
                     if (target instanceof Player player && target.isDamageSourceBlocked(damagesource)) {
-                        disableShield(player, 200);
+                        EntityUtil.disableShield(player, 200);
                     }
 
 
@@ -1147,7 +1152,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         }
     }
 
-
     private void Tentacleattack(int anime, float radius, double inflateX, double inflateY, double inflateZ) {
         double renderYaw = (this.yHeadRot +90) * Math.PI / 180.0d;
         double renderPitch = (float) (-this.getXRot() * Math.PI / 180.0d);
@@ -1156,18 +1160,17 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         endPosY = getY() + radius * Math.sin(renderPitch);
         if(this.getAnimationTick() == anime){
             this.playSound(ModSounds.LEVIATHAN_TENTACLE_STRIKE.get(), 1.0F, 1.0F);
-
-            List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY,inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
-            if (!this.level().isClientSide) {
+            if (!level().isClientSide) {
+                List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY,inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
                 for (LivingEntity target : hit) {
                     if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
                         DamageSource damagesource = this.damageSources().mobAttack(this);
-                        boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), target.getMaxHealth() * CMConfig.LeviathanTentacleHpdamage)));
+                        boolean flag = target.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), target.getMaxHealth() * (float)CMCommonConfig.Leviathan.TentacleHpDamage)));
                         if (target instanceof Player player && target.isDamageSourceBlocked(damagesource)) {
-                            disableShield(player, 90);
+                            EntityUtil.disableShield(player, 90);
                         }
 
-                        if (flag) {
+                        if(flag){
                             double d0 = target.getX() - this.getX();
                             double d1 = target.getZ() - this.getZ();
                             double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
@@ -1176,7 +1179,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
                     }
                 }
             }
-
         }
     }
 
@@ -1188,36 +1190,32 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         endPosX = getX() + radius * Math.cos(renderYaw) * Math.cos(renderPitch);
         endPosZ = getZ() + radius * Math.sin(renderYaw) * Math.cos(renderPitch);
         endPosY = getY() + radius * Math.sin(renderPitch);
-
-        List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY, inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
-        if (!this.level().isClientSide) {
+        if (!level().isClientSide) {
+            List<LivingEntity> hit = raytraceEntities(level(), inflateX, inflateY, inflateZ, new Vec3(getX(), getY(), getZ()), new Vec3(endPosX, endPosY, endPosZ)).entities;
             for (LivingEntity target : hit) {
                 if (!isAlliedTo(target) && !(target instanceof The_Leviathan_Entity) && target != this) {
                     DamageSource damagesource = this.damageSources().mobAttack(this);
                     boolean flag = target.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + target.getMaxHealth() * 0.1f);
                     if (target instanceof Player player && target.isDamageSourceBlocked(damagesource) && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
 
                     if (flag && !target.getType().is(ModTag.IGNIS_CANT_POKE) && target.isAlive()) {
                         if (target.isShiftKeyDown()) {
                             target.setShiftKeyDown(false);
                         }
-
-                            target.startRiding(this, true);
-
-
+                        target.startRiding(this, true);
                         AnimationHandler.INSTANCE.sendAnimationMessage(this, LEVIATHAN_TENTACLE_HOLD_BLAST);
                     }
                 }
             }
-
         }
 
     }
 
 
-    public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
+
+    public void positionRider(Entity passenger, MoveFunction moveFunc) {
         if (hasPassenger(passenger)) {
             if (this.getAnimation() == LEVIATHAN_TENTACLE_HOLD_BLAST) {
                 if (this.getAnimationTick() == 169) {
@@ -1296,8 +1294,6 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return true;
     }
 
-
-
     public boolean isPushedByFluid() {
         return false;
     }
@@ -1305,6 +1301,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
     public MobType getMobType() {
         return MobType.WATER;
     }
+        
 
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -1469,7 +1466,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     @Override
     public SoundEvent getBossMusic() {
-        if (CMConfig.LeviathanSeparatePhaseMusic) {
+        if (CMCommonConfig.Leviathan.SeparatePhaseMusic) {
             return this.getMeltDown() ? ModSounds.LEVIATHAN_MUSIC_2.get() : ModSounds.LEVIATHAN_MUSIC_1.get();
         }else{
             return ModSounds.LEVIATHAN_MUSIC.get();
@@ -1478,7 +1475,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
     @Override
     protected boolean canPlayMusic() {
-        if (CMConfig.LeviathanSeparatePhaseMusic) {
+        if (CMCommonConfig.Leviathan.SeparatePhaseMusic) {
             if (this.getAnimation() == LEVIATHAN_PHASE2) {
                 return getAnimationTick() > 90 && super.canPlayMusic();
             } else {
@@ -1488,6 +1485,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             return super.canPlayMusic();
         }
     }
+
     @Nullable
     public Animation getDeathAnimation()
     {
@@ -1507,8 +1505,9 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
         return true;
     }
 
+    @Nullable
     @Override
-    public net.minecraftforge.entity.PartEntity<?>[] getParts() {
+    public PartEntity<?>[] getParts() {
         return this.leviathanParts;
     }
 
@@ -1754,7 +1753,9 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             float dir = 90.0f;
             if(this.entity.getAnimationTick() == 64) {
                 if(!entity.level().isClientSide) {
-                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 80, dir,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage);
+                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 80, dir,
+                            (float)CMCommonConfig.Leviathan.AbyssBlastDamage,
+                            (float)CMCommonConfig.Leviathan.AbyssBlastHpDamage);
                     entity.level().addFreshEntity(DeathBeam);
                 }
             }
@@ -1802,7 +1803,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             float dir = 90.0f;
             if(this.entity.getAnimationTick() == 64 || this.entity.getAnimationTick() == 109 || this.entity.getAnimationTick() == 154) {
                 if(!entity.level().isClientSide) {
-                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28, dir,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage);
+                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 28, dir,(float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage);
                     entity.level().addFreshEntity(DeathBeam);
                 }
             }
@@ -2052,7 +2053,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             } while (blockpos.getY() >= Mth.floor(minY) - 1);
 
             if (flag) {
-                entity.level().addFreshEntity(new Abyss_Blast_Portal_Entity(entity.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage,entity));
+                entity.level().addFreshEntity(new Abyss_Blast_Portal_Entity(entity.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage,entity));
             }
         }
 
@@ -2081,7 +2082,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             } while (blockpos.getY() < Math.min(entity.level().getMaxBuildHeight(), entity.getBlockY() + 100) && !entity.level().getBlockState(blockpos).isSolid());
 
             if (flag) {
-                entity.level().addFreshEntity(new Abyss_Blast_Portal_Entity(entity.level(), x, (double) blockpos.getY() + d0 + 0.5F, z, rotation, delay,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage, entity));
+                entity.level().addFreshEntity(new Abyss_Blast_Portal_Entity(entity.level(), x, (double) blockpos.getY() + d0 + 0.5F, z, rotation, delay,(float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage, entity));
             }
         }
     }
@@ -2250,7 +2251,7 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
             float dir = 90.0f;
             if(this.entity.getAnimationTick() == 64) {
                 if(!entity.level().isClientSide) {
-                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 80, dir,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage);
+                    Abyss_Blast_Entity DeathBeam = new Abyss_Blast_Entity(ModEntities.ABYSS_BLAST.get(), entity.level(), entity, entity.getX(), entity.getY(), entity.getZ(), (float) ((entity.yHeadRot + dir) * Math.PI / 180), (float) (-entity.getXRot() * Math.PI / 180), 80, dir,(float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage);
                     entity.level().addFreshEntity(DeathBeam);
                 }
             }

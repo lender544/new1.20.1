@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
@@ -44,7 +45,7 @@ public class Deepling_Priest_Entity extends AbstractDeepling {
 
     private int lightcooldown = 200;
     public static final int LIGHT_COOLDOWN = 200;
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.15f, 0.6F, false);
+    private static final EntityDimensions SWIMMING_SIZE = EntityDimensions.fixed(1.15f, 0.6F);
 
     public Deepling_Priest_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -109,7 +110,7 @@ public class Deepling_Priest_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.DeeplingPriestSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel ) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingPriestSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel ) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }
@@ -190,9 +191,6 @@ public class Deepling_Priest_Entity extends AbstractDeepling {
         }
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return sizeIn.height * 0.9F;
-    }
 
     boolean wantsToSwim() {
         if (this.searchingForLand) {
@@ -252,7 +250,6 @@ public class Deepling_Priest_Entity extends AbstractDeepling {
             this.mob = p_25552_;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
-
 
         protected void checkAndPerformAttack(LivingEntity p_25557_, double p_25558_) {
             double d0 = this.getAttackReachSqr(p_25557_);

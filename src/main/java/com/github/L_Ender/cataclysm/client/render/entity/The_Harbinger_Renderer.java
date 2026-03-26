@@ -94,9 +94,9 @@ public class The_Harbinger_Renderer extends MobRenderer<The_Harbinger_Entity, Th
         }
 
         matrixStackIn.popPose();
-        
+
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-        
+
     }
 
 

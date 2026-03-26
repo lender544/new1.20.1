@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,9 +14,6 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +31,6 @@ public class Elemental_Spear_Entity extends Projectile {
 
     }
 
-    @Override
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE,0f);
         this.entityData.define(STATE,0);
@@ -105,6 +100,7 @@ public class Elemental_Spear_Entity extends Projectile {
             if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
+
             if(this.getState() == 1) {
                 if (this.lifetick > 5) {
                     this.setState(2);
@@ -142,19 +138,8 @@ public class Elemental_Spear_Entity extends Projectile {
     }
 
 
-
     protected void onHit(HitResult result) {
-        HitResult.Type hitresult$type = result.getType();
-        if (hitresult$type == HitResult.Type.ENTITY) {
-            EntityHitResult entityhitresult = (EntityHitResult)result;
-            this.onHitEntity(entityhitresult);
-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, result.getLocation(), GameEvent.Context.of(this, (BlockState)null));
-        } else if (hitresult$type == HitResult.Type.BLOCK) {
-            BlockHitResult blockhitresult = (BlockHitResult)result;
-            this.onHitBlock(blockhitresult);
-            BlockPos blockpos = blockhitresult.getBlockPos();
-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
-        }
+        super.onHit(result);
 
     }
 
@@ -199,6 +184,8 @@ public class Elemental_Spear_Entity extends Projectile {
     public float getLightLevelDependentMagicValue() {
         return 1.0F;
     }
+
+
     @Override
     public void checkDespawn() {
         if (this.level().getDifficulty() == Difficulty.PEACEFUL) {
@@ -224,8 +211,8 @@ public class Elemental_Spear_Entity extends Projectile {
         super.recreateFromPacket(packet);
         this.xRotO = this.getXRot();
         this.yRotO = this.getYRot();
-
     }
+
 
     protected void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
         this.setDeltaMovement(movement.normalize().scale(accelerationPower));

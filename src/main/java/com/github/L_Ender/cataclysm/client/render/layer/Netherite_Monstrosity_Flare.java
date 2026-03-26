@@ -12,11 +12,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.util.FastColor;
 
-@OnlyIn(Dist.CLIENT)
+
 public class Netherite_Monstrosity_Flare extends RenderLayer<Netherite_Monstrosity_Entity, Netherite_Monstrosity_Model> {
     private static final ResourceLocation NETHERITE_MONSTRISITY_OUTER = new ResourceLocation(Cataclysm.MODID,"textures/entity/monstrosity/netherite_monstrosity_flare_outer.png");
 
@@ -29,8 +27,8 @@ public class Netherite_Monstrosity_Flare extends RenderLayer<Netherite_Monstrosi
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Netherite_Monstrosity_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         RenderType eyes2 = CMRenderTypes.CMEyes(NETHERITE_MONSTRISITY_OUTER);
         VertexConsumer VertexConsumer2 = bufferIn.getBuffer(eyes2);
-
-        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer2, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.4F);
+        int i = FastColor.ARGB32.color(255, 255, 255, 102);
+        this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer2, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F,1.0F,1.0F,0.4F);
     }
 }
 

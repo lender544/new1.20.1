@@ -2,10 +2,12 @@ package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.*;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 
 
 public class ModTileentites {
@@ -56,4 +58,7 @@ public class ModTileentites {
 
     public static final RegistryObject<BlockEntityType<Boss_Respawn_Spawner_Block_Entity>> BOSS_RESPAWNER = TILE_ENTITY_TYPES.register("boss_respawner", () ->
             BlockEntityType.Builder.of(Boss_Respawn_Spawner_Block_Entity::new, ModBlocks.BOSS_RESPAWNER.get()).build(null));
+
+
+
 }

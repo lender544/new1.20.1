@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.EntityAINearestTarget3D;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
@@ -9,10 +9,10 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Lev
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Portal_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.PetSimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwnerWater;
-import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
 import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
-import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
+import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
+import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.entity.projectile.Mini_Abyss_Blast_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -36,7 +36,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -45,7 +44,6 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -88,7 +86,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
         switchNavigator(false);
-        setConfigattribute(this, CMConfig.BabyLeviathanHealthMultiplier, CMConfig.BabyLeviathanDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.BabyLeviathan.healthMultiplier,CMCommonConfig.BabyLeviathan.attackMultiplier);
         this.setMaxUpStep(1.0F);
     }
 
@@ -566,7 +564,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         }
 
         public void start() {
-            this.mob.mode = The_Baby_Leviathan_Entity.AttackMode.CIRCLE;
+            this.mob.mode = AttackMode.CIRCLE;
             circlingTime = 0;
             MeleeModeTime = 0;
             circleDistance = 8 + this.mob.random.nextInt(2);
@@ -575,7 +573,7 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         }
 
         public void stop() {
-            this.mob.mode = The_Baby_Leviathan_Entity.AttackMode.CIRCLE;
+            this.mob.mode = AttackMode.CIRCLE;
             circlingTime = 0;
             MeleeModeTime = 0;
             circleDistance = 8 + this.mob.random.nextInt(2);
@@ -596,24 +594,24 @@ public class The_Baby_Leviathan_Entity extends LLibraryAnimationPet implements I
         public void tick() {
             LivingEntity target = this.mob.getTarget();
             if (target != null) {
-                if (this.mob.mode == The_Baby_Leviathan_Entity.AttackMode.CIRCLE) {
+                if (this.mob.mode == AttackMode.CIRCLE) {
                     circlingTime++;
                     circleEntity(target, circleDistance, 1.0f, clockwise, circlingTime, 0, 1);
                     if (0 >= this.mob.blast_cooldown) {
-                        this.mob.mode = The_Baby_Leviathan_Entity.AttackMode.RANGE;
+                        this.mob.mode = AttackMode.RANGE;
                     } else {
-                        this.mob.mode = The_Baby_Leviathan_Entity.AttackMode.MELEE;
+                        this.mob.mode = AttackMode.MELEE;
                     }
-                } else if (this.mob.mode == The_Baby_Leviathan_Entity.AttackMode.RANGE) {
+                } else if (this.mob.mode == AttackMode.RANGE) {
                     if (this.mob.getRandom().nextFloat() * 100.0F < 3f) {
                         this.mob.setAnimation(BABY_LEVIATHAN_ABYSS_BLAST);
                     }
-                } else if (this.mob.mode == The_Baby_Leviathan_Entity.AttackMode.MELEE) {
+                } else if (this.mob.mode == AttackMode.MELEE) {
                     MeleeModeTime++;
                     this.mob.getNavigation().moveTo(target, 1.0D);
                     this.mob.getLookControl().setLookAt(target, 30, 90);
                     if(MeleeModeTime >= MELEE_MODE_TIME) {
-                        this.mob.mode = The_Baby_Leviathan_Entity.AttackMode.RANGE;
+                        this.mob.mode = AttackMode.RANGE;
                     }else if (this.mob.distanceToSqr(target) <= 4D) {
                         this.mob.setAnimation(BABY_LEVIATHAN_BITE);
                     }

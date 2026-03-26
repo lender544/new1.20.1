@@ -262,6 +262,13 @@ public class Wadjet_Model extends AdvancedEntityModel<Wadjet_Entity> {
 
 	}
 
+
+	public void animate(Wadjet_Entity entity, float f, float f1, float f2, float f3, float f4) {
+		tail = entity.dc;
+		this.resetToDefaultPose();
+
+	}
+
 	@Override
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		this.everything.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
@@ -271,18 +278,12 @@ public class Wadjet_Model extends AdvancedEntityModel<Wadjet_Entity> {
 		}
 	}
 
-	public void animate(Wadjet_Entity entity, float f, float f1, float f2, float f3, float f4) {
-		tail = entity.dc;
-		this.resetToDefaultPose();
-
-	}
-
 	@Override
 	public void setupAnim(Wadjet_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		animate(entity,limbSwing,limbSwingAmount,ageInTicks,netHeadYaw,headPitch);
 		float swimSpeed = 0.1F;
 		float swimDegree = 0.5F;
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float attackProgress = entity.getAttackProgress(partialTick);
 		float attackAmount = attackProgress * limbSwingAmount * 1.5F;
 
@@ -300,7 +301,12 @@ public class Wadjet_Model extends AdvancedEntityModel<Wadjet_Entity> {
 		this.animate(entity.getAnimationState("block"), Wadjet_Animation.BLOCK, ageInTicks, 1.0F);
 		this.chainSwing(tailOriginal, swimSpeed * 4F, swimDegree * 1F, -3, limbSwing,limbSwingAmount);
 		this.chainSwing(tailOriginal, swimSpeed * 0.6F, swimDegree * 0.15F, -3, ageInTicks,1.0F);
-		entity.dc.updateChain(Minecraft.getInstance().getFrameTime(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
+		entity.dc.updateChain(Minecraft.getInstance().getPartialTick(), tailOriginal, tailDynamic, 0.4f, 1.5f, 1.8f, 0.87f, 20, true);
+
+
+		if (!entity.getAwaken()) {
+			this.applyStatic(Wadjet_Animation.SLEEP);
+		}
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {

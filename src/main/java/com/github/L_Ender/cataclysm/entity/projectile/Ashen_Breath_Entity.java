@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignited_Revenant_Entity;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.network.NetworkHooks;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -140,7 +140,7 @@ public class Ashen_Breath_Entity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-      this.entityData.define(DAMAGE, 0F);
+        this.entityData.define(DAMAGE, 0F);
     }
 
     public float getDamage() {
@@ -191,14 +191,6 @@ public class Ashen_Breath_Entity extends Entity {
         return false;
     }
 
-
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-
     @Override
     public void push(Entity entityIn) {
     }
@@ -221,5 +213,8 @@ public class Ashen_Breath_Entity extends Entity {
         return false;
     }
 
-
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
 }

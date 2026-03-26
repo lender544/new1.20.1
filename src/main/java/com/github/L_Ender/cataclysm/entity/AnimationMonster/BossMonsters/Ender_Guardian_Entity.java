@@ -2,10 +2,10 @@ package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.*;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Void_Vortex_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
@@ -15,6 +15,7 @@ import com.github.L_Ender.cataclysm.entity.projectile.Ender_Guardian_Bullet_Enti
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.MessageMusic;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.core.BlockPos;
@@ -27,6 +28,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -44,11 +47,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
@@ -105,7 +106,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     public static final int TELEPORT_COOLDOWN = 280;
     public static final int TELEPORT_SMASH_COOLDOWN = 600;
     public static final int VORTEX_COOLDOWN = 280;
-    public boolean Breaking = CMConfig.EnderguardianBlockBreaking;
+
 
     private int stomp_cooldown = 0;
     private int teleport_cooldown = 0;
@@ -121,7 +122,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
-        setConfigattribute(this, CMConfig.EnderguardianHealthMultiplier, CMConfig.EnderguardianDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.EnderGuardian.healthMultiplier,CMCommonConfig.EnderGuardian.attackMultiplier);
     }
 
     @Override
@@ -187,6 +188,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 .add(Attributes.ARMOR, 20)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
+
 
     @Override
     protected void defineSynchedData() {
@@ -281,11 +283,6 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
-        double range = calculateRange(source);
-
-        if (range > CMConfig.EnderguardianLongRangelimit * CMConfig.EnderguardianLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
-        }
         Entity entity = source.getDirectEntity();
         if (!this.getIsHelmetless()) {
             if (entity instanceof AbstractArrow) {
@@ -296,7 +293,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             return false;
         }
         if (entity instanceof AbstractGolem) {
-            damage *= 0.5F;
+            damage *= 0.5;
         }
 
         boolean attack = super.hurt(source, damage);
@@ -310,15 +307,19 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     
     public float DamageCap() {
-        return (float) CMConfig.EnderguardianDamageCap;
+        return (float) CMCommonConfig.EnderGuardian.damageCap;
     }
 
     public float NatureRegen() {
-        return (float) CMConfig.EnderguardianNatureHealing;
+        return (float) CMCommonConfig.EnderGuardian.natureHeal;
     }
 
-    public int DamageTime() {
-        return CMConfig.EnderguardianDamageTime;
+    public float DpsCap() {
+        return (float) CMCommonConfig.EnderGuardian.dpsCap;
+    }
+
+    public double RangeLimit() {
+        return CMCommonConfig.EnderGuardian.rangeCap;
     }
 
     @Override
@@ -330,7 +331,6 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         return false;
     }
 
-
     public void tick() {
         super.tick();
         //prevgetYRot() = getYRot();
@@ -338,7 +338,6 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
 
         LivingEntity target = this.getTarget();
-
         Animation animation = getRandomAttack(random);
         Animation animation2 = this.getIsHelmetless() ? GUARDIAN_RAGE_UPPERCUT : GUARDIAN_UPPERCUT_AND_BULLET;
         if (this.isAlive()) {
@@ -403,9 +402,11 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             if (this.getAnimationTick() < 29) {
                 GravityPull();
             }
+            
+            
             if (this.getAnimationTick() == 34) {
                 this.playSound(ModSounds.ENDER_GUARDIAN_FIST.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(5.15f,5,70,1.0f,(float) CMConfig.EnderguardianGravityPunchHpdamage,100,0,0,false);
+                AreaAttack(5.15f,5,70,1.0f,(float)CMCommonConfig.EnderGuardian.GravityPunchHpdamage,100,0,0,false);
                 Attackparticle(2.2f,0);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.2f, 0, 10);
             }
@@ -419,7 +420,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 GravityPull();
             }
             if (this.getAnimationTick() == 29) {
-                AreaAttack(5.15f,5,70,1.0f,(float) CMConfig.EnderguardianGravityPunchHpdamage,100,0,0,false);
+                AreaAttack(5.15f,5,70,1.0f,(float)CMCommonConfig.EnderGuardian.GravityPunchHpdamage,100,0,0,false);
                 this.playSound(ModSounds.ENDER_GUARDIAN_FIST.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
                 Attackparticle(2.2f,0);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.2f, 0, 10);
@@ -450,14 +451,14 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 Burstparticle();
             }
             if (this.getAnimationTick() == 27) {
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(7.5f,6,100,1,(float) CMConfig.EnderguardianKnockbackHpdamage,0,0,0,true);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                AreaAttack(7.5f,6,100,1, (float)CMCommonConfig.EnderGuardian.KnockbackHpdamage,0,0,0,true);
             }
         }
         if (this.getAnimation() == GUARDIAN_UPPERCUT_AND_BULLET || this.getAnimation() == GUARDIAN_RAGE_UPPERCUT) {
             if (this.getAnimationTick() == 27) {
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
-                AreaAttack(6.25f,7,60,1.4f,(float) CMConfig.EnderguardianUppercutHpdamage,150,60,0.5F,false);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                AreaAttack(6.25f,7,60,1.4f, (float)CMCommonConfig.EnderGuardian.UppercutHpdamage,150,60,0.5F,false);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.3f, 0, 10);
             }
         }
@@ -478,39 +479,40 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         if (this.getAnimation() == GUARDIAN_RAGE_UPPERCUT) {
             if (this.getAnimationTick() == 84) {
                 RageAttack();
-                AreaAttack(5.5f,5,120,1.2f,(float) CMConfig.EnderguardianAreaAttackHpdamage,100,0,0.0F,false);
+                AreaAttack(5.5f,5,120,1.2f,(float)CMCommonConfig.EnderGuardian.AreaAttackHpdamage,100,0,0.0F,false);
 
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.2f, 0, 10);
             }
         }
 
         if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION) {
             if (this.getAnimationTick() == 1) {
-                if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+                if(CMCommonConfig.EnderGuardian.SeparatePhaseMusic) {
                     if (!level().isClientSide && getBossMusic() != null) {
                         Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), false));
+
                     }
                 }
             }
             if (this.getAnimationTick() == 39) {
                 Attackparticle(2.75f,2.25f);
                 Attackparticle(2.75f,-2.25f);
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.3f, 0, 10);
                 MassDestruction(5.0f, 1.1f,150);
                 if (!this.level().isClientSide) {
-                    if (Breaking) {
-                        BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
+                    if (CMCommonConfig.EnderGuardian.ignoreMobGriefing) {
+                        BlockBreaking(CMCommonConfig.EnderGuardian.BlockBreakingX, CMCommonConfig.EnderGuardian.BlockBreakingY, CMCommonConfig.EnderGuardian.BlockBreakingZ);
                     } else {
                         if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
-                            BlockBreaking(CMConfig.EnderguardianBlockBreakingX, CMConfig.EnderguardianBlockBreakingY, CMConfig.EnderguardianBlockBreakingZ);
+                            BlockBreaking(CMCommonConfig.EnderGuardian.BlockBreakingX, CMCommonConfig.EnderGuardian.BlockBreakingY, CMCommonConfig.EnderGuardian.BlockBreakingZ);
                         }
                     }
                 }
             }
             if (this.getAnimationTick() == 50) {
-                if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+                if(CMCommonConfig.EnderGuardian.SeparatePhaseMusic) {
                     if (!level().isClientSide && getBossMusic() != null) {
                         Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.TRACKING_ENTITY_AND_SELF.with(() -> this), new MessageMusic(this.getId(), true));
                     }
@@ -522,10 +524,9 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             if (this.getAnimationTick() == 15) {
                 Teleportparticle();
             }
-
             if (this.getAnimationTick() == 38) {
-                AreaAttack(6.0f,6.0f,120,1.0f,(float) CMConfig.EnderguardianTeleportAttackHpdamage,80,60,0.6F,false);
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                AreaAttack(6.0f,6.0f,120,1.0f, (float)CMCommonConfig.EnderGuardian.TeleportAttackHpdamage,80,60,0.6F,false);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 15, 0.2f, 0, 10);
 
             }
@@ -534,7 +535,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         if (this.getAnimation() == GUARDIAN_AIR_STRIKE1) {
             if (this.getAnimationTick() == 20) {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.15f, 0, 20);
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
 
             if (this.getAnimationTick() == 40) {
@@ -575,10 +576,10 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         }
         if (this.getAnimation() == GUARDIAN_ROCKETPUNCH) {
             if (this.getAnimationTick() == 24) {
-                this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+                this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
             }
             if (this.getAnimationTick() == 28) {
-                AreaAttack(7f,7f,120,1.25f, (float) CMConfig.EnderguardianRocketPunchHpdamage,200,0,0.0F,true);
+                AreaAttack(7f,7f,120,1.25f, (float)CMCommonConfig.EnderGuardian.RocketPunchHpdamage,200,0,0.0F,true);
             }
         }
 
@@ -616,23 +617,23 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     }
 
-
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if(CMConfig.EnderGuardianRespawner) {
+        if(CMCommonConfig.EnderGuardian.respawner) {
             if (!this.level().isClientSide) {
-                if (this.getHomePos() != BlockPos.ZERO) {
-                    int newX = Mth.floor(this.getHomePos().getX());
-                    int newY = Mth.floor(this.getHomePos().getY());
-                    int newZ = Mth.floor(this.getHomePos().getZ());
-                    Respawner(newX, newZ, newY - 10, newY);
+                if (this.getHomePos() != null) {
+                    if (this.level() instanceof ServerLevel serverLevel) {
+                        MinecraftServer server = serverLevel.getServer();
+                        ServerLevel targetLevel = server.getLevel(this.getHomePos().dimension());
+                        if (targetLevel != null) {
+                            Respawner(this.getHomePos().pos().getX(), this.getHomePos().pos().getZ(), this.getHomePos().pos().getY() - 10, this.getHomePos().pos().getY(),targetLevel);
+                        }
+                    }
                 }
             }
         }
     }
-
-
-    private void Respawner(int x, int z, int minY, int maxY) {
+    private void Respawner(int x, int z, int minY, int maxY,ServerLevel serverLevel) {
         //  BlockPos blockpos = BlockPos.containing(x, maxY, z);
         BlockPos blockpos = new BlockPos(x,maxY,z);
         boolean flag = false;
@@ -660,8 +661,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
         int newY = Mth.floor((double)blockpos.getY() + d0);
         BlockPos pos = new BlockPos(x,flag ?newY :maxY,z);
-        this.level().setBlock(pos, block, 2);
-        if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
+        serverLevel.setBlock(pos, block, 2);
+        if (serverLevel.getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
             spawnerblockentity.setEntityId(ModEntities.ENDER_GUARDIAN.get());
             spawnerblockentity.setItem(0,ModItems.VOID_EYE.get().getDefaultInstance());
         }
@@ -678,40 +679,40 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     private void AreaAttack(float range, float height, float arc, float damage, float hpdamage, int shieldbreakticks, int stunticks, float airborne, boolean knockback) {
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, height, range, range);
         if (!this.level().isClientSide) {
-        for (LivingEntity entityHit : entitiesHit) {
-            float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
-            float entityAttackingAngle = this.yBodyRot % 360;
-            if (entityHitAngle < 0) {
-                entityHitAngle += 360;
-            }
-            if (entityAttackingAngle < 0) {
-                entityAttackingAngle += 360;
-            }
-            float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
-            float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
-            if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
-                if (!(entityHit instanceof Ender_Guardian_Entity)) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage) ));
-                    if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
-                    }
+            DamageSource damagesource = this.damageSources().mobAttack(this);
+            for (LivingEntity entityHit : entitiesHit) {
+                float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
+                float entityAttackingAngle = this.yBodyRot % 360;
+                if (entityHitAngle < 0) {
+                    entityHitAngle += 360;
+                }
+                if (entityAttackingAngle < 0) {
+                    entityAttackingAngle += 360;
+                }
+                float entityRelativeAngle = entityHitAngle - entityAttackingAngle;
+                float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
+                if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) || (entityRelativeAngle >= 360 - arc / 2 || entityRelativeAngle <= -360 + arc / 2)) {
+                    if (!(entityHit instanceof Ender_Guardian_Entity)) {
+                        boolean flag = entityHit.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage, entityHit.getMaxHealth() * hpdamage)));
+                        if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && shieldbreakticks > 0) {
+                            EntityUtil.disableShield(player, shieldbreakticks);
+                        }
 
-                    if (airborne > 0) {
-                        entityHit.setDeltaMovement(entityHit.getDeltaMovement().add(0.0D, airborne, 0.0D));
+                        if (airborne > 0) {
+                            entityHit.setDeltaMovement(entityHit.getDeltaMovement().add(0.0D, airborne, 0.0D));
 
-                    }
-                    if (flag) {
-                        if (stunticks > 0) {
-                            entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), stunticks));
+                        }
+                        if (flag) {
+                            if (stunticks > 0) {
+                                entityHit.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), stunticks));
+                            }
+                        }
+
+                        if (knockback) {
+                            launch(entityHit);
                         }
                     }
-
-                    if(knockback){
-                        launch(entityHit);
-                    }
                 }
-            }
             }
         }
     }
@@ -719,12 +720,12 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     private void MassDestruction(float grow, float damage, int ticks) {
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entityHit : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
                 if (!isAlliedTo(entityHit) && !(entityHit instanceof Ender_Guardian_Entity) && entityHit != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     entityHit.hurt(damagesource, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage);
                     if (entityHit.isDamageSourceBlocked(damagesource) && entityHit instanceof Player player && ticks > 0) {
-                        disableShield(player, ticks);
+                        EntityUtil.disableShield(player, ticks);
                     }
 
                     launch(entityHit);
@@ -867,9 +868,8 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
                 if (block.getRenderShape() != RenderShape.INVISIBLE) {
                     this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, block), getX() + vec * vecX + extraX + f * math, this.getY() + extraY, getZ() + vec * vecZ + extraZ + f1 * math, DeltaMovementX, DeltaMovementY, DeltaMovementZ);
                 }
-
             }
-            this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 25, 1f, 1f, 1f, 1f, 25f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), getX() + vec * vecX + f * math, getY() + 0.3f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+            this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 25, 255, 255, 255, 1f, 25f, false, 2), getX() + vec * vecX + f * math, getY() + 0.3f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
         }
     }
 
@@ -979,7 +979,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         } while(blockpos.getY() >= Mth.floor(minY) - 1);
 
         if (flag) {
-            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay,(float) CMConfig.Voidrunedamage, this));
+            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay,(float) CMCommonConfig.EnderGuardian.VoidRuneDamage, this));
         }
     }
 
@@ -1017,6 +1017,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
             double xx = Mth.cos(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
             double zz = Mth.sin(this.getYRot() % 360.0F / 180.0F * 3.1415927F) * 0.75F;
             this.level().explode(this, this.getX() + xx, this.getY() + (double) this.getEyeHeight(), getZ() + zz, 2.0F, Level.ExplosionInteraction.NONE);
+
         }
     }
 
@@ -1125,7 +1126,6 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         }
     }
 
-
     @Override
     protected boolean isAffectedByFluids() {
         return false;
@@ -1135,6 +1135,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     public boolean isPushedByFluid() {
         return false;
     }
+
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = this.spawnAtLocation(stack,0.0f);
@@ -1182,7 +1183,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
 
     @Override
     protected boolean canPlayMusic() {
-        if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+        if(CMCommonConfig.EnderGuardian.SeparatePhaseMusic) {
             if (this.getAnimation() == GUARDIAN_MASS_DESTRUCTION) {
                 return getAnimationTick() > 50 && super.canPlayMusic();
             } else {
@@ -1194,12 +1195,13 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
     }
     @Override
     public SoundEvent getBossMusic() {
-        if(CMConfig.EnderGuardianSeparatePhaseMusic) {
+        if(CMCommonConfig.EnderGuardian.SeparatePhaseMusic) {
             return (this.getIsHelmetless() || this.getUsedMassDestruction()) ? ModSounds.ENDERGUARDIAN_MUSIC_2.get() : ModSounds.ENDERGUARDIAN_MUSIC_1.get();
         }else{
             return ModSounds.ENDERGUARDIAN_MUSIC_DISC.get();
         }
     }
+
 
     @Override
     protected BodyRotationControl createBodyControl() {
@@ -1493,7 +1495,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         public VoidVortexGoal(Ender_Guardian_Entity entity, Animation animation) {
             super(entity, animation);
 
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
 
         public void tick() {
@@ -1530,7 +1532,7 @@ public class Ender_Guardian_Entity extends LLibrary_Boss_Monster {
         public RocketPunchGoal(Ender_Guardian_Entity entity, Animation animation) {
             super(entity, animation);
 
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
         }
 
         public void tick() {

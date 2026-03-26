@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
+
 import javax.annotation.Nullable;
 import java.util.List;
 

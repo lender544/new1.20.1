@@ -1,11 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -45,7 +46,7 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
     boolean searchingForLand;
     public static final Animation DEEPLING_MELEE = Animation.create(20);
     public static final Animation DEEPLING_HUG = Animation.create(20);
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.225f, 0.65F, false);
+    private static final EntityDimensions SWIMMING_SIZE = EntityDimensions.fixed(1.225f, 0.65F);
     private int hugcooldown = 100;
     public static final int HUG_COOLDOWN = 100;
 
@@ -112,8 +113,9 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
         this.playSound(ModSounds.DEEPLING_IDLE.get(), 0.15F, 0.6F);
     }
 
+
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingAnglerSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingAnglerSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable
@@ -131,9 +133,11 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
     public boolean checkSpawnObstruction(LevelReader p_32829_) {
         return p_32829_.isUnobstructed(this);
     }
+
     public static boolean candeeplingSpawn(EntityType<Deepling_Angler_Entity> p_223364_0_, LevelAccessor p_223364_1_, MobSpawnType reason, BlockPos p_223364_3_, RandomSource p_223364_4_) {
         return p_223364_1_.getDifficulty() != Difficulty.PEACEFUL  && (reason == MobSpawnType.SPAWNER || p_223364_1_.getFluidState(p_223364_3_).is(FluidTags.WATER));
     }
+
 
     @Override
     public Animation[] getAnimations() {
@@ -179,9 +183,6 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
         }
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return sizeIn.height * 0.9F;
-    }
 
     boolean wantsToSwim() {
         if (this.searchingForLand) {
@@ -215,7 +216,6 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
         }
 
     }
-
 
     protected boolean closeToNextPos() {
         Path path = this.getNavigation().getPath();
@@ -329,12 +329,12 @@ public class Deepling_Angler_Entity extends AbstractDeepling {
         protected void checkAndPerformAttack(LivingEntity p_25557_, double p_25558_) {
             double d0 = this.getAttackReachSqr(p_25557_);
             if (p_25558_ <= d0 && this.mob.getAnimation() == NO_ANIMATION) {
-               if( this.mob.hugcooldown <= 0){
-                   this.mob.setAnimation(DEEPLING_HUG);
-                   this.mob.hugcooldown = HUG_COOLDOWN;
-               }else{
-                   this.mob.setAnimation(DEEPLING_MELEE);
-               }
+                if( this.mob.hugcooldown <= 0){
+                    this.mob.setAnimation(DEEPLING_HUG);
+                    this.mob.hugcooldown = HUG_COOLDOWN;
+                }else{
+                    this.mob.setAnimation(DEEPLING_MELEE);
+                }
             }
 
         }

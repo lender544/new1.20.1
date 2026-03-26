@@ -2,23 +2,20 @@ package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModTag;
-
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import com.github.L_Ender.cataclysm.message.MessageUpdateblockentity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -31,8 +28,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
 
@@ -67,26 +68,24 @@ public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
                 }
                 if(summoningticks > 121) {
 
-                    BlockBreaking(3, 3, 3);
-                    BasaltBreaking(16, 8, 16);
-                    Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
-                    if (level instanceof ServerLevel serverLevel) {
-                        if (ignis != null) {
-                            ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                            ignis.setHomePos(pos);
+                        BlockBreaking(3, 3, 3);
+                        BasaltBreaking(16, 8, 16);
+                        Ignis_Entity ignis = ModEntities.IGNIS.get().create(level);
+                        if (level instanceof ServerLevel serverLevel) {
+                            if (ignis != null) {
+                                ignis.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
+                                ignis.setHomePos(GlobalPos.of(serverLevel.dimension(), pos));
 
-                            ResourceLocation dimLoc = serverLevel.dimension().location();
-                            ignis.setDimensionType(dimLoc.toString());
+                                boolean flag = level.addFreshEntity(ignis);
+                                if (flag) {
+                                    this.setItem(0, ItemStack.EMPTY);
+                                    this.setChanged();
+                                    level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
+                                }
 
-                            boolean flag = level.addFreshEntity(ignis);
-                            if (flag) {
-                                this.setItem(0, ItemStack.EMPTY);
-                                this.setChanged();
-                                level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
                             }
-
                         }
-                    }
+
 
                 }
 
@@ -315,3 +314,4 @@ public class AltarOfFire_Block_Entity extends BaseContainerBlockEntity {
         return true;
     }
 }
+

@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.etc;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,7 +21,7 @@ public class CMEntityMoveHelper extends MoveControl
 
     public void tick()
     {
-        if (this.operation == CMEntityMoveHelper.Operation.STRAFE)
+        if (this.operation == Operation.STRAFE)
         {
             float f = (float)this.mob.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
             float f1 = (float)this.speedModifier * f;
@@ -57,11 +58,11 @@ public class CMEntityMoveHelper extends MoveControl
             this.mob.setSpeed(f1);
             this.mob.setZza(this.strafeForwards);
             this.mob.setXxa(this.strafeRight);
-            this.operation = CMEntityMoveHelper.Operation.WAIT;
+            this.operation = Operation.WAIT;
         }
-        else if (this.operation == CMEntityMoveHelper.Operation.MOVE_TO)
+        else if (this.operation == Operation.MOVE_TO)
         {
-            this.operation = CMEntityMoveHelper.Operation.WAIT;
+            this.operation = Operation.WAIT;
             double d0 = this.wantedX - this.mob.getX();
             double d1 = this.wantedZ - this.mob.getZ();
             double d2 = this.wantedY - this.mob.getY();
@@ -80,16 +81,16 @@ public class CMEntityMoveHelper extends MoveControl
             if (d2 > (double)this.mob.maxUpStep() && d0 * d0 + d1 * d1 < (double)Math.max(1.0F, this.mob.getBbWidth()))
             {
                 this.mob.getJumpControl().jump();
-                this.operation = CMEntityMoveHelper.Operation.JUMPING;
+                this.operation = Operation.JUMPING;
             }
         }
-        else if (this.operation == CMEntityMoveHelper.Operation.JUMPING)
+        else if (this.operation == Operation.JUMPING)
         {
             this.mob.setSpeed((float)(this.speedModifier * this.mob.getAttribute(Attributes.MOVEMENT_SPEED).getValue()));
 
             if (this.mob.onGround())
             {
-                this.operation = CMEntityMoveHelper.Operation.WAIT;
+                this.operation = Operation.WAIT;
             }
         }
         else

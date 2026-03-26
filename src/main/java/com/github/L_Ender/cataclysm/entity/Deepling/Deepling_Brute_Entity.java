@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Bardiche_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -50,7 +50,7 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
     public static final Animation DEEPLING_BRUTE_MELEE = Animation.create(20);
     private int SpinAttackTicks;
     private static final EntityDataAccessor<Boolean> SPINATTACK = SynchedEntityData.defineId(Deepling_Brute_Entity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.3f, 0.7F, false);
+    private static final EntityDimensions SWIMMING_SIZE = EntityDimensions.fixed(1.3f, 0.7F);
     public Deepling_Brute_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.moveControl = new DeeplingMoveControl(this,2.0f);
@@ -118,7 +118,7 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingBruteSpawnRolls, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingBruteSpawnWeight, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable
@@ -238,9 +238,6 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
 
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return sizeIn.height * 0.9F;
-    }
 
     boolean wantsToSwim() {
         if (this.searchingForLand) {
@@ -273,7 +270,6 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
         }
 
     }
-
 
     protected boolean closeToNextPos() {
         Path path = this.getNavigation().getPath();

@@ -8,9 +8,11 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMon
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.AbstractZombieRenderer;
+import net.minecraft.client.renderer.entity.DrownedRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Zombie;
 
 public class Drowned_Host_Renderer extends AbstractZombieRenderer<Drowned_Host_Entity, Drowned_Host_Model<Drowned_Host_Entity>> {
@@ -25,6 +27,8 @@ public class Drowned_Host_Renderer extends AbstractZombieRenderer<Drowned_Host_E
         );
         this.addLayer(new Drowned_Host_Outer_Layer<>(this, p_173964_.getModelSet()));
     }
+
+
 
     /**
      * Returns the location of an entity's texture.

@@ -33,7 +33,7 @@ public class InternalMoveGoal extends Goal {
 
 
     public void stop() {
-        monster.getNavigation().stop();
+        this.monster.getNavigation().stop();
         LivingEntity livingentity = this.monster.getTarget();
         if (!EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(livingentity)) {
             this.monster.setTarget((LivingEntity) null);

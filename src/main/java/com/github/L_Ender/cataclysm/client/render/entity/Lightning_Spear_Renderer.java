@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
 import com.github.L_Ender.cataclysm.client.model.entity.Elemental_Spear_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.projectile.Lightning_Spear_Entity;
+import com.github.L_Ender.cataclysm.entity.projectile.Water_Spear_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Entity>
@@ -34,7 +34,6 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
         }
     }
 
-
     @Override
     public void render(Lightning_Spear_Entity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
@@ -43,11 +42,11 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
         float f1 = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
         this.model.setupAnim(entity, 0.0F, 0.0F,entity.tickCount + partialTicks, f, f1);
         VertexConsumer vertexconsumer = buffer.getBuffer(CMRenderTypes.CMEyes(this.getTextureLocation(entity)));
-      //  this.model.setupAnim(f, f1);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1, 1, 1, 1);
+        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
+
 
     @Override
     public ResourceLocation getTextureLocation(Lightning_Spear_Entity entity)
@@ -58,5 +57,4 @@ public class Lightning_Spear_Renderer extends EntityRenderer<Lightning_Spear_Ent
     public ResourceLocation getGrowingTexture(int age) {
         return TEXTURE_PROGRESS[Mth.clamp(age, 0, 5)];
     }
-
 }

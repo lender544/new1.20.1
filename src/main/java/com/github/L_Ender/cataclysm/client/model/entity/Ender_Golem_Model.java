@@ -335,7 +335,7 @@ public class Ender_Golem_Model extends AdvancedEntityModel<Ender_Golem_Entity> {
 		this.walk(left_arm, walkSpeed, walkDegree * 1.2F, false, 0F, 0F, limbSwing, limbSwingAmount);
 		this.walk(right_arm, walkSpeed, walkDegree * 1.2F, true, 0F, 0F, limbSwing, limbSwingAmount);
 
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float deactivateProgress = entityIn.prevdeactivateProgress + (entityIn.deactivateProgress - entityIn.prevdeactivateProgress) * partialTick;
 
 		progressRotationPrev(lowerbody,deactivateProgress,(float)Math.toRadians(30F), 0, 0, 30f);

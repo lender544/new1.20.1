@@ -4,14 +4,15 @@ import com.github.L_Ender.cataclysm.Cataclysm;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class ModSounds {
 
+public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Cataclysm.MODID);
 
     public static final RegistryObject<SoundEvent> GOLEMDEATH = SOUNDS.register("golemdeath",
@@ -62,14 +63,14 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MONSTROSITYLAND = SOUNDS.register("monstrosityland",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"monstrosityland")));
 
-    public static final RegistryObject<SoundEvent> MONSTROSITY_MUSIC = SOUNDS.register("monstrosity_music",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"monstrosity_music")));
+    public static final RegistryObject<SoundEvent> MINISTROSITY_HURT = SOUNDS.register("ministrosity_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_hurt")));
 
     public static final RegistryObject<SoundEvent> MINISTROSITY_FILL_BUCKET = SOUNDS.register("ministrosity_fill_bucket",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_fill_bucket")));
 
-    public static final RegistryObject<SoundEvent> MINISTROSITY_HURT = SOUNDS.register("ministrosity_hurt",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ministrosity_hurt")));
+    public static final RegistryObject<SoundEvent> MONSTROSITY_MUSIC = SOUNDS.register("monstrosity_music",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"monstrosity_music")));
 
     public static final RegistryObject<SoundEvent> ENDERGUARDIAN_MUSIC_1 = SOUNDS.register("enderguardian_music_1",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardian_music_1")));
@@ -91,7 +92,7 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> IGNIS_MUSIC_DISC = SOUNDS.register("ignis_music_disc",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"ignis_music_disc")));
-
+    
 
     public static final RegistryObject<SoundEvent> ENDERMAPTERA_HURT = SOUNDS.register("endermaptera_hurt",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"endermaptera_hurt")));
@@ -107,6 +108,9 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> ENDER_GUARDIAN_FIST = SOUNDS.register("enderguardianattack",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"enderguardianattack")));
+
+    public static final RegistryObject<SoundEvent> GUARDIAN_FIST = SOUNDS.register("guardianfistattack",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"guardianfistattack")));
 
     public static final RegistryObject<SoundEvent> VOID_RUNE_RISING = SOUNDS.register("voidrunerising",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"voidrunerising")));
@@ -319,10 +323,8 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_1 = SOUNDS.register("remnant_tail_slam_1",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_1")));
 
-
     public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_2 = SOUNDS.register("remnant_tail_slam_2",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_2")));
-
 
     public static final RegistryObject<SoundEvent> REMNANT_TAIL_SLAM_3 = SOUNDS.register("remnant_tail_slam_3",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"remnant_tail_slam_3")));
@@ -368,6 +370,7 @@ public class ModSounds {
 
     public static final RegistryObject<SoundEvent> KOBOLETON_DEATH = SOUNDS.register("koboleton_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"koboleton_death")));
+
 
     public static final RegistryObject<SoundEvent> KOBOLETON_STEP = SOUNDS.register("koboleton_step",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"koboleton_step")));
@@ -415,6 +418,7 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> WADJET_DEATH = SOUNDS.register("wadjet_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"wadjet_death")));
 
+
     public static final RegistryObject<SoundEvent> KOBOLEDIATOR_AMBIENT = SOUNDS.register("kobolediator_ambient",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"kobolediator_ambient")));
 
@@ -439,6 +443,7 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MALEDICTUS_BOW_PULL = SOUNDS.register("maledictus_bow_pull",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_bow_pull")));
 
+
     public static final RegistryObject<SoundEvent> MALEDICTUS_IDLE = SOUNDS.register("maledictus_idle",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_idle")));
 
@@ -451,11 +456,29 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MALEDICTUS_DEATH = SOUNDS.register("maledictus_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_death")));
 
+
+    public static final RegistryObject<SoundEvent> MALEDICTUS_MUSIC = SOUNDS.register("maledictus_music",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_music")));
+
+
+    public static final RegistryObject<SoundEvent> MALEDICTUS_MUSIC_DISC = SOUNDS.register("maledictus_music_disc",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_music_disc")));
+
+
     public static final RegistryObject<SoundEvent> CINDARIA_HURT = SOUNDS.register("cindaria_hurt",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"cindaria_hurt")));
 
     public static final RegistryObject<SoundEvent> CINDARIA_DEATH = SOUNDS.register("cindaria_death",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"cindaria_death")));
+
+    public static final RegistryObject<SoundEvent> CLAWDIAN_HURT = SOUNDS.register("clawdian_hurt",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"clawdian_hurt")));
+
+    public static final RegistryObject<SoundEvent> CLAWDIAN_IDLE = SOUNDS.register("clawdian_idle",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"clawdian_idle")));
+
+    public static final RegistryObject<SoundEvent> CLAWDIAN_DEATH = SOUNDS.register("clawdian_death",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"clawdian_death")));
 
     public static final RegistryObject<SoundEvent> HIPPOCAMTUS_HURT = SOUNDS.register("hippocamtus_hurt",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"hippocamtus_hurt")));
@@ -475,17 +498,15 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> SCYLLA_ROAR = SOUNDS.register("scylla_roar",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_roar")));
 
-    public static final RegistryObject<SoundEvent> MALEDICTUS_MUSIC = SOUNDS.register("maledictus_music",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_music")));
-
-    public static final RegistryObject<SoundEvent> MALEDICTUS_MUSIC_DISC = SOUNDS.register("maledictus_music_disc",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_music_disc")));
-
     public static final RegistryObject<SoundEvent> SCYLLA_MUSIC = SOUNDS.register("scylla_music",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_music")));
 
+
     public static final RegistryObject<SoundEvent> SCYLLA_MUSIC_DISC = SOUNDS.register("scylla_music_disc",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"scylla_music_disc")));
+
+    public static final RegistryObject<SoundEvent> THE_CATACLYSMFARER = SOUNDS.register("the_cataclysmfarer",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"the_cataclysmfarer")));
 
     public static final RegistryObject<SoundEvent> PHANTOM_SPEAR = SOUNDS.register("maledictus_spear",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"maledictus_spear")));
@@ -514,17 +535,17 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> DOOR_OF_SEAL_OPEN = SOUNDS.register("door_of_seal_open",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"door_of_seal_open")));
 
+    public static final RegistryObject<SoundEvent> EXPLOSION = SOUNDS.register("explosion",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"explosion")));
+
     public static final RegistryObject<SoundEvent> PARRY = SOUNDS.register("parry",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"parry")));
 
     public static final RegistryObject<SoundEvent> HEAVY_SMASH = SOUNDS.register("heavy_smash",
             () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"heavy_smash")));
 
-    public static final RegistryObject<SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"super_lightning")));
-
-    public static final RegistryObject<SoundEvent> THE_CATACLYSMFARER = SOUNDS.register("the_cataclysmfarer",
-            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"the_cataclysmfarer")));
+    public static final RegistryObject<SoundEvent> SUPER_LIGHTNING = SOUNDS.register("super_lightning_strike",
+            () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID,"super_lightning_strike")));
 
 
     public static final Holder.Reference<SoundEvent> NOTE_BLOCK_IMITATE_KOBOLEDIATOR = registerForHolder("note_block_imitate_kobolediator");
@@ -534,8 +555,8 @@ public class ModSounds {
     public static final Holder.Reference<SoundEvent> NOTE_BLOCK_IMITATE_APTRGANGR = registerForHolder("note_block_imitate_aptrgangr");
 
 
-    private static Holder.Reference<SoundEvent> registerForHolder(String name) {
-        return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(Cataclysm.MODID, name), SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID, name)));
+    private static Holder.Reference<SoundEvent> registerForHolder(String location) {
+        return Registry.registerForHolder(BuiltInRegistries.SOUND_EVENT, new ResourceLocation(Cataclysm.MODID, location), SoundEvent.createVariableRangeEvent(new ResourceLocation(Cataclysm.MODID, location)));
     }
 
 }

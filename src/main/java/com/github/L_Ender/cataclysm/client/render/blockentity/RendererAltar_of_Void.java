@@ -23,7 +23,7 @@ public class RendererAltar_of_Void<T extends AltarOfVoid_Block_Entity> implement
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.5F, 1.5F, 0.5F);
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn,1,1,1,1);
         matrixStackIn.popPose();
     }
 

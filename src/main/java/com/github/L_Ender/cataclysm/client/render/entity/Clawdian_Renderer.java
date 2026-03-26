@@ -15,12 +15,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-
 @OnlyIn(Dist.CLIENT)
 public class Clawdian_Renderer extends MobRenderer<Clawdian_Entity, Clawdian_Model> {
 
     private static final ResourceLocation KOBOLEDIATOR_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/shrimp.png");
-    private static final ResourceLocation LAYER =new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/shrimp_glow.png");
+    private static final ResourceLocation LAYER = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/shrimp_glow.png");
 
     public Clawdian_Renderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new Clawdian_Model(renderManagerIn.bakeLayer(CMModelLayers.CLAWDIAN_MODEL)), 1.8F);

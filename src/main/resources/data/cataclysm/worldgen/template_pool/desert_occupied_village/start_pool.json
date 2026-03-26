@@ -1,0 +1,15 @@
+{
+  "name": "cataclysm:desert_occupied_village/start_pool",
+  "fallback": "minecraft:empty",
+  "elements": [
+    {
+      "weight": 1,
+      "element": {
+        "location": "cataclysm:desert_occupied_village",
+        "projection": "rigid",
+        "processors": "cataclysm:water_logging_fix",
+        "element_type": "minecraft:single_pool_element"
+      }
+    }
+  ]
+}

@@ -5,8 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,8 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -45,15 +43,6 @@ public class Abyss_Portal_Entity extends Entity {
         super(entityTypeIn, worldIn);
     }
 
-    public Abyss_Portal_Entity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(ModEntities.ABYSS_PORTAL.get(), level);
-    }
-
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
     public void tick() {
         super.tick();
@@ -87,7 +76,7 @@ public class Abyss_Portal_Entity extends Entity {
                         e.setPortalCooldown();
                         ((The_Leviathan_Entity) e).resetPortalLogic();
                     }else {
-                        e.teleportToWithTicket(this.getDestination().getX() + 0.5f, this.getDestination().getY() + 0.5f, this.getDestination().getZ() + 0.5f);
+                        e.teleportTo(this.getDestination().getX() + 0.5f, this.getDestination().getY() + 0.5f, this.getDestination().getZ() + 0.5f);
                         e.setPortalCooldown();
                      }
                 }
@@ -125,21 +114,24 @@ public class Abyss_Portal_Entity extends Entity {
         this.entityData.set(ENTRANCE, entrance);
     }
 
-    public BlockPos getDestination() {
-        return this.entityData.get(DESTINATION).orElse(null);
-    }
 
-    public void setDestination(BlockPos destination) {
+    public void setDestination(@Nullable BlockPos destination) {
         this.entityData.set(DESTINATION, Optional.ofNullable(destination));
         if (this.getSisterId() == null) {
             createAndSetSister(level(), null);
         }
     }
 
+    @Nullable
+    public BlockPos getDestination() {
+        return this.getEntityData().get(DESTINATION).orElse(null);
+    }
+
+
     public void createAndSetSister(Level world, Direction dir){
         Abyss_Portal_Entity portal = ModEntities.ABYSS_PORTAL.get().create(world);
         BlockPos safeDestination = this.getDestination();
-        portal.teleportToWithTicket(safeDestination.getX() + 0.5f, safeDestination.getY() + 0.5f, safeDestination.getZ() + 0.5f);
+        portal.teleportTo(safeDestination.getX() + 0.5f, safeDestination.getY() + 0.5f, safeDestination.getZ() + 0.5f);
         portal.link(this);
         portal.setEntrance(false);
         world.addFreshEntity(portal);
@@ -197,6 +189,7 @@ public class Abyss_Portal_Entity extends Entity {
             compound.putUUID("SisterUUID", this.getSisterId());
         }
     }
+
 
     public Entity getSister() {
         UUID id = getSisterId();

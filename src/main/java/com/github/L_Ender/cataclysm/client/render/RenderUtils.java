@@ -29,5 +29,4 @@ public class RenderUtils {
         vec.mul(matrix4f);
         return new Vec3(vec.x(), vec.y(), vec.z());
     }
-
 }

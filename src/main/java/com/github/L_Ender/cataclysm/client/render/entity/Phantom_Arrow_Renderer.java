@@ -38,7 +38,7 @@ public class Phantom_Arrow_Renderer extends EntityRenderer<Phantom_Arrow_Entity>
             float f10 = -Mth.sin(f9 * 3.0F) * f9;
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(f10));
         }
-        
+
         matrixStackIn.mulPose(Axis.XP.rotationDegrees(45.0F));
         matrixStackIn.scale(0.075F, 0.075F, 0.075F);
         matrixStackIn.translate(-4.0F, 0.0F, 0.0F);
@@ -76,6 +76,7 @@ public class Phantom_Arrow_Renderer extends EntityRenderer<Phantom_Arrow_Entity>
     public void vertex(Matrix4f p_113826_, Matrix3f p_113827_, VertexConsumer p_113828_, int p_113829_, int p_113830_, int p_113831_,int light, float p_113832_, float p_113833_, int p_113834_, int p_113835_, int p_113836_, int p_113837_) {
         p_113828_.vertex(p_113826_, (float)p_113829_, (float)p_113830_, (float)p_113831_).color(255, 255, 255, light).uv(p_113832_, p_113833_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_113837_).normal(p_113827_, (float)p_113834_, (float)p_113836_, (float)p_113835_).endVertex();
     }
+
 
 
     @Override

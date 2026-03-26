@@ -9,13 +9,14 @@ import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import com.github.L_Ender.cataclysm.message.MessageUpdateblockentity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
+
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -24,6 +25,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -51,7 +53,7 @@ public class AltarOfAbyss_Block_Entity extends BaseContainerBlockEntity {
 
     }
 
-    public void tick(Level level,BlockState state, BlockPos pos) {
+    public void tick(Level level, BlockState state, BlockPos pos) {
         tickCount++;
         summoningthis = false;
         prevChompProgress = chompProgress;
@@ -71,11 +73,7 @@ public class AltarOfAbyss_Block_Entity extends BaseContainerBlockEntity {
                     if (level instanceof ServerLevel serverLevel) {
                         if (leviathan != null) {
                             leviathan.setPos(pos.getX() + 0.5F, pos.getY() + 3, pos.getZ() + 0.5F);
-                            leviathan.setHomePos(pos);
-
-                            ResourceLocation dimLoc = serverLevel.dimension().location();
-                            leviathan.setDimensionType(dimLoc.toString());
-
+                            leviathan.setHomePos(GlobalPos.of(serverLevel.dimension(), pos));
                             boolean flag = level.addFreshEntity(leviathan);
                             if (flag) {
                                 this.setItem(0, ItemStack.EMPTY);
@@ -110,7 +108,7 @@ public class AltarOfAbyss_Block_Entity extends BaseContainerBlockEntity {
     }
 
     private void BlockBreaking(int x, int y, int z) {
-        //this.level.destroyBlock(this.getBlockPos(), false);
+        //this.level.destroyBlock(pos, false);
         int MthX = Mth.floor(this.getBlockPos().getX());
         int MthY = Mth.floor(this.getBlockPos().getY());
         int MthZ = Mth.floor(this.getBlockPos().getZ());

@@ -5,7 +5,6 @@ import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -41,7 +40,7 @@ public class Draugr_Entity extends Monster {
     }
 
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new Draugr_Entity.DraugrMeleeAttackGoal());
+        this.goalSelector.addGoal(1, new DraugrMeleeAttackGoal());
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 80));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));

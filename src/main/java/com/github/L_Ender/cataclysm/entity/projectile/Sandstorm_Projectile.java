@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTag;
@@ -30,6 +30,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
+
 
 public class Sandstorm_Projectile extends Projectile {
     public double xPower;
@@ -98,8 +99,7 @@ public class Sandstorm_Projectile extends Projectile {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getState()) {
+            switch (this.getState()) {
                 case 0 -> this.stopAllAnimationStates();
                 case 1 -> {
                     stopAllAnimationStates();
@@ -187,16 +187,14 @@ public class Sandstorm_Projectile extends Projectile {
             float r = 0.89F + random.nextFloat() * ran;
             float g = 0.85f + random.nextFloat() * ran;
             float b = 0.69f + random.nextFloat() * ran * 1.5F;
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            //this.level().addParticle((new StormParticle.OrbData(r, g, b,2.0f + random.nextFloat() * 0.45f,2.0f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            // this.level().addParticle((new StormParticle.OrbData(r, g, b,1.75f + random.nextFloat() * 0.45f,1.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-
+            this.level().addParticle((new StormParticleOptions(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
             if (!this.isSilent()) {
-                Cataclysm.PROXY.playWorldSound(this, (byte) 2);
+               Cataclysm.PROXY.playWorldSound(this, (byte) 2);
             }
             this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
             this.setPos(d0, d1, d2);
         } else {
+            Cataclysm.PROXY.clearSoundCacheFor(this);
             this.discard();
         }
     }
@@ -214,7 +212,7 @@ public class Sandstorm_Projectile extends Projectile {
                     flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), this.getDamage());
                     if (flag) {
                         if (entity.isAlive()) {
-                            this.doEnchantDamageEffects(livingentity, entity);
+                         //   this.doEnchantDamageEffects(livingentity, entity);
                         }
                     }
                 }

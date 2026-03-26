@@ -1,11 +1,11 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 public class TrapFlameParticle extends TextureSheetParticle {
 
@@ -65,7 +65,7 @@ public class TrapFlameParticle extends TextureSheetParticle {
     }
 
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 

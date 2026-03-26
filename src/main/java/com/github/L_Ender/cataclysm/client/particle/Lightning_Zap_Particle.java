@@ -1,21 +1,13 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningZapParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Locale;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Lightning_Zap_Particle extends TextureSheetParticle {
@@ -63,109 +55,20 @@ public class Lightning_Zap_Particle extends TextureSheetParticle {
             this.gCol = this.getG /255F;
             this.bCol = this.getB /255F;
         }
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        }else{
-            this.setSpriteFromAge(this.sprites);
-        }
+        this.setSpriteFromAge(this.sprites);
     }
 
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<Lightning_Zap_Particle.ZapData> {
+    public static class Provider implements ParticleProvider<LightningZapParticleOptions> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
             this.sprites = sprites;
         }
 
-        public Particle createParticle(Lightning_Zap_Particle.ZapData type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new Lightning_Zap_Particle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites,type.getR(), type.getG(), type.getB(),type.getGravity());
-        }
-    }
-
-    public static class ZapData implements ParticleOptions {
-        public static final Deserializer<Lightning_Zap_Particle.ZapData> DESERIALIZER = new Deserializer<Lightning_Zap_Particle.ZapData>() {
-            public Lightning_Zap_Particle.ZapData fromCommand(ParticleType<Lightning_Zap_Particle.ZapData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                int r = reader.readInt();
-                reader.expect(' ');
-                int g = reader.readInt();
-                reader.expect(' ');
-                int b = reader.readInt();
-                reader.expect(' ');
-                float gravity = reader.readFloat();
-
-                return new Lightning_Zap_Particle.ZapData(r, g, b,gravity);
-            }
-
-            public Lightning_Zap_Particle.ZapData fromNetwork(ParticleType<Lightning_Zap_Particle.ZapData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new Lightning_Zap_Particle.ZapData(buffer.readInt(), buffer.readInt(),buffer.readInt(),buffer.readFloat());
-            }
-        };
-
-        private final int r;
-        private final int g;
-        private final int b;
-        private final float gravity;
-
-        public ZapData(int r, int g, int b,float gravity) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            this.gravity = gravity;
-        }
-
-
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeInt(this.r);
-            buffer.writeInt(this.g);
-            buffer.writeInt(this.b);
-            buffer.writeFloat(this.gravity);
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %d %d %d %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b,this.gravity);
-        }
-
-        @Override
-        public ParticleType<Lightning_Zap_Particle.ZapData> getType() {
-            return ModParticle.LIGHTNING_ZAP.get();
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getR() {
-            return this.r;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getG() {
-            return this.g;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getB() {
-            return this.b;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getGravity() {
-            return this.gravity;
-        }
-
-
-        public static Codec<Lightning_Zap_Particle.ZapData> CODEC(ParticleType<Lightning_Zap_Particle.ZapData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.INT.fieldOf("r").forGetter(Lightning_Zap_Particle.ZapData::getR),
-                            Codec.INT.fieldOf("g").forGetter(Lightning_Zap_Particle.ZapData::getG),
-                            Codec.INT.fieldOf("b").forGetter(Lightning_Zap_Particle.ZapData::getB),
-                            Codec.FLOAT.fieldOf("gravity").forGetter(Lightning_Zap_Particle.ZapData::getGravity)
-                    ).apply(codecBuilder, Lightning_Zap_Particle.ZapData::new)
-            );
+        public Particle createParticle(LightningZapParticleOptions type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new Lightning_Zap_Particle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites,type.r(), type.g(), type.b(),type.gravity());
         }
     }
 }

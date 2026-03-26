@@ -29,7 +29,7 @@ public class BoxOctree {
 
     private void subdivide() {
         if (!childrenOctants.isEmpty()) {
-            throw new UnsupportedOperationException("YUNG's API - Tried to subdivide when there are already children octants.");
+            throw new UnsupportedOperationException("Cataclysm's API - Tried to subdivide when there are already children octants.");
         }
 
         int halfXSize = size.getX() / 2;

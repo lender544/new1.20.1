@@ -2,8 +2,10 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.entity.Draugr_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Elite_Draugr_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Draugr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elite_Draugr_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -2,35 +2,30 @@ package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.capabilities.ChargeCapability;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -39,18 +34,21 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
-    private final Multimap<Attribute, AttributeModifier> guantletAttributes;
+public class Gauntlet_of_Bulwark extends Cataclysm_Weapon_Item {
 
-    public Gauntlet_of_Bulwark(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 10.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
+
+    public Gauntlet_of_Bulwark(Item.Properties properties) {
+
+
+        super(properties,10.0F, -2.4F);
+    }
+
+    @Override
+    protected void initAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
         builder.put(Attributes.ARMOR, new AttributeModifier(BASE_ARMOR_ID, "Tool modifier", 3.0F, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(BASE_ARMOR_TOUGHNESS_ID, "Tool modifier", 3F, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(BASE_KNOCKBACK_RESISTANCE_ID, "Tool modifier", 0.15F, AttributeModifier.Operation.ADDITION));
-        this.guantletAttributes = builder.build();
+
     }
 
 
@@ -63,18 +61,23 @@ public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
     }
 
 
-    public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
-        ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
-        InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
-
-        ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
-
-        if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
-            return InteractionResultHolder.fail(item);
-        }else{
-            p_77659_2_.startUsingItem(p_77659_3_);
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack item = player.getItemInHand(hand);
+        if (hand == InteractionHand.OFF_HAND) {
+            player.startUsingItem(hand);
             return InteractionResultHolder.consume(item);
         }
+        if (hand == InteractionHand.MAIN_HAND) {
+            ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
+            if (offHandItem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !player.getCooldowns().isOnCooldown(offHandItem.getItem())) {
+                return InteractionResultHolder.pass(item);
+            } else {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.consume(item);
+            }
+        }
+        return InteractionResultHolder.pass(item);
     }
 
     public void onUseTick(Level worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
@@ -135,6 +138,8 @@ public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
                     entityLiving.move(MoverType.SELF, new Vec3(0.0D, (double) f6 / 2, 0.0D));
                 }
 
+
+
                 ChargeCapability.IChargeCapability ChargeCapability = ModCapabilities.getCapability(entityLiving, ModCapabilities.CHARGE_CAPABILITY);
                 if (ChargeCapability != null) {
                     ChargeCapability.setCharge(true);
@@ -147,7 +152,7 @@ public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
                 }
 
                 if (!level.isClientSide) {
-                    ((Player) entityLiving).getCooldowns().addCooldown(this, CMConfig.GauntletOfBulwarkCooldown);
+                    ((Player) entityLiving).getCooldowns().addCooldown(this, CMCommonConfig.GauntletOfBulwark.cooldown);
                 }
             }
         }
@@ -159,33 +164,16 @@ public class Gauntlet_of_Bulwark extends Item implements More_Tool_Attribute {
         return true;
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return 16;
-    }
 
     public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
         return !player.isCreative();
     }
 
     @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category == EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE;
-    }
-
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.guantletAttributes : super.getDefaultAttributeModifiers(equipmentSlot);
-    }
-
-    @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
     }
+
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {

@@ -364,7 +364,7 @@ public class Koboleton_Model extends AdvancedEntityModel<Koboleton_Entity> {
 		float runSpeed = 0.8F;
 		float walkDegree = 0.5F;
 
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float angryProgress = entityIn.prevangryProgress + (entityIn.angryProgress - entityIn.prevangryProgress) * partialTick;
 
 		this.faceTarget(netHeadYaw, headPitch, 1, head);

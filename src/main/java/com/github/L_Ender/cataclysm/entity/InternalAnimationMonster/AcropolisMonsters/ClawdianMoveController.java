@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters;
 
+import com.github.L_Ender.cataclysm.entity.etc.FowardMoveController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -9,20 +10,17 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.NodeEvaluator;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ClawdianMoveController extends MoveControl {
-
+    protected ClawdianOperation operation = ClawdianOperation.WAIT;
 
     public ClawdianMoveController(Mob mob) {
         super(mob);
     }
-
-    public boolean hasWanted() {
-        return this.operation == Operation.MOVE_TO;
-    }
+    
 
     public double getSpeedModifier() {
         return super.getSpeedModifier();
@@ -36,20 +34,28 @@ public class ClawdianMoveController extends MoveControl {
         this.wantedY = y;
         this.wantedZ = z;
         this.speedModifier = speed;
-        if (this.operation != Operation.JUMPING) {
-            this.operation = Operation.MOVE_TO;
+        if (this.operation != ClawdianOperation.JUMPING) {
+            this.operation = ClawdianOperation.MOVE_TO;
         }
     }
 
     public void strafe(float forward, float strafe) {
-        this.operation = Operation.STRAFE;
+        this.operation = ClawdianOperation.STRAFE;
         this.strafeForwards = forward;
         this.strafeRight = strafe;
         this.speedModifier = 1.15;
     }
 
+
+    public void forward(float forward, float speed) {
+        this.operation = ClawdianOperation.FORWARD;
+        this.strafeForwards = forward;
+        this.speedModifier = speed;
+    }
+
+
     public void tick() {
-        if (this.operation == Operation.STRAFE) {
+        if (this.operation == ClawdianOperation.STRAFE) {
             float baseSpeed = (float)this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED);
             float adjustedSpeed = (float)this.speedModifier * baseSpeed;
 
@@ -79,9 +85,13 @@ public class ClawdianMoveController extends MoveControl {
                 this.mob.setXxa(0.0F);
             }
 
-            this.operation = Operation.WAIT;
-        } else if (this.operation == Operation.MOVE_TO) {
-            this.operation = Operation.WAIT;
+            this.operation = ClawdianOperation.WAIT;
+        } else if (this.operation == ClawdianOperation.FORWARD) {
+            this.strafeRight = 0.0F;
+            ForwardMoveControl();
+            this.operation = ClawdianOperation.WAIT;
+        } else if (this.operation == ClawdianOperation.MOVE_TO) {
+            this.operation = ClawdianOperation.WAIT;
             double d0 = this.wantedX - this.mob.getX();
             double d1 = this.wantedZ - this.mob.getZ();
             double d2 = this.wantedY - this.mob.getY();
@@ -103,43 +113,105 @@ public class ClawdianMoveController extends MoveControl {
                     && !blockstate.is(BlockTags.DOORS)
                     && !blockstate.is(BlockTags.FENCES)) {
                 this.mob.getJumpControl().jump();
-                this.operation = Operation.JUMPING;
+                this.operation = ClawdianOperation.JUMPING;
             }
-        } else if (this.operation == Operation.JUMPING) {
+        } else if (this.operation == ClawdianOperation.JUMPING) {
             this.mob.setSpeed((float)(this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED)));
             if (this.mob.onGround()) {
-                this.operation = Operation.WAIT;
+                this.operation = ClawdianOperation.WAIT;
             }
         } else {
             this.mob.setZza(0.0F);
         }
     }
 
-    private boolean isWalkable(float relativeX, float relativeZ) {
-        double targetX = this.mob.getX() + relativeX;
-        double targetZ = this.mob.getZ() + relativeZ;
-        double currentY = this.mob.getBlockY();
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(targetX, currentY, targetZ);
+    private void ForwardMoveControl() {
+        float speedAttr = (float)this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED);
+        float finalSpeed = (float)this.speedModifier * speedAttr;
 
-        PathNavigation nav = this.mob.getNavigation();
-        NodeEvaluator eval = nav != null ? nav.getNodeEvaluator() : null;
-        if (eval != null) {
-            BlockPathTypes type = eval.getBlockPathType(this.mob.level(), Mth.floor(targetX), this.mob.getBlockY(), Mth.floor(targetZ));
-            if (type != BlockPathTypes.WALKABLE && type != BlockPathTypes.OPEN) return false;
+        float fForward = this.strafeForwards;
+        float fStrafe = this.strafeRight;
+
+        float dist = Mth.sqrt(fForward * fForward + fStrafe * fStrafe);
+        if (dist < 1.0F) dist = 1.0F;
+
+        fForward = fForward / dist;
+        fStrafe = fStrafe / dist;
+
+        float sin = Mth.sin(this.mob.getYRot() * ((float)Math.PI / 180F));
+        float cos = Mth.cos(this.mob.getYRot() * ((float)Math.PI / 180F));
+
+        float worldRelX = fStrafe * cos - fForward * sin;
+        float worldRelZ = fForward * cos + fStrafe * sin;
+
+        if (!this.isWalkableForward(worldRelX, worldRelZ)) {
+            this.strafeForwards = 0.0F;
+            this.strafeRight = 0.0F;
+            this.mob.setZza(0.0F);
+            this.mob.setXxa(0.0F);
+            this.mob.setSpeed(0.0F);
+            return;
         }
+        fForward *= finalSpeed;
+        fStrafe *= finalSpeed;
 
-        int maxFall = (int) this.mob.getBbHeight();
-        for (int i = 0; i <= maxFall; i++) {
-            BlockPos below = pos.below(i);
-            VoxelShape shape = this.mob.level().getBlockState(below).getCollisionShape(this.mob.level(), below);
-            if (!shape.isEmpty()) {
-                double groundY = below.getY() + shape.max(Direction.Axis.Y);
-                double dy = groundY - currentY;
-                return dy <= this.mob.maxUpStep() && dy >= -this.mob.getMaxFallDistance();
+        this.mob.setSpeed(finalSpeed);
+        this.mob.setZza(fForward);
+        this.mob.setXxa(fStrafe);
+    }
+
+    /**
+     * @return true if the mob can walk successfully to a given X and Z
+     */
+    private boolean isWalkableForward(float worldRelX, float worldRelZ) {
+        float lenSq = worldRelX * worldRelX + worldRelZ * worldRelZ;
+        if (lenSq < 1.0E-5F) return true;
+
+        float lookAheadDist = (this.mob.getBbWidth() / 2.0F) + 1.2F;
+
+        float len = Mth.sqrt(lenSq);
+
+        float checkX = (worldRelX / len) * lookAheadDist;
+        float checkZ = (worldRelZ / len) * lookAheadDist;
+
+        BlockPos targetPos = BlockPos.containing(
+                this.mob.getX() + checkX,
+                this.mob.getY(),
+                this.mob.getZ() + checkZ
+        );
+
+        int maxFallDist = 4;
+
+        for (int i = 0; i <= maxFallDist; i++) {
+            BlockPos checkPos = targetPos.below(i);
+            BlockState state = this.mob.level().getBlockState(checkPos);
+            boolean isSolid = !state.isAir()
+                    && state.getFluidState().isEmpty()
+                    && !state.getCollisionShape(this.mob.level(), checkPos).isEmpty();
+
+            if (isSolid) {
+                if (i == 0) return true;
+
+                return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * @return true if the mob can walk successfully to a given X and Z
+     */
+    private boolean isWalkable(float relativeX, float p_24998_) {
+        PathNavigation pathnavigation = this.mob.getNavigation();
+        if (pathnavigation != null) {
+            NodeEvaluator nodeevaluator = pathnavigation.getNodeEvaluator();
+            if (nodeevaluator != null && nodeevaluator.getBlockPathType(this.mob.level(), Mth.floor(this.mob.getX() + (double)relativeX), Mth.floor(this.mob.getBlockY()), Mth.floor(this.mob.getZ() + (double)p_24998_)) != BlockPathTypes.WALKABLE) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -165,15 +237,12 @@ public class ClawdianMoveController extends MoveControl {
         return f1;
     }
 
-    public double getWantedX() {
-        return this.wantedX;
+    protected static enum ClawdianOperation {
+        WAIT,
+        MOVE_TO,
+        FORWARD,
+        STRAFE,
+        JUMPING;
     }
-
-    public double getWantedY() {
-        return this.wantedY;
-    }
-
-    public double getWantedZ() {
-        return this.wantedZ;
-    }
+    
 }

@@ -1,5 +1,4 @@
 package com.github.L_Ender.cataclysm.message;
-import java.util.function.Supplier;
 
 import com.github.L_Ender.cataclysm.client.gui.MinistrosityInventoryScreen;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
@@ -12,6 +11,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
 
 
 public class MessageMiniinventory {

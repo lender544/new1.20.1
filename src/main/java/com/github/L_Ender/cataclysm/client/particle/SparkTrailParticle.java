@@ -1,14 +1,11 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.SparkTrailParticleOptions;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningBoltData;
 import com.github.L_Ender.cataclysm.client.render.etc.LightningRender;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -16,17 +13,12 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Vector4f;
 
-import java.util.Locale;
 import java.util.Random;
 
 public class SparkTrailParticle extends Particle {
@@ -74,93 +66,19 @@ public class SparkTrailParticle extends Particle {
         lightningRender.update(this, bolt, partialTick);
         lightningRender.render(partialTick, posestack, multibuffersource$buffersource);
 
-       multibuffersource$buffersource.endBatch();
+        multibuffersource$buffersource.endBatch();
         posestack.popPose();
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<SparkTrailParticle.SparkData> {
+    public static class Factory implements ParticleProvider<SparkTrailParticleOptions> {
 
         @Override
-        public Particle createParticle(SparkTrailParticle.SparkData data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(SparkTrailParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SparkTrailParticle particle;
-            particle = new SparkTrailParticle(level, x, y, z,xSpeed,ySpeed,zSpeed, data.getR(),data.getG(),data.getB());
+            particle = new SparkTrailParticle(level, x, y, z,xSpeed,ySpeed,zSpeed, data.r(),data.g(),data.b());
             return particle;
         }
 
     }
-
-    public static class SparkData implements ParticleOptions {
-        public static final Deserializer<SparkTrailParticle.SparkData> DESERIALIZER = new Deserializer<SparkTrailParticle.SparkData>() {
-            public SparkTrailParticle.SparkData fromCommand(ParticleType<SparkTrailParticle.SparkData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                int r = reader.readInt();
-                reader.expect(' ');
-                int g = reader.readInt();
-                reader.expect(' ');
-                int b = reader.readInt();
-         
-
-                return new SparkTrailParticle.SparkData(r, g, b);
-            }
-
-            public SparkTrailParticle.SparkData fromNetwork(ParticleType<SparkTrailParticle.SparkData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new SparkTrailParticle.SparkData(buffer.readInt(), buffer.readInt(),buffer.readInt());
-            }
-        };
-
-        private final int r;
-        private final int g;
-        private final int b;
-
-        public SparkData(int r, int g, int b) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeInt(this.r);
-            buffer.writeInt(this.g);
-            buffer.writeInt(this.b);
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %d %d %d", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b);
-        }
-
-        @Override
-        public ParticleType<SparkTrailParticle.SparkData> getType() {
-            return ModParticle.SPARK_TRAIL.get();
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getR() {
-            return this.r;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getG() {
-            return this.g;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getB() {
-            return this.b;
-        }
-        
-
-        public static Codec<SparkTrailParticle.SparkData> CODEC(ParticleType<SparkTrailParticle.SparkData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.INT.fieldOf("r").forGetter(SparkTrailParticle.SparkData::getR),
-                            Codec.INT.fieldOf("g").forGetter(SparkTrailParticle.SparkData::getG),
-                            Codec.INT.fieldOf("b").forGetter(SparkTrailParticle.SparkData::getB)
-                    ).apply(codecBuilder, SparkTrailParticle.SparkData::new)
-            );
-        }
-    }
-    
 }

@@ -1,13 +1,17 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.CircleLightningParticle;
-import com.github.L_Ender.cataclysm.client.particle.Not_Spin_TrailParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.*;
+import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_Golem_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,12 +22,15 @@ import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -51,8 +58,7 @@ public class Storm_Serpent_Entity extends Entity {
     }
 
 
-
-    public Storm_Serpent_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, LivingEntity casterIn, float damage, LivingEntity finalTarget, boolean right) {
+    public Storm_Serpent_Entity(Level worldIn, double x, double y, double z, float p_i47276_8_, int p_i47276_9_, LivingEntity casterIn, float damage, LivingEntity finalTarget,boolean right) {
         this(ModEntities.STORM_SERPENT.get(), worldIn);
         this.warmupDelayTicks = p_i47276_9_;
         this.setCaster(casterIn);
@@ -200,7 +206,7 @@ public class Storm_Serpent_Entity extends Entity {
 
                         //  level().addParticle((new CustomPoofParticleOptions(113,194,240,2.4F)), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
 
-                        this.level().addParticle(new Not_Spin_TrailParticle.NSTData(113/255F, 194/255F, 240/255F,0.05F,0.75F,0.5F, 0,60 + random.nextInt(40)), d0, d1, d2, extraX, extraY, extraZ);
+                        this.level().addParticle(new NotSpinTrailParticleOptions(113/255F, 194/255F, 240/255F,0.05F,0.75F,0.5F, 0,60 + random.nextInt(40)), d0, d1, d2, extraX, extraY, extraZ);
 
 
                     }
@@ -210,7 +216,7 @@ public class Storm_Serpent_Entity extends Entity {
                 if (this.lifeTicks > 12 && this.lifeTicks < 18) {
                     for (int i = 0; i < 5; i++) {
 
-                        level().addParticle((new CircleLightningParticle.CircleData(113,194,240)), this.getX(), this.getY() + 0.1, this.getZ(),   this.getX() + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + (random.nextFloat() - 0.5F) * 7);
+                        level().addParticle((new CircleLightningParticleOptions(0.1F,113,194,240)), this.getX(), this.getY() + 0.1, this.getZ(),   this.getX() + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + (random.nextFloat() - 0.5F) * 7);
                     }
 
                 }
@@ -242,7 +248,7 @@ public class Storm_Serpent_Entity extends Entity {
 
                       //  level().addParticle((new CustomPoofParticleOptions(113,194,240,2.4F)), this.getX() + x, this.getY() + 0.1, this.getZ() + z, motionX, motionY, motionZ);
 
-                        this.level().addParticle(new Not_Spin_TrailParticle.NSTData(113/255F, 194/255F, 240/255F,0.05F,0.75F,0.5F, 0,80 + random.nextInt(40)), d0, d1, d2, extraX, extraY, extraZ);
+                        this.level().addParticle(new NotSpinTrailParticleOptions(113/255F, 194/255F, 240/255F,0.05F,0.75F,0.5F, 0,80 + random.nextInt(40)), d0, d1, d2, extraX, extraY, extraZ);
 
                     }
 
@@ -257,7 +263,7 @@ public class Storm_Serpent_Entity extends Entity {
                         double vecX = Math.cos(theta) * 8;
                         double vecZ = Math.sin(theta) * 8;
 
-                        level().addParticle((new CircleLightningParticle.CircleData(113,194,240)), this.getX() +vecX, this.getY() + 0.1, this.getZ()+vecZ,this.getX() + vecX + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + vecZ + (random.nextFloat() - 0.5F) * 7);
+                        level().addParticle((new CircleLightningParticleOptions(0.1F,113,194,240)), this.getX() +vecX, this.getY() + 0.1, this.getZ()+vecZ,this.getX() + vecX + (random.nextFloat() - 0.5F) * 7, this.getY() + 0.1,  this.getZ() + vecZ + (random.nextFloat() - 0.5F) * 7);
                     }
 
                 }
@@ -381,10 +387,5 @@ public class Storm_Serpent_Entity extends Entity {
             int i = this.lifeTicks - 2;
             return i <= 0 ? 1.0F : 1.0F - ((float)i - p_36937_) / 20.0F;
         }
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

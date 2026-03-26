@@ -1,17 +1,24 @@
 package com.github.L_Ender.cataclysm.client.render;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @OnlyIn(Dist.CLIENT)
@@ -44,6 +51,7 @@ public class CMRenderTypes extends RenderType {
         return CMEYE.apply(location);
     }
 
+
     public static RenderType jelly(ResourceLocation location) {
         return JELLY.apply(location);
     }
@@ -60,10 +68,14 @@ public class CMRenderTypes extends RenderType {
         return DRAGON_DEATH.apply(location);
     }
 
+    public static RenderType CMLightning() {
+        return CM_LIGHTNING;
+    }
+
     public static final Function<ResourceLocation, RenderType> BRIGHT = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                         .setTransparencyState(NO_TRANSPARENCY)
                         .setCullState(NO_CULL)
@@ -78,8 +90,8 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> FLICKERING = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setCullState(NO_CULL)
@@ -97,8 +109,8 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> FULL_BRIGHT = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER)
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setCullState(NO_CULL)
@@ -115,11 +127,10 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> GLOWING_EFFECT = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
-                        .setCullState(NO_CULL)
                         .setOverlayState(OVERLAY)
                         .setWriteMaskState(COLOR_WRITE)
                         .createCompositeState(false);
@@ -132,9 +143,9 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> NEW_TRAIL_EFFECT = Util.memoize(
             p_286155_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ITEM_ENTITY_TRANSLUCENT_CULL_SHADER)
-                        .setTextureState(new TextureStateShard(p_286155_, false, false))
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286155_, false, false))
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setOutputState(ITEM_ENTITY_TARGET)
                         .setLightmapState(LIGHTMAP)
@@ -148,16 +159,17 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> LIGHT_TRAIL_EFFECT = Util.memoize(
             p_286155_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_EYES_SHADER)
                         .setTextureState(new TextureStateShard(p_286155_, false, false))
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setOutputState(ITEM_ENTITY_TARGET)
-                        .setLightmapState(LIGHTMAP)
                         .setCullState(NO_CULL)
-                        .setOverlayState(OVERLAY)
+                        .setLightmapState(LIGHTMAP)
                         .setWriteMaskState(COLOR_WRITE)
+                        .setOverlayState(OVERLAY)
                         .createCompositeState(true);
+
                 return create("light_trail_effect", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536, true, true, rendertype$compositestate);
             }
     );
@@ -166,9 +178,9 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> CMEYE = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_EYES_SHADER)
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setCullState(NO_CULL)
                         .setWriteMaskState(COLOR_WRITE)
@@ -180,12 +192,28 @@ public class CMRenderTypes extends RenderType {
             }
     );
 
+    public static final RenderType CM_LIGHTNING = create(
+            "cm_lightning",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            1536,
+            false,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
+                    .setWriteMaskState(COLOR_WRITE)
+                    .setTransparencyState(LIGHTNING_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setOutputState(WEATHER_TARGET)
+                    .createCompositeState(false)
+    );
+
 
     public static final Function<ResourceLocation, RenderType> JELLY = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setCullState(NO_CULL)
                         .setWriteMaskState(COLOR_DEPTH_WRITE)
@@ -198,10 +226,10 @@ public class CMRenderTypes extends RenderType {
 
     public static final Function<ResourceLocation, RenderType> GHOST = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                         .setCullState(NO_CULL)
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
                         .setLightmapState(LIGHTMAP)
                         .setOverlayState(OVERLAY)
@@ -215,33 +243,21 @@ public class CMRenderTypes extends RenderType {
     );
 
 
-    public static RenderType energySwirl(ResourceLocation p_110437_, float p_110438_, float p_110439_) {
-        return create("energy_swirl", DefaultVertexFormat.NEW_ENTITY,
-                VertexFormat.Mode.QUADS, 256, false, true,
-                RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(p_110437_, false, false))
-                        .setTexturingState(new RenderStateShard.OffsetTexturingStateShard(p_110438_, p_110439_))
-                        .setTransparencyState(ADDITIVE_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP)
-                        .setOverlayState(OVERLAY).createCompositeState(false));
-    }
-
 
     public static final Function<ResourceLocation, RenderType> DRAGON_DEATH = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
-                        .setShaderState(RENDERTYPE_ENTITY_ALPHA_SHADER)
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
+                        .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(p_286169_, false, false))
                         .setCullState(NO_CULL)
-                        .setTextureState(new TextureStateShard(p_286169_, false, false))
                         .createCompositeState(true);
-
-                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,false,false, rendertype$compositestate);
+                return create("dragon_death", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536,false,false, rendertype$compositestate);
             }
     );
 
-
     public static final Function<ResourceLocation, RenderType> SHOCK_WAVE = Util.memoize(
             p_286169_ -> {
-                CompositeState rendertype$compositestate = CompositeState.builder()
+                RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
                         .setCullState(NO_CULL)
                         .setTextureState(new TextureStateShard(new ResourceLocation(Cataclysm.MODID,"textures/particle/shock_wave.png"), true, true))
@@ -286,4 +302,29 @@ public class CMRenderTypes extends RenderType {
                 .createCompositeState(false);
         return create("em_pulse", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, renderState);
     }
+
+
+    public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType() {
+        public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.disableCull();
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+//            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            p_217600_1_.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public void end(Tesselator p_217599_1_) {
+            p_217599_1_.end();
+        }
+
+        public String toString() {
+            return "cataclysm:PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH";
+        }
+    };
+
+
 }

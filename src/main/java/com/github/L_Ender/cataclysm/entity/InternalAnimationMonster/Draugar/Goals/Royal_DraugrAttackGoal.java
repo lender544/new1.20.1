@@ -1,11 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Goals;
 
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
-import com.github.L_Ender.cataclysm.entity.etc.IShieldEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Path;
@@ -32,7 +30,7 @@ public class Royal_DraugrAttackGoal extends Goal {
       this.mob = p_25552_;
       this.speedModifier = p_25553_;
       this.followingTargetEvenIfNotSeen = p_25554_;
-      this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+      this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
    }
 
    public boolean canUse() {

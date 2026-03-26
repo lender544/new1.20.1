@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+
 @OnlyIn(Dist.CLIENT)
 public class New_Netherite_Monstrosity_Renderer extends MobRenderer<Netherite_Monstrosity_Entity, Netherite_Monstrosity_Model> {
 

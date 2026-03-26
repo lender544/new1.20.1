@@ -73,12 +73,15 @@ public class Tidal_Hook_Model extends AdvancedEntityModel<Tidal_Hook_Entity> {
     public void setupAnim(Tidal_Hook_Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
     }
+
+
     public Vec3 getChainPosition(Vec3 offset, PoseStack transform) {
         this.body.translateAndRotate(transform);
         Vector4f vec = new Vector4f((float) offset.x, (float) offset.y, (float) offset.z, 1.0F);
         vec.mul(transform.last().pose());
         return new Vec3(vec.x(), vec.y(), vec.z());
     }
+
     public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
         AdvancedModelBox.rotateAngleX = x;
         AdvancedModelBox.rotateAngleY = y;

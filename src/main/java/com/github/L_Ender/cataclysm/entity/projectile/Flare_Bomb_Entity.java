@@ -1,23 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.LightTrailParticle;
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Old_Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
-import com.github.L_Ender.cataclysm.entity.partentity.Old_Netherite_Monstrosity_Part;
+
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.github.L_Ender.cataclysm.message.MessageParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -33,8 +21,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PacketDistributor;
 
 public class Flare_Bomb_Entity extends ThrowableProjectile {
 
@@ -61,14 +47,13 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
-        if (!this.level().isClientSide&& !(result.getEntity() instanceof Flare_Bomb_Entity || shooter instanceof Netherite_Monstrosity_Entity && (result.getEntity() instanceof Netherite_Monstrosity_Part || result.getEntity() instanceof Netherite_Monstrosity_Entity)||
-                shooter instanceof Old_Netherite_Monstrosity_Entity && (result.getEntity() instanceof Old_Netherite_Monstrosity_Part || result.getEntity() instanceof Old_Netherite_Monstrosity_Entity))) {
+        if (!this.level().isClientSide&& !(result.getEntity() instanceof Flare_Bomb_Entity || shooter instanceof Netherite_Monstrosity_Entity && (result.getEntity() instanceof Netherite_Monstrosity_Part || result.getEntity() instanceof Netherite_Monstrosity_Entity))) {
             Entity entity = result.getEntity();
             Entity entity1 = this.getOwner();
             boolean flag;
             if (entity1 instanceof LivingEntity) {
                 LivingEntity livingentity = (LivingEntity)entity1;
-                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) CMConfig.FlareBombDamage);
+                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), 7);
                 if (flag) {
                     if (entity.isAlive()) {
                         entity.setSecondsOnFire(5);
@@ -160,9 +145,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
         if (flag) {
             if (this.getOwner() != null && this.getOwner() instanceof LivingEntity living) {
-                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.FlareBombDamage, living));
+                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, 7F, living));
             }else{
-                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.FlareBombDamage, null));
+                this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, 7F, null));
 
             }
         }
@@ -233,8 +218,4 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
         return 0.025F;
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

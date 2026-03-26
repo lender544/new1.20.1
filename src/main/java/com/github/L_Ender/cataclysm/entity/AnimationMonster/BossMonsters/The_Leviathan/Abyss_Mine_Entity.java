@@ -1,11 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -112,7 +110,7 @@ public class Abyss_Mine_Entity extends Entity {
                     double d3 = (this.random.nextGaussian() * 0.3D);
                     double d4 = (this.random.nextGaussian() * 0.3D);
                     double d5 = (this.random.nextGaussian() * 0.3D);
-                    this.level().addParticle(new LightningParticle.OrbData(102, 26, 204), d0, d1, d2, d3, d4, d5);
+                    this.level().addParticle(new LightningParticleOptions(102, 26, 204), d0, d1, d2, d3, d4, d5);
                 }
 
                 if (this.lifeTicks == 14) {
@@ -190,10 +188,5 @@ public class Abyss_Mine_Entity extends Entity {
         return 1.0F;
     }
 
-
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    
 }

@@ -1,19 +1,17 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.util.CustomExplosion.IgnisExplosion;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,19 +19,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.Ghast;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+
 import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
 
 public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
     private static final EntityDataAccessor<Boolean> SOUL = SynchedEntityData.defineId(Ignis_Fireball_Entity.class, EntityDataSerializers.BOOLEAN);
@@ -46,7 +39,7 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
         super(type, level);
     }
 
-    public Ignis_Fireball_Entity(Level level, LivingEntity  entity, double x, double y, double z) {
+    public Ignis_Fireball_Entity(Level level, LivingEntity entity, double x, double y, double z) {
         super(ModEntities.IGNIS_FIREBALL.get(), entity, x, y, z, level);
     }
 
@@ -54,7 +47,6 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
         this(ModEntities.IGNIS_FIREBALL.get(), worldIn);
         this.setOwner(entity);
     }
-
 
     public boolean isOnFire() {
         return false;
@@ -108,7 +100,6 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
             this.trailPointer = 0;
         }
         this.trailPositions[this.trailPointer] = trailAt;
-
     }
 
     public void setUp(int delay) {
@@ -117,14 +108,16 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
 
     }
 
-    protected void onHitEntity(EntityHitResult result) {
-        super.onHitEntity(result);
+    @Override
+    protected void onHitEntity(EntityHitResult p_37626_) {
+        super.onHitEntity(p_37626_);
+        Entity entity = p_37626_.getEntity();
         Entity shooter = this.getOwner();
-        if (!this.level().isClientSide && getFired() && !(result.getEntity() instanceof Ignis_Fireball_Entity || result.getEntity() instanceof Ignis_Abyss_Fireball_Entity || result.getEntity() instanceof Cm_Falling_Block_Entity || result.getEntity() instanceof Ignis_Entity && shooter instanceof Ignis_Entity)) {
-            Entity entity = result.getEntity();
+
+        if (this.level() instanceof ServerLevel serverlevel && getFired() && !(entity instanceof Ignis_Fireball_Entity || entity instanceof Ignis_Abyss_Fireball_Entity || entity instanceof Cm_Falling_Block_Entity || entity instanceof Ignis_Entity && shooter instanceof Ignis_Entity)) {
             boolean flag;
-            if (shooter instanceof LivingEntity) {
-                LivingEntity owner = (LivingEntity)shooter;
+            if (shooter instanceof LivingEntity owner) {
+                DamageSource damagesource = this.damageSources().mobProjectile(this, owner);
                 float damage = this.isSoul() ? 8.0F : 6.0F;
                 if (entity instanceof LivingEntity) {
                     flag = entity.hurt(damageSources().mobProjectile(this, owner), damage + ((LivingEntity) entity).getMaxHealth() * 0.07f);
@@ -133,26 +126,21 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
                 }
 
                 if (flag) {
-                    this.doEnchantDamageEffects(owner, entity);
+                    if (entity.isAlive()) {
+                        this.doEnchantDamageEffects(owner, entity);
+                    }
                     if(owner instanceof Ignis_Entity) {
-                        owner.heal(5.0F * (float) CMConfig.IgnisHealingMultiplier);
+                        owner.heal(5.0F * (float) CMCommonConfig.Ignis.HealingMultiplier);
                     }else{
                         owner.heal(5.0F);
                     }
-
                 }
             } else {
-                flag = entity.hurt(this.damageSources().magic(), 6.0F);
+                flag = entity.hurt(this.damageSources().magic(), 5.0F);
             }
-            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 1f, true, Explosion.BlockInteraction.KEEP);
-            explosion.explode();
-            explosion.finalizeExplosion(this.isSoul() ?2 :1,0.35D);
-
-            this.discard();
-
             if (flag && entity instanceof LivingEntity) {
                 MobEffectInstance effectinstance1 = ((LivingEntity)entity).getEffect(ModEffect.EFFECTBLAZING_BRAND.get());
-                int i = 1;
+                int i = 2;
                 if (effectinstance1 != null) {
                     i += effectinstance1.getAmplifier();
                     ((LivingEntity)entity).removeEffectNoUpdate(ModEffect.EFFECTBLAZING_BRAND.get());
@@ -165,9 +153,13 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
                 ((LivingEntity)entity).addEffect(effectinstance);
 
             }
-
+            IgnisExplosion explosion = new IgnisExplosion(level(), this,null,null, this.getX(), this.getY(), this.getZ(), 1f, true, Explosion.BlockInteraction.KEEP);
+            explosion.explode();
+            explosion.finalizeExplosion(this.isSoul() ?2 :1,0.35D);
+            this.discard();
         }
     }
+
 
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
@@ -179,6 +171,19 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
         }
     }
 
+    @Override
+    protected void onHit(HitResult ray) {
+        super.onHit(ray);
+    }
+
+
+    public boolean isPickable() {
+        return false;
+    }
+
+    public boolean hurt(DamageSource p_37616_, float p_37617_) {
+        return false;
+    }
     public Vec3 getTrailPosition(int pointer, float partialTick) {
         if (this.isRemoved()) {
             partialTick = 1.0F;
@@ -189,29 +194,9 @@ public class Ignis_Fireball_Entity extends AbstractHurtingProjectile {
         Vec3 d1 = this.trailPositions[i].subtract(d0);
         return d0.add(d1.scale(partialTick));
     }
-
     public boolean hasTrail() {
         return trailPointer != -1;
     }
-
-    @Override
-    protected void onHit(HitResult ray) {
-        HitResult.Type raytraceresult$type = ray.getType();
-        if (raytraceresult$type == HitResult.Type.ENTITY) {
-            this.onHitEntity((EntityHitResult) ray);
-        } else if (raytraceresult$type == HitResult.Type.BLOCK) {
-            this.onHitBlock((BlockHitResult) ray);
-        }
-    }
-
-    public boolean isPickable() {
-        return false;
-    }
-
-    public boolean hurt(DamageSource p_37616_, float p_37617_) {
-        return false;
-    }
-
     protected void defineSynchedData() {
         this.entityData.define(SOUL, false);
         this.entityData.define(FIRED, false);

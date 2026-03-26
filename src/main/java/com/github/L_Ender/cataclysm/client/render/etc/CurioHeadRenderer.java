@@ -24,6 +24,7 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 import java.util.Map;
 
 public class CurioHeadRenderer implements ICurioRenderer {
+
     private Map<Cataclysm_Skull_Block.Type, SkullModelBase> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
 
     @Override

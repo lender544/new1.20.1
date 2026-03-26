@@ -29,7 +29,7 @@ public class Void_Rune_Model extends AdvancedEntityModel<Void_Rune_Entity> {
      */
     public void setupAnim(Void_Rune_Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
-        float partialTick = Minecraft.getInstance().getFrameTime();
+        float partialTick = Minecraft.getInstance().getPartialTick();
         float activateProgress = entityIn.prevactivateProgress + (entityIn.activateProgress - entityIn.prevactivateProgress) * partialTick;
         progressPositionPrev(root, activateProgress,0, -17, 0, 10f);
     }
@@ -44,9 +44,5 @@ public class Void_Rune_Model extends AdvancedEntityModel<Void_Rune_Entity> {
         return ImmutableList.of(root);
     }
 
-    @Override
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-        root.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-    }
 
 }

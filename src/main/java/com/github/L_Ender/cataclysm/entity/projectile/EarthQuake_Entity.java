@@ -5,8 +5,6 @@ import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -19,7 +17,7 @@ import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
+
 
 
 public class EarthQuake_Entity extends ThrowableProjectile {
@@ -95,9 +93,7 @@ public class EarthQuake_Entity extends ThrowableProjectile {
     public boolean isOnFire() {
         return false;
     }
-    public float getStepHeight() {
-        return 2.0F;
-    }
+
     private void onUpdateInAir() {
         this.lifeTime -= 1;
 
@@ -139,6 +135,9 @@ public class EarthQuake_Entity extends ThrowableProjectile {
         p_33340_.push(d0 * modifier / d2, 0.5D * modifier, d1 * modifier / d2);
     }
 
+    public float maxUpStep() {
+        return 2.0F;
+    }
 
     @Override
     protected void defineSynchedData() {
@@ -153,8 +152,4 @@ public class EarthQuake_Entity extends ThrowableProjectile {
         entityData.set(DAMAGE, damage);
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

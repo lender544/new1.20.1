@@ -19,10 +19,13 @@ import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+
+
 //orginal code https://github.com/CammiesCorner/Hookshot/blob/1.20.1/src/main/java/dev/cammiescorner/hookshot/entity/HookshotEntity.java#L30
 public class Tidal_Hook_Entity extends AbstractArrow {
 	private static final EntityDataAccessor<Integer> HOOKED_ENTITY_ID = SynchedEntityData.defineId(Tidal_Hook_Entity.class, EntityDataSerializers.INT);
@@ -127,13 +130,15 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 	}
 
 	protected float getWaterInertia() {
-		return 1.0F;
+		return 0.9F;
 	}
 
 	@Override
 	protected ItemStack getPickupItem() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.ARROW);
 	}
+
+
 
 	@Override
 	protected void onHitBlock(BlockHitResult blockHitResult) {

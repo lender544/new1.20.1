@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwner;
-import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -19,7 +18,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -59,7 +57,7 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
     public Modern_Remnant_Entity(EntityType type, Level world) {
         super(type, world);
         this.xpReward = 0;
-        setConfigattribute(this, CMConfig.ModernRemnantHealthMultiplier, CMConfig.ModernRemnantDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.ModernRemnant.healthMultiplier,CMCommonConfig.ModernRemnant.attackMultiplier);
         this.setMaxUpStep(1.0F);
     }
 
@@ -358,7 +356,7 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
         }
 
         public void start() {
-            this.mob.mode = Modern_Remnant_Entity.AttackMode.CIRCLE;
+            this.mob.mode = AttackMode.CIRCLE;
             circlingTime = 0;
             maxcirclingTime = 120 + this.mob.random.nextInt(40);
             circleDistance = 8 + this.mob.random.nextInt(4);
@@ -368,7 +366,7 @@ public class Modern_Remnant_Entity extends LLibraryAnimationPet implements Bucke
         }
 
         public void stop() {
-            this.mob.mode = Modern_Remnant_Entity.AttackMode.CIRCLE;
+            this.mob.mode = AttackMode.CIRCLE;
             circlingTime = 0;
             maxcirclingTime = 120 + this.mob.random.nextInt(40);
             circleDistance = 8 + this.mob.random.nextInt(4);

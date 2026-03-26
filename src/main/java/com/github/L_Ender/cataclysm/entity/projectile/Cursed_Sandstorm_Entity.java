@@ -1,15 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Entity;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Part;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
@@ -29,9 +23,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -93,12 +86,14 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         this.setOwner(entity);
         this.finalTarget = finalTarget;
     }
-
+    @Override
     protected void defineSynchedData() {
         this.entityData.define(TRACKING, false);
         this.entityData.define(DAMAGE, 0F);
         this.entityData.define(STATE,0);
     }
+
+
 
     public AnimationState getAnimationState(String input) {
         if (input == "spawn") {
@@ -112,18 +107,17 @@ public class Cursed_Sandstorm_Entity extends Projectile {
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
-            if (this.level().isClientSide)
-                switch (this.getState()) {
-                    case 0 -> this.stopAllAnimationStates();
-                    case 1 -> {
-                        stopAllAnimationStates();
-                        this.SpawnAnimationState.startIfStopped(this.tickCount);
-                    }
-                    case 2 -> {
-                        stopAllAnimationStates();
-                        this.DespawnAnimationState.startIfStopped(this.tickCount);
-                    }
+            switch (this.getState()) {
+                case 0 -> this.stopAllAnimationStates();
+                case 1 -> {
+                    stopAllAnimationStates();
+                    this.SpawnAnimationState.startIfStopped(this.tickCount);
                 }
+                case 2 -> {
+                    stopAllAnimationStates();
+                    this.DespawnAnimationState.startIfStopped(this.tickCount);
+                }
+            }
         }
 
         super.onSyncedDataUpdated(p_21104_);
@@ -224,7 +218,7 @@ public class Cursed_Sandstorm_Entity extends Projectile {
             float g = 0.42f + random.nextFloat() * ran;
 
             float b = 0.35F + random.nextFloat() * ran * 1.5F;
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new StormParticleOptions(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
 
             this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
             this.setPos(d0, d1, d2);
@@ -289,6 +283,9 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         timer = delay;
     }
 
+
+
+    @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
         if (!this.level().isClientSide) {
@@ -298,7 +295,8 @@ public class Cursed_Sandstorm_Entity extends Projectile {
             if (entity1 instanceof LivingEntity ownerliving) {
                 if (!ownerliving.isAlliedTo(entity) && !entity.isAlliedTo(ownerliving)) {
 
-                    flag = entity.hurt(CMDamageTypes.causeMaledictioSagittaDamage(this, ownerliving), this.getDamage());
+                    DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this,ownerliving);
+                    flag = entity.hurt(damagesource, this.getDamage());
                     if (flag) {
                         if (entity.isAlive()) {
                             this.doEnchantDamageEffects(ownerliving, entity);
@@ -313,9 +311,9 @@ public class Cursed_Sandstorm_Entity extends Projectile {
                 ((LivingEntity) entity).addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 100, 1), this.getEffectSource());
             }
             this.setState(2);
-
         }
     }
+
 
     @Override
     protected void onHit(HitResult ray) {

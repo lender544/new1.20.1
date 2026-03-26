@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Wither_Smoke_Effect_Entity;
@@ -11,19 +11,23 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
+
 
 public class Wither_Howitzer_Entity extends ThrowableProjectile {
 
@@ -56,19 +60,21 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
         if (!this.level().isClientSide) {
+       // if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
             Entity entity1 = this.getOwner();
             boolean flag;
             if (entity1 instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity)entity1;
-                flag = entity.hurt(this.damageSources().mobProjectile(this, livingentity), (float) CMConfig.WitherHowizterdamage);
+                LivingEntity livingentity = (LivingEntity) entity1;
+                DamageSource damagesource = this.damageSources().mobProjectile(this, livingentity);
+                flag = entity.hurt(damagesource, 11);
                 if (flag) {
                     if (entity.isAlive()) {
                         this.doEnchantDamageEffects(livingentity, entity);
                     } else {
-                        if(entity1 instanceof The_Harbinger_Entity) {
-                            livingentity.heal(5.0F * (float) CMConfig.HarbingerHealingMultiplier);
-                        }else{
+                        if (entity1 instanceof The_Harbinger_Entity) {
+                            livingentity.heal((float) CMCommonConfig.Harbinger.LifeSteal);
+                        } else {
                             livingentity.heal(5.0F);
                         }
                     }
@@ -85,7 +91,7 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
                     i = 30;
                 }
 
-                ((LivingEntity)entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
+                ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
             }
 
         }
@@ -100,7 +106,7 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
             LivingEntity entity1 = (LivingEntity) this.getOwner();
             areaeffectcloud.setOwner(entity1);
             areaeffectcloud.setRadiusOnUse(-0.5F);
-            areaeffectcloud.setWaitTime(10);
+            areaeffectcloud.setWaitTime(5);
             areaeffectcloud.setDuration(areaeffectcloud.getDuration() / 2);
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
             this.level().addFreshEntity(areaeffectcloud);
@@ -138,8 +144,5 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
         return 0.03F;
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+
 }

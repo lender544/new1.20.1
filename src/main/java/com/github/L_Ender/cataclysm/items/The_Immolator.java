@@ -1,37 +1,32 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.init.ModAttribute;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Multimap;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -39,19 +34,20 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class The_Immolator extends Item {
-    private final Multimap<Attribute, AttributeModifier> annihilator;
+public class The_Immolator extends Cataclysm_Weapon_Item {
+    public The_Immolator(Item.Properties group) {
+        super(group,7.5D,-2.4F);
+    }
 
-    public The_Immolator(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 6.5D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
-        this.annihilator = builder.build();
+    @Override
+    protected void initAttributes(ImmutableMultimap.Builder< Attribute, AttributeModifier > builder) {
+        builder.put(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE.get(), new AttributeModifier(BASE_CRITICAL_ID, "Tool modifier", 60F, AttributeModifier.Operation.ADDITION));
+
     }
 
 
@@ -59,7 +55,8 @@ public class The_Immolator extends Item {
         return UseAnim.SPEAR;
     }
 
-    public int getUseDuration(ItemStack p_77626_1_) {
+    @Override
+    public int getUseDuration(ItemStack pStack) {
         return 72000;
     }
 
@@ -79,10 +76,10 @@ public class The_Immolator extends Item {
 
                 if (hasSucceeded) {
                     if (!p_43395_.isClientSide) {
-                        player.getCooldowns().addCooldown(this, CMConfig.ImmolatorCooldown);
+                        player.getCooldowns().addCooldown(this, CMCommonConfig.Immolator.cooldown);
                     }
                     ScreenShake_Entity.ScreenShake(p_43395_, player.position(), 30, 0.15f, 0, 30);
-                    p_43395_.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
+                    p_43395_.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.EXPLOSION.get(), SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
 
                 }
             }
@@ -110,7 +107,7 @@ public class The_Immolator extends Item {
     private void yall(Level world,LivingEntity caster) {
         double radius = 6.0D;
         ScreenShake_Entity.ScreenShake(world, caster.position(), 30, 0.1f, 0, 30);
-        world.playSound(null, caster.getX(), caster.getY(), caster.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.5f, 1F / (caster.getRandom().nextFloat() * 0.4F + 0.8F));
+        world.playSound(null, caster.getX(), caster.getY(), caster.getZ(), ModSounds.EXPLOSION.get(), SoundSource.PLAYERS, 1.5f, 1F / (caster.getRandom().nextFloat() * 0.4F + 0.8F));
         List<Entity> list = world.getEntities(caster, caster.getBoundingBox().inflate(radius, radius, radius));
         for (Entity entity : list) {
             if (entity instanceof LivingEntity) {
@@ -187,37 +184,26 @@ public class The_Immolator extends Item {
     }
 
     @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
     public int getEnchantmentValue() {
         return 16;
     }
 
-    public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
-        return !player.isCreative();
-    }
 
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment != Enchantments.SWEEPING_EDGE && enchantment.category == EnchantmentCategory.WEAPON;
     }
 
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.annihilator : super.getDefaultAttributeModifiers(equipmentSlot);
-    }
-
-
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
     }
 
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cataclysm.annihilator.desc").withStyle(ChatFormatting.DARK_GREEN));
+
+        super.appendHoverText(stack,worldIn,tooltip,flagIn);
         tooltip.add(Component.translatable("item.cataclysm.immolator.desc").withStyle(ChatFormatting.DARK_GREEN));
         tooltip.add(Component.translatable("item.cataclysm.immolator2.desc").withStyle(ChatFormatting.DARK_GREEN));
     }

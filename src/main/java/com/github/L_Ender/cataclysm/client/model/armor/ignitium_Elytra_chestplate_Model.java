@@ -9,11 +9,11 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-public class ignitium_Elytra_chestplate_Model extends HumanoidModel {
+public class Ignitium_Elytra_chestplate_Model<T extends LivingEntity> extends HumanoidModel<T> {
     private final ModelPart rightWing;
     private final ModelPart leftWing;
 
-    public ignitium_Elytra_chestplate_Model(ModelPart part) {
+    public Ignitium_Elytra_chestplate_Model(ModelPart part) {
         super(part);
         this.leftWing = part.getChild("body").getChild("left_wing");
         this.rightWing = part.getChild("body").getChild("right_wing");
@@ -88,7 +88,8 @@ public class ignitium_Elytra_chestplate_Model extends HumanoidModel {
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
-    public ignitium_Elytra_chestplate_Model withAnimations(LivingEntity entity){
+
+    public Ignitium_Elytra_chestplate_Model withAnimations(LivingEntity entity){
         float partialTick = Minecraft.getInstance().getFrameTime();
         float limbSwingAmount = entity.walkAnimation.speed(partialTick);
         float limbSwing = entity.walkAnimation.position() + partialTick;
@@ -96,48 +97,47 @@ public class ignitium_Elytra_chestplate_Model extends HumanoidModel {
         return  this;
     }
 
-    public void setupAnim(LivingEntity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         float f = 0.2617994F;
         float f1 = -0.2617994F;
         float f2 = 0.0F;
         float f3 = 0.0F;
-        if (entityIn.isFallFlying()) {
+        if (entity.isFallFlying()) {
             float f4 = 1.0F;
-            Vec3 vector3d = entityIn.getDeltaMovement();
-            if (vector3d.y < 0.0D) {
-                Vec3 vector3d1 = vector3d.normalize();
-                f4 = 1.0F - (float)Math.pow(-vector3d1.y, 1.5D);
+            Vec3 vec3 = entity.getDeltaMovement();
+            if (vec3.y < (double)0.0F) {
+                Vec3 vec31 = vec3.normalize();
+                f4 = 1.0F - (float)Math.pow(-vec31.y, (double)1.5F);
             }
 
             f = f4 * 0.34906584F + (1.0F - f4) * f;
             f1 = f4 * (-(float)Math.PI / 2F) + (1.0F - f4) * f1;
-        } else if (entityIn.isCrouching()) {
+        } else if (entity.isCrouching()) {
             f = 0.6981317F;
             f1 = (-(float)Math.PI / 4F);
-            f2 = -1.0F;
+            f2 = 3.0F;
             f3 = 0.08726646F;
         }
 
-        this.leftWing.x = 5.0F;
         this.leftWing.y = f2;
-        if (entityIn instanceof AbstractClientPlayer) {
-            AbstractClientPlayer abstractclientplayerentity = (AbstractClientPlayer)entityIn;
-            abstractclientplayerentity.elytraRotX = (float)((double)abstractclientplayerentity.elytraRotX + (double)(f - abstractclientplayerentity.elytraRotX) * 0.1D);
-            abstractclientplayerentity.elytraRotY = (float)((double)abstractclientplayerentity.elytraRotY + (double)(f3 - abstractclientplayerentity.elytraRotY) * 0.1D);
-            abstractclientplayerentity.elytraRotZ = (float)((double)abstractclientplayerentity.elytraRotZ + (double)(f1 - abstractclientplayerentity.elytraRotZ) * 0.1D);
-            this.leftWing.xRot = abstractclientplayerentity.elytraRotX;
-            this.leftWing.yRot = abstractclientplayerentity.elytraRotY;
-            this.leftWing.zRot = abstractclientplayerentity.elytraRotZ;
+        if (entity instanceof AbstractClientPlayer abstractclientplayer) {
+            abstractclientplayer.elytraRotX += (f - abstractclientplayer.elytraRotX) * 0.1F;
+            abstractclientplayer.elytraRotY += (f3 - abstractclientplayer.elytraRotY) * 0.1F;
+            abstractclientplayer.elytraRotZ += (f1 - abstractclientplayer.elytraRotZ) * 0.1F;
+            this.leftWing.xRot = abstractclientplayer.elytraRotX;
+            this.leftWing.yRot = abstractclientplayer.elytraRotY;
+            this.leftWing.zRot = abstractclientplayer.elytraRotZ;
         } else {
             this.leftWing.xRot = f;
             this.leftWing.zRot = f1;
             this.leftWing.yRot = f3;
         }
 
-        this.rightWing.x = -this.leftWing.x;
         this.rightWing.yRot = -this.leftWing.yRot;
         this.rightWing.y = this.leftWing.y;
         this.rightWing.xRot = this.leftWing.xRot;
         this.rightWing.zRot = -this.leftWing.zRot;
     }
+
+
 }

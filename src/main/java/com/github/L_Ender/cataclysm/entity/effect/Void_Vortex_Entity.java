@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.Abyss_Blast_Entity;
+import com.github.L_Ender.cataclysm.client.particle.Options.Rising_Trail_Options;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -35,6 +36,7 @@ public class Void_Vortex_Entity extends Entity {
     private LivingEntity owner;
 
 
+
     public Void_Vortex_Entity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
     }
@@ -50,10 +52,7 @@ public class Void_Vortex_Entity extends Entity {
         }
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
+    
 
     public void tick() {
         super.tick();
@@ -76,19 +75,16 @@ public class Void_Vortex_Entity extends Entity {
                 float r = 0.4F;
                 float g = 0.1f;
                 float b = 0.8f;
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,2.5F + random.nextFloat() * 0.9f,5 + random.nextFloat() * 0.9f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,2.25f + random.nextFloat() * 0.6f,4.25F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,2f + random.nextFloat() * 0.45f,3.5F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,1.5f + random.nextFloat() * 0.25f,2.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,1.25f + random.nextFloat() * 0.25f,2.0F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,1.0f + random.nextFloat() * 0.25f,1.25F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-                this.level().addParticle((new StormParticle.OrbData(r, g, b,0.75f + random.nextFloat() * 0.25f,0.5F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+
+                this.level().addParticle((new Rising_Trail_Options(r, g, b,2.5f + random.nextFloat() * 0.25f,0.08F)), this.getX(), this.getY() +5, this.getZ() , 0, -0.3, 0);
+
+
+
             }
             AABB screamBox = new AABB(this.getX() - 3f, this.getY(), this.getZ() - 3, this.getX() + 3, this.getY() + 15F, this.getZ() + 3F);
 
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, screamBox)) {
-
-                if(owner != null && entity != owner) {
+                if (!isAlliedTo(entity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                     if (!(entity instanceof Player player && player.getAbilities().invulnerable)) {
                         Vec3 diff = entity.position().subtract(position().add(0, 0, 0));
                         diff = diff.normalize().scale(0.075);
@@ -102,7 +98,6 @@ public class Void_Vortex_Entity extends Entity {
         if(this.getLifespan() <= 16){
             if(!madeCloseNoise){
                 this.gameEvent(GameEvent.ENTITY_PLACE);
-             //   this.playSound(AMSoundRegistry.VOID_PORTAL_CLOSE.get(), 1.0F, 1 + random.nextFloat() * 0.2F);
                 madeCloseNoise = true;
             }
 
@@ -148,6 +143,7 @@ public class Void_Vortex_Entity extends Entity {
         return this.owner;
     }
 
+
     @Override
     protected void defineSynchedData() {
         this.entityData.define(LIFESPAN, 300);
@@ -165,6 +161,7 @@ public class Void_Vortex_Entity extends Entity {
     protected void addAdditionalSaveData(CompoundTag compound) {
         compound.putInt("Lifespan", getLifespan());
         compound.putInt("CasterId", getCasterID());
+
 
     }
 

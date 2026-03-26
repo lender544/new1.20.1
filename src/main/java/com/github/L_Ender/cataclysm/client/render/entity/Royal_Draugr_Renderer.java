@@ -2,7 +2,6 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.client.model.entity.Netherite_Monstrosity_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Royal_Draugr_Model;
 import com.github.L_Ender.cataclysm.client.render.layer.LayerGenericGlowing;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;

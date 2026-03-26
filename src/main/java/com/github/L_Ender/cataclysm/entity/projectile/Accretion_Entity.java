@@ -13,11 +13,13 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -82,7 +84,7 @@ public class Accretion_Entity extends ThrowableProjectile {
 
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
             Entity entity1 = this.getOwner();
             boolean flag = false;
@@ -132,13 +134,14 @@ public class Accretion_Entity extends ThrowableProjectile {
     }
 
 
-    protected void onHit(HitResult ray) {
-        HitResult.Type hitresult$type = ray.getType();
+    protected void onHit(HitResult result) {
+        HitResult.Type hitresult$type = result.getType();
         if (hitresult$type == HitResult.Type.ENTITY) {
-            this.onHitEntity((EntityHitResult)ray);
-            this.level().gameEvent(GameEvent.PROJECTILE_LAND, ray.getLocation(), GameEvent.Context.of(this, (BlockState)null));
+            EntityHitResult entityhitresult = (EntityHitResult)result;
+            this.onHitEntity(entityhitresult);
+            this.level().gameEvent(GameEvent.PROJECTILE_LAND, result.getLocation(), GameEvent.Context.of(this, (BlockState)null));
         } else if (hitresult$type == HitResult.Type.BLOCK) {
-            BlockHitResult blockhitresult = (BlockHitResult)ray;
+            BlockHitResult blockhitresult = (BlockHitResult)result;
             this.onHitBlock(blockhitresult);
             BlockPos blockpos = blockhitresult.getBlockPos();
             this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
@@ -169,9 +172,6 @@ public class Accretion_Entity extends ThrowableProjectile {
         this.setDamage(compound.getFloat("Damage"));
     }
 
-    public double getPassengersRidingOffset() {
-        return -0.49D;
-    }
 
     @Override
     public void tick() {
@@ -187,16 +187,11 @@ public class Accretion_Entity extends ThrowableProjectile {
 
     }
 
-
     @Override
     protected float getGravity() {
         return 0.03F;
     }
 
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
 }

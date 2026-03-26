@@ -76,7 +76,7 @@ public class PointedIcicleBlock extends Block implements Fallable, SimpleWaterlo
     private static final float MAX_HORIZONTAL_OFFSET = 0.125F;
     private static final VoxelShape REQUIRED_SPACE_TO_DRIP_THROUGH_NON_SOLID_BLOCK = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 16.0D, 10.0D);
 
-    public PointedIcicleBlock(BlockBehaviour.Properties p_154025_) {
+    public PointedIcicleBlock(Properties p_154025_) {
         super(p_154025_);
         this.registerDefaultState(this.stateDefinition.any().setValue(TIP_DIRECTION, Direction.UP).setValue(THICKNESS, DripstoneThickness.TIP).setValue(WATERLOGGED, Boolean.valueOf(false)));
     }

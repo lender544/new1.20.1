@@ -2,12 +2,9 @@ package com.github.L_Ender.cataclysm.entity.etc;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.sound.BossMusicPlayer;
 import com.github.L_Ender.cataclysm.message.MessageMusic;
-import com.github.L_Ender.cataclysm.message.MessageUpdateBossBar;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
@@ -29,16 +26,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.PacketDistributor;
 
+
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
 public class Animation_Monsters extends Monster implements Enemy {
 
-    protected boolean dropAfterDeathAnim = false;
-    public int killDataRecentlyHit;
-    public DamageSource killDataCause;
-    public Player killDataAttackingPlayer;
+
+    private static final ResourceLocation MOB_HEALTH_MODIFIER_ID = new ResourceLocation(Cataclysm.MODID,"animation_health");
+    private static final ResourceLocation MOB_DAMAGE_MODIFIER_ID = new ResourceLocation(Cataclysm.MODID,"animation_damage");
+
     public int attackTicks;
 
     @OnlyIn(Dist.CLIENT)
@@ -70,7 +68,9 @@ public class Animation_Monsters extends Monster implements Enemy {
 
     @Override
     public void handleEntityEvent(byte id) {
+
         super.handleEntityEvent(id);
+
     }
 
     public boolean canPlayerHearMusic(Player player) {
@@ -79,7 +79,7 @@ public class Animation_Monsters extends Monster implements Enemy {
                 && distanceTo(player) < 2500;
     }
 
-    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+    public void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
         AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthAttr != null) {
             double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
@@ -102,15 +102,6 @@ public class Animation_Monsters extends Monster implements Enemy {
         return Math.atan2(second.getZ() - first.getZ(), second.getX() - first.getX()) * (180 / Math.PI) + 90;
     }
 
-    public void disableShield(Player player, int ticks) {
-        if (player.isBlocking()) {
-            if (!player.level().isClientSide) {
-                player.getCooldowns().addCooldown(player.getUseItem().getItem(), ticks);
-                player.stopUsingItem();
-                player.level().broadcastEntityEvent(this, (byte)30);
-            }
-        }
-    }
 
     protected boolean canPlayMusic() {
         return !isSilent() && getTarget() instanceof Player && getTarget() !=null && this.getTarget().isAlive();
@@ -145,8 +136,10 @@ public class Animation_Monsters extends Monster implements Enemy {
     @Override
     public void die(DamageSource cause) // TODO copy from entityLiving
     {
+
+
         if (net.minecraftforge.common.ForgeHooks.onLivingDeath(this, cause)) return;
-        if (!this.dead) {
+        if (!this.isRemoved() && !this.dead) {
             Entity entity = cause.getEntity();
             LivingEntity livingentity = this.getKillCredit();
             if (this.deathScore >= 0 && livingentity != null) {
@@ -159,23 +152,20 @@ public class Animation_Monsters extends Monster implements Enemy {
 
             this.dead = true;
             this.getCombatTracker().recheckStatus();
-            if (this.level() instanceof ServerLevel) {
-                if (entity == null || entity.killedEntity((ServerLevel)this.level(), this)) {
+            if (this.level() instanceof ServerLevel serverlevel) {
+                if (entity == null || entity.killedEntity(serverlevel, this)) {
                     this.gameEvent(GameEvent.ENTITY_DIE);
+                    this.dropAllDeathLoot(cause);
                     this.createWitherRose(livingentity);
                     this.AfterDefeatBoss(livingentity);
-                    if (!dropAfterDeathAnim){
-                        this.dropAllDeathLoot(cause);
-                    }
                 }
-            }
-            killDataCause = cause;
-            killDataRecentlyHit = this.lastHurtByPlayerTime;
-            killDataAttackingPlayer = lastHurtByPlayer;
 
-            this.level().broadcastEntityEvent(this, (byte)3);
+                this.level().broadcastEntityEvent(this, (byte)3);
+            }
+
             this.setPose(Pose.DYING);
         }
+
     }
 
     protected void AfterDefeatBoss(@Nullable LivingEntity p_21269_) {
@@ -252,7 +242,7 @@ public class Animation_Monsters extends Monster implements Enemy {
 
 
     public  List<LivingEntity> getEntityLivingBaseNearby(double distanceX, double distanceY, double distanceZ, double radius) {
-        return  getEntitiesNearby(LivingEntity.class, distanceX, distanceY, distanceZ, radius);
+        return getEntitiesNearby(LivingEntity.class, distanceX, distanceY, distanceZ, radius);
     }
 
     public <T extends Entity> List<T> getEntitiesNearby(Class<T> entityClass, double dX, double dY, double dZ, double r) {

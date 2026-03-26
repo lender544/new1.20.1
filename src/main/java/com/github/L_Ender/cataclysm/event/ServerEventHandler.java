@@ -1,59 +1,55 @@
 package com.github.L_Ender.cataclysm.event;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.capabilities.*;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.capabilities.ChargeCapability;
+import com.github.L_Ender.cataclysm.capabilities.HookCapability;
+import com.github.L_Ender.cataclysm.capabilities.ParryCapability;
+import com.github.L_Ender.cataclysm.capabilities.RenderRushCapability;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Royal_Draugr_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Wadjet_Entity;
+
 import com.github.L_Ender.cataclysm.init.*;
+import com.github.L_Ender.cataclysm.items.Cataclysm_Weapon_Item;
 import com.github.L_Ender.cataclysm.items.ILeftClick;
-import com.github.L_Ender.cataclysm.message.MessageParticle;
 import com.github.L_Ender.cataclysm.message.MessageSwingArm;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import com.github.L_Ender.cataclysm.util.SandstormUtils;
 import com.github.L_Ender.lionfishapi.server.event.StandOnFluidEvent;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.ItemAttributeModifierEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.CriticalHitEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.PacketDistributor;
-import top.theillusivec4.curios.api.CuriosApi;
-import top.theillusivec4.curios.api.SlotResult;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Cataclysm.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+
+@Mod.EventBusSubscriber(modid = Cataclysm.MODID)
 public class ServerEventHandler {
-
 
     @SubscribeEvent
     public void onLivingUpdateEvent(LivingEvent.LivingTickEvent event) {
@@ -81,40 +77,6 @@ public class ServerEventHandler {
         }
     }
 
-    @SubscribeEvent
-    public void onLivingDamage(LivingHurtEvent event) {
-        LivingEntity target = event.getEntity();
-        if (!target.level().isClientSide() && event.getSource().getDirectEntity() instanceof LivingEntity living) {
-            ItemStack weapon = living.getMainHandItem();
-
-            if (!weapon.isEmpty()) {
-                if ((weapon.is(ModItems.ZWEIENDER.get()))) {
-                    Vec3 lookDir = new Vec3(target.getLookAngle().x, 0, target.getLookAngle().z).normalize();
-                    Vec3 vecBetween = new Vec3(target.getX() - living.getX(), 0, target.getZ() - living.getZ()).normalize();
-                    double dot = lookDir.dot(vecBetween);
-                    if (dot > 0.05) {
-                        event.setAmount(event.getAmount() * 2);
-                        target.playSound(SoundEvents.ENDERMAN_TELEPORT, 0.75F, 0.5F);
-                    }
-                    // enchantment attack sparkles
-                }
-
-                if ((weapon.is(ModItems.FINAL_FRACTAL.get()))) {
-                    event.setAmount(event.getAmount() + target.getMaxHealth() * 0.03f);
-                }
-
-            }
-            List<SlotResult> slot = CuriosApi.getCuriosHelper().findCurios(living, stack -> stack.is(ModItems.BLAZING_GRIPS.get()));
-            if (!slot.isEmpty()) {
-                if (event.getEntity().getRandom().nextFloat() < 0.15F * slot.size()) {
-                    MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 60, 0);
-                    target.addEffect(effectinstance);
-                }
-            }
-        }
-
-
-    }
 
 
     @SubscribeEvent
@@ -135,21 +97,26 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
-    public void onLivingJump(LivingEvent.LivingJumpEvent event) {
+    public static void onLivingJump(LivingEvent.LivingJumpEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.getEffect(ModEffect.EFFECTSTUN.get()) != null) {
+        if (entity.getEffect(ModEffect.EFFECTSTUN.get()) != null){
             entity.setDeltaMovement(entity.getDeltaMovement().x(), 0.0D, entity.getDeltaMovement().z());
         }
     }
 
+
+
     @SubscribeEvent
-    public void onPlayerLeftClick(PlayerInteractEvent.LeftClickBlock event) {
-        Player player = event.getEntity();
-        if (event.isCancelable() && player.hasEffect(ModEffect.EFFECTSTUN.get())) {
+    public static void onUseItemStart(LivingEntityUseItemEvent.Start event) {
+        LivingEntity living = event.getEntity();
+        ItemStack itemStack = event.getItem();
+        if (living.hasEffect(ModEffect.EFFECTSTUN.get())) {
+            event.setCanceled(true);
+        }
+        if (living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             event.setCanceled(true);
         }
     }
-
     @SubscribeEvent
     public void onUseItem(LivingEntityUseItemEvent event) {
         LivingEntity living = event.getEntity();
@@ -183,7 +150,6 @@ public class ServerEventHandler {
         }
     }
 
-
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event) {
         LivingEntity living = event.getEntity();
@@ -193,6 +159,8 @@ public class ServerEventHandler {
             }
         }
     }
+
+
 
     @SubscribeEvent
     public void onBreakBlock(BlockEvent.BreakEvent event) {
@@ -251,7 +219,6 @@ public class ServerEventHandler {
             event.setCanceled(true);
         }
     }
-
     @SubscribeEvent
     public void onLivingSetTargetEvent(LivingChangeTargetEvent event) {
         if (event.getNewTarget() != null && event.getEntity() instanceof Mob mob) {
@@ -263,6 +230,7 @@ public class ServerEventHandler {
             }
         }
     }
+
 
     @SubscribeEvent
     public void onLivingDamage(LivingDamageEvent event) {
@@ -310,6 +278,7 @@ public class ServerEventHandler {
             }
         }
     }
+
 
     @SubscribeEvent
     public void onShieldDamage(ShieldBlockEvent event) {
@@ -368,39 +337,26 @@ public class ServerEventHandler {
 
     private boolean tryCursiumPlateRebirth(LivingEntity living) {
         ItemStack chestplate = living.getItemBySlot(EquipmentSlot.CHEST);
-        if (!living.level().isClientSide && chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
+        if ((living.level() instanceof ServerLevel serverLevel)&& chestplate.getItem() == ModItems.CURSIUM_CHESTPLATE.get() && !living.hasEffect(ModEffect.EFFECTGHOST_SICKNESS.get()) && !living.hasEffect(ModEffect.EFFECTGHOST_FORM.get())) {
             living.setHealth(5.0F);
+            serverLevel.playSound(
+                    null,
+                    living.getX(), living.getY(), living.getZ(),
+                    SoundEvents.TOTEM_USE,
+                    living.getSoundSource(),
+                    1.25f,
+                    1.0F
+            );
             living.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 200, 0));
-            living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM.get(), 100, 0));
+            living.addEffect(new MobEffectInstance(ModEffect.EFFECTGHOST_FORM.get(), 100, 0, false, true, true));
             double d0 = living.getX();
-            double d1 = living.getY() + 0.3F;
+            double d1 = living.getY() + 3F;
             double d2 = living.getZ();
-            float size = 3.0F;
-            for (ServerPlayer serverplayer : ((ServerLevel) living.level()).players()) {
-                if (serverplayer.distanceToSqr(Vec3.atCenterOf(living.blockPosition())) < 1024.0D) {
-                    MessageParticle particlePacket = new MessageParticle();
-                    for (float i = -size; i <= size; ++i) {
-                        for (float j = -size; j <= size; ++j) {
-                            for (float k = -size; k <= size; ++k) {
-                                double d3 = (double) j + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
-                                double d4 = (double) i + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
-                                double d5 = (double) k + (living.getRandom().nextDouble() - living.getRandom().nextDouble()) * 0.5D;
-                                double d6 = (double) Mth.sqrt((float) (d3 * d3 + d4 * d4 + d5 * d5)) / 0.5 + living.getRandom().nextGaussian() * 0.05D;
-                                particlePacket.queueParticle(ModParticle.CURSED_FLAME.get(), false, d0, d1, d2, d3 / d6, d4 / d6, d5 / d6);
-                                if (i != -size && i != size && j != -size && j != size) {
-                                    k += size * 2 - 1;
-                                }
-                            }
-                        }
-                    }
-                    Cataclysm.NETWORK_WRAPPER.send(PacketDistributor.PLAYER.with(() -> serverplayer), particlePacket);
-                }
-            }
+            serverLevel.sendParticles(ModParticle.CURSED_ALGIZ.get(), d0, d1, d2, 1, 0.0, 0, 0.0, 0);
             return true;
         }
         return false;
     }
-
 
     @SubscribeEvent
     public void onLivingAttack(LivingAttackEvent event) {
@@ -422,23 +378,38 @@ public class ServerEventHandler {
         }
     }
 
-
     @SubscribeEvent
-    public void onLivingAttack(CriticalHitEvent event) {
-        ItemStack weapon = event.getEntity().getMainHandItem();
-        if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity livingEntity) {
-            if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get()) {
-                //if(event.isVanillaCritical()){
-                event.setDamageModifier(1.5F * event.getDamageModifier());
-                // }
+    public void onCriticalAttack(CriticalHitEvent event) {
+        Player player = event.getEntity();
+        ItemStack weapon = player.getMainHandItem();
 
-            }
+        if (!weapon.isEmpty() && event.getTarget() instanceof LivingEntity livingEntity) {
             if (weapon.getItem() == ModItems.THE_IMMOLATOR.get()) {
-                if (livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())) {
+                if(livingEntity.hasEffect(ModEffect.EFFECTBLAZING_BRAND.get())){
                     event.setResult(Event.Result.ALLOW);
                 }
-                event.setDamageModifier(1.35F * event.getDamageModifier());
             }
+            if (weapon.getItem() == ModItems.THE_ANNIHILATOR.get() || weapon.getItem() == ModItems.CERAUNUS.get() || weapon.getItem() == ModItems.THE_IMMOLATOR.get() ) {
+                if(event.isVanillaCritical()){
+                    livingEntity.playSound(ModSounds.PARRY.get(), 0.5f, 1.1F);
+                }
+            }
+        }
+
+        AttributeInstance attackDamageAttr = player.getAttribute(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE.get());
+        if (attackDamageAttr != null) {
+
+            double extraCritPercent = attackDamageAttr.getValue();
+
+            float vanillaCrit = event.getDamageModifier();
+
+            float finalMultiplier = (float)(vanillaCrit + (extraCritPercent / 100.0));
+
+            if (finalMultiplier < 1.0f) {
+                finalMultiplier = 1.0f;
+            }
+            event.setDamageModifier(finalMultiplier);
+
         }
     }
 
@@ -459,13 +430,15 @@ public class ServerEventHandler {
         }
     }
 
+
+
+
     @SubscribeEvent
-    public void onPlayerInteract(PlayerInteractEvent.RightClickItem event) {
-        if (event.isCancelable() && event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
+    public static void onPlayerInteract(PlayerInteractEvent.RightClickItem event) {
+        if ( event.getEntity().hasEffect(ModEffect.EFFECTSTUN.get())) {
             event.setCanceled(true);
         }
     }
-
 
     @SubscribeEvent
     public void onStartUsing(LivingEntityUseItemEvent.Start event) {
@@ -492,7 +465,7 @@ public class ServerEventHandler {
     }
 
     @SubscribeEvent
-    public void onAdvancementEarned(AdvancementEvent.AdvancementEarnEvent event) {
+    public void onAdvancementEarned(net.minecraftforge.event.entity.player.AdvancementEvent.AdvancementEarnEvent event) {
         Player player = event.getEntity();
         ResourceLocation advId = event.getAdvancement().getId();
 
@@ -520,6 +493,122 @@ public class ServerEventHandler {
                 ParryCapability.setParryFrame(0);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onEntityKnockback(LivingKnockBackEvent event) {
+        LivingEntity entity = event.getEntity();
+
+        DamageSource damagesource = entity.getLastDamageSource();
+        if (damagesource != null) {
+            if (damagesource.is(CMDamageTypes.SHREDDER)) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+
+    @SubscribeEvent
+    public void ItemAttributeModifier(ItemAttributeModifierEvent event) {
+        if (!ConfigHolder.COMMON_SPEC.isLoaded()) {
+            Cataclysm.LOGGER.error("Could not modify default components due to config not being loaded yet");
+        } else {
+
+                Item item = event.getItemStack().getItem();
+                if (item == ModItems.THE_INCINERATOR.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Incinerator.attackDamage, CMCommonConfig.Incinerator.attackSpeed);
+                } else if (item == ModItems.GAUNTLET_OF_BULWARK.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.GauntletOfBulwark.attackDamage, CMCommonConfig.GauntletOfBulwark.attackSpeed);
+                } else if (item == ModItems.GAUNTLET_OF_MAELSTROM.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.GauntletOfMaelstrom.attackDamage, CMCommonConfig.GauntletOfMaelstrom.attackSpeed);
+                } else if (item == ModItems.GAUNTLET_OF_GUARD.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.GauntletOfGuard.attackDamage, CMCommonConfig.GauntletOfGuard.attackSpeed);
+                } else if (item == ModItems.MEAT_SHREDDER.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.MeatShredder.attackDamage, CMCommonConfig.MeatShredder.attackSpeed);
+                } else if (item == ModItems.SOUL_RENDER.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.SoulRender.attackDamage, CMCommonConfig.SoulRender.attackSpeed);
+                } else if (item == ModItems.CERAUNUS.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Ceraunus.attackDamage, CMCommonConfig.Ceraunus.attackSpeed);
+                } else if (item == ModItems.THE_ANNIHILATOR.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Annihilator.attackDamage, CMCommonConfig.Annihilator.attackSpeed);
+                } else if (item == ModItems.THE_IMMOLATOR.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Immolator.attackDamage, CMCommonConfig.Immolator.attackSpeed);
+                } else if (item == ModItems.ASTRAPE.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Astrape.attackDamage, CMCommonConfig.Astrape.attackSpeed);
+                } else if (item == ModItems.INFERNAL_FORGE.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.InfernalForge.attackDamage, CMCommonConfig.InfernalForge.attackSpeed);
+                } else if (item == ModItems.VOID_FORGE.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.VoidForge.attackDamage, CMCommonConfig.VoidForge.attackSpeed);
+                } else if (item == ModItems.TIDAL_CLAWS.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.TidalClaws.attackDamage, CMCommonConfig.TidalClaws.attackSpeed);
+                } else if (item == ModItems.BRONTES.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.Brontes.attackDamage, CMCommonConfig.Brontes.attackSpeed);
+                } else if (item == ModItems.ANCIENT_SPEAR.get()) {
+                    AttributeUtils.replaceWeaponAttributes(event, CMCommonConfig.AncientSpear.attackDamage, CMCommonConfig.AncientSpear.attackSpeed);
+
+                } else if (item == ModItems.IGNITIUM_HELMET.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                            CMCommonConfig.IgnitiumArmor.toughness,
+                            CMCommonConfig.IgnitiumArmor.knockbackResistance);
+                } else if (item == ModItems.IGNITIUM_CHESTPLATE.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                            CMCommonConfig.IgnitiumArmor.toughness,
+                            CMCommonConfig.IgnitiumArmor.knockbackResistance);
+                } else if (item == ModItems.IGNITIUM_ELYTRA_CHESTPLATE.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                            CMCommonConfig.IgnitiumArmor.toughness,
+                            CMCommonConfig.IgnitiumArmor.knockbackResistance);
+                } else if (item == ModItems.IGNITIUM_LEGGINGS.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                            CMCommonConfig.IgnitiumArmor.toughness,
+                            CMCommonConfig.IgnitiumArmor.knockbackResistance);
+                } else if (item == ModItems.IGNITIUM_BOOTS.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.IgnitiumArmor.armorMultiplier,
+                            CMCommonConfig.IgnitiumArmor.toughness,
+                            CMCommonConfig.IgnitiumArmor.knockbackResistance);
+                } else if (item == ModItems.CURSIUM_HELMET.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.CursiumArmor.armorMultiplier,
+                            CMCommonConfig.CursiumArmor.toughness,
+                            CMCommonConfig.CursiumArmor.knockbackResistance);
+                } else if (item == ModItems.CURSIUM_CHESTPLATE.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.CursiumArmor.armorMultiplier,
+                            CMCommonConfig.CursiumArmor.toughness,
+                            CMCommonConfig.CursiumArmor.knockbackResistance);
+                } else if (item == ModItems.CURSIUM_LEGGINGS.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.CursiumArmor.armorMultiplier,
+                            CMCommonConfig.CursiumArmor.toughness,
+                            CMCommonConfig.CursiumArmor.knockbackResistance);
+                } else if (item == ModItems.CURSIUM_BOOTS.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.CursiumArmor.armorMultiplier,
+                            CMCommonConfig.CursiumArmor.toughness,
+                            CMCommonConfig.CursiumArmor.knockbackResistance);
+                } else if (item == ModItems.BLOOM_STONE_PAULDRONS.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.BloomStoneArmor.armorMultiplier,
+                            CMCommonConfig.BloomStoneArmor.toughness,
+                            CMCommonConfig.BloomStoneArmor.knockbackResistance);
+                } else if (item == ModItems.BONE_REPTILE_HELMET.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.BoneReptileArmor.armorMultiplier,
+                            CMCommonConfig.BoneReptileArmor.toughness,
+                            CMCommonConfig.BoneReptileArmor.knockbackResistance);
+                } else if (item == ModItems.BONE_REPTILE_CHESTPLATE.get()) {
+                    AttributeUtils.replaceArmorAttributes(event,
+                            CMCommonConfig.BoneReptileArmor.armorMultiplier,
+                            CMCommonConfig.BoneReptileArmor.toughness,
+                            CMCommonConfig.BoneReptileArmor.knockbackResistance);
+                }
+            }
+
     }
 
 }

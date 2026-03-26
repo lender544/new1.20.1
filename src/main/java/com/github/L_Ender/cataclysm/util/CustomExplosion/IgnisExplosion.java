@@ -1,14 +1,11 @@
 package com.github.L_Ender.cataclysm.util.CustomExplosion;
 
-import com.github.L_Ender.cataclysm.client.render.entity.Ignis_Renderer;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
-import net.minecraft.client.particle.HugeExplosionParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -22,13 +19,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ProtectionEnchantment;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -49,7 +44,7 @@ public class IgnisExplosion extends Explosion {
     private static final ExplosionDamageCalculator EXPLOSION_DAMAGE_CALCULATOR = new ExplosionDamageCalculator();
     private static final int MAX_DROPS_PER_COMBINED_STACK = 16;
     private final boolean fire;
-    private final net.minecraft.world.level.Explosion.BlockInteraction blockInteraction;
+    private final BlockInteraction blockInteraction;
     private final RandomSource random = RandomSource.create();
     private final Level level;
     private final double x;
@@ -64,7 +59,7 @@ public class IgnisExplosion extends Explosion {
     private final Map<Player, Vec3> hitPlayers = Maps.newHashMap();
     private final Vec3 position;
 
-    public IgnisExplosion(Level p_46051_, @Nullable Entity p_46052_, @Nullable DamageSource p_46053_, @Nullable ExplosionDamageCalculator p_46054_, double p_46055_, double p_46056_, double p_46057_, float p_46058_, boolean p_46059_, Explosion.BlockInteraction p_46060_) {
+    public IgnisExplosion(Level p_46051_, @Nullable Entity p_46052_, @Nullable DamageSource p_46053_, @Nullable ExplosionDamageCalculator p_46054_, double p_46055_, double p_46056_, double p_46057_, float p_46058_, boolean p_46059_, BlockInteraction p_46060_) {
         super(p_46051_,p_46052_,p_46053_,p_46054_, p_46055_, p_46056_, p_46057_, p_46058_, p_46059_,p_46060_);
         this.level = p_46051_;
         this.source = p_46052_;
@@ -254,7 +249,7 @@ public class IgnisExplosion extends Explosion {
                             ServerLevel serverlevel = (ServerLevel)$$9;
                             BlockEntity blockentity = blockstate.hasBlockEntity() ? this.level.getBlockEntity(blockpos) : null;
                             LootParams.Builder lootparams$builder = (new LootParams.Builder(serverlevel)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, blockentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
-                            if (this.blockInteraction == Explosion.BlockInteraction.DESTROY_WITH_DECAY) {
+                            if (this.blockInteraction == BlockInteraction.DESTROY_WITH_DECAY) {
                                 lootparams$builder.withParameter(LootContextParams.EXPLOSION_RADIUS, this.radius);
                             }
 
@@ -286,7 +281,7 @@ public class IgnisExplosion extends Explosion {
     }
 
     public boolean interactsWithBlocks() {
-        return this.blockInteraction != net.minecraft.world.level.Explosion.BlockInteraction.KEEP;
+        return this.blockInteraction != BlockInteraction.KEEP;
     }
 
     private static void addBlockDrops(ObjectArrayList<Pair<ItemStack, BlockPos>> p_46068_, ItemStack p_46069_, BlockPos p_46070_) {

@@ -10,6 +10,7 @@ public class HurtByNearestTargetGoal extends HurtByTargetGoal {
     }
 
     public boolean canUse() {
+        /*
         if (!super.canUse()) {
             LivingEntity lastTarget = this.mob.getLastHurtMob();
             if (lastTarget != null && this.mob.getLastHurtByMob() == null) {
@@ -20,6 +21,9 @@ public class HurtByNearestTargetGoal extends HurtByTargetGoal {
         } else {
             return true;
         }
+
+         */
+        return super.canUse();
     }
 
     public boolean canContinueToUse() {

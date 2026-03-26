@@ -1,17 +1,15 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningZapParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -47,8 +45,9 @@ public class Wither_Smoke_Effect_Entity extends Entity {
     }
 
     protected void defineSynchedData() {
-        this.getEntityData().define(DATA_RADIUS, 0.5F);
-        this.getEntityData().define(DATA_WAITING, false);
+        this.entityData.define(DATA_RADIUS, 0.5F);
+        this.entityData.define(DATA_WAITING, false);
+
     }
 
     public void setRadius(float p_19713_) {
@@ -257,9 +256,6 @@ public class Wither_Smoke_Effect_Entity extends Entity {
         return PushReaction.IGNORE;
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
 
     public EntityDimensions getDimensions(Pose p_19721_) {
         return EntityDimensions.scalable(this.getRadius() * 2.0F, 0.5F);

@@ -6,9 +6,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,8 +20,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
+
 
 import javax.annotation.Nullable;
 
@@ -51,9 +47,6 @@ public class Void_Shard_Entity extends ThrowableItemProjectile {
         this.ignoreEntity = ignore;
     }
 
-    public Void_Shard_Entity(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(ModEntities.VOID_SHARD.get(), world);
-    }
 
 
 
@@ -78,10 +71,7 @@ public class Void_Shard_Entity extends ThrowableItemProjectile {
         return ModItems.VOID_SHARD.get();
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    
 
     @Override
     protected void onHitBlock(BlockHitResult hit) {

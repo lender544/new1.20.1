@@ -1,7 +1,10 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.SparkTrailParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 
 
@@ -42,10 +45,9 @@ public class SparkParticle extends TextureSheetParticle {
             if (this.random.nextFloat() > f) {
                 //this.level.addParticle(ParticleTypes.SMOKE, this.x, this.y, this.z, this.xd, this.yd, this.zd);
 
-                this.level.addParticle(new SparkTrailParticle.SparkData(255, 106,  0), this.x, this.y, this.z, this.xd, this.yd, this.zd);
+                this.level.addParticle(new SparkTrailParticleOptions(255, 106,  0), this.x, this.y, this.z, this.xd, this.yd, this.zd);
 
             }
-
             if (this.onGround) {
                 this.remove();
             }

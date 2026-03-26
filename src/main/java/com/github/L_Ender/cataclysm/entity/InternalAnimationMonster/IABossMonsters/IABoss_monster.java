@@ -1,120 +1,195 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters;
 
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.LLibrary_Boss_Monster;
+import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
+import com.github.L_Ender.cataclysm.entity.etc.IHomeEntity;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
-public class IABoss_monster extends Internal_Animation_Monster implements Enemy {
-    private int reducedDamageTicks;
+public class IABoss_monster extends Internal_Animation_Monster implements Enemy, IHomeEntity {
     private int homeTicks;
-    protected final int HOME_COOLDOWN = CMConfig.Return_Home * 20;
-    protected final int NATURE_HEAL_COOLDOWN = 200;
+    protected final int HOME_COOLDOWN = CMCommonConfig.ETC.ReturnHome * 20;
+    private float damageBucket = 0.0f;
     private int self_regen;
-    private static final EntityDataAccessor<BlockPos> HOME_POS = SynchedEntityData.defineId(IABoss_monster.class, EntityDataSerializers.BLOCK_POS);
-    private static final EntityDataAccessor<String> DIMENSION_TYPE = SynchedEntityData.defineId(IABoss_monster.class, EntityDataSerializers.STRING);
-
+    private static final EntityDataAccessor<Optional<GlobalPos>> HOME_POS = SynchedEntityData.defineId(IABoss_monster.class, EntityDataSerializers.OPTIONAL_GLOBAL_POS);
+    private static final EntityDataAccessor<Integer> LIFE = SynchedEntityData.defineId(IABoss_monster.class, EntityDataSerializers.INT);
     public IABoss_monster(EntityType entity, Level world) {
         super(entity, world);
     }
 
-    public void setHomePos(BlockPos homePos) {
-        this.entityData.set(HOME_POS, homePos);
+
+    public void setHomePos(@Nullable GlobalPos vec3) {
+        this.entityData.set(HOME_POS, Optional.ofNullable(vec3));
+    }
+
+    @Nullable
+    public GlobalPos getHomePos() {
+        return this.entityData.get(HOME_POS).orElse(null);
+    }
+
+    public void setLife(int life) {
+        this.entityData.set(LIFE, life);
     }
 
 
-    public BlockPos getHomePos() {
-        return (BlockPos)this.entityData.get(HOME_POS);
-    }
-
-    public String getDimensionType() {
-        return this.entityData.get(DIMENSION_TYPE);
-    }
-
-    public void setDimensionType(String dimenType) {
-        this.entityData.set(DIMENSION_TYPE, dimenType);
+    public int getLife() {
+        return this.entityData.get(LIFE);
     }
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(HOME_POS, BlockPos.ZERO);
-        this.entityData.define(DIMENSION_TYPE, "minecraft:overworld");
+        this.entityData.define(HOME_POS, Optional.empty());
+        this.entityData.define(LIFE, 0);
     }
+
+
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putInt("HomePosX", this.getHomePos().getX());
-        compound.putInt("HomePosY", this.getHomePos().getY());
-        compound.putInt("HomePosZ", this.getHomePos().getZ());
-        compound.putString("DimensionType", this.getDimensionType());
+        compound.putInt("LifeRemain", this.getLife());
+        if (this.getHomePos() != null) {
+            GlobalPos.CODEC.encodeStart(NbtOps.INSTANCE, this.getHomePos()).resultOrPartial(Cataclysm.LOGGER::error).ifPresent(tag1 -> compound.put("HomePos", tag1));
+        }
+        this.addAdditionalHomePoint(compound);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
-        int i = compound.getInt("HomePosX");
-        int j = compound.getInt("HomePosY");
-        int k = compound.getInt("HomePosZ");
-        this.setHomePos(new BlockPos(i, j, k));
-        this.setDimensionType(compound.getString("DimensionType"));
+        this.setLife(compound.getInt("LifeRemain"));
+        this.readAdditionalHomePoint(compound);
         super.readAdditionalSaveData(compound);
 
     }
+
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag p_21438_) {
+        spawnGroupData = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData,p_21438_);
         this.homeTicks = HOME_COOLDOWN;
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData,p_21438_);
+        if(spawnType == MobSpawnType.SPAWNER) {
+            //  PlayerCounter(level.getLevel());
+
+        }
+        return spawnGroupData;
     }
 
-    @Override
-    public boolean hurt(DamageSource source, float damage) {
-        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return super.hurt(source, damage);
-        } else {
-            damage = Math.min(DamageCap(), damage);
-        }
-        if (ReducedDamage(source)) {
-            if (reducedDamageTicks > 0) {
-                float reductionFactor = 1.0f - ((float) reducedDamageTicks / DamageTime());
-                damage *= reductionFactor;
+
+    protected void PlayerCounter(Level level){
+        double range = 64.0D;
+        int playerCount = level.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(range), player -> {
+            return !player.isSpectator()
+                    && !player.isCreative()
+                    && player.isAlive()
+                    && player.distanceToSqr(this) < (range * range);
+        }).size();
+
+        this.setLife(playerCount);
+    }
+
+
+    public void awardKillScore(Entity killed, int scoreValue, DamageSource source) {
+        if (killed instanceof ServerPlayer) {
+            if (this.getLife() > 0) {
+                this.setLife(this.getLife() - 1);
+            }else{
+                Retry();
             }
         }
-        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
-            self_regen = NATURE_HEAL_COOLDOWN;
+        super.awardKillScore(killed,scoreValue,source);
+    }
+
+    protected void Retry(){
+
+    }
+
+
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+            return super.hurt(source, amount);
+        } else{
+            amount = Math.min(DamageCap(), amount);
         }
 
-        boolean flag = super.hurt(source, damage);
-        if (ReducedDamage(source)) {
-            if (flag) {
-                reducedDamageTicks = DamageTime();
+        double distSqr = calculateRange(source);
+
+        if (distSqr != -1) {
+            double limit = this.RangeLimit();
+            double maxLimit = limit * 1.5;
+
+            double limitSqr = limit * limit;
+            double maxLimitSqr = maxLimit * maxLimit;
+
+            if (distSqr >= maxLimitSqr) {
+                return false;
+            }
+
+            if (distSqr > limitSqr) {
+                double distance = Math.sqrt(distSqr);
+
+                float multiplier = (float) ((maxLimit - distance) / (maxLimit - limit));
+
+                amount *= multiplier;
+
+                if (amount <= 0) return false;
             }
         }
+
+        if (!source.is(ModTag.BYPASSES_HURT_TIME)) {
+
+            float projectedBucket = damageBucket + amount;
+            float limit = this.DamageCap();
+
+            if (projectedBucket > limit) {
+                float roomLeft = limit - damageBucket;
+
+                if (roomLeft > 0) {
+                    amount = roomLeft;
+                    damageBucket = limit;
+                } else {
+                    amount = 0.1F;
+                }
+            } else {
+                damageBucket += amount;
+            }
+        }
+
+        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+            self_regen = HealCooldown();
+        }
+        boolean flag = super.hurt(source, amount);
+
         return flag;
     }
 
-    public boolean ReducedDamage(DamageSource damageSource){
-        return !damageSource.is(ModTag.BYPASSES_HURT_TIME) && DamageTime() > 0;
-    }
 
     public float DamageCap() {
+        return Float.MAX_VALUE;
+    }
+
+    public float DpsCap() {
         return Float.MAX_VALUE;
     }
 
@@ -122,17 +197,20 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
         return 0;
     }
 
-    public int DamageTime() {
-        return 0;
+    public double RangeLimit() {
+        return Double.MAX_VALUE;
     }
+
+    public int HealCooldown() {
+        return 200;
+    }
+
 
     public void tick() {
         super.tick();
-        if (reducedDamageTicks > 0) reducedDamageTicks--;
         if (self_regen > 0) self_regen--;
         if (!this.level().isClientSide()) {
             LivingEntity target = this.getTarget();
-
             if (!isNoAi() ) {
                 if (self_regen <= 0) {
                     if (!isNoAi() && this.NatureRegen() > 0 && target == null) {
@@ -141,7 +219,7 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
                         }
                     }
                 }
-                if (CMConfig.Return_Home > 0) {
+                if (HOME_COOLDOWN > 0) {
                     if (homeTicks > 0) homeTicks--;
                     if (target != null) {
                         homeTicks = HOME_COOLDOWN;
@@ -152,37 +230,40 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
                     }
 
                 }
+                if(damageBucket > 0) {
+                    damageBucket -= (this.DpsCap() / 20.0f);
+                    if (damageBucket < 0) damageBucket = 0;
+                }
+
             }
 
         }
+
+    }
+
+    private boolean isRestrictionPointValid(ResourceKey<Level> currentMobLevel) {
+        return this.getHomePos() != null && this.getHomePos().dimension().equals(currentMobLevel);
     }
 
     protected void ReturnToHome() {
-        if (this.getHomePos() != null && this.getHomePos() != BlockPos.ZERO) {
+        if (this.getHomePos() != null) {
             if (this.level() instanceof ServerLevel serverLevel) {
-                String dimStr = this.getDimensionType();
-                ResourceLocation parsed = ResourceLocation.tryParse(dimStr);
-                boolean isInvalidDim = dimStr == null || dimStr.contains("ResourceKey") || parsed == null;
+                ResourceKey<Level> targetDim = this.getHomePos().dimension();
+                BlockPos homeBlockPos = this.getHomePos().pos();
+                Vec3 homeVec = new Vec3(homeBlockPos.getX() + 0.5, homeBlockPos.getY(), homeBlockPos.getZ() + 0.5);
 
-                if (isInvalidDim) {
-                    System.err.println("[DIM] Malformed dimension string detected: " + dimStr + " → Replacing with current dimension.");
-                    parsed = serverLevel.dimension().location();
-                    this.setDimensionType(parsed.toString());
-                }
-                ResourceKey<Level> targetDim = ResourceKey.create(Registries.DIMENSION, parsed);
-
-                if (!serverLevel.dimension().location().equals(parsed)) {
+                if (!targetDim.equals(this.level().dimension())) {
                     ServerLevel targetLevel = serverLevel.getServer().getLevel(targetDim);
                     if (targetLevel != null) {
                         this.changeDimension(targetLevel);
-                        this.moveTo(this.getHomePos().getX() + 0.5, this.getHomePos().getY(), this.getHomePos().getZ() + 0.5, this.getYRot(), this.getXRot());
+                        this.moveTo(homeVec.x + 0.5, homeVec.y, homeVec.z + 0.5, this.getYRot(), this.getXRot());
+
                         homeTicks = HOME_COOLDOWN;
                         return;
                     }
                 }
-
-                if (!this.getHomePos().closerToCenterThan(this.position(), 16.0)) {
-                    this.moveTo(this.getHomePos().getX() + 0.5, this.getHomePos().getY(), this.getHomePos().getZ() + 0.5, this.getYRot(), this.getXRot());
+                if (!homeBlockPos.closerToCenterThan(this.position(), 16.0)) {
+                    this.moveTo(homeVec.x, homeVec.y, homeVec.z, this.getYRot(), this.getXRot());
                     homeTicks = HOME_COOLDOWN;
                 }
             }
@@ -193,6 +274,10 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy 
         return true;
     }
 
+    @Override
+    public boolean canChangeDimensions() {
+        return false;
+    }
 
     public boolean canBeAffected(MobEffectInstance p_34192_) {
         return ModTag.EFFECTIVE_FOR_BOSSES_LOOKUP.contains(p_34192_.getEffect()) && super.canBeAffected(p_34192_);

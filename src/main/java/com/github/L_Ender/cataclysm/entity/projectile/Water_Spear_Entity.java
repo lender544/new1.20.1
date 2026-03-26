@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.Direction;
@@ -34,18 +33,18 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
 
 
 
-    public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level) {
+    public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, double getX, double gety, double getz, Vec3 vec3, Level level,double accel) {
         this(type, level);
         this.setPosRaw(getX, gety, getz);
         this.setOldPosAndRot();
         this.setState(1);
         this.reapplyPosition();
-        this.assignDirectionalMovement(vec3, this.accelerationPower);
+        this.assignDirectionalMovement(vec3, accel);
 
     }
 
-    public Water_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage) {
-        this(ModEntities.WATER_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
+    public Water_Spear_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage,double accel) {
+        this(ModEntities.WATER_SPEAR.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_, accel);
         this.setOwner(p_36827_);
         this.setDamage(damage);
     }
@@ -63,8 +62,9 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(BOUNCES, 0);
+        this.entityData.define(BOUNCES,0);
     }
+
 
     public int getTotalBounces()
     {
@@ -81,7 +81,7 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
     @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
             boolean flag = false;
             if (this.getOwner() instanceof LivingEntity livingentity) {
@@ -118,6 +118,7 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
 
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
+        this.hurtMarked = true;
         BlockHitResult traceResult = result;
         BlockState blockstate = this.level().getBlockState(traceResult.getBlockPos());
         if (!blockstate.getCollisionShape(this.level(), traceResult.getBlockPos()).isEmpty()) {
@@ -165,7 +166,7 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
         float r = (89 + random.nextInt(35)) /255F ;
         float g = (180 + random.nextInt(35)) /255F ;
         float b = (180 + random.nextInt(35)) /255F ;
-        this.level().addParticle((new StormParticle.OrbData(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
+        this.level().addParticle((new StormParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
     }
 
 

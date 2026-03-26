@@ -3,12 +3,11 @@ package com.github.L_Ender.cataclysm;
 
 import com.github.L_Ender.cataclysm.blocks.Cataclysm_Skull_Block;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
-import com.github.L_Ender.cataclysm.config.BiomeConfig;
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.event.ServerEventHandler;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.message.*;
+
 import com.github.L_Ender.cataclysm.world.CMMobSpawnBiomeModifier;
 import com.github.L_Ender.cataclysm.world.CMMobSpawnStructureModifier;
 import com.mojang.serialization.Codec;
@@ -39,7 +38,6 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-//import com.github.L_Ender.cataclysm.init.ModStructures;
 
 @Mod(Cataclysm.MODID)
 @Mod.EventBusSubscriber(modid = Cataclysm.MODID)
@@ -68,23 +66,27 @@ public class Cataclysm {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setup);
         bus.addListener(this::setupClient);
-        bus.addListener(this::onModConfigEvent);
         ModGroup.DEF_REG.register(bus);
         bus.addListener(this::setupEntityModelLayers);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHolder.COMMON_SPEC, "cataclysm.toml");
-        ModItems.ITEMS.register(bus);
+        bus.addListener(ConfigHolder::onModConfigLoadingEvent);
+        bus.addListener(ConfigHolder::onModConfigReloadEvent);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ConfigHolder.CLIENT_SPEC, String.format("%s-client.toml", Cataclysm.MODID));
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigHolder.COMMON_SPEC, String.format("%s-common.toml", Cataclysm.MODID));
+
         ModEffect.EFFECTS.register(bus);
         ModBlocks.BLOCKS.register(bus);
         ModParticle.PARTICLE.register(bus);
         ModStructures.STRUCTURE_PIECE_DEF_REG.register(bus);
         ModStructures.STRUCTURE_TYPE_DEF_REG.register(bus);
-        Modfeatures.FEATURES.register(bus);
         ModTileentites.TILE_ENTITY_TYPES.register(bus);
+        ModEntityDataSerializers.DEF_REG.register(bus);
         ModEntities.ENTITY_TYPE.register(bus);
+        ModItems.ITEMS.register(bus);
         ModSounds.SOUNDS.register(bus);
         ModRecipeSerializers.RECIPE_SERIALIZERS.register(bus);
         ModRecipeTypes.RECIPE_TYPES.register(bus);
         ModMenu.DEF_REG.register(bus);
+        ModAttribute.ATTRIBUTES.register(bus);
         ModStructurePlacementType.STRUCTURE_PLACEMENT_TYPE.register(bus);
         ModStructureProcessor.STRUCTURE_PROCESSOR.register(bus);
         PROXY.init();
@@ -105,15 +107,6 @@ public class Cataclysm {
         CMModelLayers.register(event);
     }
 
-    @SubscribeEvent
-    public void onModConfigEvent(final ModConfigEvent event) {
-        final ModConfig config = event.getConfig();
-        // Rebake the configs when they change
-        if (config.getSpec() == ConfigHolder.COMMON_SPEC) {
-            CMConfig.bake(config);
-        }
-        BiomeConfig.init();
-    }
 
     public static <MSG> void sendMSGToServer(MSG message) {
         NETWORK_WRAPPER.sendToServer(message);

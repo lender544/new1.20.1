@@ -2,7 +2,7 @@ package com.github.L_Ender.cataclysm.mixin;
 
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.mixin.accessor.WorldGenRegionAccessor;
-import com.github.L_Ender.cataclysm.util.MixinUtil;
+import com.github.L_Ender.cataclysm.util.MixinUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -41,7 +41,7 @@ public class NoBasaltColumnsInStructuresMixin {
         Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess().registryOrThrow(Registries.STRUCTURE);
         StructureManager structureManager = ((WorldGenRegionAccessor)levelAccessor).getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry.getOrCreateTag(ModTag.BLOCKED_BASALT)) {
-            if (MixinUtil.getStructureAt(structureManager, mutableBlockPos,  configuredStructureFeature.value()).isValid()) {
+            if (MixinUtils.getStructureAt(structureManager, mutableBlockPos,  configuredStructureFeature.value()).isValid()) {
                 cir.setReturnValue(false);
                 return;
             }

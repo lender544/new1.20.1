@@ -1,14 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.TrackLightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.TrackLightningParticle;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -24,13 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
@@ -133,7 +127,7 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
         }else{
             Vec3 center = this.position().add(this.getDeltaMovement());
             Vec3 vec3 = center.add(new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F));
-            this.level().addParticle((new TrackLightningParticle.OrbData(26, 107,  89)), center.x, center.y, center.z, vec3.x, vec3.y, vec3.z);
+            this.level().addParticle((new TrackLightningParticleOptions(26, 107,  89)), center.x, center.y, center.z, vec3.x, vec3.y, vec3.z);
             Vec3 vec31 = this.getDeltaMovement();
             double d5 = vec31.x;
             double d6 = vec31.y;
@@ -238,11 +232,6 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
     protected ItemStack getPickupItem() {
         return new ItemStack(Items.ARROW);
     }
@@ -255,3 +244,4 @@ public class Phantom_Arrow_Entity extends AbstractArrow {
 
 
 }
+

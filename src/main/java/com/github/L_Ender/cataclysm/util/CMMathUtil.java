@@ -1,9 +1,17 @@
 package com.github.L_Ender.cataclysm.util;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.*;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+import java.util.Optional;
 
 public class CMMathUtil {
     public static float approachSmooth(float current, float previous, float desired, float desiredSpeed, float deltaSpeed) {
@@ -47,6 +55,13 @@ public class CMMathUtil {
         return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
     }
 
+    public static float getAngle(Vec2 a, Vec2 b) {
+        return getAngle(a.x, a.y, b.x, b.y);
+    }
+
+    public static float getAngle(double ax, double ay, double bx, double by) {
+        return (float) (Math.atan2(by - ay, bx - ax)) + (float)Math.PI;// + (a.x > b.x ? Math.PI : 0));
+    }
 
 
     public static float cullAnimationTick(int tick, float amplitude, float partialTick, int startOffset, int endAt) {
@@ -54,5 +69,41 @@ public class CMMathUtil {
         float f = (float) Math.sin((i / (float) (endAt)) * Math.PI) * amplitude;
         return CMMathUtil.smin(f, 1.0F, 0.1F);
     }
+
+
+
+
+    public static Optional<Vec3> readVec3(CompoundTag tag, String key) {
+        ListTag listTag = tag.getList(key, Tag.TAG_DOUBLE);
+
+        if (listTag.size() == 3) {
+            double x = listTag.getDouble(0);
+            double y = listTag.getDouble(1);
+            double z = listTag.getDouble(2);
+            return Optional.of(new Vec3(x, y, z));
+        } else {
+            return Optional.empty();
+        }
+    }
+    public static ListTag writeVec3(Vec3 pos) {
+        ListTag listTag = new ListTag();
+        listTag.add(DoubleTag.valueOf(pos.x));
+        listTag.add(DoubleTag.valueOf(pos.y));
+        listTag.add(DoubleTag.valueOf(pos.z));
+        return listTag;
+    }
+
+
+    public static Vec3 readVec3(ByteBuf buf) {
+        return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+    }
+
+    public static void writeVec3(ByteBuf buf, Vec3 vec3) {
+        buf.writeDouble(vec3.x());
+        buf.writeDouble(vec3.y());
+        buf.writeDouble(vec3.z());
+    }
+
+
 
 }

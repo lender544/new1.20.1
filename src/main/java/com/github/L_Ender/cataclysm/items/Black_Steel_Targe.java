@@ -9,8 +9,6 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 
-import java.util.List;
-import java.util.function.Consumer;
 
 public class Black_Steel_Targe extends ShieldItem {
 
@@ -25,12 +23,13 @@ public class Black_Steel_Targe extends ShieldItem {
 	}
 
 	@Override
-	public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-		return ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
+	public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+		return net.minecraftforge.common.ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
 	}
 
 	@Override
 	public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
 		consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
 	}
+	
 }

@@ -1,12 +1,9 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -17,13 +14,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -41,16 +35,6 @@ public class The_Leviathan_Tongue_Entity extends Entity {
 
     public The_Leviathan_Tongue_Entity(EntityType<?> entityType, Level level) {
         super(entityType, level);
-    }
-
-    public The_Leviathan_Tongue_Entity(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        this(ModEntities.THE_LEVIATHAN_TONGUE.get(), level);
-        this.setBoundingBox(this.makeBoundingBox());
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
 
@@ -80,7 +64,7 @@ public class The_Leviathan_Tongue_Entity extends Entity {
 
 
         if (!this.level().isClientSide) {
-            if(CMConfig.LeviathanBlockBreaking){
+            if(CMCommonConfig.Leviathan.ignoreMobGriefing) {
                 blockbreak(0.25d,0.25d,0.25d);
             }else{
                 if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
@@ -176,10 +160,6 @@ public class The_Leviathan_Tongue_Entity extends Entity {
 
     public boolean shouldRiderSit() {
         return false;
-    }
-
-    public double getPassengersRidingOffset() {
-        return -0.5D;
     }
 
     @Override

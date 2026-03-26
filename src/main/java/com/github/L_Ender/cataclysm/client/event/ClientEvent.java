@@ -5,25 +5,24 @@ import com.github.L_Ender.cataclysm.ClientProxy;
 import com.github.L_Ender.cataclysm.client.gui.CustomBossBar;
 import com.github.L_Ender.cataclysm.client.model.entity.PlayerSandstorm_Model;
 import com.github.L_Ender.cataclysm.client.render.CMItemstackRenderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.Blazing_Grips_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.Chitin_Claw_Renderer;
-import com.github.L_Ender.cataclysm.client.render.item.CuriosItemRenderer.RendererSticky_Gloves;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Blazing_Grips_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Chitin_Claw_Renderer;
+import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Sticky_Gloves_Renderer;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
+import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModItems;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.LiquidBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -80,7 +79,7 @@ public class ClientEvent {
         Player player = Minecraft.getInstance().player;
         float delta = Minecraft.getInstance().getFrameTime();
         float ticksExistedDelta = player.tickCount + delta;
-        if (CMConfig.ScreenShake && !Minecraft.getInstance().isPaused()) {
+        if (CMClientConfig.ScreenShake && !Minecraft.getInstance().isPaused()) {
             if (player != null) {
                 float shakeAmplitude = 0;
                 for (ScreenShake_Entity ScreenShake : player.level().getEntitiesOfClass(ScreenShake_Entity.class, player.getBoundingBox().inflate(20, 20, 20))) {
@@ -110,6 +109,9 @@ public class ClientEvent {
 
         if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Aptrgangr_Entity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(3F), 0, 0);
+        }
+        if (cameraEntity != null && cameraEntity.isPassenger() && cameraEntity.getVehicle() instanceof Clawdian_Entity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(6F), 0, 0);
         }
     }
 
@@ -323,7 +325,7 @@ public class ClientEvent {
                     if (gripsrenderer != null) {
                         gripsrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
                     }
-                    RendererSticky_Gloves stickyrenderer = RendererSticky_Gloves.getGloveRenderer(stack);
+                    Sticky_Gloves_Renderer stickyrenderer = Sticky_Gloves_Renderer.getGloveRenderer(stack);
                     if (stickyrenderer != null) {
                         stickyrenderer.renderFirstPersonArm(event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight(), event.getPlayer(), event.getArm(), stack.hasFoil());
                     }
@@ -431,47 +433,47 @@ public class ClientEvent {
     }
 
     /**
-    private void renderSandstormOverlay(RenderGuiOverlayEvent.Post event) {
-        Minecraft minecraft = Minecraft.getInstance();
-        Minecraft mc = Minecraft.getInstance();
-        ForgeGui gui = (ForgeGui) mc.gui;
-        GuiGraphics stack = event.getGuiGraphics();
-        gui.setupOverlayRenderState(true, false);
-        int width = event.getWindow().getGuiScaledWidth();
-        int height = event.getWindow().getGuiScaledHeight();
-        if ((minecraft.getCameraEntity() instanceof LivingEntity player)) {
-            Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
-            if (SandstormCapability != null) {
-                int left = width / 2 + 91;
-                int top = height - gui.rightHeight;
+     private void renderSandstormOverlay(RenderGuiOverlayEvent.Post event) {
+     Minecraft minecraft = Minecraft.getInstance();
+     Minecraft mc = Minecraft.getInstance();
+     ForgeGui gui = (ForgeGui) mc.gui;
+     GuiGraphics stack = event.getGuiGraphics();
+     gui.setupOverlayRenderState(true, false);
+     int width = event.getWindow().getGuiScaledWidth();
+     int height = event.getWindow().getGuiScaledHeight();
+     if ((minecraft.getCameraEntity() instanceof LivingEntity player)) {
+     Gone_With_SandstormCapability.IGone_With_SandstormCapability SandstormCapability = ModCapabilities.getCapability(player, ModCapabilities.GONE_WITH_SANDSTORM_CAPABILITY);
+     if (SandstormCapability != null) {
+     int left = width / 2 + 91;
+     int top = height - gui.rightHeight;
 
-                int flytime = Math.abs(SandstormCapability.getSandstormTimer());
-                int maxProgressTime = CMConfig.Sandstorm_In_A_Bottle_Timer;
+     int flytime = Math.abs(SandstormCapability.getSandstormTimer());
+     int maxProgressTime = CMConfig.Sandstorm_In_A_Bottle_Timer;
 
-                if (flytime == 0) {
-                    return;
-                }
+     if (flytime == 0) {
+     return;
+     }
 
-                float progress = 1 - flytime / (float) maxProgressTime;
+     float progress = 1 - flytime / (float) maxProgressTime;
 
-                int full = Mth.ceil((progress - 2D / maxProgressTime) * 10);
-                int partial = Mth.ceil(progress * 10) - full;
+     int full = Mth.ceil((progress - 2D / maxProgressTime) * 10);
+     int partial = Mth.ceil(progress * 10) - full;
 
-                for (int i = 0; i < full + partial; ++i) {
-                    stack.blit(SANDSTORM_ICON, left - i * 8 - 9, top, -90, (i < full ? 0 : 9), 0, 9, 9, 32, 16);
-                }
-                gui.rightHeight += 10;
+     for (int i = 0; i < full + partial; ++i) {
+     stack.blit(SANDSTORM_ICON, left - i * 8 - 9, top, -90, (i < full ? 0 : 9), 0, 9, 9, 32, 16);
+     }
+     gui.rightHeight += 10;
 
-                RenderSystem.disableBlend();
-            }
-        }
-    }
+     RenderSystem.disableBlend();
+     }
+     }
+     }
      */
 
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event){
-        if(CMConfig.custombossbar) {
+        if(CMClientConfig.customBossBars) {
             if (ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {
                 int renderTypeFor = ClientProxy.bossBarRenderTypes.get(event.getBossEvent().getId());
 

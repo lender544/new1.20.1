@@ -3,21 +3,18 @@ package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkHooks;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +76,7 @@ public class Wall_Watcher_Entity extends Entity {
                                 float realDamageApplied = damagePerEffectiveCharge * effectiveChargeTime + 1;
                                 boolean flag = entity.livingEntity.hurt(this.damageSources().mobProjectile(this, source), realDamageApplied);
                                 if (flag) {
-                                    entity.livingEntity.playSound(SoundEvents.GENERIC_EXPLODE, 0.3F, 1);
+                                    entity.livingEntity.playSound(ModSounds.EXPLOSION.get(), 0.3F, 1);
                                     entity.livingEntity.addEffect(new MobEffectInstance(ModEffect.EFFECTSTUN.get(), 50));
                                 }
                             }
@@ -124,14 +121,11 @@ public class Wall_Watcher_Entity extends Entity {
 
     @Override
     protected void defineSynchedData() {
-        entityData.define(TIMER, 0);
+        this.entityData.define(TIMER, 0);
     }
 
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    
 
     static class YUnchangedLivingEntity {
         LivingEntity livingEntity;

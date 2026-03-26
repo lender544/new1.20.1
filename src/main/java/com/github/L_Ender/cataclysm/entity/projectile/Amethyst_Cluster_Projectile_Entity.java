@@ -1,7 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -91,17 +90,16 @@ public class Amethyst_Cluster_Projectile_Entity extends ThrowableProjectile {
         return 0.03F;
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+    
 
     @OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 3) {
-            for(int i = 0; i < 20; ++i) {
+            for(int i = 0; i < 10; ++i) {
                 this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, Blocks.AMETHYST_CLUSTER.defaultBlockState()), this.getX(), this.getY(), this.getZ(), random.nextGaussian() * 0.2D, random.nextGaussian() * 0.2D, random.nextGaussian() * 0.2D);
             }
+            this.level().addParticle(ModParticle.AMETHYST_CRASH.get(), this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+
         }
     }
 }

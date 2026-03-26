@@ -12,7 +12,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class TidalTentacleCapability {
@@ -93,7 +92,7 @@ public class TidalTentacleCapability {
         }
 
         public static class TentacleProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {
-            private final LazyOptional<ITentacleCapability> instance = LazyOptional.of(TidalTentacleCapability.TentacleCapabilityImp::new);
+            private final LazyOptional<ITentacleCapability> instance = LazyOptional.of(TentacleCapabilityImp::new);
 
             @Override
             public CompoundTag serializeNBT() {

@@ -35,7 +35,7 @@ public class Sandstorm_Projectile_Renderer extends EntityRenderer<Sandstorm_Proj
 		float f1 = Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot());
 		VertexConsumer vertexconsumer = bufferIn.getBuffer(this.model.renderType(this.getTextureLocation(entityIn)));
 		this.model.setupAnim(entityIn, 0.0F, 0.0F,entityIn.tickCount + partialTicks, f, f1);
-		this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+		this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
 		matrixStackIn.popPose();
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}

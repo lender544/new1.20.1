@@ -2,8 +2,13 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.blockentities.AltarOfAmethyst_Block_Entity;
+import com.github.L_Ender.cataclysm.blockentities.Door_Of_Seal_BlockEntity;
 import com.github.L_Ender.cataclysm.blockentities.Statue_Block_Entity;
+import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
+import com.github.L_Ender.cataclysm.blocks.Mechanical_fusion_Anvil;
 import com.github.L_Ender.cataclysm.blocks.Statue_Block;
+import com.github.L_Ender.cataclysm.client.model.block.Door_Of_Seal_Model;
 import com.github.L_Ender.cataclysm.client.model.block.Goddess_Statue_Model;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -12,6 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;

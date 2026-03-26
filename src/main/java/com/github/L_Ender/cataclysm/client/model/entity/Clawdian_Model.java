@@ -4,6 +4,7 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Clawdian_Skill_Animation;
+
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -250,7 +251,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 		this.animate(entity.getAnimationState("claw_punch"), Clawdian_Animation.CLAW_PUNCH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("grab_and_throw"), Clawdian_Animation.GRAB_AND_THROW, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("backstep"), Clawdian_Animation.BACKSTEP, ageInTicks, 1.0F);
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 
 		articulateLegs(entity.legSolver, partialTick);
 	}

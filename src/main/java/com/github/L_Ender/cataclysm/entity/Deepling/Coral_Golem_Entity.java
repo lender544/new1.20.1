@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.CmAttackGoal;
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
@@ -54,6 +54,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidType;
 
+
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
@@ -74,7 +75,6 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
     public Coral_Golem_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 15;
-        this.setMaxUpStep(1.5F);
         this.moveControl = new GolemMoveControl(this,2.0f);
         switchNavigator(false);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
@@ -115,6 +115,9 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
     }
 
 
+
+
+
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;
     }
@@ -144,7 +147,7 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.CoralgolemSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel && super.checkSpawnRules(worldIn, spawnReasonIn)) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.CoralgolemSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel && super.checkSpawnRules(worldIn, spawnReasonIn)) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }
@@ -294,7 +297,7 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
 
     private void EarthQuake(float grow, int damage) {
         ScreenShake_Entity.ScreenShake(level(), this.position(), 10, 0.15f, 0, 20);
-        this.playSound(SoundEvents.GENERIC_EXPLODE, 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+        this.playSound(ModSounds.EXPLOSION.get(), 0.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(grow))) {
             if (!isAlliedTo(entity) && !(entity instanceof Coral_Golem_Entity) && entity != this) {
                 entity.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + this.random.nextInt(damage));
@@ -357,6 +360,7 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
         return type.canSwim(self());
     }
 
+
     public boolean isVisuallySwimming() {
         return this.getSwim();
     }
@@ -380,18 +384,15 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
     }
 
 
-    public MobType getMobType() {
-        return MobType.WATER;
-    }
+    
+        
 
 
     public boolean isPushedByFluid() {
         return !this.isSwimming();
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+
 
     @Override
     public boolean shouldEnterWater() {

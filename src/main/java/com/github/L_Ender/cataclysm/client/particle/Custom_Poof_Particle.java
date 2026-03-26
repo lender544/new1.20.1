@@ -1,23 +1,13 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
-
-import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Locale;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Custom_Poof_Particle extends TextureSheetParticle {
@@ -88,101 +78,15 @@ public class Custom_Poof_Particle extends TextureSheetParticle {
 
 
     @OnlyIn(Dist.CLIENT)
-    public static class Provider implements ParticleProvider<Custom_Poof_Particle.PoofData> {
+    public static class Provider implements ParticleProvider<CustomPoofParticleOptions> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
             this.sprites = sprites;
         }
 
-        public Particle createParticle(Custom_Poof_Particle.PoofData type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new Custom_Poof_Particle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites,type.getR(), type.getG(), type.getB(),type.getGravity());
+        public Particle createParticle(CustomPoofParticleOptions type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            return new Custom_Poof_Particle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites,type.r(), type.g(), type.b(),type.gravity());
         }
     }
-
-
-
-    public static class PoofData implements ParticleOptions {
-        public static final Deserializer<Custom_Poof_Particle.PoofData> DESERIALIZER = new Deserializer<Custom_Poof_Particle.PoofData>() {
-            public Custom_Poof_Particle.PoofData fromCommand(ParticleType<Custom_Poof_Particle.PoofData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                int r = reader.readInt();
-                reader.expect(' ');
-                int g = reader.readInt();
-                reader.expect(' ');
-                int b = reader.readInt();
-                reader.expect(' ');
-                float gravity = reader.readFloat();
-
-                return new Custom_Poof_Particle.PoofData(r, g, b,gravity);
-            }
-
-            public Custom_Poof_Particle.PoofData fromNetwork(ParticleType<Custom_Poof_Particle.PoofData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new Custom_Poof_Particle.PoofData(buffer.readInt(), buffer.readInt(),buffer.readInt(),buffer.readFloat());
-            }
-        };
-
-        private final int r;
-        private final int g;
-        private final int b;
-        private final float gravity;
-
-        public PoofData(int r, int g, int b,float gravity) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-            this.gravity = gravity;
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeInt(this.r);
-            buffer.writeInt(this.g);
-            buffer.writeInt(this.b);
-            buffer.writeFloat(this.gravity);
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %d %d %d %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b,this.gravity);
-        }
-
-        @Override
-        public ParticleType<Custom_Poof_Particle.PoofData> getType() {
-            return ModParticle.CUSTOM_POOF.get();
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getR() {
-            return this.r;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getG() {
-            return this.g;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public int getB() {
-            return this.b;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getGravity() {
-            return this.gravity;
-        }
-
-
-        public static Codec<Custom_Poof_Particle.PoofData> CODEC(ParticleType<Custom_Poof_Particle.PoofData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.INT.fieldOf("r").forGetter(Custom_Poof_Particle.PoofData::getR),
-                            Codec.INT.fieldOf("g").forGetter(Custom_Poof_Particle.PoofData::getG),
-                            Codec.INT.fieldOf("b").forGetter(Custom_Poof_Particle.PoofData::getB),
-                    Codec.FLOAT.fieldOf("gravity").forGetter(Custom_Poof_Particle.PoofData::getGravity)
-                    ).apply(codecBuilder, Custom_Poof_Particle.PoofData::new)
-            );
-        }
-    }
-
 }

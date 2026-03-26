@@ -28,7 +28,7 @@ public class Wadjet_Layer extends RenderLayer<Wadjet_Entity, Wadjet_Model> {
         if (entity.getAttackState() != 1 && entity.isAlive()) {
             RenderType eyes = RenderType.eyes(LAYER_TEXTURES);
             VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         }
     }
 }

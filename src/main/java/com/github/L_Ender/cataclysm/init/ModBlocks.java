@@ -6,12 +6,13 @@ import com.github.L_Ender.cataclysm.blocks.*;
 import com.github.L_Ender.cataclysm.blocks.Property.CustomNoteBlockInstrument;
 import com.github.L_Ender.cataclysm.items.BlockItemCMRender;
 import com.github.L_Ender.cataclysm.items.CMBlockItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -100,6 +102,7 @@ public class ModBlocks {
         return 15;
     })));
 
+
     public static final RegistryObject<Block> END_STONE_PILLAR = BLOCKS.register("end_stone_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                     .requiresCorrectToolForDrops()
@@ -153,8 +156,12 @@ public class ModBlocks {
     public static final RegistryObject<Block> OBSIDIAN_BRICK_STAIRS = BLOCKS.register("obsidian_brick_stairs",
             () -> new StairBlock(OBSIDIAN_BRICKS.get().defaultBlockState(),BlockBehaviour.Properties.copy(OBSIDIAN_BRICKS.get())));
 
+    public static final RegistryObject<Block> OBSIDIAN_FENCE = BLOCKS.register("obsidian_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.copy(OBSIDIAN_BRICKS.get())));
+
     public static final RegistryObject<Block> OBSIDIAN_BRICK_WALL = BLOCKS.register("obsidian_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(OBSIDIAN_BRICKS.get())));
+
 
     public static final RegistryObject<Block> PURPUR_WALL = BLOCKS.register("purpur_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.PURPUR_BLOCK)));
@@ -224,6 +231,7 @@ public class ModBlocks {
             Door_of_Seal_Block::new, new Item.Properties().rarity(Rarity.EPIC), true);
 
 
+
     public static final RegistryObject<Block> KOBOLEDIATOR_SKULL = BLOCKS.register("kobolediator_skull", () -> new Cataclysm_Skull_Block(Cataclysm_Skull_Block.Types.KOBOLEDIATOR, BlockBehaviour.Properties.of().strength(1.0F).instrument(CustomNoteBlockInstrument.KOBOLEDIATOR.get()).pushReaction(PushReaction.DESTROY)));
 
 
@@ -242,6 +250,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> ABYSSAL_EGG = registerBlockAndItem("abyssal_egg",
             Abyssal_Egg_Block::new, new Item.Properties().rarity(Rarity.EPIC).fireResistant(), true);
+
 
     public static final RegistryObject<Block> CHORUS_STEM = BLOCKS.register("chorus_stem",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).
@@ -276,6 +285,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> PRISMARINE_BRICK_WALL = BLOCKS.register("prismarine_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(Blocks.PRISMARINE_BRICKS)));
+
 
     public static final RegistryObject<Block> STONE_PILLAR = BLOCKS.register("stone_pillar",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -334,6 +344,7 @@ public class ModBlocks {
                     .instrument(NoteBlockInstrument.BASEDRUM)
                     .requiresCorrectToolForDrops()
                     .strength(1.5F, 6.0F)));
+
 
     public static final RegistryObject<Block> AZURE_SEASTONE = BLOCKS.register("azure_seastone",
             () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.QUARTZ)
@@ -470,7 +481,6 @@ public class ModBlocks {
     public static final RegistryObject<Block> CURVED_SEASTONE_SCYLLA_9 = BLOCKS.register("curved_azure_seastone_scylla_9",
             () -> new Mural_Block(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
 
-
     public static final RegistryObject<Block> POLISHED_AZURE_SEASTONE = BLOCKS.register("polished_azure_seastone",
             () -> new Block(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
 
@@ -495,6 +505,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> CHISELED_AZURE_SEASTONE_PILLAR_WALL = BLOCKS.register("chiseled_azure_seastone_pillar_wall",
             () -> new WallBlock(BlockBehaviour.Properties.copy(AZURE_SEASTONE.get())));
 
+
     public static final RegistryObject<Block> POINTED_ICICLE = BLOCKS.register("pointed_icicle",
             () -> new PointedIcicleBlock(BlockBehaviour.Properties.of().mapColor(MapColor.ICE)
                     .forceSolidOn().instrument(NoteBlockInstrument.CHIME)
@@ -506,22 +517,22 @@ public class ModBlocks {
                     .offsetType(BlockBehaviour.OffsetType.XZ)
                     .pushReaction(PushReaction.DESTROY)));
 
+
+
     private static ToIntFunction<BlockState> getLightValueLit(int lightValue) {
         return (state) -> {
             return state.getValue(BlockStateProperties.LIT) ? lightValue : 0;
         };
     }
 
-    public static final RegistryObject<Block> MELTING_NETHERRACK = BLOCKS.register("melting_netherrack" ,
-            () -> new MeltingNetherrack(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER).randomTicks().
-                    lightLevel((state) -> {
-                        return 3;
-                    })));
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
+    }
+
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, Item.Properties blockItemProps, boolean specialRender){
         RegistryObject<Block> blockObj = BLOCKS.register(name, block);
         ModItems.ITEMS.register(name, () -> specialRender ?  new BlockItemCMRender(blockObj, blockItemProps) :  new CMBlockItem(blockObj, blockItemProps));
         return blockObj;
     }
-
 }

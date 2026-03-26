@@ -520,7 +520,6 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 		return vec3.add(0, 1.5, 0);
 	}
 
-
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot = xRot * ((float) Math.PI / 180F);
 		this.head.yRot = yRot * ((float) Math.PI / 180F);

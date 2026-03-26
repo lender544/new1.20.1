@@ -3,7 +3,9 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.L_Ender.cataclysm.client.animation.Aptrgangr_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Elemental_Spear_Animation;
+import com.github.L_Ender.cataclysm.client.animation.Sandstorm_Animation;
 import com.github.L_Ender.cataclysm.entity.projectile.Elemental_Spear_Entity;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -36,6 +38,7 @@ public class Elemental_Spear_Model extends HierarchicalModel<Elemental_Spear_Ent
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
+
 	@Override
 	public void setupAnim(Elemental_Spear_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
@@ -43,11 +46,12 @@ public class Elemental_Spear_Model extends HierarchicalModel<Elemental_Spear_Ent
 		this.root.xRot = headPitch * ((float)Math.PI / 180F);
 		this.animate(entity.getAnimationState("idle"), Elemental_Spear_Animation.IDLE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("spawn"), Elemental_Spear_Animation.SPAWN, ageInTicks, 1.0F);
+
 	}
 
 	public void setupAnim( float yRot, float xRot) {
-		this.root.yRot = yRot * ((float)Math.PI / 180F);
-		this.root.xRot = xRot * ((float)Math.PI / 180F);
+		//this.root.yRot = yRot * ((float)Math.PI / 180F);
+	//	this.root.xRot = xRot * ((float)Math.PI / 180F);
 	}
 
 	@Override

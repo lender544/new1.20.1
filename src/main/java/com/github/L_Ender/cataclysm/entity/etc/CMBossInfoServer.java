@@ -5,20 +5,23 @@ import com.github.L_Ender.cataclysm.message.MessageUpdateBossBar;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.entity.Mob;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class CMBossInfoServer extends ServerBossEvent {
 
     private int renderType;
 
-    public CMBossInfoServer(Component component, BossEvent.BossBarColor bossBarColor, boolean dark, int renderType) {
+
+    public CMBossInfoServer(Component component, BossBarColor bossBarColor, boolean dark, int renderType) {
         super(component, bossBarColor, BossBarOverlay.PROGRESS);
         this.setDarkenScreen(dark);
+        this.renderType = renderType;
+    }
+
+    public CMBossInfoServer(Component component, BossBarColor bossBarColor, boolean dark,boolean fog, int renderType) {
+        super(component, bossBarColor, BossBarOverlay.PROGRESS);
+
+        this.setDarkenScreen(dark);
+        this.setCreateWorldFog(fog);
         this.renderType = renderType;
     }
 

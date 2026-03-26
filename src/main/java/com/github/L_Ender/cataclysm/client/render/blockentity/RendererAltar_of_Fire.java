@@ -2,7 +2,6 @@ package com.github.L_Ender.cataclysm.client.render.blockentity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.block.Altar_of_Fire_Model;
-import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.blockentities.AltarOfFire_Block_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -31,7 +30,7 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
 
     public RendererAltar_of_Fire(Context rendererDispatcherIn) {
         for(int i = 0; i < 8; i++){
-            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
+            TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altar_fire_" + i + ".png");
         }
     }
 
@@ -42,8 +41,8 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
         matrixStackIn.translate(0.5F, 1.5F, 0.5F);
         matrixStackIn.scale(1.0F, -1.0F, -1.0F);
         MODEL.animate(tileEntityIn, partialTicks);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
-        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.CMEyes(getIdleTexture((int) ((f2 * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn,1,1,1,1);
+        renderFlamePart(f2,matrixStackIn,bufferIn,15);
         matrixStackIn.popPose();
         renderItem(tileEntityIn, partialTicks,matrixStackIn,bufferIn,combinedLightIn);
         renderSigil(tileEntityIn,partialTicks,matrixStackIn,bufferIn);
@@ -76,7 +75,6 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
             float f2 = (float) tileEntityIn.tickCount + delta;
             float f3 = Mth.clamp(tileEntityIn.summoningticks, 0, 25);
             matrixStackIn.pushPose();
-
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucentEmissive(FLAME_STRIKE));
             matrixStackIn.translate(0.5D, 0.001D, 0.5D);
             matrixStackIn.scale(f3 * 0.1f, f3 * 0.1f, f3 * 0.1f);
@@ -92,9 +90,58 @@ public class RendererAltar_of_Fire<T extends AltarOfFire_Block_Entity> implement
         }
     }
 
-    public void drawVertex(Matrix4f p_229039_1_, Matrix3f p_229039_2_, VertexConsumer p_229039_3_, int p_229039_4_, int p_229039_5_, int p_229039_6_, float p_229039_7_, float p_229039_8_, int p_229039_9_, int p_229039_10_, int p_229039_11_, int p_229039_12_) {
-        p_229039_3_.vertex(p_229039_1_, (float) p_229039_4_, (float) p_229039_5_, (float) p_229039_6_).color(255, 255, 255, 255).uv(p_229039_7_, p_229039_8_).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(p_229039_12_).normal(p_229039_2_, (float) p_229039_9_, (float) p_229039_11_, (float) p_229039_10_).endVertex();
+    private void renderFlamePart(float f2,PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        VertexConsumer builder = bufferSource.getBuffer(RenderType.beaconBeam(getIdleTexture((int) ((f2 * 0.5F) % 7)),true));
+
+        poseStack.pushPose();
+        poseStack.translate(0,0.75,0);
+        poseStack.scale(1.0F, -1.0F, -1.0F);
+        poseStack.mulPose(Axis.YP.rotationDegrees(45.0F));
+        for (int i = 0; i < 4; i++) {
+            renderQuad(poseStack, builder, 0.5f, 0.0f, 1.0f, packedLight);
+            poseStack.mulPose(Axis.YP.rotationDegrees(90.0F));
+        }
+        poseStack.popPose();
     }
+
+    private void renderQuad(PoseStack poseStack, VertexConsumer builder, float size, float yMin, float yMax, int light) {
+        PoseStack.Pose lastPose = poseStack.last();
+
+        float u0 = 0.0f;
+        float u1 = 1.0f;
+        float v0 = 0.0f;
+        float v1 = 1.0f;
+        Matrix4f lvt_20_1_ = lastPose.pose();
+        Matrix3f lvt_21_1_ = lastPose.normal();
+        vertex(lvt_20_1_,lvt_21_1_,builder, -size, yMin, 0.0f, u0, v1, light);
+        vertex(lvt_20_1_,lvt_21_1_,builder, size, yMin, 0.0f, u1, v1, light);
+        vertex(lvt_20_1_,lvt_21_1_,builder, size, yMax, 0.0f, u1, v0, light);
+        vertex(lvt_20_1_,lvt_21_1_,builder, -size, yMax, 0.0f, u0, v0, light);
+    }
+
+
+    private void vertex(Matrix4f p_229039_1_, Matrix3f p_229039_2_, VertexConsumer builder, float x, float y, float z, float u, float v, int light) {
+        builder.vertex(p_229039_1_, x, y, z)
+                .color(255, 255, 255, 255)
+                .uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(light)
+                .normal(p_229039_2_, 0.0F, 1.0F, 0.0F)
+                .endVertex();
+    }
+
+
+    public void drawVertex(Matrix4f p_229039_1_, Matrix3f p_229039_2_, VertexConsumer p_229039_3_, int p_229039_4_, int p_229039_5_, int p_229039_6_, float p_229039_7_, float p_229039_8_, int p_229039_9_, int p_229039_10_, int p_229039_11_, int p_229039_12_) {
+        p_229039_3_.vertex(p_229039_1_, (float) p_229039_4_, (float) p_229039_5_, (float) p_229039_6_)
+                .color(255, 255, 255, 255)
+                .uv(p_229039_7_, p_229039_8_)
+                .overlayCoords(OverlayTexture.NO_OVERLAY)
+                .uv2(p_229039_12_)
+                .normal(p_229039_2_, (float) p_229039_9_, (float) p_229039_11_, (float) p_229039_10_)
+                .endVertex();
+    }
+
+
 }
 
 

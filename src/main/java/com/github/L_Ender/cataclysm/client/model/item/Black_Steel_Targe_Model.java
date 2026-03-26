@@ -38,10 +38,7 @@ public class Black_Steel_Targe_Model extends AdvancedEntityModel<Entity> {
 
 
 
-	@Override
-	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		root.render(matrixStack, buffer, packedLight, packedOverlay);
-	}
+	
 
 	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
 		AdvancedModelBox.rotateAngleX = x;

@@ -2,13 +2,18 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.CMModelLayers;
+import com.github.L_Ender.cataclysm.client.model.entity.Phantom_Halberd_Model;
 import com.github.L_Ender.cataclysm.client.model.entity.Storm_Serpent_Model;
+import com.github.L_Ender.cataclysm.client.model.entity.Wave_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
+import com.github.L_Ender.cataclysm.client.render.layer.Scylla_Snake_Layer;
+import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Storm_Serpent_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -18,7 +23,6 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
 
 @OnlyIn(Dist.CLIENT)
 public class Storm_Serpent_Renderer extends EntityRenderer<Storm_Serpent_Entity> {

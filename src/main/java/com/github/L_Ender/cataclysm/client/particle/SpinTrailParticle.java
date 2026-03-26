@@ -2,25 +2,14 @@ package com.github.L_Ender.cataclysm.client.particle;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 
-import com.github.L_Ender.cataclysm.init.ModParticle;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.github.L_Ender.cataclysm.client.particle.Options.SpinTrailParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.Locale;
-
 
 public class SpinTrailParticle extends AbstractTrailParticle {
 
@@ -104,87 +93,14 @@ public class SpinTrailParticle extends AbstractTrailParticle {
 
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<SpinTrailParticle.SpinData> {
+    public static class Factory implements ParticleProvider<SpinTrailParticleOptions> {
 
         @Override
-        public Particle createParticle(SpinTrailParticle.SpinData data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(SpinTrailParticleOptions data, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
 
             SpinTrailParticle particle;
-            particle = new SpinTrailParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, data.getR(),data.getG(),data.getB());
+            particle = new SpinTrailParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, data.r(),data.g(),data.b());
             return particle;
-        }
-    }
-
-    public static class SpinData implements ParticleOptions {
-        public static final Deserializer<SpinTrailParticle.SpinData> DESERIALIZER = new Deserializer<SpinTrailParticle.SpinData>() {
-            public SpinTrailParticle.SpinData fromCommand(ParticleType<SpinTrailParticle.SpinData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                float r = reader.readFloat();
-                reader.expect(' ');
-                float g = reader.readFloat();
-                reader.expect(' ');
-                float b = reader.readFloat();
-
-                return new SpinTrailParticle.SpinData(r, g, b);
-            }
-
-            public SpinTrailParticle.SpinData fromNetwork(ParticleType<SpinTrailParticle.SpinData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new SpinTrailParticle.SpinData(buffer.readFloat(), buffer.readFloat(), buffer.readFloat());
-            }
-        };
-
-        private final float r;
-        private final float g;
-        private final float b;
-
-        public SpinData(float r, float g, float b) {
-            this.r = r;
-            this.g = g;
-            this.b = b;
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeFloat(this.r);
-            buffer.writeFloat(this.g);
-            buffer.writeFloat(this.b);
-
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f %.2f %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.r, this.g, this.b);
-        }
-
-        @Override
-        public ParticleType<SpinTrailParticle.SpinData> getType() {
-            return ModParticle.SPIN_TRAIL_PARTICLE.get();
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getR() {
-            return this.r;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getG() {
-            return this.g;
-        }
-
-        @OnlyIn(Dist.CLIENT)
-        public float getB() {
-            return this.b;
-        }
-
-
-        public static Codec<SpinTrailParticle.SpinData> CODEC(ParticleType<SpinTrailParticle.SpinData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("r").forGetter(SpinTrailParticle.SpinData::getR),
-                            Codec.FLOAT.fieldOf("g").forGetter(SpinTrailParticle.SpinData::getG),
-                            Codec.FLOAT.fieldOf("b").forGetter(SpinTrailParticle.SpinData::getB)
-                    ).apply(codecBuilder, SpinTrailParticle.SpinData::new)
-            );
         }
     }
 

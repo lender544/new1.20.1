@@ -29,7 +29,7 @@ public class Ender_Guardian_Layer extends RenderLayer<Ender_Guardian_Entity, End
             //need rework
             RenderType eyes = RenderType.eyes(ENDER_GUARDIAN_LAYER_TEXTURES);
             VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         }
     }
 }

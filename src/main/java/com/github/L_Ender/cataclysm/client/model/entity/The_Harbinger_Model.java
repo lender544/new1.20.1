@@ -614,11 +614,9 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
                 leftside,
                 leftedge1,
                 leftedge2,
-                left_jet,
-                right_jet,
-                leftedge3);
+                leftedge3,
+                left_jet,right_jet);
     }
-
 
     public void translateToHand(PoseStack matrixStack, boolean right) {
         this.root.translateAndRotate(matrixStack);
@@ -633,6 +631,7 @@ public class The_Harbinger_Model extends AdvancedEntityModel<The_Harbinger_Entit
             this.left_jet.translateAndRotate(matrixStack);
         }
     }
+
 
     @Override
     public Iterable<BasicModelPart> parts() {

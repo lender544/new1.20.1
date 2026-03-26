@@ -266,7 +266,7 @@ public class Modern_Remnant_Model extends AdvancedEntityModel<Modern_Remnant_Ent
 		float walkDegree = 0.85F;
 		float idleSpeed = 0.1F;
 		float idleDegree = 0.4F;
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 
 		AdvancedModelBox[] tailBoxes = new AdvancedModelBox[]{tail, tail2,tail3};
 

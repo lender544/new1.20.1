@@ -33,34 +33,37 @@ public class Gauntlet_of_Guard_Model extends AdvancedEntityModel<Entity> {
 		gauntlet_fist = new AdvancedModelBox(this);
 		gauntlet_fist.setRotationPoint(0.0F, 0.0F, -3.5F);
 		root.addChild(gauntlet_fist);
-		gauntlet_fist.setTextureOffset(24, 30).addBox(-4.0F, -4.0F, -8.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
+		gauntlet_fist.setTextureOffset(26, 22).addBox(-4.0F, -4.0F, -8.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
 
 		void_stone_knuckle = new AdvancedModelBox(this);
 		void_stone_knuckle.setRotationPoint(-5.25F, -2.5F, -6.0F);
 		gauntlet_fist.addChild(void_stone_knuckle);
-		void_stone_knuckle.setTextureOffset(0, 0).addBox(0.0F, 0.5F, 0.0F, 1.0F, 4.0F, 4.0F, 0.0F, false);
+		void_stone_knuckle.setTextureOffset(48, 54).addBox(0.0F, 0.5F, 0.0F, 1.0F, 4.0F, 4.0F, 0.0F, false);
 
 		gauntlet_arm = new AdvancedModelBox(this);
 		gauntlet_arm.setRotationPoint(0.0F, 0.0F, 2.5F);
 		root.addChild(gauntlet_arm);
-		gauntlet_arm.setTextureOffset(0, 22).addBox(-4.0F, -4.0F, 0.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+		gauntlet_arm.setTextureOffset(26, 38).addBox(-4.0F, -4.0F, 0.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
 		gauntlet_arm2 = new AdvancedModelBox(this);
 		gauntlet_arm2.setRotationPoint(0.0F, 0.0F, -3.5F);
 		root.addChild(gauntlet_arm2);
-		gauntlet_arm2.setTextureOffset(34, 16).addBox(-4.0F, -4.0F, 0.0F, 6.0F, 8.0F, 6.0F, 0.0F, false);
+		gauntlet_arm2.setTextureOffset(0, 45).addBox(-4.0F, -4.0F, 0.0F, 6.0F, 8.0F, 6.0F, 0.0F, false);
 
 		gauntlet_shoulder = new AdvancedModelBox(this);
 		gauntlet_shoulder.setRotationPoint(2.0F, 0.0F, 9.0F);
 		gauntlet_arm2.addChild(gauntlet_shoulder);
 		setRotationAngle(gauntlet_shoulder, 0.0F, 0.6109F, 0.0F);
 		gauntlet_shoulder.setTextureOffset(0, 0).addBox(-8.0F, -5.0F, -6.0F, 8.0F, 10.0F, 12.0F, 0.0F, false);
+		gauntlet_shoulder.setTextureOffset(40, 0).addBox(-9.0F, -6.0F, -7.0F, 9.0F, 12.0F, 3.0F, 0.0F, false);
+		gauntlet_shoulder.setTextureOffset(0, 22).addBox(-2.0F, -6.0F, -4.0F, 2.0F, 12.0F, 11.0F, 0.0F, false);
 
 		big_void_stone = new AdvancedModelBox(this);
 		big_void_stone.setRotationPoint(-8.0F, 0.0F, -2.0F);
 		gauntlet_shoulder.addChild(big_void_stone);
 		setRotationAngle(big_void_stone, 0.0F, 0.6109F, 0.0F);
-		big_void_stone.setTextureOffset(28, 0).addBox(-8.0F, -2.0F, 0.0F, 8.0F, 4.0F, 4.0F, 0.0F, false);
+		big_void_stone.setTextureOffset(24, 54).addBox(-8.0F, -2.0F, 0.0F, 8.0F, 4.0F, 4.0F, 0.0F, false);
+
 	}
 
 	@Override
@@ -68,10 +71,7 @@ public class Gauntlet_of_Guard_Model extends AdvancedEntityModel<Entity> {
 		//previously the render function, render code was moved to a method below
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-		root.render(matrixStack, buffer, packedLight, packedOverlay);
-	}
+	
 
 	public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
 		AdvancedModelBox.rotateAngleX = x;

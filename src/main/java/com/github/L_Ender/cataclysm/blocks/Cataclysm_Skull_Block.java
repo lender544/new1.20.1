@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 
 public class Cataclysm_Skull_Block extends SkullBlock {
 
-    public Cataclysm_Skull_Block(Type p_56318_, BlockBehaviour.Properties p_56319_) {
+    public Cataclysm_Skull_Block(Type p_56318_, Properties p_56319_) {
         super(p_56318_, p_56319_);
     }
 
@@ -49,7 +49,7 @@ public class Cataclysm_Skull_Block extends SkullBlock {
         return null;
     }
 
-    public enum Types implements SkullBlock.Type {
+    public enum Types implements Type {
         KOBOLEDIATOR,
         APTRGANGR,
         DRAUGR

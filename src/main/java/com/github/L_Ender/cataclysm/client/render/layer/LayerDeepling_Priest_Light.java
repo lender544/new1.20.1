@@ -74,6 +74,7 @@ public class LayerDeepling_Priest_Light extends RenderLayer<Deepling_Priest_Enti
         p_114229_.vertex(p_114230_, 0.0F, p_114231_, 1.0F * p_114232_).color(51, 255, 255, 0).endVertex();
     }
 
+
     private void translateToLight(PoseStack matrixStack) {
         this.getParentModel().root.translateAndRotate(matrixStack);
         this.getParentModel().body.translateAndRotate(matrixStack);

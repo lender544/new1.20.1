@@ -3,10 +3,13 @@ package com.github.L_Ender.cataclysm.init;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.effects.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
+
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
 
 public class ModEffect {
 
@@ -36,4 +39,5 @@ public class ModEffect {
     public static final RegistryObject<MobEffect> EFFECTGHOST_SICKNESS = EFFECTS.register("ghost_sickness", EffectGhost_Sickness::new);
 
     public static final RegistryObject<MobEffect> EFFECTWETNESS = EFFECTS.register("wetness", EffectWetness::new);
+
 }

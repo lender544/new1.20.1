@@ -2,18 +2,18 @@ package com.github.L_Ender.cataclysm.entity.Deepling;
 
 import com.github.L_Ender.cataclysm.entity.AI.MobAIFindWater;
 import com.github.L_Ender.cataclysm.entity.AI.MobAILeaveWater;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Coralssus_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.path.GroundPathNavigatorWide;
 import com.github.L_Ender.cataclysm.entity.etc.ISemiAquatic;
 import com.github.L_Ender.cataclysm.entity.etc.path.SemiAquaticPathNavigator;
 import com.github.L_Ender.cataclysm.init.ModTag;
-import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -98,21 +98,23 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
             }
         }
 
-        boolean flag1 = this.canInFluidType(this.getEyeInFluidType());
 
-        if(flag1){
-            if(this.level().noCollision(this, this.getSwimmingBox())) {
-                if (!this.getDeeplingSwim()) {
-                    setDeeplingSwim(true);
+        boolean flag1 = this.canInFluidType(this.getEyeInFluidType());
+        if (this.level().isClientSide) {
+            if (flag1) {
+                if (this.level().noCollision(this, this.getSwimmingBox())) {
+                    if (!this.getDeeplingSwim()) {
+                        setDeeplingSwim(true);
+                    }
+                    refreshDimensions();
                 }
-                refreshDimensions();
-            }
-        }else{
-            if(this.level().noCollision(this, this.getNormalBox())) {
-                if (this.getDeeplingSwim()) {
-                    setDeeplingSwim(false);
+            } else {
+                if (this.level().noCollision(this, this.getNormalBox())) {
+                    if (this.getDeeplingSwim()) {
+                        setDeeplingSwim(false);
+                    }
+                    refreshDimensions();
                 }
-                refreshDimensions();
             }
         }
 
@@ -129,6 +131,7 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
         return type.canSwim(self());
     }
 
+
     public boolean isVisuallySwimming() {
         return this.getDeeplingSwim();
     }
@@ -143,6 +146,24 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
         }
     }
 
+
+    @Override
+    public boolean hurt(DamageSource source, float damage) {
+        if (source.is(DamageTypes.HOT_FLOOR) ) {
+            return false;
+        }
+
+        return super.hurt(source, damage);
+    }
+
+    public void onInsideBubbleColumn(boolean p_20322_) {
+
+    }
+
+    public void onAboveBubbleCol(boolean p_20313_) {
+
+    }
+
     public AABB getSwimmingBox() {
         return new AABB(this.getX()- 1.15f, this.getY(), this.getZ() -1.15f,  this.getX() + 1.15f, this.getY()+ 0.6F, this.getZ() + 1.15f);
     }
@@ -154,6 +175,8 @@ public class AbstractDeepling extends LLibrary_Monster implements ISemiAquatic,E
     public EntityDimensions getSwimmingSize() {
         return this.getType().getDimensions().scale(this.getScale());
     }
+
+
 
     public EntityDimensions getDimensions(Pose poseIn) {
         return this.getDeeplingSwim() ? getSwimmingSize() : super.getDimensions(poseIn);

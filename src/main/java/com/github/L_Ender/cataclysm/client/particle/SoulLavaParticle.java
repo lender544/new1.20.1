@@ -4,8 +4,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 public class SoulLavaParticle extends TextureSheetParticle {
     SoulLavaParticle(ClientLevel p_107074_, double p_107075_, double p_107076_, double p_107077_) {
@@ -47,7 +46,7 @@ public class SoulLavaParticle extends TextureSheetParticle {
 
     }
 
-    @OnlyIn(Dist.CLIENT)
+
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 

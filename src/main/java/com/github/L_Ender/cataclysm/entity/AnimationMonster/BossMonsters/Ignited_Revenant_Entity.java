@@ -1,9 +1,8 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AttackMoveGoal;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.LLibrary_Monster;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.projectile.Ashen_Breath_Entity;
@@ -21,10 +20,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
@@ -69,7 +65,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
         this.setMaxUpStep(1.5F);
         this.setPathfindingMalus(BlockPathTypes.UNPASSABLE_RAIL, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
-        setConfigattribute(this, CMConfig.RevenantHealthMultiplier, CMConfig.RevenantDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.IgnitedRevenant.healthMultiplier,CMCommonConfig.IgnitedRevenant.attackMultiplier);
     }
 
     @Override
@@ -100,6 +96,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0);
     }
 
+
     protected int decreaseAirSupply(int air) {
         return air;
     }
@@ -111,6 +108,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;
     }
+
 
 
     @Override
@@ -157,6 +155,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
         }
         return super.hurt(source, damage);
     }
+
 
     private boolean canBlockDamageSource(DamageSource damageSourceIn) {
         Entity entity = damageSourceIn.getDirectEntity();
@@ -368,7 +367,8 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
             mouthPos = mouthPos.yRot((float) Math.toRadians(-getYRot() - 90));
             mouthPos = mouthPos.add(position());
             mouthPos = mouthPos.add(new Vec3(0, 0, 0).xRot((float) Math.toRadians(-getXRot())).yRot((float) Math.toRadians(-yHeadRot)));
-            Ashen_Breath_Entity breath = new Ashen_Breath_Entity(ModEntities.ASHEN_BREATH.get(), Ignited_Revenant_Entity.this.level(), (float) CMConfig.Ashenbreathdamage,Ignited_Revenant_Entity.this);
+            
+            Ashen_Breath_Entity breath = new Ashen_Breath_Entity(ModEntities.ASHEN_BREATH.get(), Ignited_Revenant_Entity.this.level(), (float) CMCommonConfig.IgnitedRevenant.AshenbreathDamage,Ignited_Revenant_Entity.this);
             if (Ignited_Revenant_Entity.this.getAnimationTick() == 27) {
                 breath.absMoveTo(mouthPos.x, mouthPos.y, mouthPos.z, Ignited_Revenant_Entity.this.yHeadRot, Ignited_Revenant_Entity.this.getXRot());
                 Ignited_Revenant_Entity.this.level().addFreshEntity(breath);
@@ -442,7 +442,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
     }
 
     private void launchbone1() {
-        this.playSound(SoundEvents.TRIDENT_THROW, 1F, 0.75f);
+        this.playSound(SoundEvents.DROWNED_SHOOT, 1F, 0.75f);
         for (int i = 0; i < 8; i++) {
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
             float throwAngle = yawRadians + i * Mth.PI / 4F;
@@ -455,7 +455,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
             double vy = 0;
             double vz = Mth.sin(throwAngle);
 
-            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(), (float) CMConfig.BlazingBonedamage,this);
+            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(), (float) CMCommonConfig.IgnitedRevenant.BlazingBoneDamage,this);
 
             projectile.moveTo(sx, sy, sz, i * 45F, this.getXRot());
             float speed = 0.5F;
@@ -466,7 +466,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
     }
 
     private void launchbone2() {
-        this.playSound(SoundEvents.TRIDENT_THROW, 1F, 0.75f);
+        this.playSound(SoundEvents.DROWNED_SHOOT, 1F, 0.75f);
         for (int i = 0; i < 6; i++) {
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
             float throwAngle = yawRadians +  i * Mth.PI / 3F;
@@ -479,7 +479,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
             double vy = 0;
             double vz = Mth.sin(throwAngle);
 
-            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(), (float) CMConfig.BlazingBonedamage,this);
+            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(),(float) CMCommonConfig.IgnitedRevenant.BlazingBoneDamage,this);
 
             projectile.moveTo(sx, sy, sz, i * 60F, this.getXRot());
             float speed = 0.6F;
@@ -490,7 +490,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
     }
 
     private void launchbone3() {
-        this.playSound(SoundEvents.TRIDENT_THROW, 1F, 0.75f);
+        this.playSound(SoundEvents.DROWNED_SHOOT, 1F, 0.75f);
         for (int i = 0; i < 10; i++) {
             float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
             float throwAngle = yawRadians + i * Mth.PI / 5F;
@@ -503,7 +503,7 @@ public class Ignited_Revenant_Entity extends LLibrary_Boss_Monster {
             double vy = 0;
             double vz = Mth.sin(throwAngle);
 
-            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(), (float) CMConfig.BlazingBonedamage,this);
+            Blazing_Bone_Entity projectile = new Blazing_Bone_Entity(this.level(), (float) CMCommonConfig.IgnitedRevenant.BlazingBoneDamage,this);
 
             projectile.moveTo(sx, sy, sz, i * 36F, this.getXRot());
             float speed = 0.4F;

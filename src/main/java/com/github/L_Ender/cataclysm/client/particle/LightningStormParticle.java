@@ -1,18 +1,11 @@
 package com.github.L_Ender.cataclysm.client.particle;
 
-import com.github.L_Ender.cataclysm.init.ModParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,14 +13,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
-import java.util.Locale;
-
 public class LightningStormParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
 
-    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float size, SpriteSet spriteSet) {
+    protected LightningStormParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, float size,SpriteSet spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.sprites = spriteSet;
         this.setSpriteFromAge(this.sprites);
@@ -41,10 +32,10 @@ public class LightningStormParticle extends TextureSheetParticle {
     }
 
     public void tick() {
+       // this.setSpriteFromAge(this.sprites);
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-
 
         if (this.age++ >= this.lifetime) {
             this.remove();
@@ -108,68 +99,16 @@ public class LightningStormParticle extends TextureSheetParticle {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<LightningStormParticle.StormData> {
+    public static class Factory implements ParticleProvider<LightningStormParticleOptions> {
         private final SpriteSet spriteSet;
 
         public Factory(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
-        public Particle createParticle(LightningStormParticle.StormData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,typeIn.getSize(), spriteSet);
+        public Particle createParticle(LightningStormParticleOptions typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            LightningStormParticle particle = new LightningStormParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed,typeIn.size(), spriteSet);
             return particle;
-        }
-    }
-
-    public static class StormData implements ParticleOptions {
-        public static final Deserializer<LightningStormParticle.StormData> DESERIALIZER = new Deserializer<LightningStormParticle.StormData>() {
-            public LightningStormParticle.StormData fromCommand(ParticleType<LightningStormParticle.StormData> particleTypeIn, StringReader reader) throws CommandSyntaxException {
-                reader.expect(' ');
-                float size = reader.readFloat();
-
-                return new LightningStormParticle.StormData(size);
-            }
-
-            public LightningStormParticle.StormData fromNetwork(ParticleType<LightningStormParticle.StormData> particleTypeIn, FriendlyByteBuf buffer) {
-                return new LightningStormParticle.StormData(buffer.readFloat());
-            }
-        };
-
-        private final float size;
-
-        public StormData(float size) {
-            this.size = size;
-        }
-
-        @Override
-        public void writeToNetwork(FriendlyByteBuf buffer) {
-            buffer.writeFloat(this.size);
-        }
-
-        @Override
-        public String writeToString() {
-            return String.format(Locale.ROOT, "%s %.2f", BuiltInRegistries.PARTICLE_TYPE.getKey(this.getType()),
-                    this.size);
-        }
-
-        @Override
-        public ParticleType<LightningStormParticle.StormData> getType() {
-            return ModParticle.LIGHTNING_STORM.get();
-        }
-
-
-
-        @OnlyIn(Dist.CLIENT)
-        public float getSize() {
-            return this.size;
-        }
-
-
-        public static Codec<LightningStormParticle.StormData> CODEC(ParticleType<LightningStormParticle.StormData> particleType) {
-            return RecordCodecBuilder.create((codecBuilder) -> codecBuilder.group(
-                            Codec.FLOAT.fieldOf("size").forGetter(LightningStormParticle.StormData::getSize)
-                    ).apply(codecBuilder, LightningStormParticle.StormData::new)
-            );
         }
     }
 }

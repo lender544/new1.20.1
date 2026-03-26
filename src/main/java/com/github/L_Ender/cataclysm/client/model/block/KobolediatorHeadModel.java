@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModelBase;
+import net.minecraft.client.model.dragon.DragonHeadModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -47,7 +48,6 @@ public class KobolediatorHeadModel extends SkullModelBase {
 
         return LayerDefinition.create(meshdefinition, 256, 256);
     }
-
 
     public void setupAnim(float p_104188_, float p_104189_, float p_104190_) {
         this.jaw.xRot = (float)(Math.sin((double)(p_104188_ * (float)Math.PI * 0.2F)) + 1.0D) * 0.2F;

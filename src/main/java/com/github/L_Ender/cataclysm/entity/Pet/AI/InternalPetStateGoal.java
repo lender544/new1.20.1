@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.Pet.AI;
 
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Internal_Animation_Monster;
 import com.github.L_Ender.cataclysm.entity.Pet.InternalAnimationPet;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;

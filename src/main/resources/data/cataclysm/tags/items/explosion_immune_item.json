@@ -6,6 +6,7 @@
     "cataclysm:void_core",
     "cataclysm:infernal_forge",
     "cataclysm:void_forge",
+    "cataclysm:brontes",
     "cataclysm:ignitium_helmet",
     "cataclysm:ignitium_chestplate",
     "cataclysm:ignitium_elytra_chestplate",
@@ -48,10 +49,9 @@
     "cataclysm:modern_remnant_bucket",
     "cataclysm:soul_render",
     "cataclysm:the_annihilator",
-    "cataclysm:cursed_bow",
     "cataclysm:astrape",
     "cataclysm:ceraunus",
-    "cataclysm:lava_power_cell",
+    "cataclysm:cursed_bow",
     "cataclysm:netherite_ministrosity_bucket",
     "cataclysm:strange_key"
   ]

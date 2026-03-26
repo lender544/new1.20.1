@@ -1,12 +1,11 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.particle.Options.Cursed_MarkParticleOption;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -53,6 +51,7 @@ public class Phantom_Halberd_Entity extends Entity {
         this.setDamage(damage);
         this.setPos(x, y, z);
     }
+
 
 
     protected void defineSynchedData() {
@@ -152,7 +151,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
-        this.setDamage(compound.getFloat("damage"));
+
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
@@ -160,7 +159,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
-        compound.putFloat("damage", this.getDamage());
+
     }
 
     /**
@@ -172,18 +171,25 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.level().isClientSide) {
             if (this.clientSideAttackStarted) {
                 ++this.lifeTicks;
-                if (this.lifeTicks == 61  || this.lifeTicks == 57|| this.lifeTicks == 65) {
-                        double d0 = this.getX();
-                        double d1 = this.getY() + 0.5D + this.random.nextDouble();
-                        double d2 = this.getZ();
-                        double d3 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.15D;
-                        double d4 = 0.15D + this.random.nextDouble() * 0.15D;
-                        double d5 = (this.random.nextDouble() * 2.0D - 1.0D) * 0.15D;
-                        this.level().addParticle(ModParticle.CURSED_FLAME.get(), d0, d1 + 0.35D, d2, d3, d4, d5);
+                if (this.lifeTicks == 55) {
 
-                    }
+                    double d0 = (2.0F * random.nextFloat() - 1.0F) * 0.4D;
+                    double d1 = (2.0F * random.nextFloat() - 1.0F) * 0.4D ;
+                    double d2 = this.getX() + d0;
+                    double d3 = this.getY() + (double)random.nextFloat() * 2;
+                    double d4 = this.getZ() + d1;
+                    this.level().addParticle(ModParticle.PHANTOM_EMITTER.get(), d2, d3, d4, 0.0, 0.25D * random.nextDouble(), 0.0);
 
+                }
+                if (this.lifeTicks == 4) {
 
+                    double d0 = this.getX();
+                    double d1 = this.getY() + 0.1;
+                    double d2 = this.getZ();
+
+                    this.level().addParticle(new Cursed_MarkParticleOption(0.7F + this.random.nextFloat() * 0.3F), d0, d1, d2, 0, 0, 0);
+
+                }
             }
         } else if (--this.warmupDelayTicks < 0) {
             if (this.warmupDelayTicks == -10) {
@@ -250,10 +256,5 @@ public class Phantom_Halberd_Entity extends Entity {
             int i = this.lifeTicks - 2;
             return i <= 0 ? 1.0F : 1.0F - ((float)i - p_36937_) / 20.0F;
         }
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

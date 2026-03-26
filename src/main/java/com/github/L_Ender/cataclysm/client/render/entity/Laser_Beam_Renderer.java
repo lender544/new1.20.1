@@ -8,7 +8,6 @@ import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -16,9 +15,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-
 
 public class Laser_Beam_Renderer extends EntityRenderer<Laser_Beam_Entity> {
 
@@ -41,7 +38,7 @@ public class Laser_Beam_Renderer extends EntityRenderer<Laser_Beam_Entity> {
         this.model.setupAnim(f, f1);
         VertexConsumer vertexconsumer = buffer.getBuffer(RENDER_TYPE_RED);
         //  this.model.setupAnim(f, f1);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
 
@@ -52,4 +49,3 @@ public class Laser_Beam_Renderer extends EntityRenderer<Laser_Beam_Entity> {
         return TEXTURE_RED;
     }
 }
-

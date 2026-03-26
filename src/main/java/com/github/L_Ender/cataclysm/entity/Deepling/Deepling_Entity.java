@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.ThrownCoral_Spear_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -8,6 +8,7 @@ import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -36,6 +37,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -45,7 +47,7 @@ public class Deepling_Entity extends AbstractDeepling {
     boolean searchingForLand;
     public static final Animation DEEPLING_TRIDENT_THROW = Animation.create(40);
     public static final Animation DEEPLING_MELEE = Animation.create(20);
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.15f, 0.6f, false);
+    private static final EntityDimensions SWIMMING_SIZE = EntityDimensions.fixed(1.15f, 0.6f);
     public Deepling_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.moveControl = new DeeplingMoveControl(this,2.0f);
@@ -110,8 +112,9 @@ public class Deepling_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMConfig.DeeplingSpawnRolls, this.getRandom(), spawnReasonIn) ;
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingSpawnRolls, this.getRandom(), spawnReasonIn) ;
     }
+
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34088_, DifficultyInstance p_34089_, MobSpawnType p_34090_, @Nullable SpawnGroupData p_34091_, @Nullable CompoundTag p_34092_) {
@@ -166,9 +169,6 @@ public class Deepling_Entity extends AbstractDeepling {
         }
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return sizeIn.height * 0.9F;
-    }
 
     boolean wantsToSwim() {
         if (this.searchingForLand) {
@@ -409,7 +409,6 @@ public class Deepling_Entity extends AbstractDeepling {
             this.mob = p_25552_;
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
-
 
         protected double getAttackReachSqr(LivingEntity p_25556_) {
             return (double)(this.mob.getBbWidth() * 2.5F * this.mob.getBbWidth() * 2.5F + p_25556_.getBbWidth());

@@ -3,11 +3,9 @@ package com.github.L_Ender.cataclysm.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 public class SandStormParticle extends TextureSheetParticle {
-
 
     protected SandStormParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, SpriteSet spriteSet, double xd, double yd, double zd) {
         super(level, xCoord, yCoord, zCoord, xd, yd, zd);
@@ -44,7 +42,7 @@ public class SandStormParticle extends TextureSheetParticle {
     }
 
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 

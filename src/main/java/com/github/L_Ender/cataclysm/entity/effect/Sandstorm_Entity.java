@@ -1,11 +1,8 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.StormParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ancient_Ancient_Remnant_Entity;
+import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.nbt.CompoundTag;
@@ -15,8 +12,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerEntity;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.players.OldUsersConverter;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
@@ -27,7 +24,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.UUID;
 
 public class Sandstorm_Entity extends Entity {
@@ -35,11 +31,10 @@ public class Sandstorm_Entity extends Entity {
     protected static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<Float> OFFSET = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Sandstorm_Entity.class, EntityDataSerializers.INT);
-
-    private LivingEntity caster;
-    private UUID casterUuid;
     public AnimationState SpawnAnimationState = new AnimationState();
     public AnimationState DespawnAnimationState = new AnimationState();
+    private LivingEntity caster;
+    private UUID casterUuid;
 
     public Sandstorm_Entity(EntityType<?> entityTypeIn, Level worldIn) {
         super(entityTypeIn, worldIn);
@@ -47,11 +42,11 @@ public class Sandstorm_Entity extends Entity {
 
     public Sandstorm_Entity(Level worldIn, double x, double y, double z, int lifespan, float offset, LivingEntity casterIn) {
         this(ModEntities.SANDSTORM.get(), worldIn);
-        this.setCaster(casterIn);
         this.setLifespan(lifespan);
         this.setPos(x, y, z);
         this.setState(1);
         this.setOffset(offset);
+        this.setCaster(casterIn);
     }
 
     @Override
@@ -69,12 +64,12 @@ public class Sandstorm_Entity extends Entity {
             float r = 0.89F + random.nextFloat() * ran;
             float g = 0.85f + random.nextFloat() * ran;
             float b = 0.69f + random.nextFloat() * ran * 1.5F;
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,2.75f + random.nextFloat() * 0.6f,3.75F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,2.5f + random.nextFloat() * 0.45f,3.0F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,2.25f + random.nextFloat() * 0.45f,2.25F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            //this.level().addParticle((new StormParticle.OrbData(r, g, b,2.0f + random.nextFloat() * 0.45f,2.0f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-           // this.level().addParticle((new StormParticle.OrbData(r, g, b,1.75f + random.nextFloat() * 0.45f,1.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-            this.level().addParticle((new StormParticle.OrbData(r, g, b,1.25f + random.nextFloat() * 0.45f,1.25f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new StormParticleOptions(r, g, b,2.75f + random.nextFloat() * 0.6f,3.75F + random.nextFloat() * 0.6f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new StormParticleOptions(r, g, b,2.5f + random.nextFloat() * 0.45f,3.0F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new StormParticleOptions(r, g, b,2.25f + random.nextFloat() * 0.45f,2.25F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            //this.level().addParticle((new StormParticleOptions(r, g, b,2.0f + random.nextFloat() * 0.45f,2.0f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+           // this.level().addParticle((new StormParticleOptions(r, g, b,1.75f + random.nextFloat() * 0.45f,1.75F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
+            this.level().addParticle((new StormParticleOptions(r, g, b,1.25f + random.nextFloat() * 0.45f,1.25f + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
 
 
             if(this.getState() == 1) {
@@ -90,11 +85,12 @@ public class Sandstorm_Entity extends Entity {
         }
 
         if (!this.isSilent() && level().isClientSide) {
-            Cataclysm.PROXY.playWorldSound(this, (byte) 2);
+           Cataclysm.PROXY.playWorldSound(this, (byte) 2);
         }
 
         for(LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(0.2D, 0.0D, 0.2D))) {
             damage(entity);
+
 
         }
 
@@ -111,7 +107,7 @@ public class Sandstorm_Entity extends Entity {
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
             if (this.tickCount % 3 == 0) {
                 if (livingentity == null) {
-                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), (float) CMConfig.Sandstormdamage);
+                    boolean flag =  Hitentity.hurt(this.damageSources().magic(), 7);
                     if(flag) {
                         MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
                         Hitentity.addEffect(effectinstance);
@@ -119,7 +115,7 @@ public class Sandstorm_Entity extends Entity {
                 } else {
                     if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
 
-                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), (float) CMConfig.Sandstormdamage);
+                        boolean flag = Hitentity.hurt(this.damageSources().indirectMagic(this, livingentity), 7);
                         if (flag) {
                             MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT.get(), 200, 0);
                             Hitentity.addEffect(effectinstance);
@@ -146,6 +142,7 @@ public class Sandstorm_Entity extends Entity {
         this.entityData.set(OFFSET, i);
     }
 
+
     public void setCaster(@Nullable LivingEntity p_190549_1_) {
         this.caster = p_190549_1_;
         this.casterUuid = p_190549_1_ == null ? null : p_190549_1_.getUUID();
@@ -167,7 +164,7 @@ public class Sandstorm_Entity extends Entity {
     protected void updateMotion() {
         LivingEntity owner = getCaster();
         if(owner !=null) {
-            if (owner instanceof Ancient_Ancient_Remnant_Entity || owner instanceof Ancient_Remnant_Entity) {
+            if ( owner instanceof Ancient_Remnant_Entity) {
                 Vec3 center = owner.position().add(0.0, 0, 0.0);
                 float radius = 8;
                 float speed = this.tickCount * 0.04f;
@@ -183,7 +180,6 @@ public class Sandstorm_Entity extends Entity {
                 Vec3 orbit = new Vec3(center.x + Math.cos((double) (speed + offset)) * (double) radius, center.y, center.z + Math.sin((double) (speed + offset)) * (double) radius);
                 this.moveTo(orbit);
             }
-
 
         }
     }

@@ -160,8 +160,5 @@ public class Ignited_Berserker_Model<T extends Ignited_Berserker_Entity> extends
 		return this.root;
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
+
 }

@@ -1,13 +1,14 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.registries.RegistryObject;
 
 public class BlockItemCMRender extends CMBlockItem {
 
-    public BlockItemCMRender(RegistryObject<Block> blockSupplier, Properties props) {
+    public BlockItemCMRender(RegistryObject<Block> blockSupplier, Item.Properties props) {
         super(blockSupplier, props);
     }
 

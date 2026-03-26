@@ -3,7 +3,9 @@
   "slots": [
     "head",
     "necklace",
-    "belt",
+    "rings",
+    "waist",
+    "talisman",
     "hands",
     "feet"
   ]

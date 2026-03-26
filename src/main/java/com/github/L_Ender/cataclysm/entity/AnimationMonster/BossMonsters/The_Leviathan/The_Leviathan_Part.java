@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
@@ -96,7 +97,6 @@ public class The_Leviathan_Part extends Cm_Part_Entity<The_Leviathan_Entity> {
     }
 
 
-
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         throw new UnsupportedOperationException();
     }
@@ -105,5 +105,4 @@ public class The_Leviathan_Part extends Cm_Part_Entity<The_Leviathan_Entity> {
     public EntityDimensions getDimensions(Pose poseIn) {
         return this.size;
     }
-
 }

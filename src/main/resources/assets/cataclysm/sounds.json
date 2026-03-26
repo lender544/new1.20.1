@@ -71,6 +71,14 @@
       }
     ]
   },
+  "guardianfistattack": {
+    "subtitle": "enderguardianattack.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/guardian_fist_attack"
+      }
+    ]
+  },
   "monstrositydeath": {
     "subtitle": "monstrositydeath.sub",
     "sounds": [
@@ -364,7 +372,7 @@
     "subtitle": "enderguardian_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/enderguardian_theme_disc"
+        "name": "cataclysm:music_disc/enderguardian_theme"
       }
     ]
   },
@@ -396,7 +404,7 @@
     "subtitle": "ignis_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/ignis_theme_disc"
+        "name": "cataclysm:music_disc/ignis_theme"
       }
     ]
   },
@@ -452,7 +460,7 @@
     "subtitle": "maledictus_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/maledictus_theme_disc"
+        "name": "cataclysm:music_disc/maledictus_theme"
       }
     ]
   },
@@ -468,7 +476,7 @@
     "subtitle": "scylla_music.sub",
     "sounds": [
       {
-        "name": "cataclysm:music_disc/scylla_theme_disc"
+        "name": "cataclysm:music_disc/scylla_theme"
       }
     ]
   },
@@ -1322,7 +1330,7 @@
     "subtitle": "maledictus_leap.sub",
     "sounds": [
       {
-        "name": "cataclysm:entity/maledictus_leap"
+        "name": "cataclysm:entity/maledictus_leap1"
       },
       {
         "name": "cataclysm:entity/maledictus_leap2"
@@ -1568,6 +1576,45 @@
       }
     ]
   },
+  "clawdian_hurt": {
+    "subtitle": "clawdian_hurt.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_hurt1",
+        "pitch": 0.8
+      },
+      {
+        "name": "cataclysm:entity/clawdian_hurt2",
+        "pitch": 0.8
+      },
+      {
+        "name": "cataclysm:entity/clawdian_hurt3",
+        "pitch": 0.8
+      }
+    ]
+  },
+  "clawdian_idle": {
+    "subtitle": "clawdian_idle.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_idle1"
+      },
+      {
+        "name": "cataclysm:entity/clawdian_idle2"
+      },
+      {
+        "name": "cataclysm:entity/clawdian_idle3"
+      }
+    ]
+  },
+  "clawdian_death": {
+    "subtitle": "clawdian_death.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/clawdian_death"
+      }
+    ]
+  },
   "scylla_death": {
     "subtitle": "scylla_death.sub",
     "sounds": [
@@ -1625,6 +1672,23 @@
         "name": "cataclysm:entity/super_lightning_strike",
         "volume": 1.0,
         "pitch": 1.0
+      }
+    ]
+  },
+  "explosion": {
+    "subtitle": "explosion.sub",
+    "sounds": [
+      {
+        "name": "cataclysm:entity/explosion_1"
+      },
+      {
+        "name": "cataclysm:entity/explosion_2"
+      },
+      {
+        "name": "cataclysm:entity/explosion_3"
+      },
+      {
+        "name": "cataclysm:entity/explosion_4"
       }
     ]
   },

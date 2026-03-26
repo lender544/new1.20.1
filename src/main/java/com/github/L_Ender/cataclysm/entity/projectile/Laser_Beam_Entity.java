@@ -1,20 +1,16 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerEntity;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -22,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
@@ -33,12 +28,8 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
-
 public class Laser_Beam_Entity extends Projectile {
-    public double xPower;
-    public double yPower;
-    public double zPower;
+    public double accelerationPower;
     private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Laser_Beam_Entity.class, EntityDataSerializers.FLOAT);
 
 
@@ -46,37 +37,26 @@ public class Laser_Beam_Entity extends Projectile {
         super(type, level);
     }
 
-    public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type, double getX, double gety, double getz, double p_36821_, double p_36822_, double p_36823_, Level level) {
+    public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type, double getX, double gety, double getz, Vec3 vec, Level level) {
         this(type, level);
         this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
         this.reapplyPosition();
-        double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
-        if (d0 != 0.0D) {
-            this.xPower = p_36821_ / d0 * 0.1D;
-            this.yPower = p_36822_ / d0 * 0.1D;
-            this.zPower = p_36823_ / d0 * 0.1D;
-        }
+        this.assignDirectionalMovement(vec, this.accelerationPower);
     }
 
-
-    public Laser_Beam_Entity(LivingEntity p_36827_, double p_36828_, double p_36829_, double p_36830_, Level p_36831_,float damage) {
-        this(ModEntities.LASER_BEAM.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), p_36828_, p_36829_, p_36830_, p_36831_);
+    public Laser_Beam_Entity(LivingEntity p_36827_, Vec3 vec3, Level p_36831_, float damage) {
+        this(ModEntities.LASER_BEAM.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), vec3, p_36831_);
         this.setOwner(p_36827_);
         this.setDamage(damage);
     }
 
-    public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type,LivingEntity p_36827_, double getX, double gety, double getz, double p_36821_, double p_36822_, double p_36823_,float damage, Level level) {
+    public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type, LivingEntity p_36827_, double getX, double gety, double getz, Vec3 vec3, float damage, Level level) {
         this(type, level);
         this.moveTo(getX, gety, getz, this.getYRot(), this.getXRot());
         this.setOwner(p_36827_);
         this.setDamage(damage);
         this.reapplyPosition();
-        double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
-        if (d0 != 0.0D) {
-            this.xPower = p_36821_ / d0 * 0.1D;
-            this.yPower = p_36822_ / d0 * 0.1D;
-            this.zPower = p_36823_ / d0 * 0.1D;
-        }
+        this.assignDirectionalMovement(vec3, this.accelerationPower);
 
     }
 
@@ -126,7 +106,7 @@ public class Laser_Beam_Entity extends Projectile {
             double d2 = this.getZ() + vec3.z;
             ProjectileUtil.rotateTowardsMovement(this, 1.0F);
             float f = this.getInertia();
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
+            this.setDeltaMovement(vec3.add(vec3.normalize().scale(this.accelerationPower)).scale((double)f));
             this.setPos(d0, d1, d2);
         } else {
             this.discard();
@@ -157,7 +137,7 @@ public class Laser_Beam_Entity extends Projectile {
         super.onHitBlock(p_37384_);
         if (!this.level().isClientSide) {
             Entity entity = this.getOwner();
-            if(CMConfig.HarbingerLightFire) {
+            if(CMCommonConfig.Harbinger.ignoreMobGriefing) {
                 BlockPos blockpos = p_37384_.getBlockPos().relative(p_37384_.getDirection());
                 if (this.level().isEmptyBlock(blockpos)) {
                     this.level().setBlockAndUpdate(blockpos, BaseFireBlock.getState(this.level(), blockpos));
@@ -202,23 +182,19 @@ public class Laser_Beam_Entity extends Projectile {
         return 1.0F;
     }
 
-    public void addAdditionalSaveData(CompoundTag p_36848_) {
-        super.addAdditionalSaveData(p_36848_);
-        p_36848_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putDouble("acceleration_power", this.accelerationPower);
     }
 
-    public void readAdditionalSaveData(CompoundTag p_36844_) {
-        super.readAdditionalSaveData(p_36844_);
-        if (p_36844_.contains("power", 9)) {
-            ListTag listtag = p_36844_.getList("power", 6);
-            if (listtag.size() == 3) {
-                this.xPower = listtag.getDouble(0);
-                this.yPower = listtag.getDouble(1);
-                this.zPower = listtag.getDouble(2);
-            }
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        if (compound.contains("acceleration_power", 6)) {
+            this.accelerationPower = compound.getDouble("acceleration_power");
         }
 
     }
+
 
 
     public boolean isPickable() {
@@ -238,28 +214,38 @@ public class Laser_Beam_Entity extends Projectile {
     }
 
 
+    @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         Entity entity = this.getOwner();
         int i = entity == null ? 0 : entity.getId();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.getType(), i, new Vec3(this.xPower, this.yPower, this.zPower), 0.0D);
+
+        return new ClientboundAddEntityPacket(
+                this.getId(),
+                this.getUUID(),
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                this.getXRot(),
+                this.getYRot(),
+                this.getType(),
+                i,
+                this.getDeltaMovement(),
+                0.0D
+        );
     }
+
 
 
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
         this.xRotO = this.getXRot();
         this.yRotO = this.getYRot();
-        double d0 = packet.getXa();
-        double d1 = packet.getYa();
-        double d2 = packet.getZa();
-        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        if (d3 != 0.0D) {
-            this.xPower = d0 / d3 * 0.1D;
-            this.yPower = d1 / d3 * 0.1D;
-            this.zPower = d2 / d3 * 0.1D;
-        }
     }
 
+    private void assignDirectionalMovement(Vec3 movement, double accelerationPower) {
+        this.setDeltaMovement(movement.normalize().scale(accelerationPower));
+        this.hasImpulse = true;
+    }
 }
 
 

@@ -31,7 +31,6 @@ public class Poison_Dart_Renderer extends EntityRenderer<Poison_Dart_Entity> {
     }
 
 
-
     public void render(Poison_Dart_Entity p_113839_, float p_113840_, float p_113841_, PoseStack p_113842_, MultiBufferSource p_113843_, int p_113844_) {
         p_113842_.pushPose();
         p_113842_.mulPose(Axis.YP.rotationDegrees(Mth.lerp(p_113841_, p_113839_.yRotO, p_113839_.getYRot()) - 90.0F));

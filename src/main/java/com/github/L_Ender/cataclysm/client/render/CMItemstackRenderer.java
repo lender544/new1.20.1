@@ -9,29 +9,26 @@ import com.github.L_Ender.cataclysm.client.model.item.*;
 import com.github.L_Ender.cataclysm.client.render.blockentity.Cataclysm_Skull_Block_Renderer;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
 import com.github.L_Ender.cataclysm.init.ModItems;
+import com.github.L_Ender.cataclysm.items.Ceraunus;
 import com.github.L_Ender.cataclysm.items.Cursed_bow;
 import com.github.L_Ender.cataclysm.items.Laser_Gatling;
 import com.github.L_Ender.cataclysm.items.Wrath_of_the_desert;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModelBase;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -40,7 +37,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+
 import java.util.Map;
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
@@ -55,10 +54,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Gauntlet_of_Guard_Model GAUNTLET_OF_GUARD_MODEL = new Gauntlet_of_Guard_Model();
     private static final Gauntlet_of_Bulwark_Model GAUNTLET_OF_BULWARK_MODEL = new Gauntlet_of_Bulwark_Model();
     private static final Gauntlet_of_Maelstrom_Model GAUNTLET_OF_MAELSTROM_MODEL = new Gauntlet_of_Maelstrom_Model();
-
     private static final Astrape_Model ASTRAPE_MODEL = new Astrape_Model();
     private static final Ceraunus_Item_Model CERAUNUS_MODEL = new Ceraunus_Item_Model();
-
+    private static final Brontes_Model BRONTES_MODEL = new Brontes_Model();
     private static final Incinerator_Model THE_INCINERATOR_MODEL = new Incinerator_Model();
     private static final Coral_Spear_Model CORAL_SPEAR_MODEL = new Coral_Spear_Model();
     private static final Coral_Bardiche_Model CORAL_BARDICHE_MODEL = new Coral_Bardiche_Model();
@@ -67,10 +65,12 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Altar_of_Amethyst_Model ALTAR_OF_AMETHYST_MODEL = new Altar_of_Amethyst_Model();
     private static final Altar_of_Abyss_Model ALTAR_OF_ABYSS_MODEL = new Altar_of_Abyss_Model();
     private static final Abyssal_Egg_Model ABYSSAL_MODEL = new Abyssal_Egg_Model();
-    private static final Boss_Respawn_Spawner_Model SPAWNER_MODEL = new Boss_Respawn_Spawner_Model();
     private static final Goddess_Statue_Model GODDESS_STATUE_MODEL = new Goddess_Statue_Model();
+    private static final Boss_Respawn_Spawner_Model SPAWNER_MODEL = new Boss_Respawn_Spawner_Model();
+
     private static final Wither_Assault_SHoulder_Weapon_Model WASW_MODEL = new Wither_Assault_SHoulder_Weapon_Model();
     private static final Void_Forge_Model VOID_FORGE_MODEL = new Void_Forge_Model();
+    private static final Infernal_Forge_Model INFERNAL_FORGE_MODEL = new Infernal_Forge_Model();
     private static final Tidal_Claws_Model TIDAL_CLAWS_MODEL = new Tidal_Claws_Model();
     private static final Meat_Shredder_Model MEAT_SHREDDER_MODEL = new Meat_Shredder_Model();
     private static final Laser_Gatling_Model LASER_GATLING_MODEL = new Laser_Gatling_Model();
@@ -103,18 +103,25 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final ResourceLocation CERAUNUS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/ceraunus.png");
 
-    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard.png");
+
+    private static final ResourceLocation GAUNTLET_OF_GUARD_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/new_gauntlet_of_guard.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom.png");
 
-    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark.png");
-    private static final ResourceLocation GAUNTLET_OF_GUARD_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_guard_layer.png");
-    private static final ResourceLocation GAUNTLET_OF_BULWARK_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_bulwark_layer.png");
+    private static final ResourceLocation GAUNTLET_OF_BULWARK_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/new_gauntlet_of_bulwark.png");
+    private static final ResourceLocation GAUNTLET_OF_GUARD_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/new_gauntlet_of_guard_layer.png");
+    private static final ResourceLocation GAUNTLET_OF_BULWARK_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/new_gauntlet_of_bulwark_layer.png");
     private static final ResourceLocation GAUNTLET_OF_MAELSTROM_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/gauntlet_of_maelstrom_layer.png");
-
 
     private static final ResourceLocation THE_INCINERATOR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/the_incinerator.png");
     private static final ResourceLocation VOID_FORGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge.png");
     private static final ResourceLocation VOID_FORGE_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_forge_layer.png");
+
+    private static final ResourceLocation INFERNAL_FORGE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/infernal_forge.png");
+    private static final ResourceLocation INFERNAL_FORGE_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/infernal_forge_layer.png");
+
+    private static final ResourceLocation BRONTES_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/brontes.png");
+    private static final ResourceLocation BRONTES_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/brontes_layer.png");
+
     private static final ResourceLocation TIDAL_CLAWS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/tidal_claws.png");
     private static final ResourceLocation MEAT_SHREDDER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/meat_shredder.png");
     private static final ResourceLocation MEAT_SHREDDER_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/meat_shredder_layer.png");
@@ -126,21 +133,20 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation ALTAR_OF_ABYSS_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_abyss.png");
     private static final ResourceLocation ABYSSAL_EGG_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg.png");
     private static final ResourceLocation ABYSSAL_EGG_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/abyssal_egg_layer.png");
-    private static final ResourceLocation STATUE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/goddess_statue.png");
-
-
     private static final ResourceLocation MIF_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/mechanical_fusion_anvil.png");
     private static final ResourceLocation WASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon.png");
     private static final ResourceLocation WASW_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/wither_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation VASW_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon.png");
     private static final ResourceLocation VASW_LAYER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/void_assualt_shoulder_weapon_layer.png");
     private static final ResourceLocation EMP_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/emp.png");
+    private static final ResourceLocation STATUE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/goddess_statue.png");
+    private static final ResourceLocation SPAWNER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/boss_respawner.png");
     private static final ResourceLocation[] TEXTURE_FIRE_PROGRESS = new ResourceLocation[8];
+    private static final ResourceLocation[] TEXTURE_LIGHTNING_PROGRESS = new ResourceLocation[6];
     private static final ResourceLocation CORAL_SPEAR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_spear.png");
     private static final ResourceLocation CORAL_BARDICHE_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/entity/coral_bardiche.png");
     private static final ResourceLocation ANCIENT_SPEAR_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/item/ancient_spear.png");
-    private static final ResourceLocation SPAWNER_TEXTURE = new ResourceLocation(Cataclysm.MODID,"textures/block/boss_respawner.png");
-
+    
     private Map<Cataclysm_Skull_Block.Type, SkullModelBase> skullModels = Cataclysm_Skull_Block_Renderer.createSkullRenderers(Minecraft.getInstance().getEntityModels());
 
     public static final Map<Cataclysm_Skull_Block.Type, ResourceLocation> SKIN_BY_TYPE = Util.make(Maps.newHashMap(), (p_261388_) -> {
@@ -149,12 +155,12 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         p_261388_.put(Cataclysm_Skull_Block.Types.DRAUGR, new ResourceLocation(Cataclysm.MODID,"textures/entity/draugar/draugr.png"));
     });
 
+
     public CMItemstackRenderer() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
         for(int i = 0; i < 8; i++){
             TEXTURE_FIRE_PROGRESS[i] = new ResourceLocation(Cataclysm.MODID,"textures/block/altar_of_fire/altarfire_" + i + ".png");
         }
-
     }
 
     @Override
@@ -195,25 +201,24 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BULWARK_OF_THE_FLAME_TEXTURE), false, itemStackIn.hasFoil());
-            BULWARK_OF_THE_FLAME_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BULWARK_OF_THE_FLAME_TEXTURE), false,itemStackIn.hasFoil());
+            BULWARK_OF_THE_FLAME_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.BLACK_STEEL_TARGE.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BLACK_STEEL_TARGE_TEXTURE), false, itemStackIn.hasFoil());
-            BLACK_STEEL_TARGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(BLACK_STEEL_TARGE_TEXTURE), false,itemStackIn.hasFoil());
+            BLACK_STEEL_TARGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.AZURE_SEA_SHIELD.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(AZURE_SEA_SHIELD_TEXTURE), false, itemStackIn.hasFoil());
-            AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(AZURE_SEA_SHIELD_TEXTURE), false,itemStackIn.hasFoil());
+            AZURE_SEA_SHIELD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
         if (itemStackIn.getItem() == ModItems.ASTRAPE.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
@@ -227,8 +232,9 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(CERAUNUS_TEXTURE),false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.entityCutoutNoCull(CERAUNUS_TEXTURE), false,itemStackIn.hasFoil());
             CERAUNUS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+
             matrixStackIn.popPose();
         }
 
@@ -236,75 +242,74 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_GUARD_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_GUARD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_GUARD_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_GUARD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_GUARD_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_GUARD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_GUARD_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_GUARD_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_BULWARK.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_BULWARK_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_BULWARK_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_BULWARK_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_BULWARK_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_BULWARK_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_BULWARK_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_BULWARK_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_BULWARK_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.GAUNTLET_OF_MAELSTROM.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_MAELSTROM_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_MAELSTROM_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_MAELSTROM_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            GAUNTLET_OF_MAELSTROM_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(GAUNTLET_OF_MAELSTROM_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_MAELSTROM_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(GAUNTLET_OF_MAELSTROM_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            GAUNTLET_OF_MAELSTROM_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
         if (itemStackIn.getItem() == ModItems.THE_INCINERATOR.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_INCINERATOR_TEXTURE), false, itemStackIn.hasFoil());
-            THE_INCINERATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_INCINERATOR_TEXTURE), false,itemStackIn.hasFoil());
+            THE_INCINERATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.WITHER_ASSULT_SHOULDER_WEAPON.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(WASW_TEXTURE), false, itemStackIn.hasFoil());
-            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(WASW_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(WASW_TEXTURE), false,itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(WASW_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.VOID_ASSULT_SHOULDER_WEAPON.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VASW_TEXTURE), false, itemStackIn.hasFoil());
-            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VASW_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VASW_TEXTURE), false,itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VASW_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            WASW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
         if (itemStackIn.getItem() == ModItems.CORAL_SPEAR.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CORAL_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
-            CORAL_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CORAL_SPEAR_TEXTURE), false,itemStackIn.hasFoil());
+            CORAL_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
         if (itemStackIn.getItem() == ModItems.CORAL_BARDICHE.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CORAL_BARDICHE_TEXTURE), false, itemStackIn.hasFoil());
-            CORAL_BARDICHE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CORAL_BARDICHE_TEXTURE), false,itemStackIn.hasFoil());
+            CORAL_BARDICHE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
@@ -312,30 +317,52 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VOID_FORGE_TEXTURE), false, itemStackIn.hasFoil());
-            VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VOID_FORGE_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(VOID_FORGE_TEXTURE), false,itemStackIn.hasFoil());
+            VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(VOID_FORGE_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            VOID_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
 
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.getItem() == ModItems.BRONTES.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(BRONTES_TEXTURE), false,itemStackIn.hasFoil());
+            BRONTES_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, OverlayTexture.NO_OVERLAY,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(BRONTES_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            BRONTES_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+
+            matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.getItem() == ModItems.INFERNAL_FORGE.get()) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 0.5F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(INFERNAL_FORGE_TEXTURE), false,itemStackIn.hasFoil());
+            INFERNAL_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(INFERNAL_FORGE_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            INFERNAL_FORGE_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.getItem() == ModItems.TIDAL_CLAWS.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(TIDAL_CLAWS_TEXTURE), false, itemStackIn.hasFoil());
-            TIDAL_CLAWS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(TIDAL_CLAWS_TEXTURE), false,itemStackIn.hasFoil());
+            TIDAL_CLAWS_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
         if (itemStackIn.getItem() == ModItems.MEAT_SHREDDER.get()) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(MEAT_SHREDDER_TEXTURE), false, itemStackIn.hasFoil());
-            MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.CMEyes(MEAT_SHREDDER_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(MEAT_SHREDDER_TEXTURE), false,itemStackIn.hasFoil());
+            MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.CMEyes(MEAT_SHREDDER_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            MEAT_SHREDDER_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             MEAT_SHREDDER_MODEL.animateStack(itemStackIn);
             matrixStackIn.popPose();
         }
@@ -343,14 +370,14 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(LASER_GATLING_TEXTURE), false, itemStackIn.hasFoil());
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(LASER_GATLING_TEXTURE), false,itemStackIn.hasFoil());
             float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
             float openAmount = Minecraft.getInstance().player != null && Laser_Gatling.isCharged(itemStackIn) ? Minecraft.getInstance().player.tickCount + partialTick : 0;
 
             LASER_GATLING_MODEL.setupAnim(null, openAmount, 0, ageInTicks, 0, 0);
-            LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(LASER_GATLING_LAYER_TEXTURE), false, itemStackIn.hasFoil());
-            LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.eyes(LASER_GATLING_LAYER_TEXTURE), false,itemStackIn.hasFoil());
+            LASER_GATLING_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
 
             matrixStackIn.popPose();
         }
@@ -358,8 +385,8 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(ANCIENT_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
-            ANCIENT_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(ANCIENT_SPEAR_TEXTURE), false,itemStackIn.hasFoil());
+            ANCIENT_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
@@ -371,10 +398,10 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 0.5f, 0.5f);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             CURSED_BOW_MODEL.setupAnim(null, pullAmount, ageInTicks,  0, 0, 0);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CURSED_BOW_TEXTURE), false, itemStackIn.hasFoil());
-            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(CURSED_BOW_GHOST_TEXTURE), false, itemStackIn.hasFoil());
-            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(CURSED_BOW_TEXTURE), false,itemStackIn.hasFoil());
+            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(CURSED_BOW_GHOST_TEXTURE), false,itemStackIn.hasFoil());
+            CURSED_BOW_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
 
             matrixStackIn.popPose();
         }
@@ -387,22 +414,21 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 0.5f, 0.5f);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             WRATH_OF_DESERT_MODEL.setupAnim(null, pullAmount, ageInTicks,  ageInTicks, 0, 0);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(WRATH_OF_DESERT_TEXTURE), false, itemStackIn.hasFoil());
-            WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(WRATH_OF_DESERT_GHOST_TEXTURE), false, itemStackIn.hasFoil());
-            WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(WRATH_OF_DESERT_TEXTURE), false,itemStackIn.hasFoil());
+            WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(WRATH_OF_DESERT_GHOST_TEXTURE), false,itemStackIn.hasFoil());
+            WRATH_OF_DESERT_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
 
         if (itemStackIn.is(ModItems.SOUL_RENDER.get())) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5f, 0.5f);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(SOUL_RENDER_TEXTURE), false, itemStackIn.hasFoil());
-            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(SOUL_RENDER_GHOST_TEXTURE), false, itemStackIn.hasFoil());
-            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(SOUL_RENDER_TEXTURE), false,itemStackIn.hasFoil());
+            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(SOUL_RENDER_GHOST_TEXTURE), false,itemStackIn.hasFoil());
+            SOUL_RENDER.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
 
@@ -410,30 +436,29 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5f, 0.5f);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_ANNIHILATOR_TEXTURE), false, itemStackIn.hasFoil());
-            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_ANNIHILATOR_GHOST_TEXTURE), false, itemStackIn.hasFoil());
-            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_ANNIHILATOR_TEXTURE), false,itemStackIn.hasFoil());
+            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_ANNIHILATOR_GHOST_TEXTURE), false,itemStackIn.hasFoil());
+            THE_ANNIHILATOR.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if (itemStackIn.is(ModItems.THE_IMMOLATOR.get())) {
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 0.5f, 0.5f);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_IMMOLATOR_TEXTURE), false, itemStackIn.hasFoil());
-            THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_IMMOLATOR_GHOST_TEXTURE), false, itemStackIn.hasFoil());
-            THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(THE_IMMOLATOR_TEXTURE), false,itemStackIn.hasFoil());
+            THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, CMRenderTypes.getGhost(THE_IMMOLATOR_GHOST_TEXTURE), false,itemStackIn.hasFoil());
+            THE_IMMOLATOR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer2, combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_FIRE.get().asItem()){
             matrixStackIn.pushPose();
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ALTAR_OF_FIRE_MODEL.resetToDefaultPose();
-            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_FIRE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.eyes(getIdleTexture((int) ((tick * 0.5F) % 7)))), 210, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_FIRE_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            ALTAR_OF_FIRE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getIdleTexture((int) ((tick * 0.5F) % 7)))), combinedLightIn, OverlayTexture.NO_OVERLAY,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_VOID.get().asItem()){
@@ -441,7 +466,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);;
             ALTAR_OF_VOID_MODEL.resetToDefaultPose();
-            ALTAR_OF_VOID_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_VOID_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            ALTAR_OF_VOID_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_VOID_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_AMETHYST.get().asItem()){
@@ -449,7 +474,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ALTAR_OF_AMETHYST_MODEL.resetToDefaultPose();
-            ALTAR_OF_AMETHYST_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_AMETHYST_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            ALTAR_OF_AMETHYST_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_AMETHYST_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ALTAR_OF_ABYSS.get().asItem()){
@@ -457,7 +482,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ALTAR_OF_ABYSS_MODEL.resetToDefaultPose();
-            ALTAR_OF_ABYSS_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_ABYSS_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            ALTAR_OF_ABYSS_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ALTAR_OF_ABYSS_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.EMP.get().asItem()){
@@ -465,7 +490,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             EMP_MODEL.resetToDefaultPose();
-            EMP_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(EMP_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            EMP_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(EMP_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.MECHANICAL_FUSION_ANVIL.get().asItem()){
@@ -473,7 +498,7 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             MF_MODEL.resetToDefaultPose();
-            MF_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(MIF_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            MF_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(MIF_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.ABYSSAL_EGG.get().asItem()){
@@ -481,16 +506,8 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             ABYSSAL_MODEL.resetToDefaultPose();
-            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ABYSSAL_EGG_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGhost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            matrixStackIn.popPose();
-        }
-        if(itemStackIn.getItem() == ModBlocks.BOSS_RESPAWNER.get().asItem()){
-            matrixStackIn.pushPose();
-            matrixStackIn.translate(0.5F, 1.50F, 0.5F);
-            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
-            SPAWNER_MODEL.resetToDefaultPose();
-            SPAWNER_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(SPAWNER_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(ABYSSAL_EGG_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            ABYSSAL_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(CMRenderTypes.getGhost(ABYSSAL_EGG_LAYER_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
         if(itemStackIn.getItem() == ModBlocks.GODDESS_STATUE.get().asItem()){
@@ -498,29 +515,19 @@ public class CMItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             matrixStackIn.translate(0.5F, 1.50F, 0.5F);
             matrixStackIn.scale(1.0F, -1.0F, -1.0F);
             GODDESS_STATUE_MODEL.resetToDefaultPose();
-            GODDESS_STATUE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(STATUE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            GODDESS_STATUE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(STATUE_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
             matrixStackIn.popPose();
         }
-
-    }
-
-    private void renderMapHand(PoseStack poseStack, MultiBufferSource bufferSource, int i, HumanoidArm humanoidArm) {
-        RenderSystem.setShaderTexture(0, Minecraft.getInstance().player.getSkinTextureLocation());
-        PlayerRenderer playerrenderer = (PlayerRenderer)Minecraft.getInstance().getEntityRenderDispatcher().<AbstractClientPlayer>getRenderer(Minecraft.getInstance().player);
-        poseStack.pushPose();
-        float f = humanoidArm == HumanoidArm.RIGHT ? 1.0F : -1.0F;
-        poseStack.mulPose(Axis.YP.rotationDegrees(92.0F));
-        poseStack.mulPose(Axis.XP.rotationDegrees(45.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(f * -41.0F));
-        poseStack.translate(f * 0.3F, -1.1F, 0.45F);
-        if (humanoidArm == HumanoidArm.RIGHT) {
-            playerrenderer.renderRightHand(poseStack, bufferSource, i, Minecraft.getInstance().player);
-        } else {
-            playerrenderer.renderLeftHand(poseStack, bufferSource, i, Minecraft.getInstance().player);
+        if(itemStackIn.getItem() == ModBlocks.BOSS_RESPAWNER.get().asItem()){
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 1.50F, 0.5F);
+            matrixStackIn.scale(1.0F, -1.0F, -1.0F);
+            SPAWNER_MODEL.resetToDefaultPose();
+            SPAWNER_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(SPAWNER_TEXTURE)), combinedLightIn, combinedOverlayIn,1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
         }
-
-        poseStack.popPose();
     }
+    
 
 
     private ResourceLocation getIdleTexture(int age) {

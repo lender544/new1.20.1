@@ -44,10 +44,6 @@ public class Mini_Abyss_Blast_Renderer extends EntityRenderer<Mini_Abyss_Blast_E
     }
 
 
-    public boolean shouldRender(Mini_Abyss_Blast_Entity solarBeam, Frustum camera, double camX, double camY, double camZ) {
-        return true;
-    }
-
     @Override
     public void render(Mini_Abyss_Blast_Entity solarBeam, float entityYaw, float delta, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         clearerView = solarBeam.caster instanceof Player && Minecraft.getInstance().player == solarBeam.caster && Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON;
@@ -66,7 +62,7 @@ public class Mini_Abyss_Blast_Renderer extends EntityRenderer<Mini_Abyss_Blast_E
         if (frame < 0) {
             frame = 6;
         }
-      VertexConsumer ivertexbuilder = bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getTextureLocation(solarBeam)));
+        VertexConsumer ivertexbuilder = bufferIn.getBuffer(CMRenderTypes.getGlowingEffect(getTextureLocation(solarBeam)));
 
         renderBeam(length, 180f / (float) Math.PI * yaw, 180f / (float) Math.PI * pitch, frame, matrixStackIn, ivertexbuilder, packedLightIn);
 

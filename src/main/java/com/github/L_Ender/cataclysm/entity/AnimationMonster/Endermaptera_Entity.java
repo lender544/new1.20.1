@@ -36,10 +36,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
+
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
 
 public class Endermaptera_Entity extends Monster implements IAnimatedEntity {
     public static final ResourceLocation HAS_JAWS_LOOT = new ResourceLocation("cataclysm", "entities/endermaptera_has_jaws");

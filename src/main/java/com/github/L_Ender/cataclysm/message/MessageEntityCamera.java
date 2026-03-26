@@ -1,13 +1,10 @@
 package com.github.L_Ender.cataclysm.message;
 
-import com.github.L_Ender.cataclysm.capabilities.HookCapability;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.init.ModCapabilities;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -42,14 +39,14 @@ public class MessageEntityCamera {
 				Entity entity = Minecraft.getInstance().level.getEntity(message.entityID);
 				if (entity instanceof Player player) {
 					if (message.firstperson) {
-						if (CMConfig.setFirstPerson) {
+						if (CMClientConfig.firstPerson) {
 							if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
 								Minecraft.getInstance().setCameraEntity(entity);
 								Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
 							}
 						}
 					}else {
-						if (CMConfig.setThirdPerson) {
+						if (CMClientConfig.thirdPerson) {
 							if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
 								Minecraft.getInstance().setCameraEntity(entity);
 								Minecraft.getInstance().options.setCameraType(CameraType.THIRD_PERSON_BACK);

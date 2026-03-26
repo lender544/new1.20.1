@@ -42,6 +42,7 @@ public class Flare_Bomb_Model extends HierarchicalModel<Flare_Bomb_Entity> {
 	@Override
 	public void setupAnim(Flare_Bomb_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		float delta = ageInTicks - entity.tickCount;
+		this.root().getAllParts().forEach(ModelPart::resetPose);
 		Vec3 prevV = new Vec3(entity.prevDeltaMovementX, entity.prevDeltaMovementY, entity.prevDeltaMovementZ);
 		Vec3 dv = prevV.add(entity.getDeltaMovement().subtract(prevV).scale(delta));
 		double d = Math.sqrt(dv.x * dv.x + dv.y * dv.y + dv.z * dv.z);
@@ -69,8 +70,4 @@ public class Flare_Bomb_Model extends HierarchicalModel<Flare_Bomb_Entity> {
 	}
 
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-	}
 }

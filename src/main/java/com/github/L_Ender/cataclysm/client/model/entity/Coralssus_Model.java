@@ -206,7 +206,7 @@ public class Coralssus_Model extends AdvancedEntityModel<Coralssus_Entity> {
 	public void setupAnim(Coralssus_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.resetToDefaultPose();
 		this.faceTarget(netHeadYaw, headPitch, 1, head);
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float swim = entity.getSwimAmount(partialTick);
 		float swimAmount = limbSwingAmount * swim;
 		if(entity.getAttackState() != 6 && entity.getAttackState() != 2 && entity.getAttackState() != 7) {

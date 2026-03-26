@@ -2,6 +2,7 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Tidal_Hook_Model;
+import com.github.L_Ender.cataclysm.entity.projectile.Player_Ceraunus_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Tidal_Hook_Entity;
 
 import com.github.L_Ender.cataclysm.init.ModItems;
@@ -11,6 +12,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -70,10 +73,21 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 			renderChainCube(chainTo.subtract(chainBase), matrices, chainBuffer, light, OverlayTexture.NO_OVERLAY);
 			matrices.popPose();
 		}
-
 	}
 
-
+	public boolean shouldRender(Tidal_Hook_Entity entity, Frustum camera, double camX, double camY, double camZ) {
+		if (super.shouldRender(entity, camera, camX, camY, camZ)) {
+			return true;
+		} else {
+			Entity weapon = entity.getOwner();
+			if (weapon != null) {
+				Vec3 vec3 = entity.position();
+				Vec3 vec31 = weapon.position();
+				return camera.isVisible(new AABB(vec31.x, vec31.y, vec31.z, vec3.x, vec3.y, vec3.z));
+			}
+			return false;
+		}
+	}
 
 	private Vec3 getPositionOfPriorMob(Entity mob, float partialTicks){
 		double d4 = Mth.lerp(partialTicks, mob.xo, mob.getX());
@@ -114,9 +128,6 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 		return new Vec3(d4, d5 + f3, d6);
 	}
 
-
-
-
 	//The old code was taken from https://github.com/CammiesCorner/Hookshot/blob/1.20.1/src/main/java/dev/cammiescorner/hookshot/client/entity/renderer/HookshotEntityRenderer.java#L64-L108
 	//This code was taken from https://github.com/AlexModGuy/AlexsCaves/blob/main/src/main/java/com/github/alexmodguy/alexscaves/client/render/entity/BoundroidWinchRenderer.java
 	public static void renderChainCube(Vec3 to, PoseStack poseStack, VertexConsumer buffer, int packedLightIn, int setOverlay) {
@@ -148,6 +159,7 @@ public class Tidal_Hook_Renderer extends EntityRenderer<Tidal_Hook_Entity> {
 		buffer.vertex(matrix4f, 0, chainLength + pixelSkip, chainOffset).color(255, 255, 255, 255).uv((float) chainWidth, (float) pixelSkip).overlayCoords(setOverlay).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
 		poseStack.popPose();
 	}
+
 
 	@Override
 	public ResourceLocation getTextureLocation(Tidal_Hook_Entity entity) {

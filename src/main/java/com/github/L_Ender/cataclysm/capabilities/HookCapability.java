@@ -6,7 +6,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -69,7 +68,7 @@ public class HookCapability {
         }
 
         public static class HookProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {
-            private final LazyOptional<IHookCapability> instance = LazyOptional.of(HookCapability.HookCapabilityImp::new);
+            private final LazyOptional<IHookCapability> instance = LazyOptional.of(HookCapabilityImp::new);
 
             @Override
             public CompoundTag serializeNBT() {

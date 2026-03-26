@@ -4,12 +4,11 @@ import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ender_G
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -54,16 +53,15 @@ public class AltarOfVoid_Block_Entity extends BlockEntity {
 
         if (entity != null) {
             entity.setPos(vec3);
-            entity.setUsedMassDestruction(false);
-            entity.setHomePos(pos);
             entity.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(worldPosition), MobSpawnType.SPAWNER, null, null);
-            ResourceLocation dimLoc = serverLevel.dimension().location();
-            entity.setDimensionType(dimLoc.toString());
+            entity.setUsedMassDestruction(false);
+            entity.setHomePos(GlobalPos.of(serverLevel.dimension(), pos));
 
             return serverLevel.addFreshEntity(entity);
         }
         return false;
     }
+
 
     protected int getRange() {
         return SHORT_RANGE;

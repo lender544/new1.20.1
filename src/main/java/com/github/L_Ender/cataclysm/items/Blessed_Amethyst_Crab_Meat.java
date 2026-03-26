@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class Blessed_Amethyst_Crab_Meat extends Item {
-    public Blessed_Amethyst_Crab_Meat(Item.Properties p_41170_) {
+    public Blessed_Amethyst_Crab_Meat(Properties p_41170_) {
         super(p_41170_);
     }
 

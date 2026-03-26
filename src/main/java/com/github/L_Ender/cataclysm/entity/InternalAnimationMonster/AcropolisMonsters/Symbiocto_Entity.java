@@ -99,11 +99,12 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
     @Override
     public void updateSwimming() {
         if (!this.level().isClientSide) {
-            if (this.isEffectiveAi() && this.isInWater() && this.wantsToSwim()) {
+            boolean inWaterAI = this.isEffectiveAi() && this.isInWater() && this.wantsToSwim();
+            if (inWaterAI && !(this.moveControl instanceof SymbioctoSwimControl)) {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new SymbioctoSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else {
+            } else if (!inWaterAI && (this.moveControl instanceof SymbioctoSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);
@@ -111,9 +112,6 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
         }
     }
 
-    protected int decreaseAirSupply(int air) {
-        return air;
-    }
 
     public AnimationState getAnimationState(String input) {
         if (input == "spit") {
@@ -131,15 +129,14 @@ public class Symbiocto_Entity extends Monster implements RangedAttackMob {
         return this.getVehicle() instanceof Drowned_Host_Entity;
     }
 
+    public double getMyRidingOffset() {
+        return 0.2D;
+    }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ATTACK_STATE, 0);
-    }
-
-    public double getMyRidingOffset() {
-        return 0.2D;
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {

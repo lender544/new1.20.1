@@ -108,11 +108,7 @@ public class Meat_Shredder_Model extends AdvancedEntityModel<Entity> {
         this.resetToDefaultPose();
     }
 
-    @Override
-    public void renderToBuffer(PoseStack matrixStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha){
-        root.render(matrixStack, buffer, packedLight, packedOverlay);
-    }
-
+    
     public void setRotationAngle(AdvancedModelBox AdvancedModelBox, float x, float y, float z) {
         AdvancedModelBox.rotateAngleX = x;
         AdvancedModelBox.rotateAngleY = y;
@@ -142,7 +138,7 @@ public class Meat_Shredder_Model extends AdvancedEntityModel<Entity> {
 
     public void animateStack(ItemStack itemStackIn) {
         this.resetToDefaultPose();
-        float partialTick = Minecraft.getInstance().getFrameTime();
+        float partialTick = Minecraft.getInstance().getPartialTick();
         float tick = Minecraft.getInstance().player == null ? 0 : partialTick + Minecraft.getInstance().player.tickCount;
         if(Minecraft.getInstance().isPaused()){
             tick = CMItemstackRenderer.ticksExisted;

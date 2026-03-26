@@ -10,6 +10,7 @@ import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
+
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
@@ -23,7 +24,7 @@ public class ModFishBucket extends MobBucketItem {
     public ModFishBucket(Supplier<? extends EntityType<?>> fishTypeIn, Fluid fluid, Properties builder) {
         super(fishTypeIn, () -> fluid, () -> SoundEvents.BUCKET_EMPTY_FISH, builder.stacksTo(1));
     }
-    
+
     @Override
     public void checkExtraContent(@Nullable Player player, Level level, ItemStack stack, BlockPos pos) {
         if (level instanceof ServerLevel) {
@@ -41,3 +42,4 @@ public class ModFishBucket extends MobBucketItem {
         }
     }
 }
+

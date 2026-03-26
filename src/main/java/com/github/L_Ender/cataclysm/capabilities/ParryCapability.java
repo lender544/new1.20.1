@@ -1,20 +1,10 @@
 package com.github.L_Ender.cataclysm.capabilities;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
@@ -68,7 +58,7 @@ public class ParryCapability {
         }
 
         public static class ParryProvider implements ICapabilityProvider, ICapabilitySerializable<CompoundTag> {
-            private final LazyOptional<ParryCapability.IParryCapability> instance = LazyOptional.of(ParryCapabilityImp::new);
+            private final LazyOptional<IParryCapability> instance = LazyOptional.of(ParryCapabilityImp::new);
 
             @Override
             public CompoundTag serializeNBT() {

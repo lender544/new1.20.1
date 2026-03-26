@@ -360,7 +360,7 @@ public class The_Baby_Leviathan_Model extends AdvancedEntityModel<The_Baby_Levia
 		AdvancedModelBox[] rt = new AdvancedModelBox[]{r_tentacle, r_tentacle};
 
 		AdvancedModelBox[] lt = new AdvancedModelBox[]{l_tentacle, l_tentacle2};
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float sitProgress = entityIn.prevSitProgress + (entityIn.sitProgress - entityIn.prevSitProgress) * partialTick;
 		float swimProgress = entityIn.prevSwimProgress + (entityIn.SwimProgress - entityIn.prevSwimProgress) * partialTick;
 

@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.projectile.Laser_Beam_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
@@ -9,6 +8,7 @@ import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import com.github.L_Ender.lionfishapi.server.animation.AnimationHandler;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -137,15 +137,17 @@ public class The_Watcher_Entity extends LLibrary_Monster {
                     double d3 = target.getX() - d0;
                     double d4 = target.getY() + target.getBbHeight() * 1 / 2 - d1;
                     double d5 = target.getZ() - d2;
-
                     Vec3 vec3 = new Vec3(d3, d4, d5);
-                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this, d3,d4,d5,this.level(),(float) CMConfig.HarbingerLaserdamage);
+                    Laser_Beam_Entity laserBeam = new Laser_Beam_Entity(this, vec3.normalize(),this.level(),7);
                     float yRot = (float) (Mth.atan2(vec3.z, vec3.x) * (180F / Math.PI)) + 90F;
+
+
+
                     float xRot = (float) -(Mth.atan2(vec3.y, Math.sqrt(vec3.x * vec3.x + vec3.z * vec3.z)) * (180F / Math.PI));
+
                     laserBeam.setYRot(yRot);
                     laserBeam.setXRot(xRot);
                     laserBeam.setPosRaw(d0, d1, d2);
-
                     this.level().addFreshEntity(laserBeam);
                 }
             }
@@ -180,7 +182,7 @@ public class The_Watcher_Entity extends LLibrary_Monster {
 
         public ShotPrepare(The_Watcher_Entity entity, Animation animation) {
             super(entity, animation);
-            this.setFlags(EnumSet.of(Flag.MOVE,Goal.Flag.JUMP, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
 
         }
 
@@ -216,7 +218,7 @@ public class The_Watcher_Entity extends LLibrary_Monster {
 
         public Shot(The_Watcher_Entity entity, Animation animation) {
             super(entity, animation);
-            this.setFlags(EnumSet.of(Flag.MOVE,Goal.Flag.JUMP, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
 
         }
 

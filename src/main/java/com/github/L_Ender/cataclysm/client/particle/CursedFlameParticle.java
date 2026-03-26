@@ -4,8 +4,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 public class CursedFlameParticle extends RisingParticle {
     CursedFlameParticle(ClientLevel p_106800_, double p_106801_, double p_106802_, double p_106803_, double p_106804_, double p_106805_, double p_106806_) {
@@ -40,7 +39,7 @@ public class CursedFlameParticle extends RisingParticle {
         return j | k << 16;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 
@@ -55,7 +54,7 @@ public class CursedFlameParticle extends RisingParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class SmallFlameProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 

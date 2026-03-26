@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "minecraft:ocean_monuments"
+    "minecraft:ocean_monuments",
+    "cataclysm:sunken_city",
+    "cataclysm:cursed_pyramid"
   ]
 }

@@ -2,38 +2,51 @@ package com.github.L_Ender.cataclysm.items;
 
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
+import com.github.L_Ender.cataclysm.util.AttributeUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.Enchantments;
+
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class void_forge extends PickaxeItem {
-    public void_forge(Tier toolMaterial, Properties props) {
+public class Void_forge extends PickaxeItem {
+
+    public Void_forge(Tier toolMaterial, Properties props) {
 
         super(toolMaterial, 8, -3.0f, props);
+    }
+
+
+
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return net.minecraftforge.common.ToolActions.DEFAULT_PICKAXE_ACTIONS.contains(toolAction);
     }
 
     @Override
@@ -55,11 +68,11 @@ public class void_forge extends PickaxeItem {
             Vec3 looking = player.getLookAngle();
             double headY = player.getY() + 1.0D;
             Vec3[] all = new Vec3[]{looking, looking.yRot(0.3f), looking.yRot(-0.3f), looking.yRot(0.6f), looking.yRot(-0.6f), looking.yRot(0.9f), looking.yRot(-0.9f)};
-            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.EXPLOSION.get(), SoundSource.PLAYERS, 1.5f, 1F / (player.getRandom().nextFloat() * 0.4F + 0.8F));
             ScreenShake_Entity.ScreenShake(world, player.position(), 30, 0.1f, 0, 30);
             for (Vec3 vector3d : all) {
                 float f = (float) Mth.atan2(vector3d.z, vector3d.x);
-                player.getCooldowns().addCooldown(this, CMConfig.VoidForgeCooldown);
+                player.getCooldowns().addCooldown(this, CMCommonConfig.VoidForge.cooldown);
                 for (int i = 0; i < 5; i++) {
                     double d2 = 1.75D * (double) (i + 1);
                     int j = 1 * i;
@@ -67,16 +80,12 @@ public class void_forge extends PickaxeItem {
                 }
             }
 
+
             return InteractionResult.SUCCESS;
         }
         return super.useOn(context);
     }
 
-
-    @Override
-    public void setDamage(ItemStack stack, int damage){
-        super.setDamage(stack, 0);
-    }
 
 
     @Override
@@ -87,17 +96,6 @@ public class void_forge extends PickaxeItem {
     @Override
     public boolean isValidRepairItem(ItemStack itemStack, ItemStack itemStackMaterial) {
         return false;
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return 16;
-    }
-
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category ==  EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE
-                || enchantment.category == EnchantmentCategory.DIGGER;
     }
 
     private boolean spawnFangs(double x, double y, double z, int lowestYCheck, float yRot, int warmupDelayTicks, Level world, Player player) {
@@ -125,7 +123,7 @@ public class void_forge extends PickaxeItem {
         } while (blockpos.getY() >= lowestYCheck);
 
         if (flag) {
-            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks,(float) CMConfig.Voidrunedamage, player));
+            world.addFreshEntity(new Void_Rune_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, (float) CMCommonConfig.VoidForge.runeDamage, player));
             return true;
         }
         return false;
@@ -138,6 +136,7 @@ public class void_forge extends PickaxeItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
         tooltip.add(Component.translatable("item.cataclysm.void_forge.desc").withStyle(ChatFormatting.DARK_GREEN));
         tooltip.add(Component.translatable("item.cataclysm.void_forge.desc2").withStyle(ChatFormatting.DARK_GREEN));
     }

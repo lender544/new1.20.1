@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
 
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,7 +38,6 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
     private int timer;
     private Vec3[] trailPositions = new Vec3[64];
     private int trailPointer = -1;
-
     public Ignis_Abyss_Fireball_Entity(EntityType<? extends Ignis_Abyss_Fireball_Entity> type, Level level) {
         super(type, level);
     }
@@ -102,7 +103,6 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
             this.trailPointer = 0;
         }
         this.trailPositions[this.trailPointer] = trailAt;
-
     }
 
     public void setUp(int delay) {
@@ -110,6 +110,7 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
         timer = delay;
     }
 
+    @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
         Entity shooter = this.getOwner();
@@ -126,7 +127,7 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
                 if (flag) {
                     this.doEnchantDamageEffects(owner, entity);
                     if(owner instanceof Ignis_Entity) {
-                        owner.heal(5.0F * (float) CMConfig.IgnisHealingMultiplier);
+                        owner.heal(5.0F * (float) CMCommonConfig.Ignis.HealingMultiplier);
                     }else{
                         owner.heal(5.0F);
                     }
@@ -211,6 +212,10 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
         if (hitresult$type == HitResult.Type.ENTITY) {
             this.onHitEntity((EntityHitResult)ray);
             this.level().gameEvent(GameEvent.PROJECTILE_LAND, ray.getLocation(), GameEvent.Context.of(this, (BlockState)null));
+            if (!this.level().isClientSide) {
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.MOB);
+                this.discard();
+            }
         } else if (hitresult$type == HitResult.Type.BLOCK) {
             BlockHitResult blockhitresult = (BlockHitResult)ray;
             this.onHitBlock(blockhitresult);
@@ -218,8 +223,6 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
             this.level().gameEvent(GameEvent.PROJECTILE_LAND, blockpos, GameEvent.Context.of(this, this.level().getBlockState(blockpos)));
         }
     }
-
-
     public Vec3 getTrailPosition(int pointer, float partialTick) {
         if (this.isRemoved()) {
             partialTick = 1.0F;
@@ -269,6 +272,14 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
 
     public boolean getFired() {
         return this.entityData.get(FIRED);
+    }
+
+    public boolean isPickable() {
+        return true;
+    }
+
+    public float getPickRadius() {
+        return 1.0F;
     }
 
     @Override

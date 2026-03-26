@@ -1,13 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.effect;
 
-import com.github.L_Ender.cataclysm.client.particle.Custom_Poof_Particle;
+import com.github.L_Ender.cataclysm.client.particle.Options.CustomPoofParticleOptions;
+import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModSounds;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -63,7 +62,7 @@ public class Wave_Entity extends Entity {
         this.setLifespan(0);
     }
 
-    public float getStepHeight() {
+    public float maxUpStep() {
         return 2.0F;
     }
 
@@ -82,11 +81,6 @@ public class Wave_Entity extends Entity {
         }
 
         return this.owner;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
     }
 
 
@@ -255,7 +249,7 @@ public class Wave_Entity extends Entity {
                     for (int i = 0; i < 2; i++) {
                         float xOffset = (float) (i - 1) / 2.0F + 0.25F + (random.nextFloat() - 0.5F) * 0.2F;
                         int rand = this.random.nextInt(20);
-                        spawnParticleAt((0.1F + random.nextFloat() * 0.2F), 0.7F, xOffset * 3.5F, new Custom_Poof_Particle.PoofData(76 + rand, 147 + rand, 173 + rand, 0.1F));
+                        spawnParticleAt((0.1F + random.nextFloat() * 0.2F), 0.7F, xOffset * 3.5F, new CustomPoofParticleOptions(76 + rand, 147 + rand, 173 + rand, 0.1F));
                     }
                 }
             }
@@ -290,6 +284,7 @@ public class Wave_Entity extends Entity {
                     } else {
                         --i;
                     }
+
                     i = Mth.clamp(i, 0, 4);
                     MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTWETNESS.get(), 200, i, false, true, true);
                     entity.addEffect(effectinstance);
@@ -309,7 +304,6 @@ public class Wave_Entity extends Entity {
                 Vec3 knockback = new Vec3(x, 0, z).normalize().scale(adjustedStrength);
 
                 entity.setDeltaMovement(vec3.x / (double)2.0F - knockback.x, entity.onGround() ? Math.min(0.5, vec3.y / (double)2.0F + strength) : vec3.y, vec3.z / (double)2.0F - knockback.z);
-
             }
         }
     }
@@ -323,6 +317,8 @@ public class Wave_Entity extends Entity {
         }
 
     }
+
+
 
     @Override
     public void lerpTo(double x, double y, double z, float yr, float xr, int steps,boolean bool) {

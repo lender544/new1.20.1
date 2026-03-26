@@ -43,7 +43,7 @@ public class Elite_DraugrAttackGoal extends Goal {
         this.speedModifier = p_25815_;
         this.attackRadiusSqr = p_25816_ * p_25816_;
         this.followingTargetEvenIfNotSeen = p_25554_;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
     public boolean canUse() {

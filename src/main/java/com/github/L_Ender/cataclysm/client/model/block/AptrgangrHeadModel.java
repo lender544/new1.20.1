@@ -21,8 +21,6 @@ public class AptrgangrHeadModel extends SkullModelBase {
 	private final ModelPart helmet;
 	private final ModelPart jaw;
 
-
-
 	public AptrgangrHeadModel(ModelPart root) {
 		this.head = root.getChild("head");
 		this.helmet = this.head.getChild("helmet");

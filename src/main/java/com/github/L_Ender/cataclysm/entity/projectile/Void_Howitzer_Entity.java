@@ -1,26 +1,26 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
+
 
 public class Void_Howitzer_Entity extends ThrowableProjectile {
 
@@ -39,27 +39,27 @@ public class Void_Howitzer_Entity extends ThrowableProjectile {
     }
 
 
+    @Override
     protected void onHitEntity(EntityHitResult p_37626_) {
         super.onHitEntity(p_37626_);
-        if (!this.level().isClientSide) {
+        if (this.level() instanceof ServerLevel serverlevel) {
             Entity entity = p_37626_.getEntity();
-            Entity entity1 = this.getOwner();
             boolean flag;
-            if (entity1 instanceof LivingEntity) {
-                LivingEntity livingentity = (LivingEntity)entity1;
-                flag = entity.hurt(this.damageSources().indirectMagic(this, livingentity), 8.0F);
+            if (this.getOwner() instanceof LivingEntity livingentity) {
+                DamageSource damagesource = this.damageSources().indirectMagic(this, livingentity);
+                flag = entity.hurt(damagesource, 8.0F);
                 if (flag) {
                     if (entity.isAlive()) {
                         this.doEnchantDamageEffects(livingentity, entity);
-                    } else {
-                        livingentity.heal(5.0F);
                     }
                 }
             } else {
-               entity.hurt(this.damageSources().magic(), 5.0F);
+                entity.hurt(this.damageSources().magic(), 5.0F);
             }
         }
     }
+
+
 
     protected void onHit(HitResult p_37628_) {
         super.onHit(p_37628_);
@@ -118,7 +118,7 @@ public class Void_Howitzer_Entity extends ThrowableProjectile {
 
         if (flag) {
             LivingEntity entity1 = (LivingEntity) this.getOwner();
-            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, (float) CMConfig.Voidrunedamage, entity1));
+            this.level().addFreshEntity(new Void_Rune_Entity(this.level(), x, (double)blockpos.getY() + d0, z, rotation, delay, 7, entity1));
         }
     }
 
@@ -151,8 +151,4 @@ public class Void_Howitzer_Entity extends ThrowableProjectile {
         return 0.03F;
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

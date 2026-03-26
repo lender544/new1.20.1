@@ -26,8 +26,8 @@ public class Sticky_Gloves extends CuriosItem {
 
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(Component.translatable("item.cataclysm.sticky_gloves.desc").withStyle(ChatFormatting.DARK_GREEN));
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltips, TooltipFlag flagIn) {
+        tooltips.add(Component.translatable("item.cataclysm.sticky_gloves.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 
 }

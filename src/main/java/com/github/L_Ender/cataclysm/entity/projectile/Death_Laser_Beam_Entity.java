@@ -2,9 +2,9 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 
 
 import com.github.L_Ender.cataclysm.blocks.EMP_Block;
-import com.github.L_Ender.cataclysm.client.particle.LightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.LightningParticleOptions;
 import com.github.L_Ender.cataclysm.client.tool.ControlledAnimation;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Harbinger_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
 import com.github.L_Ender.cataclysm.init.ModBlocks;
@@ -13,8 +13,6 @@ import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -33,7 +31,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,7 +156,7 @@ public class Death_Laser_Beam_Entity extends Entity {
                     }
                     if(this.getFire()) {
                         BlockPos blockpos1 = BlockPos.containing(collidePosX,collidePosY, collidePosZ);
-                        if(CMConfig.HarbingerLightFire) {
+                        if(CMCommonConfig.Harbinger.ignoreMobGriefing) {
                             if (this.level().isEmptyBlock(blockpos1)) {
                                 this.level().setBlockAndUpdate(blockpos1, BaseFireBlock.getState(this.level(), blockpos1));
                             }
@@ -201,9 +199,8 @@ public class Death_Laser_Beam_Entity extends Entity {
             float motionY = random.nextFloat() * 0.8F;
             float motionX = velocity * Mth.cos(yaw);
             float motionZ = velocity * Mth.sin(yaw);
-            level().addParticle((new LightningParticle.OrbData(255, 26,  0)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
+            level().addParticle((new LightningParticleOptions(255, 26,  0)), collidePosX, collidePosY + 0.1, collidePosZ, motionX, motionY, motionZ);
         }
-
     }
 
     @Override
@@ -291,10 +288,6 @@ public class Death_Laser_Beam_Entity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag nbt) {}
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 
     private void calculateEndPos() {
         if (level().isClientSide()) {

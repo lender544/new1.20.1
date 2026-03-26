@@ -2,10 +2,8 @@ package com.github.L_Ender.cataclysm.client.render.entity;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Cursed_Sandstorm_Model;
-import com.github.L_Ender.cataclysm.client.model.entity.Sandstorm_Projectile_Model;
 import com.github.L_Ender.cataclysm.client.render.CMRenderTypes;
 import com.github.L_Ender.cataclysm.entity.projectile.Cursed_Sandstorm_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Sandstorm_Projectile;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -13,9 +11,11 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 @OnlyIn(Dist.CLIENT)
 public class Cursed_Sandstorm_Renderer extends EntityRenderer<Cursed_Sandstorm_Entity>
@@ -38,7 +38,8 @@ public class Cursed_Sandstorm_Renderer extends EntityRenderer<Cursed_Sandstorm_E
 		float f1 = Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot());
 		VertexConsumer vertexconsumer = bufferIn.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entityIn)));
 		this.model.setupAnim(entityIn, 0.0F, 0.0F,entityIn.tickCount + partialTicks, f, f1);
-		this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 0.6f);
+		int i = FastColor.ARGB32.color(255, 255, 255, 253);
+		this.model.renderToBuffer(matrixStackIn, vertexconsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0f,1.0f,1.0f,1.0f);
 		matrixStackIn.popPose();
 		super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}

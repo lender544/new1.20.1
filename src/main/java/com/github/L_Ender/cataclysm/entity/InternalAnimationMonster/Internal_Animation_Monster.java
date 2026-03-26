@@ -29,7 +29,6 @@ public class Internal_Animation_Monster extends Animation_Monsters implements En
     public static final EntityDataAccessor<Integer> ATTACK_STATE = SynchedEntityData.defineId(Internal_Animation_Monster.class, EntityDataSerializers.INT);
 
     public int attackTicks;
-    public int attackCooldown;
 
     public Internal_Animation_Monster(EntityType entity, Level world) {
         super(entity, world);

@@ -45,22 +45,23 @@ public class ModTag {
 
     public static final TagKey<EntityType<?>> TEAM_IGNIS = registerEntityTag("team_ignis");
 
-    public static final TagKey<EntityType<?>> TEAM_MONSTROSITY = registerEntityTag("team_monstrosity");
-
     public static final TagKey<EntityType<?>> TEAM_THE_HARBINGER = registerEntityTag("team_the_harbinger");
 
     public static final TagKey<EntityType<?>> TEAM_THE_LEVIATHAN = registerEntityTag("team_the_leviathan");
 
+    public static final TagKey<EntityType<?>> TEAM_MONSTROSITY = registerEntityTag("team_monstrosity");
+
     public static final TagKey<EntityType<?>> TEAM_SCYLLA = registerEntityTag("team_scylla");
-
-
-    public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
-
-    public static final TagKey<DamageType> BLOCK_SELF_REGEN = registerDamageTypeTag("block_self_regen");
 
     public static final TagKey<EntityType<?>> DIMENSIONAL_LIFT_IMMUNE = registerEntityTag("dimensional_lift_immune");
 
     public static final TagKey<EntityType<?>> TEAM_MALEDICTUS = registerEntityTag("team_maledictus");
+
+    public static final TagKey<EntityType<?>> ELEMENTAL = registerEntityTag("elemental");
+
+    public static final TagKey<DamageType> BYPASSES_HURT_TIME = registerDamageTypeTag("bypasses_hurt_time");
+
+    public static final TagKey<DamageType> BLOCK_SELF_REGEN = registerDamageTypeTag("block_self_regen");
 
     public static final TagKey<Block> ENDER_GOLEM_CAN_DESTROY = registerBlockTag("ender_golem_can_destroy");
 
@@ -130,15 +131,23 @@ public class ModTag {
 
     public static final TagKey<Item> STICKY_ITEM = registerItemTag("sticky_item");
 
-    public static final TagKey<Item> BONE_ITEM = registerItemTag("bone_item");
-
     public static final TagKey<Item> MINISTROSITY_BLACKLIST = registerItemTag("ministrosity_blacklist");
+
+    public static final TagKey<Item> BONE_ITEM = registerItemTag("bone_item");
 
     public static final TagKey<MobEffect> EFFECTIVE_FOR_BOSSES = registerEffectTag("effective_for_bosses");
 
     public static final LazyTagLookup<MobEffect> EFFECTIVE_FOR_BOSSES_LOOKUP = LazyTagLookup.create(ForgeRegistries.MOB_EFFECTS, EFFECTIVE_FOR_BOSSES);
 
     public static final TagKey<Biome> REQUIRED_SUNKEN_CITY_SURROUNDING = registerBiomeTag("required_sunken_city_surrounding");
+
+
+    public static final TagKey<Biome> DEEPLINGS_SPAWN = registerBiomeTag("deeplings_spawn");
+
+    public static final TagKey<Biome> KOBOLETON_SPAWN = registerBiomeTag("koboleton_spawn");
+
+    public static final TagKey<Biome> AMETHYST_CRAB_SPAWN = registerBiomeTag("amethyst_crab_spawn");
+
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Cataclysm.MODID, name));
@@ -163,10 +172,10 @@ public class ModTag {
     private static TagKey<Biome> registerBiomeTag(String name) {
         return TagKey.create(Registries.BIOME, new ResourceLocation(Cataclysm.MODID, name));
     }
+
     private static TagKey<DamageType> registerDamageTypeTag(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID, name));
     }
-
 
     public static <T> boolean isInTag(T value, TagKey<T> tagKey) {
         // noinspection unchecked

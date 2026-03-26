@@ -1,10 +1,7 @@
 package com.github.L_Ender.cataclysm.blockentities;
 
 import com.github.L_Ender.cataclysm.blocks.Cursed_Tombstone_Block;
-import com.github.L_Ender.cataclysm.blocks.Door_of_Seal_Block;
-import com.github.L_Ender.cataclysm.blocks.Sandstone_Ignite_Trap;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Ignis_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -12,24 +9,19 @@ import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.init.ModTileentites;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class Cursed_tombstone_Entity extends BlockEntity {
 
@@ -45,13 +37,13 @@ public class Cursed_tombstone_Entity extends BlockEntity {
     public static void commonTick(Level level, BlockPos pos, BlockState blockState, Cursed_tombstone_Entity entity) {
         if(blockState.getBlock() instanceof Cursed_Tombstone_Block) {
             if (!blockState.getValue(Cursed_Tombstone_Block.POWERED)) {
-                if(entity.summonCooldownProgress < CMConfig.Cursed_tombstone_summon_cooldown * 20 * 60){
+                if(entity.summonCooldownProgress < CMCommonConfig.Blocks.CursedTombstoneCooldown * 1200){
                     entity.summonCooldownProgress++;
                 }else{
-                    if (!level.isClientSide) {
-                        level.setBlock(pos, blockState.setValue(Cursed_Tombstone_Block.POWERED, Boolean.valueOf(true)), 2);
-                        level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
-                    }
+
+                    level.setBlock(pos, blockState.setValue(Cursed_Tombstone_Block.POWERED, Boolean.valueOf(true)), 2);
+                    level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(null, blockState));
+
                 }
             }else{
                 if (blockState.getValue(Cursed_Tombstone_Block.LIT)) {
@@ -90,14 +82,9 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                             if (maledictus != null) {
                                 ScreenShake_Entity.ScreenShake(level, Vec3.atCenterOf(pos), 20, 0.1f, 0, 40);
                                 maledictus.setPos(pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5);
-                                maledictus.setTombstonePos(pos);
-                                maledictus.setHomePos(pos);
                                 maledictus.setTombstoneDirection(blockState.getValue(Cursed_Tombstone_Block.FACING));
-
-                                ResourceLocation dimLoc = serverLevel.dimension().location();
-                                maledictus.setDimensionType(dimLoc.toString());
-
-
+                                maledictus.setHomePos(GlobalPos.of(serverLevel.dimension(), pos));
+                                maledictus.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pos), MobSpawnType.SPAWNER, null,null);
                                 int MthX = Mth.floor(pos.getX());
                                 int MthY = Mth.floor(pos.getY());
                                 int MthZ = Mth.floor(pos.getZ());
@@ -121,6 +108,7 @@ public class Cursed_tombstone_Entity extends BlockEntity {
                                 }
                             }
                         }
+
                     }
 
                 }else{

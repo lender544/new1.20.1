@@ -1,4 +1,4 @@
-package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 4.6.2
+package com.github.L_Ender.cataclysm.client.model.block;// Made with Blockbench 4.12.4
 // Exported for Minecraft version 1.15 - 1.16 with MCP mappings
 // Paste this class into your mod and generate all required imports
 
@@ -82,7 +82,7 @@ public class Mechanical_Anvil_Model extends AdvancedEntityModel<Entity> {
 	@Override
 	public Iterable<AdvancedModelBox> getAllParts() {
 		return ImmutableList.of(root,
-				base, gear,
+		 base, gear,
 				sub_gear,
 				sub_gear2
 		);

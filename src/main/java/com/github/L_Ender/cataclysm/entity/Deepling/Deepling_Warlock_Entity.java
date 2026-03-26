@@ -1,6 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.Deepling;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.SimpleAnimationGoal;
 import com.github.L_Ender.cataclysm.entity.effect.Abyss_Mark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
@@ -10,6 +10,7 @@ import com.github.L_Ender.cataclysm.world.data.CMWorldData;
 import com.github.L_Ender.lionfishapi.server.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.FluidTags;
@@ -41,7 +42,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
     boolean searchingForLand;
     private int lightcooldown = 200;
     public static final int LIGHT_COOLDOWN = 400;
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.15f, 0.6F, false);
+    private static final EntityDimensions SWIMMING_SIZE = EntityDimensions.fixed(1.15f, 0.6F);
 
     public Deepling_Warlock_Entity(EntityType entity, Level world) {
         super(entity, world);
@@ -86,6 +87,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
         this.setDropChance(EquipmentSlot.MAINHAND, 0.0F);
     }
 
+
     protected SoundEvent getAmbientSound() {
         return ModSounds.DEEPLING_IDLE.get();
     }
@@ -103,7 +105,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        if (ModEntities.rollSpawn(CMConfig.DeeplingWarlockSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel) {
+        if (ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingWarlockSpawnRolls, this.getRandom(), spawnReasonIn) && worldIn instanceof ServerLevel serverLevel) {
             CMWorldData data = CMWorldData.get(serverLevel,Level.OVERWORLD);
             return data != null && data.isLeviathanDefeatedOnce();
         }
@@ -158,9 +160,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
         }
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
-        return sizeIn.height * 0.9F;
-    }
+
 
     public EntityDimensions getSwimmingSize() {
         return SWIMMING_SIZE;
@@ -216,7 +216,7 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
         public MagicTrackingGoal(Deepling_Warlock_Entity entity, Animation animation) {
             super(entity, animation);
             this.warlock = entity;
-            this.setFlags(EnumSet.of(Flag.MOVE,Goal.Flag.JUMP, Goal.Flag.LOOK));
+            this.setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP, Flag.LOOK));
 
         }
 
@@ -237,7 +237,8 @@ public class Deepling_Warlock_Entity extends AbstractDeepling {
                     double sx = this.warlock.getX();
                     double sy = this.warlock.getY();
                     double sz = this.warlock.getZ();
-                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,(float)CMConfig.AbyssBlastdamage,(float)CMConfig.AbyssBlastHpdamage,this.warlock.getUUID(),target);
+                    Abyss_Mark_Entity fireball = new Abyss_Mark_Entity(this.warlock.level(), sx,sy,sz,80,
+                                    (float)CMCommonConfig.Leviathan.AbyssBlastDamage,(float)CMCommonConfig.Leviathan.AbyssBlastHpDamage,this.warlock.getUUID(),target);
                     this.warlock.level().addFreshEntity(fireball);
                 }
 

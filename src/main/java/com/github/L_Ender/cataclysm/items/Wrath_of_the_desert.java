@@ -1,7 +1,7 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Cursed_Sandstorm_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.ChatFormatting;
@@ -16,7 +16,10 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -172,12 +175,12 @@ public class Wrath_of_the_desert extends Item {
                          double Z = player.getZ() + vecZ;
                         int p = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
                         if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f + (float) CMConfig.CursedSandstormDamage * f * p * 0.05F, target);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMCommonConfig.WrathOfTheDesert.damage * f + (float) CMCommonConfig.WrathOfTheDesert.damage * f * p * 0.05F, target);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);
                         }else{
-                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMConfig.CursedSandstormDamage * f + (float) CMConfig.CursedSandstormDamage * f * p * 0.05F, null);
+                            Cursed_Sandstorm_Entity largefireball = new Cursed_Sandstorm_Entity(player, directionX, directionY, directionZ, player.level(), (float) CMCommonConfig.WrathOfTheDesert.damage * f + (float) CMCommonConfig.WrathOfTheDesert.damage * f * p * 0.05F, null);
                             largefireball.setPos(x, player.getEyeY() - 0.5D, Z);
                             largefireball.setUp(15);
                             level.addFreshEntity(largefireball);
@@ -213,6 +216,7 @@ public class Wrath_of_the_desert extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack,worldIn,tooltip,flagIn);
         tooltip.add(Component.translatable("item.cataclysm.wrath_of_the_desert.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

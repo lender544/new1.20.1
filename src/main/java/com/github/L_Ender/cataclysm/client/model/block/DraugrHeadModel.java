@@ -42,7 +42,6 @@ public class DraugrHeadModel extends SkullModelBase {
         this.head.yRot = p_104189_ * ((float)Math.PI / 180F);
         this.head.xRot = p_104190_ * ((float)Math.PI / 180F);
     }
-
     public void renderToBuffer(PoseStack p_104192_, VertexConsumer p_104193_, int p_104194_, int p_104195_, float p_104196_, float p_104197_, float p_104198_, float p_104199_) {
         p_104192_.pushPose();
         p_104192_.translate(0.0F, -0.374375F, 0.0F);
@@ -50,6 +49,7 @@ public class DraugrHeadModel extends SkullModelBase {
         this.head.render(p_104192_, p_104193_, p_104194_, p_104195_, p_104196_, p_104197_, p_104198_, p_104199_);
         p_104192_.popPose();
     }
+
 
 
 }

@@ -1,10 +1,11 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.effect.Wave_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Player_Ceraunus_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -13,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -23,11 +25,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.UseAnim;
-
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -35,29 +33,28 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.common.ForgeMod;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
-public class Ceraunus extends Item implements More_Tool_Attribute {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+public class Ceraunus extends Cataclysm_Weapon_Item  {
+
     private static final String THROWN_UUID_KEY = "thrown_anchor";
 
+
     public Ceraunus(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 15.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", (double)-3.3F, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 0.5F, AttributeModifier.Operation.ADDITION));
-        this.defaultModifiers = builder.build();
+        super(group,15.0F, -3.3F);
+    }
+
+    protected void initAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 1.0F, AttributeModifier.Operation.ADDITION));
+
     }
 
 
-    @Override
-    public boolean canAttackBlock(BlockState p_43409_, Level p_43410_, BlockPos p_43411_, Player p_43412_) {
-        return !p_43412_.isCreative();
-    }
+
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity holder, int slot, boolean isSelected) {
@@ -93,7 +90,7 @@ public class Ceraunus extends Item implements More_Tool_Attribute {
                     double firstAngleOffset = (numberOfWaves - 1) / 2.0 * angleStep;
 
                     if (p_43396_.isShiftKeyDown()) {
-                        player.getCooldowns().addCooldown(this, CMConfig.CeraunusCooldown);
+                        player.getCooldowns().addCooldown(this, CMCommonConfig.Ceraunus.cooldown);
                         p_43395_.playSound((Player) null, player.getX(), player.getY(), player.getZ(), ModSounds.HEAVY_SMASH.get(), SoundSource.PLAYERS, 0.6F, 1.0F);
                         for (int k = 0; k < numberOfWaves; k++) {
                             double angle = player.getYRot() - firstAngleOffset + (k * angleStep);
@@ -101,7 +98,7 @@ public class Ceraunus extends Item implements More_Tool_Attribute {
                             double dx = -Math.sin(rad);
                             double dz = Math.cos(rad);
 
-                            Wave_Entity WaveEntity = new Wave_Entity(p_43395_, p_43396_, 60, (float) CMConfig.CeraunusWaveDamage);
+                            Wave_Entity WaveEntity = new Wave_Entity(p_43395_, p_43396_, 60, (float) CMCommonConfig.Ceraunus.waveDamage);
                             WaveEntity.setPos(spawnX, spawnY, spawnZ);
                             WaveEntity.setState(1);
                             WaveEntity.setYRot(-(float) (Mth.atan2(dx, dz) * (180F / Math.PI)));
@@ -167,10 +164,6 @@ public class Ceraunus extends Item implements More_Tool_Attribute {
         return InteractionResultHolder.consume(itemstack);
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
 
     @Override
     public int getEnchantmentValue() {
@@ -185,10 +178,6 @@ public class Ceraunus extends Item implements More_Tool_Attribute {
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
-    }
-
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot p_43383_) {
-        return p_43383_ == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(p_43383_);
     }
 
     @Override

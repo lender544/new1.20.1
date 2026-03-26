@@ -1,20 +1,14 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.Old_Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
-import com.github.L_Ender.cataclysm.entity.partentity.Old_Netherite_Monstrosity_Part;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,14 +20,14 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.NetworkHooks;
+
 
 public class Lava_Bomb_Entity extends ThrowableProjectile {
 
     private static final EntityDataAccessor<Boolean> ON_GROUND = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LAVA_TIME = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> MAX_LAVA_TIME = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<BlockPos> LAVA_POS = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.BLOCK_POS);
+    protected static final EntityDataAccessor<BlockPos> LAVA_POS = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.BLOCK_POS);
 
 
     public Lava_Bomb_Entity(EntityType<Lava_Bomb_Entity> type, Level world) {
@@ -45,6 +39,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     }
 
 
+    @Override
     protected void defineSynchedData() {
         this.entityData.define(ON_GROUND, false);
         this.entityData.define(LAVA_TIME, 0);
@@ -67,7 +62,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         Entity shooter = this.getOwner();
         if (!this.getGround() && !this.level().isClientSide && !(result.getEntity() instanceof Lava_Bomb_Entity || result.getEntity() instanceof Netherite_Monstrosity_Part || result.getEntity() instanceof Netherite_Monstrosity_Entity)) {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(shooter, this.getX(), this.getY(), this.getZ(), CMConfig.Lavabombradius, Level.ExplosionInteraction.NONE);
+            this.level().explode(shooter, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }
@@ -77,7 +72,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         super.onHitBlock(result);
         if (!this.level().isClientSide() && !this.getGround()) {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), CMConfig.Lavabombradius, Level.ExplosionInteraction.NONE);
+            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }
@@ -106,10 +101,11 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
             this.setLavaTime(this.getLavaTime() + 1);
             this.setDeltaMovement(Vec3.ZERO);
             if (!this.level().isClientSide) {
-            if (this.getLavaTime() >= this.getMaxLavaTime() && this.getLavaPos() != BlockPos.ZERO) {
-                this.discard();
+                if (this.getLavaTime() >= this.getMaxLavaTime() && this.getLavaPos() != BlockPos.ZERO) {
+                    this.discard();
                 }
             }
+
         }else{
             makeTrail();
         }
@@ -127,6 +123,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         }
 
     }
+
 
     protected void makeTrail() {
         if (this.level().isClientSide){
@@ -156,7 +153,6 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     public void setGround(boolean weapon) {
         this.entityData.set(ON_GROUND, weapon);
     }
-
 
 
     public int getLavaTime() {
@@ -206,10 +202,5 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     @Override
     protected float getGravity() {
         return this.onGround()? 0F : 0.025F;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.render.layer;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.client.model.entity.Kobolediator_Model;
 import com.github.L_Ender.cataclysm.client.render.entity.Kobolediator_Renderer;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class Kobolediator_Layer extends RenderLayer<Kobolediator_Entity, Kobolediator_Model> {
-    private static final ResourceLocation LAYER_TEXTURES = new ResourceLocation("cataclysm:textures/entity/koboleton/kobolediator_layer.png");
+    private static final ResourceLocation LAYER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/koboleton/kobolediator_layer.png");
 
     public Kobolediator_Layer(Kobolediator_Renderer renderIn) {
         super(renderIn);
@@ -27,7 +28,7 @@ public class Kobolediator_Layer extends RenderLayer<Kobolediator_Entity, Koboled
         if (entity.getAttackState() != 1 && entity.isAlive()) {
             RenderType eyes = RenderType.eyes(LAYER_TEXTURES);
             VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);
-            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         }
     }
 }

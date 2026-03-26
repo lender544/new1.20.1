@@ -34,7 +34,7 @@ public class RendererEMP<T extends EMP_Block_Entity> implements BlockEntityRende
         matrixStackIn.translate(0, 0.15F, 0.0F);
         matrixStackIn.scale(0.9f,0.9f,0.9f);
         MODEL_EMP.animate(tileEntityIn, partialTicks);
-        MODEL_EMP.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1, 1F, 1, 1);
+        MODEL_EMP.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn,1,1,1,1);
         matrixStackIn.popPose();
         matrixStackIn.popPose();
     }

@@ -16,6 +16,7 @@ public class Necklace_Of_The_Desert extends Item {
         super(group);
 
     }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("item.cataclysm.necklace_of_the_desert.desc").withStyle(ChatFormatting.DARK_GREEN));

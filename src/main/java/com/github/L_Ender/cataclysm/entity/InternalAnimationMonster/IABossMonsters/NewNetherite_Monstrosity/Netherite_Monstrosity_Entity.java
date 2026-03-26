@@ -1,20 +1,20 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity;
 
 import com.github.L_Ender.cataclysm.blockentities.Boss_Respawn_Spawner_Block_Entity;
-import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.client.particle.RoarParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
+import com.github.L_Ender.cataclysm.client.particle.Options.RoarParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.AI.HurtByNearestTargetGoal;
-import com.github.L_Ender.cataclysm.entity.AnimationMonster.AI.AdvancedHurtByTargetGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalAttackGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalMoveGoal;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AI.InternalStateGoal;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Ancient_Remnant.Ancient_Remnant_Entity;
+
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.IABoss_monster;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Kobolediator_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
 import com.github.L_Ender.cataclysm.entity.etc.CMBossInfoServer;
+import com.github.L_Ender.cataclysm.entity.etc.FowardMoveController;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.entity.etc.path.CMPathNavigateGround;
 import com.github.L_Ender.cataclysm.entity.partentity.Cm_Part_Entity;
@@ -23,8 +23,10 @@ import com.github.L_Ender.cataclysm.entity.projectile.Flare_Bomb_Entity;
 import com.github.L_Ender.cataclysm.entity.projectile.Lava_Bomb_Entity;
 import com.github.L_Ender.cataclysm.init.*;
 import com.github.L_Ender.cataclysm.util.CMMathUtil;
+import com.github.L_Ender.cataclysm.util.EntityUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -33,7 +35,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -53,14 +55,12 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Strider;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -73,11 +73,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.NodeEvaluator;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.entity.PartEntity;
+
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -106,10 +107,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     private static final EntityDataAccessor<Boolean> IS_AWAKEN = SynchedEntityData.defineId(Netherite_Monstrosity_Entity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MAGAZINE = SynchedEntityData.defineId(Netherite_Monstrosity_Entity.class, EntityDataSerializers.INT);
 
-    public boolean Blocking = CMConfig.NetheritemonstrosityBodyBloking;
     private int blockBreakCounter;
-
-
 
     private int shoot_cooldown = 0;
     public static final int SHOOT_COOLDOWN = 240;
@@ -126,6 +124,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     public Netherite_Monstrosity_Entity(EntityType entity, Level world) {
         super(entity, world);
         this.xpReward = 500;
+        this.moveControl = new FowardMoveController(this);
         this.setMaxUpStep(4.5F);
         this.headPart = new Netherite_Monstrosity_Part(this, 1.6F, 2.5F);
         this.monstrosityParts = new Netherite_Monstrosity_Part[]{this.headPart};
@@ -133,7 +132,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         this.setPathfindingMalus(BlockPathTypes.LAVA, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER, -1.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
-        setConfigattribute(this, CMConfig.MonstrosityHealthMultiplier, CMConfig.MonstrosityDamageMultiplier);
+        setConfigattribute(this, CMCommonConfig.NetheriteMonstrosity.healthMultiplier,CMCommonConfig.NetheriteMonstrosity.attackMultiplier);
     }
 
 
@@ -146,7 +145,13 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
-        this.goalSelector.addGoal(5, new InternalMoveGoal(this, false, 1.0D));
+        this.goalSelector.addGoal(5, new InternalMoveGoal(this, false, 1.0D) {
+
+            @Override
+            public boolean canUse() {
+                return super.canUse();
+            }
+        });
 
         this.goalSelector.addGoal(3, new InternalAttackGoal(this, 0, 3, 0, 58, 12, 6) {
             @Override
@@ -156,62 +161,22 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         });
 
         //sleep
-        this.goalSelector.addGoal(2, new InternalStateGoal(this, 1, 1, 2, 0, 0) {
+        this.goalSelector.addGoal(0, new NMDoNothingGoal());
 
-            @Override
-            public boolean canUse() {
-                return super.canUse() && !Netherite_Monstrosity_Entity.this.getIsAwaken();
-            }
 
-            @Override
-            public void tick() {
-                entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
-            }
-
-            @Override
-            public void stop() {
-                super.stop();
-                Netherite_Monstrosity_Entity.this.setHomePos(Netherite_Monstrosity_Entity.this.blockPosition());
-                if(Netherite_Monstrosity_Entity.this.level() instanceof ServerLevel serverLevel) {
-                    ResourceLocation dimLoc = serverLevel.dimension().location();
-                    Netherite_Monstrosity_Entity.this.setDimensionType(dimLoc.toString());
-                }
-                Netherite_Monstrosity_Entity.this.setIsAwaken(true);
-            }
-
-        });
 
         //awake
         this.goalSelector.addGoal(1, new InternalStateGoal(this, 2, 2, 0, 40, 0) {
 
             @Override
-            public boolean canUse() {
-                return super.canUse() && Netherite_Monstrosity_Entity.this.getIsAwaken();
+            public void start() {
+                super.start();
+                Netherite_Monstrosity_Entity.this.setHomePos(GlobalPos.of(Netherite_Monstrosity_Entity.this.level().dimension(), Netherite_Monstrosity_Entity.this.blockPosition()));
+                Netherite_Monstrosity_Entity.this.setIsAwaken(true);
             }
-
             @Override
             public void tick() {
                 entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
-            }
-        });
-        this.goalSelector.addGoal(0, new InternalAttackGoal(this, 1, 2, 0, 40, 0, 15) {
-
-            @Override
-            public boolean canUse() {
-                LivingEntity target = entity.getTarget();
-                return super.canUse() && target != null && this.entity.getSensing().hasLineOfSight(target);
-            }
-
-
-            @Override
-            public void start() {
-                super.start();
-                Netherite_Monstrosity_Entity.this.setIsAwaken(true);
-                Netherite_Monstrosity_Entity.this.setHomePos(Netherite_Monstrosity_Entity.this.blockPosition());
-                if(Netherite_Monstrosity_Entity.this.level() instanceof ServerLevel serverLevel) {
-                    ResourceLocation dimLoc = serverLevel.dimension().location();
-                    Netherite_Monstrosity_Entity.this.setDimensionType(dimLoc.toString());
-                }
             }
         });
 
@@ -232,7 +197,8 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             @Override
             public boolean canUse() {
                 LivingEntity target = entity.getTarget();
-                return target != null && target.isAlive() && this.entity.getAttackState() == 0 && this.entity.isInLava() && Netherite_Monstrosity_Entity.this.getMagazine() >= CMConfig.Lavabombmagazine;
+                return target != null && target.isAlive() && this.entity.getAttackState() == 0 && this.entity.isInLava() && Netherite_Monstrosity_Entity.this.getMagazine() >=
+                        CMCommonConfig.NetheriteMonstrosity.Lavabombmagazine;
             }
         });
         //check
@@ -278,11 +244,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (this.getAttackState() == 4 && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
-        double range = calculateRange(source);
-
-        if (range > CMConfig.MonstrosityLongRangelimit * CMConfig.MonstrosityLongRangelimit && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
-            return false;
-        }
         Entity entity = source.getDirectEntity();
         if (entity instanceof AbstractGolem) {
             damage *= 0.5F;
@@ -291,31 +252,45 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         boolean attack = super.hurt(source, damage);
 
         if (attack && !this.getIsAwaken() && this.isAlive()) {
-            this.setHomePos(this.blockPosition());
             this.setIsAwaken(true);
         }
         return attack;
     }
 
+    public boolean hurtParts(Netherite_Monstrosity_Part part, DamageSource source, float damage) {
+        if (part == this.headPart) {
+            damage = Math.min(Float.MAX_VALUE, damage * 1.5F);
+        }
+
+        boolean attack = super.hurt(source, damage);
+
+        return attack;
+    }
+
+
     protected int decreaseAirSupply(int air) {
         return air;
     }
 
+
     public float DamageCap() {
-        return (float) CMConfig.MonstrosityDamageCap;
+        return (float) CMCommonConfig.NetheriteMonstrosity.damageCap;
     }
 
     public float NatureRegen() {
-        return (float) CMConfig.MonstrosityNatureHealing;
+        return (float) CMCommonConfig.NetheriteMonstrosity.natureHeal;
     }
 
-    public int DamageTime() {
-        return CMConfig.MonstrosityDamageTime;
+    public float DpsCap() {
+        return (float) CMCommonConfig.NetheriteMonstrosity.dpsCap;
     }
 
+    public double RangeLimit() {
+        return CMCommonConfig.NetheriteMonstrosity.rangeCap;
+    }
 
     public boolean canBeCollidedWith() {
-        return this.isAlive() && Blocking && this.getAttackState() != 8;
+        return this.isAlive() && CMCommonConfig.NetheriteMonstrosity.BodyCollided && this.getAttackState() != 8;
     }
 
     public boolean isPushable() {
@@ -386,8 +361,8 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     public void setIsAwaken(boolean isAwaken) {
         this.entityData.set(IS_AWAKEN, isAwaken);
         this.bossInfo.setVisible(isAwaken);
-        if (!isAwaken) {
-            this.setAttackState(1);
+        if (isAwaken) {
+            this.PlayerCounter(this.level());
         }
     }
 
@@ -409,12 +384,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     }
 
 
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType spawnType, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
-        if (spawnType == MobSpawnType.COMMAND || spawnType == MobSpawnType.SPAWN_EGG || spawnType == MobSpawnType.SPAWNER || spawnType == MobSpawnType.DISPENSER) {
-            this.setIsAwaken(true);
-        }
-        return super.finalizeSpawn(p_29678_, p_29679_, spawnType, p_29681_, p_29682_);
-    }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (ATTACK_STATE.equals(p_21104_)) {
@@ -489,23 +458,27 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return 60;
     }
 
+
     @Override
     protected void AfterDefeatBoss(@Nullable LivingEntity living) {
-        if(CMConfig.MonstrosityRespawner) {
-        if (!this.level().isClientSide) {
-            if (this.getHomePos() != BlockPos.ZERO) {
-                int newX = Mth.floor(this.getHomePos().getX());
-                int newY = Mth.floor(this.getHomePos().getY());
-                int newZ = Mth.floor(this.getHomePos().getZ());
-                BlockPos pos = new BlockPos(newX, newY, newZ);
-                BlockState block = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
-                this.level().setBlock(pos, block, 2);
-                if (level().getBlockEntity(pos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerblockentity) {
-                    spawnerblockentity.setEntityId(ModEntities.NETHERITE_MONSTROSITY.get());
-                    spawnerblockentity.setItem(0, ModItems.MONSTROUS_EYE.get().getDefaultInstance());
+        if(CMCommonConfig.NetheriteMonstrosity.respawner) {
+            if (!this.level().isClientSide) {
+                if (this.getHomePos() != null) {
+                    if (this.level() instanceof ServerLevel serverLevel) {
+                        MinecraftServer server = serverLevel.getServer();
+                        ServerLevel targetLevel = server.getLevel(this.getHomePos().dimension());
+                        if (targetLevel != null) {
+                            BlockPos targetPos = this.getHomePos().pos();
+                            BlockState blockState = ModBlocks.BOSS_RESPAWNER.get().defaultBlockState();
+                            targetLevel.setBlock(targetPos, blockState, 2);
+                            if (targetLevel.getBlockEntity(targetPos) instanceof Boss_Respawn_Spawner_Block_Entity spawnerBlockEntity) {
+                                spawnerBlockEntity.setEntityId(ModEntities.NETHERITE_MONSTROSITY.get());
+                                spawnerBlockEntity.setItem(0,ModItems.MONSTROUS_EYE.get().getDefaultInstance());
+                            }
+                        }
+                    }
                 }
             }
-        }
         }
     }
 
@@ -574,10 +547,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if (overpower_cooldown > 0) overpower_cooldown--;
         if (check_cooldown > 0) check_cooldown--;
         if (flare_shoot_cooldown > 0) flare_shoot_cooldown--;
+
         setHeadPart();
 
-        if (this.level().isClientSide){
-            this.oLayerBrightness = this.LayerBrightness;
+        if (this.level().isClientSide) {
             ++LayerTicks;
             this.LayerBrightness += (0.0F - this.LayerBrightness) * 0.8F;
         }
@@ -639,6 +612,13 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     }
 
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType spawnType, @Nullable SpawnGroupData p_29681_, @Nullable CompoundTag p_29682_) {
+        if (spawnType == MobSpawnType.COMMAND || spawnType == MobSpawnType.SPAWN_EGG || spawnType == MobSpawnType.SPAWNER || spawnType == MobSpawnType.DISPENSER) {
+            this.setIsAwaken(true);
+        }
+        return super.finalizeSpawn(p_29678_, p_29679_, spawnType, p_29681_, p_29682_);
+    }
+
 
     public void aiStep() {
         super.aiStep();
@@ -678,6 +658,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             if (this.attackTicks == 20) {
                 Roarparticle(3.5f, 2.7F, 10,255,255,255, 0.4F, 1.0f,0.8F,9F);
             }
+
         }
         if (this.getAttackState() == 5) {
             if (this.attackTicks == 26) {
@@ -697,15 +678,15 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
                 this.doAbsorptionEffects(4, 1, 4);
                 this.playSound(SoundEvents.BUCKET_FILL_LAVA, 6f, 0.5F);
-                this.heal(15F * (float) CMConfig.MonstrosityHealingMultiplier);
+                this.heal(15F * (float)CMCommonConfig.NetheriteMonstrosity.healthMultiplier);
             }
             if (this.attackTicks == 26) {
                 this.doAbsorptionEffects(8, 2, 8);
-                this.heal(15F * (float) CMConfig.MonstrosityHealingMultiplier);
+                this.heal(15F * (float)CMCommonConfig.NetheriteMonstrosity.healthMultiplier);
             }
             if (this.attackTicks == 28) {
                 this.doAbsorptionEffects(16, 4, 16);
-                this.heal(15F * (float) CMConfig.MonstrosityHealingMultiplier);
+                this.heal(15F *(float)CMCommonConfig.NetheriteMonstrosity.healthMultiplier);
             }
         }
 
@@ -722,20 +703,23 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
             if (this.attackTicks > 19 && this.attackTicks < 49) {
                 if (!this.level().isClientSide) {
-                    if(CMConfig.MonstrosityBlockBreaking) {
+                    if (CMCommonConfig.NetheriteMonstrosity.ignoreMobGriefing) {
                         ChargeBlockBreaking();
-                    }else{
+                    } else {
                         if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
                             ChargeBlockBreaking();
                         }
                     }
+
+
                     double yaw = Math.toRadians(this.getYRot() + 90);
                     double xExpand = 2.0F * Math.cos(yaw);
                     double zExpand = 2.0F * Math.sin(yaw);
                     AABB attackRange = this.getBoundingBox().inflate(0.75D, 0.75D, 0.75D).expandTowards(xExpand, 0, zExpand);
+                    DamageSource damagesource = this.damageSources().mobAttack(this);
                     for (LivingEntity Lentity : this.level().getEntitiesOfClass(LivingEntity.class, attackRange)) {
                         if (!isAlliedTo(Lentity) && !(Lentity instanceof Netherite_Monstrosity_Entity) && Lentity != this) {
-                            boolean flag = Lentity.hurt(this.damageSources().mobAttack(this), (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
+                            boolean flag = Lentity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.4F));
                             if (flag) {
                                 double theta = (yBodyRot) * (Math.PI / 180);
                                 theta += Math.PI / 2;
@@ -754,7 +738,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                     }
                 }
 
-
             }
         }
 
@@ -764,12 +747,15 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 ScreenShake_Entity.ScreenShake(level(), this.position(), 20, 0.3f, 0, 20);
                 Makeparticle(-0.3f, 3.4f);
                 Makeparticle(-0.3F, -3.4f);
-                CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
-                CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                if(!this.level().isClientSide) {
+                    CircleFlameJet(-0.3f, 3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                    CircleFlameJet(-0.3F, -3.4f,this.getIsBerserk() ? 14 : 7,this.getIsBerserk() ? 8 : 4,3);
+                }
                 this.playSound(ModSounds.REMNANT_STOMP.get(), 1, 0.7F);
             }
             if (this.attackTicks == 26) {
                 this.playSound(ModSounds.MONSTROSITYGROWL.get(), 3, 1);
+              //  Roarparticle(3f, 4F, 40,204, 78, 5, 0.8F, 0.9f,1,7);
 
             }
             if (this.attackTicks == 32) {
@@ -782,15 +768,35 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 Roarparticle(2f, 4.5F, 10,255, 255, 255, 0.4F, 1.0f,0.6F,5.5F);
             }
 
-            for (int l = 31; l <= 41; l = l + 2) {
-                if (this.attackTicks == l) {
-                    int d = l - 27;
-                    int d2 = l - 26;
-                    float ds = (d + d2) / 2;
-                    StompDamage(0.6f, d, 5, 1.05F, -2.0f, 0, 0, 0.7f);
-                    StompDamage(0.6f, d2, 5, 1.05F, -2.0f, 0, 0, 0.7f);
-                    Stompsound(ds, 0F);
-                }
+            if (this.attackTicks == 31) {
+                StompDamage(0.6f, 4, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 5, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(4.5F, 0F);
+            }
+            if (this.attackTicks == 33) {
+                StompDamage(0.6f, 6, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 7, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(6.5F, 0F);
+            }
+            if (this.attackTicks == 35) {
+                StompDamage(0.6f, 8, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 9, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(8.5F, 0F);
+            }
+            if (this.attackTicks == 37) {
+                StompDamage(0.6f, 10, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 11, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(10.5F, 0F);
+            }
+            if (this.attackTicks == 39) {
+                StompDamage(0.6f, 12, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 13, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(12.5F, 0F);
+            }
+            if (this.attackTicks == 41) {
+                StompDamage(0.6f, 14, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                StompDamage(0.6f, 15, 5, 1.05F, -2.0f, 0, 0, 0.7f);
+                Stompsound(14.5F, 0F);
             }
         }
 
@@ -827,6 +833,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
     }
 
+
     private void spawnJet(double x, double z, double minY, double maxY, float rotation, int delay) {
         BlockPos blockpos = BlockPos.containing(x, maxY, z);
         boolean flag = false;
@@ -850,9 +857,9 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
             blockpos = blockpos.below();
         } while (blockpos.getY() >= Mth.floor(minY) - 1);
-
         if (flag) {
-            this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay, (float)CMConfig.FlameJetDamage,this));
+            this.level().addFreshEntity(new Flame_Jet_Entity(this.level(), x, (double) blockpos.getY() + d0, z, rotation, delay,
+                    (float)CMCommonConfig.NetheriteMonstrosity.FlameJetDamage,this));
         }
     }
 
@@ -866,25 +873,39 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         this.level().playSound((Player)null, this.getX() + distance * vecX + f * math, this.getY(), this.getZ() + distance * vecZ + f1 * math, ModSounds.REMNANT_STOMP.get(), this.getSoundSource(), 0.6f, 1.0f);
     }
 
-    private void StompDamage(float spreadarc, int distance, int height, float mxy, float vec,float math, int shieldbreakticks, float damage) {
-        double perpFacing = this.yBodyRot * (Math.PI / 180);
-        double facingAngle = perpFacing + Math.PI / 2;
+    private void StompDamage(float spreadarc, int distance, int height, float mxy, float vec, float math, int shieldbreakticks, float damage) {
+
+        double bodyRotRad = this.yBodyRot * (Math.PI / 180.0);
+        double cosBodyRot = Math.cos(bodyRotRad);
+        double sinBodyRot = Math.sin(bodyRotRad);
+
+        double facingAngle = bodyRotRad + Math.PI / 2.0;
         int hitY = Mth.floor(this.getBoundingBox().minY - 0.5);
         double spread = Math.PI * spreadarc;
         int arcLen = Mth.ceil(distance * spread);
-        float f = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F)) ;
-        float f1 = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F)) ;
+
+        double commonOffsetX = vec * -sinBodyRot + cosBodyRot * math;
+        double commonOffsetZ = vec * cosBodyRot + sinBodyRot * math;
+
+        double baseX = this.getX() + commonOffsetX;
+        double baseZ = this.getZ() + commonOffsetZ;
+        float factor = 1.0F - (float)distance / 12.0F;
+
         for (int i = 0; i < arcLen; i++) {
-            double theta = (i / (arcLen - 1.0) - 0.5) * spread + facingAngle;
+
+            double thetaRatio = (arcLen > 1) ? (double) i / (double) (arcLen - 1) : 0.5;
+            double theta = (thetaRatio - 0.5) * spread + facingAngle;
+
             double vx = Math.cos(theta);
             double vz = Math.sin(theta);
-            double px = this.getX() + vx * distance + vec * Math.cos((yBodyRot + 90) * Math.PI / 180) + f * math;
-            double pz = this.getZ() + vz * distance + vec * Math.sin((yBodyRot + 90) * Math.PI / 180  + f1 * math);
-            float factor = 1 - distance / (float) 12;
+
+            double px = baseX + vx * distance;
+            double pz = baseZ + vz * distance;
+
             int hitX = Mth.floor(px);
             int hitZ = Mth.floor(pz);
             BlockPos pos = new BlockPos(hitX, hitY + height, hitZ);
-            BlockState block = level().getBlockState(pos);
+            BlockState block = this.level().getBlockState(pos);
 
             int maxDepth = 30;
             for (int depthCount = 0; depthCount < maxDepth; depthCount++) {
@@ -892,14 +913,14 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                     break;
                 }
                 pos = pos.below();
-                block = level().getBlockState(pos);
+                block = this.level().getBlockState(pos);
             }
 
             if (block.getRenderShape() != RenderShape.MODEL) {
                 block = Blocks.AIR.defaultBlockState();
             }
-            spawnBlocks(hitX,hitY + height ,hitZ, (int) (this.getY() - height),block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage);
 
+            spawnBlocks(hitX, hitY + height, hitZ, (int) (this.getY() - height), block, px, pz, mxy, vx, vz, factor, shieldbreakticks, damage);
         }
     }
 
@@ -931,8 +952,8 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
 
     private void spawnBlocks(int hitX, int hitY, int hitZ, int lowestYCheck,BlockState blockState,double px,double pz,float mxy,double vx,double vz,float factor, int shieldbreakticks,float damage) {
+        DamageSource damagesource = this.damageSources().mobAttack(this);
         BlockPos blockpos = new BlockPos(hitX, hitY, hitZ);
-        BlockState block = level().getBlockState(blockpos);
         double d0 = 0.0D;
 
         do {
@@ -946,33 +967,24 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                         d0 = voxelshape.max(Direction.Axis.Y);
                     }
                 }
-
                 break;
             }
-
             blockpos = blockpos.below();
-        } while(blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
+        } while (blockpos.getY() >= Mth.floor(lowestYCheck) - 1);
 
+        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(this.level(), hitX + 0.5D, (double) blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
+        fallingBlockEntity.push(0, 0.2D + this.getRandom().nextGaussian() * 0.04D, 0);
+        this.level().addFreshEntity(fallingBlockEntity);
 
-        Cm_Falling_Block_Entity fallingBlockEntity = new Cm_Falling_Block_Entity(level(), hitX + 0.5D, (double)blockpos.getY() + d0 + 0.5D, hitZ + 0.5D, blockState, 10);
+        AABB selection = new AABB(px - 0.5, (double) blockpos.getY() + d0 - 1.0, pz - 0.5, px + 0.5, (double) blockpos.getY() + d0 + mxy, pz + 0.5);
+        List<LivingEntity> hit = this.level().getEntitiesOfClass(LivingEntity.class, selection);
 
-        double b0 = hitX - this.getX();
-        double b1 = hitZ - this.getZ();
-        double b2 = Math.max(b0 * b0 + b1 * b1, 0.001);
-        fallingBlockEntity.push(b0 / b2 * 1.5d, 0.2D + getRandom().nextGaussian() * 0.04D, b1 / b2 * 1.5d);
-        level().addFreshEntity(fallingBlockEntity);
-
-
-
-        AABB selection = new AABB(px - 0.5, (double)blockpos.getY() + d0 -1, pz - 0.5, px + 0.5, (double)blockpos.getY() + d0 + mxy, pz + 0.5);
-        List<LivingEntity> hit = level().getEntitiesOfClass(LivingEntity.class, selection);
-        if (!this.level().isClientSide) {
+        if (!hit.isEmpty()) {
             for (LivingEntity entity : hit) {
-                if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
+                if (!this.isAlliedTo(entity) && !(entity instanceof Kobolediator_Entity) && entity != this) {
                     boolean flag = entity.hurt(damagesource, (float) (this.getAttributeValue(Attributes.ATTACK_DAMAGE) * damage));
                     if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player && shieldbreakticks > 0) {
-                        disableShield(player, shieldbreakticks);
+                        EntityUtil.disableShield(player, shieldbreakticks);
                     }
 
                     if (flag) {
@@ -989,6 +1001,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             }
         }
     }
+
 
     private void doAbsorptionEffects(int x, int y, int z) {
 
@@ -1007,6 +1020,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 }
             }
         }
+
     }
 
     private void doAbsorptionEffect(BlockPos pos) {
@@ -1023,14 +1037,14 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
 
 
     private void EarthQuake(double area) {
-        this.playSound(SoundEvents.GENERIC_EXPLODE, 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
+        this.playSound(ModSounds.EXPLOSION.get(), 1.5f, 1F + this.getRandom().nextFloat() * 0.1F);
         if (!this.level().isClientSide) {
+            DamageSource damagesource = this.damageSources().mobAttack(this);
             for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(area))) {
                 if (!isAlliedTo(entity) && !(entity instanceof Netherite_Monstrosity_Entity) && entity != this) {
-                    DamageSource damagesource = this.damageSources().mobAttack(this);
-                    boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * CMConfig.MonstrositysHpdamage)));
+                    boolean flag = entity.hurt(damagesource, (float) ((float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) + Math.min(this.getAttributeValue(Attributes.ATTACK_DAMAGE), entity.getMaxHealth() * (float)CMCommonConfig.NetheriteMonstrosity.SmashHpdamage)));
                     if (entity.isDamageSourceBlocked(damagesource) && entity instanceof Player player) {
-                        disableShield(player, 120);
+                        EntityUtil.disableShield(player, 120);
                     }
 
                     if (flag) {
@@ -1083,13 +1097,12 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                 }
             }
             if (getIsBerserk()) {
-                this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 35, 0.8f, 0.305f, 0.02f, 1f, 30f, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 35, 204, 78, 5, 1f, 30f, false, 0), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
             }else{
-                this.level().addParticle(new RingParticle.RingData(0f, (float) Math.PI / 2f, 35, 1f, 1f, 1f, 1f, 30f, false, RingParticle.EnumRingBehavior.GROW), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
+                this.level().addParticle(new RingParticleOptions(0f, (float) Math.PI / 2f, 35, 255, 255, 255, 1.0F, 30f, false, 0), getX() + vec * vecX + f * math, getY() + 0.2f, getZ() + vec * vecZ + f1 * math, 0, 0, 0);
             }
         }
     }
-
 
     private void Roarparticle(float vec, float y,int duration, int r, int g, int b, float a,float start,float inc,float end) {
         if (this.level().isClientSide) {
@@ -1098,9 +1111,10 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
             double vecX = Math.cos(theta);
             double vecZ = Math.sin(theta);
 
-            this.level().addParticle(new RoarParticle.RoarData(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX, this.getY() + y, this.getZ() + vec * vecZ, 0, 0, 0);
+            this.level().addParticle(new RoarParticleOptions(duration, r, g, b, a, start,inc,end), this.getX() + vec * vecX, this.getY() + y, this.getZ() + vec * vecZ, 0, 0, 0);
         }
     }
+
 
     private void launch(Entity e, double XZpower,double Ypower) {
         double d0 = e.getX() - this.getX();
@@ -1165,18 +1179,18 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         if(!this.isNoAi()) {
             if (!this.level().isClientSide && this.blockBreakCounter == 0) {
                 if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
-                    for (int a = (int) Math.round(this.getBoundingBox().minX); a <= (int) Math.round(this.getBoundingBox().maxX); a++) {
-                        for (int b = (int) Math.round(this.getBoundingBox().minY); (b <= (int) Math.round(this.getBoundingBox().maxY) + 1) && (b <= 127); b++) {
-                            for (int c = (int) Math.round(this.getBoundingBox().minZ); c <= (int) Math.round(this.getBoundingBox().maxZ); c++) {
-                                BlockPos blockpos = new BlockPos(a, b, c);
-                                BlockState block = level().getBlockState(blockpos);
-                                BlockEntity tileEntity = level().getBlockEntity(blockpos);
-                                if (!block.isAir() && !block.is(ModTag.NETHERITE_MONSTROSITY_IMMUNE)) {
-                                    boolean flag = level().destroyBlock(new BlockPos(a, b, c), shouldDropItem(tileEntity));
-                                    if (flag) {
-                                        blockBreakCounter = 10;
-                                    }
-                                }
+                    AABB box = this.getBoundingBox();
+                    BlockPos min = new BlockPos(Mth.floor(box.minX), Mth.floor(box.minY), Mth.floor(box.minZ));
+                    BlockPos max = new BlockPos(Mth.floor(box.maxX), Mth.floor(box.maxY), Mth.floor(box.maxZ));
+
+
+                    for (BlockPos pos : BlockPos.betweenClosed(min, max)) {
+                        BlockState blockState = this.level().getBlockState(pos);
+
+                        if (!blockState.isAir() && !blockState.is(ModTag.NETHERITE_MONSTROSITY_IMMUNE)) {
+                            BlockEntity tileEntity = this.level().getBlockEntity(pos);
+                            if (this.level().destroyBlock(pos, shouldDropItem(tileEntity))) {
+                                this.blockBreakCounter = 10;
                             }
                         }
                     }
@@ -1211,6 +1225,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
     public boolean isPushedByFluid() {
         return false;
     }
+
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = this.spawnAtLocation(stack,0.0f);
@@ -1222,7 +1237,6 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return itementity;
     }
 
-
     private void setPartPosition(Netherite_Monstrosity_Part part, double offsetX, double offsetY, double offsetZ) {
         part.setPos(this.getX() + offsetX * part.scale, this.getY() + offsetY * part.scale, this.getZ() + offsetZ * part.scale);
     }
@@ -1232,8 +1246,9 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         return true;
     }
 
+    @Nullable
     @Override
-    public net.minecraftforge.entity.PartEntity<?>[] getParts() {
+    public PartEntity<?>[] getParts() {
         return this.monstrosityParts;
     }
 
@@ -1355,7 +1370,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.distanceTo(target) >= 14F && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target) && this.entity.getMagazine() < CMConfig.Lavabombmagazine && this.entity.shoot_cooldown <= 0;
+            return super.canUse() && target != null && this.entity.distanceTo(target) >= 14F && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target) && this.entity.getMagazine() < CMCommonConfig.NetheriteMonstrosity.Lavabombmagazine && this.entity.shoot_cooldown <= 0;
         }
 
         @Override
@@ -1374,8 +1389,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         public void tick() {
             LivingEntity target = entity.getTarget();
             super.tick();
-            int lavabombcount = CMConfig.Lavabombamount;
-
+            int lavabombcount = CMCommonConfig.NetheriteMonstrosity.Lavabombamount;
             if(target !=null) {
                 if (this.entity.attackTicks == attackshot) {
                     for (int i = 0; i < lavabombcount; ++i) {
@@ -1384,7 +1398,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
                         double d1 = target.getBoundingBox().minY + target.getBbHeight() / 3.0F - lava.getY();
                         double d2 = target.getZ() - this.entity.headPart.getZ();
                         double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-                        lava.setMaxLavaTime(CMConfig.LavabombDuration + this.entity.getRandom().nextInt(CMConfig.LavabombDurationRand));
+                        lava.setMaxLavaTime(CMCommonConfig.NetheriteMonstrosity.LavabombDuration + this.entity.getRandom().nextInt(CMCommonConfig.NetheriteMonstrosity.LavabombRandomDuration));
                         lava.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.0F, 24 - this.entity.level().getDifficulty().getId() * 4);
                         this.entity.level().addFreshEntity(lava);
                     }
@@ -1466,6 +1480,37 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         }
     }
 
+    class NMDoNothingGoal extends Goal {
+        public NMDoNothingGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            LivingEntity target = Netherite_Monstrosity_Entity.this.getTarget();
+            return !Netherite_Monstrosity_Entity.this.getIsAwaken() && !(target != null &&  target.isAlive() && Netherite_Monstrosity_Entity.this.distanceToSqr(target) < 255 && Netherite_Monstrosity_Entity.this.getSensing().hasLineOfSight(target));
+        }
+        @Override
+        public void tick() {
+            Netherite_Monstrosity_Entity.this.setDeltaMovement(0,Netherite_Monstrosity_Entity.this.getDeltaMovement().y,0);
+        }
+
+        @Override
+        public void stop() {
+            Netherite_Monstrosity_Entity.this.setIsAwaken(true);
+            Netherite_Monstrosity_Entity.this.setAttackState(2);
+        }
+
+        @Override
+        public boolean isInterruptable() {
+            return false;
+        }
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+    }
+
+
     static class ShoulderCheck extends InternalAttackGoal {
         private final Netherite_Monstrosity_Entity entity;
         private final int attackshot;
@@ -1484,7 +1529,7 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         @Override
         public boolean canUse() {
             LivingEntity target = entity.getTarget();
-            return super.canUse() && target != null && this.entity.distanceTo(target) >= 5.75F && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target) && this.entity.check_cooldown <= 0;
+              return super.canUse() && target != null && this.entity.distanceTo(target) >= 5.75F && this.entity.getRandom().nextFloat() * 100.0F < random && this.entity.getSensing().hasLineOfSight(target) && this.entity.check_cooldown <= 0;
         }
 
         @Override
@@ -1502,44 +1547,13 @@ public class Netherite_Monstrosity_Entity extends IABoss_monster {
         public void tick() {
             super.tick();
 
+
             if (this.entity.attackTicks > attackshot && this.entity.attackTicks < attackendshot) {
-                BlockPos currentPos = entity.blockPosition();
-                float yaw = entity.getYRot() * ((float) Math.PI / 180F);
-                float dx = -Mth.sin(yaw) * 2;
-                float dz = Mth.cos(yaw) * 2;
-
-                BlockPos targetPos = currentPos.offset((int) dx, 0, (int) dz);
-                if(this.entity.onGround()) {
-                    if (!isDangerousFallZone(entity, targetPos)) {
-                        Vec3 motion = entity.getDeltaMovement();
-                        Vec3 push = new Vec3(-Mth.sin(yaw), motion.y, Mth.cos(yaw)).scale(0.5D).add(motion.scale(0.5D));
-                        entity.setDeltaMovement(push.x, motion.y, push.z);
-                    }
+                if (this.entity.getMoveControl() instanceof FowardMoveController onyxMoveController) {
+                    onyxMoveController.forward(1F, 2.0F);
                 }
+
             }
-        }
-
-        private boolean isDangerousFallZone(PathfinderMob mob, BlockPos pos) {
-            PathNavigation navigation = mob.getNavigation();
-            NodeEvaluator evaluator = navigation.getNodeEvaluator();
-
-            if (evaluator == null) return false;
-
-            BlockPathTypes type = evaluator.getBlockPathType(mob.level(), Mth.floor(pos.getX()),Mth.floor(pos.getY()),Mth.floor(pos.getZ()),mob);
-
-            int safeDrop = 2;
-            BlockPos.MutableBlockPos checkPos = pos.mutable();
-
-            for (int i = 1; i <= safeDrop; i++) {
-                checkPos.move(Direction.DOWN);
-                if (!mob.level().getBlockState(checkPos).isAir()) {
-                    return false;
-                }
-            }
-
-            return type == BlockPathTypes.DAMAGE_OTHER
-                    || type == BlockPathTypes.OPEN
-                    || type == BlockPathTypes.DANGER_OTHER;
         }
 
         @Override

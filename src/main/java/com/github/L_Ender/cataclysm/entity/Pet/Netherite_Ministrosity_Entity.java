@@ -1,13 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.Pet;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.InternalPetStateGoal;
 import com.github.L_Ender.cataclysm.entity.Pet.AI.TameableAIFollowOwner;
 import com.github.L_Ender.cataclysm.entity.etc.SmartBodyHelper2;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import com.github.L_Ender.cataclysm.init.ModSounds;
-import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.inventory.MinistrostiyMenu;
 import com.github.L_Ender.cataclysm.message.MessageMiniinventory;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -30,14 +29,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.BodyRotationControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
@@ -67,7 +64,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         super(type, world);
         this.createInventory();
         this.xpReward = 0;
-        setConfigattribute(this, CMConfig.MinistrosityHealthMultiplier,1);
+        setConfigattribute(this, CMCommonConfig.NetheriteMinistrosity.healthMultiplier,CMCommonConfig.NetheriteMinistrosity.attackMultiplier);
         this.setMaxUpStep(1.0F);
 
     }

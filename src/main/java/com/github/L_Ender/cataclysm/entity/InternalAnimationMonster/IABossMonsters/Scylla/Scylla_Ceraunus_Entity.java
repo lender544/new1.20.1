@@ -1,11 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.client.particle.Options.ParryParticleOptions;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.entity.etc.IHoldEntity;
 import com.github.L_Ender.cataclysm.entity.projectile.Spark_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
-import com.github.L_Ender.cataclysm.init.ModParticle;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.github.L_Ender.cataclysm.message.MessageEntityCamera;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
@@ -16,7 +17,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -25,6 +25,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -32,11 +33,12 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PacketDistributor;
 
+
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class Scylla_Ceraunus_Entity extends AbstractArrow {
+public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity {
 
 	private static final EntityDataAccessor<Optional<UUID>> CONTROLLER_UUID = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.OPTIONAL_UUID);
 	private static final EntityDataAccessor<Integer> CONTROLLER_ID = SynchedEntityData.defineId(Scylla_Ceraunus_Entity.class, EntityDataSerializers.INT);
@@ -166,9 +168,15 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 			if (this.getHookMode()) {
 				if (this.getGrab()) {
 					if (!level().isClientSide) {
-						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.2f))) {
+						for (LivingEntity entity : level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().deflate(0.3f))) {
 							if (entity.equals(controller)) {
+
+								if (!this.getPassengers().isEmpty()) {
+									this.getPassengers().get(0).setShiftKeyDown(false);
+								}
 								this.discard();
+
+
 							}
 						}
 					}
@@ -187,6 +195,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 							this.yOld = this.getY();
 						}else {
 							if (!this.getPassengers().isEmpty()) {
+								//PacketDistributor.sendToPlayersTrackingEntityAndSelf(this.getPassengers().get(0), new MessageEntityCameraSwitch.FirstPerson(this.getPassengers().get(0).getId()));
 								if (this.getPassengers().get(0).isShiftKeyDown()) {
 									this.getPassengers().get(0).setShiftKeyDown(false);
 								}
@@ -200,7 +209,6 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 								}
 							}
 						}
-
 						double d0 = 0.2;
 						this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(vec3.normalize().scale(d0)));
 					}
@@ -252,7 +260,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 		double DeltaMovementZ = this.random.nextGaussian() * 0.1D;
 		if (this.level().isClientSide) {
 			for (int i1 = 0; i1 < 5 + random.nextInt(2); i1++) {
-				this.level().addParticle(ModParticle.SPARK.get(), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+				this.level().addParticle(new ParryParticleOptions(255/255F, 106/255F,  0/255F), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}else{
 			Entity entity1 = this.getController();
@@ -261,10 +269,10 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 				if(this.getPhase() > 0) {
 					for (int i = 0; i < this.getPhase(); i++) {
 						Spark_Entity peq = new Spark_Entity(this.level(), living);
-						peq.setDamage((float) CMConfig.ScyllaLightningStormDamage);
-						peq.setAreaDamage((float) CMConfig.ScyllaLightningAreaDamage);
+						peq.setDamage((float) CMCommonConfig.Scylla.LightningStormDamage);
+						peq.setAreaDamage((float) CMCommonConfig.Scylla.LightningAreaDamage);
 						peq.setAreaRadius(1.0F);
-						peq.setHpDamage((float) CMConfig.ScyllaLightningStormHpDamage);
+						peq.setHpDamage((float) CMCommonConfig.Scylla.StormHpDamage);
 						peq.shoot((this.random.nextFloat() - 0.5) * 0.5F, this.random.nextFloat() * 0.4F + 0.01F, (this.random.nextFloat() - 0.5) * 0.5F, 1.0F, 1F);
 						peq.setPos(this.getX(), this.getY() + 0.03, this.getZ());
 						this.level().addFreshEntity(peq);
@@ -272,9 +280,6 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 				}
 			}
 		}
-
-
-
 	}
 
 	public double getPassengersRidingOffset() {
@@ -283,7 +288,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 
 	@Override
 	protected ItemStack getPickupItem() {
-		return ItemStack.EMPTY;
+		return new ItemStack(Items.ARROW);
 	}
 
 	protected boolean tryPickup(Player player) {
@@ -325,7 +330,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 		if (!this.level().isClientSide) {
 			setXrotOld(this.getXRot());
 			setYrotOld(this.getYRot());
-			ScreenShake_Entity.ScreenShake(level(), this.position(), 25, 0.1f, 0, 20);
+			ScreenShake_Entity.ScreenShake(level(), this.position(), 25, 0.07f, 0, 20);
 			setGrab(true);
 		}
 
@@ -335,8 +340,8 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow {
 		return false;
 	}
 
-	protected float getGravity() {
-		return 0.08F;
+	protected double getDefaultGravity() {
+		return 0.08;
 	}
 
 	protected SoundEvent getDefaultHitGroundSoundEvent() {

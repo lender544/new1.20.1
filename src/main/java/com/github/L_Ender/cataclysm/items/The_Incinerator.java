@@ -1,9 +1,12 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
+import com.github.L_Ender.cataclysm.config.CommonConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.effect.Flame_Strike_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.ScreenShake_Entity;
+import com.github.L_Ender.cataclysm.init.ModAttribute;
 import com.github.L_Ender.cataclysm.init.ModSounds;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -19,7 +22,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -33,26 +35,28 @@ import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
-public class The_Incinerator extends Item implements More_Tool_Attribute {
-    private final Multimap<Attribute, AttributeModifier> incineratorAttributes;
+public class The_Incinerator extends Cataclysm_Weapon_Item {
 
-    public The_Incinerator(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 13.0D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.7F, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 2.0F, AttributeModifier.Operation.ADDITION));
-        this.incineratorAttributes = builder.build();
+    public The_Incinerator(Item.Properties properties) {
+
+        super(properties,13.0F, -2.6F);
+
     }
+
+    @Override
+    protected void initAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
+        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 2.0F, AttributeModifier.Operation.ADDITION));
+    }
+
 
 
     public UseAnim getUseAnimation(ItemStack p_77661_1_) {
         return UseAnim.BOW;
     }
 
-    public int getUseDuration(ItemStack p_77626_1_) {
+    @Override
+    public int getUseDuration(ItemStack pStack) {
         return 72000;
     }
 
@@ -73,7 +77,7 @@ public class The_Incinerator extends Item implements More_Tool_Attribute {
                 }
                 if (hasSucceeded) {
                     if (!p_43395_.isClientSide) {
-                        player.getCooldowns().addCooldown(this, CMConfig.TheIncineratorCooldown);
+                        player.getCooldowns().addCooldown(this, CMCommonConfig.Incinerator.cooldown);
                     }
                     ScreenShake_Entity.ScreenShake(p_43395_, player.position(), 30, 0.15f, 0, 30);
                     player.playSound(ModSounds.SWORD_STOMP.get(), 1.0F, 1.0f);
@@ -89,18 +93,23 @@ public class The_Incinerator extends Item implements More_Tool_Attribute {
         }
     }
 
-    public InteractionResultHolder<ItemStack> use(Level p_77659_1_, Player p_77659_2_, InteractionHand p_77659_3_) {
-        ItemStack item = p_77659_2_.getItemInHand(p_77659_3_);
-        InteractionHand otherhand = p_77659_3_ == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
-
-        ItemStack otheritem = p_77659_2_.getItemInHand(otherhand);
-
-        if (otheritem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !p_77659_2_.getCooldowns().isOnCooldown(otheritem.getItem())) {
-            return InteractionResultHolder.fail(item);
-        }else{
-            p_77659_2_.startUsingItem(p_77659_3_);
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack item = player.getItemInHand(hand);
+        if (hand == InteractionHand.OFF_HAND) {
+            player.startUsingItem(hand);
             return InteractionResultHolder.consume(item);
         }
+        if (hand == InteractionHand.MAIN_HAND) {
+            ItemStack offHandItem = player.getItemInHand(InteractionHand.OFF_HAND);
+            if (offHandItem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !player.getCooldowns().isOnCooldown(offHandItem.getItem())) {
+                return InteractionResultHolder.pass(item);
+            } else {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.consume(item);
+            }
+        }
+        return InteractionResultHolder.pass(item);
     }
 
     @Override
@@ -108,15 +117,6 @@ public class The_Incinerator extends Item implements More_Tool_Attribute {
         return true;
     }
 
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public int getEnchantmentValue() {
-        return 16;
-    }
 
     public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
         return !player.isCreative();
@@ -168,10 +168,6 @@ public class The_Incinerator extends Item implements More_Tool_Attribute {
     @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category == EnchantmentCategory.WEAPON;
-    }
-
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.incineratorAttributes : super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
     @Override

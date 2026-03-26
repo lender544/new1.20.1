@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.client.gui;
 
+import com.github.L_Ender.cataclysm.Cataclysm;
 import com.github.L_Ender.cataclysm.inventory.WeaponfusionMenu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class GUIWeponfusion extends ItemCombinerScreen<WeaponfusionMenu> {
-    private static final ResourceLocation SMITHING_LOCATION = new ResourceLocation("cataclysm:textures/gui/fusion.png");
+    private static final ResourceLocation SMITHING_LOCATION = new ResourceLocation(Cataclysm.MODID,"textures/gui/fusion.png");
 
     public GUIWeponfusion(WeaponfusionMenu p_99290_, Inventory p_99291_, Component p_99292_) {
         super(p_99290_, p_99291_, p_99292_, SMITHING_LOCATION);

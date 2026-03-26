@@ -13,9 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-
 @OnlyIn(Dist.CLIENT)
-public class Drowned_Host_Outer_Layer<T extends Drowned_Host_Entity> extends RenderLayer<T, Drowned_Host_Model<T>> {
+public class Drowned_Host_Outer_Layer <T extends Drowned_Host_Entity> extends RenderLayer<T, Drowned_Host_Model<T>> {
     private static final ResourceLocation DROWNED_OUTER_LAYER_LOCATION = new ResourceLocation(Cataclysm.MODID,"textures/entity/sea/drowned_host_outer_layer.png");
 
 
@@ -25,7 +24,6 @@ public class Drowned_Host_Outer_Layer<T extends Drowned_Host_Entity> extends Ren
         super(renderer);
         this.model = new Drowned_Host_Model<>(modelSet.bakeLayer(CMModelLayers.DROWNED_HOST_OUTER_LAYER));
     }
-
 
 
     public void render(PoseStack p_116924_, MultiBufferSource p_116925_, int p_116926_, T p_116927_, float p_116928_, float p_116929_, float p_116930_, float p_116931_, float p_116932_, float p_116933_) {

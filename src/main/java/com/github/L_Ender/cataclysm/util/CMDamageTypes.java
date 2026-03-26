@@ -23,15 +23,24 @@ public class CMDamageTypes {
     public static final ResourceKey<DamageType> MALEDICTIO = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio"));
     public static final ResourceKey<DamageType> MALEDICTIO_SAGITTA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_sagitta"));
     public static final ResourceKey<DamageType> MALEDICTIO_MAGICAE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_magicae"));
-    public static final ResourceKey<DamageType> MALEDICTIO_ANIMA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_anima"));
-
     public static final ResourceKey<DamageType> PENETRATE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"penetrate"));
+    public static final ResourceKey<DamageType> MALEDICTIO_ANIMA = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"maledictio_anima"));
     public static final ResourceKey<DamageType> LIGHTNING = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"lightning"));
     public static final ResourceKey<DamageType> STORM_BRINGER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"storm_bringer"));
+    public static final ResourceKey<DamageType> PLAYER_CERAUNUS = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"player_ceraunus"));
+
     public static final ResourceKey<DamageType> FLAME_STRIKE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"flame_strike"));
+    public static final ResourceKey<DamageType> STAR_LANCE = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"star_lance"));
 
 
-    public static DamageSource causeLaserDamage(Entity attacker, LivingEntity caster) {
+    public static final ResourceKey<DamageType> DRACONIC_WOUND = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"draconic_wound"));
+    public static final ResourceKey<DamageType> DRACONIC_SLASH = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"draconic_slash"));
+    public static final ResourceKey<DamageType> DRACONIC_WOUND_ERUPTION = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"draconic_wound_eruption"));
+
+    public static final ResourceKey<DamageType> DAGGER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Cataclysm.MODID,"dagger"));
+
+
+    public static DamageSource causeLaserDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LASER), attacker, caster);
     }
 
@@ -71,6 +80,11 @@ public class CMDamageTypes {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_SAGITTA), attacker,caster);
     }
 
+    public static DamageSource causeStarLanceDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(STAR_LANCE), attacker,caster);
+    }
+
+
     public static DamageSource causeMaledictioMagicaeDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(MALEDICTIO_MAGICAE), attacker,caster);
     }
@@ -78,6 +92,15 @@ public class CMDamageTypes {
     public static DamageSource causePenetrateDamage(LivingEntity attacker) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(PENETRATE), attacker);
     }
+
+    public static DamageSource causeDraconicSlashMobDamage(LivingEntity attacker) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(DRACONIC_SLASH), attacker);
+    }
+
+    public static DamageSource causeDraconicWoundEruptionDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(DRACONIC_WOUND_ERUPTION), attacker,caster);
+    }
+
 
     public static DamageSource causeLightningDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(LIGHTNING), attacker,caster);
@@ -91,8 +114,16 @@ public class CMDamageTypes {
     public static DamageSource causeStormBringerDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(STORM_BRINGER), attacker,caster);
     }
+
+    public static DamageSource causeDaggerDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(DAGGER), attacker,caster);
+    }
+
+    public static DamageSource causePlayerCeraunusDamage(Entity attacker, Entity caster) {
+        return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(PLAYER_CERAUNUS), attacker,caster);
+    }
+
     public static DamageSource causeFlameStrikeDamage(Entity attacker, Entity caster) {
         return new DamageSource(attacker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(FLAME_STRIKE), attacker,caster);
     }
-
 }

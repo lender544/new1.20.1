@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.entity.effect.Cm_Falling_Block_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
@@ -9,9 +8,6 @@ import com.github.L_Ender.cataclysm.init.ModTag;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -56,10 +52,6 @@ public class Dimensional_Rift_Entity extends Entity {
         this.setPos(x, y, z);
     }
 
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
-    }
 
     public void tick() {
         super.tick();
@@ -137,12 +129,12 @@ public class Dimensional_Rift_Entity extends Entity {
         if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity && !(Hitentity instanceof The_Leviathan_Entity)) {
             if (this.tickCount % 5 == 0) {
                 if (livingentity == null) {
-                    Hitentity.hurt(damageSources().magic(), (float) CMConfig.DimensionalRiftdamage);
+                    Hitentity.hurt(damageSources().magic(), 10f);
                 } else {
                     if (livingentity.isAlliedTo(Hitentity)) {
                         return;
                     }
-                    Hitentity.hurt(damageSources().indirectMagic(this, livingentity), (float) CMConfig.DimensionalRiftdamage);
+                    Hitentity.hurt(damageSources().indirectMagic(this, livingentity),10f);
                 }
             }
         }

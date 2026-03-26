@@ -1,6 +1,5 @@
 package com.github.L_Ender.cataclysm.message;
 
-import com.github.L_Ender.cataclysm.capabilities.HookCapability;
 import com.github.L_Ender.cataclysm.capabilities.TidalTentacleCapability;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import net.minecraft.client.Minecraft;
@@ -9,7 +8,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.network.NetworkEvent;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
 public class MessageTidalTentacle {

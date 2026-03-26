@@ -33,17 +33,15 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class Ancient_Spear extends Item implements ILeftClick, Vanishable, More_Tool_Attribute {
-    private final Multimap<Attribute, AttributeModifier> incineratorAttributes;
+public class Ancient_Spear extends Cataclysm_Weapon_Item implements ILeftClick, Vanishable {
 
     public Ancient_Spear(Properties group) {
-        super(group);
-        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", 8.5D, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.6F, AttributeModifier.Operation.ADDITION));
+        super(group,8.5D,-2.6F);
+    }
+
+    protected void initAttributes(ImmutableMultimap.Builder<Attribute, AttributeModifier> builder) {
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(BASE_ENTITY_INTERACTION_RANGE_ID, "Tool modifier", 1.5F, AttributeModifier.Operation.ADDITION));
 
-        this.incineratorAttributes = builder.build();
     }
 
     private boolean isCharged(Player player, ItemStack stack){
@@ -146,11 +144,6 @@ public class Ancient_Spear extends Item implements ILeftClick, Vanishable, More_
     }
 
 
-
-    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
-        return equipmentSlot == EquipmentSlot.MAINHAND ? this.incineratorAttributes : super.getDefaultAttributeModifiers(equipmentSlot);
-    }
-
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return net.minecraftforge.common.ToolActions.DEFAULT_SWORD_ACTIONS.contains(toolAction);
@@ -163,6 +156,7 @@ public class Ancient_Spear extends Item implements ILeftClick, Vanishable, More_
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        super.appendHoverText(stack,worldIn,tooltip,flagIn);
         tooltip.add(Component.translatable("item.cataclysm.ancient_spear.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
 }

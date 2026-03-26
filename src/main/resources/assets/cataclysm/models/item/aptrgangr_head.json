@@ -9,11 +9,6 @@
       "translation": [ 0, 0, 0 ],
       "scale": [ 0.6, 0.6, 0.6 ]
     },
-    "head": {
-      "rotation": [ 180, 0, 180 ],
-      "translation": [ 0, 0, 0 ],
-      "scale":[ 1.8, 1.8, 1.8 ]
-    },
     "fixed": {
       "rotation": [ 0, 180, 0 ],
       "translation": [ 0, 2, 0],

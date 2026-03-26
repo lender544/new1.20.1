@@ -55,7 +55,10 @@ public class InternalStateGoal extends Goal {
             this.entity.setAttackState(attackstate);
         }
     }
-
+    @Override
+    public boolean isInterruptable() {
+        return false;
+    }
     @Override
     public void stop() {
         this.entity.setAttackState(attackendstate);
@@ -69,12 +72,21 @@ public class InternalStateGoal extends Goal {
 
     public void tick() {
         LivingEntity target = entity.getTarget();
-        if (entity.attackTicks < attackseetick && target != null) {
-            entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            entity.lookAt(target, 30.0F, 30.0F);
-        } else {
+        if(target !=null){
+            boolean flag = entity.attackTicks < attackseetick;
+            if(flag){
+                entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            }else{
+                entity.getLookControl().setLookAt(target,0F, 30.0F);
+                entity.setYRot(entity.yRotO);
+            }
+
+        }else{
             entity.setYRot(entity.yRotO);
         }
+
+
     }
 
     @Override

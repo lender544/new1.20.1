@@ -78,5 +78,4 @@ public class Remnant_Skull extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("item.cataclysm.remnant_skull.desc").withStyle(ChatFormatting.DARK_GREEN));
     }
-
 }

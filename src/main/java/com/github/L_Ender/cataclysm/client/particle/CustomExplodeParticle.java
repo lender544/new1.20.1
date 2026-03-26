@@ -19,12 +19,11 @@ public class CustomExplodeParticle extends TextureSheetParticle {
 
     }
 
-
-
     public void tick() {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
+
         if (this.age++ >= this.lifetime) {
             this.remove();
         }else{
@@ -73,6 +72,22 @@ public class CustomExplodeParticle extends TextureSheetParticle {
             CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, spriteSet);
             particle.setSpriteFromAge(spriteSet);
             particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
+            return particle;
+        }
+    }
+
+    public static class LightningFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public LightningFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            CustomExplodeParticle particle = new CustomExplodeParticle(worldIn, x, y, z, xSpeed, spriteSet);
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(0.5F);
+            particle.setLifetime(5);
             return particle;
         }
     }

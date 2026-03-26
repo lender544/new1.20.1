@@ -5,7 +5,11 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.ZombieModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
-import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.client.model.geom.builders.CubeDeformation;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -34,14 +38,14 @@ public class Drowned_Host_Model<T extends Zombie> extends ZombieModel<T> {
     }
 
     public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        this.rightArmPose = ArmPose.EMPTY;
-        this.leftArmPose = ArmPose.EMPTY;
+        this.rightArmPose = HumanoidModel.ArmPose.EMPTY;
+        this.leftArmPose = HumanoidModel.ArmPose.EMPTY;
         ItemStack itemstack = entity.getItemInHand(InteractionHand.MAIN_HAND);
         if (itemstack.is(Items.TRIDENT) && entity.isAggressive()) {
             if (entity.getMainArm() == HumanoidArm.RIGHT) {
-                this.rightArmPose = ArmPose.THROW_SPEAR;
+                this.rightArmPose = HumanoidModel.ArmPose.THROW_SPEAR;
             } else {
-                this.leftArmPose = ArmPose.THROW_SPEAR;
+                this.leftArmPose = HumanoidModel.ArmPose.THROW_SPEAR;
             }
         }
 
@@ -53,7 +57,7 @@ public class Drowned_Host_Model<T extends Zombie> extends ZombieModel<T> {
      */
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        if (this.leftArmPose == ArmPose.THROW_SPEAR) {
+        if (this.leftArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
             this.leftArm.xRot = this.leftArm.xRot * 0.5F - (float) Math.PI;
             this.leftArm.yRot = 0.0F;
         }
@@ -61,7 +65,7 @@ public class Drowned_Host_Model<T extends Zombie> extends ZombieModel<T> {
             this.head.xRot -= (float) Math.toRadians(22.5F);
         }
 
-        if (this.rightArmPose == ArmPose.THROW_SPEAR) {
+        if (this.rightArmPose == HumanoidModel.ArmPose.THROW_SPEAR) {
             this.rightArm.xRot = this.rightArm.xRot * 0.5F - (float) Math.PI;
             this.rightArm.yRot = 0.0F;
         }

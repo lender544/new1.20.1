@@ -47,12 +47,20 @@ public class PredictiveChargeAttackAnimationGoal<T extends LLibrary_Monster & IA
     }
 
     public void tick() {
-        if (entity.getAnimationTick() < look1 && target != null || entity.getAnimationTick() > look2 && target != null) {
-            entity.getLookControl().setLookAt(target, 30.0F, 30.0F);
-            entity.setYRot(entity.yBodyRot);
-        } else {
+        if(target !=null){
+            boolean flag = entity.getAnimationTick() < look1 || entity.getAnimationTick() > look2;
+            if(flag){
+                entity.getLookControl().setLookAt(target,  30.0F, 30.0F);
+                entity.lookAt(target, 30.0F, 30.0F);
+            }else{
+                entity.getLookControl().setLookAt(target,0F, 30.0F);
+                entity.setYRot(entity.yRotO);
+            }
+
+        }else{
             entity.setYRot(entity.yRotO);
         }
+
         if (entity.getAnimationTick() == (charge -1) && target != null) {
             double x = target.getX();
             double z = target.getZ();

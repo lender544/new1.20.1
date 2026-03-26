@@ -1,21 +1,17 @@
 package com.github.L_Ender.cataclysm.capabilities;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
+import com.github.L_Ender.cataclysm.client.particle.Options.RingParticleOptions;
 import com.github.L_Ender.cataclysm.client.particle.RingParticle;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
-import com.github.L_Ender.cataclysm.entity.effect.Wall_Watcher_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Halberd_Entity;
-import com.github.L_Ender.cataclysm.entity.projectile.Void_Rune_Entity;
 import com.github.L_Ender.cataclysm.init.ModCapabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -27,7 +23,6 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class RenderRushCapability {
     public static ResourceLocation ID = new ResourceLocation(Cataclysm.MODID, "render_rush_cap");
@@ -89,9 +84,9 @@ public class RenderRushCapability {
                             double z = entity.getZ();
                             float yaw2 = (float) Math.toRadians(-entity.getYRot());
                             float yaw3 = (float) Math.toRadians(-entity.getYRot() + 180);
-                            entity.level().addParticle(new RingParticle.RingData(yaw2, 0, 20, 0.337f, 0.925f, 0.8f, 1.0f, 30f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
+                            entity.level().addParticle(new RingParticleOptions(yaw2, 0, 20, 86, 236, 204, 1.0f, 30f, false, 2), x, y, z, 0, 0, 0);
 
-                            entity.level().addParticle(new RingParticle.RingData(yaw3, 0, 20, 0.337f, 0.925f, 0.8f, 1.0f, 30f, false, RingParticle.EnumRingBehavior.GROW_THEN_SHRINK), x, y, z, 0, 0, 0);
+                            entity.level().addParticle(new RingParticleOptions(yaw3, 0, 20, 86, 236, 204, 1.0f, 30f, false, 2), x, y, z, 0, 0, 0);
 
                         }
                     }
@@ -129,7 +124,7 @@ public class RenderRushCapability {
             } while (blockpos.getY() >= lowestYCheck);
 
             if (flag) {
-                world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player,(float) CMConfig.PhantomHalberddamage));
+                world.addFreshEntity(new Phantom_Halberd_Entity(world, x, (double) blockpos.getY() + d0, z, yRot, warmupDelayTicks, player,(float) CMCommonConfig.SoulRender.phantomHalberdDamage));
             }
         }
 

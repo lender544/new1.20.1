@@ -112,7 +112,7 @@ public class Drowned_Host_Entity extends Zombie implements RangedAttackMob {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor accessor, DifficultyInstance difficulty, MobSpawnType reason, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag) {
         data = super.finalizeSpawn(accessor, difficulty, reason, data, tag);
 
-        com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Symbiocto_Entity upper = new com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Symbiocto_Entity(ModEntities.SYMBIOCTO.get(), this.level());
+        Symbiocto_Entity upper = new Symbiocto_Entity(ModEntities.SYMBIOCTO.get(), this.level());
         upper.moveTo(this.getX(), this.getY() + 1.3125F, this.getZ(), this.getYRot(), 0.0F);
         upper.finalizeSpawn(accessor, difficulty, MobSpawnType.NATURAL, data, tag);
         upper.setYBodyRot(this.yBodyRot);

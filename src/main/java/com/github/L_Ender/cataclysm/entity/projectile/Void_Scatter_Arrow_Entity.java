@@ -52,13 +52,8 @@ public class Void_Scatter_Arrow_Entity extends AbstractArrow {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
     protected ItemStack getPickupItem() {
-        return new ItemStack(Items.ARROW);
+        return new ItemStack(ModItems.VOID_SCATTER_ARROW.get());
     }
 
 

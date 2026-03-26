@@ -79,7 +79,7 @@ public class Tidal_Tentacle_Renderer extends EntityRenderer<Tidal_Tentacle_Entit
                 float rotY = (float) (Mth.atan2(to.x, to.z) * (double) (180F / (float) Math.PI));
                 float rotX = (float) (-(Mth.atan2(to.y, to.horizontalDistance()) * (double) (180F / (float) Math.PI)));
                 CLAW_MODEL.setAttributes(rotX, rotY);
-                CLAW_MODEL.renderToBuffer(poseStack, clawConsumer, getLightColor(entity, to.add(x, y, z)), OverlayTexture.NO_OVERLAY, 1, 1F, 1, 1F);
+                CLAW_MODEL.renderToBuffer(poseStack, clawConsumer, getLightColor(entity, to.add(x, y, z)), OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
                 poseStack.popPose();
             }
         }
@@ -94,7 +94,7 @@ public class Tidal_Tentacle_Renderer extends EntityRenderer<Tidal_Tentacle_Entit
         poseStack.pushPose();
         poseStack.translate(from.x, from.y, from.z);
         TONGUE_MODEL.setAttributes((float) sub.length(), rotX, rotY, additionalYaw);
-        TONGUE_MODEL.renderToBuffer(poseStack, buffer, packedLightIn, overlayCoords, 1, 1F, 1, 1);
+        TONGUE_MODEL.renderToBuffer(poseStack, buffer, packedLightIn, overlayCoords,1.0F,1.0F,1.0F,1.0F);
         poseStack.popPose();
     }
 

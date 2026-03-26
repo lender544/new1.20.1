@@ -3,8 +3,7 @@ package com.github.L_Ender.cataclysm.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+
 
 public class Phantom_Wing_FlameParticle extends RisingParticle {
     private final SpriteSet sprites;
@@ -30,7 +29,7 @@ public class Phantom_Wing_FlameParticle extends RisingParticle {
         this.setSpriteFromAge(this.sprites);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class EmissiveProvider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 
@@ -46,7 +45,7 @@ public class Phantom_Wing_FlameParticle extends RisingParticle {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;
 

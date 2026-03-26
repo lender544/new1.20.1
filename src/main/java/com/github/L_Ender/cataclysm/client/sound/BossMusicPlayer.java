@@ -1,6 +1,7 @@
 package com.github.L_Ender.cataclysm.client.sound;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
+import com.github.L_Ender.cataclysm.config.CMClientConfig;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.etc.Animation_Monsters;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
@@ -11,8 +12,7 @@ public class BossMusicPlayer {
     public static BossMusicSound bossMusic;
 
     public static void playBossMusic(Animation_Monsters entity) {
-        if (!CMConfig.BossMusic) return;
-
+        if (!CMClientConfig.BossMusic) return;
         SoundEvent soundEvent = entity.getBossMusic();
         if (soundEvent != null && entity.isAlive()) {
             Player player = Minecraft.getInstance().player;
@@ -39,7 +39,7 @@ public class BossMusicPlayer {
     }
 
     public static void stopBossMusic(Animation_Monsters entity) {
-        if (!CMConfig.BossMusic) return;
+        if (!CMClientConfig.BossMusic) return;
 
         if (bossMusic != null && bossMusic.getBoss() == entity)
             bossMusic.setBoss(null);

@@ -1,24 +1,18 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-
-import com.github.L_Ender.cataclysm.client.particle.CircleLightningParticle;
+import com.github.L_Ender.cataclysm.client.particle.Options.CircleLightningParticleOptions;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Area_Effect_Entity;
 import com.github.L_Ender.cataclysm.entity.effect.Lightning_Storm_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +22,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 
 
 public class Spark_Entity extends ThrowableProjectile {
@@ -64,17 +57,11 @@ public class Spark_Entity extends ThrowableProjectile {
     }
 
 
-    @Override
     protected void defineSynchedData() {
         this.entityData.define(DAMAGE,0f);
         this.entityData.define(AREA_RADIUS,0f);
         this.entityData.define(HP_DAMAGE,0f);
         this.entityData.define(AREA_DAMAGE,0f);
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
 
@@ -116,10 +103,9 @@ public class Spark_Entity extends ThrowableProjectile {
 
         if(this.level().isClientSide){
             Vec3 center = this.position().add(this.getDeltaMovement());
-            this.level().addParticle(new CircleLightningParticle.CircleData(143, 241, 215), center.x, center.y, center.z, xo, yo, zo);
+            this.level().addParticle(new CircleLightningParticleOptions(0.1F,143, 241, 215), center.x, center.y, center.z, xo, yo, zo);
 
         }
-
 
 
     }

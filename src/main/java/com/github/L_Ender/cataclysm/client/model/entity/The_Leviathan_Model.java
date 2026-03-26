@@ -2901,7 +2901,7 @@ public class The_Leviathan_Model extends AdvancedEntityModel<The_Leviathan_Entit
 		float finspeed = 0.1F;
 		float finDegree = 0.2F;
 		boolean swimAnimate = entityIn.isInWater();
-		float partialTick = Minecraft.getInstance().getFrameTime();
+		float partialTick = Minecraft.getInstance().getPartialTick();
 		float LeftTentacleProgress = entityIn.prevLeftTentacleProgress + (entityIn.LeftTentacleProgress - entityIn.prevLeftTentacleProgress) * partialTick;
 		float RightTentacleProgress = entityIn.prevRightTentacleProgress + (entityIn.RightTentacleProgress - entityIn.prevRightTentacleProgress) * partialTick;
 		float NoswimProgress = entityIn.prevNoSwimProgress + (entityIn.NoSwimProgress - entityIn.prevNoSwimProgress) * partialTick;

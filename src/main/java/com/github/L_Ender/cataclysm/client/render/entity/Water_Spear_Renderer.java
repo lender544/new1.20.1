@@ -40,10 +40,11 @@ public class Water_Spear_Renderer extends EntityRenderer<Water_Spear_Entity>
         poseStack.scale(-1.0F, -1.0F, 1.0F);
         float f = Mth.rotLerp(partialTicks, entity.yRotO, entity.getYRot());
         float f1 = Mth.lerp(partialTicks, entity.xRotO, entity.getXRot());
+       // this.model.setupAnim(f, f1);
         this.model.setupAnim(entity, 0.0F, 0.0F,entity.tickCount + partialTicks, f, f1);
         VertexConsumer vertexconsumer = buffer.getBuffer(CMRenderTypes.getGhost(this.getTextureLocation(entity)));
       //  this.model.setupAnim(f, f1);
-        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1,1,1,1);
+        this.model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY,1.0F,1.0F,1.0F,1.0F);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }

@@ -163,9 +163,4 @@ public class Elite_Draugr_Model extends HierarchicalModel<Elite_Draugr_Entity> i
 		return this.root;
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
-
-	}
 }

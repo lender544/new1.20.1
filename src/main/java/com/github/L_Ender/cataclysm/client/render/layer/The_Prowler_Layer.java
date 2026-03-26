@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.WalkAnimationState;
 import net.minecraftforge.api.distmarker.Dist;
@@ -42,7 +43,7 @@ public class The_Prowler_Layer extends RenderLayer<The_Prowler_Entity, The_Prowl
 
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, The_Prowler_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            //need rework
+        //need rework
         float f = 1.0F - entity.deathTime / (float) entity.deathtimer();
         RenderType eyes = CMRenderTypes.CMEyes(this.getTextureLocation(entity));
         VertexConsumer VertexConsumer = bufferIn.getBuffer(eyes);

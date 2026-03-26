@@ -1,13 +1,10 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.config.CMConfig;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +18,6 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
 
 
 public class Urchin_Spike_Entity extends ThrowableItemProjectile {
@@ -52,16 +48,11 @@ public class Urchin_Spike_Entity extends ThrowableItemProjectile {
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
         Entity shooter = this.getOwner();
         Entity entity = result.getEntity();
-        float i = (float) CMConfig.BlazingBonedamage;
+        float i = (float) 4;
         if (shooter instanceof LivingEntity) {
             if (!((entity == shooter) || (shooter.isAlliedTo(entity)))) {
                 if(entity.hurt(this.damageSources().mobProjectile(this, (LivingEntity) shooter), i)) {
@@ -75,13 +66,16 @@ public class Urchin_Spike_Entity extends ThrowableItemProjectile {
         }
     }
 
+
+    public boolean isInWater() {
+        return false;
+    }
+
     @Override
     public boolean isNoGravity() {
         return false;
     }
-    public boolean isInWater() {
-        return false;
-    }
+
     protected void onHit(HitResult result) {
         super.onHit(result);
         if (!this.level().isClientSide) {

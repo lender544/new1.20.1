@@ -13,23 +13,21 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 
 
-@OnlyIn(Dist.CLIENT)
 public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
 
     private static final ResourceLocation OUTER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/monstrosity/flare_bomb_outer.png");
 
     private static final ResourceLocation INNER_TEXTURES = new ResourceLocation(Cataclysm.MODID,"textures/entity/monstrosity/flare_bomb_inner.png");
-
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(Cataclysm.MODID, "textures/particle/amogus.png");
 
     private final Flare_Bomb_Model model;
@@ -46,9 +44,11 @@ public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
         matrixStackIn.mulPose((new Quaternionf()).setAngleAxis(entityYaw * ((float)Math.PI / 180F), 0, -1.0F, 0));
         VertexConsumer VertexConsumer = bufferIn.getBuffer(CMRenderTypes.CMEyes(this.getTextureLocation(entityIn)));
         model.setupAnim(entityIn, 0, 0, entityIn.tickCount + partialTicks, 0, 0);
-        model.renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 1);
+        model.renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F,1.0F,1.0F,1.0F);
         VertexConsumer VertexConsumer2 = bufferIn.getBuffer(CMRenderTypes.CMEyes(OUTER_TEXTURES));
-        model.renderToBuffer(matrixStackIn, VertexConsumer2, packedLightIn, OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.4F);
+
+        int i = FastColor.ARGB32.color(102, 255, 255, 255);
+        model.renderToBuffer(matrixStackIn, VertexConsumer2, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F,1.0F,1.0F,0.4F);
         matrixStackIn.popPose();
         if (entityIn.hasTrail()) {
             double x = Mth.lerp(partialTicks, entityIn.xOld, entityIn.getX());
@@ -65,13 +65,16 @@ public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
         }
     }
 
+    protected int getBlockLightLevel(Flare_Bomb_Entity entityIn, BlockPos pos) {
+        return 15;
+    }
+
     private void renderTrail(Flare_Bomb_Entity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
         int sampleSize = 10;
         float trailHeight = 0.5F;
-        float trailYRot = 0;
         float trailZRot = 0;
-        Vec3 topAngleVec = new Vec3(trailHeight, trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
-        Vec3 bottomAngleVec = new Vec3(-trailHeight, -trailHeight, 0).yRot(trailYRot).zRot(trailZRot);
+        Vec3 topAngleVec = new Vec3(0, trailHeight, 0).zRot(trailZRot);
+        Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
         Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
         PoseStack.Pose posestack$pose = poseStack.last();
         Matrix4f matrix4f = posestack$pose.pose();
@@ -90,11 +93,11 @@ public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
 
             drawFrom = sample;
         }
-
-
     }
 
-    private void addVertex(VertexConsumer consumer, Matrix4f matrix,Matrix3f matrix3, Vec3 pos, Vec3 offset,float r,float g,float b, float u, float v, int light) {
+
+
+    private void addVertex(VertexConsumer consumer, Matrix4f matrix, Matrix3f matrix3, Vec3 pos, Vec3 offset, float r, float g, float b, float u, float v, int light) {
         consumer.vertex(matrix,
                         (float) (pos.x + offset.x),
                         (float) (pos.y + offset.y),
@@ -106,9 +109,6 @@ public class Flare_Bomb_Renderer extends EntityRenderer<Flare_Bomb_Entity> {
                 .normal(matrix3,0.0F, 1.0F, 0.0F).endVertex();
     }
 
-    protected int getBlockLightLevel(Flare_Bomb_Entity entityIn, BlockPos pos) {
-        return 15;
-    }
 
     @Override
     public ResourceLocation getTextureLocation(Flare_Bomb_Entity entity) {

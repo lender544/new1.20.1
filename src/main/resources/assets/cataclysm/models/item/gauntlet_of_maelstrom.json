@@ -3,13 +3,13 @@
   "display": {
     "gui": {
       "rotation": [
-        90,
-        -45,
-        -90
+        50,
+        25,
+        0
       ],
       "translation": [
+        1.5,
         7,
-        -6,
         0
       ],
       "scale": [

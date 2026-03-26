@@ -1,10 +1,10 @@
 package com.github.L_Ender.cataclysm.items;
 
 import com.github.L_Ender.cataclysm.Cataclysm;
-import com.github.L_Ender.cataclysm.config.CMConfig;
-import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
+import com.github.L_Ender.cataclysm.config.CMCommonConfig;
 import com.github.L_Ender.cataclysm.entity.projectile.Phantom_Arrow_Entity;
 import com.github.L_Ender.cataclysm.init.ModItems;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,11 +14,9 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -28,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.registries.ForgeRegistries;
+
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -46,7 +44,7 @@ public class Cursed_bow extends ProjectileWeaponItem  {
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
     }
-    
+
     public InteractionResultHolder<ItemStack> use(Level p_40672_, Player p_40673_, InteractionHand p_40674_) {
         ItemStack itemstack = p_40673_.getItemInHand(p_40674_);
         boolean flag = !p_40673_.getProjectile(itemstack).isEmpty();
@@ -81,12 +79,12 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                 int set = useTime +  1;
                 setUseTime(stack, set);
                 //Cataclysm.sendMSGToServer(new MessageUpdateItemTag(entity.getId(), stack));
-                }
-            }
-            if (!using && useTime > 0.0F) {
-                setUseTime(stack, Math.max(0, useTime - 5));
             }
         }
+        if (!using && useTime > 0.0F) {
+            setUseTime(stack, Math.max(0, useTime - 5));
+        }
+    }
 
 
     private static int getMaxLoadTime() {
@@ -193,14 +191,14 @@ public class Cursed_bow extends ProjectileWeaponItem  {
                             if (hommingArrows) {
                                 if (pointedEntity instanceof LivingEntity target && !target.isAlliedTo(living)) {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living, target);
-                                    hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    hommingArrowEntity.setBaseDamage((float)CMCommonConfig.CursedBow.damage * f);
                                     if (p > 0) {
                                         hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }
                                     abstractarrow = hommingArrowEntity;
                                 } else {
                                     Phantom_Arrow_Entity hommingArrowEntity = new Phantom_Arrow_Entity(level, living);
-                                    hommingArrowEntity.setBaseDamage(CMConfig.PlayerPhantomArrowbasedamage * f);
+                                    hommingArrowEntity.setBaseDamage((float)CMCommonConfig.CursedBow.damage * f);
                                     if (p > 0) {
                                         hommingArrowEntity.setBaseDamage(hommingArrowEntity.getBaseDamage() + (double)p * 0.35D + 0.5D);
                                     }

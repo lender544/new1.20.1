@@ -6,14 +6,11 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.ToolAction;
-import net.minecraftforge.common.ToolActions;
 
-import java.util.function.Consumer;
 
-public class Azure_Sea_Shield extends ShieldItem {
+public class Azure_sea_Shield extends ShieldItem {
 
-	public Azure_Sea_Shield(Properties properties) {
+	public Azure_sea_Shield(Properties properties) {
 		super(properties);
 	}
 
@@ -24,12 +21,12 @@ public class Azure_Sea_Shield extends ShieldItem {
 	}
 
 	@Override
-	public boolean canPerformAction(ItemStack stack, ToolAction toolAction) {
-		return ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
+	public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+		return net.minecraftforge.common.ToolActions.DEFAULT_SHIELD_ACTIONS.contains(toolAction);
 	}
-
 	@Override
-	public void initializeClient(Consumer<IClientItemExtensions> consumer) {
+	public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
 		consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());
 	}
+	
 }
