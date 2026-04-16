@@ -61,7 +61,7 @@ public abstract class LivingEntityMixin extends Entity {
     @Unique
     private void dev1_21_1$handleStunEffectLogic(MobEffectInstance effectInstance, @Nullable Entity source, CallbackInfoReturnable<Boolean> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
-        if (!(self instanceof Player player) || !effectInstance.getEffect().equals(ModEffect.EFFECTSTUN)) {
+        if (!(self instanceof Player player) || !effectInstance.getEffect().equals(ModEffect.EFFECTSTUN.get())) {
             return;
         }
         if (EntityUtil.isEquipped(ModItems.UNBREAKABLE_SKULL.get(), player)

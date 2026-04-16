@@ -14,12 +14,12 @@ import net.minecraft.network.FriendlyByteBuf;
 
 import org.jetbrains.annotations.NotNull;
 
-public record ParryParticleOptions(float r, float g, float b) implements ParticleOptions {
+public record ParryParticleOptions(int r, int g, int b) implements ParticleOptions {
     public static final Codec<ParryParticleOptions> CODEC = RecordCodecBuilder.create(instance ->
             instance.group(
-                    Codec.FLOAT.fieldOf("r").forGetter(ParryParticleOptions::r),
-                    Codec.FLOAT.fieldOf("g").forGetter(ParryParticleOptions::g),
-                    Codec.FLOAT.fieldOf("b").forGetter(ParryParticleOptions::b)
+                    Codec.INT.fieldOf("r").forGetter(ParryParticleOptions::r),
+                    Codec.INT.fieldOf("g").forGetter(ParryParticleOptions::g),
+                    Codec.INT.fieldOf("b").forGetter(ParryParticleOptions::b)
             ).apply(instance, ParryParticleOptions::new)
     );
 
@@ -29,29 +29,29 @@ public record ParryParticleOptions(float r, float g, float b) implements Particl
         @Override
         public @NotNull ParryParticleOptions fromCommand(@NotNull ParticleType<ParryParticleOptions> particleType, @NotNull StringReader reader) throws CommandSyntaxException {
             reader.expect(' ');
-            float r = reader.readFloat();
+            int r = reader.readInt();
             reader.expect(' ');
-            float g = reader.readFloat();
+            int g = reader.readInt();
             reader.expect(' ');
-            float b = reader.readFloat();
+            int b = reader.readInt();
             return new ParryParticleOptions(r,g,b);
         }
 
         @Override
         public @NotNull ParryParticleOptions fromNetwork(@NotNull ParticleType<ParryParticleOptions> particleType, @NotNull FriendlyByteBuf buffer) {
             return new ParryParticleOptions(
-                    buffer.readFloat(),
-                    buffer.readFloat(),
-                    buffer.readFloat()
+                    buffer.readInt(),
+                    buffer.readInt(),
+                    buffer.readInt()
             );
         }
     };
 
     @Override
     public void writeToNetwork(@NotNull FriendlyByteBuf buffer) {
-        buffer.writeFloat(this.r);
-        buffer.writeFloat(this.g);
-        buffer.writeFloat(this.b);
+        buffer.writeInt(this.r);
+        buffer.writeInt(this.g);
+        buffer.writeInt(this.b);
     }
 
     @Override

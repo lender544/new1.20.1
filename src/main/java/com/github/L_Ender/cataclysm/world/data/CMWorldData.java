@@ -17,10 +17,14 @@ public class CMWorldData extends SavedData {
         super();
     }
 
+
     public static CMWorldData get(Level world, ResourceKey<Level> dim) {
-        if (world instanceof ServerLevel) {
-            ServerLevel overworld = world.getServer().getLevel(dim);
-            DimensionDataStorage storage = overworld.getDataStorage();
+        if (world instanceof ServerLevel serverLevel) {
+            ServerLevel targetLevel = serverLevel.getServer().getLevel(dim);
+            if (targetLevel == null) {
+                targetLevel = serverLevel.getServer().overworld();
+            }
+            DimensionDataStorage storage = targetLevel.getDataStorage();
             CMWorldData data = storage.computeIfAbsent(CMWorldData::load, CMWorldData::new, IDENTIFIER);
             if (data != null) {
                 data.setDirty();

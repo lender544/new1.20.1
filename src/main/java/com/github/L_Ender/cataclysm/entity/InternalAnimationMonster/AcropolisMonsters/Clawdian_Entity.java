@@ -285,7 +285,9 @@ public class Clawdian_Entity extends Internal_Animation_Monster implements IHold
         }
 
     }
-
+    public MobType getMobType() {
+        return MobType.WATER;
+    }
 
     boolean wantsToSwim() {
         if (this.searchingForLand) {

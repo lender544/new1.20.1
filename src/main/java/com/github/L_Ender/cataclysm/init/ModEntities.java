@@ -58,8 +58,7 @@ public class ModEntities {
             .sized(2.5F, 3.8F)
             .fireImmune()
             .clientTrackingRange(10)
-            .setShouldReceiveVelocityUpdates(true)
-            .build(Cataclysm.MODID + ":ender_guardian"));
+            .setShouldReceiveVelocityUpdates(true).build(Cataclysm.MODID + ":ender_guardian"));
 
 
 

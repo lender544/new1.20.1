@@ -212,10 +212,6 @@ public class Ignis_Abyss_Fireball_Entity extends AbstractHurtingProjectile {
         if (hitresult$type == HitResult.Type.ENTITY) {
             this.onHitEntity((EntityHitResult)ray);
             this.level().gameEvent(GameEvent.PROJECTILE_LAND, ray.getLocation(), GameEvent.Context.of(this, (BlockState)null));
-            if (!this.level().isClientSide) {
-                this.level().explode(this, this.getX(), this.getY(), this.getZ(), 1.0F, false, Level.ExplosionInteraction.MOB);
-                this.discard();
-            }
         } else if (hitresult$type == HitResult.Type.BLOCK) {
             BlockHitResult blockhitresult = (BlockHitResult)ray;
             this.onHitBlock(blockhitresult);

@@ -133,6 +133,11 @@ public class Tidal_Hook_Entity extends AbstractArrow {
 		return 0.9F;
 	}
 
+
+	protected boolean tryPickup(Player p_150121_) {
+		return false;
+	}
+
 	@Override
 	protected ItemStack getPickupItem() {
 		return new ItemStack(Items.ARROW);

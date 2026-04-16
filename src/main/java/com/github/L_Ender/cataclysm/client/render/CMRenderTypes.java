@@ -304,6 +304,8 @@ public class CMRenderTypes extends RenderType {
     }
 
 
+
+
     public static ParticleRenderType PARTICLE_SHEET_TRANSLUCENT_NO_DEPTH = new ParticleRenderType() {
         public void begin(BufferBuilder p_217600_1_, TextureManager p_217600_2_) {
             Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();

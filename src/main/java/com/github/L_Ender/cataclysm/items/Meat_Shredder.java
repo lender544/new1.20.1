@@ -20,6 +20,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -31,26 +34,15 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class Meat_Shredder extends Cataclysm_Tool_Item {
+public class Meat_Shredder extends Cataclysm_Weapon_Item {
 
 
 	public Meat_Shredder(Item.Properties properties) {
 
-		super(-2 + (float) CMCommonConfig.MeatShredder.attackDamage, -4f + (float)CMCommonConfig.MeatShredder.attackSpeed, Tiers.STONE, BlockTags.MINEABLE_WITH_AXE, properties);
+
+		super(properties,7.5F, -2.6F);
 	}
 
-
-	@Override
-	public CommonConfig.ToolConfig getConfig() {
-		return ConfigHolder.COMMON.TOOLS_AND_ABILITIES.ANNIHILATOR.toolConfig;
-	}
-
-	@Override
-	public @NotNull ItemStack getDefaultInstance() {
-		ItemStack stack = super.getDefaultInstance();
-		stack.getOrCreateTag().putBoolean("Unbreakable", true);
-		return stack;
-	}
 
 
 	@Override
@@ -111,7 +103,7 @@ public class Meat_Shredder extends Cataclysm_Tool_Item {
 							double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
 							double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
 							if (level instanceof ServerLevel serverLevel) {
-								serverLevel.sendParticles(new ParryParticleOptions(255 / 255F, 106 / 255F, 0 / 255F), entity.getX(), entity.getY(0.5), entity.getZ(), 2, entity.getDeltaMovement().x, entity.getDeltaMovement().y, entity.getDeltaMovement().z, (level.getRandom().nextFloat() - 0.5F));
+								serverLevel.sendParticles(new ParryParticleOptions(255, 106, 0), entity.getX(), entity.getY(0.5), entity.getZ(), 2, entity.getDeltaMovement().x, entity.getDeltaMovement().y, entity.getDeltaMovement().z, (level.getRandom().nextFloat() - 0.5F));
 							}
 						}
 					}
@@ -133,6 +125,12 @@ public class Meat_Shredder extends Cataclysm_Tool_Item {
 
 		return p_41005_.is(BlockTags.MINEABLE_WITH_AXE) ? speed : 1.0F;
 	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return super.canApplyAtEnchantingTable(stack, enchantment) || enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category == EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE;
+	}
+
 
 	@Override
 	public int getUseDuration(ItemStack p_43419_) {

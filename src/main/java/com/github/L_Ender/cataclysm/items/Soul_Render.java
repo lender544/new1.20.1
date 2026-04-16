@@ -26,6 +26,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -161,11 +164,24 @@ public class Soul_Render extends Cataclysm_Weapon_Item {
 		return InteractionResultHolder.pass(item);
 	}
 
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return true;
+	}
+
+	@Override
+	public int getEnchantmentValue() {
+		return 16;
+	}
 
 	public boolean canAttackBlock(BlockState state, Level worldIn, BlockPos pos, Player player) {
 		return !player.isCreative();
 	}
 
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return super.canApplyAtEnchantingTable(stack, enchantment) ||  enchantment.category == EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE;
+	}
 	public float getDestroySpeed(ItemStack p_41004_, BlockState p_41005_) {
 		float speed = 15;
 		return p_41005_.is(BlockTags.MINEABLE_WITH_AXE) ? speed : 1.0F;

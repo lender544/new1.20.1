@@ -184,6 +184,11 @@ public class Amethyst_Crab_Entity extends LLibrary_Boss_Monster implements Neutr
 
     public void aiStep() {
         super.aiStep();
+        if (!this.level().isClientSide && this.isAlive()) {
+            if (this.tickCount % 20 == 0) {
+                this.heal(2.0F * (float) CMCommonConfig.AmethystCrab.healthMultiplier);
+            }
+        }
         if (this.getAnimation() == CRAB_SMASH) {
             if(this.getAnimationTick() == 22){
                 AreaAttack(4.0f,4.0f,70,1.25f,120);

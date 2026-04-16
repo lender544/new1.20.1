@@ -43,6 +43,7 @@ import net.minecraftforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.Optional;
 
 public class Netherite_Ministrosity_Entity extends InternalAnimationPet implements Bucketable,ContainerListener, HasCustomInventoryScreen {
@@ -76,18 +77,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D, 60));
-        this.goalSelector.addGoal(1, new InternalPetStateGoal(this,1,1,0,0,0){
-
-            @Override
-            public boolean canUse() {
-                return super.canUse() ;
-            }
-
-            @Override
-            public void tick() {
-                entity.setDeltaMovement(0, entity.getDeltaMovement().y, 0);
-            }
-        });
+        this.goalSelector.addGoal(0, new MinistrosityDoNothingGoal());
 
         this.goalSelector.addGoal(0, new InternalPetStateGoal(this,1,2,0,40,0){
             @Override
@@ -115,9 +105,6 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     public void setIsAwaken(boolean isAwaken) {
         this.entityData.set(IS_AWAKEN, isAwaken);
-        if (!isAwaken) {
-            this.setAttackState(1);
-        }
     }
 
     public boolean getIsAwaken() {
@@ -418,6 +405,7 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
             if (!net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                 this.tame(player);
                 this.setIsAwaken(true);
+                this.setAttackState(2);
                 this.level().broadcastEntityEvent(this, (byte) 7);
             } else {
                 this.level().broadcastEntityEvent(this, (byte) 6);
@@ -568,6 +556,30 @@ public class Netherite_Ministrosity_Entity extends InternalAnimationPet implemen
 
     public boolean hasInventoryChanged(Container p_149512_) {
         return this.miniInventory != p_149512_;
+    }
+
+
+    class MinistrosityDoNothingGoal extends Goal {
+        public MinistrosityDoNothingGoal() {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.JUMP, Goal.Flag.LOOK));
+        }
+
+        @Override
+        public boolean canUse() {
+            return !Netherite_Ministrosity_Entity.this.getIsAwaken();
+        }
+        @Override
+        public void tick() {
+            Netherite_Ministrosity_Entity.this.setDeltaMovement(0,Netherite_Ministrosity_Entity.this.getDeltaMovement().y,0);
+        }
+
+        @Override
+        public boolean isInterruptable() {
+            return false;
+        }
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
     }
 
 }

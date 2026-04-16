@@ -118,7 +118,7 @@ public class Deepling_Brute_Entity extends AbstractDeepling {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingBruteSpawnWeight, this.getRandom(), spawnReasonIn);
+        return ModEntities.rollSpawn(CMCommonConfig.Spawning.DeeplingBruteSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable

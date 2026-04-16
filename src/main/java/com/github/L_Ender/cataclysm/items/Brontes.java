@@ -29,6 +29,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -164,8 +167,19 @@ public class Brontes extends PickaxeItem {
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public int getEnchantmentValue() {
         return 16;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category ==  EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE
+                || enchantment.category == EnchantmentCategory.DIGGER;
     }
 
     @Override

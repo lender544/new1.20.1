@@ -116,7 +116,9 @@ public class Coral_Golem_Entity extends LLibrary_Monster implements ISemiAquatic
 
 
 
-
+    public MobType getMobType() {
+        return MobType.WATER;
+    }
 
     public boolean causeFallDamage(float p_148711_, float p_148712_, DamageSource p_148713_) {
         return false;

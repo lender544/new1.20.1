@@ -24,6 +24,9 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.context.UseOnContext;
 
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -86,7 +89,26 @@ public class Void_forge extends PickaxeItem {
         return super.useOn(context);
     }
 
+    @Override
+    public boolean isDamageable(ItemStack stack) {
+        return false;
+    }
 
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 16;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category ==  EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE
+                || enchantment.category == EnchantmentCategory.DIGGER;
+    }
 
     @Override
     public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {

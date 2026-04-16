@@ -43,7 +43,10 @@ import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.SlotResult;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -77,7 +80,21 @@ public class ServerEventHandler {
         }
     }
 
+    @SubscribeEvent
+    public void onLivingDamage(LivingHurtEvent event) {
+        LivingEntity target = event.getEntity();
+        if (!target.level().isClientSide() && event.getSource().getDirectEntity() instanceof LivingEntity living) {
+            List<SlotResult> slot = CuriosApi.getCuriosHelper().findCurios(living, stack -> stack.is(ModItems.BLAZING_GRIPS.get()));
+            if (!slot.isEmpty()) {
+                if (event.getEntity().getRandom().nextFloat() < 0.15F * slot.size()) {
+                    MobEffectInstance effectinstance = new MobEffectInstance(ModEffect.EFFECTBLAZING_BRAND.get(), 60, 0);
+                    target.addEffect(effectinstance);
+                }
+            }
+        }
 
+
+    }
 
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event) {

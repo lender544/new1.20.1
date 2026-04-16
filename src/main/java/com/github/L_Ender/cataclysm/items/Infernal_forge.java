@@ -111,10 +111,21 @@ public class Infernal_forge extends PickaxeItem {
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 16;
+    }
+
+    @Override
     public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
         return enchantment.category != EnchantmentCategory.BREAKABLE && enchantment.category ==  EnchantmentCategory.WEAPON && enchantment != Enchantments.SWEEPING_EDGE
                 || enchantment.category == EnchantmentCategory.DIGGER;
     }
+
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getISTERProperties());

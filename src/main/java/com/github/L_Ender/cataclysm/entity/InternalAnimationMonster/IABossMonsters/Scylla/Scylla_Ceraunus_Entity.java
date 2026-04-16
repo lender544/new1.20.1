@@ -260,7 +260,7 @@ public class Scylla_Ceraunus_Entity extends AbstractArrow implements IHoldEntity
 		double DeltaMovementZ = this.random.nextGaussian() * 0.1D;
 		if (this.level().isClientSide) {
 			for (int i1 = 0; i1 < 5 + random.nextInt(2); i1++) {
-				this.level().addParticle(new ParryParticleOptions(255/255F, 106/255F,  0/255F), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
+				this.level().addParticle(new ParryParticleOptions(255, 106,  0), this.getX(), this.getY(), this.getZ(), DeltaMovementX, DeltaMovementY, DeltaMovementZ);
 			}
 		}else{
 			Entity entity1 = this.getController();

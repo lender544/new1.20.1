@@ -127,9 +127,13 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy,
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+        }
+
         if (source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return super.hurt(source, amount);
-        } else{
+        } else {
             amount = Math.min(DamageCap(), amount);
         }
 
@@ -148,17 +152,16 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy,
 
             if (distSqr > limitSqr) {
                 double distance = Math.sqrt(distSqr);
-
                 float multiplier = (float) ((maxLimit - distance) / (maxLimit - limit));
-
                 amount *= multiplier;
 
                 if (amount <= 0) return false;
             }
         }
 
-        if (!source.is(ModTag.BYPASSES_HURT_TIME)) {
+        float BUCKET = this.damageBucket;
 
+        if (!source.is(ModTag.BYPASSES_HURT_TIME)) {
             float projectedBucket = damageBucket + amount;
             float limit = this.DamageCap();
 
@@ -176,10 +179,15 @@ public class IABoss_monster extends Internal_Animation_Monster implements Enemy,
             }
         }
 
-        if (source.is(ModTag.BLOCK_SELF_REGEN)) {
-            self_regen = HealCooldown();
-        }
         boolean flag = super.hurt(source, amount);
+
+        if (flag) {
+            if (source.is(ModTag.BLOCK_SELF_REGEN)) {
+                self_regen = HealCooldown();
+            }
+        } else {
+            this.damageBucket = BUCKET;
+        }
 
         return flag;
     }

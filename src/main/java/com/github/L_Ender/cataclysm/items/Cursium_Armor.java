@@ -44,6 +44,11 @@ public class Cursium_Armor extends Cataclysm_Armor implements KeybindUsingArmor 
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) Cataclysm.PROXY.getArmorRenderProperties());
     }

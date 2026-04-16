@@ -35,6 +35,7 @@ public class Laser_Beam_Entity extends Projectile {
 
     public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type, Level level) {
         super(type, level);
+        this.accelerationPower = 0.1;
     }
 
     public Laser_Beam_Entity(EntityType<? extends Laser_Beam_Entity> type, double getX, double gety, double getz, Vec3 vec, Level level) {

@@ -191,7 +191,7 @@ public class Player_Ceraunus_Entity extends AbstractArrow implements IEntityAddi
 				double DeltaMovementY = 0.05D;
 
 				this.level().addParticle(
-						new ParryParticleOptions(255/255F, 106/255F, 0/255F),
+						new ParryParticleOptions(255, 106, 0),
 						this.getX(), this.getY(), this.getZ(),
 						DeltaMovementX, DeltaMovementY, DeltaMovementZ
 				);

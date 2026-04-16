@@ -95,6 +95,7 @@ public class ParryParticle extends TextureSheetParticle {
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         //super.render(consumer, camera, partialTick);
+        /*
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
             VertexConsumer vertexConsumer = getVetrexConsumer(bufferSource);
@@ -151,6 +152,8 @@ public class ParryParticle extends TextureSheetParticle {
             poseStack.popPose();
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
         }
+
+         */
     }
 
     private Vec3 catmullRom(float t, Vec3 p0, Vec3 p1, Vec3 p2, Vec3 p3) {

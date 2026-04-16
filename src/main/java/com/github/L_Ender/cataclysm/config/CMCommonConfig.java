@@ -52,7 +52,7 @@ public class CMCommonConfig {
         public static boolean respawner = true;
         public static boolean ignoreMobGriefing = true;
 
-        public static int Lavabombmagazine = 15;
+        public static int Lavabombmagazine = 3;
         public static int Lavabombamount = 3;
         public static int LavabombDuration = 350;
         public static int LavabombRandomDuration = 150;

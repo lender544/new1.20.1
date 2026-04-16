@@ -177,6 +177,9 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
             return livingentity != null && livingentity.isInWater();
         }
     }
+    public MobType getMobType() {
+        return MobType.WATER;
+    }
 
     @Override
     public void travel(Vec3 travelVector) {
@@ -482,7 +485,7 @@ public class Hippocamtus_Entity extends Internal_Animation_Monster {
                 double d4 = y + (this.random.nextDouble() - this.random.nextDouble()) * 0.5D;
                 double d5 = xz * vecZ + (this.random.nextDouble() - this.random.nextDouble()) * 0.5D;
                 double speed = 0.35;
-                this.level().addParticle(new ParryParticleOptions(255/255F, 106/255F,  0/255F), d0 + vec * X + f * math, d1, d2 + vec * Z  + f1 * math, d3 * speed, d4 * speed, d5 * speed);
+                this.level().addParticle(new ParryParticleOptions(255, 106,  0), d0 + vec * X + f * math, d1, d2 + vec * Z  + f1 * math, d3 * speed, d4 * speed, d5 * speed);
             }
         }
     }
