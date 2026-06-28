@@ -758,5 +758,14 @@
   "ability.cataclysm.amethyst_cluster": "Amethyst Cluster",
   "ability.cataclysm.amethyst_cluster.desc": "Fire amethyst clusters around you that damage entities.",
 
-  "item.cataclysm.shift_desc": "Hold [SHIFT] for details"
+  "item.cataclysm.shift_desc": "Hold [SHIFT] for details",
+
+
+  "notice.qna": "Are you Interested Ignis Plush In Cataclysm?",
+  "notice.yes" : "Yes",
+  "notice.link.check" : "Link Check",
+  "notice.click" : "Go to the MakeShip site",
+  "notice.no.more": "Never see Notices again",
+  "notice.open.browser": "Go to MakeShip site",
+  "notice.no.more.text": "Notices disabled. Note that this can be re-enabled in the config."
 }

@@ -6,7 +6,6 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 import com.github.L_Ender.cataclysm.client.animation.Elite_Draugr_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elite_Draugr_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;

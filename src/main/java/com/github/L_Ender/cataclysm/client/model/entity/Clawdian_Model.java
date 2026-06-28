@@ -8,11 +8,16 @@ import com.github.L_Ender.cataclysm.client.animation.Clawdian_Skill_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Clawdian_Entity;
 import com.github.L_Ender.lionfishapi.server.animation.LegSolverQuadruped;
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -61,9 +66,13 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	private final ModelPart left_b_fore_leg;
 	private final ModelPart left_b_fore_leg_solver;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 
 	public Clawdian_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.everything = this.root.getChild("everything");
 		this.mid_root = this.everything.getChild("mid_root");
 		this.lower_body = this.mid_root.getChild("lower_body");
@@ -231,6 +240,30 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 	}
 
 
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
+	}
+
+
 	@Override
 	public void setupAnim(Clawdian_Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
@@ -251,7 +284,7 @@ public class Clawdian_Model extends HierarchicalModel<Clawdian_Entity> {
 		this.animate(entity.getAnimationState("claw_punch"), Clawdian_Animation.CLAW_PUNCH, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("grab_and_throw"), Clawdian_Animation.GRAB_AND_THROW, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("backstep"), Clawdian_Animation.BACKSTEP, ageInTicks, 1.0F);
-		float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
+		float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
 
 		articulateLegs(entity.legSolver, partialTick);
 	}

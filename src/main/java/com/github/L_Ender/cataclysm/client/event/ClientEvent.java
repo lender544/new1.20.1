@@ -11,6 +11,7 @@ import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Blazing_Gr
 import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Chitin_Claw_Renderer;
 import com.github.L_Ender.cataclysm.client.render.item.CuriosRenderer.Sticky_Gloves_Renderer;
 import com.github.L_Ender.cataclysm.config.CMClientConfig;
+import com.github.L_Ender.cataclysm.config.ConfigHolder;
 import com.github.L_Ender.cataclysm.entity.AnimationMonster.BossMonsters.The_Leviathan.The_Leviathan_Tongue_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Aptrgangr_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Maledictus.Maledictus_Entity;
@@ -25,16 +26,20 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.network.chat.Component;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -50,6 +55,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.lwjgl.glfw.GLFW;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.SlotTypePreset;
@@ -59,11 +65,11 @@ import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
 import java.util.Random;
 
 public class ClientEvent {
-    public static final ResourceLocation FLAME_STRIKE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/soul_flame_strike_sigil.png");
-    private static final ResourceLocation SANDSTORM_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/sandstorm_icons.png");
-    private static final ResourceLocation EFFECT_HEART = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/effect_heart.png");
-    private static final ResourceLocation FLASH_OUT = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/gui/flash_out.png");
-    private static final ResourceLocation SANDSTORM_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/entity/ancient_remnant/sandstorm.png");
+    public static final ResourceLocation FLAME_STRIKE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/soul_flame_strike_sigil.png");
+    private static final ResourceLocation SANDSTORM_ICON = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/sandstorm_icons.png");
+    private static final ResourceLocation EFFECT_HEART = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/effect_heart.png");
+    private static final ResourceLocation FLASH_OUT = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/gui/flash_out.png");
+    private static final ResourceLocation SANDSTORM_TEXTURE = ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID, "textures/entity/ancient_remnant/sandstorm.png");
     private static final PlayerSandstorm_Model SANDSTORM_MODEL = new PlayerSandstorm_Model();
     private final Random random = new Random();
     private int lastHealth;
@@ -86,15 +92,114 @@ public class ClientEvent {
 
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPreRenderEntity);
         NeoForge.EVENT_BUS.addListener(ClientEvent::clientTick);
-     //   NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderWorldLastEvent);
+        //   NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderWorldLastEvent);
 
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPoseHand);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderArm);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onPoseHand);
-        //NeoForge.EVENT_BUS.addListener(ClientEvent::onKeyInput);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onRenderFog);
         NeoForge.EVENT_BUS.addListener(ClientEvent::onComputFog);
+        //NeoForge.EVENT_BUS.addListener(ClientEvent::onChatClick);
+
+        //NeoForge.EVENT_BUS.addListener(ClientEvent::onLocalPlayerJoin);
     }
+
+/*
+    public static void onChatClick(ScreenEvent.MouseButtonPressed.Pre event) {
+
+        if (event.getScreen() instanceof ChatScreen) {
+
+            Style style = Minecraft.getInstance().gui.getChat().getClickedComponentStyleAt(event.getMouseX(), event.getMouseY());
+
+            if (style != null && style.getClickEvent() != null) {
+                ClickEvent click = style.getClickEvent();
+
+                if (click.getAction() == ClickEvent.Action.RUN_COMMAND) {
+                    String value = click.getValue();
+
+                    if ("[Cataclysm_Disable_Notice]".equals(value)) {
+
+                        ConfigHolder.CLIENT.showLoginNotice.set(false);
+                        ConfigHolder.CLIENT_SPEC.save();
+                        CMClientConfig.showLoginNotice = false;
+
+                        if (Minecraft.getInstance().player != null) {
+                            Minecraft.getInstance().player.displayClientMessage(
+                                    Component.translatable("notice.no.more.text")
+                                            .withStyle(ChatFormatting.GREEN),
+                                    false
+                            );
+                        }
+
+                        event.setCanceled(true);
+                    } else if ("[Cataclysm_Show_Link]".equals(value)) {
+
+                        if (Minecraft.getInstance().player != null) {
+                            MutableComponent linkText = Component.translatable("notice.click")
+                                    .withStyle(ChatFormatting.AQUA, ChatFormatting.UNDERLINE)
+                                    .withStyle(s -> s
+                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.makeship.com/petitions/ignis"))
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("notice.open.browser")))
+                                    );
+
+                            MutableComponent disableButton = Component.translatable("notice.no.more")
+                                    .withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.UNDERLINE)
+                                    .withStyle(s -> s
+                                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "[Cataclysm_Disable_Notice]"))
+                                            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("notice.no.more.text")))
+                                    );
+
+                            Minecraft.getInstance().player.displayClientMessage(
+                                    linkText.append(Component.literal("   ")).append(disableButton),
+                                    false
+                            );
+                        }
+
+                        event.setCanceled(true);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void onLocalPlayerJoin(EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide() && event.getEntity() instanceof LocalPlayer player) {
+            if (player == Minecraft.getInstance().player) {
+                if (CMClientConfig.showLoginNotice) {
+                    MutableComponent question = Component.translatable("notice.qna")
+                            .withStyle(ChatFormatting.BLUE);
+
+                    MutableComponent yesButton = Component.translatable("notice.yes")
+                            .withStyle(ChatFormatting.GREEN, ChatFormatting.UNDERLINE)
+                            .withStyle(style -> style
+                                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "[Cataclysm_Show_Link]"))
+                                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("notice.link.check")))
+                            );
+
+                    MutableComponent disableButton = Component.translatable("notice.no.more")
+                            .withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.UNDERLINE)
+                            .withStyle(style -> style
+                                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "[Cataclysm_Disable_Notice]"))
+                                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("notice.no.more.text")))
+                            );
+
+                    player.displayClientMessage(
+                            question.append(Component.literal("\n"))
+                                    .append(yesButton)
+                                    .append(Component.literal("   "))
+                                    .append(disableButton),
+                            false
+                    );
+                }
+            }
+        }
+    }
+
+ */
+
+
+
+
 
     public static void onRenderFog(ViewportEvent.RenderFog event) {
 
@@ -245,27 +350,25 @@ public class ClientEvent {
 
 
 
-
     public static void MovementInput(MovementInputUpdateEvent event) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             if (player.hasEffect(ModEffect.EFFECTCURSE_OF_DESERT)) {
                 if (Minecraft.getInstance().options.keyDown.isDown()) {
-                    event.getInput().forwardImpulse += 2F;
+                    event.getInput().forwardImpulse *= -1.0F;
                 }
                 if (Minecraft.getInstance().options.keyLeft.isDown()) {
-                    event.getInput().leftImpulse -= 2F;
+                    event.getInput().leftImpulse *= -1.0F;
                 }
                 if (Minecraft.getInstance().options.keyRight.isDown()) {
-                    event.getInput().leftImpulse += 2F;
+                    event.getInput().leftImpulse *= -1.0F;
                 }
                 if (Minecraft.getInstance().options.keyUp.isDown()) {
-                    event.getInput().forwardImpulse -= 2F;
+                    event.getInput().forwardImpulse *= -1.0F;
                 }
             }
         }
     }
-
 
 
 

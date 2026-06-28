@@ -238,7 +238,7 @@ public class CMRenderTypes extends RenderType {
                         .setLayeringState(NO_LAYERING)
                         .createCompositeState(false);
 
-                return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256,true,true, rendertype$compositestate);
+                return create("ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 1536,true,true, rendertype$compositestate);
             }
     );
 

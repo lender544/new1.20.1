@@ -152,7 +152,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         if (entity instanceof Poison_Dart_Entity) {
             return false;
         }
-        if (!this.isSleep() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
+        if (!this.isAwaken() && !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY)) {
             return false;
         }
         if (this.canBlockDamageSource(source)) {
@@ -237,7 +237,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
         p_326229_.define(AWAKEN, false);
     }
 
-    public boolean isSleep() {
+    public boolean isAwaken() {
         return this.getAwaken() || this.getAttackState() == 2;
     }
 
@@ -268,7 +268,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
 
 
     public boolean canBeSeenAsEnemy() {
-        return !this.isSleep() && super.canBeSeenAsEnemy();
+        return isAwaken() && super.canBeSeenAsEnemy();
     }
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_29678_, DifficultyInstance p_29679_, MobSpawnType p_29680_, @Nullable SpawnGroupData p_29681_) {
@@ -463,7 +463,7 @@ public class Wadjet_Entity extends Internal_Animation_Monster {
     }
 
     protected SoundEvent getAmbientSound() {
-        return this.isSleep() ? super.getAmbientSound() : ModSounds.WADJET_AMBIENT.get();
+        return !this.isAwaken() ? super.getAmbientSound() : ModSounds.WADJET_AMBIENT.get();
     }
 
     @Override

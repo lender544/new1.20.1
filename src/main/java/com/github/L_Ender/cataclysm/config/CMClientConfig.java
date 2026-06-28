@@ -13,7 +13,7 @@ public class CMClientConfig {
     public static boolean BossMusic = true;
     public static int BossMusicVolume = 1;
     public static boolean customBossBars = true;
-
+    public static boolean showLoginNotice = true;
 
     public static void Clientbake(ClientConfig config) {
         try {
@@ -25,7 +25,7 @@ public class CMClientConfig {
 
             BossMusicVolume = config.BossMusicVolume.get();
             customBossBars = config.custombossbar.get();
-
+            showLoginNotice = config.showLoginNotice.get();
 
         } catch (Exception e) {
             Cataclysm.LOGGER.warn("An exception was caused trying to load the config for CM");

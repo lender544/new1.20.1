@@ -8,13 +8,18 @@ import com.github.L_Ender.cataclysm.client.animation.Scylla_Normal_Animation;
 import com.github.L_Ender.cataclysm.client.animation.Scylla_Projectile_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.Scylla.Scylla_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector4f;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -70,8 +75,12 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 	private final ModelPart l_leg2;
 	private final ModelPart anchor2;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 	public Scylla_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.everything = this.root.getChild("everything");
 		this.anchor2 = this.root.getChild("anchor2");
 		this.scylla = this.everything.getChild("scylla");
@@ -396,6 +405,29 @@ public class Scylla_Model extends HierarchicalModel<Scylla_Entity> {
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 
+	}
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
 	}
 
 

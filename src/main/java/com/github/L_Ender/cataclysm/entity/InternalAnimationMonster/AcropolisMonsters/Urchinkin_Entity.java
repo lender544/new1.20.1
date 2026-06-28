@@ -105,7 +105,7 @@ public class Urchinkin_Entity extends Monster {
                 this.navigation = this.waterNavigation;
                 this.moveControl = new UrchinkinSwimControl(this, 4.0f);
                 this.setSwimming(true);
-            } else if (!inWaterAI && (this.moveControl instanceof Hippocamtus_Entity.HippocamtusSwimControl)) {
+            } else if (!inWaterAI && (this.moveControl instanceof UrchinkinSwimControl)) {
                 this.navigation = this.groundNavigation;
                 this.moveControl = new MoveControl(this);
                 this.setSwimming(false);

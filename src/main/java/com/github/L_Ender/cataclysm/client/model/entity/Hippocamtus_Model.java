@@ -4,10 +4,15 @@ package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.github.L_Ender.cataclysm.client.animation.Hippocamtus_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Hippocamtus_Entity;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Hippocamtus_Model extends HierarchicalModel<Hippocamtus_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -27,8 +32,12 @@ public class Hippocamtus_Model extends HierarchicalModel<Hippocamtus_Entity> {
 	private final ModelPart spear;
 	private final ModelPart head;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 	public Hippocamtus_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.everything = this.root.getChild("everything");
 		this.tail = this.everything.getChild("tail");
 		this.tail2 = this.tail.getChild("tail2");
@@ -141,6 +150,30 @@ public class Hippocamtus_Model extends HierarchicalModel<Hippocamtus_Entity> {
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 
+	}
+
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
 	}
 
 	@Override
