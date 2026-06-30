@@ -1,8 +1,7 @@
 package com.github.L_Ender.cataclysm.client.model.entity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -11,7 +10,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector4f;
+
+import java.util.Map;
+import java.util.Optional;
 
 @OnlyIn(Dist.CLIENT)
 public class Ceraunus_Model<T extends Entity> extends HierarchicalModel<T> {
@@ -19,10 +22,12 @@ public class Ceraunus_Model<T extends Entity> extends HierarchicalModel<T> {
     private final ModelPart everything;
     private final ModelPart chain;
 
-
+    private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+    private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
 
     public Ceraunus_Model(ModelPart root) {
         this.root = root;
+        this.buildPartCache(root);
         this.everything = this.root.getChild("everything");
         this.chain = this.everything.getChild("chain");
     }
@@ -80,6 +85,28 @@ public class Ceraunus_Model<T extends Entity> extends HierarchicalModel<T> {
         return new Vec3(vec.x(), vec.y(), vec.z());
     }
 
+    private void buildPartCache(ModelPart part) {
+        for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+            String partName = entry.getKey();
+            ModelPart childPart = entry.getValue();
+
+            this.partCache.putIfAbsent(partName, childPart);
+
+            this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+            if (!childPart.children.isEmpty()) {
+                this.buildPartCache(childPart);
+            }
+        }
+    }
+
+    @Override
+    public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+        if ("root".equals(name)) {
+            return Optional.of(this.root);
+        }
+        return this.optionalPartCache.getOrDefault(name, Optional.empty());
+    }
 
     public ModelPart root() {
         return this.root;

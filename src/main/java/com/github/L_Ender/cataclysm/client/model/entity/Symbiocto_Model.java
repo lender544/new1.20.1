@@ -5,10 +5,15 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Symbiocto_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.AcropolisMonsters.Symbiocto_Entity;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Symbiocto_Model extends HierarchicalModel<Symbiocto_Entity> {
 	private final ModelPart root;
@@ -32,8 +37,12 @@ public class Symbiocto_Model extends HierarchicalModel<Symbiocto_Entity> {
 	private final ModelPart back_tentacle3;
 
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 	public Symbiocto_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.everything = this.root.getChild("everything");
 		this.octo_head = this.everything.getChild("octo_head");
 		this.back_tentacle1 = this.octo_head.getChild("back_tentacle1");
@@ -145,6 +154,30 @@ public class Symbiocto_Model extends HierarchicalModel<Symbiocto_Entity> {
 			this.back_tentacle2.xRot -= (float) Math.toRadians(75);
 			this.back_tentacle3.xRot -= (float) Math.toRadians(75);
 		}
+	}
+
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
 	}
 
 	private void animateHeadLookTarget(float yRot, float xRot) {

@@ -92,3 +92,9 @@ modId = "curios"
 type="required"
 versionRange = "[9.2.2+1.21.1,)"
 ordering = "NONE"
+[[dependencies.${ mod_id }]]
+modId = "lionfishapi"
+type = "required"
+# This version range declares a minimum of the current minecraft version up to but not including the next major version
+versionRange = "${lf_version_range}"
+ordering = "NONE"

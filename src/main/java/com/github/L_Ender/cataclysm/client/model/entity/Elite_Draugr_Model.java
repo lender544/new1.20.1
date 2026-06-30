@@ -6,12 +6,17 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 import com.github.L_Ender.cataclysm.client.animation.Elite_Draugr_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.Draugar.Elite_Draugr_Entity;
 import com.mojang.blaze3d.vertex.PoseStack;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.HumanoidArm;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Elite_Draugr_Model extends HierarchicalModel<Elite_Draugr_Entity> implements ArmedModel {
 
@@ -36,9 +41,13 @@ public class Elite_Draugr_Model extends HierarchicalModel<Elite_Draugr_Entity> i
 	private final ModelPart right_leg;
 	private final ModelPart left_leg;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 
 	public Elite_Draugr_Model(ModelPart root) {
 		this.everything = root;
+		this.buildPartCache(root);
 		this.root = this.everything.getChild("root");
 		this.body = this.root.getChild("body");
 		this.front_cloth1 = this.body.getChild("front_cloth1");
@@ -139,6 +148,29 @@ public class Elite_Draugr_Model extends HierarchicalModel<Elite_Draugr_Entity> i
 	private void animateHeadLookTarget(float yRot, float xRot) {
 		this.head.xRot = xRot * ((float) Math.PI / 180F);
 		this.head.yRot = yRot * ((float) Math.PI / 180F);
+	}
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
 	}
 
 	@Override

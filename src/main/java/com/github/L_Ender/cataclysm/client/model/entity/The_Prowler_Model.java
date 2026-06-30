@@ -5,11 +5,16 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Prowler_Animation;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.The_Prowler_Entity;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class The_Prowler_Model extends HierarchicalModel<The_Prowler_Entity> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -45,8 +50,12 @@ public class The_Prowler_Model extends HierarchicalModel<The_Prowler_Entity> {
 	private final ModelPart pipe2;
 	private final ModelPart pipe;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
 	public The_Prowler_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.roots = this.root.getChild("roots");
 		this.upperbody = this.roots.getChild("upperbody");
 		this.chestplate = this.upperbody.getChild("chestplate");
@@ -212,6 +221,30 @@ public class The_Prowler_Model extends HierarchicalModel<The_Prowler_Entity> {
 		this.animate(entity.getAnimationState("pierce"), Prowler_Animation.PIERCE, ageInTicks, 1.0F);
 		saw.xRot -= ageInTicks * sawspeed;
 	}
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
+	}
+
 
 	public ModelPart root() {
 		return this.root;

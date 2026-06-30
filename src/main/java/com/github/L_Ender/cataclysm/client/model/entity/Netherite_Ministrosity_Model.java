@@ -5,10 +5,15 @@ package com.github.L_Ender.cataclysm.client.model.entity;// Made with Blockbench
 
 import com.github.L_Ender.cataclysm.client.animation.Netherite_Ministrosity_Animation;
 import com.github.L_Ender.cataclysm.entity.Pet.Netherite_Ministrosity_Entity;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
+import java.util.Optional;
 
 public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Ministrosity_Entity> {
 
@@ -23,8 +28,14 @@ public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Mi
 	private final ModelPart right_leg;
 	private final ModelPart left_leg;
 
+	private final Map<String, ModelPart> partCache = new Object2ObjectOpenHashMap<>();
+	private final Map<String, Optional<ModelPart>> optionalPartCache = new Object2ObjectOpenHashMap<>();
+
+
+
 	public Netherite_Ministrosity_Model(ModelPart root) {
 		this.root = root;
+		this.buildPartCache(root);
 		this.roots = this.root.getChild("roots");
 		this.mid_root = this.roots.getChild("mid_root");
 		this.legs = this.mid_root.getChild("legs");
@@ -84,6 +95,30 @@ public class Netherite_Ministrosity_Model extends HierarchicalModel<Netherite_Mi
 		this.animate(entity.getAnimationState("chest_close"), Netherite_Ministrosity_Animation.CHEST_CLOSE, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("sit_start"), Netherite_Ministrosity_Animation.SIT, ageInTicks, 1.0F);
 		this.animate(entity.getAnimationState("sit_end"), Netherite_Ministrosity_Animation.SIT_END, ageInTicks, 1.0F);
+	}
+
+
+	private void buildPartCache(ModelPart part) {
+		for (Map.Entry<String, ModelPart> entry : part.children.entrySet()) {
+			String partName = entry.getKey();
+			ModelPart childPart = entry.getValue();
+
+			this.partCache.putIfAbsent(partName, childPart);
+
+			this.optionalPartCache.putIfAbsent(partName, Optional.of(childPart));
+
+			if (!childPart.children.isEmpty()) {
+				this.buildPartCache(childPart);
+			}
+		}
+	}
+
+	@Override
+	public @NotNull Optional<ModelPart> getAnyDescendantWithName(String name) {
+		if ("root".equals(name)) {
+			return Optional.of(this.root);
+		}
+		return this.optionalPartCache.getOrDefault(name, Optional.empty());
 	}
 
 

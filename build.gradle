@@ -130,7 +130,7 @@ dependencies {
     // localRuntime "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     implementation "mezz.jei:jei-1.21-neoforge:${jei_version}"
-    implementation "curse.maven:lionfish-api-1001614:8094835"
+    implementation "curse.maven:lionfish-api-1001614:8345326"
 
     // Use the full Curios API jar at runtime
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
@@ -160,6 +160,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            lf_version_range       : lf_version_range,
             neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
             mod_id                 : mod_id,

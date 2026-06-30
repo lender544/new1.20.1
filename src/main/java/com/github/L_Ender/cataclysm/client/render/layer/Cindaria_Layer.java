@@ -33,14 +33,12 @@ public class Cindaria_Layer extends RenderLayer<Cindaria_Entity, Cindaria_Model>
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Cindaria_Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
 
-
-
         if (!entity.isInvisible()) {
             RenderType ghost = CMClientConfig.shadersCompat ? RenderType.entityTranslucent(this.getLayerTextureLocation()) : CMRenderTypes.jelly(this.getLayerTextureLocation());
             VertexConsumer VertexConsumer = bufferIn.getBuffer(ghost);
             float alpha = 0.65F;
             boolean hurt = Math.max(entity.hurtTime, entity.deathTime) > 0;
-            int i1 = FastColor.ARGB32.color((int) (alpha * 255),255,hurt ? 127 : 255, hurt ? 127 :255);
+            int i1 = FastColor.ARGB32.colorFromFloat(alpha ,1.0F,hurt ? 127/255F : 1.0F, hurt ? 127/255F :1.0F);
             this.getParentModel().renderToBuffer(matrixStackIn, VertexConsumer, packedLightIn, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), i1);
         }
 
