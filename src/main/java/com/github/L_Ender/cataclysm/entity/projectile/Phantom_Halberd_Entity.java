@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -25,11 +26,11 @@ public class Phantom_Halberd_Entity extends Entity {
     private int warmupDelayTicks;
     private boolean sentSpikeEvent;
     public int lifeTicks;
+    private float damage;
     private boolean clientSideAttackStarted;
     private LivingEntity caster;
     private UUID casterUuid;
     private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Phantom_Halberd_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Phantom_Halberd_Entity.class, EntityDataSerializers.FLOAT);
 
     public AnimationState OneAnimationState = new AnimationState();
     public AnimationState TwospawnAnimationState = new AnimationState();
@@ -56,7 +57,6 @@ public class Phantom_Halberd_Entity extends Entity {
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(STATE,0);
-        p_326229_.define(DAMAGE,0f);
     }
 
     public AnimationState getAnimationState(String input) {
@@ -119,11 +119,11 @@ public class Phantom_Halberd_Entity extends Entity {
 
 
     public float getDamage() {
-        return entityData.get(DAMAGE);
+        return this.damage;
     }
 
     public void setDamage(float damage) {
-        entityData.set(DAMAGE, damage);
+        this.damage = damage;
     }
 
     public void setCaster(@Nullable LivingEntity p_190549_1_) {
@@ -151,7 +151,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (compound.hasUUID("Owner")) {
             this.casterUuid = compound.getUUID("Owner");
         }
-
+        this.setDamage(compound.getFloat("damage"));
     }
 
     protected void addAdditionalSaveData(CompoundTag compound) {
@@ -159,7 +159,7 @@ public class Phantom_Halberd_Entity extends Entity {
         if (this.casterUuid != null) {
             compound.putUUID("Owner", this.casterUuid);
         }
-
+        compound.putFloat("damage", this.getDamage());
     }
 
     /**
@@ -198,9 +198,7 @@ public class Phantom_Halberd_Entity extends Entity {
                 }
             }
             if (this.warmupDelayTicks < -12 && this.warmupDelayTicks > -34) {
-                for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
-                    this.damage(livingentity);
-                }
+                this.damage();
             }
 
 
@@ -217,20 +215,29 @@ public class Phantom_Halberd_Entity extends Entity {
     }
 
 
-    protected void damage(LivingEntity Hitentity) {
+    private void damage() {
+        Level level = this.level();
         LivingEntity livingentity = this.getCaster();
-        if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
-            if (this.tickCount % 5 == 0) {
+        float damage = this.getDamage();
+        DamageSource damageSource = livingentity == null
+                ? this.damageSources().magic()
+                : CMDamageTypes.causeMaledictioMagicaeDamage(this, livingentity);
+
+        for (LivingEntity Hitentity : level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox())) {
+            if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
                 if (livingentity == null) {
-                    Hitentity.hurt(this.damageSources().magic(), getDamage());
+                    Hitentity.hurt(damageSource, damage);
                 } else {
                     if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
-                        Hitentity.hurt(CMDamageTypes.causeMaledictioMagicaeDamage(this, livingentity), getDamage());
+                        Hitentity.hurt(damageSource, damage);
                     }
                 }
             }
+
         }
     }
+
+
 
 
     /**

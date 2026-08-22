@@ -31,11 +31,16 @@ public class Flare_Bomb_Model extends HierarchicalModel<Flare_Bomb_Entity> {
 
 		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 4.0F, 0.0F));
 
-		PartDefinition outer = root.addOrReplaceChild("outer", CubeListBuilder.create().texOffs(0, 0).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition outer = root.addOrReplaceChild("outer", CubeListBuilder.create().texOffs(66, 36).addBox(-8.0F, -8.0F, 8.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 34).addBox(-8.0F, -8.0F, -8.0F, 0.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(66, 19).addBox(-8.0F, -8.0F, -8.0F, 16.0F, 16.0F, 0.0F, new CubeDeformation(0.0F))
+				.texOffs(33, 34).addBox(8.0F, -8.0F, -8.0F, 0.0F, 16.0F, 16.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 17).addBox(-8.0F, 8.0F, -8.0F, 16.0F, 0.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition inner = root.addOrReplaceChild("inner", CubeListBuilder.create().texOffs(0, 33).addBox(-4.5F, -4.5F, -4.5F, 9.0F, 9.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition inner = root.addOrReplaceChild("inner", CubeListBuilder.create().texOffs(65, 0).addBox(-4.5F, -4.5F, -4.5F, 9.0F, 9.0F, 9.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		return LayerDefinition.create(meshdefinition, 64, 64);
+		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
 

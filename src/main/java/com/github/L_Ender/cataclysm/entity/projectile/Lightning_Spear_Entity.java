@@ -6,8 +6,6 @@ import com.github.L_Ender.cataclysm.entity.effect.Lightning_Storm_Entity;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -21,10 +19,10 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
-    private static final EntityDataAccessor<Float> AREA_RADIUS = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> AREA_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> HP_DAMAGE = SynchedEntityData.defineId(Lightning_Spear_Entity.class, EntityDataSerializers.FLOAT);
 
+    private float HPdamage;
+    private float Area_Radius;
+    private float Area_Damage;
 
     public Lightning_Spear_Entity(EntityType<? extends Lightning_Spear_Entity> type, Level level) {
         super(type, level);
@@ -63,46 +61,46 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         super.defineSynchedData(p_326229_);
-        p_326229_.define(AREA_RADIUS,0f);
-        p_326229_.define(AREA_DAMAGE,0f);
-        p_326229_.define(HP_DAMAGE,0f);
+
     }
 
 
 
     public float getAreaRadius() {
-        return entityData.get(AREA_RADIUS);
+        return this.Area_Radius;
     }
 
     public void setAreaRadius(float radius) {
-        entityData.set(AREA_RADIUS, radius);
+        this.Area_Radius = radius;
     }
 
     public float getAreaDamage() {
-        return entityData.get(AREA_DAMAGE);
+        return this.Area_Damage;
     }
 
     public void setAreaDamage(float damage) {
-        entityData.set(AREA_DAMAGE, damage);
+        this.Area_Damage = damage;
     }
 
     public float getHpDamage() {
-        return entityData.get(HP_DAMAGE);
+        return HPdamage;
     }
 
     public void setHpDamage(float damage) {
-        entityData.set(HP_DAMAGE, damage);
+        HPdamage = damage;
     }
 
-    protected void SpawnParticle() {
-        Vec3 vec3 = this.getDeltaMovement();
-        double d0 = this.getX() + vec3.x;
-        double d1 = this.getY() + vec3.y;
-        double d2 = this.getZ() + vec3.z;
-        int r = (89 + random.nextInt(5)) ;
-        int g = (180 + random.nextInt(5));
-        int b = (180 + random.nextInt(5));
-        this.level().addParticle((new CircleLightningParticleOptions(0.1F,r, g,  b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
+    protected void TrailParticle() {
+        if (this.level().isClientSide) {
+            Vec3 vec3 = this.getDeltaMovement();
+            double d0 = this.getX() + vec3.x;
+            double d1 = this.getY() + vec3.y;
+            double d2 = this.getZ() + vec3.z;
+            int r = (89 + random.nextInt(5));
+            int g = (180 + random.nextInt(5));
+            int b = (180 + random.nextInt(5));
+            this.level().addParticle((new CircleLightningParticleOptions(0.1F, r, g, b)), this.getX(), this.getY(0.5), this.getZ(), d0, d1, d2);
+        }
     }
 
     @Override
@@ -154,22 +152,18 @@ public class Lightning_Spear_Entity extends Elemental_Spear_Entity {
 
 
     protected float getInertia() {
-        return 0.98F;
+        return 0.95F;
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putDouble("acceleration_power", this.accelerationPower);
         compound.putFloat("area_damage", this.getAreaDamage());
-        compound.putFloat("hp_damage", this.getAreaRadius());
+        compound.putFloat("hp_damage", this.getHpDamage());
         compound.putFloat("area_radius", this.getAreaRadius());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        if (compound.contains("acceleration_power", 6)) {
-            this.accelerationPower = compound.getDouble("acceleration_power");
-        }
         this.setAreaDamage(compound.getFloat("area_damage"));
         this.setHpDamage(compound.getFloat("hp_damage"));
         this.setAreaRadius(compound.getFloat("area_radius"));

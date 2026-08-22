@@ -5,6 +5,7 @@ import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonste
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,15 +21,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 
-public class Lava_Bomb_Entity extends ThrowableProjectile {
+public class Lava_Bomb_Entity extends ThrowableProjectile implements IEntityWithComplexSpawn {
 
     private static final EntityDataAccessor<Boolean> ON_GROUND = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> LAVA_TIME = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> MAX_LAVA_TIME = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.INT);
     protected static final EntityDataAccessor<BlockPos> LAVA_POS = SynchedEntityData.defineId(Lava_Bomb_Entity.class, EntityDataSerializers.BLOCK_POS);
 
+    public int LavaTime;
+    public int maxLavaTime = 200;
 
     public Lava_Bomb_Entity(EntityType<Lava_Bomb_Entity> type, Level world) {
         super(type, world);
@@ -42,9 +44,16 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         p_326229_.define(ON_GROUND, false);
-        p_326229_.define(LAVA_TIME, 0);
-        p_326229_.define(MAX_LAVA_TIME, 200);
         p_326229_.define(LAVA_POS, BlockPos.ZERO);
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> accessor) {
+        if (ON_GROUND.equals(accessor) && this.getGround()) {
+            this.setDeltaMovement(Vec3.ZERO);
+        }
+
+        super.onSyncedDataUpdated(accessor);
     }
 
     @Override
@@ -57,22 +66,33 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         }
     }
 
+    @Override
     protected void onHitEntity(EntityHitResult result) {
         super.onHitEntity(result);
-        Entity shooter = this.getOwner();
-        if (!this.getGround() && !this.level().isClientSide && !(result.getEntity() instanceof Lava_Bomb_Entity || result.getEntity() instanceof Netherite_Monstrosity_Part || result.getEntity() instanceof Netherite_Monstrosity_Entity)) {
+        Level level = this.level();
+        Entity hitEntity = result.getEntity();
+
+        if (!this.getGround()
+                && !level.isClientSide
+                && !(hitEntity instanceof Lava_Bomb_Entity
+                || hitEntity instanceof Netherite_Monstrosity_Part
+                || hitEntity instanceof Netherite_Monstrosity_Entity)) {
+            Entity shooter = this.getOwner();
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(shooter, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
+            level.explode(shooter, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }
     }
 
+    @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
-        if (!this.level().isClientSide() && !this.getGround()) {
+        Level level = this.level();
+
+        if (!level.isClientSide && !this.getGround()) {
             this.playSound(SoundEvents.GENERIC_BURN, 1.5f, 0.75f);
-            this.level().explode(this, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
+            level.explode(this, this.getX(), this.getY(), this.getZ(), 2, Level.ExplosionInteraction.NONE);
             this.doTerrainEffects();
             this.setGround(true);
         }
@@ -81,14 +101,23 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
 
 
     protected void doTerrainEffects() {
+        Level level = this.level();
         BlockPos landed = this.blockPosition();
-        while (landed.getY() < level().getMaxBuildHeight() && (!level().getBlockState(landed).isAir() || !level().getBlockState(landed).getFluidState().isEmpty() && level().getBlockState(landed).getFluidState().getFluidType() != net.neoforged.neoforge.common.NeoForgeMod.LAVA_TYPE.value())) {
+        int maxBuildHeight = level.getMaxBuildHeight();
+        BlockState state = level.getBlockState(landed);
+
+        while (landed.getY() < maxBuildHeight && !state.isAir()) {
             landed = landed.above();
+
+            if (landed.getY() < maxBuildHeight) {
+                state = level.getBlockState(landed);
+            }
         }
-        setLavaPos(landed);
-        if (level().getBlockState(this.getLavaPos()).isAir()) {
-            BlockState fluid =  Blocks.LAVA.defaultBlockState();
-            level().setBlockAndUpdate(this.getLavaPos(), fluid);
+
+        if (landed.getY() < maxBuildHeight && state.isAir()) {
+            if (level.setBlockAndUpdate(landed, Blocks.LAVA.defaultBlockState())) {
+                this.setLavaPos(landed);
+            }
         }
 
     }
@@ -97,28 +126,36 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     @Override
     public void tick() {
         super.tick();
-        if(this.getGround()) {
-            this.setLavaTime(this.getLavaTime() + 1);
-            this.setDeltaMovement(Vec3.ZERO);
-            if (!this.level().isClientSide) {
-                if (this.getLavaTime() >= this.getMaxLavaTime() && this.getLavaPos() != BlockPos.ZERO) {
+        Level level = this.level();
+
+        if (this.getGround()) {
+            this.LavaTime++;
+
+            if (!level.isClientSide) {
+                BlockPos lavaPos = this.getLavaPos();
+
+                if (this.LavaTime >= this.maxLavaTime && !BlockPos.ZERO.equals(lavaPos)) {
                     this.discard();
                 }
             }
 
-        }else{
-            makeTrail();
+        } else {
+            this.makeTrail();
         }
 
     }
 
+    @Override
     public void remove(RemovalReason reason) {
         super.remove(reason);
-        if (!this.level().isClientSide) {
-            if (this.getLavaPos() != BlockPos.ZERO) {
-                if (level().getFluidState(this.getLavaPos()).getFluidType() == net.neoforged.neoforge.common.NeoForgeMod.LAVA_TYPE.value()) {
-                    level().setBlockAndUpdate(this.getLavaPos(), Blocks.AIR.defaultBlockState());
-                }
+        Level level = this.level();
+
+        if (!level.isClientSide) {
+            BlockPos lavaPos = this.getLavaPos();
+
+            if (!BlockPos.ZERO.equals(lavaPos)
+                    && level.getFluidState(lavaPos).getFluidType() == net.neoforged.neoforge.common.NeoForgeMod.LAVA_TYPE.value()) {
+                level.setBlockAndUpdate(lavaPos, Blocks.AIR.defaultBlockState());
             }
         }
 
@@ -127,32 +164,44 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
 
 
 
+    @Override
     protected void applyGravity() {
-        double d0 = this.getGravity();
-        if(!this.getGround()) {
-            if (d0 != (double) 0.0F) {
-                this.setDeltaMovement(this.getDeltaMovement().add((double) 0.0F, -d0, (double) 0.0F));
+        if (!this.getGround()) {
+            double gravity = this.getGravity();
+
+            if (gravity != 0.0D) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -gravity, 0.0D));
             }
-        }else{
-            this.setDeltaMovement(this.getDeltaMovement().add((double) 0.0F, 0, (double) 0.0F));
         }
     }
 
     protected void makeTrail() {
-        if (this.level().isClientSide){
-            for (int i = 0; i < 5; i++) {
-                double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-                double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-                double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
+        Level level = this.level();
 
-                level().addParticle(ParticleTypes.FLAME, dx, dy, dz, -getDeltaMovement().x(), -getDeltaMovement().y(), -getDeltaMovement().z());
+        if (level.isClientSide) {
+            double x = this.getX();
+            double y = this.getY();
+            double z = this.getZ();
+            Vec3 movement = this.getDeltaMovement();
+            double motionX = -movement.x;
+            double motionY = -movement.y;
+            double motionZ = -movement.z;
+
+            for (int i = 0; i < 5; i++) {
+                double dx = x + 1.5F * (this.random.nextFloat() - 0.5F);
+                double dy = y + 1.5F * (this.random.nextFloat() - 0.5F);
+                double dz = z + 1.5F * (this.random.nextFloat() - 0.5F);
+
+                level.addParticle(ParticleTypes.FLAME, dx, dy, dz, motionX, motionY, motionZ);
             }
         }
     }
 
 
     public void setLavaPos(BlockPos p_31960_) {
-        this.entityData.set(LAVA_POS, p_31960_);
+        if (!this.getLavaPos().equals(p_31960_)) {
+            this.entityData.set(LAVA_POS, p_31960_);
+        }
     }
 
     public BlockPos getLavaPos() {
@@ -164,24 +213,43 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
     }
 
     public void setGround(boolean weapon) {
-        this.entityData.set(ON_GROUND, weapon);
+        if (this.getGround() != weapon) {
+            this.entityData.set(ON_GROUND, weapon);
+
+            if (weapon) {
+                this.setDeltaMovement(Vec3.ZERO);
+            }
+        }
     }
 
 
     public int getLavaTime() {
-        return this.entityData.get(LAVA_TIME);
+        return this.LavaTime;
     }
 
     public void setLavaTime(int time) {
-        this.entityData.set(LAVA_TIME, time);
+        this.LavaTime = time;
     }
 
     public int getMaxLavaTime() {
-        return this.entityData.get(MAX_LAVA_TIME);
+        return this.maxLavaTime;
     }
 
     public void setMaxLavaTime(int time) {
-        this.entityData.set(MAX_LAVA_TIME, time);
+        this.maxLavaTime = time;
+    }
+
+
+    @Override
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+        buffer.writeVarInt(this.LavaTime);
+        buffer.writeVarInt(this.maxLavaTime);
+    }
+
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
+        this.LavaTime = buffer.readVarInt();
+        this.maxLavaTime = buffer.readVarInt();
     }
 
 
@@ -189,8 +257,7 @@ public class Lava_Bomb_Entity extends ThrowableProjectile {
         super.readAdditionalSaveData(compound);
         this.setGround(compound.getBoolean("bomb_ground"));
         this.setLavaTime(compound.getInt("lava_time"));
-        this.setMaxLavaTime(compound.getInt("max_lava_time"));
-
+        this.setMaxLavaTime(compound.contains("max_lava_time") ? compound.getInt("max_lava_time") : 200);
         int i = compound.getInt("LavaPosX");
         int j = compound.getInt("LavaPosY");
         int k = compound.getInt("LavaPosZ");

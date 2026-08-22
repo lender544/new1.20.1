@@ -71,7 +71,9 @@ public class CMRenderTypes extends RenderType {
     public static RenderType CMLightning() {
         return CM_LIGHTNING;
     }
-
+    public static RenderType Trails() {
+        return TRAILS;
+    }
     public static final Function<ResourceLocation, RenderType> BRIGHT = Util.memoize(
             p_286169_ -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()
@@ -272,6 +274,26 @@ public class CMRenderTypes extends RenderType {
             }
     );
 
+    public static final RenderType TRAILS = create(
+            "trails",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            1536,
+            true,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_EYES_SHADER)
+                    //.setOutputState(TRANSLUCENT_TARGET)
+                    .setTextureState(new TextureStateShard(
+                            ResourceLocation.fromNamespaceAndPath(Cataclysm.MODID,"textures/particle/white.png"),
+                            true, true))
+                    .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setLightmapState(LIGHTMAP)
+                    .setOverlayState(OVERLAY)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .createCompositeState(false)
+    );
 
     public static RenderType getShockWave() {
         CompositeState renderState = CompositeState.builder()

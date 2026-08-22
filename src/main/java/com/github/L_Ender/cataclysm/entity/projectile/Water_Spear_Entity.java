@@ -5,8 +5,6 @@ import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,14 +15,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 public class Water_Spear_Entity extends Elemental_Spear_Entity {
-    private static final EntityDataAccessor<Integer> BOUNCES = SynchedEntityData.defineId(Water_Spear_Entity.class, EntityDataSerializers.INT);
-
+    private int Bounces;
 
     public Water_Spear_Entity(EntityType<? extends Water_Spear_Entity> type, Level level) {
         super(type, level);
@@ -55,25 +51,24 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
         this.setOwner(p_36827_);
         this.setDamage(damage);
         this.reapplyPosition();
-        this.assignDirectionalMovement(vec3, this.accelerationPower);
+        this.assignDirectionalMovement(vec3,  this.accelerationPower);
 
     }
 
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
         super.defineSynchedData(p_326229_);
-        p_326229_.define(BOUNCES,0);
+
     }
 
 
-    public int getTotalBounces()
-    {
-        return this.entityData.get(BOUNCES);
+    public int getTotalBounces() {
+        return this.Bounces;
     }
 
     public void setTotalBounces(int bounces)
     {
-        this.entityData.set(BOUNCES, bounces);
+        this.Bounces = bounces;
     }
 
 
@@ -116,57 +111,58 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
         }
     }
 
+    @Override
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
         this.hurtMarked = true;
-        BlockHitResult traceResult = result;
-        BlockState blockstate = this.level().getBlockState(traceResult.getBlockPos());
-        if (!blockstate.getCollisionShape(this.level(), traceResult.getBlockPos()).isEmpty()) {
-            Direction face = traceResult.getDirection();
-            blockstate.onProjectileHit(this.level(), blockstate, traceResult, this);
 
-            Vec3 motion = this.getDeltaMovement();
+        Direction face = result.getDirection();
+        Vec3 motion = this.getDeltaMovement();
 
-            double motionX = motion.x();
-            double motionY = motion.y();
-            double motionZ = motion.z();
+        Vec3 normal = Vec3.atLowerCornerOf(face.getNormal());
 
-            if (face == Direction.EAST)
-                motionX = -motionX;
-            else if (face == Direction.SOUTH)
-                motionZ = -motionZ;
-            else if (face == Direction.WEST)
-                motionX = -motionX;
-            else if (face == Direction.NORTH)
-                motionZ = -motionZ;
-            else if (face == Direction.UP)
-                motionY = -motionY;
-            else if (face == Direction.DOWN)
-                motionY = -motionY;
-            Vec3 motion2 = new Vec3(motionX,motionY,motionZ);
+        double dot = motion.dot(normal);
 
-            this.assignDirectionalMovement(motion2, this.accelerationPower);
-            if ( this.getTotalBounces() <= 0) {
-                if (!this.level().isClientSide) {
-                    this.discard();
-                }
-            } else {
-                this.setTotalBounces(this.getTotalBounces() - 1);
+        Vec3 reflected = motion.subtract(
+                normal.scale(2.0D * dot)
+        );
+
+        Vec3 hitPos = result.getLocation();
+
+        this.setPos(
+                hitPos.x + normal.x * 0.05D,
+                hitPos.y + normal.y * 0.05D,
+                hitPos.z + normal.z * 0.05D
+        );
+
+        this.assignDirectionalMovement(
+                reflected,
+                this.accelerationPower
+        );
+
+        if (this.getTotalBounces() <= 0) {
+            if (!this.level().isClientSide) {
+                this.discard();
             }
+        } else {
+            this.setTotalBounces(
+                    this.getTotalBounces() - 1
+            );
         }
-
     }
 
 
-    protected void SpawnParticle() {
-        double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
-        double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
-        double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
+    protected void TrailParticle() {
+        if (this.level().isClientSide) {
+            double dx = getX() + 1.5F * (random.nextFloat() - 0.5F);
+            double dy = getY() + 1.5F * (random.nextFloat() - 0.5F);
+            double dz = getZ() + 1.5F * (random.nextFloat() - 0.5F);
 
-        float r = (89 + random.nextInt(35)) /255F ;
-        float g = (180 + random.nextInt(35)) /255F ;
-        float b = (180 + random.nextInt(35)) /255F ;
-        this.level().addParticle((new StormParticleOptions(r, g, b,0.1F,this.getBbHeight()/2,this.getId())),  dx, dy, dz, 0, 0, 0);
+            float r = (89 + random.nextInt(35)) / 255F;
+            float g = (180 + random.nextInt(35)) / 255F;
+            float b = (180 + random.nextInt(35)) / 255F;
+            this.level().addParticle((new StormParticleOptions(r, g, b, 0.1F, this.getBbHeight() / 2, this.getId())), dx, dy, dz, 0, 0, 0);
+        }
     }
 
 
@@ -176,15 +172,11 @@ public class Water_Spear_Entity extends Elemental_Spear_Entity {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putDouble("acceleration_power", this.accelerationPower);
         compound.putInt("totalBounces", this.getTotalBounces());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        if (compound.contains("acceleration_power", 6)) {
-            this.accelerationPower = compound.getDouble("acceleration_power");
-        }
         this.setTotalBounces(compound.getInt("totalBounces"));
     }
 

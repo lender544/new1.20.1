@@ -1,5 +1,6 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
+import com.github.L_Ender.cataclysm.client.render.etc.TrailSettings;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Entity;
 import com.github.L_Ender.cataclysm.entity.InternalAnimationMonster.IABossMonsters.NewNetherite_Monstrosity.Netherite_Monstrosity_Part;
 
@@ -24,14 +25,28 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.joml.Vector3f;
+
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 
 public class Flare_Bomb_Entity extends ThrowableProjectile {
     public double prevDeltaMovementX, prevDeltaMovementY, prevDeltaMovementZ;
 
 
-    private Vec3[] trailPositions = new Vec3[64];
-    private int trailPointer = -1;
+    public final Deque<Vec3> trailPoints = new java.util.ArrayDeque<>();
+
+    private static final int MAX_TRAIL_LENGTH = 15;
+
+    private static final Vector3f TRAIL_COLOR = new Vector3f(255 / 255F, 255 / 255F, 61 / 255F);
+    private static final TrailSettings TRAIL_SETTINGS = new TrailSettings(
+            MAX_TRAIL_LENGTH, TRAIL_COLOR, 1.0f, 0.4f, TRAIL_COLOR, 1.0f, 0.0f
+    );
+
+
+
 
     public Flare_Bomb_Entity(EntityType<Flare_Bomb_Entity> type, Level world) {
         super(type, world);
@@ -96,9 +111,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
 
     protected void PlusStrikeRune(int rune, double time) {
+        float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
         for (int i = 0; i < 4; i++) {
 
-            float yawRadians = (float) (Math.toRadians(90 + this.getYRot()));
             float throwAngle = yawRadians + i * Mth.PI / 2;
 
             for (int k = 0; k < rune; ++k) {
@@ -112,9 +127,9 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     }
 
     protected void XStrikeRune(int rune, double time) {
+        float yawRadians = (float) (Math.toRadians(45 + this.getYRot()));
         for (int i = 0; i < 4; i++) {
 
-            float yawRadians = (float) (Math.toRadians(45 + this.getYRot()));
             float throwAngle = yawRadians + i * Mth.PI / 2;
 
             for (int k = 0; k < rune; ++k) {
@@ -164,41 +179,37 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
 
     @Override
     public void tick() {
+
+        this.trailPoints.addFirst(this.position());
+
         super.tick();
 
         prevDeltaMovementX = getDeltaMovement().x;
         prevDeltaMovementY = getDeltaMovement().y;
         prevDeltaMovementZ = getDeltaMovement().z;
         setYRot(-((float) Mth.atan2(getDeltaMovement().x, getDeltaMovement().z)) * (180F / (float)Math.PI)) ;
-
-        Vec3 trailAt = this.position().add(0, this.getBbHeight() / 2F, 0);
-        if (trailPointer == -1) {
-            Vec3 backAt = trailAt;
-            for (int i = 0; i < trailPositions.length; i++) {
-                trailPositions[i] = backAt;
-            }
+        while (this.trailPoints.size() > MAX_TRAIL_LENGTH) {
+            this.trailPoints.removeLast();
         }
-        if (++this.trailPointer == this.trailPositions.length) {
-            this.trailPointer = 0;
-        }
-        this.trailPositions[this.trailPointer] = trailAt;
 
      //   makeTrail();
 
 
     }
 
-    public Vec3 getTrailPosition(int pointer, float partialTick) {
-        if (this.isRemoved()) {
-            partialTick = 1.0F;
-        }
-        int i = this.trailPointer - pointer & 63;
-        int j = this.trailPointer - pointer - 1 & 63;
-        Vec3 d0 = this.trailPositions[j];
-        Vec3 d1 = this.trailPositions[i].subtract(d0);
-        return d0.add(d1.scale(partialTick));
+
+    public TrailSettings getTrailSettings() {
+
+        return TRAIL_SETTINGS;
+
+    }
+    public List<Vec3> getTrailPoints() {
+        return new ArrayList<>(this.trailPoints);
     }
 
+    public boolean shouldTrailRender() {
+        return this.isAlive();
+    }
 
     public void handleEntityEvent(byte id) {
         super.handleEntityEvent(id);
@@ -218,8 +229,5 @@ public class Flare_Bomb_Entity extends ThrowableProjectile {
     @Override
     protected double getDefaultGravity() {
         return 0.025D;
-    }
-    public boolean hasTrail() {
-        return trailPointer != -1;
     }
 }

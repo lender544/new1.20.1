@@ -1,15 +1,12 @@
 package com.github.L_Ender.cataclysm.entity.projectile;
 
-import com.github.L_Ender.cataclysm.client.particle.Options.LightningStormParticleOptions;
-import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEntities;
 import com.github.L_Ender.cataclysm.init.ModParticle;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,8 +24,8 @@ public class Flame_Jet_Entity extends Entity {
     private boolean clientSideAttackStarted;
     private LivingEntity caster;
     private UUID casterUuid;
+    private float damage;
 
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Flame_Jet_Entity.class, EntityDataSerializers.FLOAT);
 
     public Flame_Jet_Entity(EntityType<? extends Flame_Jet_Entity> p_i50170_1_, Level p_i50170_2_) {
         super(p_i50170_1_, p_i50170_2_);
@@ -45,16 +42,16 @@ public class Flame_Jet_Entity extends Entity {
     }
 
     protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
-        p_326229_.define(DAMAGE, 0F);
+
     }
 
 
     public float getDamage() {
-        return entityData.get(DAMAGE);
+        return this.damage;
     }
 
     public void setDamage(float damage) {
-        entityData.set(DAMAGE, damage);
+        this.damage = damage;
     }
 
 
@@ -110,11 +107,7 @@ public class Flame_Jet_Entity extends Entity {
             }
         } else if (--this.warmupDelayTicks < 0) {
             if (this.warmupDelayTicks == -8) {
-                AABB aabb = this.getBoundingBox().inflate(0.1D);
-                AABB selection = new AABB(aabb.minX, this.getY() - 0.1D, aabb.minZ, aabb.maxX, this.getY() + 3.5D, aabb.maxZ);
-                for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, selection)) {
-                    this.damage(livingentity);
-                }
+                this.damage();
             }
 
             if (!this.sentSpikeEvent) {
@@ -130,21 +123,33 @@ public class Flame_Jet_Entity extends Entity {
     }
 
 
-    private void damage(LivingEntity Hitentity) {
+
+    private void damage() {
+        Level level = this.level();
         LivingEntity livingentity = this.getCaster();
-        if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
-            if (livingentity == null) {
-                Hitentity.hurt(this.damageSources().magic(), getDamage());
-            } else {
-                if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
-                    if(Hitentity.hurt(this.damageSources().mobProjectile(this,livingentity), getDamage())){
-                        Hitentity.igniteForSeconds(5);
+        float damage = this.getDamage();
+        DamageSource damageSource = livingentity == null
+                ? this.damageSources().magic()
+                : this.damageSources().mobProjectile(this,livingentity);
+        AABB aabb = this.getBoundingBox().inflate(0.1D);
+        AABB selection = new AABB(aabb.minX, this.getY() - 0.1D, aabb.minZ, aabb.maxX, this.getY() + 3.5D, aabb.maxZ);
+        for(LivingEntity Hitentity : level.getEntitiesOfClass(LivingEntity.class, selection)) {
+            if (Hitentity.isAlive() && !Hitentity.isInvulnerable() && Hitentity != livingentity) {
+                if (livingentity == null) {
+                    Hitentity.hurt(damageSource, damage);
+                } else {
+                    if (!livingentity.isAlliedTo(Hitentity) && !Hitentity.isAlliedTo(livingentity)) {
+
+                       if(Hitentity.hurt(damageSource, damage)){
+                           Hitentity.igniteForSeconds(5);
+                       }
                     }
                 }
             }
 
         }
     }
+
 
 
     /**

@@ -3,17 +3,18 @@ package com.github.L_Ender.cataclysm.entity.projectile;
 import com.github.L_Ender.cataclysm.client.particle.Options.StormParticleOptions;
 import com.github.L_Ender.cataclysm.init.ModEffect;
 import com.github.L_Ender.cataclysm.init.ModEntities;
+import com.github.L_Ender.cataclysm.init.ModTag;
 import com.github.L_Ender.cataclysm.util.CMDamageTypes;
+import com.github.L_Ender.cataclysm.util.CMMathUtil;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AnimationState;
@@ -21,38 +22,49 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class Cursed_Sandstorm_Entity extends Projectile {
-    public double xPower;
-    public double yPower;
-    public double zPower;
+public class Cursed_Sandstorm_Entity extends CustomAbstractHurtingProjectile implements IEntityWithComplexSpawn {
+
+    private float damage;
+
+    private static final EntityDataAccessor<Boolean> TRACKING = SynchedEntityData.defineId(Cursed_Sandstorm_Entity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Cursed_Sandstorm_Entity.class, EntityDataSerializers.INT);
+
+    private static final AnimationState EMPTY_ANIMATION_STATE = new AnimationState();
+    public AnimationState SpawnAnimationState = new AnimationState();
+    public AnimationState DespawnAnimationState = new AnimationState();
+
+
+    private Vec3 power = Vec3.ZERO;
+
     @Nullable
     private Entity finalTarget;
     @Nullable
     private UUID targetId;
+    private int animationTicks;
+    private int lifeTicks = LIFE_TICKS;
+    private static final int LIFE_TICKS = 290;
 
-    private static final EntityDataAccessor<Boolean> TRACKING = SynchedEntityData.defineId(Cursed_Sandstorm_Entity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Float> DAMAGE = SynchedEntityData.defineId(Cursed_Sandstorm_Entity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Integer> STATE = SynchedEntityData.defineId(Cursed_Sandstorm_Entity.class, EntityDataSerializers.INT);
-    public AnimationState SpawnAnimationState = new AnimationState();
-    public AnimationState DespawnAnimationState = new AnimationState();
-    private int lifetick;
-    private int discardtick;
+    private static final int SPAWN_ANIM_TICKS = 5;
+    private static final int DESPAWN_ANIM_TICKS = 10;
+    private static final double LAUNCH_POWER = 0.1D;
+    private static final double HOMING_STRENGTH = 3.0D;
+    private static final double POWER_LIMIT = 0.075D;
     private int timer;
 
-    public Cursed_Sandstorm_Entity(EntityType<? extends Cursed_Sandstorm_Entity> p_36833_, Level p_36834_) {
-        super(p_36833_, p_36834_);
+    private int hit = 2;
+
+    public Cursed_Sandstorm_Entity(EntityType<? extends Cursed_Sandstorm_Entity> type, Level level) {
+        super(type, level);
     }
 
     public Cursed_Sandstorm_Entity(Level worldIn, LivingEntity entity) {
@@ -60,53 +72,87 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         this.setOwner(entity);
     }
 
-    public Cursed_Sandstorm_Entity(EntityType<? extends Cursed_Sandstorm_Entity> p_36817_, double p_36818_, double p_36819_, double p_36820_, double p_36821_, double p_36822_, double p_36823_, Level p_36824_) {
-        this(p_36817_, p_36824_);
-        this.moveTo(p_36818_, p_36819_, p_36820_, this.getYRot(), this.getXRot());
-        this.reapplyPosition();
-        double d0 = Math.sqrt(p_36821_ * p_36821_ + p_36822_ * p_36822_ + p_36823_ * p_36823_);
-        if (d0 != 0.0D) {
-            this.xPower = p_36821_ / d0 * 0.1D;
-            this.yPower = p_36822_ / d0 * 0.1D;
-            this.zPower = p_36823_ / d0 * 0.1D;
-        }
-
-    }
-
-
-    public Cursed_Sandstorm_Entity(LivingEntity p_36827_, double p_36828_, double p_36829_, double p_36830_, Level p_36831_, float damage, LivingEntity finalTarget) {
-        this(ModEntities.CURSED_SANDSTORM.get(), p_36827_.getX(), p_36827_.getY(), p_36827_.getZ(), p_36828_, p_36829_, p_36830_, p_36831_);
-        this.setOwner(p_36827_);
-        this.setDamage(damage);
-        this.finalTarget = finalTarget;
-        this.setRot(p_36827_.getYRot(), p_36827_.getXRot());
-    }
     public Cursed_Sandstorm_Entity(Level worldIn, LivingEntity entity, LivingEntity finalTarget) {
         this(ModEntities.CURSED_SANDSTORM.get(), worldIn);
         this.setOwner(entity);
         this.finalTarget = finalTarget;
     }
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
-        p_326229_.define(TRACKING, false);
-        p_326229_.define(DAMAGE, 0F);
-        p_326229_.define(STATE,0);
+
+    public Cursed_Sandstorm_Entity(EntityType<? extends Cursed_Sandstorm_Entity> type,
+                                   double x, double y, double z,
+                                   double px, double py, double pz, Level level) {
+        this(type, level);
+        this.moveTo(x, y, z, this.getYRot(), this.getXRot());
+        this.reapplyPosition();
+        this.setDeltaMovement(Vec3.ZERO);
+        this.setPowerFromDirection(px, py, pz);
+    }
+
+    public Cursed_Sandstorm_Entity(LivingEntity shooter, double px, double py, double pz, Level level,
+                                   float damage, LivingEntity finalTarget) {
+        this(ModEntities.CURSED_SANDSTORM.get(), shooter.getX(), shooter.getY(), shooter.getZ(), px, py, pz, level);
+        this.setOwner(shooter);
+        this.setDamage(damage);
+        this.finalTarget = finalTarget;
+        this.setRot(shooter.getYRot(), shooter.getXRot());
     }
 
 
 
-    public AnimationState getAnimationState(String input) {
-        if (input == "spawn") {
-            return this.SpawnAnimationState;
-        } else if (input == "despawn") {
-            return this.DespawnAnimationState;
-        }else {
-            return new AnimationState();
+
+    @Override
+    public void writeSpawnData(RegistryFriendlyByteBuf buffer) {
+
+
+
+        CMMathUtil.writeOptionalVec3(buffer, this.power);
+    }
+
+    @Override
+    public void readSpawnData(RegistryFriendlyByteBuf buffer) {
+
+        this.power = CMMathUtil.readOptionalVec3(buffer);
+    }
+
+
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder p_326229_) {
+        p_326229_.define(TRACKING, false);
+        p_326229_.define(STATE,0);
+    }
+
+    private void setPowerFromDirection(double x, double y, double z) {
+        double length = Math.sqrt(x * x + y * y + z * z);
+        if (length != 0.0D) {
+            this.power = new Vec3(x / length * LAUNCH_POWER, y / length * LAUNCH_POWER, z / length * LAUNCH_POWER);
         }
+    }
+
+    public Vec3 getPower() {
+        return this.power;
+    }
+
+    public void setPower(Vec3 power) {
+        this.power = power;
+    }
+
+    @Override
+    protected Vec3 computeAcceleration(Vec3 velocity) {
+        return this.power;
+    }
+
+    public AnimationState getAnimationState(String input) {
+        return switch (input) {
+            case "spawn" -> this.SpawnAnimationState;
+            case "despawn" -> this.DespawnAnimationState;
+            default -> EMPTY_ANIMATION_STATE;
+        };
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> p_21104_) {
         if (STATE.equals(p_21104_)) {
+            this.animationTicks = 0;
             switch (this.getState()) {
                 case 0 -> this.stopAllAnimationStates();
                 case 1 -> {
@@ -133,16 +179,26 @@ public class Cursed_Sandstorm_Entity extends Projectile {
     }
 
     public void setState(int state) {
+        this.animationTicks = 0;
         entityData.set(STATE, state);
     }
 
     public float getDamage() {
-        return entityData.get(DAMAGE);
+        return this.damage;
     }
 
     public void setDamage(float damage) {
-        entityData.set(DAMAGE, damage);
+       this.damage = damage;
     }
+
+    public int getHit() {
+        return this.hit;
+    }
+
+    public void setHit(int damage) {
+        this.hit = damage;
+    }
+
 
     public boolean shouldRenderAtSqrDistance(double p_36837_) {
         double d0 = this.getBoundingBox().getSize() * 4.0D;
@@ -161,8 +217,8 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         if (this.finalTarget != null) {
             p_37357_.putUUID("Target", this.finalTarget.getUUID());
         }
-        p_37357_.put("power", this.newDoubleList(new double[]{this.xPower, this.yPower, this.zPower}));
         p_37357_.putInt("timer", timer);
+        p_37357_.putInt("hit", this.hit);
         p_37357_.putFloat("damage", this.getDamage());
         p_37357_.putBoolean("tracking", getTracking());
         p_37357_.putInt("state", this.getState());
@@ -173,18 +229,11 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         if (p_37353_.hasUUID("Target")) {
             this.targetId = p_37353_.getUUID("Target");
         }
-        if (p_37353_.contains("power", 9)) {
-            ListTag listtag = p_37353_.getList("power", 6);
-            if (listtag.size() == 3) {
-                this.xPower = listtag.getDouble(0);
-                this.yPower = listtag.getDouble(1);
-                this.zPower = listtag.getDouble(2);
-            }
-        }
         timer = p_37353_.getInt("timer");
         this.setTracking(p_37353_.getBoolean("fired"));
         this.setDamage(p_37353_.getFloat("damage"));
         this.setState(p_37353_.getInt("state"));
+        this.setHit(p_37353_.getInt("hit"));
     }
 
     public void setTracking(boolean tracking) {
@@ -197,85 +246,70 @@ public class Cursed_Sandstorm_Entity extends Projectile {
 
 
     public void tick() {
-        Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-            super.tick();
+        super.tick();
 
-            HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.neoforged.neoforge.event.EventHooks.onProjectileImpact(this, hitresult)) {
-                this.onHit(hitresult);
+        if (!this.isRemoved()) {
+            int state = this.getState();
+            if (state > 0) {
+                this.animationTicks++;
             }
+            if (!this.level().isClientSide) {
+                this.timer--;
 
-            this.checkInsideBlocks();
-            Vec3 vec3 = this.getDeltaMovement();
-            double d0 = this.getX() + vec3.x;
-            double d1 = this.getY() + vec3.y;
-            double d2 = this.getZ() + vec3.z;
-            ProjectileUtil.rotateTowardsMovement(this, 0.2F);
-            float f = this.getInertia();
-            float ran = 0.04f;
-            float r = 0.09f + random.nextFloat() * ran;
-            float g = 0.42f + random.nextFloat() * ran;
-
-            float b = 0.35F + random.nextFloat() * ran * 1.5F;
-            this.level().addParticle((new StormParticleOptions(r, g, b,0.25f + random.nextFloat() * 0.45f,0.35F + random.nextFloat() * 0.45f,this.getId())), this.getX(), this.getY(), this.getZ() , 0, 0, 0);
-
-            this.setDeltaMovement(vec3.add(this.xPower, this.yPower, this.zPower).scale((double)f));
-            this.setPos(d0, d1, d2);
-        } else {
-            this.discard();
-        }
-        if (!this.level().isClientSide) {
-            timer--;
-            lifetick++;
-            if (timer <= 0) {
-                if (!getTracking()) {
-                    setTracking(true);
+                if (this.timer <= 0 && !this.getTracking()) {
+                    this.setTracking(true);
                 }
-            }
-            if(this.getState() == 1) {
-                if (this.lifetick > 5) {
+
+                if (state == 1 && this.animationTicks > SPAWN_ANIM_TICKS) {
                     this.setState(0);
                 }
-            }
-            if(lifetick > 290){
-                if(this.getState() == 0) {
+
+                if (this.lifeTicks > 0) {
+                    this.lifeTicks--;
+                } else if (state == 0) {
                     this.setState(2);
                 }
-            }
 
-            if(this.getState() == 2){
-                discardtick++;
-                if(discardtick > 10){
+                if (state == 2 && this.animationTicks > DESPAWN_ANIM_TICKS) {
                     this.discard();
                 }
-            }
-            if (this.finalTarget == null && this.targetId != null) {
-                this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
-                if (this.finalTarget == null) {
-                    this.targetId = null;
+                if (this.finalTarget == null && this.targetId != null) {
+                    this.finalTarget = ((ServerLevel) this.level()).getEntity(this.targetId);
+                    if (this.finalTarget == null) {
+                        this.targetId = null;
+                    }
                 }
-            }
-            if (this.getTracking()) {
-                if (this.finalTarget != null && this.finalTarget.isAlive() && !(this.finalTarget instanceof Player && this.finalTarget.isSpectator())) {
-                    double d = this.distanceToSqr(finalTarget);
-                    double dx = finalTarget.getX() - this.getX();
-                    double dy = finalTarget.getY() + finalTarget.getBbHeight() * 0.3F - this.getY();
-                    double dz = finalTarget.getZ() - this.getZ();
-                    double d13 = 3;
-                    dx /= d;
-                    dy /= d;
-                    dz /= d;
-                    this.xPower += dx * d13;
-                    this.yPower += dy * d13;
-                    this.zPower += dz * d13;
-                    this.xPower = (double) Mth.clamp((float) this.xPower, -0.075, 0.075);
-                    this.yPower = (double) Mth.clamp((float) this.yPower, -0.075, 0.075);
-                    this.zPower = (double) Mth.clamp((float) this.zPower, -0.075, 0.075);
+
+                if (this.getTracking()) {
+                    this.tickHoming();
                 }
             }
         }
 
+
+    }
+
+    private void tickHoming() {
+        Entity target = this.finalTarget;
+
+        if (target != null && target.isAlive() && !(target instanceof Player && target.isSpectator())) {
+
+
+            double distSqr = this.distanceToSqr(target);
+            double dx = target.getX() - this.getX();
+            double dy = target.getY() + target.getBbHeight() * 0.3F - this.getY();
+            double dz = target.getZ() - this.getZ();
+
+            double px = this.power.x + (dx / distSqr) * HOMING_STRENGTH;
+            double py = this.power.y + (dy / distSqr) * HOMING_STRENGTH;
+            double pz = this.power.z + (dz / distSqr) * HOMING_STRENGTH;
+
+            this.power = new Vec3(
+                    Mth.clamp((float) px, -POWER_LIMIT, POWER_LIMIT),
+                    Mth.clamp((float) py, -POWER_LIMIT, POWER_LIMIT),
+                    Mth.clamp((float) pz, -POWER_LIMIT, POWER_LIMIT)
+            );
+        }
     }
 
     public void setUp(int delay) {
@@ -283,47 +317,63 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         timer = delay;
     }
 
+    @Override
+    protected void TrailParticle() {
+        if (this.level().isClientSide) {
+            RandomSource rand = this.random;
+            float ran = 0.04F;
+            float r = 0.09F + rand.nextFloat() * ran;
+            float g = 0.42F + rand.nextFloat() * ran;
+            float b = 0.35F + rand.nextFloat() * ran * 1.5F;
+
+            this.level().addParticle(
+                    new StormParticleOptions(r, g, b,
+                            0.25F + rand.nextFloat() * 0.45F,
+                            0.35F + rand.nextFloat() * 0.45F,
+                            this.getId()),
+                    this.getX(), this.getY(), this.getZ(), 0, 0, 0);
+        }
+    }
 
 
     @Override
-    protected void onHitEntity(EntityHitResult p_37626_) {
-        super.onHitEntity(p_37626_);
-        if (this.level() instanceof ServerLevel serverlevel) {
-            Entity entity = p_37626_.getEntity();
-            Entity entity1 = this.getOwner();
-            boolean flag = false;
-            if (entity1 instanceof LivingEntity ownerliving) {
-                if (!ownerliving.isAlliedTo(entity) && !entity.isAlliedTo(ownerliving)) {
+    protected void onHitEntity(EntityHitResult result) {
+        super.onHitEntity(result);
 
-                    DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this,ownerliving);
+        if (this.level() instanceof ServerLevel serverlevel && this.getState() ==0) {
+            Entity entity = result.getEntity();
+            Entity owner = this.getOwner();
+            boolean flag = false;
+
+            if (owner instanceof LivingEntity livingOwner) {
+                if (!(entity.getType().is(ModTag.TEAM_ANCIENT_REMNANT) && owner.getType().is(ModTag.TEAM_ANCIENT_REMNANT))) {
+                    DamageSource damagesource = CMDamageTypes.causeMaledictioSagittaDamage(this,livingOwner);
+
                     flag = entity.hurt(damagesource, this.getDamage());
                     if (flag) {
                         if (entity.isAlive()) {
                             EnchantmentHelper.doPostAttackEffects(serverlevel, entity, damagesource);
                         }
                     }
-                } else {
-                    flag = entity.hurt(this.damageSources().magic(), this.getDamage());
+                }
+            } else {
+                flag = entity.hurt(this.damageSources().magic(), this.getDamage());
+            }
+
+            if (flag) {
+                if(getHit() <=1){
+                    this.setState(2);
+                }else{
+                    this.setHit(this.getHit()-1);
+                }
+
+                if (entity instanceof LivingEntity living) {
+                    living.addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 100, 1), this.getEffectSource());
                 }
             }
-
-            if (flag && entity instanceof LivingEntity) {
-                ((LivingEntity) entity).addEffect(new MobEffectInstance(ModEffect.EFFECTCURSE_OF_DESERT, 100, 1), this.getEffectSource());
-            }
-            this.setState(2);
         }
     }
 
-
-    @Override
-    protected void onHit(HitResult ray) {
-        HitResult.Type raytraceresult$type = ray.getType();
-        if (raytraceresult$type == HitResult.Type.ENTITY) {
-            this.onHitEntity((EntityHitResult) ray);
-        } else if (raytraceresult$type == HitResult.Type.BLOCK) {
-            this.onHitBlock((BlockHitResult) ray);
-        }
-    }
 
     protected boolean canHitEntity(Entity p_36842_) {
         return super.canHitEntity(p_36842_) && !p_36842_.noPhysics;
@@ -349,24 +399,11 @@ public class Cursed_Sandstorm_Entity extends Projectile {
         return 1.0F;
     }
 
-    public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        Entity entity = this.getOwner();
-        int i = entity == null ? 0 : entity.getId();
-        return new ClientboundAddEntityPacket(this.getId(), this.getUUID(), this.getX(), this.getY(), this.getZ(), this.getXRot(), this.getYRot(), this.getType(), i, new Vec3(this.xPower, this.yPower, this.zPower), 0.0D);
-    }
 
-    public void recreateFromPacket(ClientboundAddEntityPacket p_150128_) {
-        super.recreateFromPacket(p_150128_);
-        double d0 = p_150128_.getXa();
-        double d1 = p_150128_.getYa();
-        double d2 = p_150128_.getZa();
-        double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-        if (d3 != 0.0D) {
-            this.xPower = d0 / d3 * 0.1D;
-            this.yPower = d1 / d3 * 0.1D;
-            this.zPower = d2 / d3 * 0.1D;
-        }
-
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        this.setPowerFromDirection(packet.getXa(), packet.getYa(), packet.getZa());
     }
 }
 

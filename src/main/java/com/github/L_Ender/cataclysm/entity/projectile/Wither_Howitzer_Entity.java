@@ -79,7 +79,7 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
                 flag = entity.hurt(this.damageSources().magic(), 5.0F);
             }
 
-            if (flag && entity instanceof LivingEntity) {
+            if (flag && entity instanceof LivingEntity livingEntity) {
                 int i = 10;
                 if (this.level().getDifficulty() == Difficulty.NORMAL) {
                     i = 20;
@@ -87,7 +87,7 @@ public class Wither_Howitzer_Entity extends ThrowableProjectile {
                     i = 30;
                 }
 
-                ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.WITHER, 20 * i, 1), this.getEffectSource());
             }
 
         }
