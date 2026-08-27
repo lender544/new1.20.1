@@ -527,7 +527,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> RING_OF_GRUDGED = ITEMS.register("ring_of_grudged",
             () -> new CuriosItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant())
-                    .withAttributes("rings",
+                    .withAttributes("ring",
                             new AttributeContainer(ModAttribute.ADDITIONAL_CRITICAL_DAMAGE, 10, AttributeModifier.Operation.ADD_VALUE)
                     )
     );
