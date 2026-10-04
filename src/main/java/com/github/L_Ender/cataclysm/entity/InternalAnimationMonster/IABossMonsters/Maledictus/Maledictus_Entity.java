@@ -865,7 +865,7 @@ public class Maledictus_Entity extends IABoss_monster implements IHoldEntity {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag p_21438_) {
         spawnGroupData = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData,p_21438_);
-        this.setTombstoneDirection(Direction.SOUTH);
+       // this.setTombstoneDirection(Direction.SOUTH);
         return spawnGroupData;
     }
 

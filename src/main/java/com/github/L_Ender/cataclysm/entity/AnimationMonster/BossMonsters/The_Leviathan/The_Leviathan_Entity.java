@@ -650,7 +650,19 @@ public class The_Leviathan_Entity extends LLibrary_Boss_Monster implements ISemi
 
         //RoarParticle(2.5f, 0.0f, 70, 255, 255, 255, 1.0f, 20f);
         if(this.getAnimation() == LEVIATHAN_RUSH){
+            if (this.getAnimationTick() > 54 && this.getAnimationTick() < 137) {
+                chargeDamage();
+                if (!this.level().isClientSide) {
+                    if(CMCommonConfig.Leviathan.ignoreMobGriefing) {
+                        chargeblockbreaking();
+                    }else{
+                        if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                            chargeblockbreaking();
+                        }
+                    }
+                }
 
+            }
 
             if (this.getAnimationTick() == 54) {
                 this.level().playSound((Player) null, this, ModSounds.LEVIATHAN_ROAR.get(), SoundSource.HOSTILE, 4.0f, 1.0f);

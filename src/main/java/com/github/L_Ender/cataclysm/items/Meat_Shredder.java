@@ -16,12 +16,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -73,38 +75,48 @@ public class Meat_Shredder extends Cataclysm_Weapon_Item {
 		return !player.isCreative();
 	}
 
+
 	@Override
 	public void onUseTick(Level level, LivingEntity living, ItemStack stack, int count) {
-		double range = 2.5D;
-		Vec3 srcVec = living.getEyePosition();
-		Vec3 lookVec = living.getViewVector(1.0F);
-		Vec3 destVec = srcVec.add(lookVec.x() * range, lookVec.y() * range, lookVec.z() * range);
-		float var9 = 1.0F;
-		List<Entity> possibleList = level.getEntities(living, living.getBoundingBox().expandTowards(lookVec.x() * range, lookVec.y() * range, lookVec.z() * range).inflate(var9, var9, var9));
-
-		boolean flag = false;
 		Cataclysm.PROXY.playWorldSound(living, (byte) 1);
-		float finalDamage = AttributeUtils.OriginDamage(living, stack) / 8.5F;
-		for (Entity entity : possibleList) {
-			if (entity instanceof LivingEntity) {
-				float borderSize = 0.5F;
-				AABB collisionBB = entity.getBoundingBox().inflate(borderSize, borderSize, borderSize);
-				Optional<Vec3> interceptPos = collisionBB.clip(srcVec, destVec);
-				if (collisionBB.contains(srcVec)) {
-					flag =true;
-				} else if (interceptPos.isPresent()) {
-					flag =true;
-				}
 
-				if (flag) {
-					if(!level.isClientSide()) {
-						if (entity.hurt(CMDamageTypes.causeShredderDamage(living), finalDamage)) {
-							double d0 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().x;
-							double d1 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().y;
-							double d2 = (level.getRandom().nextFloat() - 0.5F) + entity.getDeltaMovement().z;
-							if (level instanceof ServerLevel serverLevel) {
-								serverLevel.sendParticles(new ParryParticleOptions(255, 106, 0), entity.getX(), entity.getY(0.5), entity.getZ(), 2, entity.getDeltaMovement().x, entity.getDeltaMovement().y, entity.getDeltaMovement().z, (level.getRandom().nextFloat() - 0.5F));
-							}
+		if (level instanceof ServerLevel serverLevel) {
+			double range = 2.5D;
+			Vec3 srcVec = living.getEyePosition();
+			Vec3 lookVec = living.getViewVector(1.0F);
+
+			Vec3 lookOffset = lookVec.scale(range);
+			Vec3 destVec = srcVec.add(lookOffset);
+
+			double padding = 1.0D;
+			AABB searchArea = living.getBoundingBox().expandTowards(lookOffset).inflate(padding);
+			List<Entity> possibleList = level.getEntities(living, searchArea);
+			DamageSource shredderDamage = CMDamageTypes.causeShredderDamage(living);
+			float basedmg = AttributeUtils.OriginDamage(living, stack);
+
+			for (Entity entity : possibleList) {
+				if (entity instanceof LivingEntity target) {
+					double borderSize = 0.5D;
+					AABB collisionBB = target.getBoundingBox().inflate(borderSize);
+					boolean isHit = collisionBB.contains(srcVec) || collisionBB.clip(srcVec, destVec).isPresent();
+
+					if (isHit) {
+						float bonusDamage = EnchantmentHelper.getDamageBonus(stack, target.getMobType());
+						float enchanteddmg = basedmg + bonusDamage;
+
+						float finaldmg = enchanteddmg / 8.5F;
+						if (target.hurt(shredderDamage, finaldmg)) {
+							serverLevel.sendParticles(
+									new ParryParticleOptions(255, 106, 0),
+									target.getX(),
+									target.getY(0.5),
+									target.getZ(),
+									2,
+									target.getDeltaMovement().x,
+									target.getDeltaMovement().y,
+									target.getDeltaMovement().z,
+									(level.getRandom().nextFloat() - 0.5F)
+							);
 						}
 					}
 				}

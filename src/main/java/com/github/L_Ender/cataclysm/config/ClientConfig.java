@@ -16,7 +16,7 @@ public class ClientConfig {
     public final ForgeConfigSpec.BooleanValue custombossbar;
     public final ForgeConfigSpec.BooleanValue BossMusic;
     public final ForgeConfigSpec.IntValue BossMusicVolume;
-
+    public final ForgeConfigSpec.BooleanValue showLoginNotice;
 
 
     public ClientConfig(final ForgeConfigSpec.Builder builder) {
@@ -28,6 +28,7 @@ public class ClientConfig {
         custombossbar = buildBoolean(builder,"custombossbar(on/off)",CMClientConfig.customBossBars,"custombossbar(on/off)");
         BossMusic = buildBoolean(builder,"BossMusic(on/off)",CMClientConfig.BossMusic,"custombossbar(on/off)");
         BossMusicVolume = buildInt(builder,"BossMusicVolume",CMClientConfig.BossMusicVolume,1,100,"BossMusicVolume");
+        showLoginNotice = buildBoolean(builder,"showLoginNotice(on/off)",CMClientConfig.showLoginNotice,"showLoginNotice(on/off)");
         builder.pop();
     }
 

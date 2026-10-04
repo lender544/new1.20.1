@@ -72,6 +72,33 @@ public class CMRenderTypes extends RenderType {
         return CM_LIGHTNING;
     }
 
+    public static RenderType Trails() {
+        return TRAILS;
+    }
+
+
+    public static final RenderType TRAILS = create(
+            "trails",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            1536,
+            true,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_EYES_SHADER)
+                    //.setOutputState(TRANSLUCENT_TARGET)
+                    .setTextureState(new TextureStateShard(
+                            new ResourceLocation(Cataclysm.MODID,"textures/particle/white.png"),
+                            true, true))
+                    .setTransparencyState(ADDITIVE_TRANSPARENCY)
+                    .setCullState(NO_CULL)
+                    .setLightmapState(LIGHTMAP)
+                    .setOverlayState(OVERLAY)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .createCompositeState(false)
+    );
+
+
     public static final Function<ResourceLocation, RenderType> BRIGHT = Util.memoize(
             p_286169_ -> {
                 RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder()

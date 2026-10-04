@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class Monstrous_Helm extends ArmorItem {
@@ -72,4 +73,10 @@ public class Monstrous_Helm extends ArmorItem {
         return Cataclysm.MODID + ":textures/armor/monstrous_helm.png";
     }
 
+    @Override
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(Component.translatable("item.cataclysm.monstrous_helm.desc").withStyle(ChatFormatting.DARK_GREEN));
+        tooltip.add(Component.translatable("item.cataclysm.monstrous_helm2.desc").withStyle(ChatFormatting.DARK_GREEN));
+
+    }
 }
